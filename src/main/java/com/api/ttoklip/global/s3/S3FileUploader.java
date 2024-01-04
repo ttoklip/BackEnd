@@ -44,12 +44,12 @@ public class S3FileUploader {
                 .toList();
     }
 
-    private void validInput(List<MultipartFile> multipartFiles) {
+    private void validInput(final List<MultipartFile> multipartFiles) {
         validFileSize(multipartFiles);
         validFileNumber(multipartFiles.size());
     }
 
-    private void validFileSize(List<MultipartFile> multipartFiles) {
+    private void validFileSize(final List<MultipartFile> multipartFiles) {
         long maxFileSize = 10485760; // 10MB로 설정
         multipartFiles.forEach(multipartFile -> {
             if (multipartFile.getSize() > maxFileSize) {

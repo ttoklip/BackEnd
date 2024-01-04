@@ -37,7 +37,7 @@ public enum ErrorType {
     private final String errorCode;
     private final String message;
 
-    ErrorType(HttpStatus status, String errorCode, String message) {
+    ErrorType(final HttpStatus status, final String errorCode, final String message) {
         this.status = status;
         this.errorCode = errorCode;
         this.message = message;
