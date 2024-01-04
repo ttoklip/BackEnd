@@ -31,9 +31,9 @@ ex) 후에 ~api 연결 필요
 ### branch
 
 ~~~
-Feature/{type}-{작업 내용}
+Feature/{이슈 번호 x, feat 순서}-{작업 내용}
 
 ex)
-Feature/feat-home-api
-Feature/feat-home-crud
+Feature/3-home-api
+Feature/4-home-crud
 ~~~
