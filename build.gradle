@@ -61,6 +61,10 @@ dependencies {
 
 	// SpringDoc for Spring WebFlux
 	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.3.0'
+
+
+	// aws
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('bootBuildImage') {
