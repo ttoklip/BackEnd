@@ -23,7 +23,7 @@ ex) 후에 ~api 연결 필요
 - chore : 패키지 구조, 함수 및 변수명 변경 등의 작은 작업
 - fix : 버그 및 오류 해결
 - del : 불필요한 코드, 파일, 주석 삭제
-- docs : 명세서 작성
+- docs : 명세서 작성
 - refactor : 코드 리팩토링
 - merge : 서로 다른 브랜치 간의 코드 병합
 - setting : 프로젝트 기초 세팅 관련 작업
@@ -35,5 +35,5 @@ Feature/{type}-{작업 내용}
 
 ex)
 Feature/feat-home-api
-feature/add-review-crud
+Feature/feat-home-crud
 ~~~
