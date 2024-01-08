@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200", description = "로그인에 성공했습니다."),
             @ApiResponse(responseCode = "400", description = "로그인에 실패했습니다"),
     })
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> Login(){
         return null;
     }
@@ -31,7 +32,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200", description = "카카오톡 로그인 성공"),
             @ApiResponse(responseCode = "400", description = "카카오톡 로그인 실패")
     })
-    @GetMapping("/kakaologin")
+    @PostMapping("/kakaologin")
     public ResponseEntity<?> kakaoLogin(){
         return null;
     }
@@ -41,7 +42,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200", description = "네이버 로그인 성공"),
             @ApiResponse(responseCode = "400", description = "네이버 로그인 실패")
     })
-    @GetMapping("/naverlogin")
+    @PostMapping("/naverlogin")
     public ResponseEntity<?> naverLogin(){
         return null;
     }
@@ -51,7 +52,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200",description = "아이디를 찾았습니다"),
             @ApiResponse(responseCode = "400",description = "아이디가 없습니다")
     })
-    @GetMapping("/id?userAccount=userAccount")
+    @GetMapping("/findid?userAccount=userAccount")
     public ResponseEntity<?> findId(){
         return null;
     }
@@ -61,7 +62,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200",description = "회원가입 성공"),
             @ApiResponse(responseCode = "400",description = "회원가입 실패")
     })
-    @GetMapping("/signup")
+    @PostMapping("/signup")
     public ResponseEntity<?> signUp(){
         return null;
     }
@@ -71,7 +72,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200",description = "사용 가능한 id"),
             @ApiResponse(responseCode = "400",description = "사용 불 가능한 id")
     })
-    @GetMapping("/duplicate/id")
+    @GetMapping("/duplicate/id?userAccount=userAccount")
     public ResponseEntity<?> configDuplicateId(){
         return null;
     }
@@ -81,7 +82,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200",description = "사용 가능한 닉네임"),
             @ApiResponse(responseCode = "400",description = "사용 불 가능한 닉네임")
     })
-    @GetMapping("/duplicate/nickname")
+    @GetMapping("/duplicate/nickname?userNickname=userNickname")
     public ResponseEntity<?> configDuplicateNickName(){
         return null;
     }
@@ -91,7 +92,7 @@ public class LoginController {
             @ApiResponse(responseCode = "200", description = "인증번호 발급 성공"),
             @ApiResponse(responseCode = "400", description = "인증번호 발급 실패")
     })
-    @GetMapping("/requestnum")
+    @PostMapping("/requestnum")
     public ResponseEntity<?> requestNum(){
         return null;
     }
@@ -106,13 +107,4 @@ public class LoginController {
         return null;
     }
 
-    @Operation(summary = "위치설정", description = "동네위치를 설정합니다")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "위치설정을 성공했습니다"),
-            @ApiResponse(responseCode = "400", description = "위치설정을 실패했습니다")
-    })
-    @GetMapping("/setlocation")
-    public ResponseEntity<?> setLocation(){
-        return null;
-    }
 }
