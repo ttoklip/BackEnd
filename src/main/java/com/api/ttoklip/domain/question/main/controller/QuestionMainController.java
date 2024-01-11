@@ -32,9 +32,9 @@ public class QuestionMainController {
             @ApiResponse(responseCode = "200", description = "게시글 페이지 조회 성공",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = QuestionSearchResponse.class),
+                            schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
-                                    name = "ExampleResponse",
+                                    name = "SuccessResponse",
                                     value = QuestionResponseConstant.questionValue
     )))})
     @GetMapping("/search")
@@ -51,7 +51,7 @@ public class QuestionMainController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = QuestionCategoryResponse.class),
                             examples = @ExampleObject(
-                                    name = "ExampleResponse",
+                                    name = "SuccessResponse",
                                     value = QuestionResponseConstant.categoryValue,
                                     description = "실제로는 카테고리별로 4개씩 응답이 나갑니다."
     )))})
