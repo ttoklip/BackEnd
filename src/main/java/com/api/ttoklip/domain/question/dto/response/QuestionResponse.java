@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.question.dto.response;
 
+import com.api.ttoklip.domain.question.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,4 +15,5 @@ public class QuestionResponse {
     private String writer;
     private int commentCount;
     private String writtenTime;
+    private Category category;
 }
