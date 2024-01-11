@@ -1,9 +1,9 @@
-package com.api.ttoklip.domain.question.controller;
+package com.api.ttoklip.domain.question.main.controller;
 
-import com.api.ttoklip.domain.question.dto.request.QuestionSearchCondition;
-import com.api.ttoklip.domain.question.dto.response.QuestionCategoryResponse;
-import com.api.ttoklip.domain.question.dto.response.QuestionSearchResponse;
-import com.api.ttoklip.domain.question.service.QuestionService;
+import com.api.ttoklip.domain.question.main.dto.request.QuestionSearchCondition;
+import com.api.ttoklip.domain.question.main.dto.response.QuestionCategoryResponse;
+import com.api.ttoklip.domain.question.main.dto.response.QuestionSearchResponse;
+import com.api.ttoklip.domain.question.main.service.QuestionMainService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/question/main")
 @RequiredArgsConstructor
-public class QuestionController {
+public class QuestionMainController {
 
-    private final QuestionService questionService;
+    private final QuestionMainService questionMainService;
 
     @Operation(summary = "1번 질문해요 검색 API",
             description = "지정된 조건에 따라 질문해요 게시판을 페이징하여 조회합니다.")
@@ -48,7 +48,7 @@ public class QuestionController {
     )))})
     @GetMapping("/search")
     public SuccessResponse<QuestionSearchResponse> search(@ModelAttribute QuestionSearchCondition condition, Pageable pageable) {
-        QuestionSearchResponse response = questionService.search(condition, pageable);
+        QuestionSearchResponse response = questionMainService.search(condition, pageable);
         return new SuccessResponse<>(response);
     }
 
@@ -71,7 +71,7 @@ public class QuestionController {
     )))})
     @GetMapping
     public SuccessResponse<QuestionCategoryResponse> category() {
-        QuestionCategoryResponse response = questionService.category();
+        QuestionCategoryResponse response = questionMainService.category();
         return new SuccessResponse<>(response);
     }
 }

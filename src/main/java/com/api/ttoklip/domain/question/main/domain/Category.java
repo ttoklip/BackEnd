@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.question.domain;
+package com.api.ttoklip.domain.question.main.domain;
 
 public enum Category {
     HOUSEWORK, // 집안일
