@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.question.main.controller;
 
+import com.api.ttoklip.domain.question.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.main.dto.request.QuestionSearchCondition;
 import com.api.ttoklip.domain.question.main.dto.response.QuestionCategoryResponse;
 import com.api.ttoklip.domain.question.main.dto.response.QuestionSearchResponse;
@@ -34,17 +35,7 @@ public class QuestionMainController {
                             schema = @Schema(implementation = QuestionSearchResponse.class),
                             examples = @ExampleObject(
                                     name = "ExampleResponse",
-                                    value = "{\"searchData\": {\"questionId\": 1, "
-                                            + "\"title\": \"질문 제목 예시\", "
-                                            + "\"content\": \"질문 내용 예시\", "
-                                            + "\"writer\": \"작성자 예시\", "
-                                            + "\"commentCount\": 3, "
-                                            + "\"writtenTime\": \"24.01.10 15:15\", "
-                                            + "\"category\": \"COOKING\"}, "
-                                            + "\"totalPage\": 10, "
-                                            + "\"totalElements\": 100, "
-                                            + "\"isFirst\": true, "
-                                            + "\"isLast\": false}"
+                                    value = QuestionResponseConstant.questionValue
     )))})
     @GetMapping("/search")
     public SuccessResponse<QuestionSearchResponse> search(@ModelAttribute QuestionSearchCondition condition, Pageable pageable) {
@@ -61,13 +52,8 @@ public class QuestionMainController {
                             schema = @Schema(implementation = QuestionCategoryResponse.class),
                             examples = @ExampleObject(
                                     name = "ExampleResponse",
-                                    value = "{\"mainCategoryData\": {\"questionId\": 1, "
-                                            + "\"title\": \"질문 제목 예시\", "
-                                            + "\"content\": \"질문 내용 예시\", "
-                                            + "\"writer\": \"작성자 예시\", "
-                                            + "\"commentCount\": 5, "
-                                            + "\"writtenTime\": \"24.01.10 15:15\", "
-                                            + "\"category\": \"WELFARE_POLICY\"}}"
+                                    value = QuestionResponseConstant.categoryValue,
+                                    description = "실제로는 카테고리별로 4개씩 응답이 나갑니다."
     )))})
     @GetMapping
     public SuccessResponse<QuestionCategoryResponse> category() {
