@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionPostService {
-    public Long register(QuestionCreateRequest request) {
+    public Long register(final QuestionCreateRequest request) {
         return null;
+    }
+
+    public void delete(final Long postId) {
     }
 }

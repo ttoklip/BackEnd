@@ -13,7 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +35,7 @@ public class QuestionPostController {
                 schema = @Schema(implementation = SuccessResponse.class),
                 examples = @ExampleObject(
                         name = "SuccessResponse",
-                        value = QuestionResponseConstant.createQuestion,
+                        value = QuestionResponseConstant.createAndDeleteQuestion,
                         description = "질문이 생성되었습니다."
     )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -42,4 +44,21 @@ public class QuestionPostController {
         return new SuccessResponse<>(questionId);
     }
 
+
+    @Operation(summary = "질문 게시글 삭제", description = "질문 ID에 해당하는 게시글을 삭제합니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "질문 삭제 성공",
+            content = @Content(
+                mediaType = MediaType.APPLICATION_JSON_VALUE,
+                schema = @Schema(implementation = SuccessResponse.class),
+                examples = @ExampleObject(
+                        name = "SuccessResponse",
+                        value = QuestionResponseConstant.createAndDeleteQuestion,
+                        description = "질문이 삭제되었습니다."
+    )))})
+    @DeleteMapping("/post/{postId}")
+    public SuccessResponse<Long> delete(final @PathVariable Long postId) {
+        questionPostService.delete(postId);
+        return new SuccessResponse<>(postId);
+    }
 }

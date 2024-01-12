@@ -81,7 +81,7 @@ public class QuestionResponseConstant {
             + "}"
             + "}";
 
-    public final static String createQuestion = "{"
+    public final static String createAndDeleteQuestion = "{"
             + "\"time\": \"2024-01-11T16:06:30.852Z\", "
             + "\"status\": 200, "
             + "\"code\": \"200\", "
