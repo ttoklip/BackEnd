@@ -9,4 +9,6 @@ public class QuestionCommentService {
         return null;
     }
 
+    public void delete(final Long postId, final Long commentId) {
+    }
 }

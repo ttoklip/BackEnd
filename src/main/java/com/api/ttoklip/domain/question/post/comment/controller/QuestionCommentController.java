@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +41,23 @@ public class QuestionCommentController {
     public SuccessResponse<Long> register(final @PathVariable Long postId, final @RequestBody CommentCreateRequest commentCreateRequest) {
         Long createdCommentId = questionCommentService.register(postId, commentCreateRequest);
         return new SuccessResponse<>(createdCommentId);
+    }
+
+    @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "질문 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    description = "댓글이 삭제되었습니다."
+                            )))})
+    @DeleteMapping("/{commentId}")
+    public SuccessResponse<Long> delete(final @PathVariable Long postId, final @PathVariable Long commentId) {
+        questionCommentService.delete(postId, commentId);
+        return new SuccessResponse<>(commentId);
     }
 
 }
