@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.question.post.post.service;
 
 import com.api.ttoklip.domain.question.post.post.dto.request.QuestionCreateRequest;
+import com.api.ttoklip.domain.question.post.post.dto.request.QuestionEditRequest;
 import com.api.ttoklip.domain.question.post.post.dto.response.QuestionWithCommentResponse;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +16,8 @@ public class QuestionPostService {
 
     public QuestionWithCommentResponse getSinglePost(final Long postId) {
         return null;
+    }
+
+    public void edit(final Long postId, final QuestionEditRequest request) {
     }
 }

@@ -1,7 +1,9 @@
 package com.api.ttoklip.domain.question.post.post.controller;
 
 import com.api.ttoklip.domain.question.main.constant.QuestionResponseConstant;
+import com.api.ttoklip.domain.question.post.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.question.post.post.dto.request.QuestionCreateRequest;
+import com.api.ttoklip.domain.question.post.post.dto.request.QuestionEditRequest;
 import com.api.ttoklip.domain.question.post.post.dto.response.QuestionWithCommentResponse;
 import com.api.ttoklip.domain.question.post.post.service.QuestionPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -17,8 +19,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -80,5 +84,22 @@ public class QuestionPostController {
     public SuccessResponse<QuestionWithCommentResponse> getSinglePost(final @PathVariable Long postId) {
         QuestionWithCommentResponse response = questionPostService.getSinglePost(postId);
         return new SuccessResponse<>(response);
+    }
+
+    @Operation(summary = "질문 게시글 수정", description = "질문 ID에 해당하는 게시글을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "질문 수정 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    description = "질문이 수정되었습니다."
+                            )))})
+    @PatchMapping("/{postId}")
+    public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody QuestionEditRequest request) {
+        questionPostService.edit(postId, request);
+        return new SuccessResponse<>(postId);
     }
 }
