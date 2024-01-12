@@ -4,9 +4,9 @@ import java.util.List;
 
 public class QuestionCategoryResponse {
 
-    private List<QuestionResponse> houseworkQuestions;
-    private List<QuestionResponse> cookingQuestions;
-    private List<QuestionResponse> safeLivingQuestions;
-    private List<QuestionResponse> welfarePolicyQuestions;
+    private List<QuestionTitleResponse> houseworkQuestions;
+    private List<QuestionTitleResponse> cookingQuestions;
+    private List<QuestionTitleResponse> safeLivingQuestions;
+    private List<QuestionTitleResponse> welfarePolicyQuestions;
 
 }

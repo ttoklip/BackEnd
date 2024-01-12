@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class QuestionResponse {
+public class QuestionTitleResponse {
     private Long questionId;
     private String title;
     private String content;

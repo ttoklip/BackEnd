@@ -1,8 +1,9 @@
-package com.api.ttoklip.domain.question.post.controller;
+package com.api.ttoklip.domain.question.post.post.controller;
 
 import com.api.ttoklip.domain.question.main.constant.QuestionResponseConstant;
-import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
-import com.api.ttoklip.domain.question.post.service.QuestionPostService;
+import com.api.ttoklip.domain.question.post.post.dto.request.QuestionCreateRequest;
+import com.api.ttoklip.domain.question.post.post.dto.response.QuestionWithCommentResponse;
+import com.api.ttoklip.domain.question.post.post.service.QuestionPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,9 +58,27 @@ public class QuestionPostController {
                         value = QuestionResponseConstant.createAndDeleteQuestion,
                         description = "질문이 삭제되었습니다."
     )))})
-    @DeleteMapping("/post/{postId}")
+    @DeleteMapping("/{postId}")
     public SuccessResponse<Long> delete(final @PathVariable Long postId) {
         questionPostService.delete(postId);
         return new SuccessResponse<>(postId);
+    }
+
+    /* READ */
+    @Operation(summary = "질문 게시글 조회", description = "질문 ID에 해당하는 게시글을 조회합니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "질문 조회 성공",
+            content = @Content(
+                mediaType = MediaType.APPLICATION_JSON_VALUE,
+                schema = @Schema(implementation = SuccessResponse.class),
+                examples = @ExampleObject(
+                        name = "SuccessResponse",
+                        value = QuestionResponseConstant.readSingleQuestion,
+                        description = "질문이 조회되었습니다."
+    )))})
+    @GetMapping("/{postId}")
+    public SuccessResponse<QuestionWithCommentResponse> getSinglePost(final @PathVariable Long postId) {
+        QuestionWithCommentResponse response = questionPostService.getSinglePost(postId);
+        return new SuccessResponse<>(response);
     }
 }
