@@ -28,6 +28,7 @@ public class QuestionCommentController {
 
     private final QuestionCommentService questionCommentService;
 
+    /* CREATE */
     @Operation(summary = "새로운 댓글 생성", description = "지정된 게시글에 댓글을 등록합니다.")
     @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "질문 생성 성공",
@@ -45,23 +46,8 @@ public class QuestionCommentController {
         return new SuccessResponse<>(createdCommentId);
     }
 
-    @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "질문 삭제 성공",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
-                                    description = "댓글이 삭제되었습니다."
-                            )))})
-    @DeleteMapping("comment/{commentId}")
-    public SuccessResponse<Long> delete(final @PathVariable Long commentId) {
-        questionCommentService.delete(commentId);
-        return new SuccessResponse<>(commentId);
-    }
 
+    /* UPDATE */
     @Operation(summary = "댓글 수정", description = "지정된 게시글에 댓글을 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "질문 수정 성공",
@@ -76,6 +62,25 @@ public class QuestionCommentController {
     @PatchMapping("comment/{commentId}")
     public SuccessResponse<Long> edit(final @PathVariable Long commentId, final @RequestBody CommentEditRequest commentEditRequest) {
         questionCommentService.edit(commentId, commentEditRequest);
+        return new SuccessResponse<>(commentId);
+    }
+
+
+    /* DELETE */
+    @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "질문 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    description = "댓글이 삭제되었습니다."
+                            )))})
+    @DeleteMapping("comment/{commentId}")
+    public SuccessResponse<Long> delete(final @PathVariable Long commentId) {
+        questionCommentService.delete(commentId);
         return new SuccessResponse<>(commentId);
     }
 

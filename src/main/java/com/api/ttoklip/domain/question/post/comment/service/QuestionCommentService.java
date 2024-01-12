@@ -10,9 +10,9 @@ public class QuestionCommentService {
         return null;
     }
 
-    public void delete(final Long commentId) {
+    public void edit(final Long commentId, final CommentEditRequest commentEditRequest) {
     }
 
-    public void edit(final Long commentId, final CommentEditRequest commentEditRequest) {
+    public void delete(final Long commentId) {
     }
 }

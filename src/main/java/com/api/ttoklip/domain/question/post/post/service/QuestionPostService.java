@@ -11,13 +11,13 @@ public class QuestionPostService {
         return null;
     }
 
-    public void delete(final Long postId) {
-    }
-
     public QuestionWithCommentResponse getSinglePost(final Long postId) {
         return null;
     }
 
     public void edit(final Long postId, final QuestionEditRequest request) {
+    }
+
+    public void delete(final Long postId) {
     }
 }

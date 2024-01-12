@@ -33,6 +33,7 @@ public class QuestionPostController {
 
     private final QuestionPostService questionPostService;
 
+    /* CREATE */
     @Operation(summary = "새로운 질문 생성", description = "form/data로 새로운 질문을 생성합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "질문 생성 성공",
@@ -51,6 +52,45 @@ public class QuestionPostController {
     }
 
 
+    /* READ */
+    @Operation(summary = "질문 게시글 조회", description = "질문 ID에 해당하는 게시글을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "질문 조회 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.readSingleQuestion,
+                                    description = "질문이 조회되었습니다."
+                            )))})
+    @GetMapping("/{postId}")
+    public SuccessResponse<QuestionWithCommentResponse> getSinglePost(final @PathVariable Long postId) {
+        QuestionWithCommentResponse response = questionPostService.getSinglePost(postId);
+        return new SuccessResponse<>(response);
+    }
+
+
+    /* UPDATE */
+    @Operation(summary = "질문 게시글 수정", description = "질문 ID에 해당하는 게시글을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "질문 수정 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    description = "질문이 수정되었습니다."
+                            )))})
+    @PatchMapping("/{postId}")
+    public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody QuestionEditRequest request) {
+        questionPostService.edit(postId, request);
+        return new SuccessResponse<>(postId);
+    }
+
+
+    /* DELETE */
     @Operation(summary = "질문 게시글 삭제", description = "질문 ID에 해당하는 게시글을 삭제합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "질문 삭제 성공",
@@ -68,38 +108,4 @@ public class QuestionPostController {
         return new SuccessResponse<>(postId);
     }
 
-    /* READ */
-    @Operation(summary = "질문 게시글 조회", description = "질문 ID에 해당하는 게시글을 조회합니다.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "질문 조회 성공",
-            content = @Content(
-                mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = SuccessResponse.class),
-                examples = @ExampleObject(
-                        name = "SuccessResponse",
-                        value = QuestionResponseConstant.readSingleQuestion,
-                        description = "질문이 조회되었습니다."
-    )))})
-    @GetMapping("/{postId}")
-    public SuccessResponse<QuestionWithCommentResponse> getSinglePost(final @PathVariable Long postId) {
-        QuestionWithCommentResponse response = questionPostService.getSinglePost(postId);
-        return new SuccessResponse<>(response);
-    }
-
-    @Operation(summary = "질문 게시글 수정", description = "질문 ID에 해당하는 게시글을 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "질문 수정 성공",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
-                                    description = "질문이 수정되었습니다."
-                            )))})
-    @PatchMapping("/{postId}")
-    public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody QuestionEditRequest request) {
-        questionPostService.edit(postId, request);
-        return new SuccessResponse<>(postId);
-    }
 }

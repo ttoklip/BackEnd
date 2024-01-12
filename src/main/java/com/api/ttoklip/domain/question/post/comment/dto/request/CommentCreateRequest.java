@@ -1,13 +1,9 @@
 package com.api.ttoklip.domain.question.post.comment.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class CommentCreateRequest {
 
     @Schema(description = "댓글 내용", example = "댓글 내용 예시")
