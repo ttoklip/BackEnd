@@ -1,10 +1,12 @@
 package com.api.ttoklip.domain.question.post.controller;
 
+import com.api.ttoklip.domain.question.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.service.QuestionPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,9 +29,13 @@ public class QuestionPostController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "질문 생성 성공",
             content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = SuccessResponse.class)
-    ))})
+                mediaType = MediaType.APPLICATION_JSON_VALUE,
+                schema = @Schema(implementation = SuccessResponse.class),
+                examples = @ExampleObject(
+                        name = "SuccessResponse",
+                        value = QuestionResponseConstant.createQuestion,
+                        description = "질문이 생성되었습니다."
+    )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Long> register(final @Validated @ModelAttribute QuestionCreateRequest request) {
         Long questionId = questionPostService.register(request);
