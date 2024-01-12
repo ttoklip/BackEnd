@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.question.post.post.dto.response;
+package com.api.ttoklip.domain.question.post.comment.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
