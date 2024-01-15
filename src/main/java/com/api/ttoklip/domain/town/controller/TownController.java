@@ -38,7 +38,7 @@ public class TownController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 더보기 페이지 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation = CartListResponse.class))),
+                            schema = @Schema(implementation = CartListResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 더보기 페이지 조회 실패"),
     })
     @GetMapping("/carts")
@@ -53,7 +53,7 @@ public class TownController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation = CartResponse.class))),
+                            schema = @Schema(implementation = CartResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 게시글 조회 실패"),
     })
     @GetMapping("/carts/{cartId}")
@@ -67,7 +67,7 @@ public class TownController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                        schema = @Schema(implementation = CartResponse.class))),
+                            schema = @Schema(implementation = CartResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 게시글 생성 실패"),
     })
     @PostMapping("/carts")
@@ -82,7 +82,7 @@ public class TownController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 수정 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation = Long.class))),
+                            schema = @Schema(implementation = Long.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 게시글 수정 실패"),
     })
     @PatchMapping("/carts/{cartId}")
@@ -98,7 +98,7 @@ public class TownController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 더보기 페이지 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation = CommListResponse.class))),
+                            schema = @Schema(implementation = CommListResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 더보기 페이지 조회 실패"),
     })
     @GetMapping("/comms")
@@ -113,7 +113,7 @@ public class TownController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation = CommResponse.class))),
+                            schema = @Schema(implementation = CommResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 조회 실패"),
     })
     @GetMapping("/comms/{commId}")
@@ -156,15 +156,14 @@ public class TownController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 삭제 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation = Long.class))),
+                            schema = @Schema(implementation = Long.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 삭제 실패"),
     })
     @DeleteMapping("/comms/{commId}")
-    public SuccessResponse<CommResponse> deleteCommPost(final @PathVariable Long commId) {
+    public SuccessResponse<Long> deleteCommPost(final @PathVariable Long commId) {
         commService.deleteCommPost(commId);
         return new SuccessResponse<>(commId);
     }
 
 }
-
 
