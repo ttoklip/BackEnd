@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.comment.controller;
+package com.api.ttoklip.domain.town.controller;
 
 import com.api.ttoklip.domain.town.comment.dto.request.CartCommentCreateRequest;
 import com.api.ttoklip.domain.town.comment.dto.request.CartCommentUpdateRequest;
@@ -6,7 +6,6 @@ import com.api.ttoklip.domain.town.comment.dto.request.CommCommentCreateRequest;
 import com.api.ttoklip.domain.town.comment.dto.request.CommCommentUpdateRequest;
 import com.api.ttoklip.domain.town.comment.service.CartCommentService;
 import com.api.ttoklip.domain.town.comment.service.CommCommentService;
-import com.api.ttoklip.domain.town.dto.request.CartCreateRequest;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

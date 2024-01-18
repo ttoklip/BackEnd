@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.dto.request;
+package com.api.ttoklip.domain.town.comm.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class CartSearchCondition {
+public class CommSearchCondition {
     @Schema(description = "검색할 작성자 이름", example = "작성자1")
     private String writer;
 

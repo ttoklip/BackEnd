@@ -1,6 +1,5 @@
-package com.api.ttoklip.domain.town.dto.response;
+package com.api.ttoklip.domain.town.cart.dto.response;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Builder;
 import java.util.List;
 

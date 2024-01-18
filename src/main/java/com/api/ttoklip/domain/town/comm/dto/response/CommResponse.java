@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.dto.response;
+package com.api.ttoklip.domain.town.comm.dto.response;
 
 import com.api.ttoklip.domain.town.comment.dto.response.CartCommentResponse;
 import com.api.ttoklip.domain.town.comment.dto.response.CommCommentResponse;

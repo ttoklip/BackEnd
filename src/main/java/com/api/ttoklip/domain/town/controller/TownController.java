@@ -1,12 +1,17 @@
 package com.api.ttoklip.domain.town.controller;
 
-import com.api.ttoklip.domain.town.dto.request.*;
-import com.api.ttoklip.domain.town.dto.response.CartListResponse;
-import com.api.ttoklip.domain.town.dto.response.CartResponse;
-import com.api.ttoklip.domain.town.dto.response.CommListResponse;
-import com.api.ttoklip.domain.town.dto.response.CommResponse;
-import com.api.ttoklip.domain.town.service.CartService;
-import com.api.ttoklip.domain.town.service.CommService;
+import com.api.ttoklip.domain.town.cart.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.dto.request.CartSearchCondition;
+import com.api.ttoklip.domain.town.cart.dto.request.CartUpdateRequest;
+import com.api.ttoklip.domain.town.comm.dto.request.CommCreateRequest;
+import com.api.ttoklip.domain.town.comm.dto.request.CommSearchCondition;
+import com.api.ttoklip.domain.town.comm.dto.request.CommUpdateRequest;
+import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
+import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
+import com.api.ttoklip.domain.town.comm.dto.response.CommListResponse;
+import com.api.ttoklip.domain.town.comm.dto.response.CommResponse;
+import com.api.ttoklip.domain.town.cart.service.CartService;
+import com.api.ttoklip.domain.town.comm.service.CommService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,8 +21,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

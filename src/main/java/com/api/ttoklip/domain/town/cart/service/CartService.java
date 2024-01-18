@@ -1,10 +1,10 @@
-package com.api.ttoklip.domain.town.service;
+package com.api.ttoklip.domain.town.cart.service;
 
-import com.api.ttoklip.domain.town.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.dto.request.CartSearchCondition;
-import com.api.ttoklip.domain.town.dto.request.CartUpdateRequest;
-import com.api.ttoklip.domain.town.dto.response.CartListResponse;
-import com.api.ttoklip.domain.town.dto.response.CartResponse;
+import com.api.ttoklip.domain.town.cart.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.dto.request.CartSearchCondition;
+import com.api.ttoklip.domain.town.cart.dto.request.CartUpdateRequest;
+import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
+import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
