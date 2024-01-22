@@ -1,10 +1,10 @@
-package com.api.ttoklip.domain.town.comm.service;
+package com.api.ttoklip.domain.town.community.service;
 
-import com.api.ttoklip.domain.town.comm.dto.request.CommCreateRequest;
-import com.api.ttoklip.domain.town.comm.dto.request.CommSearchCondition;
-import com.api.ttoklip.domain.town.comm.dto.request.CommUpdateRequest;
-import com.api.ttoklip.domain.town.comm.dto.response.CommListResponse;
-import com.api.ttoklip.domain.town.comm.dto.response.CommResponse;
+import com.api.ttoklip.domain.town.community.dto.request.CommCreateRequest;
+import com.api.ttoklip.domain.town.community.dto.request.CommSearchCondition;
+import com.api.ttoklip.domain.town.community.dto.request.CommUpdateRequest;
+import com.api.ttoklip.domain.town.community.dto.response.CommListResponse;
+import com.api.ttoklip.domain.town.community.dto.response.CommResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

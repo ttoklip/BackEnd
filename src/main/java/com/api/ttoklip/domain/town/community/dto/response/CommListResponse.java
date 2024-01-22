@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.comm.dto.response;
+package com.api.ttoklip.domain.town.community.dto.response;
 
 public record CommListResponse() {
 }

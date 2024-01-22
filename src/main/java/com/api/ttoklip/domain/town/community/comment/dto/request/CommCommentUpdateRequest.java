@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.comment.dto.request;
+package com.api.ttoklip.domain.town.community.comment.dto.request;
 
 import lombok.Getter;
 

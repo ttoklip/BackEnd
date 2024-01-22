@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.town.cart.dto.response;
 
-import com.api.ttoklip.domain.town.comment.dto.response.CartCommentResponse;
+import com.api.ttoklip.domain.town.cart.comment.dto.response.CartCommentResponse;
 import com.api.ttoklip.domain.town.image.ImageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

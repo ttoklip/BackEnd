@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.comm.dto.request;
+package com.api.ttoklip.domain.town.community.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.comment.dto.response;
+package com.api.ttoklip.domain.town.cart.comment.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class CommCommentResponse {
+public class CartCommentResponse {
 
     private Long commentId;
 

@@ -1,8 +1,10 @@
-package com.api.ttoklip.domain.town.comment.service;
+package com.api.ttoklip.domain.town.cart.comment.service;
 
-import com.api.ttoklip.domain.town.comment.dto.request.CartCommentCreateRequest;
-import com.api.ttoklip.domain.town.comment.dto.request.CartCommentUpdateRequest;
+import com.api.ttoklip.domain.town.cart.comment.dto.request.CartCommentCreateRequest;
+import com.api.ttoklip.domain.town.cart.comment.dto.request.CartCommentUpdateRequest;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CartCommentService {
     public Long createCartComment(Long cartId, CartCommentCreateRequest request) {
         return null;
