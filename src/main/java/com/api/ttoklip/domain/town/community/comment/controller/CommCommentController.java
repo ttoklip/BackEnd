@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Town", description = "우리동네 - 소통해요 댓글 API 입니다.")
 @RestController
-@RequestMapping("/town")
+@RequestMapping("/town/comms")
 @RequiredArgsConstructor
 public class CommCommentController {
 
@@ -30,7 +30,7 @@ public class CommCommentController {
                             schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 댓글 생성 실패"),
     })
-    @PostMapping("comms/comment/{commId}")
+    @PostMapping("comment/{commId}")
     public SuccessResponse<Long> createCommComment(final @PathVariable Long cartId,
                                                    final @RequestBody CommCommentCreateRequest commCommentCreateRequest) {
         Long createdCommentId = commCommentService.createCommComment(cartId, commCommentCreateRequest);
@@ -44,7 +44,7 @@ public class CommCommentController {
                             schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 댓글 수정 실패"),
     })
-    @PatchMapping("comms/comment/{commentId}")
+    @PatchMapping("comment/{commentId}")
     public SuccessResponse<Long> updateCommComment(final @PathVariable Long commentId,
                                                    final @RequestBody CommCommentUpdateRequest commCommentUpdateRequest) {
         CommCommentService.updateCommComment(commentId, commCommentUpdateRequest);
@@ -58,7 +58,7 @@ public class CommCommentController {
                             schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 댓글 삭제 실패"),
     })
-    @DeleteMapping("comms/comment/{commentId}")
+    @DeleteMapping("comment/{commentId}")
     public SuccessResponse<Long> deletCommComment(final @PathVariable Long commentId) {
         CommCommentService.deletCommComment(commentId);
         return new SuccessResponse<>(commentId);

@@ -23,7 +23,7 @@ import java.awt.print.Pageable;
 @Tag(name = "Town", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/town")
+@RequestMapping("/town/comms")
 public class CommController {
 
     private final CommService commService;
@@ -37,7 +37,7 @@ public class CommController {
                             schema = @Schema(implementation = CommListResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 더보기 페이지 조회 실패"),
     })
-    @GetMapping("/comms")
+    @GetMapping()
     public SuccessResponse<CommListResponse> getCommPage(final @Validated @ModelAttribute CommSearchCondition condition,
                                                          final Pageable pageable) {
         CommListResponse commListResponse = commService.searchCommPaging(condition, pageable);
@@ -52,7 +52,7 @@ public class CommController {
                             schema = @Schema(implementation = CommResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 조회 실패"),
     })
-    @GetMapping("/comms/{commId}")
+    @GetMapping("/{commId}")
     public SuccessResponse<CommResponse> getComm(final @PathVariable Long commId) {
         CommResponse commResponse = commService.getComm(commId);
         return new SuccessResponse<>(commResponse);
@@ -66,7 +66,7 @@ public class CommController {
                             schema = @Schema(implementation = CommResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 생성 실패"),
     })
-    @PostMapping("/comms")
+    @PostMapping()
     public SuccessResponse<CommResponse> createCommPost(final @Validated @ModelAttribute CommCreateRequest request) {
         CommResponse commResponse = commService.createCommPost(request);
         return new SuccessResponse<>(commResponse);
@@ -80,7 +80,7 @@ public class CommController {
                             schema = @Schema(implementation = Long.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 수정 실패"),
     })
-    @PatchMapping("/comms/{commId}")
+    @PatchMapping("/{commId}")
     public SuccessResponse<Long> updateCommPost(final @PathVariable Long commId,
                                                 final @ModelAttribute CommUpdateRequest request) {
         commService.updateCommPost(commId, request);
@@ -95,7 +95,7 @@ public class CommController {
                             schema = @Schema(implementation = Long.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 삭제 실패"),
     })
-    @DeleteMapping("/comms/{commId}")
+    @DeleteMapping("/{commId}")
     public SuccessResponse<Long> deleteCommPost(final @PathVariable Long commId) {
         commService.deleteCommPost(commId);
         return new SuccessResponse<>(commId);

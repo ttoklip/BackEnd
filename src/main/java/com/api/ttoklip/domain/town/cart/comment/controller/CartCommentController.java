@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Town", description = "우리동네 - 함께해요 댓글 API 입니다.")
 @RestController
-@RequestMapping("/town")
+@RequestMapping("/town/carts")
 @RequiredArgsConstructor
 public class CartCommentController {
 
@@ -30,7 +30,7 @@ public class CartCommentController {
                             schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 댓글 생성 실패"),
     })
-    @PostMapping("carts/comment/{cartId}")
+    @PostMapping("/comment/{cartId}")
     public SuccessResponse<Long> createCartComment(final @PathVariable Long cartId,
                                                    final @RequestBody CartCommentCreateRequest cartCommentCreateRequest) {
         Long createdCommentId = cartCommentService.createCartComment(cartId, cartCommentCreateRequest);
@@ -44,7 +44,7 @@ public class CartCommentController {
                             schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 댓글 수정 실패"),
     })
-    @PatchMapping("carts/comment/{commentId}")
+    @PatchMapping("/comment/{commentId}")
     public SuccessResponse<Long> updateCartComment(final @PathVariable Long commentID,
                                                    final @RequestBody CartCommentUpdateRequest cartCommentUpdateRequest) {
         CartCommentService.updateCartComment(commentID, cartCommentUpdateRequest);
@@ -58,7 +58,7 @@ public class CartCommentController {
                             schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 댓글 삭제 실패"),
     })
-    @DeleteMapping("carts/comment/{commentId}")
+    @DeleteMapping("/comment/{commentId}")
     public SuccessResponse<Long> deletCartComment(final @PathVariable Long commentId) {
         CartCommentService.deletCartComment(commentId);
         return new SuccessResponse<>(commentId);
