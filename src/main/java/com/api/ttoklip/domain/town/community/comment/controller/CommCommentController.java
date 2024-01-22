@@ -31,9 +31,9 @@ public class CommCommentController {
             @ApiResponse(responseCode = "400", description = "소통해요 댓글 생성 실패"),
     })
     @PostMapping("comment/{commId}")
-    public SuccessResponse<Long> createCommComment(final @PathVariable Long cartId,
+    public SuccessResponse<Long> createCommComment(final @PathVariable Long commId,
                                                    final @RequestBody CommCommentCreateRequest commCommentCreateRequest) {
-        Long createdCommentId = commCommentService.createCommComment(cartId, commCommentCreateRequest);
+        Long createdCommentId = commCommentService.createCommComment(commId, commCommentCreateRequest);
         return new SuccessResponse<>(createdCommentId);
     }
 

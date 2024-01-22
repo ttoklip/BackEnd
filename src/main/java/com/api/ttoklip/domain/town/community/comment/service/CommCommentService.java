@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CommCommentService {
-    public Long createCommComment(Long cartId, CommCommentCreateRequest request) {
+    public Long createCommComment(Long commId, CommCommentCreateRequest request) {
         return null;
     }
 

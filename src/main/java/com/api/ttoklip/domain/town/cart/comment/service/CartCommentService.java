@@ -10,7 +10,7 @@ public class CartCommentService {
         return null;
     }
 
-    public static void updateCartComment(Long commentID, CartCommentUpdateRequest cartCommentUpdateRequest) {
+    public static void updateCartComment(Long commentId, CartCommentUpdateRequest cartCommentUpdateRequest) {
     }
 
     public static void deletCartComment(Long commentId) {

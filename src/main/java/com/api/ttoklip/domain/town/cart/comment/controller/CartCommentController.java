@@ -45,10 +45,10 @@ public class CartCommentController {
             @ApiResponse(responseCode = "400", description = "함께해요 댓글 수정 실패"),
     })
     @PatchMapping("/comment/{commentId}")
-    public SuccessResponse<Long> updateCartComment(final @PathVariable Long commentID,
+    public SuccessResponse<Long> updateCartComment(final @PathVariable Long commentId,
                                                    final @RequestBody CartCommentUpdateRequest cartCommentUpdateRequest) {
-        CartCommentService.updateCartComment(commentID, cartCommentUpdateRequest);
-        return new SuccessResponse<>(commentID);
+        CartCommentService.updateCartComment(commentId, cartCommentUpdateRequest);
+        return new SuccessResponse<>(commentId);
     }
 
     @Operation(summary = "함께해요 댓글 삭제", description = "함께해요 게시글 댓글을 삭제합니다.")
