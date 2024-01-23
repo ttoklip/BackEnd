@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -35,4 +37,11 @@ public class Cart {
     private String productLink;
 
     private String chatLink;
+
+    private LocalDateTime deadline;
+
+    public void setDeadlineFromButton(int days, int hours) {
+        LocalDateTime selectedDateTime = LocalDateTime.now().plusDays(days).plusHours(hours);
+        setDeadline(selectedDateTime);
+    }
 }

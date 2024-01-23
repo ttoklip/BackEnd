@@ -1,10 +1,11 @@
 package com.api.ttoklip.domain.town.community;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.api.ttoklip.domain.town.cart.image.Image;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,4 +21,7 @@ public class Community {
     private String title;
 
     private String content;
+
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
 }

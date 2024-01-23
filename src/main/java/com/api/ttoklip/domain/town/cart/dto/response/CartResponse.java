@@ -1,11 +1,12 @@
 package com.api.ttoklip.domain.town.cart.dto.response;
 
 import com.api.ttoklip.domain.town.cart.comment.dto.response.CartCommentResponse;
-import com.api.ttoklip.domain.town.image.ImageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -13,22 +14,21 @@ import java.util.List;
 @AllArgsConstructor
 public class CartResponse {
 
-    private Long cartId;
+    private Long id;
     private String title;
     private String content;
-    private String nickname;
     private String location;
     private String createdBy;
 
     private String chatLink;
-    private String itemLink;
+    private String productLink;
 
-    private Long joinMember;
+    private int party;
 
     private int totalPrice;
     private int personPrice;
 
-    private List<ImageResponse> imageUrls;
+    private LocalDateTime deadline;
 
     private List<CartCommentResponse> cartCommentResponses;
 }
