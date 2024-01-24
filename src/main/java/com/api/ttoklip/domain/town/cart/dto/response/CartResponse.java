@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.town.cart.dto.response;
 
 import com.api.ttoklip.domain.town.cart.comment.dto.response.CartCommentResponse;
+import com.api.ttoklip.domain.town.community.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +29,8 @@ public class CartResponse {
     private int personPrice;
 
     private LocalDateTime deadline;
+
+    private List<Image> images;
 
     private List<CartCommentResponse> cartCommentResponses;
 }

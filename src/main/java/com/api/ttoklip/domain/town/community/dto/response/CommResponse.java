@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.community.dto.response;
 
 import com.api.ttoklip.domain.town.community.comment.dto.response.CommCommentResponse;
-import com.api.ttoklip.domain.town.image.ImageResponse;
+import com.api.ttoklip.domain.town.community.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,14 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 public class CommResponse {
 
-    private Long commId;
+    private Long id;
     private String title;
     private String content;
-    private String nickname;
-    private String location;
     private String createdBy;
 
-    private List<ImageResponse> imageUrls;
+    private List<Image> images;
 
     private List<CommCommentResponse> commCommentResponses;
 }

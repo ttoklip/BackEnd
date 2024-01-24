@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.town.cart.dto.request.CartSearchCondition;
 import com.api.ttoklip.domain.town.cart.dto.request.CartUpdateRequest;
 import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
+import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
 import com.api.ttoklip.domain.town.cart.service.CartService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import java.util.List;
 
 @Tag(name = "Town", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
@@ -37,10 +39,15 @@ public class CartController {
                             schema = @Schema(implementation = CartListResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 더보기 페이지 조회 실패"),
     })
+//    @GetMapping()
+//    public SuccessResponse<CartListResponse> getCartPage(final @Validated @ModelAttribute CartSearchCondition condition,
+//                                                         final Pageable pageable) {
+//        CartListResponse cartListResponse = cartService.searchCartPaging(condition, pageable);
+//        return new SuccessResponse<>(cartListResponse);
+//    }
     @GetMapping()
-    public SuccessResponse<CartListResponse> getCartPage(final @Validated @ModelAttribute CartSearchCondition condition,
-                                                         final Pageable pageable) {
-        CartListResponse cartListResponse = cartService.searchCartPaging(condition, pageable);
+    public SuccessResponse<List<CartSummaryResponse>> getCartPage() {
+        List<CartSummaryResponse> cartListResponse = cartService.getAllCartsSummary();
         return new SuccessResponse<>(cartListResponse);
     }
 

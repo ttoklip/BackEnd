@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -40,8 +39,12 @@ public class Cart {
 
     private LocalDateTime deadline;
 
-    public void setDeadlineFromButton(int days, int hours) {
+    public void updateDeadlineTime(int days, int hours) {
         LocalDateTime selectedDateTime = LocalDateTime.now().plusDays(days).plusHours(hours);
-        setDeadline(selectedDateTime);
+        updateDeadline(selectedDateTime);
+    }
+
+    private void updateDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 }
