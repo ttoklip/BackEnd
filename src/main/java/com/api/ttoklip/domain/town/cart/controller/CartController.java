@@ -39,17 +39,17 @@ public class CartController {
                             schema = @Schema(implementation = CartListResponse.class))),
             @ApiResponse(responseCode = "400", description = "함께해요 더보기 페이지 조회 실패"),
     })
-//    @GetMapping()
-//    public SuccessResponse<CartListResponse> getCartPage(final @Validated @ModelAttribute CartSearchCondition condition,
-//                                                         final Pageable pageable) {
-//        CartListResponse cartListResponse = cartService.searchCartPaging(condition, pageable);
-//        return new SuccessResponse<>(cartListResponse);
-//    }
     @GetMapping()
     public SuccessResponse<List<CartSummaryResponse>> getCartPage() {
         List<CartSummaryResponse> cartListResponse = cartService.getAllCartsSummary();
         return new SuccessResponse<>(cartListResponse);
     }
+    //    @GetMapping()
+//    public SuccessResponse<CartListResponse> getCartPage(final @Validated @ModelAttribute CartSearchCondition condition,
+//                                                         final Pageable pageable) {
+//        CartListResponse cartListResponse = cartService.searchCartPaging(condition, pageable);
+//        return new SuccessResponse<>(cartListResponse);
+//    }
 
     @Operation(summary = "함께해요 게시글 조회",
             description = "함께해요 단일 게시글을 조회합니다.")
