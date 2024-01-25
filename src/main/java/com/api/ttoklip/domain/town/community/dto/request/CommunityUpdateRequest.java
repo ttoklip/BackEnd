@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Getter
-public class CommUpdateRequest {
+public class CommunityUpdateRequest {
 
     @NotEmpty
     @Size(max = 50)

@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Getter
-public class CommCreateRequest {
+public class CommunityCreateRequest {
 
     @NotEmpty
     @Size(max = 50)

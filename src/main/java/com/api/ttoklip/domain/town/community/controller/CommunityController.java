@@ -1,11 +1,11 @@
 package com.api.ttoklip.domain.town.community.controller;
 
-import com.api.ttoklip.domain.town.community.dto.request.CommCreateRequest;
-import com.api.ttoklip.domain.town.community.dto.request.CommSearchCondition;
-import com.api.ttoklip.domain.town.community.dto.request.CommUpdateRequest;
-import com.api.ttoklip.domain.town.community.dto.response.CommListResponse;
-import com.api.ttoklip.domain.town.community.dto.response.CommResponse;
-import com.api.ttoklip.domain.town.community.service.CommService;
+import com.api.ttoklip.domain.town.community.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.dto.request.CommunitySearchCondition;
+import com.api.ttoklip.domain.town.community.dto.request.CommunityUpdateRequest;
+import com.api.ttoklip.domain.town.community.dto.response.CommunityListResponse;
+import com.api.ttoklip.domain.town.community.dto.response.CommunityResponse;
+import com.api.ttoklip.domain.town.community.service.CommunityService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,9 +24,9 @@ import java.awt.print.Pageable;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/town/comms")
-public class CommController {
+public class CommunityController {
 
-    private final CommService commService;
+    private final CommunityService commService;
 
     // 소통해요 - comm
     @Operation(summary = "소통해요 더보기 페이지 조회",
@@ -34,13 +34,13 @@ public class CommController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 더보기 페이지 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CommListResponse.class))),
+                            schema = @Schema(implementation = CommunityListResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 더보기 페이지 조회 실패"),
     })
     @GetMapping()
-    public SuccessResponse<CommListResponse> getCommPage(final @Validated @ModelAttribute CommSearchCondition condition,
-                                                         final Pageable pageable) {
-        CommListResponse commListResponse = commService.searchCommPaging(condition, pageable);
+    public SuccessResponse<CommunityListResponse> getCommPage(final @Validated @ModelAttribute CommunitySearchCondition condition,
+                                                              final Pageable pageable) {
+        CommunityListResponse commListResponse = commService.searchCommPaging(condition, pageable);
         return new SuccessResponse<>(commListResponse);
     }
 
@@ -49,12 +49,12 @@ public class CommController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CommResponse.class))),
+                            schema = @Schema(implementation = CommunityResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 조회 실패"),
     })
     @GetMapping("/{commId}")
-    public SuccessResponse<CommResponse> getComm(final @PathVariable Long commId) {
-        CommResponse commResponse = commService.getComm(commId);
+    public SuccessResponse<CommunityResponse> getComm(final @PathVariable Long commId) {
+        CommunityResponse commResponse = commService.getComm(commId);
         return new SuccessResponse<>(commResponse);
     }
 
@@ -63,12 +63,12 @@ public class CommController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = CommResponse.class))),
+                            schema = @Schema(implementation = CommunityResponse.class))),
             @ApiResponse(responseCode = "400", description = "소통해요 게시글 생성 실패"),
     })
     @PostMapping()
-    public SuccessResponse<CommResponse> createCommPost(final @Validated @ModelAttribute CommCreateRequest request) {
-        CommResponse commResponse = commService.createCommPost(request);
+    public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
+        CommunityResponse commResponse = commService.createCommPost(request);
         return new SuccessResponse<>(commResponse);
     }
 
@@ -82,7 +82,7 @@ public class CommController {
     })
     @PatchMapping("/{commId}")
     public SuccessResponse<Long> updateCommPost(final @PathVariable Long commId,
-                                                final @ModelAttribute CommUpdateRequest request) {
+                                                final @ModelAttribute CommunityUpdateRequest request) {
         commService.updateCommPost(commId, request);
         return new SuccessResponse<>(commId);
     }

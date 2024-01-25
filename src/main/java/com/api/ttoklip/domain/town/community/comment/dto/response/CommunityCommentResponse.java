@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class CommCommentResponse {
+public class CommunityCommentResponse {
 
     private Long commentId;
 

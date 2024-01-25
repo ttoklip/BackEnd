@@ -5,15 +5,12 @@ import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
 import com.api.ttoklip.domain.town.cart.service.CartService;
-import com.api.ttoklip.domain.town.community.dto.request.CommCreateRequest;
-import com.api.ttoklip.domain.town.community.dto.request.CommSearchCondition;
-import com.api.ttoklip.domain.town.community.dto.response.CommListResponse;
-import com.api.ttoklip.domain.town.community.dto.response.CommResponse;
-import com.api.ttoklip.domain.town.community.service.CommService;
+import com.api.ttoklip.domain.town.community.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.dto.request.CommunitySearchCondition;
+import com.api.ttoklip.domain.town.community.dto.response.CommunityListResponse;
+import com.api.ttoklip.domain.town.community.dto.response.CommunityResponse;
+import com.api.ttoklip.domain.town.community.service.CommunityService;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
-import com.api.ttoklip.domain.town.main.dto.request.TownSearchCondition;
-import com.api.ttoklip.domain.town.main.dto.response.TownSearchResponse;
-import com.api.ttoklip.domain.town.main.service.TownMainService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,7 +32,7 @@ import java.util.List;
 public class TownMainController {
 
     private final CartService cartService;
-    private final CommService commService;
+    private final CommunityService commService;
 
     @Operation(summary = "함께해요 더보기 페이지 조회",
             description = "함께해요 더보기 페이지를 조회합니다.")
@@ -60,15 +57,15 @@ public class TownMainController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 더보기 페이지 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CommListResponse.class),
+                            schema = @Schema(implementation = CommunityListResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = TownResponseConstant.townValue
                             )))})
     @GetMapping("/comms")
-    public SuccessResponse<CommListResponse> getCommPage(final @Validated @ModelAttribute CommSearchCondition condition,
-                                                         final Pageable pageable) {
-        CommListResponse commListResponse = commService.searchCommPaging(condition, pageable);
+    public SuccessResponse<CommunityListResponse> getCommPage(final @Validated @ModelAttribute CommunitySearchCondition condition,
+                                                              final Pageable pageable) {
+        CommunityListResponse commListResponse = commService.searchCommPaging(condition, pageable);
         return new SuccessResponse<>(commListResponse);
     }
 
@@ -93,14 +90,14 @@ public class TownMainController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = CommResponse.class),
+                            schema = @Schema(implementation = CommunityResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = TownResponseConstant.townValue
                             )))})
     @PostMapping("/comms")
-    public SuccessResponse<CommResponse> createCommPost(final @Validated @ModelAttribute CommCreateRequest request) {
-        CommResponse commResponse = commService.createCommPost(request);
+    public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
+        CommunityResponse commResponse = commService.createCommPost(request);
         return new SuccessResponse<>(commResponse);
     }
 }

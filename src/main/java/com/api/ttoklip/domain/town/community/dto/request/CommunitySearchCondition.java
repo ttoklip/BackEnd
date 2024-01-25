@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class CommSearchCondition {
+public class CommunitySearchCondition {
     @Schema(description = "검색할 작성자 이름", example = "작성자1")
     private String writer;
 
