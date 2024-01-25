@@ -65,7 +65,7 @@ public class TownMainController {
     @GetMapping("/comms")
     public SuccessResponse<CommunityListResponse> getCommPage(final @Validated @ModelAttribute CommunitySearchCondition condition,
                                                               final Pageable pageable) {
-        CommunityListResponse commListResponse = commService.searchCommPaging(condition, pageable);
+        CommunityListResponse commListResponse = commService.searchCommunityPaging(condition, pageable);
         return new SuccessResponse<>(commListResponse);
     }
 
@@ -97,7 +97,7 @@ public class TownMainController {
                             )))})
     @PostMapping("/comms")
     public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
-        CommunityResponse commResponse = commService.createCommPost(request);
+        CommunityResponse commResponse = commService.createCommunityPost(request);
         return new SuccessResponse<>(commResponse);
     }
 }
