@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.cart.dto.response;
 
 import com.api.ttoklip.domain.town.cart.comment.dto.response.CartCommentResponse;
-import com.api.ttoklip.domain.town.community.image.Image;
+import com.api.ttoklip.domain.town.community.image.ImageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +30,7 @@ public class CartResponse {
 
     private LocalDateTime deadline;
 
-    private List<Image> images;
+    private List<ImageResponse> imageResponses;
 
     private List<CartCommentResponse> cartCommentResponses;
 }

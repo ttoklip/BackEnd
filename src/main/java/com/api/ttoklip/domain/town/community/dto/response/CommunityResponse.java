@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.community.dto.response;
 
 import com.api.ttoklip.domain.town.community.comment.dto.response.CommunityCommentResponse;
-//import com.api.ttoklip.domain.town.community.image.Image;
+import com.api.ttoklip.domain.town.community.image.ImageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class CommunityResponse {
     private String content;
     private String createdBy;
 
-//    private List<Image> images;
+    private List<ImageResponse> imageResponses;
 
     private List<CommunityCommentResponse> commCommentResponses;
 }
