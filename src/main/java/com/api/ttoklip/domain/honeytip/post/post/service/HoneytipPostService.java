@@ -9,19 +9,19 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class HoneytipPostService {
-    public Long register(HoneytipCreateReq request) {
+    public Long register(final HoneytipCreateReq request) {
         return null;
     }
 
-    public HoneytipWithCommentRes getSinglePost(Long postId) {
+    public HoneytipWithCommentRes getSinglePost(final Long postId) {
         return null;
     }
 
-    public Long edit(Long postId, HoneytipEditReq request) {
+    public Long edit(final Long postId, final HoneytipEditReq request) {
         return null;
     }
 
-    public Long delete(Long postId) {
+    public Long delete(final Long postId) {
         return null;
     }
 }
