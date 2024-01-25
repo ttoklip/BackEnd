@@ -1,9 +1,9 @@
 package com.api.ttoklip.domain.FindidAndFindpw.main.controller;
 
 import com.api.ttoklip.domain.FindidAndFindpw.main.constant.FindIdConstant;
-import com.api.ttoklip.domain.SignUp.main.dto.request.SignUpCondition;
-import com.api.ttoklip.domain.SignUp.main.dto.response.SignUpResponse;
-import com.api.ttoklip.domain.SignUp.main.service.SignUpService;
+import com.api.ttoklip.domain.FindidAndFindpw.main.dto.request.FindIdRequest;
+import com.api.ttoklip.domain.FindidAndFindpw.main.dto.response.FindIdResponse;
+import com.api.ttoklip.domain.FindidAndFindpw.main.service.FindIdService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -70,9 +70,9 @@ public class FindIdController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailrequest")
-    public SuccessResponse<SignUpResponse> requestEmailVerification(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<FindIdResponse> requestEmailVerification(@RequestBody FindIdRequest findIdRequest) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.requestEmailVerification(signUpCondition));
+        return new SuccessResponse<>(FindIdService.requestEmailVerification(findIdRequest));
     }
 
     @Operation(summary = "이메일 인증번호 확인",
@@ -97,9 +97,9 @@ public class FindIdController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailverification")
-    public SuccessResponse<SignUpResponse> verifyEmail(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<FindIdResponse> verifyEmail(@RequestBody FindIdRequest findIdRequest) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.verifyEmail(signUpCondition));
+        return new SuccessResponse<>(FindIdService.verifyEmail(findIdRequest));
     }
 
 }

@@ -1,9 +1,9 @@
 package com.api.ttoklip.domain.FindidAndFindpw.main.controller;
 
 import com.api.ttoklip.domain.FindidAndFindpw.main.constant.ResetPwConstant;
-import com.api.ttoklip.domain.SignUp.main.dto.request.SignUpCondition;
-import com.api.ttoklip.domain.SignUp.main.dto.response.SignUpResponse;
-import com.api.ttoklip.domain.SignUp.main.service.SignUpService;
+import com.api.ttoklip.domain.FindidAndFindpw.main.dto.request.ResetPwRequest;
+import com.api.ttoklip.domain.FindidAndFindpw.main.dto.response.ResetPwResponse;
+import com.api.ttoklip.domain.FindidAndFindpw.main.service.ResetPwService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -70,9 +70,9 @@ public class ResetPwController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailrequest")
-    public SuccessResponse<SignUpResponse> requestEmailVerification(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<ResetPwResponse> requestEmailVerification(@RequestBody ResetPwRequest resetPwRequest) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.requestEmailVerification(signUpCondition));
+        return new SuccessResponse<>(ResetPwService.requestEmailVerification(resetPwRequest));
     }
 
     @Operation(summary = "이메일 인증번호 확인",
@@ -97,8 +97,8 @@ public class ResetPwController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailverification")
-    public SuccessResponse<SignUpResponse> verifyEmail(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<ResetPwResponse> verifyEmail(@RequestBody ResetPwRequest resetPwRequest) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.verifyEmail(signUpCondition));
+        return new SuccessResponse<>(ResetPwService.verifyEmail(resetPwRequest));
     }
 }
