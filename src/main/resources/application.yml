@@ -1,0 +1,27 @@
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
+g
+spring:
+  datasource:
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
+      secretKey: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
+    region:
+      static: ${CLOUD_AWS_REGION_STATIC}
+    s3:
+      bucket: ${CLOUD_AWS_S3_BUCKET}
+      dirname: ${CLOUD_AWS_S3_DIRNAME}
