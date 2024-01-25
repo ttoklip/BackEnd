@@ -28,7 +28,6 @@ public class CartCommentController {
             @ApiResponse(responseCode = "200", description = "함께해요 댓글 생성 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class))),
-            @ApiResponse(responseCode = "400", description = "함께해요 댓글 생성 실패"),
     })
     @PostMapping("/comment/{cartId}")
     public SuccessResponse<Long> createCartComment(final @PathVariable Long cartId,
@@ -42,7 +41,6 @@ public class CartCommentController {
             @ApiResponse(responseCode = "200", description = "함께해요 댓글 수정 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class))),
-            @ApiResponse(responseCode = "400", description = "함께해요 댓글 수정 실패"),
     })
     @PatchMapping("/comment/{commentId}")
     public SuccessResponse<Long> updateCartComment(final @PathVariable Long commentId,
@@ -56,7 +54,6 @@ public class CartCommentController {
             @ApiResponse(responseCode = "200", description = "함께해요 댓글 삭제 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class))),
-            @ApiResponse(responseCode = "400", description = "함께해요 댓글 삭제 실패"),
     })
     @DeleteMapping("/comment/{commentId}")
     public SuccessResponse<Long> deletCartComment(final @PathVariable Long commentId) {

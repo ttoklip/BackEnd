@@ -35,7 +35,6 @@ public class CommunityController {
             @ApiResponse(responseCode = "200", description = "소통해요 더보기 페이지 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CommunityListResponse.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 더보기 페이지 조회 실패"),
     })
     @GetMapping()
     public SuccessResponse<CommunityListResponse> getCommPage(final @Validated @ModelAttribute CommunitySearchCondition condition,
@@ -50,7 +49,6 @@ public class CommunityController {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CommunityResponse.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 게시글 조회 실패"),
     })
     @GetMapping("/{commId}")
     public SuccessResponse<CommunityResponse> getComm(final @PathVariable Long commId) {
@@ -64,7 +62,6 @@ public class CommunityController {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(implementation = CommunityResponse.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 게시글 생성 실패"),
     })
     @PostMapping()
     public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
@@ -78,7 +75,6 @@ public class CommunityController {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 수정 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Long.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 게시글 수정 실패"),
     })
     @PatchMapping("/{commId}")
     public SuccessResponse<Long> updateCommPost(final @PathVariable Long commId,
@@ -93,7 +89,6 @@ public class CommunityController {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 삭제 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Long.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 게시글 삭제 실패"),
     })
     @DeleteMapping("/{commId}")
     public SuccessResponse<Long> deleteCommPost(final @PathVariable Long commId) {

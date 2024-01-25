@@ -37,7 +37,6 @@ public class CartController {
             @ApiResponse(responseCode = "200", description = "함께해요 더보기 페이지 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CartListResponse.class))),
-            @ApiResponse(responseCode = "400", description = "함께해요 더보기 페이지 조회 실패"),
     })
     @GetMapping()
     public SuccessResponse<List<CartSummaryResponse>> getCartPage() {
@@ -57,7 +56,6 @@ public class CartController {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CartResponse.class))),
-            @ApiResponse(responseCode = "400", description = "함께해요 게시글 조회 실패"),
     })
     @GetMapping("/{cartId}")
     public SuccessResponse<CartResponse> getCart(final @PathVariable Long cartId) {
@@ -71,7 +69,6 @@ public class CartController {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(implementation = CartResponse.class))),
-            @ApiResponse(responseCode = "400", description = "함께해요 게시글 생성 실패"),
     })
     @PostMapping()
     public SuccessResponse<CartResponse> createCartPost(final @Validated @ModelAttribute CartCreateRequest request) {
@@ -86,7 +83,6 @@ public class CartController {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 수정 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Long.class))),
-            @ApiResponse(responseCode = "400", description = "함께해요 게시글 수정 실패"),
     })
     @PatchMapping("/{cartId}")
     public SuccessResponse<Long> updateCartPost(final @PathVariable Long cartId,

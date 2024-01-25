@@ -28,7 +28,6 @@ public class CommunityCommentController {
             @ApiResponse(responseCode = "200", description = "소통해요 댓글 생성 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 댓글 생성 실패"),
     })
     @PostMapping("comment/{commId}")
     public SuccessResponse<Long> createCommComment(final @PathVariable Long commId,
@@ -42,7 +41,6 @@ public class CommunityCommentController {
             @ApiResponse(responseCode = "200", description = "소통해요 댓글 수정 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 댓글 수정 실패"),
     })
     @PatchMapping("comment/{commentId}")
     public SuccessResponse<Long> updateCommComment(final @PathVariable Long commentId,
@@ -56,7 +54,6 @@ public class CommunityCommentController {
             @ApiResponse(responseCode = "200", description = "소통해요 댓글 삭제 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class))),
-            @ApiResponse(responseCode = "400", description = "소통해요 댓글 삭제 실패"),
     })
     @DeleteMapping("comment/{commentId}")
     public SuccessResponse<Long> deletCommComment(final @PathVariable Long commentId) {
