@@ -26,7 +26,7 @@ import java.awt.print.Pageable;
 @RequestMapping("/town/comms")
 public class CommunityController {
 
-    private final CommunityService commService;
+    private final CommunityService communityService;
 
     // 소통해요 - comm
     @Operation(summary = "소통해요 더보기 페이지 조회",
@@ -39,7 +39,7 @@ public class CommunityController {
     @GetMapping()
     public SuccessResponse<CommunityListResponse> getCommPage(final @Validated @ModelAttribute CommunitySearchCondition condition,
                                                               final Pageable pageable) {
-        CommunityListResponse commListResponse = commService.searchCommPaging(condition, pageable);
+        CommunityListResponse commListResponse = communityService.searchCommunityPaging(condition, pageable);
         return new SuccessResponse<>(commListResponse);
     }
 
@@ -52,7 +52,7 @@ public class CommunityController {
     })
     @GetMapping("/{commId}")
     public SuccessResponse<CommunityResponse> getComm(final @PathVariable Long commId) {
-        CommunityResponse commResponse = commService.getComm(commId);
+        CommunityResponse commResponse = communityService.getCommunity(commId);
         return new SuccessResponse<>(commResponse);
     }
 
@@ -65,7 +65,7 @@ public class CommunityController {
     })
     @PostMapping()
     public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
-        CommunityResponse commResponse = commService.createCommPost(request);
+        CommunityResponse commResponse = communityService.createCommunityPost(request);
         return new SuccessResponse<>(commResponse);
     }
 
@@ -79,7 +79,7 @@ public class CommunityController {
     @PatchMapping("/{commId}")
     public SuccessResponse<Long> updateCommPost(final @PathVariable Long commId,
                                                 final @ModelAttribute CommunityUpdateRequest request) {
-        commService.updateCommPost(commId, request);
+        communityService.updateCommunityPost(commId, request);
         return new SuccessResponse<>(commId);
     }
 
@@ -92,7 +92,7 @@ public class CommunityController {
     })
     @DeleteMapping("/{commId}")
     public SuccessResponse<Long> deleteCommPost(final @PathVariable Long commId) {
-        commService.deleteCommPost(commId);
+        communityService.deleteCommunityPost(commId);
         return new SuccessResponse<>(commId);
     }
 }

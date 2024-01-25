@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
 import com.api.ttoklip.domain.town.cart.service.CartService;
+import com.api.ttoklip.domain.town.community.dto.request.CommunitySearchCondition;
+import com.api.ttoklip.domain.town.community.dto.response.CommunityListResponse;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,17 +40,12 @@ public class CartController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CartListResponse.class))),
     })
-    @GetMapping()
-    public SuccessResponse<List<CartSummaryResponse>> getCartPage() {
-        List<CartSummaryResponse> cartListResponse = cartService.getAllCartsSummary();
+        @GetMapping()
+    public SuccessResponse<CartListResponse> getCommPage(final @Validated @ModelAttribute CartSearchCondition condition,
+                                                              final Pageable pageable) {
+        CartListResponse cartListResponse = cartService.searchCartPaging(condition, pageable);
         return new SuccessResponse<>(cartListResponse);
     }
-    //    @GetMapping()
-//    public SuccessResponse<CartListResponse> getCartPage(final @Validated @ModelAttribute CartSearchCondition condition,
-//                                                         final Pageable pageable) {
-//        CartListResponse cartListResponse = cartService.searchCartPaging(condition, pageable);
-//        return new SuccessResponse<>(cartListResponse);
-//    }
 
     @Operation(summary = "함께해요 게시글 조회",
             description = "함께해요 단일 게시글을 조회합니다.")

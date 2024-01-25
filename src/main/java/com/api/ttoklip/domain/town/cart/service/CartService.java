@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartService {
 
-    // 더보기 페이지 조회
     public static CartListResponse searchCartPaging(final CartSearchCondition condition, final Pageable pageable) {
         return null;
     }
