@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CartCommentService {
-    public Long createCartComment(Long cartId, CartCommentCreateRequest request) {
+    public Long createCartComment(final Long cartId, final CartCommentCreateRequest request) {
         return null;
     }
 
-    public static void updateCartComment(Long commentId, CartCommentUpdateRequest cartCommentUpdateRequest) {
+    public static void updateCartComment(final Long commentId, final CartCommentUpdateRequest cartCommentUpdateRequest) {
     }
 
-    public static void deletCartComment(Long commentId) {
+    public static void deletCartComment(final Long commentId) {
     }
 }

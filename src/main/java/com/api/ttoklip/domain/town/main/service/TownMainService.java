@@ -8,7 +8,7 @@ import java.awt.print.Pageable;
 
 @Service
 public class TownMainService {
-    public TownSearchResponse search(TownSearchCondition condition, Pageable pageable) {
+    public TownSearchResponse search(final TownSearchCondition condition, final Pageable pageable) {
         return null;
     }
 }

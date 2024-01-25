@@ -13,23 +13,23 @@ import java.awt.print.Pageable;
 @Service
 @RequiredArgsConstructor
 public class CommunityService {
-    public CommunityListResponse searchCommPaging(CommunitySearchCondition condition, Pageable pageable) {
+    public CommunityListResponse searchCommPaging(final CommunitySearchCondition condition, final Pageable pageable) {
         return null;
     }
 
-    public CommunityResponse getComm(Long commId) {
+    public CommunityResponse getComm(final Long commId) {
         return null;
     }
 
-    public CommunityResponse createCommPost(CommunityCreateRequest request) {
+    public CommunityResponse createCommPost(final CommunityCreateRequest request) {
         return null;
     }
 
-    public void updateCommPost(Long commId, CommunityUpdateRequest request) {
+    public void updateCommPost(final Long commId, final CommunityUpdateRequest request) {
         return;
     }
 
-    public void deleteCommPost(Long commId) {
+    public void deleteCommPost(final Long commId) {
         return;
     }
 }
