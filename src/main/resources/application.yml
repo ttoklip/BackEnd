@@ -7,7 +7,7 @@ logging:
 server:
   tomcat:
     uri-encoding: UTF-8
-g
+
 spring:
   datasource:
     driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
