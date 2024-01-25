@@ -7,7 +7,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: ddokliprp
-  ECS_SERVICE: ddoklip-back-service
+  ECS_SERVICE: ddoklip-backend-service
   ECS_CLUSTER: ddoklip
   ECS_TASK_DEFINITION: ./aws/task_definition.json
   CONTAINER_NAME: ddoklip-backend
