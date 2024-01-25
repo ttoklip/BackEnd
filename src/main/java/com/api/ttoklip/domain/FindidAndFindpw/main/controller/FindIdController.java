@@ -33,27 +33,14 @@ public class FindIdController {
                                     name = "SuccessResponse",
                                     value = FindIdConstant.findUserAuthSuccessResponse,
                                     description = "아이디 찾기 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "404", description = "아이디 찾기 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = FindIdConstant.findUserAuthFailureResponse,
-                                    description = "아이디 찾기 실패 시 응답"
                             )))})
     @GetMapping("/finduserauth")
     public SuccessResponse<FindIdResponse> findUserAuth(@RequestParam String email) {
         // 아이디 찾기 로직을 여기에 추가
         // 성공하면 성공 응답을, 실패하면 실패 응답을 반환
         FindIdResponse userAuth=FindIdService.findAuthByEmail(email);
-        if(userAuth!=null){
-            return new SuccessResponse<>(userAuth);
-        }
-        else{
-            return new SuccessResponse<>(null);
-        }
+        return new SuccessResponse<>(userAuth);
+
     }
     @Operation(summary = "이메일 인증번호 요청 API",
             description = "사용자의 이메일로 인증번호를 요청합니다.")
@@ -66,15 +53,6 @@ public class FindIdController {
                                     name = "SuccessResponse",
                                     value = FindIdConstant.requestSuccessResponse,
                                     description = "인증번호 요청 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "400", description = "인증번호 요청 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = FindIdConstant.requestFailureResponse,
-                                    description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailrequest")
     public SuccessResponse<Long> requestEmailVerification(@RequestBody String email) {
@@ -93,25 +71,13 @@ public class FindIdController {
                                     name = "SuccessResponse",
                                     value = FindIdConstant.verificationSuccessResponse,
                                     description = "인증번호 요청 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "400", description = "인증번호 요청 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = FindIdConstant.verificationFailureResponse,
-                                    description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailverification")
     public SuccessResponse<String> verifyEmail(@RequestBody Long emailVerifyNum) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        boolean verifyEmail= FindIdService.verifyEmail(emailVerifyNum);
-        if(verifyEmail){
-            return new SuccessResponse<>("이메일 인증 성공");
-        }else{
-            return new SuccessResponse<>("이메일 인증 실패");
-        }
+        String verify= FindIdService.verifyEmail(emailVerifyNum);
+        return new SuccessResponse<>(verify);
+
     }
 
 }

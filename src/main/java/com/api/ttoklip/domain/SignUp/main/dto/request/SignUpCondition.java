@@ -2,14 +2,10 @@ package com.api.ttoklip.domain.SignUp.main.dto.request;
 
 import com.api.ttoklip.domain.Login.main.domain.Category;
 import com.api.ttoklip.domain.SignUp.image.dto.response.ImageResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class SignUpCondition {
     private String userName;
     private String userBirth;

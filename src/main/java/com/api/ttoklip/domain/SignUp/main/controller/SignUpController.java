@@ -37,15 +37,6 @@ public class SignUpController {
                                     name = "SuccessResponse",
                                     value = SignUpResponseConstant.successSignUpResponse,
                                     description = "회원가입 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "400", description = "회원가입 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = SignUpResponseConstant.failureSignUpResponse,
-                                    description = "회원가입 실패 시 응답"
                             )))})
     @PostMapping("/signup")
     public SuccessResponse<SignUpResponse> signUp(@RequestBody SignUpCondition signUpCondition) {
@@ -63,25 +54,13 @@ public class SignUpController {
                                     name = "SuccessResponse",
                                     value = SignUpResponseConstant.successNickNameResponse,
                                     description = "중복 확인 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "400", description = "중복 확인 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = SignUpResponseConstant.failureNickNameResponse,
-                                    description = "중복 확인 실패 시 응답"
                             )))})
     @PostMapping("/nicknameduplicatecheck")
     public SuccessResponse<String> checkNickname(@RequestBody String userNickname) {
         // 닉네임 중복 확인 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        boolean checkNickname= SignUpService.checkNickname(userNickname);
-        if(checkNickname){
-            return new SuccessResponse<>("중복된 닉네임 입니다.");
-        }else{
-            return new SuccessResponse<>("사용가능한 닉네임 입니다.");
-        }
+        String checkNickname= SignUpService.checkNickname(userNickname);
+        return new SuccessResponse<>(checkNickname);
+
     }
 
     @Operation(summary = "아이디 중복 확인 API",
@@ -95,25 +74,12 @@ public class SignUpController {
                                     name = "SuccessResponse",
                                     value = SignUpResponseConstant.authSuccessResponse,
                                     description = "중복 확인 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "400", description = "중복 확인 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = SignUpResponseConstant.authFailureResponse,
-                                    description = "중복 확인 실패 시 응답"
                             )))})
     @PostMapping("/authduplicatecheck")
     public SuccessResponse<String> checkAuth(@RequestBody String userAuth) {
         // 닉네임 중복 확인 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        boolean checkAuth=SignUpService.checkAuth(userAuth);
-        if(checkAuth) {
-            return new SuccessResponse<>("중복된 아이디 입니다");
-        }else{
-            return new SuccessResponse<>("사용가능한 아이디 입니다.");
-        }
+        String checkAuth=SignUpService.checkAuth(userAuth);
+        return new SuccessResponse<>(checkAuth);
 
     }
 
@@ -128,15 +94,6 @@ public class SignUpController {
                                     name = "SuccessResponse",
                                     value = SignUpResponseConstant.requestSuccessResponse,
                                     description = "인증번호 요청 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "400", description = "인증번호 요청 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = SignUpResponseConstant.requestFailureResponse,
-                                    description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailrequest")
     public SuccessResponse<Long> requestEmailVerification(@RequestBody String userEmail) {
@@ -157,25 +114,12 @@ public class SignUpController {
                                     name = "SuccessResponse",
                                     value = SignUpResponseConstant.verificationSuccessResponse,
                                     description = "인증번호 요청 성공 시 응답"
-                            ))),
-            @ApiResponse(responseCode = "400", description = "인증번호 요청 실패",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = SignUpResponseConstant.verificationFailureResponse,
-                                    description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailverification")
     public SuccessResponse<String> verifyEmail(@RequestBody Long emailVerifyNum) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        boolean verifyEmail=SignUpService.verifyEmail(emailVerifyNum);
-        if(verifyEmail){
-            return new SuccessResponse<>("이메일 인증 성공");
-        }else{
-            return new SuccessResponse<>("이메일 인증 실패");
-        }
+        String verify=SignUpService.verifyEmail(emailVerifyNum);
+        return new SuccessResponse<>(verify);
     }
 }
 

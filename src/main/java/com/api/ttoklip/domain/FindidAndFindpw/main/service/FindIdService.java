@@ -13,7 +13,7 @@ public class FindIdService {
     public Long requestEmailVerification(String email){//추가 구현 필요
         return null;
     }
-    public boolean verifyEmail(Long emailVerifyNum){//추가 구현 필요
-        return false;
-    }
+    public String verifyEmail(Long emailVerifyNum){//추가 구현 필요
+        return null;
+    }//
 }

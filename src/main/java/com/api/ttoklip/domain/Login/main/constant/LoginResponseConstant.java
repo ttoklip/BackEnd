@@ -16,16 +16,6 @@ public class LoginResponseConstant {
         }
         """;
 
-    public static final String failureResponse = """
-        {
-            "time": "2024-01-11T16:10:45.124Z",
-            "status": 401,
-            "code": "401",
-            "message": "인증 실패",
-            "result": null
-        }
-        """;
-
     public static final String kakaoSuccessResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -40,15 +30,6 @@ public class LoginResponseConstant {
         }
         """;
 
-    public static final String kakaoFailureResponse = """
-        {
-            "time": "2024-01-11T16:10:45.124Z",
-            "status": 401,
-            "code": "401",
-            "message": "카카오 로그인 실패",
-            "result": null
-        }
-        """;
     public static final String naverSuccessResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -60,16 +41,6 @@ public class LoginResponseConstant {
                 "userName": "NaverUser",
                 "userEmail": "Naver.user@example.com"
             }
-        }
-        """;
-
-    public static final String naverFailureResponse = """
-        {
-            "time": "2024-01-11T16:10:45.124Z",
-            "status": 401,
-            "code": "401",
-            "message": "네이버 로그인 실패",
-            "result": null
         }
         """;
 }

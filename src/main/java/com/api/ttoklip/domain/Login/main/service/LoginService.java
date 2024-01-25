@@ -11,10 +11,10 @@ public class LoginService {
     public LoginResponse login(LoginCondition loginCondition){
         return null;
     }
-    public LoginResponse kakaoLogin(LoginCondition loginCondition){
+    public LoginResponse kakaoLogin(){
         return null;
     }
-    public LoginResponse naverLogin(LoginCondition loginCondition){
+    public LoginResponse naverLogin(){
         return null;
     }
 }

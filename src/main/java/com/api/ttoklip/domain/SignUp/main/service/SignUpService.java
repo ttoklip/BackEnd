@@ -11,16 +11,16 @@ public class SignUpService {
     public SignUpResponse signUp(SignUpCondition signUpCondition){
         return null;
     }
-    public Boolean checkNickname(String userNickname){
+    public String checkNickname(String userNickname){
         return null;
     }
-    public Boolean checkAuth(String userAuth){
+    public String checkAuth(String userAuth){
         return null;
     }
     public Long requestEmailVerification(String userEmail){
         return null;
     }
-    public boolean verifyEmail(Long emailVerifyNum){
+    public String verifyEmail(Long emailVerifyNum){
         return false;
 
     }
