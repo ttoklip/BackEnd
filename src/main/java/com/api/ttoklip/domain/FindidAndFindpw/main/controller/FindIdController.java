@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.FindidAndFindpw.main.controller;
 
 import com.api.ttoklip.domain.FindidAndFindpw.main.constant.FindIdConstant;
-import com.api.ttoklip.domain.FindidAndFindpw.main.constant.ResetPwConstant;
 import com.api.ttoklip.domain.SignUp.main.dto.request.SignUpCondition;
 import com.api.ttoklip.domain.SignUp.main.dto.response.SignUpResponse;
 import com.api.ttoklip.domain.SignUp.main.service.SignUpService;
@@ -17,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "SignUp", description = "SignUp API")
+@Tag(name = "Find Id", description = "FindId API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/find")

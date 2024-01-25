@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "SignUp", description = "SignUp API")
+@Tag(name = "Reset Password", description = "ResetPassword API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/reset")
