@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.Login.main.constant;
+package com.api.ttoklip.domain.SignUp.main.constant;
 
 public class SignUpResponseConstant {
     public static final String successSignUpResponse = """

@@ -1,6 +1,7 @@
-package com.api.ttoklip.domain.Login.main.dto.request;
+package com.api.ttoklip.domain.SignUp.main.dto.request;
 
 import com.api.ttoklip.domain.Login.main.domain.Category;
+import com.api.ttoklip.domain.SignUp.image.dto.response.ImageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,4 +24,5 @@ public class SignUpCondition {
     private String userArea;
     private String independencePeriod;
     private Category categories;
+    private ImageResponse imageUrl;
 }

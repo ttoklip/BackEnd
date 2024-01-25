@@ -1,9 +1,9 @@
-package com.api.ttoklip.domain.Login.main.controller;
+package com.api.ttoklip.domain.SignUp.main.controller;
 
-import com.api.ttoklip.domain.Login.main.constant.SignUpResponseConstant;
-import com.api.ttoklip.domain.Login.main.dto.request.SignUpCondition;
-import com.api.ttoklip.domain.Login.main.dto.response.SignUpResponse;
-import com.api.ttoklip.domain.Login.main.service.SignUpService;
+import com.api.ttoklip.domain.SignUp.main.constant.SignUpResponseConstant;
+import com.api.ttoklip.domain.SignUp.main.dto.request.SignUpCondition;
+import com.api.ttoklip.domain.SignUp.main.dto.response.SignUpResponse;
+import com.api.ttoklip.domain.SignUp.main.service.SignUpService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
