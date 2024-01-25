@@ -48,7 +48,7 @@ public class LoginController {
                             )))})
     @PostMapping("/login")
     public SuccessResponse<LoginResponse> login(@RequestBody LoginCondition loginCondition) {
-        return new SuccessResponse<>(LoginService.login(loginCondition));
+        return new SuccessResponse<>(loginService.login(loginCondition));
     }
 
     @Operation(summary = "카카오 로그인 API",
@@ -74,7 +74,7 @@ public class LoginController {
                             )))})
     @PostMapping("/kakaologin")
     public SuccessResponse<LoginResponse> kakaoLogin(@RequestBody LoginCondition loginCondition) {
-        return new SuccessResponse<>(LoginService.kakaoLogin(loginCondition));
+        return new SuccessResponse<>(loginService.kakaoLogin(loginCondition));
     }
 
     @Operation(summary = "네이버 로그인 API",
@@ -100,6 +100,6 @@ public class LoginController {
                             )))})
     @PostMapping("/naverlogin")
     public SuccessResponse<LoginResponse> naverLogin(@RequestBody LoginCondition loginCondition) {
-        return new SuccessResponse<>(LoginService.naverLogin(loginCondition));
+        return new SuccessResponse<>(loginService.naverLogin(loginCondition));
     }
 }

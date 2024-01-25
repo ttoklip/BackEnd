@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
 
 @Getter
 @Builder
@@ -15,7 +14,6 @@ public class SignUpCondition {
     private String userName;
     private String userBirth;
     private String userEmail;
-    private boolean emailAuthentication;
     private String userAccount;
     private String userPassword;
     private boolean termAgree;

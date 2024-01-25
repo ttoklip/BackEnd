@@ -1,25 +1,27 @@
 package com.api.ttoklip.domain.SignUp.main.service;
 
 import com.api.ttoklip.domain.SignUp.main.dto.request.SignUpCondition;
-import lombok.RequiredArgsConstructor;
+import com.api.ttoklip.domain.SignUp.main.dto.response.SignUpResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SignUpService {
-    public SignUpService signUp(SignUpCondition signUpCondition){
+    public SignUpResponse signUp(SignUpCondition signUpCondition){
         return null;
     }
-    public SignUpService checkNickname(SignUpCondition signUpCondition){
+    public Boolean checkNickname(String userNickname){
         return null;
     }
-    public SignUpService checkAuth(SignUpCondition signUpCondition){
+    public Boolean checkAuth(String userAuth){
         return null;
     }
-    public SignUpService requestEmailVerification(SignUpCondition signUpCondition){
+    public Long requestEmailVerification(String userEmail){
         return null;
     }
-    public SignUpService verifyEmail(SignUpCondition signUpCondition){
-        return null;
+    public boolean verifyEmail(Long emailVerifyNum){
+        return false;
+
     }
 }

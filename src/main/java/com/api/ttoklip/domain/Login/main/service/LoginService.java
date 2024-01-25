@@ -1,19 +1,20 @@
 package com.api.ttoklip.domain.Login.main.service;
 
 import com.api.ttoklip.domain.Login.main.dto.request.LoginCondition;
+import com.api.ttoklip.domain.Login.main.dto.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class LoginService {
-    public LoginService login(LoginCondition loginCondition){
+    public LoginResponse login(LoginCondition loginCondition){
         return null;
     }
-    public LoginService kakaoLogin(LoginCondition loginCondition){
+    public LoginResponse kakaoLogin(LoginCondition loginCondition){
         return null;
     }
-    public LoginService naverLogin(LoginCondition loginCondition){
+    public LoginResponse naverLogin(LoginCondition loginCondition){
         return null;
     }
 }

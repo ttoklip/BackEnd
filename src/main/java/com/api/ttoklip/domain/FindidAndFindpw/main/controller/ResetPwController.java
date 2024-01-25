@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/reset")
 public class ResetPwController {
+
+    private ResetPwService resetPwService;
     @Operation(summary = "비밀번호 재설정 API",
             description = "이메일을 이용하여 비밀번호를 재설정하고 결과를 반환합니다.")
     @ApiResponses(value = {
@@ -43,10 +45,11 @@ public class ResetPwController {
                                     description = "비밀번호 재설정 실패 시 응답"
                             )))})
     @PostMapping("/resetpassword")
-    public SuccessResponse<String> resetPassword(@RequestParam String email) {
+    public SuccessResponse<ResetPwResponse> resetPassword(@RequestParam String tempToken, @RequestBody ResetPwRequest resetPwRequest) {
         // 비밀번호 재설정 로직을 여기에 추가
         // 성공하면 성공 응답을, 실패하면 실패 응답을 반환
-        return new SuccessResponse<>("비밀번호 재설정 성공");
+        ResetPwResponse resetPwResponse=resetPwService.resetPassword(tempToken,resetPwRequest);
+        return new SuccessResponse<>(resetPwResponse);
     }
     @Operation(summary = "이메일 인증번호 요청 API",
             description = "사용자의 이메일로 인증번호를 요청합니다.")
@@ -70,9 +73,9 @@ public class ResetPwController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailrequest")
-    public SuccessResponse<ResetPwResponse> requestEmailVerification(@RequestBody ResetPwRequest resetPwRequest) {
+    public SuccessResponse<Long> requestEmailVerification(@RequestBody String userEmail) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(ResetPwService.requestEmailVerification(resetPwRequest));
+        return new SuccessResponse<>(resetPwService.requestEmailVerification(userEmail));
     }
 
     @Operation(summary = "이메일 인증번호 확인",
@@ -97,8 +100,13 @@ public class ResetPwController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailverification")
-    public SuccessResponse<ResetPwResponse> verifyEmail(@RequestBody ResetPwRequest resetPwRequest) {
+    public SuccessResponse<String> verifyEmail(@RequestBody Long emailVerifyNum) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(ResetPwService.verifyEmail(resetPwRequest));
+        boolean verifyEmail=resetPwService.verifyEmail(emailVerifyNum);
+        if (verifyEmail) {
+            return new SuccessResponse<>("이메일 인증 완료됐습니다");
+        }else{
+            return new SuccessResponse<>("이메일 인증 실패했습니다");
+        }
     }
 }

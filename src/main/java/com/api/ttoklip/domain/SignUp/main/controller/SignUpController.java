@@ -14,8 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/signup")
 public class SignUpController {
 
-    private final SignUpService signUpService;
+    private final SignUpService SignUpService;
 
     @Operation(summary = "회원가입 API",
             description = "사용자의 회원가입을 처리하고 결과를 반환합니다.")
@@ -76,9 +74,14 @@ public class SignUpController {
                                     description = "중복 확인 실패 시 응답"
                             )))})
     @PostMapping("/nicknameduplicatecheck")
-    public SuccessResponse<SignUpResponse> checkNickname(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<String> checkNickname(@RequestBody String userNickname) {
         // 닉네임 중복 확인 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.checkNickname(signUpCondition));
+        boolean checkNickname= SignUpService.checkNickname(userNickname);
+        if(checkNickname){
+            return new SuccessResponse<>("중복된 닉네임 입니다.");
+        }else{
+            return new SuccessResponse<>("사용가능한 닉네임 입니다.");
+        }
     }
 
     @Operation(summary = "아이디 중복 확인 API",
@@ -103,9 +106,15 @@ public class SignUpController {
                                     description = "중복 확인 실패 시 응답"
                             )))})
     @PostMapping("/authduplicatecheck")
-    public SuccessResponse<SignUpResponse> checkAuth(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<String> checkAuth(@RequestBody String userAuth) {
         // 닉네임 중복 확인 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.checkAuth(signUpCondition));
+        boolean checkAuth=SignUpService.checkAuth(userAuth);
+        if(checkAuth) {
+            return new SuccessResponse<>("중복된 아이디 입니다");
+        }else{
+            return new SuccessResponse<>("사용가능한 아이디 입니다.");
+        }
+
     }
 
     @Operation(summary = "이메일 인증번호 요청 API",
@@ -130,9 +139,11 @@ public class SignUpController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailrequest")
-    public SuccessResponse<SignUpResponse> requestEmailVerification(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<Long> requestEmailVerification(@RequestBody String userEmail) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.requestEmailVerification(signUpCondition));
+        // 임시로 작성 후에 구현
+        Long requestNum= SignUpService.requestEmailVerification(userEmail);
+        return new SuccessResponse<>(requestNum);
     }
 
     @Operation(summary = "이메일 인증번호 확인",
@@ -157,9 +168,14 @@ public class SignUpController {
                                     description = "인증번호 요청 실패 시 응답"
                             )))})
     @PostMapping("/emailverification")
-    public SuccessResponse<SignUpResponse> verifyEmail(@RequestBody SignUpCondition signUpCondition) {
+    public SuccessResponse<String> verifyEmail(@RequestBody Long emailVerifyNum) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        return new SuccessResponse<>(SignUpService.verifyEmail(signUpCondition));
+        boolean verifyEmail=SignUpService.verifyEmail(emailVerifyNum);
+        if(verifyEmail){
+            return new SuccessResponse<>("이메일 인증 성공");
+        }else{
+            return new SuccessResponse<>("이메일 인증 실패");
+        }
     }
 }
 
