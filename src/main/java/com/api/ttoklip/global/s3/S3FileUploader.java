@@ -34,7 +34,7 @@ public class S3FileUploader {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.s3.bucket.dirname}")
+    @Value("${cloud.aws.s3.dirname}")
     private String dirName;
 
     public List<String> uploadMultipartFiles(final List<MultipartFile> multipartFiles) {
