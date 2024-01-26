@@ -37,6 +37,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers(
                                         "/favicon.ico"
+                                        ,"/health"
                                         ,"/swagger-ui/**"
                                         ,"/oauth/**"
                                         ,"/login/**"
