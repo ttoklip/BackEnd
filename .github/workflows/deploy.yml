@@ -39,7 +39,9 @@ jobs:
           echo "${{ secrets.APPLICATION_YML }}" > "$APPLICATION_YML_PATH"
 
       - name: Build with Gradle
-        run: ./gradlew bootJar
+        run: |
+          chmod +x gradlew
+          ./gradlew bootJar
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
