@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.base;
+package com.api.ttoklip.domain.common.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
