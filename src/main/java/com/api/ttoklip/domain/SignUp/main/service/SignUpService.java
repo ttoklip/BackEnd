@@ -21,7 +21,6 @@ public class SignUpService {
         return null;
     }
     public String verifyEmail(Long emailVerifyNum){
-        return false;
-
+        return null;
     }
 }

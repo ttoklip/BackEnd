@@ -118,8 +118,8 @@ public class SignUpController {
     @PostMapping("/emailverification")
     public SuccessResponse<String> verifyEmail(@RequestBody Long emailVerifyNum) {
         // 이메일 인증번호 요청 로직을 수행하여 결과를 반환하는 서비스 메서드를 호출
-        String verify=SignUpService.verifyEmail(emailVerifyNum);
-        return new SuccessResponse<>(verify);
+        String result = SignUpService.verifyEmail(emailVerifyNum);
+        return new SuccessResponse<>(result);
     }
 }
 
