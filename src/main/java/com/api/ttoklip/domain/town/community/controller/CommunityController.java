@@ -23,7 +23,7 @@ import java.awt.print.Pageable;
 @Tag(name = "Town", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/town/comms")
+@RequestMapping("api/v1/town/comms")
 public class CommunityController {
 
     private final CommunityService communityService;
@@ -36,7 +36,7 @@ public class CommunityController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CommunityListResponse.class))),
     })
-    @GetMapping()
+    @GetMapping
     public SuccessResponse<CommunityListResponse> getCommPage(final @Validated @ModelAttribute CommunitySearchCondition condition,
                                                               final Pageable pageable) {
         CommunityListResponse commListResponse = communityService.searchCommunityPaging(condition, pageable);
@@ -63,7 +63,7 @@ public class CommunityController {
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(implementation = CommunityResponse.class))),
     })
-    @PostMapping()
+    @PostMapping
     public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
         CommunityResponse commResponse = communityService.createCommunityPost(request);
         return new SuccessResponse<>(commResponse);

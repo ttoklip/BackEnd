@@ -27,7 +27,7 @@ import java.util.List;
 @Tag(name = "Town", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/town/carts")
+@RequestMapping("api/v1/town/carts")
 public class CartController {
 
     private final CartService cartService;
@@ -40,7 +40,7 @@ public class CartController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CartListResponse.class))),
     })
-        @GetMapping()
+    @GetMapping
     public SuccessResponse<CartListResponse> getCommPage(final @Validated @ModelAttribute CartSearchCondition condition,
                                                               final Pageable pageable) {
         CartListResponse cartListResponse = cartService.searchCartPaging(condition, pageable);
@@ -67,7 +67,7 @@ public class CartController {
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
                             schema = @Schema(implementation = CartResponse.class))),
     })
-    @PostMapping()
+    @PostMapping
     public SuccessResponse<CartResponse> createCartPost(final @Validated @ModelAttribute CartCreateRequest request) {
         CartResponse cartResponse = cartService.createCartPost(request);
         return new SuccessResponse<>(cartResponse);

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Town", description = "우리동네 - 함께해요 댓글 API 입니다.")
 @RestController
-@RequestMapping("/town/carts")
+@RequestMapping("api/v1/town/carts")
 @RequiredArgsConstructor
 public class CartCommentController {
 
