@@ -2,6 +2,7 @@ package com.api.ttoklip.global.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -31,6 +32,10 @@ public enum ErrorType {
     S3_CONNECT(INTERNAL_SERVER_ERROR, "S5002", "서버오류, S3 연결 에러입니다."),
     S3_CONVERT(INTERNAL_SERVER_ERROR, "S5003", "서버오류, S3 변환 에러입니다."),
 
+
+    // ------------------------------------------ Category ------------------------------------------
+
+    CATEGORY_NOT_FOUNT(NOT_FOUND, "C404", "카테고리를 찾을 수 없습니다.")
     ;
 
     private final HttpStatus status;
