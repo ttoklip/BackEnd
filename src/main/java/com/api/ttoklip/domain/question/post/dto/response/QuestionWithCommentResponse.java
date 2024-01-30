@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.question.post.dto.response;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.question.comment.dto.response.CommentResponse;
+import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
 import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;

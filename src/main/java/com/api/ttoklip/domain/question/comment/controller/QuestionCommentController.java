@@ -2,8 +2,8 @@ package com.api.ttoklip.domain.question.comment.controller;
 
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.comment.service.QuestionCommentService;
-import com.api.ttoklip.domain.question.comment.dto.request.CommentCreateRequest;
-import com.api.ttoklip.domain.question.comment.dto.request.CommentEditRequest;
+import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
