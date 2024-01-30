@@ -89,9 +89,17 @@ public class S3FileUploader {
 
     private String validFileName(final String originalFilename) {
         if (!StringUtils.hasText(originalFilename)) {
-            return UUID.randomUUID().toString();
+            return UUID.randomUUID() + getFileExtension(originalFilename);
         }
         return originalFilename;
+    }
+
+    private String getFileExtension(String filename) { // 새로 추가됨
+        int dotIndex = filename.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < filename.length() - 1) {
+            return filename.substring(dotIndex);
+        }
+        return ""; // 확장자가 없는 경우 빈 문자열 반환
     }
 
     private void validGenerateLocalFile(final File convertFile) throws IOException {
