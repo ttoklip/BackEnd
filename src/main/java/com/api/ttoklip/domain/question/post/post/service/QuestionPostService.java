@@ -5,7 +5,6 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.post.image.service.ImageService;
 import com.api.ttoklip.domain.question.post.post.domain.Question;
 import com.api.ttoklip.domain.question.post.post.dto.request.QuestionCreateRequest;
-import com.api.ttoklip.domain.question.post.post.dto.request.QuestionEditRequest;
 import com.api.ttoklip.domain.question.post.post.dto.response.QuestionWithCommentResponse;
 import com.api.ttoklip.domain.question.post.post.repository.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
@@ -50,16 +49,20 @@ public class QuestionPostService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
-
     public QuestionWithCommentResponse getSinglePost(final Long postId) {
         return null;
     }
+
+    /* -------------------------------------------- REPORT -------------------------------------------- */
 
     public void report(final Long postId, final ReportCreateRequest request) {
         Question question = questionRepository.findById(postId)
                 .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUNT));
         reportService.reportQuestion(request, question);
     }
+
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
     public void delete(final Long postId) {

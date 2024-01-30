@@ -75,12 +75,8 @@ public class QuestionPostController {
             @ApiResponse(responseCode = "200", description = "질문 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
-                                    description = "질문 게시글이 신고되었습니다."
-                            )))})
+                            schema = @Schema(implementation = SuccessResponse.class)
+                            ))})
     @PostMapping("/{postId}/report")
     public SuccessResponse<Long> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
@@ -88,23 +84,5 @@ public class QuestionPostController {
         return new SuccessResponse<>(postId);
     }
 
-
-    /* DELETE */
-    @Operation(summary = "질문 게시글 삭제", description = "질문 ID에 해당하는 게시글을 삭제합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "질문 삭제 성공",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
-                                    description = "질문이 삭제되었습니다."
-                            )))})
-    @DeleteMapping("/{postId}")
-    public SuccessResponse<Long> delete(final @PathVariable Long postId) {
-        questionPostService.delete(postId);
-        return new SuccessResponse<>(postId);
-    }
 
 }
