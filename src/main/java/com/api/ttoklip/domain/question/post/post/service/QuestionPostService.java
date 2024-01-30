@@ -1,11 +1,15 @@
 package com.api.ttoklip.domain.question.post.post.service;
 
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.post.image.service.ImageService;
 import com.api.ttoklip.domain.question.post.post.domain.Question;
 import com.api.ttoklip.domain.question.post.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.post.dto.request.QuestionEditRequest;
 import com.api.ttoklip.domain.question.post.post.dto.response.QuestionWithCommentResponse;
 import com.api.ttoklip.domain.question.post.post.repository.QuestionRepository;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +23,7 @@ public class QuestionPostService {
     private final QuestionRepository questionRepository;
     private final ImageService imageService;
     private final S3FileUploader s3FileUploader;
+    private final ReportService reportService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     public Long register(final QuestionCreateRequest request) {
@@ -50,7 +55,10 @@ public class QuestionPostService {
         return null;
     }
 
-    public void edit(final Long postId, final QuestionEditRequest request) {
+    public void report(final Long postId, final ReportCreateRequest request) {
+        Question question = questionRepository.findById(postId)
+                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUNT));
+        reportService.reportQuestion(request, question);
     }
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */

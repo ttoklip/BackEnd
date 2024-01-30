@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.question.post.post.domain;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.question.post.image.domain.QuestionImage;
 import com.api.ttoklip.domain.question.post.post.dto.request.QuestionCreateRequest;
 import jakarta.persistence.CascadeType;
@@ -48,5 +49,8 @@ public class Question extends BaseEntity {
                 .title(request.getTitle())
                 .build();
     }
+
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
 
 }
