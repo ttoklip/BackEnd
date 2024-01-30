@@ -21,4 +21,8 @@ public class CommentService {
         }
         return Optional.empty();
     }
+
+    public void deleteById(final Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }

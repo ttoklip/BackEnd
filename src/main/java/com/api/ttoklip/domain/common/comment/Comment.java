@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.common.comment;
 
+import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
