@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.main.controller;
 
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
-import com.api.ttoklip.domain.main.dto.request.QuestionSearchCondition;
 import com.api.ttoklip.domain.main.dto.response.QuestionMainDefaultResponse;
 import com.api.ttoklip.domain.main.dto.response.QuestionSearchResponse;
 import com.api.ttoklip.domain.main.service.QuestionMainService;
@@ -15,8 +14,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,10 +35,10 @@ public class QuestionMainController {
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = QuestionResponseConstant.questionValue
-    )))})
+                            )))})
     @GetMapping("/search")
-    public SuccessResponse<QuestionSearchResponse> search(@ModelAttribute QuestionSearchCondition condition, Pageable pageable) {
-        QuestionSearchResponse response = questionMainService.search(condition, pageable);
+    public SuccessResponse<QuestionSearchResponse> search(@RequestParam String content, Pageable pageable) {
+        QuestionSearchResponse response = questionMainService.search(content, pageable);
         return new SuccessResponse<>(response);
     }
 
@@ -54,7 +53,7 @@ public class QuestionMainController {
                                     name = "SuccessResponse",
                                     value = QuestionResponseConstant.categoryValue,
                                     description = "실제로는 인기순위 5개와 카테고리별로 4개가 한번에 응답이 나갑니다."
-    )))})
+                            )))})
     @GetMapping
     public SuccessResponse<QuestionMainDefaultResponse> category() {
         QuestionMainDefaultResponse response = questionMainService.main();
