@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.common.comment;
 
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
+import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
@@ -44,4 +45,13 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent;
+
+    public CommentEditor.CommentEditorBuilder toEditor(){
+        return CommentEditor.builder()
+                .comment(content);
+    }
+
+    public void edit(final CommentEditor commentEditor) {
+        this.content = commentEditor.getContent();
+    }
 }

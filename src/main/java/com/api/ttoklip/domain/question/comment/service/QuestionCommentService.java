@@ -56,7 +56,9 @@ public class QuestionCommentService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
-    public void edit(final Long commentId, final CommentEditRequest commentEditRequest) {
+    @Transactional
+    public void edit(final Long commentId, final CommentEditRequest request) {
+        commentService.edit(commentId, request);
     }
 
     @Transactional
