@@ -53,6 +53,15 @@ public class QuestionPostService {
     public void edit(final Long postId, final QuestionEditRequest request) {
     }
 
+    /* -------------------------------------------- Soft Delete -------------------------------------------- */
     public void delete(final Long postId) {
+        Question question = findQuestion(postId);
+        question.deactivate(); // 비활성화
     }
+
+    private Question findQuestion(final Long postId) {
+        return questionRepository.findByIdUndeleted(postId);
+    }
+
+    /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
 }
