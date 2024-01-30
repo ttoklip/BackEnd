@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.common.comment;
 
-import com.api.ttoklip.domain.common.base.BaseTimeEntity;
+import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.DiscriminatorColumn;
@@ -14,19 +14,15 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn
-public class Comment extends BaseTimeEntity {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +42,13 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
-    public CommentEditor.CommentEditorBuilder toEditor(){
+    protected Comment(final String content, final Question question, final Comment parent) {
+        this.content = content;
+        this.question = question;
+        this.parent = parent;
+    }
+
+    public CommentEditor.CommentEditorBuilder toEditor() {
         return CommentEditor.builder()
                 .comment(content);
     }

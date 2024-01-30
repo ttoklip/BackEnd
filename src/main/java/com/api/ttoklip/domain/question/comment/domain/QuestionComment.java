@@ -6,19 +6,23 @@ import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Getter
 @Entity
-@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue(value = "Question")
 public class QuestionComment extends Comment {
 
+    @Builder
+    private QuestionComment(String content, Comment parent, Question question) {
+        super(content, question, parent); // Comment 클래스의 생성자 호출
+    }
+
     public static QuestionComment withParentOf(final CommentCreateRequest request, final Comment parent,
-                                     final Question question) {
+                                               final Question question) {
         return QuestionComment.builder()
                 .content(request.getComment())
                 .parent(parent)

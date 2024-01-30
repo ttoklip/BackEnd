@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.question.post.domain;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.domain.QuestionImage;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import jakarta.persistence.CascadeType;
@@ -39,9 +40,6 @@ public class Question extends BaseEntity {
     private String title;
     private String content;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<QuestionImage> questionImages = new ArrayList<>();
-
     public static Question of(final QuestionCreateRequest request) {
         return Question.builder()
                 .category(request.getCategory())
@@ -50,7 +48,16 @@ public class Question extends BaseEntity {
                 .build();
     }
 
+    @Builder.Default
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<QuestionImage> questionImages = new ArrayList<>();
+
+    @Builder.Default
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Report> reports = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<QuestionComment> questionComments = new ArrayList<>();
 
 }

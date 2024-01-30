@@ -62,6 +62,8 @@ public class QuestionPostService {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
     public QuestionWithCommentResponse getSinglePost(final Long postId) {
+
+
         return null;
     }
 
@@ -78,14 +80,14 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
-    public void delete(final Long postId) {
-        Question question = findQuestion(postId);
-        question.deactivate(); // 비활성화
-    }
-
-    private Question findQuestion(final Long postId) {
-        return questionRepository.findByIdUndeleted(postId);
-    }
+//    public void delete(final Long postId) {
+//        Question question = findQuestion(postId);
+//        question.deactivate(); // 비활성화
+//    }
+//
+//    private Question findQuestion(final Long postId) {
+//        return questionRepository.findByIdUndeleted(postId);
+//    }
 
     /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
 }
