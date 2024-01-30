@@ -1,7 +1,8 @@
 package com.api.ttoklip.domain.question.post.post.domain;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.question.post.image.domain.Image;
+import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.api.ttoklip.domain.question.post.image.domain.QuestionImage;
 import com.api.ttoklip.domain.question.post.post.dto.request.QuestionCreateRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Question {
+public class Question extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,7 @@ public class Question {
     private String content;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Image> images = new ArrayList<>();
+    private List<QuestionImage> questionImages = new ArrayList<>();
 
     public static Question of(final QuestionCreateRequest request) {
         return Question.builder()
