@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.common.report.service;
 
+import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.repository.ReportRepository;
@@ -18,6 +19,12 @@ public class ReportService {
     @Transactional
     public void reportQuestion(final ReportCreateRequest request, final Question question) {
         Report report = Report.questionOf(request, question);
+        reportRepository.save(report);
+    }
+
+    @Transactional
+    public void reportComment(final ReportCreateRequest request, final Comment comment) {
+        Report report = Report.commentOf(request, comment);
         reportRepository.save(report);
     }
 }

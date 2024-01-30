@@ -76,7 +76,7 @@ public class QuestionPostController {
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class)
                             ))})
-    @PostMapping("/{postId}/report")
+    @PostMapping("/report/{postId}")
     public SuccessResponse<Long> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
         questionPostService.report(postId, request);
