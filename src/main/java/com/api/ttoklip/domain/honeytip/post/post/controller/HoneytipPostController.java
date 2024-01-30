@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.honeytip.post.post.controller;
 
-import com.api.ttoklip.domain.honeytip.main.constant.HoneytipResponseConstant;
+import com.api.ttoklip.domain.honeytip.post.post.constant.HoneytipResponseConstant;
 import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
-import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipEditReq;
 import com.api.ttoklip.domain.honeytip.post.post.dto.response.HoneytipWithCommentRes;
 import com.api.ttoklip.domain.honeytip.post.post.service.HoneytipPostService;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,21 +31,21 @@ public class HoneytipPostController {
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "꿀팁 게시글 생성 성공",
 				content = @Content(
-						mediaType = MediaType.APPLICATION_JSON_VALUE,
+						mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
 								value = HoneytipResponseConstant.createAndDeleteHoneytip,
 								description = "질문이 생성되었습니다."
 	)))})
-	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping
 	public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
 		return new SuccessResponse<>(honeytipPostService.register(request));
 	}
 
 
 	/* READ */
-	@Operation(summary = "꿀팁 게시글 조회", description = "꿀팁 공유해요 개별 게시글을 조회합니다.")
+	@Operation(summary = "꿀팁 게시글 상세 조회", description = "꿀팁 공유해요 개별 게시글을 조회합니다.")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "개별 꿀팁 게시글 조회 성공",
 					content = @Content(
@@ -76,7 +75,7 @@ public class HoneytipPostController {
 								description = "꿀팁이 수정되었습니다."
 						)))})
 	@PatchMapping("/{postId}")
-	public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody HoneytipEditReq request) {
+	public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody HoneytipCreateReq request) {
 		return new SuccessResponse<>(honeytipPostService.edit(postId, request));
 	}
 
@@ -94,7 +93,7 @@ public class HoneytipPostController {
 								description = "꿀팁이 삭제되었습니다."
 	)))})
 	@DeleteMapping("/{postId}")
-	public SuccessResponse<Long> delete(final @PathVariable Long postId) {
+	public SuccessResponse<Message> delete(final @PathVariable Long postId) {
 		return new SuccessResponse<>(honeytipPostService.delete(postId));
 	}
 

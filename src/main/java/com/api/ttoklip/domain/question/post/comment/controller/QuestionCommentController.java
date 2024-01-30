@@ -33,7 +33,7 @@ public class QuestionCommentController {
     @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "질문 생성 성공",
         content = @Content(
-            mediaType = MediaType.APPLICATION_JSON_VALUE,
+            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
             schema = @Schema(implementation = SuccessResponse.class),
             examples = @ExampleObject(
                     name = "SuccessResponse",

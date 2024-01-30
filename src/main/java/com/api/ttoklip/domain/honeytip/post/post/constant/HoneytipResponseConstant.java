@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.honeytip.main.constant;
+package com.api.ttoklip.domain.honeytip.post.post.constant;
 
 public class HoneytipResponseConstant {
     public static final String honeytipValue = """
