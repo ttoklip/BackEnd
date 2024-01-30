@@ -7,9 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface NewsletterRepository extends JpaRepository<Newsletter, Long> {
-    List<Newsletter> findLatestNewslettersByCategory(Category category, int i);
+public interface NewsletterRepository extends JpaRepository<Newsletter, Long>, NewsletterQueryDslRepository {
 
-    List<Newsletter> findRandomNewslettersByCategory(Category category, int i);
 }
