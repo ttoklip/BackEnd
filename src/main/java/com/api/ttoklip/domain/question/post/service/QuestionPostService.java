@@ -24,6 +24,15 @@ public class QuestionPostService {
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
 
+    /* -------------------------------------------- COMMON -------------------------------------------- */
+    public Question findQuestionById(final Long postId) {
+        return questionRepository.findById(postId)
+                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUNT));
+    }
+
+    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
+
+
     /* -------------------------------------------- CREATE -------------------------------------------- */
     public Long register(final QuestionCreateRequest request) {
 
@@ -34,7 +43,6 @@ public class QuestionPostService {
         if (uploadImages != null && !uploadImages.isEmpty()) {
             registerImages(question, uploadImages);
         }
-
         return question.getId();
     }
 
@@ -56,10 +64,10 @@ public class QuestionPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     public void report(final Long postId, final ReportCreateRequest request) {
-        Question question = questionRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUNT));
+        Question question = findQuestionById(postId);
         reportService.reportQuestion(request, question);
     }
+
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
