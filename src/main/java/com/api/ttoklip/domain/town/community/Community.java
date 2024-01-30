@@ -24,4 +24,15 @@ public class Community {
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+
+    @Builder
+    public Community(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void updateCommunityPost(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

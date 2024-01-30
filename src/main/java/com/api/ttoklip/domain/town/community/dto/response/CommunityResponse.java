@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.town.community.dto.response;
 
+import com.api.ttoklip.domain.town.community.Community;
 import com.api.ttoklip.domain.town.community.comment.dto.response.CommunityCommentResponse;
 import com.api.ttoklip.domain.town.community.image.ImageResponse;
 import lombok.AllArgsConstructor;
@@ -10,15 +11,13 @@ import java.util.List;
 
 @Getter
 @Builder
-@AllArgsConstructor
 public class CommunityResponse {
 
-    private Long id;
     private String title;
     private String content;
-    private String createdBy;
 
-    private List<ImageResponse> imageResponses;
-
-    private List<CommunityCommentResponse> commCommentResponses;
+    public CommunityResponse(Community community) {
+        this.title = community.getTitle();
+        this.content = community.getContent();
+    }
 }
