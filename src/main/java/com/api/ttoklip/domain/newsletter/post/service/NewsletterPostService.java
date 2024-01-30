@@ -44,8 +44,8 @@ public class NewsletterPostService {
                 .title(request.getTitle())
                 .content(request.getContent())
                 .category(request.getCategory())
-                .honeytipImageList(newsletterImages)
-                .honeytipUrlList(newsletterUrls)
+                .newsletterImageList(newsletterImages)
+                .newsletterUrlList(newsletterUrls)
                 .build();
 
         newsletterImages.forEach(image -> image.updateNewsletter(newsletter));

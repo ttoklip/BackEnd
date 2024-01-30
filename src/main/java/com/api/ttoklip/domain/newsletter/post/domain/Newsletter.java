@@ -33,20 +33,18 @@ public class Newsletter extends BaseEntity {
     private Category category;
 
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
-    private List<NewsletterImage> honeytipImageList = new ArrayList<>();
+    private List<NewsletterImage> newsletterImageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL)
-    private List<NewsletterUrl> honeytipUrlList = new ArrayList<>();
+    private List<NewsletterUrl> newsletterUrlList = new ArrayList<>();
 
 
     @Builder
-    public Newsletter(String title, String content, Category category, List<NewsletterImage> honeytipImageList, List<NewsletterUrl> honeytipUrlList) {
+    public Newsletter(String title, String content, Category category, List<NewsletterImage> newsletterImageList, List<NewsletterUrl> newsletterUrlList) {
         this.title = title;
         this.content = content;
         this.category = category;
-        this.honeytipImageList = honeytipImageList;
-        this.honeytipUrlList = honeytipUrlList;
+        this.newsletterImageList = newsletterImageList;
+        this.newsletterUrlList = newsletterUrlList;
     }
-
-
 }
