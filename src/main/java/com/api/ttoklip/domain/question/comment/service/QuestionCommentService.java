@@ -10,15 +10,18 @@ import com.api.ttoklip.domain.question.post.service.QuestionPostService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuestionCommentService {
 
     private final QuestionPostService questionPostService;
     private final CommentService commentService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
+    @Transactional
     public Long register(final Long postId, final CommentCreateRequest request) {
         Question findQuestion = questionPostService.findQuestionById(postId);
 
@@ -56,6 +59,7 @@ public class QuestionCommentService {
     public void edit(final Long commentId, final CommentEditRequest commentEditRequest) {
     }
 
+    @Transactional
     public void delete(final Long commentId) {
         // ToDo 본인이 썼는지 검증 과정 필요
         commentService.deleteById(commentId);

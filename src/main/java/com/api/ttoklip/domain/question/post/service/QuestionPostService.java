@@ -13,10 +13,12 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuestionPostService {
 
     private final QuestionRepository questionRepository;
@@ -34,6 +36,8 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
+
+    @Transactional
     public Long register(final QuestionCreateRequest request) {
 
         Question question = Question.of(request);
@@ -63,6 +67,7 @@ public class QuestionPostService {
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
+    @Transactional
     public void report(final Long postId, final ReportCreateRequest request) {
         Question question = findQuestionById(postId);
         reportService.reportQuestion(request, question);
