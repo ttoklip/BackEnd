@@ -5,7 +5,7 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.image.service.ImageService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
-import com.api.ttoklip.domain.question.post.dto.response.QuestionWithCommentResponse;
+import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -61,10 +61,11 @@ public class QuestionPostService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
-    public QuestionWithCommentResponse getSinglePost(final Long postId) {
+    public QuestionSingleResponse getSinglePost(final Long postId) {
 
-
-        return null;
+        Question questionWithImgAndComment = questionRepository.findByIdFetchJoin(postId);
+        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.from(questionWithImgAndComment);
+        return questionSingleResponse;
     }
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
@@ -78,16 +79,4 @@ public class QuestionPostService {
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
-
-    /* -------------------------------------------- Soft Delete -------------------------------------------- */
-//    public void delete(final Long postId) {
-//        Question question = findQuestion(postId);
-//        question.deactivate(); // 비활성화
-//    }
-//
-//    private Question findQuestion(final Long postId) {
-//        return questionRepository.findByIdUndeleted(postId);
-//    }
-
-    /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
 }

@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.question.post.controller;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
-import com.api.ttoklip.domain.question.post.dto.response.QuestionWithCommentResponse;
+import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.post.service.QuestionPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,8 +62,8 @@ public class QuestionPostController {
                                     description = "질문이 조회되었습니다."
                             )))})
     @GetMapping("/{postId}")
-    public SuccessResponse<QuestionWithCommentResponse> getSinglePost(final @PathVariable Long postId) {
-        QuestionWithCommentResponse response = questionPostService.getSinglePost(postId);
+    public SuccessResponse<QuestionSingleResponse> getSinglePost(final @PathVariable Long postId) {
+        QuestionSingleResponse response = questionPostService.getSinglePost(postId);
         return new SuccessResponse<>(response);
     }
 

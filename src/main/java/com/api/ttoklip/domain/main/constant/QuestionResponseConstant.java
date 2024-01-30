@@ -128,11 +128,9 @@ public class QuestionResponseConstant {
                 "category": "COOKING",
                 "imageUrls": [
                   {
-                    "imageId": 101,
                     "postImaUrl": "http://example.com/image1.jpg"
                   },
                   {
-                    "imageId": 102,
                     "postImaUrl": "http://example.com/image2.jpg"
                   }
                 ],
