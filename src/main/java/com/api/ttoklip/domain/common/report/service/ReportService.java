@@ -1,10 +1,9 @@
 package com.api.ttoklip.domain.common.report.service;
 
 import com.api.ttoklip.domain.common.report.domain.Report;
-import com.api.ttoklip.domain.common.report.domain.ReportType;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.repository.ReportRepository;
-import com.api.ttoklip.domain.question.post.post.domain.Question;
+import com.api.ttoklip.domain.question.post.domain.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

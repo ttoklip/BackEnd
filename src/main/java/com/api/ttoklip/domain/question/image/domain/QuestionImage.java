@@ -1,11 +1,8 @@
-package com.api.ttoklip.domain.common.report.domain;
+package com.api.ttoklip.domain.question.image.domain;
 
-import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.question.post.domain.Question;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,32 +16,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @Entity
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Report {
+public class QuestionImage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 300)
-    private String content;
-
-    @Enumerated(EnumType.STRING)
-    private ReportType reportType;
+    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
-    public static Report questionOf(final ReportCreateRequest request, final Question question) {
-        return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
+    public static QuestionImage of(final Question question, final String url) {
+        return QuestionImage.builder()
+                .url(url)
                 .question(question)
                 .build();
     }
-
 }
