@@ -1,6 +1,8 @@
 package com.api.ttoklip.domain.common.base;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -9,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity extends BaseTimeEntity{
+public class BaseEntity extends BaseTimeEntity {
     @CreatedBy
     @Column(updatable = false)
     private String createdBy;
@@ -17,13 +19,15 @@ public class BaseEntity extends BaseTimeEntity{
     @LastModifiedBy
     private String lastModifiedBy;
 
-    //    private boolean status;
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "status")
-    private Status status = Status.ACTIVE;
+    private boolean deleted;
 
-    public void updateStatus(Status status) {
-        this.status = status;
+    // 재활성화 - soft delete
+    public void activate() {
+        this.deleted = false;
     }
 
+    // 비활성화 - soft delete
+    public void deactivate() {
+        this.deleted = true;
+    }
 }

@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "Honeytip")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Where(clause = "status = 'ACTIVE'")
 public class Honeytip extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
