@@ -14,16 +14,14 @@ public enum ErrorType {
 
     /**
      * Error Message Convention
-     *
+     * <p>
      * name : _(head) + Error Name status : HttpStatus
-     *
-     * errorCode : 400번 오류인 상황이 여러개 올텐데, 4001, 4002, 4003.. 이런식으로 설정 (해당 오류들은 MEMBER 와 관련된 400 오류들)
-     * ex) Member Error, Http Status Code: 400 -> MEMBER_4000
-     *
-     * message : 사람이 알아볼 수 있도록 작성
-     * ex) "인증이 필요합니다."
+     * <p>
+     * errorCode : 400번 오류인 상황이 여러개 올텐데, 4001, 4002, 4003.. 이런식으로 설정 (해당 오류들은 MEMBER 와 관련된 400 오류들) ex) Member Error,
+     * Http Status Code: 400 -> MEMBER_4000
+     * <p>
+     * message : 사람이 알아볼 수 있도록 작성 ex) "인증이 필요합니다."
      */
-
 
     // ------------------------------------------ S3 ------------------------------------------
     EXCEEDING_FILE_COUNT(BAD_REQUEST, "S4001", "사진 개수가 너무 많습니다."),
@@ -35,8 +33,19 @@ public enum ErrorType {
 
     // ------------------------------------------ Category ------------------------------------------
 
-    CATEGORY_NOT_FOUNT(NOT_FOUND, "C404", "카테고리를 찾을 수 없습니다.")
-    ;
+    CATEGORY_NOT_FOUND(NOT_FOUND, "Category_4040", "카테고리를 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Report ------------------------------------------
+    REPORT_NOT_FOUND(NOT_FOUND, "Report_4040", "신고 타입을 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Question ------------------------------------------
+    QUESTION_NOT_FOUND(NOT_FOUND, "Question_4040", "질문해요를 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Comment ------------------------------------------
+    COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String errorCode;
