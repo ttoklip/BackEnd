@@ -33,19 +33,19 @@ public enum ErrorType {
 
     // ------------------------------------------ Category ------------------------------------------
 
-    CATEGORY_NOT_FOUNT(NOT_FOUND, "Category_4040", "카테고리를 찾을 수 없습니다."),
+    CATEGORY_NOT_FOUND(NOT_FOUND, "Category_4040", "카테고리를 찾을 수 없습니다."),
 
 
     // ------------------------------------------ Report ------------------------------------------
-    REPORT_NOT_FOUNT(NOT_FOUND, "Report_4040", "신고 타입을 찾을 수 없습니다."),
+    REPORT_NOT_FOUND(NOT_FOUND, "Report_4040", "신고 타입을 찾을 수 없습니다."),
 
 
     // ------------------------------------------ Question ------------------------------------------
-    QUESTION_NOT_FOUNT(NOT_FOUND, "Question_4040", "질문해요를 찾을 수 없습니다."),
+    QUESTION_NOT_FOUND(NOT_FOUND, "Question_4040", "질문해요를 찾을 수 없습니다."),
 
 
     // ------------------------------------------ Comment ------------------------------------------
-    COMMENT_NOT_FOUNT(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다.");
+    COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String errorCode;

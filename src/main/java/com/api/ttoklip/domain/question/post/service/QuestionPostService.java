@@ -30,7 +30,7 @@ public class QuestionPostService {
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Question findQuestionById(final Long postId) {
         return questionRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUNT));
+                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
     }
 
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */

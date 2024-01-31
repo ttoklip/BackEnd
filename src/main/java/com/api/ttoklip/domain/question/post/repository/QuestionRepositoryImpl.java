@@ -4,9 +4,6 @@ import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.qu
 import static com.api.ttoklip.domain.question.image.domain.QQuestionImage.questionImage;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.common.comment.QComment;
-import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.exception.ApiException;
@@ -32,7 +29,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .fetchOne();
 
         return Optional.ofNullable(findQuestion)
-                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUNT));
+                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
     }
 
     @Override

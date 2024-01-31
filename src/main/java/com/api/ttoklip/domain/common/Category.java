@@ -21,7 +21,7 @@ public enum Category {
         try {
             return Category.valueOf(value.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new ApiException(ErrorType.CATEGORY_NOT_FOUNT);
+            throw new ApiException(ErrorType.CATEGORY_NOT_FOUND);
         }
     }
 
@@ -31,7 +31,7 @@ public enum Category {
                 return category;
             }
         }
-        throw new ApiException(ErrorType.CATEGORY_NOT_FOUNT);
+        throw new ApiException(ErrorType.CATEGORY_NOT_FOUND);
     }
 
     public static Category findCategoryByCode(final int code) {
@@ -40,6 +40,6 @@ public enum Category {
                 return category;
             }
         }
-        throw new ApiException(ErrorType.CATEGORY_NOT_FOUNT);
+        throw new ApiException(ErrorType.CATEGORY_NOT_FOUND);
     }
 }

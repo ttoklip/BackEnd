@@ -23,7 +23,7 @@ public enum ReportType {
         try {
             return ReportType.valueOf(value.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new ApiException(ErrorType.REPORT_NOT_FOUNT);
+            throw new ApiException(ErrorType.REPORT_NOT_FOUND);
         }
     }
 

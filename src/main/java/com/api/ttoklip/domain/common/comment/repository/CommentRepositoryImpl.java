@@ -24,7 +24,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 )
                 .fetchOne();
         return Optional.ofNullable(findComment)
-                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUNT));
+                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
     }
 
     private BooleanExpression matchId(final Long commentId) {
