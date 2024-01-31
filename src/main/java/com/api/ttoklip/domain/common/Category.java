@@ -17,6 +17,14 @@ public enum Category {
     private final String name;
     private final int code;
 
+    public static Category findCategoryByValue(final String value) {
+        try {
+            return Category.valueOf(value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ApiException(ErrorType.CATEGORY_NOT_FOUNT);
+        }
+    }
+
     public static Category findCategoryByName(final String name) {
         for (Category category : Category.values()) {
             if (category.getName().equals(name)) {

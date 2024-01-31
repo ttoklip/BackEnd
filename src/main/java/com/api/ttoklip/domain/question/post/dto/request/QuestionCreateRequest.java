@@ -5,10 +5,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
+@AllArgsConstructor
 public class QuestionCreateRequest {
 
     @Schema(description = "게시글 제목", example = "게시글 제목 예시")
@@ -32,7 +34,7 @@ public class QuestionCreateRequest {
 
     public Category getCategory() {
         // 문자열을 enum으로 변환
-        return Category.findCategoryByName(category);
+        return Category.findCategoryByValue(category);
     }
 
 }

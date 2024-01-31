@@ -88,7 +88,7 @@ public class S3FileUploader {
     }
 
     private String validFileName(final String originalFilename) {
-        if (!StringUtils.hasText(originalFilename)) {
+        if (!StringUtils.hasText(originalFilename) || originalFilename.startsWith(".")) {
             return UUID.randomUUID() + getFileExtension(originalFilename);
         }
         return originalFilename;
