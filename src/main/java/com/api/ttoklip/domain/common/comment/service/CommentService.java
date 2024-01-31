@@ -48,8 +48,7 @@ public class CommentService {
     }
 
     public Comment findComment(final Long commentId) {
-        return commentRepository.findById(commentId)
-                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUNT));
+        return commentRepository.findByIdActivated(commentId);
     }
 
     private CommentEditor getCommentEditor(final CommentEditRequest request, final Comment comment) {
@@ -66,7 +65,8 @@ public class CommentService {
     @Transactional
     public void deleteById(final Long commentId) {
         // ToDo 본인이 썼는지 검증 과정 필요
-        commentRepository.deleteById(commentId);
+        Comment comment = findComment(commentId);
+        comment.deactivate();
     }
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
 }

@@ -4,10 +4,16 @@ import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.qu
 import static com.api.ttoklip.domain.question.image.domain.QQuestionImage.questionImage;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
+import com.api.ttoklip.domain.common.comment.Comment;
+import com.api.ttoklip.domain.common.comment.QComment;
+import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,17 +27,35 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         Question findQuestion = jpaQueryFactory
                 .selectFrom(question)
                 .leftJoin(question.questionImages, questionImage)
-                .leftJoin(question.questionComments, questionComment)
                 .fetchJoin()
                 .where(question.id.eq(questionPostId))
-                .orderBy(
-                        questionComment.question.id.asc().nullsFirst(),
-                        questionComment.createdDate.asc()
-                )
                 .fetchOne();
 
         return Optional.ofNullable(findQuestion)
                 .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUNT));
+    }
+
+    @Override
+    public List<QuestionComment> findActiveCommentsByQuestionId(final Long questionId) {
+        return jpaQueryFactory
+                .selectFrom(questionComment)
+                .where(
+                        matchQuestionId(questionId),
+                        getCommentActivate()
+                )
+                .orderBy(
+                        questionComment.createdDate.asc(),
+                        questionComment.parent.id.asc().nullsFirst()
+                )
+                .fetch();
+    }
+
+    private BooleanExpression matchQuestionId(final Long questionId) {
+        return questionComment.question.id.eq(questionId);
+    }
+
+    private BooleanExpression getCommentActivate() {
+        return questionComment.deleted.isFalse();
     }
 
 }

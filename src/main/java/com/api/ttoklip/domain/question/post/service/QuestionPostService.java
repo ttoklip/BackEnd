@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.question.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.service.ImageService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
@@ -62,9 +63,9 @@ public class QuestionPostService {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
     public QuestionSingleResponse getSinglePost(final Long postId) {
-
-        Question questionWithImgAndComment = questionRepository.findByIdFetchJoin(postId);
-        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.from(questionWithImgAndComment);
+        Question questionWithImg = questionRepository.findByIdFetchJoin(postId);
+        List<QuestionComment> activeComments = questionRepository.findActiveCommentsByQuestionId(postId);
+        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg, activeComments);
         return questionSingleResponse;
     }
 

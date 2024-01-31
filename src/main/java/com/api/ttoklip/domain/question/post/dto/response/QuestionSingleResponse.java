@@ -13,7 +13,9 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class QuestionSingleResponse {
@@ -42,7 +44,7 @@ public class QuestionSingleResponse {
     @Schema(description = "질문에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
-    public static QuestionSingleResponse from(final Question question) {
+    public static QuestionSingleResponse of(final Question question, final List<QuestionComment> activeComments) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(question);
@@ -51,7 +53,7 @@ public class QuestionSingleResponse {
         List<ImageResponse> imageResponses = getImageResponses(question);
 
         // Comment entity to Response
-        List<CommentResponse> commentResponses = getCommentResponses(question);
+        List<CommentResponse> commentResponses = getCommentResponses(activeComments);
 
         return QuestionSingleResponse.builder()
                 .questionId(question.getId())
@@ -78,8 +80,7 @@ public class QuestionSingleResponse {
                 .toList();
     }
 
-    private static List<CommentResponse> getCommentResponses(final Question question) {
-        List<QuestionComment> questionComments = question.getQuestionComments();
+    private static List<CommentResponse> getCommentResponses(final List<QuestionComment> questionComments) {
         return questionComments
                 .stream()
                 .map(CommentResponse::from)
