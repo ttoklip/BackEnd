@@ -30,10 +30,6 @@ public class Comment extends BaseEntity {
 
     private String content; // 댓글 내용
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private Question question;
-
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id")
 //    private Member member;
@@ -42,9 +38,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
-    protected Comment(final String content, final Question question, final Comment parent) {
+    protected Comment(final String content, final Comment parent) {
         this.content = content;
-        this.question = question;
         this.parent = parent;
     }
 

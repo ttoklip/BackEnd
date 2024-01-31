@@ -5,6 +5,9 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,9 +19,14 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue(value = "Question")
 public class QuestionComment extends Comment {
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private Question question;
+
     @Builder
     private QuestionComment(String content, Comment parent, Question question) {
-        super(content, question, parent); // Comment 클래스의 생성자 호출
+        super(content, parent); // Comment 클래스의 생성자 호출
+        this.question = question;
     }
 
     public static QuestionComment withParentOf(final CommentCreateRequest request, final Comment parent,
