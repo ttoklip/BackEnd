@@ -18,5 +18,9 @@ public class ReportCreateRequest {
                     "INAPPROPRIATE_CONTENT", "ABUSE", "RELIGIOUS_PROSELYTIZING",
                     "INAPPROPRIATE_FOR_FORUM", "LEAK_IMPERSONATION_FRAUD"
             })
-    private ReportType reportType;
+    private String reportType;
+
+    public ReportType getReportType() {
+        return ReportType.findReportTypeByValue(reportType);
+    }
 }

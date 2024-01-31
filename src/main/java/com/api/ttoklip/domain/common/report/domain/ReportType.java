@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.common.report.domain;
 
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -16,5 +18,13 @@ public enum ReportType {
     LEAK_IMPERSONATION_FRAUD("유출 / 사칭 / 사기");
 
     private final String description;
+
+    public static ReportType findReportTypeByValue(final String value) {
+        try {
+            return ReportType.valueOf(value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ApiException(ErrorType.REPORT_NOT_FOUNT);
+        }
+    }
 
 }
