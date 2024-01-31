@@ -5,7 +5,6 @@ import com.api.ttoklip.domain.honeytip.post.post.domain.HoneytipImage;
 import com.api.ttoklip.domain.honeytip.post.post.domain.HoneytipUrl;
 import com.api.ttoklip.domain.honeytip.post.post.domain.repository.HoneytipRepository;
 import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
-import com.api.ttoklip.domain.honeytip.post.post.dto.response.HoneytipWithCommentRes;
 import com.api.ttoklip.domain.honeytip.post.post.editor.HoneytipPostEditor;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,10 +61,6 @@ public class HoneytipPostService {
 
         // 작성된 꿀팁의 id 값 리턴
         return honeytip.getId();
-    }
-
-    public HoneytipWithCommentRes getSinglePost(final Long postId) {
-        return null;
     }
 
     public Long edit(final Long postId, final HoneytipCreateReq request) {

@@ -2,7 +2,6 @@ package com.api.ttoklip.domain.honeytip.post.post.controller;
 
 import com.api.ttoklip.domain.honeytip.post.post.constant.HoneytipResponseConstant;
 import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
-import com.api.ttoklip.domain.honeytip.post.post.dto.response.HoneytipWithCommentRes;
 import com.api.ttoklip.domain.honeytip.post.post.service.HoneytipPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -41,24 +40,6 @@ public class HoneytipPostController {
 	@PostMapping
 	public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
 		return new SuccessResponse<>(honeytipPostService.register(request));
-	}
-
-
-	/* READ */
-	@Operation(summary = "꿀팁 게시글 상세 조회", description = "꿀팁 공유해요 개별 게시글을 조회합니다.")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "개별 꿀팁 게시글 조회 성공",
-					content = @Content(
-							mediaType = MediaType.APPLICATION_JSON_VALUE,
-							schema = @Schema(implementation = SuccessResponse.class),
-							examples = @ExampleObject(
-									name = "SuccessResponse",
-									value = HoneytipResponseConstant.readSingleHoneytip,
-									description = "꿀팁이 조회되었습니다."
-	)))})
-	@GetMapping("/{postId}")
-	public SuccessResponse<HoneytipWithCommentRes> getSinglePost(final @PathVariable Long postId) {
-		return new SuccessResponse<>(honeytipPostService.getSinglePost(postId));
 	}
 
 
