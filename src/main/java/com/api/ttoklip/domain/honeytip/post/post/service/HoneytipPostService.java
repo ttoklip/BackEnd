@@ -66,8 +66,7 @@ public class HoneytipPostService {
     public Long edit(final Long postId, final HoneytipCreateReq request) {
 
         // 기존 게시글 찾기
-        Honeytip existingHoneytip = honeytipRepository.findById(postId)
-                .orElseThrow(RuntimeException::new);
+        Honeytip existingHoneytip = getHoneytip(postId);
 
         // S3에 이미지 업로드 후 URL 목록을 가져온다.
         List<String> imageUrls = s3FileUploader.uploadMultipartFiles(request.getImages());
@@ -105,14 +104,17 @@ public class HoneytipPostService {
         return existingHoneytip.getId();
     }
 
+    private Honeytip getHoneytip(final Long postId) {
+        return honeytipRepository.findByIdActivated(postId);
+    }
+
     public Message delete(final Long postId) {
 
         // 유저 정보 찾기
 
 
         // 저장된 게시글 찾기
-        Honeytip honeytip = honeytipRepository.findById(postId)
-                .orElseThrow(RuntimeException::new);
+        Honeytip honeytip = getHoneytip(postId);
 
         honeytipRepository.delete(honeytip);
 
