@@ -50,7 +50,7 @@ public class CommunityPostService {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
 
-    // todo
+    
     public CommunityWithCommentResponse getSinglePost(final Long postId) {
         return null;
     }
