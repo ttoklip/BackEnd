@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.newsletter.post.service;
 
 import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
+import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.NewsletterImage;
 import com.api.ttoklip.domain.newsletter.post.domain.NewsletterUrl;
@@ -24,7 +25,8 @@ public class NewsletterPostService {
     private final S3FileUploader s3FileUploader;
 
 
-    public Long register(NewsletterCreateReq request) {
+    @Transactional
+    public Long register(final NewsletterCreateReq request) {
 
         // S3에 이미지 업로드 후 URL 목록을 가져온다.
         List<String> imageUrls = s3FileUploader.uploadMultipartFiles(request.getImages());
@@ -34,10 +36,12 @@ public class NewsletterPostService {
                 .map(url -> new NewsletterImage(url, null))
                 .collect(Collectors.toList());
 
+
         // NewsletterUrl 객체 생성
         List<NewsletterUrl> newsletterUrls = request.getUrl().stream()
                 .map(url -> new NewsletterUrl(url, null))
                 .collect(Collectors.toList());
+
 
         // Newsletter 객체 생성 및 연관 관계 설정
         Newsletter newsletter = Newsletter.builder()
@@ -48,19 +52,25 @@ public class NewsletterPostService {
                 .newsletterUrlList(newsletterUrls)
                 .build();
 
+
         newsletterImages.forEach(image -> image.updateNewsletter(newsletter));
         newsletterUrls.forEach(url -> url.updateNewsletter(newsletter));
 
         // 엔티티에 저장
         newsletterRepository.save(newsletter);
 
+
         // 작성한 뉴스레터의 id 값 리턴
         return newsletter.getId();
     }
 
-    // 뉴스레터 - 글 확인
-    public NewsletterWithCommentRes getSinglePost(Long postId) {
-        return null;
+    // 뉴스레터 - 글 개별 상세 조회(READ)
+    @Transactional
+    public NewsletterWithCommentRes getSinglePost(final Long postId) {
+        Newsletter newsletter = newsletterRepository.findByIdFetchJoin(postId);
+        List<NewsletterComment> activeComments = newsletterRepository.findActiveCommentsByNewsletterId(postId);
+        NewsletterWithCommentRes newsletterWithCommentRes = NewsletterWithCommentRes.toDto(newsletter, activeComments);
+        return newsletterWithCommentRes;
     }
 
 }

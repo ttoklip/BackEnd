@@ -1,18 +1,24 @@
 package com.api.ttoklip.domain.newsletter.post.domain.repository;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
+import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
+import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletterImage.newsletterImage;
 
 @RequiredArgsConstructor
 @Repository
-public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository{
+public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -26,6 +32,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .fetch();
     }
 
+    // To do. 하루 한번만 랜덤으로 뽑히도록 리팩토링
     @Override
     public List<Newsletter> findRandomNewslettersByCategory(Category category, int limit) {
         QNewsletter qNewsletter = QNewsletter.newsletter;
@@ -34,4 +41,42 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .limit(limit)
                 .fetch();
     }
+
+    @Override
+    public Newsletter findByIdFetchJoin(Long postId) {
+        QNewsletter qNewsletter = QNewsletter.newsletter;
+        Newsletter findNewsletter = queryFactory
+                .selectFrom(qNewsletter)
+                .leftJoin(qNewsletter.newsletterImageList, newsletterImage)
+                .fetchJoin()
+                .where(qNewsletter.id.eq(postId))
+                .fetchOne();
+
+        return Optional.ofNullable(findNewsletter)
+                .orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public List<NewsletterComment> findActiveCommentsByNewsletterId(Long postId) {
+        return queryFactory
+                .selectFrom(newsletterComment)
+                .where(
+                        matchNewsletterId(postId),
+                        getCommentActivate()
+                )
+                .orderBy(
+                        newsletterComment.createdDate.asc(),
+                        newsletterComment.parent.id.asc().nullsFirst()
+                )
+                .fetch();
+    }
+
+    private BooleanExpression matchNewsletterId(final Long newsletterId) {
+        return newsletterComment.newsletter.id.eq(newsletterId);
+    }
+
+    private BooleanExpression getCommentActivate() {
+        return newsletterComment.deleted.isFalse();
+    }
+
 }
