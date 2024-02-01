@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.community;
+package com.api.ttoklip.domain.town.community.post.entity;
 
 import com.api.ttoklip.domain.town.cart.image.Image;
 import jakarta.persistence.*;

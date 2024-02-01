@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.community.dto.request;
+package com.api.ttoklip.domain.town.community.post.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

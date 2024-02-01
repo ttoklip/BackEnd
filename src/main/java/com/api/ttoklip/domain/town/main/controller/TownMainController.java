@@ -5,11 +5,11 @@ import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
 import com.api.ttoklip.domain.town.cart.service.CartService;
-import com.api.ttoklip.domain.town.community.dto.request.CommunityCreateRequest;
-import com.api.ttoklip.domain.town.community.dto.request.CommunitySearchCondition;
-import com.api.ttoklip.domain.town.community.dto.response.CommunityListResponse;
-import com.api.ttoklip.domain.town.community.dto.response.CommunityResponse;
-import com.api.ttoklip.domain.town.community.service.CommunityService;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunitySearchCondition;
+import com.api.ttoklip.domain.town.community.post.dto.response.CommunityListResponse;
+import com.api.ttoklip.domain.town.community.post.dto.response.CommunityResponse;
+import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ import java.util.List;
 public class TownMainController {
 
     private final CartService cartService;
-    private final CommunityService commService;
+    private final CommunityPostService commService;
 
     @Operation(summary = "함께해요 더보기 페이지 조회",
             description = "함께해요 더보기 페이지를 조회합니다.")

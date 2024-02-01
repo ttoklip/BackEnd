@@ -1,8 +1,7 @@
 package com.api.ttoklip.domain.town.community.image;
 
-import com.api.ttoklip.domain.town.community.Community;
+import com.api.ttoklip.domain.town.community.image.entity.Image;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 

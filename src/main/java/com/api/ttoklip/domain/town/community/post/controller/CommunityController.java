@@ -1,12 +1,10 @@
-package com.api.ttoklip.domain.town.community.controller;
+package com.api.ttoklip.domain.town.community.post.controller;
 
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
-import com.api.ttoklip.domain.town.community.dto.request.CommunityCreateRequest;
-import com.api.ttoklip.domain.town.community.dto.request.CommunitySearchCondition;
-import com.api.ttoklip.domain.town.community.dto.request.CommunityUpdateRequest;
-import com.api.ttoklip.domain.town.community.dto.response.CommunityListResponse;
-import com.api.ttoklip.domain.town.community.dto.response.CommunityResponse;
-import com.api.ttoklip.domain.town.community.service.CommunityService;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityUpdateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.response.CommunityResponse;
+import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,15 +18,13 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
-
 @Tag(name = "Town", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/town/comms")
 public class CommunityController {
 
-    private final CommunityService communityService;
+    private final CommunityPostService communityPostService;
 
     // 소통해요 - comm
     @Operation(summary = "소통해요 게시글 조회",
@@ -44,7 +40,7 @@ public class CommunityController {
                             )))})
     @GetMapping("/{commId}")
     public SuccessResponse<CommunityResponse> getComm(final @PathVariable Long commId) {
-        CommunityResponse commResponse = communityService.getCommunity(commId);
+        CommunityResponse commResponse = communityPostService.getCommunity(commId);
         return new SuccessResponse<>(commResponse);
     }
 
@@ -61,7 +57,7 @@ public class CommunityController {
                             )))})
     @PostMapping
     public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
-        CommunityResponse commResponse = communityService.createCommunityPost(request);
+        CommunityResponse commResponse = communityPostService.createCommunityPost(request);
         return new SuccessResponse<>(commResponse);
     }
 
@@ -79,7 +75,7 @@ public class CommunityController {
     @PatchMapping("/{commId}")
     public SuccessResponse<Long> updateCommPost(final @PathVariable Long commId,
                                                 final @ModelAttribute CommunityUpdateRequest request) {
-        communityService.updateCommunityPost(commId, request);
+        communityPostService.updateCommunityPost(commId, request);
         return new SuccessResponse<>(commId);
     }
 
@@ -96,7 +92,7 @@ public class CommunityController {
                             )))})
     @DeleteMapping("/{commId}")
     public SuccessResponse<Long> deleteCommPost(final @PathVariable Long commId) {
-        communityService.deleteCommunityPost(commId);
+        communityPostService.deleteCommunityPost(commId);
         return new SuccessResponse<>(commId);
     }
 }

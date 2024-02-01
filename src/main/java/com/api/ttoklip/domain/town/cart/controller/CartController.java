@@ -5,10 +5,7 @@ import com.api.ttoklip.domain.town.cart.dto.request.CartSearchCondition;
 import com.api.ttoklip.domain.town.cart.dto.request.CartUpdateRequest;
 import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
 import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
-import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
 import com.api.ttoklip.domain.town.cart.service.CartService;
-import com.api.ttoklip.domain.town.community.dto.request.CommunitySearchCondition;
-import com.api.ttoklip.domain.town.community.dto.response.CommunityListResponse;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
-import java.util.List;
 
 @Tag(name = "Town", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
