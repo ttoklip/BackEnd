@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.town.community.image;
 
-import com.api.ttoklip.domain.town.community.image.entity.Image;
+import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +15,8 @@ public class ImageResponse {
     @Schema(description = "포스트 이미지 url")
     private String filepath;
 
-    public ImageResponse(Image image) {
-        this.id = image.getId();
-        this.filepath = image.getFilePath();
+    public ImageResponse(CommunityImage communityImage) {
+        this.id = communityImage.getId();
+        this.filepath = communityImage.getFilePath();
     }
 }

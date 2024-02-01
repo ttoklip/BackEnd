@@ -1,6 +1,8 @@
 package com.api.ttoklip.domain.town.community.post.entity;
 
+import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.town.cart.image.Image;
+import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Community {
+public class Community extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +25,7 @@ public class Community {
     private String content;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+    private List<CommunityImage> communityImages = new ArrayList<>();
 
     @Builder
     public Community(String title, String content) {
