@@ -1,8 +1,8 @@
-package com.api.ttoklip.domain.honeytip.post.post.domain.repository;
+package com.api.ttoklip.domain.honeytip.post.post.repository;
 
 import static com.api.ttoklip.domain.honeytip.post.post.domain.QHoneytip.honeytip;
 
-import com.api.ttoklip.domain.honeytip.post.post.domain.Honeytip;
+import com.api.ttoklip.domain.honeytip.post.post.domain.HoneyTip;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -11,27 +11,27 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class HoneytipRepositoryImpl implements HoneytipRepositoryCustom {
+public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Honeytip findByIdActivated(final Long honneytipId) {
-        Honeytip findHoneytip = jpaQueryFactory
+    public HoneyTip findByIdActivated(final Long honeyTipId) {
+        HoneyTip findHoneyTip = jpaQueryFactory
                 .selectFrom(honeytip)
                 .where(
-                        matchId(honneytipId), getHoneytipActivate()
+                        matchId(honeyTipId), getHoneyTipActivate()
                 )
                 .fetchOne();
-        return Optional.ofNullable(findHoneytip)
+        return Optional.ofNullable(findHoneyTip)
                 .orElseThrow(() -> new ApiException(ErrorType.HONEY_TIP_NOT_FOUND));
     }
 
-    private BooleanExpression matchId(final Long honneytipId) {
-        return honeytip.id.eq(honneytipId);
+    private BooleanExpression matchId(final Long honeyTipId) {
+        return honeytip.id.eq(honeyTipId);
     }
 
-    private BooleanExpression getHoneytipActivate() {
+    private BooleanExpression getHoneyTipActivate() {
         return honeytip.deleted.isFalse();
     }
 }

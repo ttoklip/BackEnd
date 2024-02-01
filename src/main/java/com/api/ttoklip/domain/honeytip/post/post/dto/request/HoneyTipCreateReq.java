@@ -5,18 +5,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class HoneytipCreateReq {
+public class HoneyTipCreateReq {
 
     @Schema(type = "string", description = "게시글 제목", example = "게시글 제목 예시")
     @NotEmpty
@@ -28,7 +26,8 @@ public class HoneytipCreateReq {
     @Size(max = 500)
     public String content;
 
-    @Schema(description = "카테고리입니다. HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 이 중 하나로 요청해야합니다.", example = "HOUSEWORK", allowableValues = {"HOUSEWORK", "RECIPE", "SAFE_LIVING", "WELFARE_POLICY"})
+    @Schema(description = "카테고리입니다. HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 이 중 하나로 요청해야합니다.", example = "HOUSEWORK", allowableValues = {
+            "HOUSEWORK", "RECIPE", "SAFE_LIVING", "WELFARE_POLICY"})
     @NotNull
     public Category category;
 

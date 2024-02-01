@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.honeytip.post.post.constant;
 
-public class HoneytipResponseConstant {
+public class HoneyTipResponseConstant {
     public static final String honeytipValue = """
             {
                 "time": "2024-01-11T16:06:30.852Z",

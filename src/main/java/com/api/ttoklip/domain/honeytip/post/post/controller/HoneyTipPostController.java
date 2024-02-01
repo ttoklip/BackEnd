@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.honeytip.post.post.controller;
 
-import com.api.ttoklip.domain.honeytip.post.post.constant.HoneytipResponseConstant;
-import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
-import com.api.ttoklip.domain.honeytip.post.post.service.HoneytipPostService;
+import com.api.ttoklip.domain.honeytip.post.post.constant.HoneyTipResponseConstant;
+import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneyTipCreateReq;
+import com.api.ttoklip.domain.honeytip.post.post.service.HoneyTipPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,13 +17,13 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Honeytip Post", description = "Honeytip Post API")
+@Tag(name = "HoneyTip Post", description = "HoneyTip Post API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/honeytips/posts")
-public class HoneytipPostController {
+public class HoneyTipPostController {
 
-	private final HoneytipPostService honeytipPostService;
+	private final HoneyTipPostService honeytipPostService;
 
 	/* CREATE */
 	@Operation(summary = "새로운 꿀팁 생성", description = "form/data로 새로운 꿀팁 게시글을 생성합니다.")
@@ -34,11 +34,11 @@ public class HoneytipPostController {
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
-								value = HoneytipResponseConstant.createAndDeleteHoneytip,
+								value = HoneyTipResponseConstant.createAndDeleteHoneytip,
 								description = "질문이 생성되었습니다."
 	)))})
 	@PostMapping
-	public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
+	public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneyTipCreateReq request) {
 		return new SuccessResponse<>(honeytipPostService.register(request));
 	}
 
@@ -52,11 +52,11 @@ public class HoneytipPostController {
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
-								value = HoneytipResponseConstant.createAndDeleteHoneytip,
+								value = HoneyTipResponseConstant.createAndDeleteHoneytip,
 								description = "꿀팁이 수정되었습니다."
 						)))})
 	@PatchMapping("/{postId}")
-	public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody HoneytipCreateReq request) {
+	public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody HoneyTipCreateReq request) {
 		return new SuccessResponse<>(honeytipPostService.edit(postId, request));
 	}
 
@@ -70,7 +70,7 @@ public class HoneytipPostController {
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
-								value = HoneytipResponseConstant.createAndDeleteHoneytip,
+								value = HoneyTipResponseConstant.createAndDeleteHoneytip,
 								description = "꿀팁이 삭제되었습니다."
 	)))})
 	@DeleteMapping("/{postId}")

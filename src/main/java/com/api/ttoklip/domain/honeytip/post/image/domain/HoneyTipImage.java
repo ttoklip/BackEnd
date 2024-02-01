@@ -1,16 +1,16 @@
-package com.api.ttoklip.domain.honeytip.post.post.domain;
+package com.api.ttoklip.domain.honeytip.post.image.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.api.ttoklip.domain.honeytip.post.post.domain.HoneyTip;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "Honeytip_Url")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class HoneytipUrl extends BaseEntity {
+public class HoneyTipImage extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
@@ -20,15 +20,15 @@ public class HoneytipUrl extends BaseEntity {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "honeytip_id", nullable = false)
-    private Honeytip honeytip;
+    @JoinColumn(name = "honey_tip_id", nullable = false)
+    private HoneyTip honeyTip;
 
-    public void updateHoneytip(Honeytip honeytip) {
-        this.honeytip = honeytip;
+    public void updateHoneyTip(HoneyTip honeyTip) {
+        this.honeyTip = honeyTip;
     }
 
-    public HoneytipUrl(String url, Honeytip honeytip) {
+    public HoneyTipImage(String url, HoneyTip honeyTip) {
         this.url = url;
-        this.honeytip = honeytip;
+        this.honeyTip = honeyTip;
     }
 }
