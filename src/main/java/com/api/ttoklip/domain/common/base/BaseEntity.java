@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity extends BaseTimeEntity{
+public class BaseEntity extends BaseTimeEntity {
     @CreatedBy
     @Column(updatable = false)
     private String createdBy;
@@ -19,5 +19,15 @@ public class BaseEntity extends BaseTimeEntity{
     @LastModifiedBy
     private String lastModifiedBy;
 
-    private boolean status;
+    private boolean deleted;
+
+    // 재활성화 - soft delete
+    public void activate() {
+        this.deleted = false;
+    }
+
+    // 비활성화 - soft delete
+    public void deactivate() {
+        this.deleted = true;
+    }
 }
