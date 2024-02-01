@@ -17,13 +17,21 @@ public enum Category {
     private final String name;
     private final int code;
 
+    public static Category findCategoryByValue(final String value) {
+        try {
+            return Category.valueOf(value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ApiException(ErrorType.CATEGORY_NOT_FOUND);
+        }
+    }
+
     public static Category findCategoryByName(final String name) {
         for (Category category : Category.values()) {
             if (category.getName().equals(name)) {
                 return category;
             }
         }
-        throw new ApiException(ErrorType.CATEGORY_NOT_FOUNT);
+        throw new ApiException(ErrorType.CATEGORY_NOT_FOUND);
     }
 
     public static Category findCategoryByCode(final int code) {
@@ -32,6 +40,6 @@ public enum Category {
                 return category;
             }
         }
-        throw new ApiException(ErrorType.CATEGORY_NOT_FOUNT);
+        throw new ApiException(ErrorType.CATEGORY_NOT_FOUND);
     }
 }
