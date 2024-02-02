@@ -6,16 +6,21 @@ import com.api.ttoklip.domain.town.community.post.entity.Community;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Entity
-@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue(value = "Community")
 public class CommunityComment extends Comment {
+
+    @Builder
+    private CommunityComment(String content, Comment parent, Community community) {
+        super(content, parent, community); // Comment 클래스의 생성자 호출
+    }
 
     public static CommunityComment withParentOf(final CommentCreateRequest request, final Comment parent,
                                       final Community community) {

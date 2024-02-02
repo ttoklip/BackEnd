@@ -2,7 +2,10 @@ package com.api.ttoklip.domain.town.community.post.entity;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.image.domain.QuestionImage;
 import com.api.ttoklip.domain.town.cart.image.Image;
+import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,9 +28,6 @@ public class Community extends BaseEntity {
 
     private String content;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<CommunityImage> communityImages = new ArrayList<>();
-
     @Builder
     public Community(String title, String content) {
         this.title = title;
@@ -39,6 +39,15 @@ public class Community extends BaseEntity {
         this.content = content;
     }
 
+    @Builder.Default
+    @OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CommunityImage> communityImages = new ArrayList<>();
+
+    @Builder.Default
     @OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Report> reports = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CommunityComment> communityComments = new ArrayList<>();
 }
