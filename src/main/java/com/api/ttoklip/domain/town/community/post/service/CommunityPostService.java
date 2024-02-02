@@ -58,11 +58,15 @@ public class CommunityPostService {
         return null;
     }
 
+    /* -------------------------------------------- REPORT -------------------------------------------- */
+
     public void report(final Long postId, final ReportCreateRequest request) {
         Community community = communityRepository.findById(postId)
                 .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUNT));
         reportService.reportCommunity(request, community);
     }
+
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
 
