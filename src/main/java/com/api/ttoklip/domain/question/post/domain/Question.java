@@ -40,7 +40,7 @@ public class Question extends BaseEntity {
     private String title;
     private String content;
 
-    public static Question of(final QuestionCreateRequest request) {
+    public static Question from(final QuestionCreateRequest request) {
         return Question.builder()
                 .category(request.getCategory())
                 .content(request.getContent())

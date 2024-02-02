@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.question.post.service;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
-import com.api.ttoklip.domain.question.image.service.ImageService;
+import com.api.ttoklip.domain.question.image.service.QuestionImageService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class QuestionPostService {
 
     private final QuestionRepository questionRepository;
-    private final ImageService imageService;
+    private final QuestionImageService questionImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
 
@@ -41,7 +41,7 @@ public class QuestionPostService {
     @Transactional
     public Long register(final QuestionCreateRequest request) {
 
-        Question question = Question.of(request);
+        Question question = Question.from(request);
         questionRepository.save(question);
 
         List<MultipartFile> uploadImages = request.getImages();
@@ -53,7 +53,7 @@ public class QuestionPostService {
 
     private void registerImages(final Question question, final List<MultipartFile> multipartFiles) {
         List<String> uploadUrls = getImageUrls(multipartFiles);
-        uploadUrls.forEach(uploadUrl -> imageService.register(question, uploadUrl));
+        uploadUrls.forEach(uploadUrl -> questionImageService.register(question, uploadUrl));
     }
 
     private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {
