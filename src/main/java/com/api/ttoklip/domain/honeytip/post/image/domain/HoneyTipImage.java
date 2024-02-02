@@ -2,13 +2,14 @@ package com.api.ttoklip.domain.honeytip.post.image.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.honeytip.post.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneyTipCreateReq;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class HoneyTipImage extends BaseEntity {
     @Id
@@ -27,8 +28,10 @@ public class HoneyTipImage extends BaseEntity {
         this.honeyTip = honeyTip;
     }
 
-    public HoneyTipImage(String url, HoneyTip honeyTip) {
-        this.url = url;
-        this.honeyTip = honeyTip;
+    public static HoneyTipImage of(final HoneyTip honeyTip, final String url) {
+        return HoneyTipImage.builder()
+                .honeyTip(honeyTip)
+                .url(url)
+                .build();
     }
 }

@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.honeytip.post.post.domain;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.honeytip.post.image.domain.HoneyTipImage;
+import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneyTipCreateReq;
 import com.api.ttoklip.domain.honeytip.url.domain.HoneyTipUrl;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,13 +15,16 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
+@Builder
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HoneyTip extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,15 +46,12 @@ public class HoneyTip extends BaseEntity {
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL)
     private List<HoneyTipUrl> honeyTipUrlList = new ArrayList<>();
 
-
-    @Builder
-    public HoneyTip(String title, String content, Category category, List<HoneyTipImage> honeyTipImageList,
-                    List<HoneyTipUrl> honeyTipUrlList) {
-        this.title = title;
-        this.content = content;
-        this.category = category;
-        this.honeyTipImageList = honeyTipImageList;
-        this.honeyTipUrlList = honeyTipUrlList;
+    public static HoneyTip from(final HoneyTipCreateReq req) {
+        return HoneyTip.builder()
+                .title(req.getTitle())
+                .content(req.getContent())
+                .category(req.getCategory())
+                .build();
     }
 
     public void updateHoneyTip(String title, String content, Category category, List<HoneyTipImage> honeyTipImages,
