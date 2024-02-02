@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.town.main.controller;
 
-import com.api.ttoklip.domain.town.cart.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
-import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
-import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
-import com.api.ttoklip.domain.town.cart.service.CartService;
+import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartListResponse;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartResponse;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartSummaryResponse;
+import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunitySearchCondition;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("api/v1/town/main")
 public class TownMainController {
 
-    private final CartService cartService;
+    private final CartPostService cartPostService;
     private final CommunityPostService commService;
 
     @Operation(summary = "함께해요 더보기 페이지 조회",
@@ -46,7 +46,7 @@ public class TownMainController {
     @GetMapping("/carts")
     public SuccessResponse<List<CartSummaryResponse>> getCartPage() {
 
-        List<CartSummaryResponse> cartListResponse = cartService.getAllCartsSummary();
+        List<CartSummaryResponse> cartListResponse = cartPostService.getAllCartsSummary();
         return new SuccessResponse<>(cartListResponse);
     }
 
@@ -79,7 +79,7 @@ public class TownMainController {
                             )))})
     @PostMapping("/carts")
     public SuccessResponse<CartResponse> createCartPost(final @Validated @ModelAttribute CartCreateRequest request) {
-        CartResponse cartResponse = cartService.createCartPost(request);
+        CartResponse cartResponse = cartPostService.createCartPost(request);
         return new SuccessResponse<>(cartResponse);
     }
 

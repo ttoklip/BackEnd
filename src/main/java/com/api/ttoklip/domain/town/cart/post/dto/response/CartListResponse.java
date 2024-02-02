@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.cart.dto.response;
+package com.api.ttoklip.domain.town.cart.post.dto.response;
 
 import lombok.Builder;
 import java.util.List;

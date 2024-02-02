@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.town.community.post.service;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
+import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import com.api.ttoklip.domain.town.community.image.service.ImageService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
@@ -32,7 +33,7 @@ public class CommunityPostService {
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Community findCommunityById(final Long postId) {
         return communityRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUNT));
+                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUND));
     }
 
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
@@ -82,6 +83,12 @@ public class CommunityPostService {
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- EDIT -------------------------------------------- */
+
+
+    /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */

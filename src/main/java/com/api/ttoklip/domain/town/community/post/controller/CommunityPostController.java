@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.town.community.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipEditReq;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
@@ -78,12 +79,13 @@ public class CommunityPostController {
                                     value = CommunityResponseConstant.updateCommunity,
                                     description = "소통해요 게시글이 수정되었습니다."
                             )))})
-    @PatchMapping("/{commId}")
-    public SuccessResponse<Long> updateCommPost(final @PathVariable Long commId,
-                                                final @ModelAttribute CommunityUpdateRequest request) {
-        communityPostService.updateCommunityPost(commId, request);
-        return new SuccessResponse<>(commId);
+    @PatchMapping("/{postId}")
+    public SuccessResponse<Long> edit(final @Validated @ModelAttribute QuestionCreateRequest request) {
+        Long communityId = communityPostService.edit(request);
+        return new SuccessResponse<>(communityId);
     }
+
+    // todo 삭제 만들기
 
     /* REPORT */
     @Operation(summary = "소통해요 게시글 신고", description = "소통해요 ID에 해당하는 게시글을 신고합니다.")

@@ -1,6 +1,6 @@
-package com.api.ttoklip.domain.town.cart;
+package com.api.ttoklip.domain.town.cart.post.entity;
 
-import com.api.ttoklip.domain.town.cart.image.Image;
+import com.api.ttoklip.domain.town.cart.post.image.Image;
 import jakarta.persistence.*;
 import lombok.*;
 

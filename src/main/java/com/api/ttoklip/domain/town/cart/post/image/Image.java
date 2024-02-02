@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.cart.image;
+package com.api.ttoklip.domain.town.cart.post.image;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

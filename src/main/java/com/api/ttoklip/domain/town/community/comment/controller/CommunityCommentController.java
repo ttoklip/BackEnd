@@ -83,6 +83,7 @@ public class CommunityCommentController {
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Long> delete ( final @PathVariable Long commentId){
         communityCommentService.delete(commentId);
+
         return new SuccessResponse<>(commentId);
     }
 }

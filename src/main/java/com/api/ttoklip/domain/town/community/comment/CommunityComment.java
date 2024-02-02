@@ -2,7 +2,6 @@ package com.api.ttoklip.domain.town.community.comment;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
-import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
