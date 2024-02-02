@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.community.comment.service;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.comment.dto.request.CommunityCommentCreateRequest;
@@ -59,8 +60,13 @@ public class CommunityCommentService {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
 
-    public static void updateCommComment(final Long commentID, final CommunityCommentUpdateRequest commCommentUpdateRequest) {
+    /* -------------------------------------------- UPDATE -------------------------------------------- */
+    @Transactional
+    public void edit(final Long commentId, final CommentEditRequest request) {
+        commentService.edit(commentId, request);
     }
+
+    /* -------------------------------------------- UPDATE 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
