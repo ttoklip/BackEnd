@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.cart.post.service;
 
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartResponse;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,11 @@ public class CartPostService {
         return null;
     }
 
-    public CartResponse getCart(final Long cartId) {
+    public CartSingleResponse getCart(final Long cartId) {
         return null;
     }
 
-    public CartResponse createCartPost(final CartCreateRequest request) {
+    public CartSingleResponse createCartPost(final CartCreateRequest request) {
         return null;
     }
 

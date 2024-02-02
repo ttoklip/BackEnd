@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.town.cart.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartResponse;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -16,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.print.Pageable;
 
 @Tag(name = "Town", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
@@ -35,7 +33,7 @@ public class CartPostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = CartResponse.class)
+                            schema = @Schema(implementation = CartSingleResponse.class)
                     ))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Long> register(final @Validated @ModelAttribute CartCreateRequest request) {
@@ -49,7 +47,7 @@ public class CartPostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CartResponse.class)
+                            schema = @Schema(implementation = CartSingleResponse.class)
                     ))})
     @GetMapping("/{postId}")
     public SuccessResponse<CommunitySingleResponse> getSinglePost(final @PathVariable Long postId) {

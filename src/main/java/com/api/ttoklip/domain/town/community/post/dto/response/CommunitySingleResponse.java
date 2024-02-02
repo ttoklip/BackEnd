@@ -56,7 +56,7 @@ public class CommunitySingleResponse {
                 .communityId(community.getId())
                 .title(community.getTitle())
                 .content(community.getContent())
-//                .writer(question.getMember().getName) ToDo Member 엔티티 연결 후 수정
+//                .writer(community.getMember().getName) ToDo Member 엔티티 연결 후 수정
                 .writtenTime(formattedCreatedDate)
                 .imageUrls(imageResponses)
                 .commentResponses(commentResponses)

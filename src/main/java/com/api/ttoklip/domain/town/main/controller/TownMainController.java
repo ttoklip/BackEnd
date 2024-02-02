@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.main.controller;
 
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartResponse;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
@@ -69,15 +69,15 @@ public class TownMainController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = CartResponse.class),
+                            schema = @Schema(implementation = CartSingleResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = TownResponseConstant.townValue
                             )))})
     @PostMapping("/carts")
-    public SuccessResponse<CartResponse> createCartPost(final @Validated @ModelAttribute CartCreateRequest request) {
-        CartResponse cartResponse = cartPostService.createCartPost(request);
-        return new SuccessResponse<>(cartResponse);
+    public SuccessResponse<CartSingleResponse> createCartPost(final @Validated @ModelAttribute CartCreateRequest request) {
+        CartSingleResponse cartSingleResponse = cartPostService.createCartPost(request);
+        return new SuccessResponse<>(cartSingleResponse);
     }
 
     @Operation(summary = "소통해요 게시글 생성",
