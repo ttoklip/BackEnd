@@ -158,7 +158,7 @@ public class MyPageController {
                                     description = "참여한 거래를 조회했습니다"
                             )))})
     @GetMapping("/participate-deals")
-    public SuccessResponse<Long> participateDeals() {
+    public SuccessResponse<ParticipateListResponse> participateDeals() {
         return new SuccessResponse<>(myPageService.participateDeals());
     }
 }
