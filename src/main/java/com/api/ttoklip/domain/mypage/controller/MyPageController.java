@@ -84,8 +84,8 @@ public class MyPageController {
                                     description = "제한 기간과 사유를 조회했습니다"
                             )))})
     @GetMapping("/restricted/{accountId}")
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
-        return new SuccessResponse<>(myPageService.register(request));
+    public SuccessResponse<Long> restrited(final @Validated @ModelAttribute HoneytipCreateReq request) {
+        return new SuccessResponse<>(myPageService.restricted(request));
     }
     @Operation(summary = "내가 차단한 계정", description = "내가 차단한 계정들을 불러옵니다")
     @ApiResponses(value = {
