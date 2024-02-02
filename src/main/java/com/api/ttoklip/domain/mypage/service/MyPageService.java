@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.mypage.service;
 
+import com.api.ttoklip.domain.mypage.dto.request.AlamRequest;
 import com.api.ttoklip.domain.mypage.dto.request.BlockedRequest;
 import com.api.ttoklip.domain.mypage.dto.request.MyPageRequest;
 import com.api.ttoklip.domain.mypage.dto.response.*;
@@ -34,7 +35,7 @@ public class MyPageService {
     public ParticipateListResponse participateDeals(){
         return null;
     }
-    public String changeAlam(){
+    public String changeAlam(AlamRequest alamRequest){
         return null;
     }
 }

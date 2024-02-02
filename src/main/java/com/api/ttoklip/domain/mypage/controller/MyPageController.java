@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.mypage.controller;
 
-import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
 import com.api.ttoklip.domain.mypage.constant.MyPageConstant;
 import com.api.ttoklip.domain.mypage.dto.request.AlamRequest;
 import com.api.ttoklip.domain.mypage.dto.request.BlockedRequest;
@@ -16,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "My Page", description = "마이페이지 api입니다")
@@ -175,7 +173,7 @@ public class MyPageController {
                                     description = "알림을 변경하였습니다"
                             )))})
     @PostMapping("/alam-settings")
-    public SuccessResponse<String> chageAlam(@RequestBody AlamRequest alamRequest) {
+    public SuccessResponse<String> changeAlam(@RequestBody AlamRequest alamRequest) {
         return new SuccessResponse<>(myPageService.changeAlam(alamRequest));
     }
 }
