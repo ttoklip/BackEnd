@@ -16,7 +16,8 @@ public class MyPageConstant {
                     "experience": {
                         "current": 250,
                         "required": 500
-                    }
+                    },
+                    "levelimageurl":
                 }
             }
         }
@@ -58,14 +59,14 @@ public class MyPageConstant {
             }
         }
         """;
-    public static final String sanctionResponse = """
+    public static final String restrictedResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
             "status": 200,
             "code": "200",
             "message": "요청에 성공하였습니다.",
             "result": {
-                "sanction": {
+                "restricted": {
                     "type": "이용 제재",
                     "duration": "30일",
                     "reason": "부적절한 행동"
