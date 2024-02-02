@@ -13,8 +13,8 @@ public class MyPageResponse {
     private String userNickname;
     @Schema(description = "유저의 동네")
     private String userArea;
-    @Schema(description = "유저의 레벨 이미지")
-    private List<ImageResponse> imageUrls;
+   /* @Schema(description = "유저의 레벨 이미지")
+    private List<ImageResponse> imageUrls;*/
     @Schema(description = "유저의 경험치 충족도")
     private Long levelExp;
     @Schema(description = "유저의 레벨(ex:새싹)")
