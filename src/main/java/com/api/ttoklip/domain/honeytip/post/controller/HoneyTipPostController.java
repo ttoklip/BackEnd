@@ -1,8 +1,9 @@
-package com.api.ttoklip.domain.honeytip.post.post.controller;
+package com.api.ttoklip.domain.honeytip.post.controller;
 
-import com.api.ttoklip.domain.honeytip.post.post.constant.HoneyTipResponseConstant;
-import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneyTipCreateReq;
-import com.api.ttoklip.domain.honeytip.post.post.service.HoneyTipPostService;
+import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
+import com.api.ttoklip.domain.honeytip.post.constant.HoneyTipResponseConstant;
+import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
+import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +57,7 @@ public class HoneyTipPostController {
 								description = "꿀팁이 수정되었습니다."
 						)))})
 	@PatchMapping("/{postId}")
-	public SuccessResponse<Long> edit(final @PathVariable Long postId, final @RequestBody HoneyTipCreateReq request) {
+	public SuccessResponse<Message> edit(final @PathVariable Long postId, final @RequestBody HoneyTipEditReq request) {
 		return new SuccessResponse<>(honeytipPostService.edit(postId, request));
 	}
 

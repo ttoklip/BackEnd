@@ -1,8 +1,8 @@
-package com.api.ttoklip.domain.honeytip.post.post.repository;
+package com.api.ttoklip.domain.honeytip.post.repository;
 
 import static com.api.ttoklip.domain.honeytip.post.post.domain.QHoneytip.honeytip;
 
-import com.api.ttoklip.domain.honeytip.post.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;

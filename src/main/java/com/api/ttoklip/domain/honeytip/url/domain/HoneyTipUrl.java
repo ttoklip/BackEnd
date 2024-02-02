@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.honeytip.url.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.honeytip.post.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

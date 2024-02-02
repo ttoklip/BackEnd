@@ -1,8 +1,7 @@
-package com.api.ttoklip.domain.honeytip.post.image.domain;
+package com.api.ttoklip.domain.honeytip.image.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.honeytip.post.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneyTipCreateReq;
+import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import jakarta.persistence.*;
 import lombok.*;
 
