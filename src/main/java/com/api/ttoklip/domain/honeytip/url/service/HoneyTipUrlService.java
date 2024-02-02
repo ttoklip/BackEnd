@@ -37,12 +37,14 @@ public class HoneyTipUrlService {
 
     private void registerNewUrl(final HoneyTip honeyTip, final List<String> newUrls, final Set<String> existingUrlSet) {
         // 새 URL 추가
-        newUrls.stream()
+        List<HoneyTipUrl> honeyTipUrlsToSave = newUrls.stream()
                 .filter(url -> !existingUrlSet.contains(url))
-                .forEach(url -> {
-                    HoneyTipUrl honeyTipUrl = HoneyTipUrl.of(honeyTip, url);
-                    honeyTipUrlRepository.save(honeyTipUrl);
-                });
+                .map(url -> HoneyTipUrl.of(honeyTip, url))
+                .toList();
+
+        if (!honeyTipUrlsToSave.isEmpty()) {
+            honeyTipUrlRepository.saveAll(honeyTipUrlsToSave);
+        }
     }
 
     private void removeOriginUrl(final List<String> newUrls, final List<HoneyTipUrl> existingUrls) {
