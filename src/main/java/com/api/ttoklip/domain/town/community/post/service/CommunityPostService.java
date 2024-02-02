@@ -49,9 +49,21 @@ public class CommunityPostService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
-
-
     public CommunityWithCommentResponse getSinglePost(final Long postId) {
         return null;
     }
+
+    /* -------------------------------------------- Soft Delete -------------------------------------------- */
+
+    public void delete(final Long postId) {
+        Community community = findCommunity(postId);
+        community.deactivate(); // 비활성화
+    }
+
+    private Community findCommunity(final Long postId) {
+        return communityRepository.findByIdUndeleted(postId);
+    }
+
+    /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
+
 }
