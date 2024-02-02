@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.repository.CartRepository;
-//import com.api.ttoklip.domain.town.community.image.service.ImageService;
+//import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;

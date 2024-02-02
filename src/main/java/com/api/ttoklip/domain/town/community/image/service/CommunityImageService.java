@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ImageService {
+public class CommunityImageService {
 
     private final CommunityImageRepository communityImageRepository;
 
     @Transactional
-    public void register(final Community question, final String uploadUrl) {
-        CommunityImage newCommunityImage = CommunityImage.of(question, uploadUrl);
+    public void register(final Community community, final String uploadUrl) {
+        CommunityImage newCommunityImage = CommunityImage.of(community, uploadUrl);
         communityImageRepository.save(newCommunityImage);
     }
 }

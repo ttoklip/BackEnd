@@ -3,8 +3,7 @@ package com.api.ttoklip.domain.town.community.post.service;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
-import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
-import com.api.ttoklip.domain.town.community.image.service.ImageService;
+import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
@@ -25,7 +24,7 @@ import java.util.List;
 public class CommunityPostService {
 
     private final CommunityRepository communityRepository;
-    private final ImageService imageService;
+    private final CommunityImageService communityImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
 
@@ -56,7 +55,7 @@ public class CommunityPostService {
 
     private void registerImages(final Community community, final List<MultipartFile> multipartFiles) {
         List<String> uploadUrls = getImageUrls(multipartFiles);
-        uploadUrls.forEach(uploadUrl -> imageService.register(community, uploadUrl));
+        uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
     }
 
     private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {
