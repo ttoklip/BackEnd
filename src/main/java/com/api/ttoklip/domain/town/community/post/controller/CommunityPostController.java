@@ -1,9 +1,11 @@
 package com.api.ttoklip.domain.town.community.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityUpdateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,16 +36,16 @@ public class CommunityPostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = CommunityResponse.class),
+                            schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = CommunityResponseConstant.createAndDeleteCommunity,
                                     description = "소통해요 게시글이 생성되었습니다."
                             )))})
-    @PostMapping
-    public SuccessResponse<CommunityResponse> createCommPost(final @Validated @ModelAttribute CommunityCreateRequest request) {
-        CommunityResponse commResponse = communityPostService.createCommunityPost(request);
-        return new SuccessResponse<>(commResponse);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public SuccessResponse<Long> register(final @Validated @ModelAttribute QuestionCreateRequest request) {
+        Long communityId = communityPostService.register(request);
+        return new SuccessResponse<>(communityId);
     }
 
     /* READ */
@@ -52,13 +54,13 @@ public class CommunityPostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CommunityResponse.class),
+                            schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = CommunityResponseConstant.readSingleCommunity,
                                     description = "소통해요 게시글이 조회되었습니다."
                             )))})
-    @GetMapping("/{commId}")
+    @GetMapping("/{postId}")
     public SuccessResponse<CommunitySingleResponse> getSinglePost(final @PathVariable Long postId) {
         CommunitySingleResponse response = communityPostService.getSinglePost(postId);
         return new SuccessResponse<>(response);

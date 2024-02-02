@@ -4,6 +4,8 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.comment.dto.request.CommunityCommentCreateRequest;
 import com.api.ttoklip.domain.town.community.comment.dto.request.CommunityCommentUpdateRequest;
@@ -22,6 +24,7 @@ public class CommunityCommentService {
 
     private final CommunityPostService communityPostService;
     private final CommentService commentService;
+    private final ReportService reportService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
@@ -60,13 +63,25 @@ public class CommunityCommentService {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
 
-    /* -------------------------------------------- UPDATE -------------------------------------------- */
+    /* -------------------------------------------- REPORT -------------------------------------------- */
+
+    @Transactional
+    public void report(final Long commentId, final ReportCreateRequest request) {
+        Comment comment = commentService.findComment(commentId);
+        reportService.reportComment(request, comment);
+    }
+
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
     public void edit(final Long commentId, final CommentEditRequest request) {
+        // ToDo 본인이 썼는지 검증 과정 필요
         commentService.edit(commentId, request);
     }
 
-    /* -------------------------------------------- UPDATE 끝 -------------------------------------------- */
+    /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
