@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.honeytip.post.service;
 
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
-import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
-import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
+import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.url.service.HoneyTipUrlService;
 import com.api.ttoklip.global.s3.S3FileUploader;
@@ -39,7 +39,7 @@ public class HoneyTipPostService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
-    public Long register(final HoneyTipCreateReq request) {
+    public Message register(final HoneyTipCreateReq request) {
 
         // HoneyTip 객체 생성 및 연관 관계 설정
         HoneyTip honeytip = HoneyTip.from(request);
@@ -55,7 +55,7 @@ public class HoneyTipPostService {
             registerUrls(honeytip, urls);
         }
 
-        return honeytip.getId();
+        return Message.registerPostSuccess(HoneyTip.class, honeytip.getId());
     }
 
     private void registerImages(final HoneyTip honeytip, final List<MultipartFile> uploadImages) {
@@ -96,7 +96,7 @@ public class HoneyTipPostService {
             editImages(images, honeyTip);
         }
 
-        return Message.from("게시글 수정에 성공했습니다.");
+        return Message.editPostSuccess(HoneyTip.class, honeyTip.getId());
     }
 
     private HoneyTipPostEditor getPostEditor(final HoneyTipEditReq request, final HoneyTip honeyTip) {
@@ -129,7 +129,7 @@ public class HoneyTipPostService {
         Long honeyTipId = honeyTip.getId();
         honeytipRepository.deleteById(honeyTipId);
 
-        return Message.from("게시글 삭제에 성공했습니다.");
+        return Message.deletePostSuccess(HoneyTip.class, honeyTipId);
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */

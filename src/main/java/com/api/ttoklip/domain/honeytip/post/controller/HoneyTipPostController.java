@@ -39,7 +39,7 @@ public class HoneyTipPostController {
 								description = "질문이 생성되었습니다."
 	)))})
 	@PostMapping
-	public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneyTipCreateReq request) {
+	public SuccessResponse<Message> register(final @Validated @ModelAttribute HoneyTipCreateReq request) {
 		return new SuccessResponse<>(honeytipPostService.register(request));
 	}
 
@@ -71,7 +71,7 @@ public class HoneyTipPostController {
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
-								value = HoneyTipResponseConstant.createAndDeleteHoneytip,
+								value = HoneyTipResponseConstant.DeleteHoneytip,
 								description = "꿀팁이 삭제되었습니다."
 	)))})
 	@DeleteMapping("/{postId}")

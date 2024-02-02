@@ -114,4 +114,13 @@ public class HoneyTipResponseConstant {
                             }
             """;
 
+    public static final String DeleteHoneytip = """
+            {
+                              "time": "2024-01-11T16:06:30.852Z",
+                              "status": 200,
+                              "code": "200",
+                              "message": "요청에 성공하였습니다.",
+                              "result": 123
+                            }
+            """;
 }

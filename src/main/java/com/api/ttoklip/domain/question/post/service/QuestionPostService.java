@@ -11,6 +11,7 @@ import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,8 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
-
     @Transactional
-    public Long register(final QuestionCreateRequest request) {
+    public Message register(final QuestionCreateRequest request) {
 
         Question question = Question.from(request);
         questionRepository.save(question);
@@ -48,7 +48,8 @@ public class QuestionPostService {
         if (uploadImages != null && !uploadImages.isEmpty()) {
             registerImages(question, uploadImages);
         }
-        return question.getId();
+
+        return Message.registerPostSuccess(Question.class, question.getId());
     }
 
     private void registerImages(final Question question, final List<MultipartFile> multipartFiles) {
@@ -72,9 +73,11 @@ public class QuestionPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public void report(final Long postId, final ReportCreateRequest request) {
+    public Message report(final Long postId, final ReportCreateRequest request) {
         Question question = findQuestionById(postId);
         reportService.reportQuestion(request, question);
+
+        return Message.reportPostSuccess(Question.class, postId);
     }
 
 
