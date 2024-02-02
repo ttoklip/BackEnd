@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class NoticeResponse {
     @Schema(description = "공지사항 ID")
-    private Long id;
+    private Long noticeId;
 
     @Schema(description = "공지사항 제목")
     private String title;

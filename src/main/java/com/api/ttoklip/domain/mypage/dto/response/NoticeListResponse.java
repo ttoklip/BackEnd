@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.mypage.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;

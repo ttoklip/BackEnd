@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.mypage.controller;
 
 import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
 import com.api.ttoklip.domain.mypage.constant.MyPageConstant;
+import com.api.ttoklip.domain.mypage.dto.request.AlamRequest;
 import com.api.ttoklip.domain.mypage.dto.request.BlockedRequest;
 import com.api.ttoklip.domain.mypage.dto.request.MyPageRequest;
 import com.api.ttoklip.domain.mypage.dto.response.*;
@@ -127,9 +128,9 @@ public class MyPageController {
                                     value = MyPageConstant.scrapedPostsResponse,
                                     description = "스크랩한 글을 불러왔습니다"
                             )))})
-    @GetMapping("/scraped-posts")
-    public SuccessResponse<ScrapPostsListResponse> scrpaPosts() {
-        return new SuccessResponse<>(myPageService.scrapPosts());
+    @GetMapping("/scraped-posts/{type}")
+    public SuccessResponse<ScrapPostsListResponse> scrpaPosts(@PathVariable("type")String type) {
+        return new SuccessResponse<>(myPageService.scrapPosts(type));
     }
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
     @ApiResponses(value = {
@@ -160,5 +161,21 @@ public class MyPageController {
     @GetMapping("/participate-deals")
     public SuccessResponse<ParticipateListResponse> participateDeals() {
         return new SuccessResponse<>(myPageService.participateDeals());
+    }
+
+    @Operation(summary = "알림 변경", description = "알림을 변경")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "알림 변경 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = MyPageConstant.notificationSettingResponse,
+                                    description = "알림을 변경하였습니다"
+                            )))})
+    @PostMapping("/alam-settings")
+    public SuccessResponse<String> chageAlam(@RequestBody AlamRequest alamRequest) {
+        return new SuccessResponse<>(myPageService.changeAlam(alamRequest));
     }
 }

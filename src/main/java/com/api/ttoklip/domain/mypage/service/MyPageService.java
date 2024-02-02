@@ -25,13 +25,16 @@ public class MyPageService {
     public String unblock(String blockedUserId){
         return "해제완료";
     }
-    public ScrapPostsListResponse scrapPosts(){
+    public ScrapPostsListResponse scrapPosts(String type){
         return null;
     }
     public MyPostsListResponse myPosts(){
         return null;
     }
     public ParticipateListResponse participateDeals(){
+        return null;
+    }
+    public String changeAlam(){
         return null;
     }
 }
