@@ -2,10 +2,9 @@ package com.api.ttoklip.domain.mypage.controller;
 
 import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipCreateReq;
 import com.api.ttoklip.domain.mypage.constant.MyPageConstant;
+import com.api.ttoklip.domain.mypage.dto.request.BlockedRequest;
 import com.api.ttoklip.domain.mypage.dto.request.MyPageRequest;
-import com.api.ttoklip.domain.mypage.dto.response.MyPageResponse;
-import com.api.ttoklip.domain.mypage.dto.response.NoticeListResponse;
-import com.api.ttoklip.domain.mypage.dto.response.TermsResponse;
+import com.api.ttoklip.domain.mypage.dto.response.*;
 import com.api.ttoklip.domain.mypage.service.MyPageService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -84,8 +83,8 @@ public class MyPageController {
                                     description = "제한 기간과 사유를 조회했습니다"
                             )))})
     @GetMapping("/restricted/{accountId}")
-    public SuccessResponse<Long> restrited(final @Validated @ModelAttribute HoneytipCreateReq request) {
-        return new SuccessResponse<>(myPageService.restricted(request));
+    public SuccessResponse<RestricetdResponse> restrited(@PathVariable("accountId")Long userId) {
+        return new SuccessResponse<>(myPageService.restricted(userId));
     }
     @Operation(summary = "내가 차단한 계정", description = "내가 차단한 계정들을 불러옵니다")
     @ApiResponses(value = {
@@ -98,9 +97,9 @@ public class MyPageController {
                                     value = MyPageConstant.blockedUsersResponse,
                                     description = "차단한 계정들을 조회했습니다"
                             )))})
-    @GetMapping("/blocked/{accountId}")
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
-        return new SuccessResponse<>(myPageService.register(request));
+    @GetMapping("/blocked/{blockedId}")
+    public SuccessResponse<BlockedListResponse> blockedUser(@PathVariable("blockedId")BlockedRequest blockedRequest) {
+        return new SuccessResponse<>(myPageService.blockedUser(blockedRequest));
     }
     @Operation(summary = "차단을 해제 합니다", description = "차단을 해제 합니다")
     @ApiResponses(value = {
@@ -114,8 +113,8 @@ public class MyPageController {
                                     description = "제한 기간과 사유를 조회했습니다"
                             )))})
     @DeleteMapping("/unblock/{blocked-accountId}")
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
-        return new SuccessResponse<>(myPageService.register(request));
+    public SuccessResponse<String> unblock(@PathVariable("blocked-accountId")String blockedUserId ) {
+        return new SuccessResponse<>(myPageService.unblock(blockedUserId));
     }
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
@@ -129,8 +128,8 @@ public class MyPageController {
                                     description = "스크랩한 글을 불러왔습니다"
                             )))})
     @GetMapping("/scraped-posts")
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
-        return new SuccessResponse<>(myPageService.register(request));
+    public SuccessResponse<ScrapPostsListResponse> scrpaPosts() {
+        return new SuccessResponse<>(myPageService.scrapPosts());
     }
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
     @ApiResponses(value = {
@@ -144,8 +143,8 @@ public class MyPageController {
                                     description = "내가 작성한 글들을 불러왔습니다"
                             )))})
     @GetMapping("/my-posts")
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
-        return new SuccessResponse<>(myPageService.register(request));
+    public SuccessResponse<MyPostsListResponse> myPosts() {
+        return new SuccessResponse<>(myPageService.myPosts());
     }
     @Operation(summary = "내가 참여한 거래 목록", description = "내가 참여한 거래 목록 불러오기")
     @ApiResponses(value = {
@@ -158,8 +157,8 @@ public class MyPageController {
                                     value = MyPageConstant.participatedDealsResponse,
                                     description = "참여한 거래를 조회했습니다"
                             )))})
-    @GetMapping("/participat-deals")
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute HoneytipCreateReq request) {
-        return new SuccessResponse<>(myPageService.register(request));
+    @GetMapping("/participate-deals")
+    public SuccessResponse<Long> participateDeals() {
+        return new SuccessResponse<>(myPageService.participateDeals());
     }
 }
