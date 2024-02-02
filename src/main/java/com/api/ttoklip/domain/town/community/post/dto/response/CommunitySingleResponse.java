@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.town.community.post.dto.response;
 
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
-import com.api.ttoklip.domain.town.community.image.dto.response.ImageResponse;
+import com.api.ttoklip.domain.town.community.image.dto.response.CommunityImageResponse;
 import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.util.TimeUtil;
@@ -36,7 +36,7 @@ public class CommunitySingleResponse {
     private String writtenTime;
 
     @Schema(description = "소통해요에 포함된 이미지 URL 목록")
-    private List<ImageResponse> imageUrls;
+    private List<CommunityImageResponse> imageUrls;
 
     @Schema(description = "소통해요에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
@@ -47,7 +47,7 @@ public class CommunitySingleResponse {
         String formattedCreatedDate = getFormattedCreatedDate(community);
 
         // CartImage entity to Response
-        List<ImageResponse> imageResponses = getImageResponses(community);
+        List<CommunityImageResponse> communityImageRespons = getImageResponses(community);
 
         // Comment entity to Response
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
@@ -58,7 +58,7 @@ public class CommunitySingleResponse {
                 .content(community.getContent())
 //                .writer(community.getMember().getName) ToDo Member 엔티티 연결 후 수정
                 .writtenTime(formattedCreatedDate)
-                .imageUrls(imageResponses)
+                .imageUrls(communityImageRespons)
                 .commentResponses(commentResponses)
                 .build();
     }
@@ -68,11 +68,11 @@ public class CommunitySingleResponse {
         return TimeUtil.formatCreatedDate(createdDate);
     }
 
-    private static List<ImageResponse> getImageResponses(final Community community) {
+    private static List<CommunityImageResponse> getImageResponses(final Community community) {
         List<CommunityImage> communityImages = community.getCommunityImages();
         return communityImages
                 .stream()
-                .map(ImageResponse::from)
+                .map(CommunityImageResponse::from)
                 .toList();
     }
 
