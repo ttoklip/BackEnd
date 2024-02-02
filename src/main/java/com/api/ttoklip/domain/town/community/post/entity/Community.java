@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.town.community.post.entity;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.town.cart.image.Image;
 import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import jakarta.persistence.*;
@@ -37,4 +38,7 @@ public class Community extends BaseEntity {
         this.title = title;
         this.content = content;
     }
+
+    @OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
 }

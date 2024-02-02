@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -42,6 +43,10 @@ public class Report extends BaseEntity {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "community_id")
+    private Community community;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
@@ -50,6 +55,14 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .question(question)
+                .build();
+    }
+
+    public static Report communityOf(final ReportCreateRequest request, final Community community) {
+        return Report.builder()
+                .content(request.getContent())
+                .reportType(request.getReportType())
+                .community(community)
                 .build();
     }
 

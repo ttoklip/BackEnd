@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.town.community.post.service;
 
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.town.community.image.service.ImageService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunitySearchCondition;
@@ -8,6 +10,8 @@ import com.api.ttoklip.domain.town.community.post.dto.response.CommunityListResp
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunityResponse;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunityRepository;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,7 @@ public class CommunityPostService {
     private final CommunityRepository communityRepository;
     private final ImageService imageService;
     private final S3FileUploader s3FileUploader;
+    private final ReportService reportService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     public Long register(final CommunityCreateRequest request) {
@@ -51,6 +56,12 @@ public class CommunityPostService {
 
     public CommunityWithCommentResponse getSinglePost(final Long postId) {
         return null;
+    }
+
+    public void report(final Long postId, final ReportCreateRequest request) {
+        Community community = communityRepository.findById(postId)
+                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUNT));
+        reportService.reportCommunity(request, community);
     }
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */

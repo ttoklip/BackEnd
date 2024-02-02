@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.town.community.post.controller;
 
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityUpdateRequest;
@@ -22,28 +23,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/town/comms")
-public class CommunityController {
+public class CommunityPostController {
 
     private final CommunityPostService communityPostService;
 
-    // 소통해요 - comm
-    @Operation(summary = "소통해요 게시글 조회",
-            description = "소통해요 단일 게시글을 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "소통해요 게시글 조회 성공",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CommunityResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = CommunityResponseConstant.readSingleCommunity,
-                                    description = "소통해요 게시글이 조회되었습니다."
-                            )))})
-    @GetMapping("/{commId}")
-    public SuccessResponse<CommunityResponse> getComm(final @PathVariable Long commId) {
-        CommunityResponse commResponse = communityPostService.getCommunity(commId);
-        return new SuccessResponse<>(commResponse);
-    }
+    // 소통해요 - community
 
+    /* CREATE */
     @Operation(summary = "소통해요 게시글 생성",
             description = "소통해요 게시글을 생성합니다.")
     @ApiResponses(value = {
@@ -61,6 +47,25 @@ public class CommunityController {
         return new SuccessResponse<>(commResponse);
     }
 
+    /* READ */
+    @Operation(summary = "소통해요 게시글 조회",
+            description = "소통해요 단일 게시글을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "소통해요 게시글 조회 성공",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = CommunityResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.readSingleCommunity,
+                                    description = "소통해요 게시글이 조회되었습니다."
+                            )))})
+    @GetMapping("/{commId}")
+    public SuccessResponse<CommunityResponse> getComm(final @PathVariable Long commId) {
+        CommunityResponse commResponse = communityPostService.getCommunity(commId);
+        return new SuccessResponse<>(commResponse);
+    }
+
+    /* UPDATE */
     @Operation(summary = "소통해요 게시글 수정",
             description = "소통해요 게시글을 수정합니다.")
     @ApiResponses(value = {
@@ -77,6 +82,21 @@ public class CommunityController {
                                                 final @ModelAttribute CommunityUpdateRequest request) {
         communityPostService.updateCommunityPost(commId, request);
         return new SuccessResponse<>(commId);
+    }
+
+    /* REPORT */
+    @Operation(summary = "소통해요 게시글 신고", description = "소통해요 ID에 해당하는 게시글을 신고합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "소통해요 신고 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    ))})
+    @PostMapping("/report/{postId}")
+    public SuccessResponse<Long> report(final @PathVariable Long postId,
+                                        final @RequestBody ReportCreateRequest request) {
+        communityPostService.report(postId, request);
+        return new SuccessResponse<>(postId);
     }
 
     @Operation(summary = "소통해요 게시글 삭제",
