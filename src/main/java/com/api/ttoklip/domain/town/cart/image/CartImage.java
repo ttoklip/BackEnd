@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.cart.post.image;
+package com.api.ttoklip.domain.town.cart.image;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Image {
+public class CartImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

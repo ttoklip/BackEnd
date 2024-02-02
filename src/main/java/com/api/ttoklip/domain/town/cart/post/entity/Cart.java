@@ -1,10 +1,13 @@
 package com.api.ttoklip.domain.town.cart.post.entity;
 
-import com.api.ttoklip.domain.town.cart.post.image.Image;
+import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.api.ttoklip.domain.common.report.domain.Report;
+import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.image.CartImage;
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Cart {
+public class Cart extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,27 +26,33 @@ public class Cart {
 
     private String content;
 
-    private int party;
-
-    private int totalPrice;
-
-    private String location;
-
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
-
-    private String productLink;
-
-    private String chatLink;
-
-    private LocalDateTime deadline;
-
-    public void updateDeadlineTime(int days, int hours) {
-        LocalDateTime selectedDateTime = LocalDateTime.now().plusDays(days).plusHours(hours);
-        updateDeadline(selectedDateTime);
+    @Builder
+    public Cart(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
-    private void updateDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
+    public void updateCartPost(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
+
+    public static Cart of(final CartCreateRequest request) {
+        return Cart.builder()
+                .content(request.getContent())
+                .title(request.getTitle())
+                .build();
+    }
+
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CartImage> cartImages = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CartComment> cartComments = new ArrayList<>();
 }

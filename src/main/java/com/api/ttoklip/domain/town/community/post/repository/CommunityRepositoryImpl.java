@@ -30,7 +30,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom{
     }
 
     @Override
-    public List<CommunityComment> findActiveCommentsByQuestionId(final Long questionId) {
+    public List<CommunityComment> findActiveCommentsByCommunityId(final Long communityId) {
         return jpaQueryFactory
                 .selectFrom(communityComment)
                 .where(

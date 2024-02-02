@@ -44,6 +44,10 @@ public enum ErrorType {
     QUESTION_NOT_FOUND(NOT_FOUND, "Question_4040", "질문해요를 찾을 수 없습니다."),
 
 
+    // ------------------------------------------ Cart ------------------------------------------
+    CART_NOT_FOUND(NOT_FOUND, "Cart_4040", "함께해요를 찾을 수 없습니다."),
+
+
     // ------------------------------------------ Community ------------------------------------------
     COMMUNITY_NOT_FOUND(NOT_FOUND, "Community_4040", "소통해요를 찾을 수 없습니다."),
 

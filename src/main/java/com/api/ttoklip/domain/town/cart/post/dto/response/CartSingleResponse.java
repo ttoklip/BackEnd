@@ -45,7 +45,7 @@ public class CartSingleResponse {
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(cart);
 
-        // Image entity to Response
+        // CartImage entity to Response
         List<ImageResponse> imageResponses = getImageResponses(cart);
 
         // Comment entity to Response

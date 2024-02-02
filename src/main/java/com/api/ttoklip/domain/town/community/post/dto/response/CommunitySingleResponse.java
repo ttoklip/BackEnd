@@ -46,7 +46,7 @@ public class CommunitySingleResponse {
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(community);
 
-        // Image entity to Response
+        // CartImage entity to Response
         List<ImageResponse> imageResponses = getImageResponses(community);
 
         // Comment entity to Response
