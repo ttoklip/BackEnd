@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.community.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.ImageService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
@@ -66,8 +67,9 @@ public class CommunityPostService {
 
     public CommunitySingleResponse getSinglePost(final Long postId) {
 
-        Community questionWithImgAndComment = communityRepository.findByIdFetchJoin(postId);
-        CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.from(communityWithImgAndComment);
+        Community communityWithImg = communityRepository.findByIdFetchJoin(postId);
+        List<CommunityComment> activeComments = communityRepository.findActiveCommentsByCommunityId(postId);
+        CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg, activeComments);
         return communitySingleResponse;
     }
 
@@ -76,7 +78,7 @@ public class CommunityPostService {
     @Transactional
     public void report(final Long postId, final ReportCreateRequest request) {
         Community community = findCommunityById(postId);
-        reportService.reportQuestion(request, community);
+        reportService.reportCommunity(request, community);
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */

@@ -10,10 +10,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommunitySingleResponse {
@@ -39,7 +41,7 @@ public class CommunitySingleResponse {
     @Schema(description = "소통해요에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
-    public static CommunitySingleResponse from(final Community community) {
+    public static CommunitySingleResponse of(final Community community, final List<CommunityComment> activeComments) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(community);
@@ -48,7 +50,7 @@ public class CommunitySingleResponse {
         List<ImageResponse> imageResponses = getImageResponses(community);
 
         // Comment entity to Response
-        List<CommentResponse> commentResponses = getCommentResponses(community);
+        List<CommentResponse> commentResponses = getCommentResponses(activeComments);
 
         return CommunitySingleResponse.builder()
                 .communityId(community.getId())
@@ -74,8 +76,7 @@ public class CommunitySingleResponse {
                 .toList();
     }
 
-    private static List<CommentResponse> getCommentResponses(final Community community) {
-        List<CommunityComment> communityComments = community.getCommunityComments();
+    private static List<CommentResponse> getCommentResponses(final List<CommunityComment> communityComments) {
         return communityComments
                 .stream()
                 .map(CommentResponse::from)
