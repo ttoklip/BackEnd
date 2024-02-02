@@ -15,6 +15,28 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
 
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 880347a4720e27867b2275432ca84712
+            client-secret: GxaG6JbCbwhjMLiwS8IoYmPD3YCMvi1V
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile
+              - account_email
+            redirect-uri: http://localhost:3000/kakao-callback
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -32,3 +54,10 @@ cloud:
     s3:
       bucket: ${CLOUD_AWS_S3_BUCKET}
       dirname: ${CLOUD_AWS_S3_DIRNAME}
+
+#app
+app:
+  auth:
+    token-secret: 8742F6BEC9F62596C2FFEFF9FA0B9E39303554C06F94AB9B85C8090E3EE87F3CF0BE4BFA244C625E3F691321F9CFF38C228C4C3C91105C23919B16F7E40BE4EC
+    access-token-expiration-msec: 3600000
+    refresh-token-expiration-msec: 1209600000
