@@ -1,11 +1,8 @@
 package com.api.ttoklip.domain.town.community.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.honeytip.post.post.dto.request.HoneytipEditReq;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
-import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
-import com.api.ttoklip.domain.town.community.post.dto.request.CommunityUpdateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.SuccessResponse;

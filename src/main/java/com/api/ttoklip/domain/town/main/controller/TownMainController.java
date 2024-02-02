@@ -1,12 +1,9 @@
 package com.api.ttoklip.domain.town.main.controller;
 
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartListResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartResponse;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartSummaryResponse;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
-import com.api.ttoklip.domain.town.community.post.dto.request.CommunitySearchCondition;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.global.success.SuccessResponse;
