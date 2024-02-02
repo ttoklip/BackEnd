@@ -1,18 +1,22 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
+import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
+import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
+import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
+
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+
 
 @RequiredArgsConstructor
-public class CommunityRepositoryImpl implements CommunityRepositoryCustom{
+public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -34,7 +38,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom{
         return jpaQueryFactory
                 .selectFrom(communityComment)
                 .where(
-                        matchQuestionId(questionId),
+                        matchCommunityId(communityId),
                         getCommentActivate()
                 )
                 .orderBy(

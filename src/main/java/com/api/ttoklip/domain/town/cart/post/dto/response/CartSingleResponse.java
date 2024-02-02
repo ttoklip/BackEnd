@@ -1,6 +1,10 @@
 package com.api.ttoklip.domain.town.cart.post.dto.response;
 
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
+import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
+import com.api.ttoklip.domain.town.cart.comment.CartComment;
+import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
+import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,7 +39,7 @@ public class CartSingleResponse {
     private String writtenTime;
 
     @Schema(description = "함께해요에 포함된 이미지 URL 목록")
-    private List<ImageResponse> imageUrls;
+    private List<CartImageResponse> imageUrls;
 
     @Schema(description = "함께해요에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
@@ -46,7 +50,7 @@ public class CartSingleResponse {
         String formattedCreatedDate = getFormattedCreatedDate(cart);
 
         // CartImage entity to Response
-        List<ImageResponse> imageResponses = getImageResponses(cart);
+        List<CartImageResponse> imageResponses = getImageResponses(cart);
 
         // Comment entity to Response
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
@@ -67,11 +71,11 @@ public class CartSingleResponse {
         return TimeUtil.formatCreatedDate(createdDate);
     }
 
-    private static List<ImageResponse> getImageResponses(final Cart cart) {
+    private static List<CartImageResponse> getImageResponses(final Cart cart) {
         List<CartImage> cartImages = cart.getCartImages();
         return cartImages
                 .stream()
-                .map(ImageResponse::from)
+                .map(CartImageResponse::from)
                 .toList();
     }
 

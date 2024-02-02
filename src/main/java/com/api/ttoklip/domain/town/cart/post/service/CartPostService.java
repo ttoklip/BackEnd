@@ -2,6 +2,8 @@ package com.api.ttoklip.domain.town.cart.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.town.cart.comment.CartComment;
+import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
@@ -23,7 +25,7 @@ import java.util.List;
 public class CartPostService {
 
     private final CartRepository cartRepository;
-    private final ImageService imageService;
+    private final CartImageService cartImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
 
@@ -54,7 +56,7 @@ public class CartPostService {
 
     private void registerImages(final Cart cart, final List<MultipartFile> multipartFiles) {
         List<String> uploadUrls = getImageUrls(multipartFiles);
-        uploadUrls.forEach(uploadUrl -> imageService.register(cart, uploadUrl));
+        uploadUrls.forEach(uploadUrl -> cartImageService.register(cart, uploadUrl));
     }
 
     private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {

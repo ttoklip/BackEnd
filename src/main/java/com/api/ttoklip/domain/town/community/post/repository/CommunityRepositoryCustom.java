@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CommunityRepositoryCustom {
     Community findByIdFetchJoin(final Long questionPostId);
-    List<CommunityComment> findActiveCommentsByQuestionId(final Long commentId);
+    List<CommunityComment> findActiveCommentsByCommunityId(final Long commentId);
 }

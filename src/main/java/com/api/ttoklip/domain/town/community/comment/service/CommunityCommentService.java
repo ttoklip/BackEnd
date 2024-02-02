@@ -7,8 +7,6 @@ import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
-import com.api.ttoklip.domain.town.community.comment.dto.request.CommunityCommentCreateRequest;
-import com.api.ttoklip.domain.town.community.comment.dto.request.CommunityCommentUpdateRequest;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import lombok.RequiredArgsConstructor;

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue(value = "Cart")
-public class CartComment extends Cart {
+public class CartComment extends Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
@@ -41,5 +41,4 @@ public class CartComment extends Cart {
                 .cart(cart)
                 .build();
     }
-
 }

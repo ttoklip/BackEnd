@@ -2,8 +2,6 @@ package com.api.ttoklip.domain.town.community.post.entity;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
-import com.api.ttoklip.domain.question.post.domain.Question;
-import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
