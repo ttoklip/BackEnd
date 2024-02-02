@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.town.cart.post.entity;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.image.CartImage;
+import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 
 import jakarta.persistence.*;
 import lombok.*;
