@@ -2,13 +2,9 @@ package com.api.ttoklip.domain.town.community.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.community.image.service.ImageService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
-import com.api.ttoklip.domain.town.community.post.dto.request.CommunitySearchCondition;
-import com.api.ttoklip.domain.town.community.post.dto.request.CommunityUpdateRequest;
-import com.api.ttoklip.domain.town.community.post.dto.response.CommunityListResponse;
-import com.api.ttoklip.domain.town.community.post.dto.response.CommunityResponse;
+import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunityRepository;
 import com.api.ttoklip.global.exception.ApiException;
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -69,9 +64,13 @@ public class CommunityPostService {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
 
-    public CommunityWithCommentResponse getSinglePost(final Long postId) {
-        return null;
+    public CommunitySingleResponse getSinglePost(final Long postId) {
+
+        Community questionWithImgAndComment = communityRepository.findByIdFetchJoin(postId);
+        CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.from(communityWithImgAndComment);
+        return communitySingleResponse;
     }
+
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional

@@ -4,7 +4,6 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityUpdateRequest;
-import com.api.ttoklip.domain.town.community.post.dto.response.CommunityResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,9 +59,9 @@ public class CommunityPostController {
                                     description = "소통해요 게시글이 조회되었습니다."
                             )))})
     @GetMapping("/{commId}")
-    public SuccessResponse<CommunityResponse> getComm(final @PathVariable Long commId) {
-        CommunityResponse commResponse = communityPostService.getCommunity(commId);
-        return new SuccessResponse<>(commResponse);
+    public SuccessResponse<CommunitySingleResponse> getSinglePost(final @PathVariable Long postId) {
+        CommunitySingleResponse response = communityPostService.getSinglePost(postId);
+        return new SuccessResponse<>(response);
     }
 
     /* UPDATE */

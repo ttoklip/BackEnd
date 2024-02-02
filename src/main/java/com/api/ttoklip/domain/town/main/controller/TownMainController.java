@@ -7,8 +7,6 @@ import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
 import com.api.ttoklip.domain.town.cart.service.CartService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunitySearchCondition;
-import com.api.ttoklip.domain.town.community.post.dto.response.CommunityListResponse;
-import com.api.ttoklip.domain.town.community.post.dto.response.CommunityResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.global.success.SuccessResponse;
