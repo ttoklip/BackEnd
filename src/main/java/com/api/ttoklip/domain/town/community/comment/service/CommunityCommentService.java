@@ -10,17 +10,20 @@ import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommunityCommentService {
 
     private final CommunityPostService communityPostService;
     private final CommentService commentService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
+    @Transactional
     public Long register(final Long postId, final CommentCreateRequest request) {
         Community findCommunity = communityPostService.findCommunityById(postId);
 
@@ -59,6 +62,15 @@ public class CommunityCommentService {
     public static void updateCommComment(final Long commentID, final CommunityCommentUpdateRequest commCommentUpdateRequest) {
     }
 
-    public static void deletCommComment(final Long commentId) {
+
+    /* -------------------------------------------- DELETE -------------------------------------------- */
+    @Transactional
+    public void delete(final Long commentId) {
+        // ToDo 본인이 썼는지 검증 과정 필요
+        commentService.deleteById(commentId);
     }
+
+    /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
 }
+

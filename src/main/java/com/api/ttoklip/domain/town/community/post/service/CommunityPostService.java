@@ -24,6 +24,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommunityPostService {
 
     private final CommunityRepository communityRepository;
@@ -42,6 +43,7 @@ public class CommunityPostService {
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
+    @Transactional
     public Long register(final CommunityCreateRequest request) {
 
         Community community = Community.of(request);
@@ -72,7 +74,6 @@ public class CommunityPostService {
     }
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
-
     @Transactional
     public void report(final Long postId, final ReportCreateRequest request) {
         Community community = findCommunityById(postId);
@@ -83,7 +84,6 @@ public class CommunityPostService {
 
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
-
     public void delete(final Long postId) {
         Community community = findCommunity(postId);
         community.deactivate(); // 비활성화
