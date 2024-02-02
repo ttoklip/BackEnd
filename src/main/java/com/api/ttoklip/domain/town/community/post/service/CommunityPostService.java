@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.community.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.community.image.service.ImageService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunitySearchCondition;
@@ -15,6 +16,7 @@ import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Pageable;
@@ -28,6 +30,16 @@ public class CommunityPostService {
     private final ImageService imageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
+
+
+    /* -------------------------------------------- COMMON -------------------------------------------- */
+    public Community findCommunityById(final Long postId) {
+        return communityRepository.findById(postId)
+                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUNT));
+    }
+
+    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
+
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     public Long register(final CommunityCreateRequest request) {
@@ -54,19 +66,21 @@ public class CommunityPostService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
+
     public CommunityWithCommentResponse getSinglePost(final Long postId) {
         return null;
     }
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
+    @Transactional
     public void report(final Long postId, final ReportCreateRequest request) {
-        Community community = communityRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUNT));
-        reportService.reportCommunity(request, community);
+        Community community = findCommunityById(postId);
+        reportService.reportQuestion(request, community);
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
 
@@ -80,5 +94,6 @@ public class CommunityPostService {
     }
 
     /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
+
 
 }

@@ -17,11 +17,19 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorValue(value = "Community")
 public class CommunityComment extends Comment {
 
-    public static CommunityComment of(final CommentCreateRequest request, final Comment parent,
+    public static CommunityComment withParentOf(final CommentCreateRequest request, final Comment parent,
                                       final Community community) {
         return CommunityComment.builder()
                 .content(request.getComment())
                 .parent(parent)
+                .community(community)
+                .build();
+    }
+
+    public static CommunityComment orphanageOf(final CommentCreateRequest request, final Community community) {
+        return CommunityComment.builder()
+                .content(request.getComment())
+                .parent(null)
                 .community(community)
                 .build();
     }
