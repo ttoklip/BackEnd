@@ -2,7 +2,6 @@ package com.api.ttoklip.domain.question.comment.service;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
-import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
@@ -24,12 +23,6 @@ public class QuestionCommentService {
     private final CommentService commentService;
     private final ReportService reportService;
 
-    /* -------------------------------------------- COMMON -------------------------------------------- */
-    private Message successMessage(final Long newCommentId) {
-        return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
-    }
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
-
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
@@ -44,12 +37,12 @@ public class QuestionCommentService {
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
             Long newCommentId = registerCommentWithParent(request, findQuestion, parentComment);
-            return successMessage(newCommentId);
+            return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
         Long newCommentId = registerCommentOrphanage(request, findQuestion);
-        return successMessage(newCommentId);
+        return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
     }
 
     // 대댓글 생성
@@ -84,13 +77,14 @@ public class QuestionCommentService {
 
 
     /* -------------------------------------------- EDIT -------------------------------------------- */
+    /*
     @Transactional
     public Message edit(final Long commentId, final CommentEditRequest request) {
         // ToDo 본인이 썼는지 검증 과정 필요
         commentService.edit(commentId, request);
         return Message.editCommentSuccess(QuestionComment.class, commentId);
     }
-
+    */
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
 
 

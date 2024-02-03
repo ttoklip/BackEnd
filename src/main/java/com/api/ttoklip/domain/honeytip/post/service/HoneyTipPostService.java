@@ -25,7 +25,7 @@ public class HoneyTipPostService {
     private final S3FileUploader s3FileUploader;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
-    private HoneyTip getHoneytip(final Long postId) {
+    public HoneyTip getHoneytip(final Long postId) {
         return honeytipRepository.findByIdActivated(postId);
     }
 

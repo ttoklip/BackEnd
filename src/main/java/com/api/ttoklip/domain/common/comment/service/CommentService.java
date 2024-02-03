@@ -5,8 +5,6 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor.CommentEditorBuilder;
 import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +28,7 @@ public class CommentService {
     /* -------------------------------------------- READ 부모 댓글 -------------------------------------------- */
     public Optional<Comment> findParentComment(final Long parentCommentId) {
         if (parentCommentId != null) {
-            return commentRepository.findById(parentCommentId);
+            return commentRepository.findByIdActivatedOptional(parentCommentId);
         }
         return Optional.empty();
     }
