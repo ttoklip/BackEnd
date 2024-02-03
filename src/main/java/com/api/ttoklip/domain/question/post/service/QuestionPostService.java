@@ -71,7 +71,6 @@ public class QuestionPostService {
     }
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
-
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
         Question question = findQuestionById(postId);
@@ -79,8 +78,6 @@ public class QuestionPostService {
 
         return Message.reportPostSuccess(Question.class, postId);
     }
-
-
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
 }

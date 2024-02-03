@@ -116,6 +116,18 @@ public class HoneyTipResponseConstant {
                 }
             """;
 
+    public static final String REPORT_HONEY_TIP = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "HoneyTip Type의 1번째 게시글을(를) 신고했습니다."
+                    }
+                }
+            """;
+
     public static final String EDIT_HONEY_TIP = """
                 {
                     "time": "2024-02-03T21:26:54.063812",

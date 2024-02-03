@@ -75,8 +75,12 @@ public class QuestionPostController {
             @ApiResponse(responseCode = "200", description = "질문 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class)
-                            ))})
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.REPORT_QUESTION,
+                                    description = "질문을 신고했습니다."
+                            )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {

@@ -4,7 +4,6 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.comment.constant.HoneyTipResponseConstant;
 import com.api.ttoklip.domain.honeytip.comment.service.HoneyTipCommentService;
-import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;

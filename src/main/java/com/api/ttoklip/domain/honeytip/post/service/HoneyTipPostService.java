@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.honeytip.post.service;
 
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
@@ -19,10 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class HoneyTipPostService {
-    private final HoneyTipRepository honeytipRepository;
-    private final HoneyTipImageService honeyTipImageService;
-    private final HoneyTipUrlService honeyTipUrlService;
     private final S3FileUploader s3FileUploader;
+    private final HoneyTipRepository honeytipRepository;
+    private final ReportService reportService;
+    private final HoneyTipUrlService honeyTipUrlService;
+    private final HoneyTipImageService honeyTipImageService;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public HoneyTip getHoneytip(final Long postId) {
@@ -120,7 +123,6 @@ public class HoneyTipPostService {
         uploadUrls.forEach(uploadUrl -> honeyTipImageService.register(honeyTip, uploadUrl));
     }
 
-
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
 
 
@@ -135,4 +137,16 @@ public class HoneyTipPostService {
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- REPORT -------------------------------------------- */
+    @Transactional
+    public Message report(final Long postId, final ReportCreateRequest request) {
+        HoneyTip honeytip = getHoneytip(postId);
+        reportService.reportHoneyTip(request, honeytip);
+
+        return Message.reportPostSuccess(HoneyTip.class, postId);
+    }
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
 }

@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.common.report.domain;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,6 +43,10 @@ public class Report extends BaseEntity {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "honey_tip_id")
+    private HoneyTip honeyTip;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
@@ -50,6 +55,14 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .question(question)
+                .build();
+    }
+
+    public static Report honeyTipOf(final ReportCreateRequest request, final HoneyTip honeyTip) {
+        return Report.builder()
+                .content(request.getContent())
+                .reportType(request.getReportType())
+                .honeyTip(honeyTip)
                 .build();
     }
 
