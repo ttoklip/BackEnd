@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.auth.dto.AuthRes;
 import com.api.ttoklip.domain.auth.dto.KakaoProfile;
 import com.api.ttoklip.domain.auth.dto.OAuthToken;
 import com.api.ttoklip.domain.auth.dto.TokenMapping;
+import com.api.ttoklip.domain.user.domain.Provider;
 import com.api.ttoklip.domain.user.domain.Role;
 import com.api.ttoklip.domain.user.domain.User;
 import com.api.ttoklip.domain.user.domain.repository.UserRepository;
@@ -178,6 +179,7 @@ public class KakaoService {
         if (!byEmail.isPresent()) {
             User user = User.builder()
                     .providerId(kakaoProfile.getId())
+                    .provider(Provider.KAKAO)
                     .email(kakaoProfile.getKakaoAccount().getEmail())
                     .name(kakaoProfile.getKakaoAccount().getProfile().getNickname())
                     .role(Role.USER)

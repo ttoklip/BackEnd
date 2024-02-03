@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.auth.service;
 import com.api.ttoklip.domain.auth.dto.AuthRes;
 import com.api.ttoklip.domain.auth.dto.NaverProfile;
 import com.api.ttoklip.domain.auth.dto.TokenMapping;
+import com.api.ttoklip.domain.user.domain.Provider;
 import com.api.ttoklip.domain.user.domain.Role;
 import com.api.ttoklip.domain.user.domain.User;
 import com.api.ttoklip.domain.user.domain.repository.UserRepository;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -55,7 +57,7 @@ public class NaverService {
     private final UserRepository userRepository;
 
 
-
+    @Transactional
     public String getNaverAuthorizeUrl() throws URISyntaxException, MalformedURLException, UnsupportedEncodingException {
 
         UriComponents uriComponents = UriComponentsBuilder
@@ -69,6 +71,7 @@ public class NaverService {
         return uriComponents.toString();
     }
 
+    @Transactional
     public JSONObject getNaverToken(String code, String state) {
         RestTemplate rt = new RestTemplate();
 
@@ -86,6 +89,7 @@ public class NaverService {
         return jsonObject;
     }
 
+    @Transactional
     public NaverProfile getNaverUserInfo(String accessToken) {
         RestTemplate rt = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -102,11 +106,13 @@ public class NaverService {
     }
 
 
+    @Transactional
     public String getNaverAccessToken(String code, String state) {
         JSONObject tokenJson = getNaverToken(code, state);
         return tokenJson.getString("access_token");
     }
 
+    @Transactional
     public AuthRes naverLogin(NaverProfile naverProfile) {
         System.out.println("naverProfile.getEmail() = " + naverProfile.getNaverResponse());
 
@@ -115,6 +121,7 @@ public class NaverService {
         if (!byEmail.isPresent()) {
             User user = User.builder()
                     .providerId(naverProfile.getNaverResponse().getId())
+                    .provider(Provider.NAVER)
                     .email(naverProfile.getNaverResponse().getEmail())
                     .name(naverProfile.getNaverResponse().getName())
                     .role(Role.USER)
@@ -122,8 +129,8 @@ public class NaverService {
 
             User saveUser = userRepository.save(user);
 
-
         }
+
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
