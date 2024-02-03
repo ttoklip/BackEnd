@@ -23,10 +23,6 @@ public class HoneyTipImage extends BaseEntity {
     @JoinColumn(name = "honey_tip_id", nullable = false)
     private HoneyTip honeyTip;
 
-    public void updateHoneyTip(HoneyTip honeyTip) {
-        this.honeyTip = honeyTip;
-    }
-
     public static HoneyTipImage of(final HoneyTip honeyTip, final String url) {
         return HoneyTipImage.builder()
                 .honeyTip(honeyTip)

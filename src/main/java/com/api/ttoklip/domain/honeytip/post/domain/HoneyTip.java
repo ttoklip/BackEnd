@@ -10,6 +10,8 @@ import com.api.ttoklip.domain.honeytip.url.domain.HoneyTipUrl;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,6 +42,7 @@ public class HoneyTip extends BaseEntity {
     private String content;
 
     @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -65,6 +68,21 @@ public class HoneyTip extends BaseEntity {
     public void edit(final HoneyTipPostEditor editor) {
         this.title = editor.getTitle();
         this.content = editor.getContent();
+    }
+
+    @Override
+    public void deactivate() {
+        super.deactivate(); // HoneyTip 엔티티 비활성화
+        deactivateHoneyTipUrls(); // HoneyTipUrl 엔티티들을 비활성화
+        deactivateHoneyTipImages(); // HoneyTipImage 엔티티들을 비활성화
+    }
+
+    private void deactivateHoneyTipUrls() {
+        honeyTipUrlList.forEach(BaseEntity::deactivate);
+    }
+
+    private void deactivateHoneyTipImages() {
+        honeyTipImageList.forEach(BaseEntity::deactivate);
     }
 
 }

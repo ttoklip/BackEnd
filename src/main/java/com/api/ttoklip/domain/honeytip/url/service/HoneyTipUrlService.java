@@ -16,13 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class HoneyTipUrlService {
     private final HoneyTipUrlRepository honeyTipUrlRepository;
 
-    @Transactional
     public void register(final HoneyTip honeyTip, final String url) {
         HoneyTipUrl honeyTipUrl = HoneyTipUrl.of(honeyTip, url);
         honeyTipUrlRepository.save(honeyTipUrl);
     }
 
-    @Transactional
     public void updateHoneyTipUrls(final HoneyTip honeyTip, final List<String> newUrls) {
         Long honeyTipId = honeyTip.getId();
         List<HoneyTipUrl> existingUrls = honeyTipUrlRepository.findByHoneyTipId(honeyTipId);

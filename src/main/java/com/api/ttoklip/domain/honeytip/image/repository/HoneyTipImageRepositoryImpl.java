@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.honeytip.image.repository;
 
-import static com.api.ttoklip.domain.honeytip.post.post.domain.QHoneytipImage.honeytipImage;
+
+import static com.api.ttoklip.domain.honeytip.image.domain.QHoneyTipImage.*;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +14,8 @@ public class HoneyTipImageRepositoryImpl implements HoneyTipImageRepositoryCusto
     @Override
     public void deleteAllByHoneyTipId(final Long honeyTipId) {
         queryFactory
-                .delete(honeytipImage)
-                .where(honeytipImage.honeytip.id.eq(honeyTipId))
+                .delete(honeyTipImage)
+                .where(honeyTipImage.honeyTip.id.eq(honeyTipId))
                 .execute();
     }
 }

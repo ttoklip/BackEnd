@@ -1,8 +1,10 @@
 package com.api.ttoklip.domain.honeytip.post.repository;
 
-import static com.api.ttoklip.domain.honeytip.post.post.domain.QHoneytip.honeytip;
+
+import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.*;
 
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,7 +20,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     @Override
     public HoneyTip findByIdActivated(final Long honeyTipId) {
         HoneyTip findHoneyTip = jpaQueryFactory
-                .selectFrom(honeytip)
+                .selectFrom(honeyTip)
                 .where(
                         matchId(honeyTipId), getHoneyTipActivate()
                 )
@@ -28,10 +30,10 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     }
 
     private BooleanExpression matchId(final Long honeyTipId) {
-        return honeytip.id.eq(honeyTipId);
+        return honeyTip.id.eq(honeyTipId);
     }
 
     private BooleanExpression getHoneyTipActivate() {
-        return honeytip.deleted.isFalse();
+        return honeyTip.deleted.isFalse();
     }
 }

@@ -72,6 +72,7 @@ public class HoneyTipPostService {
 
 
     /* -------------------------------------------- EDIT -------------------------------------------- */
+    @Transactional
     public Message edit(final Long postId, final HoneyTipEditReq request) {
 
         // 기존 게시글 찾기
@@ -124,12 +125,13 @@ public class HoneyTipPostService {
 
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
+
+    @Transactional
     public Message delete(final Long postId) {
         HoneyTip honeyTip = getHoneytip(postId);
-        Long honeyTipId = honeyTip.getId();
-        honeytipRepository.deleteById(honeyTipId);
+        honeyTip.deactivate();
 
-        return Message.deletePostSuccess(HoneyTip.class, honeyTipId);
+        return Message.deletePostSuccess(HoneyTip.class, postId);
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
