@@ -16,7 +16,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-@Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
@@ -31,11 +30,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserById(Long id) {
-        log.debug("Attempting to load user by ID: {}", id);
         return userRepository.findById(id)
                 .map(UserPrincipal::createUser)
                 .orElseThrow(() -> {
-                    log.error("User with ID: {} could not be found.", id);
                     return new UsernameNotFoundException("유효하지 않는 유저입니다.");
                 });
     }
