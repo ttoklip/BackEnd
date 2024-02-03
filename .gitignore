@@ -37,3 +37,4 @@ out/
 .vscode/
 
 .env
+application.yml
