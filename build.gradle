@@ -66,6 +66,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
 	implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
 
+	// json
+	implementation 'org.json:json:20231013'
+
 }
 
 tasks.named('bootBuildImage') {

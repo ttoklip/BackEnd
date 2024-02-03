@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class KakaoProfile {
 
-    private long id;
+    private String id;
 
     @JsonProperty("connected_at")
     private String connectedAt;

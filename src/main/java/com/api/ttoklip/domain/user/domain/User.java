@@ -25,14 +25,14 @@ public class User extends BaseEntity {
     private String name;
 
     @Column(name = "provider_id", unique = true, updatable = false)
-    private Long providerId;
+    private String providerId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
 
     @Builder
-    public User(String email, String name, Long providerId, Role role) {
+    public User(String email, String name, String providerId, Role role) {
         this.email = email;
         this.name = name;
         this.providerId = providerId;
