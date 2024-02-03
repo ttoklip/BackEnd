@@ -35,8 +35,8 @@ public class HoneyTipPostController {
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
-								value = HoneyTipResponseConstant.createAndDeleteHoneytip,
-								description = "질문이 생성되었습니다."
+								value = HoneyTipResponseConstant.CREATE_HONEY_TIP,
+								description = "꿀팁이 생성되었습니다."
 	)))})
 	@PostMapping
 	public SuccessResponse<Message> register(final @Validated @ModelAttribute HoneyTipCreateReq request) {
@@ -53,11 +53,11 @@ public class HoneyTipPostController {
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
-								value = HoneyTipResponseConstant.createAndDeleteHoneytip,
+								value = HoneyTipResponseConstant.EDIT_HONEY_TIP,
 								description = "꿀팁이 수정되었습니다."
 						)))})
 	@PatchMapping("/{postId}")
-	public SuccessResponse<Message> edit(final @PathVariable Long postId, final @RequestBody HoneyTipEditReq request) {
+	public SuccessResponse<Message> edit(final @PathVariable Long postId, final @ModelAttribute HoneyTipEditReq request) {
 		return new SuccessResponse<>(honeytipPostService.edit(postId, request));
 	}
 
@@ -71,7 +71,7 @@ public class HoneyTipPostController {
 						schema = @Schema(implementation = SuccessResponse.class),
 						examples = @ExampleObject(
 								name = "SuccessResponse",
-								value = HoneyTipResponseConstant.DeleteHoneytip,
+								value = HoneyTipResponseConstant.DELETE_HONEY_TIP,
 								description = "꿀팁이 삭제되었습니다."
 	)))})
 	@DeleteMapping("/{postId}")

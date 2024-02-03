@@ -103,15 +103,6 @@ public class QuestionResponseConstant {
                     }
                 }      
         """;
-    public final static String createAndDeleteQuestion = """
-            {
-                  "time": "2024-01-11T16:06:30.852Z",
-                  "status": 200,
-                  "code": "200",
-                  "message": "요청에 성공하였습니다.",
-                  "result": 123
-                }
-        """;
 
     public final static String readSingleQuestion = """
             {
@@ -153,5 +144,17 @@ public class QuestionResponseConstant {
               }
             }
         """;
+
+    public static final String CREATE_QUESTION = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Question Type의 1번째 게시글을(를) 생성했습니다."
+                    }
+                }
+            """;
 
 }

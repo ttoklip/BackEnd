@@ -104,23 +104,39 @@ public class HoneyTipResponseConstant {
                             }
             """;
 
-    public static final String readSingleHoneytip = """
-            {
-                              "time": "2024-01-11T16:06:30.852Z",
-                              "status": 200,
-                              "code": "200",
-                              "message": "요청에 성공하였습니다.",
-                              "result": 123
-                            }
+    public static final String CREATE_HONEY_TIP = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "HoneyTip Type의 1번째 게시글을(를) 생성했습니다."
+                    }
+                }
             """;
 
-    public static final String DeleteHoneytip = """
-            {
-                              "time": "2024-01-11T16:06:30.852Z",
-                              "status": 200,
-                              "code": "200",
-                              "message": "요청에 성공하였습니다.",
-                              "result": 123
-                            }
+    public static final String EDIT_HONEY_TIP = """
+                {
+                    "time": "2024-02-03T21:26:54.063812",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "HoneyTip Type의 1번째 게시글을(를) 수정했습니다."
+                    }
+                }
+            """;
+
+    public static final String DELETE_HONEY_TIP = """
+                {
+                    "time": "2024-02-03T21:28:04.247031",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "HoneyTip Type의 1번째 게시글을(를) 삭제했습니다."
+                    }
+                }
             """;
 }

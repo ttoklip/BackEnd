@@ -40,7 +40,7 @@ public class QuestionPostController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    value = QuestionResponseConstant.CREATE_QUESTION,
                                     description = "질문이 생성되었습니다."
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
