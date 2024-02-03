@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.auth.controller;
 
-import com.api.ttoklip.domain.auth.dto.AuthRes;
-import com.api.ttoklip.domain.auth.dto.KakaoProfile;
-import com.api.ttoklip.domain.auth.dto.NaverProfile;
+import com.api.ttoklip.domain.auth.dto.response.AuthRes;
+import com.api.ttoklip.domain.auth.dto.request.KakaoProfile;
+import com.api.ttoklip.domain.auth.dto.request.NaverProfile;
 import com.api.ttoklip.domain.auth.service.KakaoService;
 import com.api.ttoklip.domain.auth.service.NaverService;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

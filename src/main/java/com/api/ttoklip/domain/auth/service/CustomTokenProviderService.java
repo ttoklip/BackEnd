@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.auth.service;
 
-import com.api.ttoklip.domain.auth.dto.TokenMapping;
+import com.api.ttoklip.domain.auth.dto.response.TokenMapping;
 import com.api.ttoklip.global.config.security.OAuth2Config;
 import com.api.ttoklip.global.config.security.token.UserPrincipal;
 import io.jsonwebtoken.*;

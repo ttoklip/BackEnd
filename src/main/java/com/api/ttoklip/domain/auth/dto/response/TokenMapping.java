@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.auth.dto;
+package com.api.ttoklip.domain.auth.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

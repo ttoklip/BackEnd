@@ -1,9 +1,9 @@
 package com.api.ttoklip.domain.auth.service;
 
-import com.api.ttoklip.domain.auth.dto.AuthRes;
-import com.api.ttoklip.domain.auth.dto.KakaoProfile;
-import com.api.ttoklip.domain.auth.dto.OAuthToken;
-import com.api.ttoklip.domain.auth.dto.TokenMapping;
+import com.api.ttoklip.domain.auth.dto.response.AuthRes;
+import com.api.ttoklip.domain.auth.dto.request.KakaoProfile;
+import com.api.ttoklip.domain.auth.dto.response.OAuthToken;
+import com.api.ttoklip.domain.auth.dto.response.TokenMapping;
 import com.api.ttoklip.domain.user.domain.Provider;
 import com.api.ttoklip.domain.user.domain.Role;
 import com.api.ttoklip.domain.user.domain.User;
@@ -11,7 +11,6 @@ import com.api.ttoklip.domain.user.domain.repository.UserRepository;
 import com.api.ttoklip.global.DefaultAssert;
 import com.api.ttoklip.global.config.security.OAuth2Config;
 import com.api.ttoklip.global.config.security.token.UserPrincipal;
-import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;

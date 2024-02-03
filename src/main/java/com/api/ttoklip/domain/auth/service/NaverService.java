@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.auth.service;
 
-import com.api.ttoklip.domain.auth.dto.AuthRes;
-import com.api.ttoklip.domain.auth.dto.NaverProfile;
-import com.api.ttoklip.domain.auth.dto.TokenMapping;
+import com.api.ttoklip.domain.auth.dto.response.AuthRes;
+import com.api.ttoklip.domain.auth.dto.request.NaverProfile;
+import com.api.ttoklip.domain.auth.dto.response.TokenMapping;
 import com.api.ttoklip.domain.user.domain.Provider;
 import com.api.ttoklip.domain.user.domain.Role;
 import com.api.ttoklip.domain.user.domain.User;

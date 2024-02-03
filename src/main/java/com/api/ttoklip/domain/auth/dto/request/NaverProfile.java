@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.auth.dto;
+package com.api.ttoklip.domain.auth.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

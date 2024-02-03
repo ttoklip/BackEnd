@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.auth.dto;
+package com.api.ttoklip.domain.auth.dto.response;
 
 import com.api.ttoklip.domain.user.domain.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
