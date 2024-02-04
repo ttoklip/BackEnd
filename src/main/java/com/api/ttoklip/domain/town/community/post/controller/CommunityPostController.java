@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.town.community.post.controller;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Town", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/town/comms")
+@RequestMapping("/api/v1/town/comms")
 public class CommunityPostController {
 
     private final CommunityPostService communityPostService;
@@ -41,7 +42,7 @@ public class CommunityPostController {
                                     description = "소통해요 게시글이 생성되었습니다."
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute QuestionCreateRequest request) {
+    public SuccessResponse<Long> register(final @Validated @ModelAttribute CommunityCreateRequest request) {
         Long communityId = communityPostService.register(request);
         return new SuccessResponse<>(communityId);
     }

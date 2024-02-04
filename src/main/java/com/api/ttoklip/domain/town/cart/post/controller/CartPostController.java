@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Town", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/town/carts")
+@RequestMapping("/api/v1/town/carts")
 public class CartPostController {
 
     private final CartPostService cartPostService;
@@ -50,8 +50,8 @@ public class CartPostController {
                             schema = @Schema(implementation = CartSingleResponse.class)
                     ))})
     @GetMapping("/{postId}")
-    public SuccessResponse<CommunitySingleResponse> getSinglePost(final @PathVariable Long postId) {
-        CommunitySingleResponse response = cartPostService.getSinglePost(postId);
+    public SuccessResponse<CartSingleResponse> getSinglePost(final @PathVariable Long postId) {
+        CartSingleResponse response = cartPostService.getSinglePost(postId);
         return new SuccessResponse<>(response);
     }
 
