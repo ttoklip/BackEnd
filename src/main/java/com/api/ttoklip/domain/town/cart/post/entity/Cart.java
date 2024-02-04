@@ -2,7 +2,9 @@ package com.api.ttoklip.domain.town.cart.post.entity;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
+import com.api.ttoklip.domain.question.image.domain.QuestionImage;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
+import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 import jakarta.persistence.*;
@@ -26,15 +28,23 @@ public class Cart extends BaseEntity {
 
     private String content;
 
-    @Builder
-    public Cart(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
+    // todo 위치 기반으로
+    private String location;
 
-    public void updateCartPost(String title, String content) {
+    private Long totalPrice;
+
+    private String chatUrl;
+
+    private Long party;
+
+    @Builder
+    public Cart(String title, String content, String location, Long totalPrice, String chatUrl, Long party) {
         this.title = title;
         this.content = content;
+        this.location = location;
+        this.totalPrice = totalPrice;
+        this.chatUrl = chatUrl;
+        this.party = party;
     }
 
     public static Cart of(final CartCreateRequest request) {
@@ -55,4 +65,8 @@ public class Cart extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CartComment> cartComments = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ItemUrl> itemUrls = new ArrayList<>();
 }
