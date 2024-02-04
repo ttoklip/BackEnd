@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
+import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,8 +22,6 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CartSingleResponse {
 
-    // todo 총가격, 거래장소, 상품링크, 채팅링크, 참여인원
-
     @Schema(description = " ID", example = "1")
     private Long cartId;
 
@@ -35,6 +34,18 @@ public class CartSingleResponse {
     @Schema(description = "함께해요 작성자", example = "작성자 예시")
     private String writer;
 
+    @Schema(description = "함께해요 총 가격", example = "총 가격 예시")
+    private Long totalPrice;
+
+    @Schema(description = "함께해요 거래희망 장소", example = "거래희망 장소 예시")
+    private String location;
+
+    @Schema(description = "함께해요 오픈채팅방 링크", example = "오픈채팅방 링크 예시")
+    private String chatUrl;
+
+    @Schema(description = "함께해요 공구 최대 인원", example = "공구 최대 인원 예시")
+    private Long party;
+
     @Schema(description = "함께해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
 
@@ -43,6 +54,9 @@ public class CartSingleResponse {
 
     @Schema(description = "함께해요에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
+
+    @Schema(description = "함께해요에 대한 상품관련 링크")
+    private List<ItemUrl> itemUrls;
 
     public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments) {
 
