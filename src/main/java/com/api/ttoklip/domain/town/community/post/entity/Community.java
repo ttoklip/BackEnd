@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Community extends BaseEntity {
 
     @Id
