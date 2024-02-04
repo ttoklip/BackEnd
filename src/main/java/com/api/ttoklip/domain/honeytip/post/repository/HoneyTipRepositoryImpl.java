@@ -48,7 +48,10 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 .leftJoin(honeyTip.honeyTipImageList, honeyTipImage)
                 .leftJoin(honeyTip.honeyTipUrlList, honeyTipUrl)
                 .fetchJoin()
-                .where(honeyTip.id.eq(honeyTipPostId))
+                .where(
+                        getHoneyTipActivate(),
+                        honeyTip.id.eq(honeyTipPostId)
+                )
                 .fetchOne();
 
         return Optional.ofNullable(findHoneyTip)
