@@ -69,7 +69,23 @@ public class NotiController {
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = NotiConstant.singleNoticeResponse,
-                                    description = "질문이 조회되었습니다."
+                                    description = "공지사항이 조회되었습니다."
+                            )))})
+    @DeleteMapping("/delete/{noticeId}")
+    public SuccessResponse<String> deleteNotice(final @PathVariable Long noticeId) {
+        NoticeResponse response = notiService.deleteNotice(noticeId);
+        return new SuccessResponse<>(response);
+    }
+    @Operation(summary = "공지사항 삭제", description = "공지사항 ID에 해당하는 공지사항을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "공지사항 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NotiConstant.deleteNoticeResponse,
+                                    description = "공지사항을 삭제하였습니다"
                             )))})
     @GetMapping("/{noticeId}")
     public SuccessResponse<NoticeResponse> getSingleNotice(final @PathVariable Long noticeId) {

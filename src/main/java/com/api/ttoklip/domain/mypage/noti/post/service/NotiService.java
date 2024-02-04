@@ -44,8 +44,17 @@ public class NotiService {
         NoticeResponse noticeResponse = NoticeResponse.of(notice);//추후 구현
         return noticeResponse;
     }
+    /* -------------------------------------------- DELETE  -------------------------------------------- */
+    @Transactional
+    public Mesaage deleteNotice(final Long noticeId){//message내일 추가
+        Notice notice = findNoticeById(noticeId);
+        notice.deactivate();
 
-    public NoticeListResponse noticeList(){
-        return null;
+        return Message.deletePostSuccess(Notice.class, noticeId);//message후에 추가
     }
+    /* -------------------------------------------- DELETE 끝   -------------------------------------------- */
+
+    /* -------------------------------------------- EDIT  -------------------------------------------- */
+
+    /* -------------------------------------------- EDIT  -------------------------------------------- */
 }
