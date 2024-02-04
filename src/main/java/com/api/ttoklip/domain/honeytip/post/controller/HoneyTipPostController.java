@@ -4,7 +4,9 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.constant.HoneyTipResponseConstant;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
+import com.api.ttoklip.domain.honeytip.post.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostService;
+import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -105,6 +108,24 @@ public class HoneyTipPostController {
                                            final @RequestBody ReportCreateRequest request) {
         Message message = honeytipPostService.report(postId, request);
         return new SuccessResponse<>(message);
+    }
+
+    /* READ */
+    @Operation(summary = "꿀팁 게시글 조회", description = "꿀팁 ID에 해당하는 게시글을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "꿀팁 조회 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.readSingleQuestion,
+                                    description = "꿀팁이 조회되었습니다."
+                            )))})
+    @GetMapping("/{postId}")
+    public SuccessResponse<HoneyTipSingleResponse> getSinglePost(final @PathVariable Long postId) {
+        HoneyTipSingleResponse response = honeytipPostService.getSinglePost(postId);
+        return new SuccessResponse<>(response);
     }
 
 }

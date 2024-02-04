@@ -23,6 +23,7 @@ public class HoneyTipCommentService {
     private final CommentService commentService;
     private final ReportService reportService;
 
+    @Transactional
     public Message register(final Long postId, final CommentCreateRequest request) {
         HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
 

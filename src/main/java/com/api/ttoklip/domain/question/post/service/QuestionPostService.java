@@ -63,12 +63,17 @@ public class QuestionPostService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- READ -------------------------------------------- */
     public QuestionSingleResponse getSinglePost(final Long postId) {
         Question questionWithImg = questionRepository.findByIdFetchJoin(postId);
         List<QuestionComment> activeComments = questionRepository.findActiveCommentsByQuestionId(postId);
         QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg, activeComments);
         return questionSingleResponse;
     }
+
+    /* -------------------------------------------- READ 끝-------------------------------------------- */
+
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional

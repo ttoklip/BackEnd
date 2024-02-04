@@ -2,10 +2,12 @@ package com.api.ttoklip.domain.honeytip.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
+import com.api.ttoklip.domain.honeytip.post.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.url.service.HoneyTipUrlService;
@@ -147,6 +149,18 @@ public class HoneyTipPostService {
 
         return Message.reportPostSuccess(HoneyTip.class, postId);
     }
+
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- READ -------------------------------------------- */
+    public HoneyTipSingleResponse getSinglePost(final Long postId) {
+
+        HoneyTip honeyTipWithImgAndUrl = honeytipRepository.findByIdFetchJoin(postId);
+        List<HoneyTipComment> activeComments = honeytipRepository.findActiveCommentsByHoneyTipId(postId);
+        HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl, activeComments);
+        return honeyTipSingleResponse;
+    }
+    /* -------------------------------------------- READ 끝 -------------------------------------------- */
 
 }
