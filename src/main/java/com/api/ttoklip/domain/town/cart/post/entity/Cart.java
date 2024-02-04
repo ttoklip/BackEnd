@@ -54,6 +54,16 @@ public class Cart extends BaseEntity {
                 .build();
     }
 
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        this.cartImages.forEach(CartImage::deactivate);
+        this.reports.forEach(Report::deactivate);
+        this.cartComments.forEach(CartComment::deactivate);
+        this.itemUrls.forEach(ItemUrl::deactivate);
+    }
+
+
     @Builder.Default
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CartImage> cartImages = new ArrayList<>();
