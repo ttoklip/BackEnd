@@ -9,8 +9,11 @@ import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
 import com.api.ttoklip.domain.honeytip.post.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
+import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipDefaultRepository;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.url.service.HoneyTipUrlService;
+import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
+import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
@@ -25,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class HoneyTipPostService {
     private final S3FileUploader s3FileUploader;
     private final HoneyTipRepository honeytipRepository;
+    private final HoneyTipDefaultRepository honeyTipDefaultRepository;
     private final ReportService reportService;
     private final HoneyTipUrlService honeyTipUrlService;
     private final HoneyTipImageService honeyTipImageService;
@@ -158,9 +162,33 @@ public class HoneyTipPostService {
 
         HoneyTip honeyTipWithImgAndUrl = honeytipRepository.findByIdFetchJoin(postId);
         List<HoneyTipComment> activeComments = honeytipRepository.findActiveCommentsByHoneyTipId(postId);
-        HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl, activeComments);
+        HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
+                activeComments);
         return honeyTipSingleResponse;
     }
+
     /* -------------------------------------------- READ 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- 카토고리별 MAIN READ -------------------------------------------- */
+    public CategoryResponses getDefaultCategoryRead() {
+        List<HoneyTip> houseWorkQuestions = honeyTipDefaultRepository.getHouseWork();
+        List<HoneyTip> recipeQuestions = honeyTipDefaultRepository.getRecipe();
+        List<HoneyTip> safeLivingQuestions = honeyTipDefaultRepository.getSafeLiving();
+        List<HoneyTip> welfarePolicyQuestions = honeyTipDefaultRepository.getWelfarePolicy();
+
+        return CategoryResponses.builder()
+                .housework(convertToTitleResponses(houseWorkQuestions))
+                .cooking(convertToTitleResponses(recipeQuestions))
+                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+                .build();
+    }
+
+    private List<TitleResponse> convertToTitleResponses(final List<HoneyTip> honeyTips) {
+        return honeyTips.stream()
+                .map(TitleResponse::honeyTipOf)
+                .toList();
+    }
 
 }

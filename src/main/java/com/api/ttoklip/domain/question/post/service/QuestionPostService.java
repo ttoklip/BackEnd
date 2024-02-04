@@ -2,11 +2,14 @@ package com.api.ttoklip.domain.question.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
+import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.service.QuestionImageService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
+import com.api.ttoklip.domain.question.post.repository.QuestionDefaultRepository;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -24,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class QuestionPostService {
 
     private final QuestionRepository questionRepository;
+    private final QuestionDefaultRepository questionDefaultRepository;
     private final QuestionImageService questionImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
@@ -64,7 +68,7 @@ public class QuestionPostService {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
 
-    /* -------------------------------------------- READ -------------------------------------------- */
+    /* -------------------------------------------- 단건 READ -------------------------------------------- */
     public QuestionSingleResponse getSinglePost(final Long postId) {
         Question questionWithImg = questionRepository.findByIdFetchJoin(postId);
         List<QuestionComment> activeComments = questionRepository.findActiveCommentsByQuestionId(postId);
@@ -72,7 +76,32 @@ public class QuestionPostService {
         return questionSingleResponse;
     }
 
-    /* -------------------------------------------- READ 끝-------------------------------------------- */
+    /* -------------------------------------------- 단건 READ 끝-------------------------------------------- */
+
+
+    /* -------------------------------------------- 카토고리별 MAIN READ -------------------------------------------- */
+
+    public CategoryResponses getDefaultCategoryRead() {
+        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
+        List<Question> recipeQuestions = questionDefaultRepository.getRecipe();
+        List<Question> safeLivingQuestions = questionDefaultRepository.getSafeLiving();
+        List<Question> welfarePolicyQuestions = questionDefaultRepository.getWelfarePolicy();
+
+        return CategoryResponses.builder()
+                .housework(convertToTitleResponses(houseWorkQuestions))
+                .cooking(convertToTitleResponses(recipeQuestions))
+                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+                .build();
+    }
+
+    private List<TitleResponse> convertToTitleResponses(final List<Question> questions) {
+        return questions.stream()
+                .map(TitleResponse::questionOf)
+                .toList();
+    }
+
+    /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- REPORT -------------------------------------------- */

@@ -1,9 +1,9 @@
 package com.api.ttoklip.domain.main.controller;
 
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
-import com.api.ttoklip.domain.main.dto.response.QuestionMainDefaultResponse;
-import com.api.ttoklip.domain.main.dto.response.QuestionSearchResponse;
-import com.api.ttoklip.domain.main.service.QuestionMainService;
+import com.api.ttoklip.domain.main.dto.response.CommonDefaultResponse;
+import com.api.ttoklip.domain.main.dto.response.CommonSearchResponse;
+import com.api.ttoklip.domain.main.service.CommonService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/question/main")
+@RequestMapping("/api/v1/common/main")
 @RequiredArgsConstructor
-public class QuestionMainController {
+public class CommonController {
 
-    private final QuestionMainService questionMainService;
+    private final CommonService commonService;
 
     @Operation(summary = "1번 질문해요 검색 API",
             description = "지정된 조건에 따라 질문해요 게시판을 페이징하여 조회합니다.")
@@ -37,13 +37,13 @@ public class QuestionMainController {
                                     value = QuestionResponseConstant.questionValue
                             )))})
     @GetMapping("/search")
-    public SuccessResponse<QuestionSearchResponse> search(@RequestParam String content, Pageable pageable) {
-        QuestionSearchResponse response = questionMainService.search(content, pageable);
+    public SuccessResponse<CommonSearchResponse> search(@RequestParam String content, Pageable pageable) {
+        CommonSearchResponse response = commonService.search(content, pageable);
         return new SuccessResponse<>(response);
     }
 
     @Operation(summary = "3, 6번 인기 순위 TOP5 & 카테고리별 조회 API",
-            description = "질문해요 메인페이지 도달시 인기 순위 TOP5와 카테고리별로 4개를 한번에 조회합니다.")
+            description = "질문해요 메인페이지 도달시 인기 순위 TOP5와 카테고리별로 10개씩 한번에 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "질문해요 메인 페이지 인기 순위 TOP5와 카테고리별 조회 성공",
                     content = @Content(
@@ -52,11 +52,11 @@ public class QuestionMainController {
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = QuestionResponseConstant.categoryValue,
-                                    description = "실제로는 인기순위 5개와 카테고리별로 4개가 한번에 응답이 나갑니다."
+                                    description = "실제로는 인기순위 5개와 카테고리별로별로 10개씩 한번에 응답이 나갑니다."
                             )))})
     @GetMapping
-    public SuccessResponse<QuestionMainDefaultResponse> category() {
-        QuestionMainDefaultResponse response = questionMainService.main();
-        return new SuccessResponse<>(response);
+    public SuccessResponse<CommonDefaultResponse> category() {
+        CommonDefaultResponse defaultCategoryRead = commonService.getDefaultCategoryRead();
+        return new SuccessResponse<>(defaultCategoryRead);
     }
 }
