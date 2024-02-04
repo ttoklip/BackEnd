@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.mypage.noti.dto.request;
+package com.api.ttoklip.domain.mypage.noti.post.dto.request;
 
 import lombok.Getter;
 

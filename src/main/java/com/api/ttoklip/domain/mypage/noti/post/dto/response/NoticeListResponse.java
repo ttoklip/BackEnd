@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.mypage.noti.dto.response;
+package com.api.ttoklip.domain.mypage.noti.post.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

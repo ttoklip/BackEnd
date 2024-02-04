@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.mypage.main.constant.MyPageConstant;
 import com.api.ttoklip.domain.mypage.main.dto.request.BlockedRequest;
 import com.api.ttoklip.domain.mypage.main.dto.request.MyPageRequest;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
+import com.api.ttoklip.domain.mypage.main.service.MyPageService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
