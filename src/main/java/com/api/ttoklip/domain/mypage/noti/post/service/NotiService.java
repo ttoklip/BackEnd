@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeListResponse;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,7 @@ public class NotiService {
     }
     /* -------------------------------------------- DELETE  -------------------------------------------- */
     @Transactional
-    public Mesaage deleteNotice(final Long noticeId){//message내일 추가
+    public Message deleteNotice(final Long noticeId){//message내일 추가
         Notice notice = findNoticeById(noticeId);
         notice.deactivate();
 

@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeListResponse;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
 import com.api.ttoklip.domain.mypage.noti.post.service.NotiService;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -72,9 +73,9 @@ public class NotiController {
                                     description = "공지사항이 조회되었습니다."
                             )))})
     @DeleteMapping("/delete/{noticeId}")
-    public SuccessResponse<String> deleteNotice(final @PathVariable Long noticeId) {
-        NoticeResponse response = notiService.deleteNotice(noticeId);
-        return new SuccessResponse<>(response);
+    public SuccessResponse<Message> deleteNotice(final @PathVariable Long noticeId) {
+       Message message = notiService.deleteNotice(noticeId);
+        return new SuccessResponse<>(message);
     }
     @Operation(summary = "공지사항 삭제", description = "공지사항 ID에 해당하는 공지사항을 삭제합니다.")
     @ApiResponses(value = {
