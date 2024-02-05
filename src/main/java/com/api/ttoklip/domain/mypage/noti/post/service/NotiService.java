@@ -70,7 +70,7 @@ public class NotiService {
         NoticePostEditor noticePostEditor = getPostEditor(request, notice);
         notice.edit(noticePostEditor);
 
-        return Message.editPostSuccess(Notice.class, notice.getId());
+        return Message.editPostSuccess(Notice.class, notice.getId());//message후에 추가
     }
 
     private NoticePostEditor getPostEditor(final NoticeCreateRequest request, final Notice notice) {
