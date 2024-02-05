@@ -42,7 +42,7 @@ public class NotiController {
                                     value = NotiConstant.noticeResponse,
                                     description = "공지사항이 조회되었습니다"
                             )))})
-    @GetMapping("/notice")
+    @GetMapping()
     public SuccessResponse<List<Notice>> getNoticeList() {
         return new SuccessResponse<>(notiService.getNoticeList());
     }
@@ -91,7 +91,7 @@ public class NotiController {
                                     value = NotiConstant.deleteNoticeResponse,
                                     description = "공지사항을 삭제하였습니다"
                             )))})
-    @DeleteMapping("/delete/{noticeId}")
+    @DeleteMapping("/{noticeId}")
     public SuccessResponse<Message> deleteNotice(final @PathVariable Long noticeId) {
         Message message = notiService.deleteNotice(noticeId);
         return new SuccessResponse<>(message);
