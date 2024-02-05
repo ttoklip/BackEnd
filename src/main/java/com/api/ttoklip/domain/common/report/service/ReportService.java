@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.repository.ReportRepository;
+import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
@@ -21,6 +22,13 @@ public class ReportService {
     @Transactional
     public void reportQuestion(final ReportCreateRequest request, final Question question) {
         Report report = Report.questionOf(request, question);
+        reportRepository.save(report);
+    }
+
+
+    @Transactional
+    public void reportHoneyTip(final ReportCreateRequest request, final HoneyTip honeyTip) {
+        Report report = Report.honeyTipOf(request, honeyTip);
         reportRepository.save(report);
     }
 
