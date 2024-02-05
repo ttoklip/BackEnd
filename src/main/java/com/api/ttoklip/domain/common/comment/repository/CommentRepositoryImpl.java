@@ -27,6 +27,17 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
     }
 
+    @Override
+    public Optional<Comment> findByIdActivatedOptional(final Long commentId) {
+        Comment findComment = jpaQueryFactory
+                .selectFrom(comment)
+                .where(
+                        matchId(commentId), getCommentActivate()
+                )
+                .fetchOne();
+        return Optional.ofNullable(findComment);
+    }
+
     private BooleanExpression matchId(final Long commentId) {
         return comment.id.eq(commentId);
     }

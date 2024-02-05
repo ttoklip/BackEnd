@@ -2,15 +2,19 @@ package com.api.ttoklip.domain.question.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
+import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
-import com.api.ttoklip.domain.question.image.service.ImageService;
+import com.api.ttoklip.domain.question.image.service.QuestionImageService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
+import com.api.ttoklip.domain.question.post.repository.QuestionDefaultRepository;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class QuestionPostService {
 
     private final QuestionRepository questionRepository;
-    private final ImageService imageService;
+    private final QuestionDefaultRepository questionDefaultRepository;
+    private final QuestionImageService questionImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
 
@@ -37,23 +42,23 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
-
     @Transactional
-    public Long register(final QuestionCreateRequest request) {
+    public Message register(final QuestionCreateRequest request) {
 
-        Question question = Question.of(request);
+        Question question = Question.from(request);
         questionRepository.save(question);
 
         List<MultipartFile> uploadImages = request.getImages();
         if (uploadImages != null && !uploadImages.isEmpty()) {
             registerImages(question, uploadImages);
         }
-        return question.getId();
+
+        return Message.registerPostSuccess(Question.class, question.getId());
     }
 
     private void registerImages(final Question question, final List<MultipartFile> multipartFiles) {
         List<String> uploadUrls = getImageUrls(multipartFiles);
-        uploadUrls.forEach(uploadUrl -> imageService.register(question, uploadUrl));
+        uploadUrls.forEach(uploadUrl -> questionImageService.register(question, uploadUrl));
     }
 
     private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {
@@ -62,6 +67,8 @@ public class QuestionPostService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- 단건 READ -------------------------------------------- */
     public QuestionSingleResponse getSinglePost(final Long postId) {
         Question questionWithImg = questionRepository.findByIdFetchJoin(postId);
         List<QuestionComment> activeComments = questionRepository.findActiveCommentsByQuestionId(postId);
@@ -69,15 +76,42 @@ public class QuestionPostService {
         return questionSingleResponse;
     }
 
-    /* -------------------------------------------- REPORT -------------------------------------------- */
+    /* -------------------------------------------- 단건 READ 끝-------------------------------------------- */
 
-    @Transactional
-    public void report(final Long postId, final ReportCreateRequest request) {
-        Question question = findQuestionById(postId);
-        reportService.reportQuestion(request, question);
+
+    /* -------------------------------------------- 카토고리별 MAIN READ -------------------------------------------- */
+
+    public CategoryResponses getDefaultCategoryRead() {
+        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
+        List<Question> recipeQuestions = questionDefaultRepository.getRecipe();
+        List<Question> safeLivingQuestions = questionDefaultRepository.getSafeLiving();
+        List<Question> welfarePolicyQuestions = questionDefaultRepository.getWelfarePolicy();
+
+        return CategoryResponses.builder()
+                .housework(convertToTitleResponses(houseWorkQuestions))
+                .cooking(convertToTitleResponses(recipeQuestions))
+                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+                .build();
     }
 
+    private List<TitleResponse> convertToTitleResponses(final List<Question> questions) {
+        return questions.stream()
+                .map(TitleResponse::questionOf)
+                .toList();
+    }
 
+    /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- REPORT -------------------------------------------- */
+    @Transactional
+    public Message report(final Long postId, final ReportCreateRequest request) {
+        Question question = findQuestionById(postId);
+        reportService.reportQuestion(request, question);
+
+        return Message.reportPostSuccess(Question.class, postId);
+    }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
 }

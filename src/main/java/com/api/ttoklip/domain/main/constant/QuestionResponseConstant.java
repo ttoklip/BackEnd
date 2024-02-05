@@ -103,55 +103,125 @@ public class QuestionResponseConstant {
                     }
                 }      
         """;
-    public final static String createAndDeleteQuestion = """
-            {
+
+    public final static String readSingleQuestion = """
+                {
                   "time": "2024-01-11T16:06:30.852Z",
                   "status": 200,
                   "code": "200",
                   "message": "요청에 성공하였습니다.",
-                  "result": 123
+                  "result": {
+                    "questionId": 1,
+                    "title": "질문 제목 예시",
+                    "content": "질문 내용 예시",
+                    "writer": "작성자 예시",
+                    "writtenTime": "2024-01-11 10:00:00",
+                    "category": "COOKING",
+                    "imageUrls": [
+                      {
+                        "postImaUrl": "http://example.com/image1.jpg"
+                      },
+                      {
+                        "postImaUrl": "http://example.com/image2.jpg"
+                      }
+                    ],
+                    "commentResponses": [
+                      {
+                        "commentId": 201,
+                        "commentContent": "댓글 내용 예시1",
+                        "parentId": null,
+                        "writer": "댓글 작성자1",
+                        "writtenTime": "2024-01-11 11:00:00"
+                      },
+                      {
+                        "commentId": 202,
+                        "commentContent": "댓글 내용 예시2",
+                        "parentId": 201,
+                        "writer": "댓글 작성자2",
+                        "writtenTime": "2024-01-11 11:30:00"
+                      }
+                    ],
+                    "urlResponses": [
+                                    {
+                                        "urls": "http:123"
+                                    },
+                                    {
+                                        "urls": "http456"
+                                    }
+                                ]
+                  }
                 }
-        """;
+            """;
 
-    public final static String readSingleQuestion = """
-            {
-              "time": "2024-01-11T16:06:30.852Z",
-              "status": 200,
-              "code": "200",
-              "message": "요청에 성공하였습니다.",
-              "result": {
-                "questionId": 1,
-                "title": "질문 제목 예시",
-                "content": "질문 내용 예시",
-                "writer": "작성자 예시",
-                "writtenTime": "2024-01-11 10:00:00",
-                "category": "COOKING",
-                "imageUrls": [
-                  {
-                    "postImaUrl": "http://example.com/image1.jpg"
-                  },
-                  {
-                    "postImaUrl": "http://example.com/image2.jpg"
-                  }
-                ],
-                "commentResponses": [
-                  {
-                    "commentId": 201,
-                    "commentContent": "댓글 내용 예시1",
-                    "parentId": null,
-                    "writer": "댓글 작성자1",
-                    "writtenTime": "2024-01-11 11:00:00"
-                  },
-                  {
-                    "commentId": 202,
-                    "commentContent": "댓글 내용 예시2",
-                    "parentId": 201,
-                    "writer": "댓글 작성자2",
-                    "writtenTime": "2024-01-11 11:30:00"
-                  }
-                ]
-              }
-            }
-        """;
+    public static final String CREATE_QUESTION = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Question Type의 1번째 게시글을(를) 생성했습니다."
+                    }
+                }
+            """;
 
+    public static final String CREATE_QUESTION_COMMENT = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Question Type의 1번째 댓글을(를) 생성했습니다."
+                    }
+                }
+            """;
+
+    public static final String EDIT_QUESTION_COMMENT = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Question Type의 1번째 댓글을(를) 수정했습니다."
+                    }
+                }
+            """;
+
+    public static final String DELETE_QUESTION_COMMENT = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Question Type의 1번째 댓글을(를) 삭제했습니다."
+                    }
+                }
+            """;
+
+    public static final String REPORT_QUESTION_COMMENT = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Question Type의 1번째 댓글을(를) 신고했습니다."
+                    }
+                }
+            """;
+
+    public static final String REPORT_QUESTION = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Question Type의 1번째 게시글을(를) 신고했습니다."
+                    }
+                }
+            """;
 }
