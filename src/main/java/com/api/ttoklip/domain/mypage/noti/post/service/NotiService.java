@@ -38,12 +38,12 @@ public class NotiService {
         return notice.getId();
     }
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
-    public NoticeResponse getSingleNotice(final Long noticeId) {
+    public NoticeResponse getSingleNotice(final Long noticeId) {//하나 조회
         Notice notice=findNoticeById(noticeId);
-        NoticeResponse noticeResponse = NoticeResponse.of(notice);//추후 구현
+        NoticeResponse noticeResponse = NoticeResponse.of(notice);//
         return noticeResponse;
     }
-    public List<Notice> getNoticeList() {
+    public List<Notice> getNoticeList() {//전체 조회
         //추후 구현
         return noticeRepository.findAll();
     }
