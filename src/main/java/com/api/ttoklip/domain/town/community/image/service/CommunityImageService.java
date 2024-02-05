@@ -19,4 +19,10 @@ public class CommunityImageService {
         CommunityImage newCommunityImage = CommunityImage.of(community, uploadUrl);
         communityImageRepository.save(newCommunityImage);
     }
+
+    @Transactional
+    public void deleteAllByPostId(final Long communityId) {
+
+        communityImageRepository.deleteAllByCommunityId(communityId);
+    }
 }
