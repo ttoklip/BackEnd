@@ -2,11 +2,12 @@ package com.api.ttoklip.domain.town.cart.post.entity;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
-import com.api.ttoklip.domain.question.image.domain.QuestionImage;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
+import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
+import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor.CartPostEditorBuilder;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -56,7 +57,7 @@ public class Cart extends BaseEntity {
 
     @Override
     public void deactivate() {
-        super.deactivate();
+        super.deactivate();  // BaseEntity에 정의되어 있는 메소드
         this.cartImages.forEach(CartImage::deactivate);
         this.reports.forEach(Report::deactivate);
         this.cartComments.forEach(CartComment::deactivate);
@@ -79,4 +80,15 @@ public class Cart extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ItemUrl> itemUrls = new ArrayList<>();
+
+    public CartPostEditorBuilder toEditor() {
+        return CartPostEditor.builder()
+                .title(title)
+                .content(content);
+    }
+
+    public void edit(final CartPostEditor editor) {
+        this.title = editor.getTitle();
+        this.content = editor.getContent();
+    }
 }

@@ -19,4 +19,10 @@ public class CartImageService {
         CartImage newCartImage = CartImage.of(cart, uploadUrl);
         cartImageRepository.save(newCartImage);
     }
+
+    @Transactional
+    public void deleteAllByPostId(final Long cartId) {
+
+        cartImageRepository.deleteAllByCartId(cartId);
+    }
 }

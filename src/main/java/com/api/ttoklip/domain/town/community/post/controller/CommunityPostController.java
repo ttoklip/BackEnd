@@ -79,9 +79,9 @@ public class CommunityPostController {
                                     description = "소통해요 게시글이 수정되었습니다."
                             )))})
     @PatchMapping("/{postId}")
-    public SuccessResponse<Long> edit(final @Validated @ModelAttribute QuestionCreateRequest request) {
-        Long communityId = communityPostService.edit(request);
-        return new SuccessResponse<>(communityId);
+    public SuccessResponse<Message> edit(final @PathVariable Long postId,
+                                      final @Validated @ModelAttribute CommunityCreateRequest request) {
+        return new SuccessResponse<>(communityPostService.edit(postId, request));
     }
 
     // todo 삭제 만들기

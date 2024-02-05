@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.town.community.post.editor;
 
-import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;

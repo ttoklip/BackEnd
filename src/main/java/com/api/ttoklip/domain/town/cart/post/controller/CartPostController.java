@@ -4,7 +4,6 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
-import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -55,19 +54,19 @@ public class CartPostController {
         return new SuccessResponse<>(response);
     }
 
-    /* UPDATE */
-    @Operation(summary = "함께해요 게시글 수정",
-            description = "함께해요 게시글을 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "함께해요 게시글 수정 성공",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = Long.class)
-                    ))})
-    @PatchMapping("/{postId}")
-    public SuccessResponse<Long> edit(final @Validated @ModelAttribute CartCreateRequest request) {
-        Long cartId = cartPostService.edit(request);
-        return new SuccessResponse<>(cartId);
-    }
+//    /* UPDATE */
+//    @Operation(summary = "함께해요 게시글 수정",
+//            description = "함께해요 게시글을 수정합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "함께해요 게시글 수정 성공",
+//                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                            schema = @Schema(implementation = Long.class)
+//                    ))})
+//    @PatchMapping("/{postId}")
+//    public SuccessResponse<Long> edit(final @Validated @ModelAttribute CartCreateRequest request) {
+//        Long cartId = cartPostService.edit(request);
+//        return new SuccessResponse<>(cartId);
+//    }
 
     /* REPORT */
     @Operation(summary = "함께해요 게시글 신고", description = "함께해요 ID에 해당하는 게시글을 신고합니다.")

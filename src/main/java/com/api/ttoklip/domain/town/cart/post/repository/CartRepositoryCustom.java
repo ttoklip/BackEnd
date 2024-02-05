@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface CartRepositoryCustom {
 
-    Cart findByIdFetchJoin(final Long cartPostId);
-    List<CartComment> findActiveCommentsByCartId(final Long commentId);
+    Cart findByIdActivated(final Long cartId);
+
+    Cart findByIdFetchJoin(Long postId);
+
+    List<CartComment> findActiveCommentsByCartId(Long postId);
+
 }

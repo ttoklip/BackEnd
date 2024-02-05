@@ -2,9 +2,6 @@ package com.api.ttoklip.domain.town.community.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
-import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @Service
@@ -137,7 +133,7 @@ public class CommunityPostService {
     }
 
     private Community findCommunity(final Long postId) {
-        return communityRepository.findByIdUndeleted(postId);
+        return communityRepository.findByIdUnDeleted(postId);
     }
 
     /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
