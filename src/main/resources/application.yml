@@ -24,7 +24,8 @@ spring:
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:3000/naver-callback
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+#            redirect-uri: https://getpostman.com/oauth/callback
             client-name: Naver
             scope:
               - name
@@ -33,12 +34,13 @@ spring:
             client-id: ${KAKAO_CLIENT_ID}
             client-secret: ${KAKAO_CLIENT_SECRET}
             authorization-grant-type: authorization_code
-            client-authentication-method: POST
+            client-authentication-method: client_secret_post
             client-name: Kakao
             scope:
-              - profile
+              - profile_nickname
               - account_email
-            redirect-uri: http://localhost:3000/kakao-callback
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+#           redirect-uri: https://getpostman.com/oauth/callback
         provider:
           naver:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize

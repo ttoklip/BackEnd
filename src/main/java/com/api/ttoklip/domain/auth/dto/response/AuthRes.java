@@ -14,16 +14,10 @@ public class AuthRes {
 //    @Schema( type = "string", example = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NTI3OTgxOTh9.asdf8as4df865as4dfasdf65_asdfweioufsdoiuf_432jdsaFEWFSDV_sadf" , description="refresh token 을 출력합니다.")
 //    private String refreshToken;
 
-    @Schema( type = "string", example ="Bearer", description="권한(Authorization) 값 해더의 명칭을 지정합니다.")
-    private String tokenType = "Bearer";
-
-    @Schema( type = "Role", example = "USER", description = "Role을 출력합니다.")
-    private Role role;
 
 
     @Builder
-    public AuthRes(String accessToken, Role role) {
+    public AuthRes(String accessToken) {
         this.accessToken = accessToken;
-        this.role = role;
     }
 }

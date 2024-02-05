@@ -1,25 +1,27 @@
 package com.api.ttoklip.domain.auth.controller;
 
+import com.api.ttoklip.domain.auth.dto.request.SignInReq;
+import com.api.ttoklip.domain.auth.dto.request.SignUpReq;
 import com.api.ttoklip.domain.auth.dto.response.AuthRes;
-import com.api.ttoklip.domain.auth.dto.request.KakaoProfile;
-import com.api.ttoklip.domain.auth.dto.request.NaverProfile;
-import com.api.ttoklip.domain.auth.service.KakaoService;
-import com.api.ttoklip.domain.auth.service.NaverService;
+import com.api.ttoklip.domain.auth.service.AuthService;
+import com.api.ttoklip.domain.honeytip.post.post.constant.HoneytipResponseConstant;
+import com.api.ttoklip.global.config.security.token.CurrentUser;
+import com.api.ttoklip.global.config.security.token.UserPrincipal;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Authorization", description = "Authorization API")
 @Slf4j
@@ -28,43 +30,79 @@ import java.net.URISyntaxException;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    private final KakaoService kakaoService;
-    private final NaverService naverService;
+    private final AuthService authService;
 
-    // 카카오 code 발급, 로그인 인증으로 리다이렉트해주는 url
-    @GetMapping("/login")
-    public void socialLoginRedirect() throws IOException {
-        kakaoService.accessRequest();
+
+    @Operation(summary = "유저 회원가입", description = "유저 회원가입을 수행합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원가입 성공",
+                    content = @Content(
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
+                                    description = "회원가입되었습니다."
+                            )))})
+    @PostMapping("/sign-up")
+    public SuccessResponse<Long> signup(
+            @Parameter(description = "Schema의 SignUpReq를 참고해주세요.", required = true) @Valid @RequestBody SignUpReq signUpReq
+    ) {
+        return new SuccessResponse<>(authService.signUp(signUpReq));
     }
 
-
-    //카카오 로그인
-    @GetMapping("/kakao/login")
-    public SuccessResponse<AuthRes> kakaoCallback(@RequestParam("code") String code) {
-        String accessToken = kakaoService.getKakaoAccessToken(code);
-        KakaoProfile kakaoProfile = kakaoService.getKakaoProfile(accessToken);
-
-        return new SuccessResponse<>(kakaoService.kakaoLogin(kakaoProfile));
+    @Operation(summary = "유저 로그인", description = "유저 로그인을 수행합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공",
+                    content = @Content(
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
+                                    description = "로그인되었습니다."
+                            )))})
+    @PostMapping(value = "/sign-in")
+    public SuccessResponse<AuthRes> signin(
+            @Parameter(description = "Schema의 SignInReq를 참고해주세요.", required = true) @Valid @RequestBody SignInReq signInReq
+    ) {
+        return new SuccessResponse<>(authService.signIn(signInReq));
     }
 
-    //네이버 code 발급
-    @GetMapping("/naver-login")
-    public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
-        String url = naverService.getNaverAuthorizeUrl();
-        try {
-            response.sendRedirect(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Operation(summary = "유저 로그아웃", description = "유저 로그아웃을 수행합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "로그아웃 성공",
+//                    content = @Content(
+//                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+//                            schema = @Schema(implementation = SuccessResponse.class),
+//                            examples = @ExampleObject(
+//                                    name = "SuccessResponse",
+//                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
+//                                    description = "로그아웃되었습니다."
+//                            )))})
+//    @PostMapping("/sign-out")
+//    public SuccessResponse<Message> signout(
+//            @Parameter(description = "AccessToken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+//            ) {
+//        return new SuccessResponse<>(authService.signOut(userPrincipal));
+//    }
 
-    //네이버 로그인
-    @GetMapping("/naver/login")
-    public SuccessResponse<AuthRes> naverCallback(@RequestParam("code") String code, @RequestParam("state") String state) {
-        String accessToken = naverService.getNaverAccessToken(code, state);
-        NaverProfile naverProfile = naverService.getNaverUserInfo(accessToken);
-        System.out.println("naverProfile = " + naverProfile);
-        return new SuccessResponse<>(naverService.naverLogin(naverProfile));
+    @Operation(summary = "닉네임 중복 체크", description = "닉네임 중복체크를 수행합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "중복체크 성공",
+                    content = @Content(
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
+                                    description = "중복체크되었습니다."
+                            )))})
+    @GetMapping("/nicknames/{nickname}")
+    public SuccessResponse<Message> checkNickname(
+            @Parameter(description = "검사할 닉네임을 입력해주세요.", required = true) @PathVariable(value = "nickname") String nickname
+    ) {
+        return new SuccessResponse<>(authService.checkNickname(nickname));
     }
 
 }
