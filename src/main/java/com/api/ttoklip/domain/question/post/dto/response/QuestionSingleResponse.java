@@ -76,7 +76,7 @@ public class QuestionSingleResponse {
         List<QuestionImage> questionImages = question.getQuestionImages();
         return questionImages
                 .stream()
-                .map(ImageResponse::from)
+                .map(ImageResponse::questionFrom)
                 .toList();
     }
 
