@@ -9,8 +9,8 @@ public interface CommunityRepositoryCustom {
 
     Community findByIdActivated(final Long communityId);
 
-    Community findByIdFetchJoin(Long postId);
+    Community findByIdFetchJoin(final Long postId);
 
-    List<CommunityComment> findActiveCommentsByCommunityId(Long postId);
+    List<CommunityComment> findActiveCommentsByCommunityId(final Long postId);
 
 }

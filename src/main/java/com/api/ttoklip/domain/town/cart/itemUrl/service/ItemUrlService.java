@@ -20,4 +20,9 @@ public class ItemUrlService {
         ItemUrl newItemUrl = ItemUrl.of(cart, uploadUrl);
         itemUrlRepository.save(newItemUrl);
     }
+
+    @Transactional
+    public void deleteAllByPostId(final Long cartId) {
+        itemUrlRepository.deleteAllByCartId(cartId);
+    }
 }

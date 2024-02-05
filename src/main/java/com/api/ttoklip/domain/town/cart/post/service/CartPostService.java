@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
+import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
@@ -29,7 +30,7 @@ public class CartPostService {
     private final CartImageService cartImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
-
+    private final ItemUrlService itemUrlService;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Cart findCartById(final Long postId) {
@@ -50,9 +51,9 @@ public class CartPostService {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Long register(final CartCreateRequest request) {
+    public Message register(final CartCreateRequest request) {
 
-        Cart cart = Cart.of(request);
+        Cart cart = Cart.from(request);
         cartRepository.save(cart);
 
         List<MultipartFile> uploadImages = request.getImages();
@@ -60,7 +61,12 @@ public class CartPostService {
             registerImages(cart, uploadImages);
         }
 
-        return cart.getId();
+        List<String> itemUrls = request.getItemUrls();
+        if (itemUrls != null && !itemUrls.isEmpty()) {
+            itemUrls.forEach(itemUrl -> itemUrlService.register(cart, itemUrl));
+        }
+
+        return Message.registerPostSuccess(Cart.class, cart.getId());
     }
 
     private void registerImages(final Cart cart, final List<MultipartFile> multipartFiles) {
@@ -101,6 +107,12 @@ public class CartPostService {
             editImages(images, cart);
         }
 
+        List<String> itemUrls = request.getItemUrls();
+        if (itemUrls != null && !itemUrls.isEmpty()) {
+            editItemUrls(cart, itemUrls);
+        }
+
+
         return Message.editPostSuccess(Cart.class, cart.getId());
     }
 
@@ -123,6 +135,10 @@ public class CartPostService {
         uploadUrls.forEach(uploadUrl -> cartImageService.register(cart, uploadUrl));
     }
 
+    private void editItemUrls(Cart cart, List<String> itemUrls) {
+        itemUrlService.deleteAllByPostId(cart.getId());
+        itemUrls.forEach(itemUrl -> itemUrlService.register(cart, itemUrl));
+    }
 
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
 
@@ -143,9 +159,11 @@ public class CartPostService {
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
-    public void report(final Long postId, final ReportCreateRequest request) {
-        Cart cart = findCart(postId);
+    public Message report(final Long postId, final ReportCreateRequest request) {
+        Cart cart = findCartById(postId);
         reportService.reportCart(request, cart);
+
+        return Message.reportPostSuccess(Cart.class, postId);
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */

@@ -34,12 +34,7 @@ public class Community extends BaseEntity {
         this.content = content;
     }
 
-    public void updateCommunityPost(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    public static Community of(final CommunityCreateRequest request) {
+    public static Community from(final CommunityCreateRequest request) {
         return Community.builder()
                 .content(request.getContent())
                 .title(request.getTitle())

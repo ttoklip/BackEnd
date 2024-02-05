@@ -47,7 +47,7 @@ public class CommunitySingleResponse {
         String formattedCreatedDate = getFormattedCreatedDate(community);
 
         // CartImage entity to Response
-        List<CommunityImageResponse> communityImageRespons = getImageResponses(community);
+        List<CommunityImageResponse> communityImageResponses = getImageResponses(community);
 
         // Comment entity to Response
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
@@ -58,7 +58,7 @@ public class CommunitySingleResponse {
                 .content(community.getContent())
 //                .writer(community.getMember().getName) ToDo Member 엔티티 연결 후 수정
                 .writtenTime(formattedCreatedDate)
-                .imageUrls(communityImageRespons)
+                .imageUrls(communityImageResponses)
                 .commentResponses(commentResponses)
                 .build();
     }

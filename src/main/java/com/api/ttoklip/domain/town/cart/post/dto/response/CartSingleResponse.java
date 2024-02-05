@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
+import com.api.ttoklip.domain.town.cart.itemUrl.dto.response.ItemUrlResponse;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.global.util.TimeUtil;
@@ -56,7 +57,7 @@ public class CartSingleResponse {
     private List<CommentResponse> commentResponses;
 
     @Schema(description = "함께해요에 대한 상품관련 링크")
-    private List<ItemUrl> itemUrls;
+    private List<ItemUrlResponse> itemUrls;
 
     public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments) {
 
@@ -69,12 +70,20 @@ public class CartSingleResponse {
         // Comment entity to Response
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
 
+        List<ItemUrl> itemUrls = cart.getItemUrls();
+        List<ItemUrlResponse> itemUrlsResponses = getItemUrls(itemUrls);
+
         return CartSingleResponse.builder()
                 .cartId(cart.getId())
                 .title(cart.getTitle())
                 .content(cart.getContent())
+                .totalPrice(cart.getTotalPrice())
+                .location(cart.getLocation())
+                .chatUrl(cart.getChatUrl())
+                .party(cart.getParty())
 //                .writer(cart.getMember().getName) ToDo Member 엔티티 연결 후 수정
                 .writtenTime(formattedCreatedDate)
+                .itemUrls(itemUrlsResponses)
                 .imageUrls(imageResponses)
                 .commentResponses(commentResponses)
                 .build();
@@ -97,6 +106,13 @@ public class CartSingleResponse {
         return cartComments
                 .stream()
                 .map(CommentResponse::from)
+                .toList();
+    }
+
+    private static List<ItemUrlResponse> getItemUrls(final List<ItemUrl> itemUrls) {
+        return itemUrls
+                .stream()
+                .map(ItemUrlResponse::from)
                 .toList();
     }
 }

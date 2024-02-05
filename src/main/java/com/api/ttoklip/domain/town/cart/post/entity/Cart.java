@@ -38,18 +38,12 @@ public class Cart extends BaseEntity {
 
     private Long party;
 
-    @Builder
-    public Cart(String title, String content, String location, Long totalPrice, String chatUrl, Long party) {
-        this.title = title;
-        this.content = content;
-        this.location = location;
-        this.totalPrice = totalPrice;
-        this.chatUrl = chatUrl;
-        this.party = party;
-    }
-
-    public static Cart of(final CartCreateRequest request) {
+    public static Cart from(final CartCreateRequest request) {
         return Cart.builder()
+                .location(request.getLocation())
+                .totalPrice(request.getTotalPrice())
+                .chatUrl(request.getChatUrl())
+                .party(request.getParty())
                 .content(request.getContent())
                 .title(request.getTitle())
                 .build();

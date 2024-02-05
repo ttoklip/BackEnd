@@ -3,12 +3,14 @@ package com.api.ttoklip.domain.town.community.post.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class CommunityCreateRequest {
 
     @Schema(description = "게시글 제목", example = "게시글 제목 예시")
