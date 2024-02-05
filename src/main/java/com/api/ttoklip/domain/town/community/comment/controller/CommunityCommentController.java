@@ -1,11 +1,15 @@
 package com.api.ttoklip.domain.town.community.comment.controller;
 
+import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.community.comment.dto.request.CommunityCommentCreateRequest;
 import com.api.ttoklip.domain.town.community.comment.dto.request.CommunityCommentUpdateRequest;
 import com.api.ttoklip.domain.town.community.comment.service.CommunityCommentService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,48 +20,70 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Town", description = "우리동네 - 소통해요 댓글 API 입니다.")
 @RestController
-@RequestMapping("/town/comms")
+@RequestMapping("api/v1/town/comms/comment")
 @RequiredArgsConstructor
 public class CommunityCommentController {
 
-    private CommunityCommentService commCommentService;
+    private CommunityCommentService communityCommentService;
 
-    // 소통해요(comm) 댓글
+    // 소통해요(community) 댓글
+
+    /* CREATE */
     @Operation(summary = "소통해요 댓글 생성", description = "소통해요 게시글에 댓글을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "소통해요 댓글 생성 성공",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class))),
-    })
-    @PostMapping("comment/{commId}")
-    public SuccessResponse<Long> createCommComment(final @PathVariable Long commId,
-                                                   final @RequestBody CommunityCommentCreateRequest commCommentCreateRequest) {
-        Long createdCommentId = commCommentService.createCommComment(commId, commCommentCreateRequest);
+            @ApiResponse(responseCode = "200", description = "소통해요 생성 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    ))})
+    @PostMapping("/{postId}")
+    public SuccessResponse<Long> register(final @PathVariable Long postId,
+                                          final @RequestBody CommentCreateRequest request) {
+        Long createdCommentId = communityCommentService.register(postId, request);
         return new SuccessResponse<>(createdCommentId);
     }
 
+    /* REPORT */
+    @Operation(summary = "소통해요 댓글 신고", description = "댓글 ID로 댓글을 신고합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "소통해요 신고 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    ))})
+    @PostMapping("/report/{commentId}")
+    public SuccessResponse<Long> report(final @PathVariable Long commentId,
+                                        final @RequestBody ReportCreateRequest request) {
+        communityCommentService.report(commentId, request);
+        return new SuccessResponse<>(commentId);
+    }
+
+    /* UPDATE */
     @Operation(summary = "소통해요 댓글 수정", description = "소통해요 게시글 댓글을 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 댓글 수정 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class))),
     })
-    @PatchMapping("comment/{commentId}")
-    public SuccessResponse<Long> updateCommComment(final @PathVariable Long commentId,
-                                                   final @RequestBody CommunityCommentUpdateRequest commCommentUpdateRequest) {
-        CommunityCommentService.updateCommComment(commentId, commCommentUpdateRequest);
+    @PatchMapping("/{commentId}")
+    public SuccessResponse<Long> edit(final @PathVariable Long commentId,
+                                      final @RequestBody CommentEditRequest request) {
+        communityCommentService.edit(commentId, request);
         return new SuccessResponse<>(commentId);
     }
 
-    @Operation(summary = "소통해요 댓글 삭제", description = "소통해요 게시글 댓글을 삭제합니다.")
+    /* DELETE */
+    @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "소통해요 댓글 삭제 성공",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class))),
-    })
-    @DeleteMapping("comment/{commentId}")
-    public SuccessResponse<Long> deletCommComment(final @PathVariable Long commentId) {
-        CommunityCommentService.deletCommComment(commentId);
+            @ApiResponse(responseCode = "200", description = "질문 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class)
+                            ))})
+    @DeleteMapping("/{commentId}")
+    public SuccessResponse<Long> delete ( final @PathVariable Long commentId){
+        communityCommentService.delete(commentId);
+
         return new SuccessResponse<>(commentId);
     }
 }

@@ -1,15 +1,10 @@
 package com.api.ttoklip.domain.town.main.controller;
 
-import com.api.ttoklip.domain.town.cart.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.dto.response.CartListResponse;
-import com.api.ttoklip.domain.town.cart.dto.response.CartResponse;
-import com.api.ttoklip.domain.town.cart.dto.response.CartSummaryResponse;
-import com.api.ttoklip.domain.town.cart.service.CartService;
-import com.api.ttoklip.domain.town.community.dto.request.CommunityCreateRequest;
-import com.api.ttoklip.domain.town.community.dto.request.CommunitySearchCondition;
-import com.api.ttoklip.domain.town.community.dto.response.CommunityListResponse;
-import com.api.ttoklip.domain.town.community.dto.response.CommunityResponse;
-import com.api.ttoklip.domain.town.community.service.CommunityService;
+import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
+import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,11 +23,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/town/main")
+@RequestMapping("api/v1/town/main")
 public class TownMainController {
 
-    private final CartService cartService;
-    private final CommunityService commService;
+    private final CartPostService cartPostService;
+    private final CommunityPostService commService;
 
     @Operation(summary = "함께해요 더보기 페이지 조회",
             description = "함께해요 더보기 페이지를 조회합니다.")
@@ -48,7 +43,7 @@ public class TownMainController {
     @GetMapping("/carts")
     public SuccessResponse<List<CartSummaryResponse>> getCartPage() {
 
-        List<CartSummaryResponse> cartListResponse = cartService.getAllCartsSummary();
+        List<CartSummaryResponse> cartListResponse = cartPostService.getAllCartsSummary();
         return new SuccessResponse<>(cartListResponse);
     }
 
@@ -74,15 +69,15 @@ public class TownMainController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 생성 성공",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = CartResponse.class),
+                            schema = @Schema(implementation = CartSingleResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = TownResponseConstant.townValue
                             )))})
     @PostMapping("/carts")
-    public SuccessResponse<CartResponse> createCartPost(final @Validated @ModelAttribute CartCreateRequest request) {
-        CartResponse cartResponse = cartService.createCartPost(request);
-        return new SuccessResponse<>(cartResponse);
+    public SuccessResponse<CartSingleResponse> createCartPost(final @Validated @ModelAttribute CartCreateRequest request) {
+        CartSingleResponse cartSingleResponse = cartPostService.createCartPost(request);
+        return new SuccessResponse<>(cartSingleResponse);
     }
 
     @Operation(summary = "소통해요 게시글 생성",
