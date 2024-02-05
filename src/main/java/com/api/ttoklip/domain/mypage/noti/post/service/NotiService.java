@@ -49,11 +49,11 @@ public class NotiService {
     }
     /* -------------------------------------------- DELETE  -------------------------------------------- */
     @Transactional
-    public Message deleteNotice(final Long noticeId){//message내일 추가
+    public Message deleteNotice(final Long noticeId){//소프트삭제 구현
         Notice notice = findNoticeById(noticeId);
         notice.deactivate();
 
-        return Message.deletePostSuccess(Notice.class, noticeId);//message후에 추가
+        return Message.deletePostSuccess(Notice.class, noticeId);
     }
     /* -------------------------------------------- DELETE 끝   -------------------------------------------- */
 
