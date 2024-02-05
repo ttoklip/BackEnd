@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.post.service.QuestionPostService;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,13 +40,13 @@ public class QuestionPostController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    value = QuestionResponseConstant.CREATE_QUESTION,
                                     description = "질문이 생성되었습니다."
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute QuestionCreateRequest request) {
-        Long questionId = questionPostService.register(request);
-        return new SuccessResponse<>(questionId);
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute QuestionCreateRequest request) {
+        Message message = questionPostService.register(request);
+        return new SuccessResponse<>(message);
     }
 
 
@@ -74,13 +75,17 @@ public class QuestionPostController {
             @ApiResponse(responseCode = "200", description = "질문 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class)
-                            ))})
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.REPORT_QUESTION,
+                                    description = "질문을 신고했습니다."
+                            )))})
     @PostMapping("/report/{postId}")
-    public SuccessResponse<Long> report(final @PathVariable Long postId,
+    public SuccessResponse<Message> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
-        questionPostService.report(postId, request);
-        return new SuccessResponse<>(postId);
+        Message message = questionPostService.report(postId, request);
+        return new SuccessResponse<>(message);
     }
 
 
