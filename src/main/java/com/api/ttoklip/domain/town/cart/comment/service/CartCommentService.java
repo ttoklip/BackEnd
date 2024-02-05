@@ -26,7 +26,7 @@ public class CartCommentService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public Long register(final Long postId, final CommentCreateRequest request) {
-        Cart findCart = cartPostService.findCartById(postId);
+        Cart findCart = cartPostService.findCart(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();

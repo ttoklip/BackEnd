@@ -10,8 +10,8 @@ public interface CartRepositoryCustom {
 
     Cart findByIdActivated(final Long cartId);
 
-    Cart findByIdFetchJoin(Long postId);
+    Cart findByIdFetchJoin(final Long postId);
 
-    List<CartComment> findActiveCommentsByCartId(Long postId);
+    List<CartComment> findActiveCommentsByCartId(final Long postId);
 
 }

@@ -32,12 +32,8 @@ public class CommunityPostService {
 
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Community findCommunityById(final Long postId) {
-        return communityRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUND));
-    }
 
-    public Community getCommunity(final Long postId) {
+    public Community findCommunity(final Long postId) {
         return communityRepository.findByIdActivated(postId);
     }
 
@@ -91,7 +87,7 @@ public class CommunityPostService {
     @Transactional
     public Message edit(final Long postId, final CommunityCreateRequest request) {
 
-        Community community = getCommunity(postId);
+        Community community = findCommunity(postId);
 
         CommunityPostEditor postEditor = getPostEditor(request, community);
         community.edit(postEditor);
@@ -132,9 +128,6 @@ public class CommunityPostService {
         community.deactivate(); // 비활성화
     }
 
-    private Community findCommunity(final Long postId) {
-        return communityRepository.findByIdUnDeleted(postId);
-    }
 
     /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
 
@@ -142,7 +135,7 @@ public class CommunityPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public void report(final Long postId, final ReportCreateRequest request) {
-        Community community = findCommunityById(postId);
+        Community community = findCommunity(postId);
         reportService.reportCommunity(request, community);
     }
 

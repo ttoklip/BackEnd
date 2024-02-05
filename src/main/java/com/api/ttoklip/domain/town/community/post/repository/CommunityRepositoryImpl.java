@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.community.post.repository;
 
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -73,7 +74,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     }
 
     private BooleanExpression matchCommunityId(final Long communityId) {
-        return communityComment.community.id.eq(communityId);
+        return community.id.eq(communityId);
     }
 
     private BooleanExpression getCommentActivate() {

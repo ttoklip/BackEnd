@@ -134,8 +134,8 @@ public class CartPostService {
     }
 
     //
-    private Cart findCart(final Long postId) {
-        return cartRepository.findByIdUnDeleted(postId);
+    public Cart findCart(final Long postId) {
+        return cartRepository.findByIdActivated(postId);
     }
 
     /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
@@ -144,7 +144,7 @@ public class CartPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public void report(final Long postId, final ReportCreateRequest request) {
-        Cart cart = findCartById(postId);
+        Cart cart = findCart(postId);
         reportService.reportCart(request, cart);
     }
 

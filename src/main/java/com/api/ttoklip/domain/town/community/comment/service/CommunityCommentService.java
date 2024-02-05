@@ -27,7 +27,7 @@ public class CommunityCommentService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public Long register(final Long postId, final CommentCreateRequest request) {
-        Community findCommunity = communityPostService.findCommunityById(postId);
+        Community findCommunity = communityPostService.findCommunity(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
