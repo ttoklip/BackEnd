@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
 import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
-import static com.api.ttoklip.domain.town.community.image.entity.QCart
+import static com.api.ttoklip.domain.town.community.image.entity.QCart;
 import static com.api.ttoklip.domain.town.community.comment.QCartComment.cartComment;
 
 
