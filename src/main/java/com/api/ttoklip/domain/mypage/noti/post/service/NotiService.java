@@ -1,11 +1,10 @@
 package com.api.ttoklip.domain.mypage.noti.post.service;
 
-import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.mypage.noti.post.domain.NoticeRepository;
 import com.api.ttoklip.domain.mypage.noti.post.domain.Notice;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
-import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeListResponse;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
+import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
@@ -21,7 +20,6 @@ import java.util.List;
 public class NotiService {
 
     private final NoticeRepository noticeRepository;
-    private final ReportService reportService;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Notice findNoticeById(final Long noticeId){
@@ -45,6 +43,10 @@ public class NotiService {
         NoticeResponse noticeResponse = NoticeResponse.of(notice);//추후 구현
         return noticeResponse;
     }
+    public List<Notice> getNoticeList() {
+        //추후 구현
+        return noticeRepository.findAll();
+    }
     /* -------------------------------------------- DELETE  -------------------------------------------- */
     @Transactional
     public Message deleteNotice(final Long noticeId){//message내일 추가
@@ -56,6 +58,29 @@ public class NotiService {
     /* -------------------------------------------- DELETE 끝   -------------------------------------------- */
 
     /* -------------------------------------------- EDIT  -------------------------------------------- */
+    @Transactional
+    public Message edit(final Long noticeId, final NoticeCreateRequest request) {
+
+        // 기존 게시글 찾기
+        Notice notice = findNoticeById(noticeId);
+
+        // ToDO Validate currentMember
+
+        // title, content 수정
+        NoticePostEditor noticePostEditor = getPostEditor(request, notice);
+        notice.edit(noticePostEditor);
+
+        return Message.editPostSuccess(Notice.class, notice.getId());
+    }
+
+    private NoticePostEditor getPostEditor(final NoticeCreateRequest request, final Notice notice) {
+        NoticePostEditor.NoticePostEditorBuilder editorBuilder = notice.toEditor();
+        NoticePostEditor noticePostEditor = editorBuilder
+                .title(request.getTitle())
+                .content(request.getContent())
+                .build();
+        return noticePostEditor;
+    }
 
     /* -------------------------------------------- EDIT  -------------------------------------------- */
 }

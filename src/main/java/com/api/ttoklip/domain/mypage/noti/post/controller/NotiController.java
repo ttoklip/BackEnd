@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.mypage.noti.post.controller;
 
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.mypage.noti.post.constant.NotiConstant;
+import com.api.ttoklip.domain.mypage.noti.post.domain.Notice;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeListResponse;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
@@ -20,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "공지사항", description = "공지사항 api입니다")
 @RequiredArgsConstructor
@@ -40,8 +43,8 @@ public class NotiController {
                                     description = "공지사항이 조회되었습니다"
                             )))})
     @GetMapping("/notice")
-    public SuccessResponse<NoticeListResponse> noticeList() {
-        return new SuccessResponse<>(notiService.noticeList());
+    public SuccessResponse<List<Notice>> getNoticeList() {
+        return new SuccessResponse<>(notiService.getNoticeList());
     }
 
     @Operation(summary = "공지사항 생성", description = "공지사항을 만듭니다")
@@ -72,10 +75,10 @@ public class NotiController {
                                     value = NotiConstant.singleNoticeResponse,
                                     description = "공지사항이 조회되었습니다."
                             )))})
-    @DeleteMapping("/delete/{noticeId}")
-    public SuccessResponse<Message> deleteNotice(final @PathVariable Long noticeId) {
-       Message message = notiService.deleteNotice(noticeId);
-        return new SuccessResponse<>(message);
+    @GetMapping("/{noticeId}")
+    public SuccessResponse<NoticeResponse> getSingleNotice(final @PathVariable Long noticeId) {
+        NoticeResponse response = notiService.getSingleNotice(noticeId);
+        return new SuccessResponse<>(response);
     }
     @Operation(summary = "공지사항 삭제", description = "공지사항 ID에 해당하는 공지사항을 삭제합니다.")
     @ApiResponses(value = {
@@ -88,9 +91,25 @@ public class NotiController {
                                     value = NotiConstant.deleteNoticeResponse,
                                     description = "공지사항을 삭제하였습니다"
                             )))})
-    @GetMapping("/{noticeId}")
-    public SuccessResponse<NoticeResponse> getSingleNotice(final @PathVariable Long noticeId) {
-        NoticeResponse response = notiService.getSingleNotice(noticeId);
-        return new SuccessResponse<>(response);
+    @DeleteMapping("/delete/{noticeId}")
+    public SuccessResponse<Message> deleteNotice(final @PathVariable Long noticeId) {
+        Message message = notiService.deleteNotice(noticeId);
+        return new SuccessResponse<>(message);
+    }
+    @Operation(summary = "공지사항 수정", description = "공지사항 ID에 해당하는 공지사항을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "공지사항 수정 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NotiConstant.updateNoticeResponse,
+                                    description = "공지사항이 수정되었습니다."
+                            )))})
+    @PatchMapping("/{noticeId}")
+    public SuccessResponse<Message> edit (final @PathVariable Long noticeId,final NoticeCreateRequest request) {
+        Message message = notiService.edit(noticeId,request);
+        return new SuccessResponse<>(message);
     }
 }

@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.mypage.noti.post.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
+import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,5 +29,16 @@ public class Notice extends BaseEntity {
                 .title(request.getTitle())
                 .build();
 
+    }
+
+    public NoticePostEditor.NoticePostEditorBuilder toEditor() {
+        return NoticePostEditor.builder()
+                .title(title)
+                .content(content);
+    }
+
+    public void edit(final NoticePostEditor editor) {
+        this.title = editor.getTitle();
+        this.content = editor.getContent();
     }
 }
