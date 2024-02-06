@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -54,7 +56,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .fetchOne();
 
         return Optional.ofNullable(findNewsletter)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
     }
 
     @Override
