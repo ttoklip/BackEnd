@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.manager.inquiry.controller;
 
 import com.api.ttoklip.domain.manager.inquiry.constant.InquiryConstant;
-import com.api.ttoklip.domain.manager.inquiry.domain.FaQ;
 import com.api.ttoklip.domain.manager.inquiry.domain.Inquiry;
 import com.api.ttoklip.domain.manager.inquiry.dto.request.InquiryCreateRequest;
 import com.api.ttoklip.domain.manager.inquiry.dto.response.InquiryResponse;
@@ -104,7 +103,7 @@ public class InquiryController {
                                     description = "공지사항을 삭제하였습니다"
                             )))})
     @DeleteMapping("/{inquiryId}")
-    public SuccessResponse<Message> deleteInquiy(final @PathVariable Long inquiryId) {
+    public SuccessResponse<Message> deleteInquiry(final @PathVariable Long inquiryId) {
         Message message = inquiryService.deleteInquiry(inquiryId);
         return new SuccessResponse<>(message);
     }
