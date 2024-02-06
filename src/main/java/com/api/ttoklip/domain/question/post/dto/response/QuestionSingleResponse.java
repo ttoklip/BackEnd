@@ -49,7 +49,7 @@ public class QuestionSingleResponse {
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(question);
 
-        // Image entity to Response
+        // CommunityImage entity to Response
         List<ImageResponse> imageResponses = getImageResponses(question);
 
         // Comment entity to Response
@@ -76,7 +76,7 @@ public class QuestionSingleResponse {
         List<QuestionImage> questionImages = question.getQuestionImages();
         return questionImages
                 .stream()
-                .map(ImageResponse::from)
+                .map(ImageResponse::questionFrom)
                 .toList();
     }
 
