@@ -58,7 +58,7 @@ public class NotiController {
                                     value = NotiConstant.createNoticeResponse,
                                     description = "공지사항이 생성되었습니다"
                             )))})
-    @PostMapping(value = "/createNotice", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Long> register(final @Validated @ModelAttribute NoticeCreateRequest request) {
         Long noticeId=notiService.register(request);
         return new SuccessResponse<>(noticeId);

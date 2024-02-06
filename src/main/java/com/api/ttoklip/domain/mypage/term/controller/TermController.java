@@ -85,7 +85,7 @@ public class TermController {
                                     value = TermConstant.createTermAndPolicy,
                                     description = "이용약관을 생성했습니다"
                             )))})
-    @PostMapping(value = "/createNotice", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Long> register(final @Validated @ModelAttribute TermCreateRequest request) {
         Long termId = termService.register(request);
         return new SuccessResponse<>(termId);
