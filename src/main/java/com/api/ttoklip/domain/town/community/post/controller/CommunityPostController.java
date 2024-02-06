@@ -1,11 +1,13 @@
 package com.api.ttoklip.domain.town.community.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.honeytip.post.constant.HoneyTipResponseConstant;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -42,9 +44,9 @@ public class CommunityPostController {
                                     description = "소통해요 게시글이 생성되었습니다."
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute CommunityCreateRequest request) {
-        Long communityId = communityPostService.register(request);
-        return new SuccessResponse<>(communityId);
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute CommunityCreateRequest request) {
+        Message message = communityPostService.register(request);
+        return new SuccessResponse<>(message);
     }
 
     /* READ */
@@ -53,7 +55,7 @@ public class CommunityPostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
+                            schema = @Schema(implementation = CommunitySingleResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = CommunityResponseConstant.readSingleCommunity,
@@ -78,12 +80,23 @@ public class CommunityPostController {
                                     description = "소통해요 게시글이 수정되었습니다."
                             )))})
     @PatchMapping("/{postId}")
-    public SuccessResponse<Long> edit(final @Validated @ModelAttribute QuestionCreateRequest request) {
-        Long communityId = communityPostService.edit(request);
-        return new SuccessResponse<>(communityId);
+    public SuccessResponse<Message> edit(final @PathVariable Long postId,
+                                      final @Validated @ModelAttribute CommunityCreateRequest request) {
+        return new SuccessResponse<>(communityPostService.edit(postId, request));
     }
 
-    // todo 삭제 만들기
+    /* DELETE */
+    @Operation(summary = "소통해요 게시글 삭제", description = "소통해요 ID에 해당하는 게시글을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "소통해요 게시글 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class)
+                            ))})
+    @DeleteMapping("/{postId}")
+    public SuccessResponse<Message> delete(final @PathVariable Long postId) {
+        return new SuccessResponse<>(communityPostService.delete(postId));
+    }
 
     /* REPORT */
     @Operation(summary = "소통해요 게시글 신고", description = "소통해요 ID에 해당하는 게시글을 신고합니다.")
@@ -94,9 +107,9 @@ public class CommunityPostController {
                             schema = @Schema(implementation = SuccessResponse.class)
                     ))})
     @PostMapping("/report/{postId}")
-    public SuccessResponse<Long> report(final @PathVariable Long postId,
+    public SuccessResponse<Message> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
-        communityPostService.report(postId, request);
-        return new SuccessResponse<>(postId);
+        Message message = communityPostService.report(postId, request);
+        return new SuccessResponse<>(message);
     }
 }

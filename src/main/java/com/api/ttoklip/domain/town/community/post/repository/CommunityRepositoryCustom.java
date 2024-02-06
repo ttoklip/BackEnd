@@ -6,6 +6,11 @@ import com.api.ttoklip.domain.town.community.post.entity.Community;
 import java.util.List;
 
 public interface CommunityRepositoryCustom {
-    Community findByIdFetchJoin(final Long questionPostId);
-    List<CommunityComment> findActiveCommentsByCommunityId(final Long commentId);
+
+    Community findByIdActivated(final Long communityId);
+
+    Community findByIdFetchJoin(final Long postId);
+
+    List<CommunityComment> findActiveCommentsByCommunityId(final Long postId);
+
 }

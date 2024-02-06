@@ -6,10 +6,13 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import java.util.Optional;
+
+import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +28,8 @@ public class CartCommentService {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Long register(final Long postId, final CommentCreateRequest request) {
-        Cart findCart = cartPostService.findCartById(postId);
+    public Message register(final Long postId, final CommentCreateRequest request) {
+        Cart findCart = cartPostService.findCart(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
@@ -35,11 +38,13 @@ public class CartCommentService {
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            return registerCommentWithParent(request, findCart, parentComment);
+            Long newCommentId = registerCommentWithParent(request, findCart, parentComment);
+            return Message.registerCommentSuccess(CartComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        return registerCommentOrphanage(request, findCart);
+        Long newCommentId = registerCommentOrphanage(request, findCart);
+        return Message.registerCommentSuccess(CartComment.class, newCommentId);
     }
 
     // 대댓글 생성
@@ -63,9 +68,11 @@ public class CartCommentService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public void report(final Long commentId, final ReportCreateRequest request) {
+    public Message report(final Long commentId, final ReportCreateRequest request) {
         Comment comment = commentService.findComment(commentId);
         reportService.reportComment(request, comment);
+
+        return Message.reportCommentSuccess(CartComment.class, commentId);
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
@@ -83,9 +90,10 @@ public class CartCommentService {
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
-    public void delete(final Long commentId) {
+    public Message delete(final Long commentId) {
         // ToDo 본인이 썼는지 검증 과정 필요
         commentService.deleteById(commentId);
+        return Message.deleteCommentSuccess(CartComment.class, commentId);
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */

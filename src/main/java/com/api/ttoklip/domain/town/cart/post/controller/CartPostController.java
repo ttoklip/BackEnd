@@ -4,7 +4,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
-import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,13 +32,14 @@ public class CartPostController {
             description = "함께해요 게시글을 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 생성 성공",
-                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = CartSingleResponse.class)
+                    content = @Content(
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class)
                     ))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute CartCreateRequest request) {
-        Long cartId = cartPostService.register(request);
-        return new SuccessResponse<>(cartId);
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute CartCreateRequest request) {
+        Message message = cartPostService.register(request);
+        return new SuccessResponse<>(message);
     }
 
     /* READ */
@@ -46,7 +47,7 @@ public class CartPostController {
             description = "함께해요 단일 게시글을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 조회 성공",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    content = @Content(mediaType =  MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CartSingleResponse.class)
                     ))})
     @GetMapping("/{postId}")
@@ -64,9 +65,9 @@ public class CartPostController {
                             schema = @Schema(implementation = Long.class)
                     ))})
     @PatchMapping("/{postId}")
-    public SuccessResponse<Long> edit(final @Validated @ModelAttribute CartCreateRequest request) {
-        Long cartId = cartPostService.edit(request);
-        return new SuccessResponse<>(cartId);
+    public SuccessResponse<Message> edit(final @PathVariable Long postId,
+                                         final @Validated @ModelAttribute CartCreateRequest request) {
+        return new SuccessResponse<>(cartPostService.edit(postId, request));
     }
 
     /* REPORT */
@@ -78,9 +79,9 @@ public class CartPostController {
                             schema = @Schema(implementation = SuccessResponse.class)
                     ))})
     @PostMapping("/report/{postId}")
-    public SuccessResponse<Long> report(final @PathVariable Long postId,
+    public SuccessResponse<Message> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
-        cartPostService.report(postId, request);
-        return new SuccessResponse<>(postId);
+        Message message = cartPostService.report(postId, request);
+        return new SuccessResponse<>(message);
     }
 }

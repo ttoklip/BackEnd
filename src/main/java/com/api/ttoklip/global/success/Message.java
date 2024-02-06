@@ -56,10 +56,10 @@ public class Message {
     }
 
     public static <T> Message reportCommentSuccess(Class<T> itemType, Long itemId) {
-        return actionSuccess(itemType, itemId, COMMENT, CREATE);
+        return actionSuccess(itemType, itemId, COMMENT, REPORT);
     }
 
     public static <T> Message reportPostSuccess(Class<T> itemType, Long itemId) {
-        return actionSuccess(itemType, itemId, POST, CREATE);
+        return actionSuccess(itemType, itemId, POST, REPORT);
     }
 }

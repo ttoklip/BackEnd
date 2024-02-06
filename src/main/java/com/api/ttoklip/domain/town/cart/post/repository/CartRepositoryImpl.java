@@ -6,14 +6,16 @@ import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import java.util.List;
 import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 
+import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
+import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage;
+import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
-import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
-import static com.api.ttoklip.domain.town.community.image.entity.QCart
-import static com.api.ttoklip.domain.town.community.comment.QCartComment.cartComment;
 
 
 @RequiredArgsConstructor
@@ -22,12 +24,36 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
+    public Cart findByIdActivated(final Long cartId) {
+        Cart findCart = jpaQueryFactory
+                .selectFrom(cart)
+                .where(
+                        matchId(cartId), getCartActivate()
+                )
+                .fetchOne();
+        return Optional.ofNullable(findCart)
+                .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
+    }
+
+    private BooleanExpression matchId(final Long cartId) {
+        return cart.id.eq(cartId);
+    }
+
+    private BooleanExpression getCartActivate() {
+        return cart.deleted.isFalse();
+    }
+
+    @Override
     public Cart findByIdFetchJoin(final Long cartPostId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
-                .leftJoin(cart.cartIamges, cartIamge)
+                .leftJoin(cart.cartImages, cartImage)
+                .leftJoin(cart.itemUrls, itemUrl)
                 .fetchJoin()
-                .where(cart.id.eq(cartPostId))
+                .where(
+                        getCartActivate(),
+                        cart.id.eq(cartPostId)
+                )
                 .fetchOne();
 
         return Optional.ofNullable(findCart)
@@ -50,12 +76,10 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     }
 
     private BooleanExpression matchCartId(final Long cartId) {
-        return cartComment.community.id.eq(cartId);
+        return cartComment.cart.id.eq(cartId);
     }
 
     private BooleanExpression getCommentActivate() {
         return cartComment.deleted.isFalse();
     }
-
-
 }
