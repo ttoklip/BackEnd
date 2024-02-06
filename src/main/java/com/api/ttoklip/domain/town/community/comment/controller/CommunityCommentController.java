@@ -51,10 +51,10 @@ public class CommunityCommentController {
                             schema = @Schema(implementation = SuccessResponse.class)
                     ))})
     @PostMapping("/report/{commentId}")
-    public SuccessResponse<Long> report(final @PathVariable Long commentId,
+    public SuccessResponse<Message> report(final @PathVariable Long commentId,
                                         final @RequestBody ReportCreateRequest request) {
-        communityCommentService.report(commentId, request);
-        return new SuccessResponse<>(commentId);
+        Message message = communityCommentService.report(commentId, request);
+        return new SuccessResponse<>(message);
     }
 
 //    /* UPDATE 미사용 */

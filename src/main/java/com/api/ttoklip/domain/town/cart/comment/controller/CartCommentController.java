@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.comment.service.CartCommentService;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,16 +29,16 @@ public class CartCommentController {
     /* CREATE */
     @Operation(summary = "함께해요 댓글 생성", description = "함께해요 게시글에 댓글을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "함께해요 생성 성공",
+            @ApiResponse(responseCode = "200", description = "함께해요 댓글 생성 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class)
                     ))})
     @PostMapping("/{postId}")
-    public SuccessResponse<Long> register(final @PathVariable Long postId,
-                                          final @RequestBody CommentCreateRequest request) {
-        Long createdCommentId = cartCommentService.register(postId, request);
-        return new SuccessResponse<>(createdCommentId);
+    public SuccessResponse<Message> register(final @PathVariable Long postId,
+                                             final @RequestBody CommentCreateRequest request) {
+        Message message = cartCommentService.register(postId, request);
+        return new SuccessResponse<>(message);
     }
 
     /* REPORT */
@@ -49,25 +50,25 @@ public class CartCommentController {
                             schema = @Schema(implementation = SuccessResponse.class)
                     ))})
     @PostMapping("/report/{commentId}")
-    public SuccessResponse<Long> report(final @PathVariable Long commentId,
-                                        final @RequestBody ReportCreateRequest request) {
-        cartCommentService.report(commentId, request);
-        return new SuccessResponse<>(commentId);
+    public SuccessResponse<Message> report(final @PathVariable Long commentId,
+                                           final @RequestBody ReportCreateRequest request) {
+        Message message = cartCommentService.report(commentId, request);
+        return new SuccessResponse<>(message);
     }
 
-    /* UPDATE */
-    @Operation(summary = "함께해요 댓글 수정", description = "함께해요 게시글 댓글을 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "함께해요 댓글 수정 성공",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class))),
-    })
-    @PatchMapping("/{commentId}")
-    public SuccessResponse<Long> edit(final @PathVariable Long commentId,
-                                      final @RequestBody CommentEditRequest request) {
-        cartCommentService.edit(commentId, request);
-        return new SuccessResponse<>(commentId);
-    }
+//    /* UPDATE 미사용 */
+//    @Operation(summary = "함께해요 댓글 수정", description = "함께해요 게시글 댓글을 수정합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "함께해요 댓글 수정 성공",
+//                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                            schema = @Schema(implementation = SuccessResponse.class))),
+//    })
+//    @PatchMapping("/{commentId}")
+//    public SuccessResponse<Long> edit(final @PathVariable Long commentId,
+//                                      final @RequestBody CommentEditRequest request) {
+//        cartCommentService.edit(commentId, request);
+//        return new SuccessResponse<>(commentId);
+//    }
 
     /* DELETE */
     @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
@@ -78,8 +79,8 @@ public class CartCommentController {
                             schema = @Schema(implementation = SuccessResponse.class)
                     ))})
     @DeleteMapping("/{commentId}")
-    public SuccessResponse<Long> delete ( final @PathVariable Long commentId){
-        cartCommentService.delete(commentId);
-        return new SuccessResponse<>(commentId);
+    public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
+        Message message = cartCommentService.delete(commentId);
+        return new SuccessResponse<>(message);
     }
 }
