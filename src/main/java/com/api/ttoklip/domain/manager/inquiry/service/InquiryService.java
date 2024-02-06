@@ -6,6 +6,7 @@ import com.api.ttoklip.domain.manager.inquiry.dto.request.InquiryCreateRequest;
 import com.api.ttoklip.domain.manager.inquiry.dto.response.InquiryResponse;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,4 +45,13 @@ public class InquiryService {
         //추후 구현
         return inquiryRepository.findAll();
     }
+    /* -------------------------------------------- DELETE  -------------------------------------------- */
+    @Transactional
+    public Message deleteInquiry(final Long inquiryId){//소프트삭제 구현
+        Inquiry inquiry = findInquiryById(inquiryId);
+        inquiry.deactivate();
+
+        return Message.deletePostSuccess(Inquiry.class, inquiryId);
+    }
+    /* -------------------------------------------- DELETE 끝   -------------------------------------------- */
 }

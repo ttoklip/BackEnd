@@ -92,5 +92,21 @@ public class InquiryController {
         InquiryResponse response = inquiryService.getSingleInquiry(inquiryId);
         return new SuccessResponse<>(response);
     }
+    @Operation(summary = "문의사항 삭제", description = "문의사항 ID에 해당하는 문의사항을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "문의사항 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = InquiryConstant.inquiryDeleteResponse,
+                                    description = "공지사항을 삭제하였습니다"
+                            )))})
+    @DeleteMapping("/{inquiryId}")
+    public SuccessResponse<Message> deleteInquiy(final @PathVariable Long inquiryId) {
+        Message message = inquiryService.deleteInquiry(inquiryId);
+        return new SuccessResponse<>(message);
+    }
 
 }

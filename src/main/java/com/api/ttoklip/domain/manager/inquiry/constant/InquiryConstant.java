@@ -39,6 +39,16 @@ public class InquiryConstant {
                         
             """;
 
+    public static final String inquiryDeleteResponse = """
+            {
+                "time": "2024-01-11T16:06:30.852Z",
+                "status": 200,
+                "code": "200",
+                "message": "문의가 성공적으로 삭제되었습니다."
+            }
+                        
+            """;
+
     public static final String inquirySingleResponse = """
             {
                 "time": "2024-01-11T16:06:30.852Z",
