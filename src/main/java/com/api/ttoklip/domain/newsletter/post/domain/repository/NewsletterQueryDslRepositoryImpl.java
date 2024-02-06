@@ -1,20 +1,19 @@
 package com.api.ttoklip.domain.newsletter.post.domain.repository;
 
+import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
+
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
+import com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
-
-import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
-import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletterImage.newsletterImage;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
@@ -45,6 +44,8 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     @Override
     public Newsletter findByIdFetchJoin(Long postId) {
         QNewsletter qNewsletter = QNewsletter.newsletter;
+        QNewsletterImage newsletterImage = QNewsletterImage.newsletterImage;
+
         Newsletter findNewsletter = queryFactory
                 .selectFrom(qNewsletter)
                 .leftJoin(qNewsletter.newsletterImageList, newsletterImage)

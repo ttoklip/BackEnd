@@ -3,20 +3,18 @@ package com.api.ttoklip.domain.newsletter.post.dto.response;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
+import com.api.ttoklip.domain.newsletter.image.domain.NewsletterImage;
 import com.api.ttoklip.domain.newsletter.image.dto.response.ImageRes;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.post.domain.NewsletterImage;
-import com.api.ttoklip.domain.newsletter.post.domain.NewsletterUrl;
-import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.newsletter.url.domain.NewsletterUrl;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -50,7 +48,8 @@ public class NewsletterWithCommentRes {
     @Schema(description = "뉴스레터에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
-    public static NewsletterWithCommentRes toDto(final Newsletter newsletter, final List<NewsletterComment> activeComments) {
+    public static NewsletterWithCommentRes toDto(final Newsletter newsletter,
+                                                 final List<NewsletterComment> activeComments) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(newsletter);
@@ -63,7 +62,6 @@ public class NewsletterWithCommentRes {
 
         // Url entity to Response
         List<UrlRes> urlResponses = getUrlResponse(newsletter);
-
 
         return NewsletterWithCommentRes.builder()
                 .newsletterId(newsletter.getId())

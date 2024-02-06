@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.newsletter.post.dto.response;
 
-import com.api.ttoklip.domain.newsletter.post.domain.NewsletterUrl;
+import com.api.ttoklip.domain.newsletter.url.domain.NewsletterUrl;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
