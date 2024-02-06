@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.newsletter.post.domain.repository.NewsletterReposi
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
@@ -25,6 +27,8 @@ public class NewsletterPostService {
     private final NewsletterImageService imageService;
     private final NewsletterUrlService urlService;
 
+
+    /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public Message register(final NewsletterCreateReq request) {
 
@@ -58,12 +62,22 @@ public class NewsletterPostService {
         urls.forEach(url -> urlService.register(newsletter, url));
     }
 
-    // 뉴스레터 - 글 개별 상세 조회(READ)
+    /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- FETCH JOIN READ -------------------------------------------- */
     public NewsletterWithCommentRes getSinglePost(final Long postId) {
         Newsletter newsletter = newsletterRepository.findByIdFetchJoin(postId);
         List<NewsletterComment> activeComments = newsletterRepository.findActiveCommentsByNewsletterId(postId);
         NewsletterWithCommentRes newsletterWithCommentRes = NewsletterWithCommentRes.toDto(newsletter, activeComments);
         return newsletterWithCommentRes;
     }
+    /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
 
+    /* -------------------------------------------- ID 값 여부 확인 -------------------------------------------- */
+    public Newsletter findById(final Long postId) {
+        return newsletterRepository.findById(postId)
+                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
+        /* -------------------------------------------- ID 값 여부 확인 -------------------------------------------- */
+    }
 }
