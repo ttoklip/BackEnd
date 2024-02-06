@@ -8,3 +8,4 @@ public interface CommentRepositoryCustom {
 
     Optional<Comment> findByIdActivatedOptional(final Long commentId);
 }
+

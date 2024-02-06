@@ -133,7 +133,6 @@ public class HoneyTipPostService {
 
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
-
     @Transactional
     public Message delete(final Long postId) {
         HoneyTip honeyTip = getHoneytip(postId);
