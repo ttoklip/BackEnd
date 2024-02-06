@@ -2,7 +2,9 @@ package com.api.ttoklip.domain.manager.inquiry.controller;
 
 import com.api.ttoklip.domain.manager.inquiry.constant.InquiryConstant;
 import com.api.ttoklip.domain.manager.inquiry.domain.FaQ;
+import com.api.ttoklip.domain.manager.inquiry.domain.Inquiry;
 import com.api.ttoklip.domain.manager.inquiry.dto.request.InquiryCreateRequest;
+import com.api.ttoklip.domain.manager.inquiry.dto.response.InquiryResponse;
 import com.api.ttoklip.domain.manager.inquiry.service.InquiryService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -27,7 +29,23 @@ import java.util.List;
 public class InquiryController {
 
     private final InquiryService inquiryService;
-    @Operation(summary = "모든 FaQ 불러오기", description = "FaQ 목록을 가져옵니다")
+    @Operation(summary = "모든 문의사항 불러오기", description = "문의사항 목록을 가져옵니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "문의사항 조회 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = InquiryConstant.inquiryListResponse,
+                                    description = "전체 문의사항 목록이 조회되었습니다"
+                            )))})
+    @GetMapping()
+    public SuccessResponse<List<Inquiry>> getNoticeList() {
+        return new SuccessResponse<>(inquiryService.getInquiryList());
+    }
+
+    /*@Operation(summary = "모든 FaQ 불러오기", description = "FaQ 목록을 가져옵니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "FaQ 조회 성공",
                     content = @Content(
@@ -41,7 +59,7 @@ public class InquiryController {
     @GetMapping("/faq")
     public SuccessResponse<List<FaQ>> getFaQList() {
         return new SuccessResponse<>(inquiryService.getFaQList());
-    }
+    }*/ //FaQ는 프론트에서 넣어도 될듯
     @Operation(summary = "문의하기", description = "문의한 내용을 전송합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "문의 전송 성공",
@@ -58,4 +76,21 @@ public class InquiryController {
         Long inquiryId=inquiryService.register(request);
         return new SuccessResponse<>(inquiryId);
     }
+    @Operation(summary = "문의하기 조회", description = "문의하기 ID에 해당하는 공지사항을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "문의사항 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = InquiryConstant.inquirySingleResponse,
+                                    description = "문의하기 단건 조회되었습니다."
+                            )))})
+    @GetMapping("/{inquiryId}")
+    public SuccessResponse<InquiryResponse> getSingleInquiry(final @PathVariable Long inquiryId) {
+        InquiryResponse response = inquiryService.getSingleInquiry(inquiryId);
+        return new SuccessResponse<>(response);
+    }
+
 }

@@ -21,6 +21,9 @@ public class InquiryResponse {
     @Schema(description = "문의하기 작성일자")
     private String createdAt;
 
+    @Schema(description = "문의하기 작성자")
+    private String createdBy;
+
     public static InquiryResponse of(final Inquiry inquiry){
         String formattedCreatedDate = getFormattedCreatedDate(inquiry);
 
@@ -28,6 +31,7 @@ public class InquiryResponse {
                 .inquiryId(inquiry.getId())
                 .content(inquiry.getContent())
                 .createdAt(formattedCreatedDate)
+                //.createdBy() 로그인 구현시 구현
                 .build();
     }
 

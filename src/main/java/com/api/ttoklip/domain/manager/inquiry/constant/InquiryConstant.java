@@ -38,4 +38,50 @@ public class InquiryConstant {
             }
                         
             """;
+
+    public static final String inquirySingleResponse = """
+            {
+                "time": "2024-01-11T16:06:30.852Z",
+                "status": 200,
+                "code": "200",
+                "message": "문의 조회에 성공하였습니다.",
+                "result": {
+                    "inquiryId": 123,
+                    "title": "문의 제목",
+                    "content": "문의 내용",
+                    "createdBy": "사용자 이름",
+                    "createdAt": "2024-01-11T10:30:00Z"
+                }
+            }
+                        
+            """;
+
+    public static final String inquiryListResponse = """
+            {
+                "time": "2024-01-11T16:06:30.852Z",
+                "status": 200,
+                "code": "200",
+                "message": "문의 목록 조회에 성공하였습니다.",
+                "result": {
+                    "inquiries": [
+                        {
+                            "inquiryId": 123,
+                            "title": "문의 제목 1",
+                            "content": "문의 내용 1",
+                            "createdBy": "사용자 이름 1",
+                            "createdAt": "2024-01-11T10:30:00Z"
+                        },
+                        {
+                            "inquiryId": 124,
+                            "title": "문의 제목 2",
+                            "content": "문의 내용 2",
+                            "createdBy": "사용자 이름 2",
+                            "createdAt": "2024-01-12T08:45:00Z"
+                        },
+                        ...
+                    ]
+                }
+            }
+                        
+            """;
 }
