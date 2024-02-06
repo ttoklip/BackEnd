@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.newsletter.post.controller;
 
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
@@ -16,7 +17,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Newsletter Post", description = "Newsletter Post API")
 @RequiredArgsConstructor
@@ -35,7 +42,7 @@ public class NewsletterController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = NewsletterResponseConstant.createAndDeleteNewsletter,
+                                    value = NewsletterResponseConstant.CREATE_NEWSLETTER,
                                     description = "뉴스레터가 생성되었습니다."
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -60,5 +67,22 @@ public class NewsletterController {
         return new SuccessResponse<>(newsletterPostService.getSinglePost(postId));
     }
 
-
+    /* REPORT */
+    @Operation(summary = "뉴스레터 게시글 신고", description = "뉴스레터 ID에 해당하는 게시글을 신고합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "뉴스레터 신고 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.REPORT_NEWSLETTER,
+                                    description = "뉴스레터를 신고했습니다."
+                            )))})
+    @PostMapping("/report/{postId}")
+    public SuccessResponse<Message> report(final @PathVariable Long postId,
+                                           final @RequestBody ReportCreateRequest request) {
+        Message message = newsletterPostService.report(postId, request);
+        return new SuccessResponse<>(message);
+    }
 }

@@ -70,7 +70,6 @@ public class NewsletterCommentService {
     public Message report(final Long commentId, final ReportCreateRequest request) {
         Comment comment = commentService.findComment(commentId);
         reportService.reportComment(request, comment);
-
         return Message.reportCommentSuccess(Newsletter.class, commentId);
     }
 

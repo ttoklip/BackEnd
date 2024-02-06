@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.newsletter.post.service;
 
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
@@ -26,6 +28,15 @@ public class NewsletterPostService {
     private final S3FileUploader s3FileUploader;
     private final NewsletterImageService imageService;
     private final NewsletterUrlService urlService;
+    private final ReportService reportService;
+
+
+    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
+    public Newsletter findById(final Long postId) {
+        return newsletterRepository.findById(postId)
+                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
+    }
+    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
@@ -74,10 +85,14 @@ public class NewsletterPostService {
     }
     /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
 
-    /* -------------------------------------------- ID 값 여부 확인 -------------------------------------------- */
-    public Newsletter findById(final Long postId) {
-        return newsletterRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
-        /* -------------------------------------------- ID 값 여부 확인 -------------------------------------------- */
+
+    /* -------------------------------------------- REPORT -------------------------------------------- */
+    @Transactional
+    public Message report(final Long postId, final ReportCreateRequest request) {
+        Newsletter newsletter = findById(postId);
+        reportService.reportNewsletter(request, newsletter);
+        return Message.reportPostSuccess(Newsletter.class, postId);
     }
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
 }
