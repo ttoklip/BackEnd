@@ -87,6 +87,4 @@ public class QuestionPostController {
         Message message = questionPostService.report(postId, request);
         return new SuccessResponse<>(message);
     }
-
-
 }
