@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Newsletter Post", description = "Newsletter Post API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/newsletters/posts")
+@RequestMapping("/api/v1/newsletter/posts")
 public class NewsletterController {
 
     private final NewsletterPostService newsletterPostService;
