@@ -56,13 +56,15 @@ public enum ErrorType {
     COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다."),
 
 
+    // ------------------------------------------ Inquiry ------------------------------------------
+    INQUIRY_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다."),
+
     // ------------------------------------------ HoneyTip ------------------------------------------
     HONEY_TIP_NOT_FOUND(NOT_FOUND, "HoneyTip_4040", "꿀팁공유해요를 찾을 수 없습니다."),
 
 
     // ------------------------------------------ Newsletter ------------------------------------------
     NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다.");
-
 
 
     private final HttpStatus status;

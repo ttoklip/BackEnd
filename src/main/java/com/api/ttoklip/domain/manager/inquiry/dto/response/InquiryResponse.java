@@ -1,4 +1,38 @@
 package com.api.ttoklip.domain.manager.inquiry.dto.response;
 
+import com.api.ttoklip.domain.manager.inquiry.domain.Inquiry;
+import com.api.ttoklip.global.util.TimeUtil;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+@Getter
+@Builder
+@AllArgsConstructor
 public class InquiryResponse {
+    @Schema(description = "문의하기 ID")
+    private Long inquiryId;
+
+    @Schema(description = "문의하기 내용")
+    private String content;
+
+    @Schema(description = "문의하기 작성일자")
+    private String createdAt;
+
+    public static InquiryResponse of(final Inquiry inquiry){
+        String formattedCreatedDate = getFormattedCreatedDate(inquiry);
+
+        return InquiryResponse.builder()
+                .inquiryId(inquiry.getId())
+                .content(inquiry.getContent())
+                .createdAt(formattedCreatedDate)
+                .build();
+    }
+
+    private static String getFormattedCreatedDate(final Inquiry inquiry) {
+        LocalDateTime createdDate = inquiry.getCreatedDate();
+        return TimeUtil.formatCreatedDate(createdDate);
+    }
 }
