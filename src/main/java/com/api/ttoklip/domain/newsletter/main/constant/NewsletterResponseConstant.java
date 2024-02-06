@@ -8,11 +8,7 @@ public class NewsletterResponseConstant {
                 "code": "200",
                 "message": "요청에 성공하였습니다.",
                 "result": {
-                    "newsletterId": 1,
-                    "title": "뉴스레터 제목 예시",
-                    "content": "뉴스레터 내용 예시",
-                    "author": "작성자 예시",
-                    "publicationDate": "24.01.29 09:00"
+                    "message": "Newsletter Type의 1번째 게시글을(를) 생성했습니다."
                 }
             }
             """;

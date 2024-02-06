@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class NewsletterPostService {
     private final NewsletterUrlService urlService;
 
     @Transactional
-    public Long register(final NewsletterCreateReq request) {
+    public Message register(final NewsletterCreateReq request) {
 
         Newsletter newsletter = Newsletter.of(request);
         newsletterRepository.save(newsletter);
@@ -40,8 +41,7 @@ public class NewsletterPostService {
             registerUrls(newsletter, urls);
         }
 
-        // 작성한 뉴스레터의 id 값 리턴
-        return newsletter.getId();
+        return Message.registerPostSuccess(Newsletter.class, newsletter.getId());
     }
 
     private void registerImages(final Newsletter newsletter, final List<MultipartFile> uploadImages) {

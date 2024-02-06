@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstan
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,7 +39,7 @@ public class NewsletterController {
                                     description = "뉴스레터가 생성되었습니다."
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute NewsletterCreateReq request) {
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute NewsletterCreateReq request) {
         return new SuccessResponse<>(newsletterPostService.register(request));
     }
 
