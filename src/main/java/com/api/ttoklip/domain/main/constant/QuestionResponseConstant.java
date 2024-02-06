@@ -177,18 +177,6 @@ public class QuestionResponseConstant {
                 }
             """;
 
-    public static final String EDIT_QUESTION_COMMENT = """
-                {
-                    "time": "2024-02-03T21:26:49.885416",
-                    "status": 200,
-                    "code": "200",
-                    "message": "요청에 성공하였습니다.",
-                    "result": {
-                        "message": "Question Type의 1번째 댓글을(를) 수정했습니다."
-                    }
-                }
-            """;
-
     public static final String DELETE_QUESTION_COMMENT = """
                 {
                     "time": "2024-02-03T21:26:49.885416",

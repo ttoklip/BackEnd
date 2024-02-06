@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
@@ -45,13 +46,17 @@ public class Report extends BaseEntity {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "newsletter_id")
+    private Newsletter newsletter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "community_id")
     private Community community;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
@@ -69,6 +74,13 @@ public class Report extends BaseEntity {
                 .build();
     }
 
+    public static Report newsletterOf(final ReportCreateRequest request, final Newsletter newsletter) {
+        return Report.builder()
+                .content(request.getContent())
+                .reportType(request.getReportType())
+                .newsletter(newsletter)
+                .build();
+    }
 
     public static Report communityOf(final ReportCreateRequest request, final Community community) {
         return Report.builder()
@@ -84,7 +96,8 @@ public class Report extends BaseEntity {
                 .reportType(request.getReportType())
                 .cart(cart)
                 .build();
-      }
+    }
+
     public static Report honeyTipOf(final ReportCreateRequest request, final HoneyTip honeyTip) {
         return Report.builder()
                 .content(request.getContent())
