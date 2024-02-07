@@ -1,6 +1,5 @@
 package com.api.ttoklip.global.success;
 
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
