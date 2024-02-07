@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Newsletter Comment", description = "Newsletter Comment API")
+@Tag(name = "Newsletter Comment", description = "뉴스레터 댓글 API입니다.")
 @RestController
 @RequestMapping("/api/v1/newsletter/comment")
 @RequiredArgsConstructor

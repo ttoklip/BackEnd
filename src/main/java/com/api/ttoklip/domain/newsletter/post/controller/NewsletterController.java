@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Newsletter Post", description = "Newsletter Post API")
+@Tag(name = "Newsletter Post", description = "뉴스레터 게시판 API입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/newsletter/posts")
