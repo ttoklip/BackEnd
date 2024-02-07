@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.newsletter.main.dto.response;
 
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.global.util.TimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,15 +12,17 @@ import lombok.Getter;
 public class CategoryResponse {
     private Long newsletterId;
     private String title;
-    private String url;
+    private String mainImageUrl;
     private String writtenTime;
 
-    public static CategoryResponse toDto(Newsletter newsletter) {
+    public static CategoryResponse of(final Newsletter newsletter) {
+        String writtenTime = TimeUtil.newsletterTimeFormat(newsletter.getCreatedDate());
+
         return CategoryResponse.builder()
                 .newsletterId(newsletter.getId())
                 .title(newsletter.getTitle())
-                .url(newsletter.getNewsletterImageList().get(0).getUrl())
-                .writtenTime(newsletter.getCreatedDate().toString())
+                .mainImageUrl(newsletter.getMainImageUrl())
+                .writtenTime(writtenTime)
                 .build();
     }
 }

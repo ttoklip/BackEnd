@@ -39,7 +39,7 @@ public class NewsletterMainController {
                             )))})
     @GetMapping
     public SuccessResponse<NewsletterMainResponse> category() {
-        return new SuccessResponse<>(newsletterMainService.main());
+        return new SuccessResponse<>(newsletterMainService.getMainData());
     }
 
     // 카테고리 별 무한 스크롤 게시글 조회
