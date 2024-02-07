@@ -44,13 +44,30 @@ public enum ErrorType {
     QUESTION_NOT_FOUND(NOT_FOUND, "Question_4040", "질문해요를 찾을 수 없습니다."),
 
 
+    // ------------------------------------------ Cart ------------------------------------------
+    CART_NOT_FOUND(NOT_FOUND, "Cart_4040", "함께해요를 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Community ------------------------------------------
+    COMMUNITY_NOT_FOUND(NOT_FOUND, "Community_4040", "소통해요를 찾을 수 없습니다."),
+
+
     // ------------------------------------------ Comment ------------------------------------------
     COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ HoneyTip ------------------------------------------
+    HONEY_TIP_NOT_FOUND(NOT_FOUND, "HoneyTip_4040", "꿀팁공유해요를 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Newsletter ------------------------------------------
+    NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다."),
 
     // ------------------------------------------ Auth ------------------------------------------
     INVALID_REPRESENTATION(NOT_FOUND, "Auth_4040", "잘못된 표현 입니다."),
     INVALID_CHECK(NOT_FOUND, "Auth_4041", "해당 값이 유효하지 않습니다."),
     INVALID_AUTHENTICATION(NOT_FOUND, "Auth_4042", "잘못된 인증입니다.");
+
 
 
     private final HttpStatus status;

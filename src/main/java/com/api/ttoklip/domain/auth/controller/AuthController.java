@@ -1,12 +1,10 @@
 package com.api.ttoklip.domain.auth.controller;
 
+import com.api.ttoklip.domain.auth.constant.AuthRespoonseConstant;
 import com.api.ttoklip.domain.auth.dto.request.SignInReq;
 import com.api.ttoklip.domain.auth.dto.request.SignUpReq;
 import com.api.ttoklip.domain.auth.dto.response.AuthRes;
 import com.api.ttoklip.domain.auth.service.AuthService;
-import com.api.ttoklip.domain.honeytip.post.post.constant.HoneytipResponseConstant;
-import com.api.ttoklip.global.config.security.token.CurrentUser;
-import com.api.ttoklip.global.config.security.token.UserPrincipal;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,33 +39,16 @@ public class AuthController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
+                                    value = AuthRespoonseConstant.signup,
                                     description = "회원가입되었습니다."
                             )))})
-    @PostMapping("/sign-up")
+    @PatchMapping("/sign-up")
     public SuccessResponse<Long> signup(
             @Parameter(description = "Schema의 SignUpReq를 참고해주세요.", required = true) @Valid @RequestBody SignUpReq signUpReq
     ) {
         return new SuccessResponse<>(authService.signUp(signUpReq));
     }
 
-    @Operation(summary = "유저 로그인", description = "유저 로그인을 수행합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공",
-                    content = @Content(
-                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
-                                    description = "로그인되었습니다."
-                            )))})
-    @PostMapping(value = "/sign-in")
-    public SuccessResponse<AuthRes> signin(
-            @Parameter(description = "Schema의 SignInReq를 참고해주세요.", required = true) @Valid @RequestBody SignInReq signInReq
-    ) {
-        return new SuccessResponse<>(authService.signIn(signInReq));
-    }
 
 //    @Operation(summary = "유저 로그아웃", description = "유저 로그아웃을 수행합니다.")
 //    @ApiResponses(value = {
@@ -95,7 +76,7 @@ public class AuthController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
+                                    value = AuthRespoonseConstant.checkNickname,
                                     description = "중복체크되었습니다."
                             )))})
     @GetMapping("/nicknames/{nickname}")

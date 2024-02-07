@@ -22,7 +22,8 @@ public class SignUpReq {
     @Pattern(regexp = "^(?=.*[가-힣a-zA-Z0-9])[가-힣a-zA-Z0-9]{2,10}", message = "한글, 영어, 숫자 가능, 2~10자, 특수기호 불가")
     private String nickname;
 
-    @Schema( type = "string", example = "string@aa.bb", description="계정 이메일 입니다.")
-    @Email
-    private String email;
+    @Schema(type = "string", example = "http://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg", description = "프로필 이미지 입니다.")
+    private String imageUrl;
+
+    // Todo 우리동네 설정, 나의 독립경력 설정, 고민거리 선택
 }

@@ -64,6 +64,7 @@ public class CustomDefaultOAuth2UserService extends DefaultOAuth2UserService {
                 .providerId(oAuth2UserInfo.getId())
                 .name(oAuth2UserInfo.getName())
                 .email(oAuth2UserInfo.getEmail())
+                .imageUrl(oAuth2UserInfo.getImageUrl())
                 .role(Role.USER)
                 .build();
         System.out.println("user = " + user);

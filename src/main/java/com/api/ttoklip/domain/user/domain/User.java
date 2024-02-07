@@ -36,6 +36,9 @@ public class User extends BaseEntity {
     @Column(name = "provider_id", unique = true, updatable = false)
     private String providerId;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;

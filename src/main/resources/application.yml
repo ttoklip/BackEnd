@@ -30,6 +30,7 @@ spring:
             scope:
               - name
               - email
+              - profile_image
           kakao:
             client-id: ${KAKAO_CLIENT_ID}
             client-secret: ${KAKAO_CLIENT_SECRET}
@@ -38,6 +39,7 @@ spring:
             client-name: Kakao
             scope:
               - profile_nickname
+              - profile_image
               - account_email
             redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
 #           redirect-uri: https://getpostman.com/oauth/callback

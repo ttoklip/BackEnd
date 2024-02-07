@@ -6,12 +6,12 @@ import com.api.ttoklip.domain.user.domain.User;
 
 public class AuthConverter {
 
-    public static User toUser(SignUpReq signUpReq) {
+    public static User toUser(SignUpReq signUpReq, String imageUrl) {
         return User.builder()
                 .providerId(signUpReq.getProviderId())
                 .name(signUpReq.getName())
                 .nickname(signUpReq.getNickname())
-                .email(signUpReq.getEmail())
+                .imageUrl(imageUrl)
                 .role(Role.USER)
                 .build();
     }

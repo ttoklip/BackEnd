@@ -11,6 +11,15 @@ public class Naver extends OAuth2UserInfo {
     }
 
     @Override
+    public String getImageUrl() {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        if (response != null) {
+            return (String) response.get("profile_image"); // 네이버 프로필 이미지 URL
+        }
+        return null;
+    }
+
+    @Override
     public String getProvider() {
         return Provider.naver.toString();
     }
@@ -32,4 +41,5 @@ public class Naver extends OAuth2UserInfo {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
         return (String) response.get("email");
     }
+
 }

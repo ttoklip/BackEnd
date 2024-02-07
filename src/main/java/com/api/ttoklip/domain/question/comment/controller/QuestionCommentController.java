@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.comment.service.QuestionCommentService;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,14 +39,14 @@ public class QuestionCommentController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    value = QuestionResponseConstant.CREATE_QUESTION_COMMENT,
                                     description = "댓글이 생성되었습니다."
                             )))})
     @PostMapping("/{postId}")
-    public SuccessResponse<Long> register(final @PathVariable Long postId,
-                                          final @RequestBody CommentCreateRequest request) {
-        Long createdCommentId = questionCommentService.register(postId, request);
-        return new SuccessResponse<>(createdCommentId);
+    public SuccessResponse<Message> register(final @PathVariable Long postId,
+                                             final @RequestBody CommentCreateRequest request) {
+        Message message = questionCommentService.register(postId, request);
+        return new SuccessResponse<>(message);
     }
 
     /* REPORT */
@@ -54,34 +55,38 @@ public class QuestionCommentController {
             @ApiResponse(responseCode = "200", description = "질문 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class)
-                    ))})
-    @PostMapping("/report/{commentId}")
-    public SuccessResponse<Long> report(final @PathVariable Long commentId,
-                                        final @RequestBody ReportCreateRequest request) {
-        questionCommentService.report(commentId, request);
-        return new SuccessResponse<>(commentId);
-    }
-
-
-    /* UPDATE */
-    @Operation(summary = "댓글 수정", description = "지정된 게시글에 댓글을 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "질문 수정 성공",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
-                                    description = "댓글이 수정되었습니다."
+                                    value = QuestionResponseConstant.REPORT_QUESTION_COMMENT,
+                                    description = "댓글이 생성되었습니다."
                             )))})
-    @PatchMapping("/{commentId}")
-    public SuccessResponse<Long> edit(final @PathVariable Long commentId,
-                                      final @RequestBody CommentEditRequest request) {
-        questionCommentService.edit(commentId, request);
-        return new SuccessResponse<>(commentId);
+    @PostMapping("/report/{commentId}")
+    public SuccessResponse<Message> report(final @PathVariable Long commentId,
+                                           final @RequestBody ReportCreateRequest request) {
+        Message message = questionCommentService.report(commentId, request);
+        return new SuccessResponse<>(message);
     }
+
+
+    /* UPDATE - 댓글 수정 미사용 */
+//    @Operation(summary = "댓글 수정", description = "지정된 게시글에 댓글을 수정합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "질문 수정 성공",
+//                    content = @Content(
+//                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                            schema = @Schema(implementation = SuccessResponse.class),
+//                            examples = @ExampleObject(
+//                                    name = "SuccessResponse",
+//                                    value = QuestionResponseConstant.EDIT_QUESTION_COMMENT,
+//                                    description = "댓글이 수정되었습니다."
+//                            )))})
+//    @PatchMapping("/{commentId}")
+//    public SuccessResponse<Message> edit(final @PathVariable Long commentId,
+//                                         final @RequestBody CommentEditRequest request) {
+//        Message message = questionCommentService.edit(commentId, request);
+//        return new SuccessResponse<>(message);
+//    }
 
 
     /* DELETE */
@@ -93,13 +98,13 @@ public class QuestionCommentController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = QuestionResponseConstant.createAndDeleteQuestion,
+                                    value = QuestionResponseConstant.DELETE_QUESTION_COMMENT,
                                     description = "댓글이 삭제되었습니다."
                             )))})
     @DeleteMapping("/{commentId}")
-    public SuccessResponse<Long> delete(final @PathVariable Long commentId) {
-        questionCommentService.delete(commentId);
-        return new SuccessResponse<>(commentId);
+    public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
+        Message message = questionCommentService.delete(commentId);
+        return new SuccessResponse<>(message);
     }
 
 }

@@ -41,41 +41,21 @@ public class AuthService {
     @Transactional
     public Long signUp(SignUpReq signUpReq) {
 
-        User user = AuthConverter.toUser(signUpReq);
+        Optional<User> existingUser = userRepository.findByProviderId(signUpReq.getProviderId());
+        String imageUrl = existingUser.map(User::getImageUrl).orElse(signUpReq.getImageUrl());
+
+        User user = AuthConverter.toUser(signUpReq, imageUrl);
         userRepository.save(user);
 
         return user.getId();
     }
 
     @Transactional
-    public AuthRes signIn(SignInReq signInReq) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        signInReq.getEmail(),
-                        signInReq.getProviderId()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        TokenMapping tokenMapping = customTokenProviderService.createToken(authentication);
-
-        AuthRes authRes = new AuthRes(tokenMapping.getAccessToken());
-        return authRes;
-    }
-
-    @Transactional
-    public Message signOut(UserPrincipal userPrincipal) {
-        return null;
-    }
-
-    @Transactional
     public Message checkNickname(String nickname) {
         Optional<User> byNickname = userRepository.findByNickname(nickname);
         if (byNickname.isPresent()) {
-            return new Message("닉네임이 이미 사용중입니다.");
+            return Message.nicknameInUse();
         }
-        return new Message("닉네임 사용 가능합니다.");
+        return Message.nicknameAvailable();
     }
 }

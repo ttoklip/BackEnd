@@ -21,6 +21,19 @@ public class Kakao extends OAuth2UserInfo {
     }
 
     @Override
+    public String getImageUrl() {
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        if (kakaoAccount != null) {
+            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+            if (profile != null) {
+                return (String) profile.get("profile_image_url"); // 카카오 프로필 이미지 URL
+            }
+        }
+        return null;
+    }
+
+
+    @Override
     public String getName() {
         // 프로필 정보는 kakao_account 내의 profile 객체 안에 있음
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
@@ -42,4 +55,5 @@ public class Kakao extends OAuth2UserInfo {
         }
         return null;
     }
+
 }
