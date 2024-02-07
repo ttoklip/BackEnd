@@ -23,7 +23,8 @@ public class NoticeResponse {
     @Schema(description = "공지사항 내용")
     private String content;
 
-    @Schema(description = "공지사항 작성일자")    private String createdAt;
+    @Schema(description = "공지사항 작성일자")
+    private String createdAt;
 
     public static NoticeResponse of(final Notice notice){
 
