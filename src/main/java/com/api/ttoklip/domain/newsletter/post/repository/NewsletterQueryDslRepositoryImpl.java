@@ -1,8 +1,7 @@
-package com.api.ttoklip.domain.newsletter.post.domain.repository;
+package com.api.ttoklip.domain.newsletter.post.repository;
 
 import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
@@ -10,7 +9,7 @@ import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
@@ -22,26 +21,6 @@ import org.springframework.stereotype.Repository;
 public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    @Override
-    public List<Newsletter> findLatestNewslettersByCategory(Category category, int limit) {
-        QNewsletter qNewsletter = QNewsletter.newsletter;
-        return queryFactory.selectFrom(qNewsletter)
-                .where(qNewsletter.category.eq(category))
-                .orderBy(qNewsletter.createdDate.desc())
-                .limit(limit)
-                .fetch();
-    }
-
-    // To do. 하루 한번만 랜덤으로 뽑히도록 리팩토링
-    @Override
-    public List<Newsletter> findRandomNewslettersByCategory(Category category, int limit) {
-        QNewsletter qNewsletter = QNewsletter.newsletter;
-        return queryFactory.selectFrom(qNewsletter)
-                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .limit(limit)
-                .fetch();
-    }
 
     @Override
     public Newsletter findByIdFetchJoin(Long postId) {
@@ -72,6 +51,15 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                         newsletterComment.parent.id.asc().nullsFirst()
                 )
                 .fetch();
+    }
+
+    @Override
+    public Long findNewsletterCount() {
+        QNewsletter qNewsletter = QNewsletter.newsletter;
+        return queryFactory
+                .select(Wildcard.count)
+                .from(qNewsletter)
+                .fetchOne();
     }
 
     private BooleanExpression matchNewsletterId(final Long newsletterId) {
