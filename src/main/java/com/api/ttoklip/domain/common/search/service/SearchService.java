@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.common.search.service;
 
+import com.api.ttoklip.domain.common.search.response.CommunityPaging;
+import com.api.ttoklip.domain.common.search.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.common.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.common.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.common.search.response.SingleResponse;
@@ -7,6 +9,8 @@ import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipSearchRepository;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterSearchRepository;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.post.repository.CommunitySearchRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,9 +25,9 @@ public class SearchService {
 
     private final HoneyTipSearchRepository honeyTipSearchRepository;
     private final NewsletterSearchRepository newsletterSearchRepository;
+    private final CommunitySearchRepository communitySearchRepository;
 
     public HoneyTipPaging honeyTipSearch(final String keyword, final Pageable pageable) {
-
         Page<HoneyTip> contentPaging = honeyTipSearchRepository.getContain(keyword, pageable);
 
         // List<Entity>
@@ -56,6 +60,26 @@ public class SearchService {
 
         return NewsletterPaging.builder()
                 .newsletters(newsletterSingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
+    }
+
+    public CommunityPaging communityPaging(final String keyword, final Pageable pageable) {
+        Page<Community> contentPaging = communitySearchRepository.getContain(keyword, pageable);
+
+        // List<Entity>
+        List<Community> contents = contentPaging.getContent();
+
+        // Entity -> SingleResponse 반복
+        List<CommunitySingleResponse> communitySingleData = contents.stream()
+                .map(CommunitySingleResponse::from)
+                .toList();
+
+        return CommunityPaging.builder()
+                .communities(communitySingleData)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())
