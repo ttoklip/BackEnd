@@ -89,4 +89,8 @@ public class Cart extends BaseEntity {
         this.title = editor.getTitle();
         this.content = editor.getContent();
     }
+
+    public void changeStatus(TradeStatus newStatus) {
+        this.status = newStatus;
+    }
 }

@@ -171,4 +171,16 @@ public class CartPostService {
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- UPDATE STATUS -------------------------------------------- */
+    @Transactional
+    public Message updateStatus(Long postId, TradeStatus newStatus) {
+        Cart cart = findCartById(postId);
+        cart.changeStatus(newStatus);
+        return Message.editStatusSuccess(Cart.class, cart.getId());
+    }
+
+    /* -------------------------------------------- UPDATE STATUS 끝-------------------------------------------- */
+
 }

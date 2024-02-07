@@ -1,5 +1,6 @@
 package com.api.ttoklip.global.success;
 
+import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class Message {
     private static final String COMMENT = "댓글";
     private static final String POST = "게시글";
     private static final String CREATE = "생성";
+    private static final String STATUS = "상태";
     private static final String EDIT = "수정";
     private static final String DELETE = "삭제";
     private static final String REPORT = "신고";
@@ -61,5 +63,9 @@ public class Message {
 
     public static <T> Message reportPostSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, POST, REPORT);
+    }
+
+    public static <T> Message editStatusSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, STATUS, EDIT);
     }
 }
