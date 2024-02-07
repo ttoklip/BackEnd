@@ -37,4 +37,15 @@ public class AuthRespoonseConstant {
                 }
             }
             """;
+    public static final String whoAmI = """
+            {
+                "time": "2024-02-06T13:00:00.000Z",
+                "status": 200,
+                "code": "200",
+                "message": "사용자 정보를 확인합니다.",
+                "result": {
+                    "isAvailable": true
+                }
+            }
+            """;
 }

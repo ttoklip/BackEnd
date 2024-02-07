@@ -5,6 +5,8 @@ import com.api.ttoklip.domain.auth.dto.request.SignInReq;
 import com.api.ttoklip.domain.auth.dto.request.SignUpReq;
 import com.api.ttoklip.domain.auth.dto.response.AuthRes;
 import com.api.ttoklip.domain.auth.service.AuthService;
+import com.api.ttoklip.global.config.security.token.CurrentUser;
+import com.api.ttoklip.global.config.security.token.UserPrincipal;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +37,7 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공",
                     content = @Content(
-                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
@@ -47,6 +49,24 @@ public class AuthController {
             @Parameter(description = "Schema의 SignUpReq를 참고해주세요.", required = true) @Valid @RequestBody SignUpReq signUpReq
     ) {
         return new SuccessResponse<>(authService.signUp(signUpReq));
+    }
+
+    @Operation(summary = "유저 정보 확인", description = "현재 접속 중인 유저의 정보를 확인합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원가입 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = AuthRespoonseConstant.whoAmI,
+                                    description = "유저정보를 확인합니다."
+                            )))})
+    @GetMapping
+    public SuccessResponse<?> whoAmI(
+            @Parameter(description = "AccessToken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
+    ) {
+        return authService.whoAmI(userPrincipal);
     }
 
 
@@ -72,7 +92,7 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "중복체크 성공",
                     content = @Content(
-                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",

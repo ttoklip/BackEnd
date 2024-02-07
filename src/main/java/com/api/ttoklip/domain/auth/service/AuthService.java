@@ -59,4 +59,10 @@ public class AuthService {
         }
         return Message.nicknameAvailable();
     }
+
+    public SuccessResponse<?> whoAmI(UserPrincipal userPrincipal) {
+        Optional<User> user = userRepository.findByEmail(userPrincipal.getEmail());
+        DefaultAssert.isOptionalPresent(user);
+        return new SuccessResponse(user);
+    }
 }
