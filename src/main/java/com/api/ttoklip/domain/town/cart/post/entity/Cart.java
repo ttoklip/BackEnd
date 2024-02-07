@@ -38,6 +38,9 @@ public class Cart extends BaseEntity {
 
     private Long party;
 
+    @Enumerated(EnumType.STRING)
+    private TradeStatus status;
+
     public static Cart from(final CartCreateRequest request) {
         return Cart.builder()
                 .location(request.getLocation())
@@ -46,6 +49,7 @@ public class Cart extends BaseEntity {
                 .party(request.getParty())
                 .content(request.getContent())
                 .title(request.getTitle())
+                .status(TradeStatus.IN_PROGRESS)
                 .build();
     }
 
