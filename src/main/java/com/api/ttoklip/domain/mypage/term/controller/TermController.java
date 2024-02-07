@@ -25,7 +25,7 @@ import java.util.List;
 @Tag(name = "이용약관", description = "이용약관 api입니다")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/terms")
+@RequestMapping("/api/v1/term")
 public class TermController {
     private final TermService termService;
     @Operation(summary = "이용약관 불러오기", description = "이용약관을 조회합니다")
