@@ -23,10 +23,14 @@ public class NoticeResponse {
     @Schema(description = "공지사항 내용")
     private String content;
 
-    @Schema(description = "공지사항 작성일자")
-    private String createdAt;
+    @Schema(description = "공지사항 작성일자")    private String createdAt;
 
     public static NoticeResponse of(final Notice notice){
+
+        if (notice == null) {
+            throw new NullPointerException("Notice 객체가 null입니다.");
+        }
+
         String formattedCreatedDate = getFormattedCreatedDate(notice);
 
         return NoticeResponse.builder()
