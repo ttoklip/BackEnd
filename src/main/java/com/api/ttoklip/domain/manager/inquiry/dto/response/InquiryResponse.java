@@ -25,6 +25,10 @@ public class InquiryResponse {
     private String createdBy;
 
     public static InquiryResponse of(final Inquiry inquiry){
+        if(inquiry==null){
+            throw new NullPointerException("문의하기 객체가 비었습니다");
+        }
+
         String formattedCreatedDate = getFormattedCreatedDate(inquiry);
 
         return InquiryResponse.builder()
