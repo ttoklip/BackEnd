@@ -20,6 +20,7 @@ public class NewsletterDefaultRepository {
         return jpaQueryFactory
                 .select(newsletter)
                 .from(newsletter)
+                .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .fetchJoin()
                 .where(newsletter.category.eq(Category.HOUSEWORK))
@@ -32,6 +33,7 @@ public class NewsletterDefaultRepository {
         return jpaQueryFactory
                 .select(newsletter)
                 .from(newsletter)
+                .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .fetchJoin()
                 .where(newsletter.category.eq(Category.RECIPE))
@@ -44,6 +46,7 @@ public class NewsletterDefaultRepository {
         return jpaQueryFactory
                 .select(newsletter)
                 .from(newsletter)
+                .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .fetchJoin()
                 .where(newsletter.category.eq(Category.SAFE_LIVING))
@@ -56,6 +59,7 @@ public class NewsletterDefaultRepository {
         return jpaQueryFactory
                 .select(newsletter)
                 .from(newsletter)
+                .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .fetchJoin()
                 .where(newsletter.category.eq(Category.WELFARE_POLICY))

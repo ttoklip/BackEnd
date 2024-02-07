@@ -20,6 +20,7 @@ public class HoneyTipDefaultRepository {
     public List<HoneyTip> getHouseWork() {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
+                .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.HOUSEWORK))
@@ -31,6 +32,7 @@ public class HoneyTipDefaultRepository {
     public List<HoneyTip> getRecipe() {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
+                .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.RECIPE))
@@ -42,6 +44,7 @@ public class HoneyTipDefaultRepository {
     public List<HoneyTip> getSafeLiving() {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
+                .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.SAFE_LIVING))
@@ -53,6 +56,7 @@ public class HoneyTipDefaultRepository {
     public List<HoneyTip> getWelfarePolicy() {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
+                .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.WELFARE_POLICY))
