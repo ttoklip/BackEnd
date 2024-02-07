@@ -5,7 +5,7 @@ public class ScrapPostResponse {
     private String title;
     private String contents;
     private String userNickname;
-    private int likes;
+    private Long likes;
     private int countScraps;
     private int countComments;
 
