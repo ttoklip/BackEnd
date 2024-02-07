@@ -5,9 +5,9 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.post.domain.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -15,6 +15,7 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,8 +44,7 @@ public class NewsletterPostService {
     @Transactional
     public Message register(final NewsletterCreateReq request) {
 
-        MultipartFile mainImage = request.getMainImage();
-        String mainImageUrl = uploadImage(mainImage);
+        String mainImageUrl = registerMainImage(request);
 
         Newsletter newsletter = Newsletter.from(request, mainImageUrl);
         newsletterRepository.save(newsletter);
@@ -62,6 +62,15 @@ public class NewsletterPostService {
         return Message.registerPostSuccess(Newsletter.class, newsletter.getId());
     }
 
+    private String registerMainImage(final NewsletterCreateReq request) {
+        MultipartFile mainImage = request.getMainImage();
+        return uploadImage(mainImage);
+    }
+
+    private String uploadImage(final MultipartFile uploadImage) {
+        return s3FileUploader.uploadMultipartFile(uploadImage);
+    }
+
     private void registerImages(final Newsletter newsletter, final List<MultipartFile> uploadImages) {
         // S3에 이미지 업로드 후 URL 목록을 가져온다.
         List<String> uploadUrls = uploadImages(uploadImages);
@@ -70,10 +79,6 @@ public class NewsletterPostService {
 
     private List<String> uploadImages(final List<MultipartFile> uploadImages) {
         return s3FileUploader.uploadMultipartFiles(uploadImages);
-    }
-
-    private String uploadImage(final MultipartFile uploadImage) {
-        return s3FileUploader.uploadMultipartFile(uploadImage);
     }
 
     private void registerUrls(final Newsletter newsletter, final List<String> urls) {
@@ -102,6 +107,18 @@ public class NewsletterPostService {
     }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- total entity count -------------------------------------------- */
+
+    public Long getEntityCount() {
+        return newsletterRepository.findNewsletterCount();
+    }
+
+    /* -------------------------------------------- total entity count 끝 -------------------------------------------- */
+
+    public List<Newsletter> getContentWithPageable(final Pageable pageable) {
+        return newsletterRepository.findAll(pageable).getContent();
+    }
 
 //    public CategoryResponses getDefaultCategoryRead() {
 //        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();

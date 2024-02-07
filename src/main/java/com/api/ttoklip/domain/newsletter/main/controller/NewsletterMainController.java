@@ -1,9 +1,8 @@
 package com.api.ttoklip.domain.newsletter.main.controller;
 
 import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstant;
-import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterMainRes;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterMainResponse;
 import com.api.ttoklip.domain.newsletter.main.service.NewsletterMainService;
-import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +38,7 @@ public class NewsletterMainController {
                                     description = "뉴스레터 메인 화면이 조회되었습니다."
                             )))})
     @GetMapping
-    public SuccessResponse<NewsletterMainRes> category() {
+    public SuccessResponse<NewsletterMainResponse> category() {
         return new SuccessResponse<>(newsletterMainService.main());
     }
 
