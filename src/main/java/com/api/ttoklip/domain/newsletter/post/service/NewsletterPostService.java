@@ -43,10 +43,13 @@ public class NewsletterPostService {
     @Transactional
     public Message register(final NewsletterCreateReq request) {
 
-        Newsletter newsletter = Newsletter.of(request);
+        MultipartFile mainImage = request.getMainImage();
+        String mainImageUrl = uploadImage(mainImage);
+
+        Newsletter newsletter = Newsletter.from(request, mainImageUrl);
         newsletterRepository.save(newsletter);
 
-        List<MultipartFile> images = request.getImages();
+        List<MultipartFile> images = request.getSubImages();
         if (images != null && !images.isEmpty()) {
             registerImages(newsletter, images);
         }
@@ -67,6 +70,10 @@ public class NewsletterPostService {
 
     private List<String> uploadImages(final List<MultipartFile> uploadImages) {
         return s3FileUploader.uploadMultipartFiles(uploadImages);
+    }
+
+    private String uploadImage(final MultipartFile uploadImage) {
+        return s3FileUploader.uploadMultipartFile(uploadImage);
     }
 
     private void registerUrls(final Newsletter newsletter, final List<String> urls) {
@@ -95,4 +102,24 @@ public class NewsletterPostService {
     }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
+
+//    public CategoryResponses getDefaultCategoryRead() {
+//        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
+//        List<Question> recipeQuestions = questionDefaultRepository.getRecipe();
+//        List<Question> safeLivingQuestions = questionDefaultRepository.getSafeLiving();
+//        List<Question> welfarePolicyQuestions = questionDefaultRepository.getWelfarePolicy();
+//
+//        return CategoryResponses.builder()
+//                .housework(convertToTitleResponses(houseWorkQuestions))
+//                .cooking(convertToTitleResponses(recipeQuestions))
+//                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+//                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+//                .build();
+//    }
+//
+//    private List<TitleResponse> convertToTitleResponses(final List<Question> questions) {
+//        return questions.stream()
+//                .map(TitleResponse::questionOf)
+//                .toList();
+//    }
 }
