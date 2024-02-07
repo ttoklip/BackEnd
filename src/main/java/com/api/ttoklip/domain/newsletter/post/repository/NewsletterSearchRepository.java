@@ -1,9 +1,8 @@
-package com.api.ttoklip.domain.honeytip.post.repository;
+package com.api.ttoklip.domain.newsletter.post.repository;
 
-
-import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
+import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
+import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,38 +16,38 @@ import org.springframework.util.StringUtils;
 
 @Repository
 @RequiredArgsConstructor
-public class HoneyTipSearchRepository {
+public class NewsletterSearchRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
-    private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
 
+    private final QNewsletter newsletter = QNewsletter.newsletter;
+    private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
 
-    public Page<HoneyTip> getContain(final String keyword, final Pageable pageable) {
-        List<HoneyTip> content = getSearchPageContent(keyword, pageable);
+    public Page<Newsletter> getContain(final String keyword, final Pageable pageable) {
+        List<Newsletter> content = getSearchPageContent(keyword, pageable);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<HoneyTip> getSearchPageContent(final String keyword, final Pageable pageable) {
+    private List<Newsletter> getSearchPageContent(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
-                .select(honeyTip)
-                .from(honeyTip)
+                .select(newsletter)
+                .from(newsletter)
                 .distinct()
                 .where(
                         containContent(keyword)
                 )
-                .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(honeyTip.id.desc())
+                .orderBy(newsletter.id.desc())
                 .fetch();
     }
 
     private BooleanExpression containContent(final String keyword) {
         if (StringUtils.hasText(keyword)) {
-            return honeyTip.content.contains(keyword);
+            return newsletter.content.contains(keyword);
         }
         return null;
     }
@@ -56,7 +55,7 @@ public class HoneyTipSearchRepository {
     private Long countQuery(final String keyword) {
         return jpaQueryFactory
                 .select(Wildcard.count)
-                .from(honeyTip)
+                .from(newsletter)
                 .distinct()
                 .where(
                         containContent(keyword)
