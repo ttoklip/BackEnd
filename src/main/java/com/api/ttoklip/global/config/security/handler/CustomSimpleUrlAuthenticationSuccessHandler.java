@@ -3,6 +3,7 @@ package com.api.ttoklip.global.config.security.handler;
 import com.api.ttoklip.domain.auth.dto.response.TokenMapping;
 import com.api.ttoklip.domain.auth.service.CustomTokenProviderService;
 import com.api.ttoklip.domain.user.domain.User;
+import com.api.ttoklip.domain.user.domain.repository.UserRepository;
 import com.api.ttoklip.global.DefaultAssert;
 import com.api.ttoklip.global.config.security.OAuth2Config;
 import com.api.ttoklip.global.config.security.token.UserPrincipal;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -28,6 +30,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
 
     private final CustomTokenProviderService customTokenProviderService;
     private final OAuth2Config oAuth2Config;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -36,10 +39,14 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
-        String userId = oAuth2User.getName();
         TokenMapping token = customTokenProviderService.createToken(authentication);
+        String userEmail = token.getEmail();
+        Optional<User> userOptional = userRepository.findByEmail(userEmail);
+        String providerId = userOptional.get().getProviderId();
 
-        response.sendRedirect("http://localhost:3000/auth/oauth-response/" + token + "/3600");
+
+
+        response.sendRedirect("http://localhost:3000/auth/oauth-response/" + token + "/3600" + "/providerId:" + providerId);
 
     }
 
