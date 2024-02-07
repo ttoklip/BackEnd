@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.auth.service;
 
-import com.api.ttoklip.domain.auth.converter.AuthConverter;
 import com.api.ttoklip.domain.auth.dto.request.SignInReq;
 import com.api.ttoklip.domain.auth.dto.request.SignUpReq;
 import com.api.ttoklip.domain.auth.dto.response.AuthRes;
@@ -44,9 +43,11 @@ public class AuthService {
         Optional<User> existingUser = userRepository.findByProviderId(signUpReq.getProviderId());
         String imageUrl = existingUser.map(User::getImageUrl).orElse(signUpReq.getImageUrl());
 
-        User user = AuthConverter.toUser(signUpReq, imageUrl);
+        User user = existingUser.get();
+        user.updateImageUrl(imageUrl);
+        user.updateNickname(signUpReq.getNickname());
+        // 기타 필요한 정보 업데이트
         userRepository.save(user);
-
         return user.getId();
     }
 

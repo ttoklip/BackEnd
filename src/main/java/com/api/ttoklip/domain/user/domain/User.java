@@ -54,4 +54,13 @@ public class User extends BaseEntity {
     private List<Category> categories; // 고민거리(카테고리 선택)
 
 
+    // 이미지 URL 업데이트 메소드
+    public void updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    // 닉네임 업데이트 메소드
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
