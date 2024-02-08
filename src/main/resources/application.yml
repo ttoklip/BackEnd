@@ -25,7 +25,6 @@ spring:
             client-secret: ${NAVER_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
-#            redirect-uri: https://getpostman.com/oauth/callback
             client-name: Naver
             scope:
               - name
@@ -42,7 +41,6 @@ spring:
               - profile_image
               - account_email
             redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
-#           redirect-uri: https://getpostman.com/oauth/callback
         provider:
           naver:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize
@@ -57,7 +55,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

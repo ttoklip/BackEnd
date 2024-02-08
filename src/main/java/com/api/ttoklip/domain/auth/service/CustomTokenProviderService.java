@@ -39,7 +39,6 @@ public class CustomTokenProviderService {
         Date now = new Date();
 
         Date accessTokenExpiresIn = new Date(now.getTime() + oAuth2Config.getAuth().getAccessTokenExpirationMsec());
-//        Date refreshTokenExpiresIn = new Date(now.getTime() + oAuth2Config.getAuth().getRefreshTokenExpirationMsec());
 
         String secretKey = oAuth2Config.getAuth().getTokenSecret();
 
@@ -53,16 +52,11 @@ public class CustomTokenProviderService {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-//        String refreshToken = Jwts.builder()
-//                .setExpiration(refreshTokenExpiresIn)
-//                .signWith(key, SignatureAlgorithm.HS512)
-//                .compact();
 
 
         return TokenMapping.builder()
                 .email(userPrincipal.getEmail())
                 .accessToken(accessToken)
-//                .refreshToken(refreshToken)
                 .build();
 
     }
@@ -70,7 +64,6 @@ public class CustomTokenProviderService {
 
     public boolean validateToken(String token) {
         try {
-            //log.info("bearerToken = {} \n oAuth2Config.getAuth()={}", token, oAuth2Config.getAuth().getTokenSecret());
             Jwts.parserBuilder().setSigningKey(oAuth2Config.getAuth().getTokenSecret()).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException ex) {

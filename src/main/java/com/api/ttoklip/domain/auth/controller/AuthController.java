@@ -1,9 +1,7 @@
 package com.api.ttoklip.domain.auth.controller;
 
 import com.api.ttoklip.domain.auth.constant.AuthRespoonseConstant;
-import com.api.ttoklip.domain.auth.dto.request.SignInReq;
 import com.api.ttoklip.domain.auth.dto.request.SignUpReq;
-import com.api.ttoklip.domain.auth.dto.response.AuthRes;
 import com.api.ttoklip.domain.auth.service.AuthService;
 import com.api.ttoklip.global.config.security.token.CurrentUser;
 import com.api.ttoklip.global.config.security.token.UserPrincipal;
@@ -68,25 +66,6 @@ public class AuthController {
     ) {
         return authService.whoAmI(userPrincipal);
     }
-
-
-//    @Operation(summary = "유저 로그아웃", description = "유저 로그아웃을 수행합니다.")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "로그아웃 성공",
-//                    content = @Content(
-//                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-//                            schema = @Schema(implementation = SuccessResponse.class),
-//                            examples = @ExampleObject(
-//                                    name = "SuccessResponse",
-//                                    value = HoneytipResponseConstant.createAndDeleteHoneytip,
-//                                    description = "로그아웃되었습니다."
-//                            )))})
-//    @PostMapping("/sign-out")
-//    public SuccessResponse<Message> signout(
-//            @Parameter(description = "AccessToken을 입력해주세요.", required = true) @CurrentUser UserPrincipal userPrincipal
-//            ) {
-//        return new SuccessResponse<>(authService.signOut(userPrincipal));
-//    }
 
     @Operation(summary = "닉네임 중복 체크", description = "닉네임 중복체크를 수행합니다.")
     @ApiResponses(value = {
