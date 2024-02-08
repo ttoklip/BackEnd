@@ -3,6 +3,7 @@ package com.api.ttoklip.global.exception;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -29,7 +30,6 @@ public enum ErrorType {
     S3_UPLOAD(INTERNAL_SERVER_ERROR, "S5001", "서버오류, S3 사진 업로드 에러입니다."),
     S3_CONNECT(INTERNAL_SERVER_ERROR, "S5002", "서버오류, S3 연결 에러입니다."),
     S3_CONVERT(INTERNAL_SERVER_ERROR, "S5003", "서버오류, S3 변환 에러입니다."),
-
 
     // ------------------------------------------ Category ------------------------------------------
 
@@ -61,8 +61,23 @@ public enum ErrorType {
 
 
     // ------------------------------------------ Newsletter ------------------------------------------
-    NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다.");
+    NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다."),
 
+
+    // ---------------------------------------- JWT TOKEN ----------------------------------------
+    _JWT_PARSING_ERROR(BAD_REQUEST, "JWT_4001", "JWT Token이 올바르지 않습니다."),
+    _JWT_EXPIRED(UNAUTHORIZED, "JWT_4010", "Jwt Token의 유효 기간이 만료되었습니다."),
+
+
+    // ------------------------------------------ Auth ------------------------------------------
+    OAUTH_INVALID_PROVIDER(INTERNAL_SERVER_ERROR, "OAUTH_5000", "올바르지 않은 Provider입니다."),
+    OAUTH_NOTFOUND_NAME(INTERNAL_SERVER_ERROR, "OAUTH_5001", "Oauth 제공자로부터 name을 받을 수 없습니다."),
+
+
+    // ------------------------------------------ USER ------------------------------------------
+    _USER_NOT_FOUND_BY_TOKEN(NOT_FOUND, "USER_4040", "제공된 토큰으로 사용자를 찾을 수 없습니다."),
+    _UNAUTHORIZED(UNAUTHORIZED, "USER_4010", "로그인되지 않은 상태입니다."),
+    _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다.");
 
 
     private final HttpStatus status;
