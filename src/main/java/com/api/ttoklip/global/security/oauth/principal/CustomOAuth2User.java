@@ -41,7 +41,8 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER"));
+        // `Member` 엔티티의 `role` 필드를 사용하여 권한을 동적으로 생성합니다.
+        return Collections.singleton(new SimpleGrantedAuthority(member.getRole().name()));
     }
 
     @Override

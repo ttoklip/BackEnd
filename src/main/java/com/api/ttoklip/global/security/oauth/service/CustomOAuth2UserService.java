@@ -52,6 +52,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                      final String provider, final String email) {
         String name = oAuth2UserInfo.getName();
 
+        // ToDo 관리자 기준 설정
+        if (name.equals("관리자")) {
+            Role manager = Role.MANAGER;
+        }
+
         Member newMember = Member.builder()
                 .userNickname(name)
                 .email(email)
