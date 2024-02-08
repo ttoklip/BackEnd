@@ -6,11 +6,11 @@ import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Builder
+@Entity
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
