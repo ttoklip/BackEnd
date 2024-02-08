@@ -28,10 +28,6 @@ public class NoticeResponse {
 
     public static NoticeResponse of(final Notice notice){
 
-        if (notice == null) {
-            throw new NullPointerException("Notice 객체가 null입니다.");
-        }
-
         String formattedCreatedDate = getFormattedCreatedDate(notice);
 
         return NoticeResponse.builder()

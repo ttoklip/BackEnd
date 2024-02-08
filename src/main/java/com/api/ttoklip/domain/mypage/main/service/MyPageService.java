@@ -4,23 +4,25 @@ package com.api.ttoklip.domain.mypage.main.service;
 import com.api.ttoklip.domain.mypage.main.dto.request.BlockedRequest;
 import com.api.ttoklip.domain.mypage.main.dto.request.MyPageRequest;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
+import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
-    public MyPageResponse getMyProfile(MyPageRequest myPageRequest){return null;}
-    public BlockedListResponse blockedUser(BlockedRequest blockedRequest){
+    public MyPageResponse getMyProfile(){return null;}
+    public BlockedListResponse blockedUser(){
         return null;
     }
-    public RestricetdResponse restricted(Long userID){
+    public RestricetdResponse restricted(){
         return null;
     }
-    public String unblock(String blockedUserId){
-        return "해제완료";
+    public Message unblock(String blockedUserId){
+        Message message =
+        return ;
     }
-    public ScrapPostsListResponse scrapPosts(String type){
+    public ScrapPostsListResponse scrapPosts(){
         return null;
     }
     public MyPostsListResponse myPosts(){

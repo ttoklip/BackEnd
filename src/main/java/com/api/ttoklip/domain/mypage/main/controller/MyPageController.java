@@ -35,9 +35,9 @@ public class MyPageController {
                                     value = MyPageConstant.myPageResponse,
                                     description = "마이페이지 정보 조회 성공했습니다"
                             )))})
-    @GetMapping
-    public SuccessResponse<MyPageResponse> getMyProfile(final MyPageRequest myPageRequest) {
-        return new SuccessResponse<>(myPageService.getMyProfile(myPageRequest));
+    @GetMapping()
+    public SuccessResponse<MyPageResponse> getMyProfile() {
+        return new SuccessResponse<>(myPageService.getMyProfile());
     }
 
     @Operation(summary = "계정의 사용 제한 정보", description = "계정의 제한 기간과 사유를 불러옵니다.")
@@ -51,9 +51,9 @@ public class MyPageController {
                                     value = MyPageConstant.restrictedResponse,
                                     description = "제한 기간과 사유를 조회했습니다"
                             )))})
-    @GetMapping("/restricted/{accountId}")
-    public SuccessResponse<RestricetdResponse> restrited(@PathVariable("accountId")Long userId) {
-        return new SuccessResponse<>(myPageService.restricted(userId));
+    @GetMapping("/restricted")
+    public SuccessResponse<RestricetdResponse> restricted() {
+        return new SuccessResponse<>(myPageService.restricted());
     }
     @Operation(summary = "내가 차단한 계정", description = "내가 차단한 계정들을 불러옵니다")
     @ApiResponses(value = {
@@ -66,9 +66,9 @@ public class MyPageController {
                                     value = MyPageConstant.blockedUsersResponse,
                                     description = "차단한 계정들을 조회했습니다"
                             )))})
-    @GetMapping("/blocked/{blockedId}")
-    public SuccessResponse<BlockedListResponse> blockedUser(@PathVariable("blockedId")BlockedRequest blockedRequest) {
-        return new SuccessResponse<>(myPageService.blockedUser(blockedRequest));
+    @GetMapping("/blocked")
+    public SuccessResponse<BlockedListResponse> blockedUser() {
+        return new SuccessResponse<>(myPageService.blockedUser());
     }
     @Operation(summary = "차단을 해제 합니다", description = "차단을 해제 합니다")
     @ApiResponses(value = {
@@ -81,9 +81,9 @@ public class MyPageController {
                                     value = MyPageConstant.unblockUserResponse,
                                     description = "제한 기간과 사유를 조회했습니다"
                             )))})
-    @DeleteMapping("/unblock/{blocked-accountId}")
-    public SuccessResponse<String> unblock(@PathVariable("blocked-accountId")String blockedUserId ) {
-        return new SuccessResponse<>(myPageService.unblock(blockedUserId));
+    @DeleteMapping("/unblock")
+    public SuccessResponse<String> unblock() {
+        return new SuccessResponse<>(myPageService.unblock());
     }
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
@@ -96,9 +96,9 @@ public class MyPageController {
                                     value = MyPageConstant.scrapedPostsResponse,
                                     description = "스크랩한 글을 불러왔습니다"
                             )))})
-    @GetMapping("/scraped-posts/{type}")
-    public SuccessResponse<ScrapPostsListResponse> scrpaPosts(@PathVariable("type")String type) {
-        return new SuccessResponse<>(myPageService.scrapPosts(type));
+    @GetMapping("/scraped-posts")
+    public SuccessResponse<ScrapPostsListResponse> scrpaPosts() {
+        return new SuccessResponse<>(myPageService.scrapPosts());
     }
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
     @ApiResponses(value = {

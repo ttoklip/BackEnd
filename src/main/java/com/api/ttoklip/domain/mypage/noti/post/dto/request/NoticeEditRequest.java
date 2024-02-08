@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class NoticeCreateRequest {
+public class NoticeEditRequest {
     @Schema(description = "공지사항 제목", example = "공지사항 제목 예시")
     @NotEmpty
     @Size(max = 50)

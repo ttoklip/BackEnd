@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.mypage.alam.controller;
 
-import com.api.ttoklip.domain.mypage.alam.constant.AllimConstant;
-import com.api.ttoklip.domain.mypage.alam.dto.request.AllimRequest;
-import com.api.ttoklip.domain.mypage.alam.service.AllimService;
+import com.api.ttoklip.domain.mypage.alam.constant.AlamConstant;
+import com.api.ttoklip.domain.mypage.alam.dto.request.AlamRequest;
+import com.api.ttoklip.domain.mypage.alam.service.AlamService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/allim")
-public class AllimController {
-    private final AllimService alamService;
+public class AlamController {
+    private final AlamService alamService;
     @Operation(summary = "알림 변경", description = "알림을 변경")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "알림 변경 성공",
@@ -31,11 +31,11 @@ public class AllimController {
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = AllimConstant.allimSettingResponse,
+                                    value = AlamConstant.allimSettingResponse,
                                     description = "알림을 변경하였습니다"
                             )))})
     @PostMapping("/allim-settings")
-    public SuccessResponse<String> changeAlam(@RequestBody AllimRequest allimRequest) {
-        return new SuccessResponse<>(alamService.changeAlam(allimRequest));
+    public SuccessResponse<String> changeAlam(@RequestBody AlamRequest alamRequest) {
+        return new SuccessResponse<>(alamService.changeAlam(alamRequest));
     }
 }

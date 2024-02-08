@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class MyPageRequest {
-    private Long userId;
+    private String userNickName;
 }

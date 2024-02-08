@@ -26,9 +26,7 @@ public class TermResponse {
     private String createdAt;
 
     public static TermResponse of(final Term term){
-        if(term==null){
-            throw new NullPointerException("이용약관 객체가 null입니다");
-        }
+
         String formattedCreatedDate = getFormattedCreatedDate(term);
 
         return TermResponse.builder()

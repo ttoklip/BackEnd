@@ -1,10 +1,5 @@
 package com.api.ttoklip.domain.mypage.term.service;
 
-import com.api.ttoklip.domain.mypage.noti.post.domain.Notice;
-import com.api.ttoklip.domain.mypage.noti.post.domain.NoticeRepository;
-import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
-import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
-import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
 import com.api.ttoklip.domain.mypage.term.domain.Term;
 import com.api.ttoklip.domain.mypage.term.domain.TermRepository;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermCreateRequest;
