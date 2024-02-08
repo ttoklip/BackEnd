@@ -31,6 +31,7 @@ public class CustomOAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         Member member = oauth2User.getMember();
+        boolean isFirstLogin = oauth2User.isFirstLogin();
 
         log.info("------------------ 소셜 로그인 성공: " + member.getName());
 
@@ -38,9 +39,7 @@ public class CustomOAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         Long memberId = member.getId();
 
         Member loginMember = memberService.findById(memberId);
-
         String profileImgUrl = loginMember.getProfile().getProfileImgUrl();
-
         String token = generateToken(loginMember.getId());
 
         AuthResponse authResponse = AuthResponse.builder()
@@ -48,6 +47,7 @@ public class CustomOAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 .name(nickname)
                 .token(token)
                 .profileImageUrl(profileImgUrl)
+                .isFirstLogin(isFirstLogin)
                 .build();
 
         // 응답 설정

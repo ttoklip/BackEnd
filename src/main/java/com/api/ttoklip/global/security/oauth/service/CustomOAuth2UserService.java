@@ -39,7 +39,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String provider = request.getClientRegistration().getRegistrationId(); // 예: kakao, naver
 
-        OAuth2UserInfo oAuthAttributes = OAuthUserInfoFactory.getOAuthAttributes(provider, attributes);
+        OAuth2UserInfo oAuth2UserInfo = OAuthUserInfoFactory.getOAuthAttributes(provider, attributes);
 
     /*
     // ToDo 관리자 기준 설정
@@ -50,35 +50,48 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     */
 
         if (provider.equals("naver")) {
-            Member member = findMemberByNaver(provider, oAuthAttributes);
-            return CustomOAuth2User.of(member, attributes);
+            return handleMemberByNaver(provider, oAuth2UserInfo);
         }
 
         if (provider.equals("kakao")) {
-            Member member = findMemberByKakao(provider, oAuthAttributes);
-            return CustomOAuth2User.of(member, attributes);
+            return handleMemberByKakao(provider, oAuth2UserInfo);
         }
 
         throw new ApiException(ErrorType.OAUTH_INVALID_PROVIDER);
     }
 
     // -------------------------------------------- DB 조회 및 회원 가입 --------------------------------------------
-    private Member findMemberByNaver(final String provider, final OAuth2UserInfo oAuthAttributes) {
-        String email = ((NaverUserInfo) oAuthAttributes).getEmail();
+    private CustomOAuth2User handleMemberByNaver(final String provider, final OAuth2UserInfo oAuth2UserInfo) {
+        String email = ((NaverUserInfo) oAuth2UserInfo).getEmail();
+        Map<String, Object> attributes = ((NaverUserInfo) oAuth2UserInfo).getAttributes();
+
         Optional<Member> memberOptional = memberRepository.findByNaverEmail(email);
-        // 회원 정보가 없다면 회원가입 진행
-        Member member = memberOptional.orElseGet(() -> registerMemberByNaver(oAuthAttributes, provider, email));
-        return member;
+
+        // 회원 정보가 있으면 로그인, 없으면 회원가입
+        if (memberOptional.isPresent()) {
+            Member existingMember = memberOptional.get();
+            return CustomOAuth2User.login(existingMember, attributes);
+        }
+
+        Member newMember = registerMemberByNaver(oAuth2UserInfo, provider, email);
+        return CustomOAuth2User.register(newMember, attributes);
     }
 
-    private Member findMemberByKakao(final String provider, final OAuth2UserInfo oAuthAttributes) {
-        Long kakaoId = ((KakaoUserInfo) oAuthAttributes).getKakaoId();
+    private CustomOAuth2User handleMemberByKakao(final String provider, final OAuth2UserInfo oAuth2UserInfo) {
+        Long kakaoId = ((KakaoUserInfo) oAuth2UserInfo).getKakaoId();
+        Map<String, Object> attributes = ((KakaoUserInfo) oAuth2UserInfo).getAttributes();
+
         Optional<Member> memberOptional = memberRepository.findByKakaoId(kakaoId);
-        // 회원 정보가 없다면 회원가입 진행
-        Member member = memberOptional.orElseGet(() -> registerMemberByKakao(oAuthAttributes, provider, kakaoId));
-        return member;
-    }
 
+        // 회원 정보가 있으면 로그인, 없으면 회원가입
+        if (memberOptional.isPresent()) {
+            Member existingMember = memberOptional.get();
+            return CustomOAuth2User.login(existingMember, attributes);
+        }
+
+        Member newMember = registerMemberByKakao(oAuth2UserInfo, provider, kakaoId);
+        return CustomOAuth2User.register(newMember, attributes);
+    }
     // -------------------------------------------- DB 조회 및 회원 가입 끝 --------------------------------------------
 
 
@@ -95,6 +108,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         memberRepository.save(newMember); // 회원 저장
 
         registerProfile(oAuth2UserInfo, newMember);
+
         return newMember;
     }
 
@@ -110,9 +124,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         memberRepository.save(newMember); // 회원 저장
 
         registerProfile(oAuth2UserInfo, newMember);
+
         return newMember;
     }
-
     // -------------------------------------------- 회원가입 끝 --------------------------------------------
 
 

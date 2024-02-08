@@ -7,24 +7,33 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Getter
 @Builder
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomOAuth2User implements OAuth2User {
 
-    private final Member member;
-    private final Map<String, Object> attributes;
+    private Member member;
+    private Map<String, Object> attributes;
+    private boolean isFirstLogin;
 
-    public static CustomOAuth2User of(final Member member, final Map<String, Object> attributes) {
+    public static CustomOAuth2User login(final Member member, final Map<String, Object> attributes) {
         return CustomOAuth2User.builder()
                 .member(member)
+                .attributes(attributes)
+                .build();
+    }
+
+    public static CustomOAuth2User register(final Member member, final Map<String, Object> attributes) {
+        return CustomOAuth2User.builder()
+                .member(member)
+                .isFirstLogin(true)
                 .attributes(attributes)
                 .build();
     }
@@ -47,7 +56,7 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        if (member.getProvider().equals("kakao")){
+        if (member.getProvider().equals("kakao")) {
             return ((Map<?, ?>) attributes.get("properties")).get("nickname").toString();
         }
 
@@ -57,4 +66,9 @@ public class CustomOAuth2User implements OAuth2User {
 
         throw new ApiException(ErrorType.OAUTH_NOTFOUND_NAME);
     }
+
+    public boolean isFirstLogin() {
+        return isFirstLogin;
+    }
+
 }

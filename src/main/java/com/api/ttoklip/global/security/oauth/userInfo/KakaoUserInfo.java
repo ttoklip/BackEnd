@@ -2,7 +2,9 @@ package com.api.ttoklip.global.security.oauth.userInfo;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public class KakaoUserInfo implements OAuth2UserInfo {
 
