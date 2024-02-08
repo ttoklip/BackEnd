@@ -2,7 +2,9 @@ package com.api.ttoklip.domain.town.cart.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.post.dto.request.UpdateStatusRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
+import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -82,6 +84,21 @@ public class CartPostController {
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
         Message message = cartPostService.report(postId, request);
+        return new SuccessResponse<>(message);
+    }
+
+    /* UPDATE STATUS */
+    @Operation(summary = "함께해요 게시글 상태 수정",
+            description = "함께해요 게시글의 상태를 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "함께해요 게시글 상태 수정 성공",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class)
+                    ))})
+    @PatchMapping("/{postId}/status")
+    public SuccessResponse<Message> updateStatus(final @PathVariable Long postId,
+                                                 final @RequestBody UpdateStatusRequest request) {
+        Message message = cartPostService.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
         return new SuccessResponse<>(message);
     }
 }

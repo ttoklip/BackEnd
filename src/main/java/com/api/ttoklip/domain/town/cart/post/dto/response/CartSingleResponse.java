@@ -85,7 +85,7 @@ public class CartSingleResponse {
                 .location(cart.getLocation())
                 .chatUrl(cart.getChatUrl())
                 .party(cart.getParty())
-                .status(cart.getStatus().getDescription())
+                .status(cart.getStatus().name())
 //                .writer(cart.getMember().getName) ToDo Member 엔티티 연결 후 수정
                 .writtenTime(formattedCreatedDate)
                 .itemUrls(itemUrlsResponses)
