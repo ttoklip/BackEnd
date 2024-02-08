@@ -23,6 +23,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     public Question findByIdFetchJoin(final Long questionPostId) {
         Question findQuestion = jpaQueryFactory
                 .selectFrom(question)
+                .distinct()
                 .leftJoin(question.questionImages, questionImage)
                 .fetchJoin()
                 .where(question.id.eq(questionPostId))
@@ -36,6 +37,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     public List<QuestionComment> findActiveCommentsByQuestionId(final Long questionId) {
         return jpaQueryFactory
                 .selectFrom(questionComment)
+                .distinct()
                 .where(
                         matchQuestionId(questionId),
                         getCommentActivate()
