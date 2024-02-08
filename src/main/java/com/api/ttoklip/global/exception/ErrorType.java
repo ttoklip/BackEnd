@@ -61,7 +61,14 @@ public enum ErrorType {
 
 
     // ------------------------------------------ Newsletter ------------------------------------------
-    NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다.");
+    NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Auth ------------------------------------------
+    OAUTH_INVALID_PROVIDER(INTERNAL_SERVER_ERROR, "OAUTH_5000", "올바르지 않은 Provider입니다."),
+    OAUTH_NOTFOUND_NAME(INTERNAL_SERVER_ERROR, "OAUTH_5001", "Oauth 제공자로부터 name을 받을 수 없습니다.");
+
+
 
 
 
