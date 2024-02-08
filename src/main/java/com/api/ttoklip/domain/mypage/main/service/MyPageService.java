@@ -19,7 +19,6 @@ public class MyPageService {
         return null;
     }
     public Message unblock(String blockedUserId){
-
         return null;
     }
     public ScrapPostsListResponse scrapPosts(){

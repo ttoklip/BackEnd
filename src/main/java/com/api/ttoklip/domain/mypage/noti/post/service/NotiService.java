@@ -2,10 +2,12 @@ package com.api.ttoklip.domain.mypage.noti.post.service;
 
 import com.api.ttoklip.domain.mypage.noti.post.domain.NoticeDefaultRepository;
 import com.api.ttoklip.domain.mypage.noti.post.domain.Notice;
+import com.api.ttoklip.domain.mypage.noti.post.domain.NoticePagingRepository;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
+import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeSingleResponse;
 import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -16,17 +18,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NotiService {
 
     private final NoticeDefaultRepository noticeDefaultRepository;
+    private final NoticePagingRepository noticePagingRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Notice findNoticeById(final Long noticeId){
-        return noticeDefaultRepository.findById(noticeId)
-                .orElseThrow(()->new ApiException(ErrorType.NOTICE_NOT_FOUND));//notice 에러 추가 필요 SJ02.04
+        Notice notice= noticeDefaultRepository.findById(noticeId)
+                .orElseThrow(()->new ApiException(ErrorType.NOTICE_NOT_FOUND));
+        if(notice.isDeleted()==true){
+            throw new ApiException(ErrorType.NOTICE_NOT_FOUND); //notice 에러 추가 필요 SJ02.04
+        }
+        return notice;
     }
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
@@ -47,9 +56,20 @@ public class NotiService {
         return noticeResponse;
     }
     public NoticePaging getNoticeList(final Pageable pageable) {//전체 조회
-        Page<Notice> contentPaging=
+        Page<Notice> contentPaging=noticePagingRepository.getContain(pageable);
+        List<Notice> contents=contentPaging.getContent();
+        List<NoticeSingleResponse>noticeSingleData = contents.stream()
+                .map(NoticeSingleResponse::noticeFrom)
+                .toList();
         //추후 구현 02.08
-        return noticeDefaultRepository.findAll();
+        //return noticeDefaultRepository.findAll();
+        return NoticePaging.builder()
+                .notices(noticeSingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
     }
     /* -------------------------------------------- DELETE  -------------------------------------------- */
     @Transactional

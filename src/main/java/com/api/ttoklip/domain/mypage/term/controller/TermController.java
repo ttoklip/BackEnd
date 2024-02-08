@@ -4,6 +4,7 @@ package com.api.ttoklip.domain.mypage.term.controller;
 import com.api.ttoklip.domain.mypage.term.constant.TermConstant;
 import com.api.ttoklip.domain.mypage.term.domain.Term;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermCreateRequest;
+import com.api.ttoklip.domain.mypage.term.dto.request.TermEditRequest;
 import com.api.ttoklip.domain.mypage.term.dto.response.TermResponse;
 import com.api.ttoklip.domain.mypage.term.service.TermService;
 import com.api.ttoklip.global.success.Message;
@@ -15,9 +16,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,7 +71,7 @@ public class TermController {
                                     description = "이용약관을 수정했습니다"
                             )))})
     @PatchMapping("/{termId}")
-    public SuccessResponse<Message> edit (final @PathVariable Long termId, final TermCreateRequest request) {
+    public SuccessResponse<Message> edit (final @PathVariable Long termId, final TermEditRequest request) {
         Message message = termService.edit(termId,request);
         return new SuccessResponse<>(message);
     }
@@ -86,8 +87,8 @@ public class TermController {
                                     description = "이용약관을 생성했습니다"
                             )))})
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute TermCreateRequest request) {
-        Long termId = termService.register(request);
-        return new SuccessResponse<>(termId);
+    public SuccessResponse<Message> register(final @Valid @ModelAttribute TermCreateRequest request) {
+        Message message = termService.register(request);
+        return new SuccessResponse<>(message);
     }
 }

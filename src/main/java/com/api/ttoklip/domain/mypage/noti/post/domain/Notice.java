@@ -23,6 +23,7 @@ public class Notice extends BaseEntity {
     @Column(name = "content")
     private String content;
 
+
     public static Notice of (final NoticeRequest request){
         return Notice.builder()
                 .content(request.getContent())

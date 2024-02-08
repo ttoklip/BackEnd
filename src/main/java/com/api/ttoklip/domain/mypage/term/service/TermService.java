@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.mypage.term.service;
 import com.api.ttoklip.domain.mypage.term.domain.Term;
 import com.api.ttoklip.domain.mypage.term.domain.TermRepository;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermCreateRequest;
+import com.api.ttoklip.domain.mypage.term.dto.request.TermEditRequest;
 import com.api.ttoklip.domain.mypage.term.dto.response.TermResponse;
 import com.api.ttoklip.domain.mypage.term.editor.TermEditor;
 import com.api.ttoklip.global.exception.ApiException;
@@ -30,11 +31,13 @@ public class TermService {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Long register(final TermCreateRequest request){
+    public Message register(final TermCreateRequest request){
 
         Term term = Term.of(request);
         termRepository.save(term);
-        return term.getId();
+        Long termId=term.getId();
+
+        return Message.registerPostSuccess(Term.class,termId);
     }
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
     public TermResponse getSingleTerm(final Long termId) {//하나 조회
@@ -51,7 +54,7 @@ public class TermService {
 
     /* -------------------------------------------- EDIT  -------------------------------------------- */
     @Transactional
-    public Message edit(final Long termId, final TermCreateRequest request) {
+    public Message edit(final Long termId, final TermEditRequest request) {
 
         // 기존 게시글 찾기
         Term term = findTermById(termId);
@@ -62,10 +65,10 @@ public class TermService {
         TermEditor termEditor = getEditor(request, term);
         term.edit(termEditor);
 
-        return Message.editPostSuccess(Term.class, term.getId());//message후에 추가
+        return Message.editPostSuccess(Term.class, term.getId());
     }
 
-    private TermEditor getEditor(final TermCreateRequest request, final Term term) {
+    private TermEditor getEditor(final TermEditRequest request, final Term term) {
         TermEditor.TermEditorBuilder editorBuilder = term.toEditor();
         TermEditor termEditor = editorBuilder
                 .title(request.getTitle())

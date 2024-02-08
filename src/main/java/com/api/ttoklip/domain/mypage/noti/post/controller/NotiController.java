@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.mypage.noti.post.controller;
 
 import com.api.ttoklip.domain.mypage.noti.post.constant.NotiConstant;
+import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
@@ -46,8 +47,8 @@ public class NotiController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NoticePaging noticePaging=notiService.getNoticeList();
-        return new SuccessResponse<>(notiService.getNoticeList());
+        NoticePaging noticePaging=notiService.getNoticeList(pageable);
+        return new SuccessResponse<>(noticePaging);
     }
 
     @Operation(summary = "공지사항 생성", description = "공지사항을 만듭니다")
@@ -62,9 +63,9 @@ public class NotiController {
                                     description = "공지사항이 생성되었습니다"
                             )))})
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @RequestBody NoticeRequest request) {
-        Long noticeId=notiService.register(request);
-        return new SuccessResponse<>(noticeId);
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute NoticeRequest request) {
+        Message message =notiService.register(request);
+        return new SuccessResponse<>(message);
     }
 
     @Operation(summary = "공지사항 조회", description = "공지사항 ID에 해당하는 공지사항을 조회합니다.")
@@ -111,7 +112,7 @@ public class NotiController {
                                     description = "공지사항이 수정되었습니다."
                             )))})
     @PatchMapping("/{noticeId}")
-    public SuccessResponse<Message> edit (final @PathVariable Long noticeId,final NoticeRequest request) {
+    public SuccessResponse<Message> edit (final @PathVariable Long noticeId, final NoticeEditRequest request) {
         Message message = notiService.edit(noticeId,request);
         return new SuccessResponse<>(message);
     }

@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.mypage.main.dto.request.BlockedRequest;
 import com.api.ttoklip.domain.mypage.main.dto.request.MyPageRequest;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
 import com.api.ttoklip.domain.mypage.main.service.MyPageService;
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -81,9 +82,9 @@ public class MyPageController {
                                     value = MyPageConstant.unblockUserResponse,
                                     description = "제한 기간과 사유를 조회했습니다"
                             )))})
-    @DeleteMapping("/unblock")
-    public SuccessResponse<String> unblock() {
-        return new SuccessResponse<>(myPageService.unblock());
+    @DeleteMapping("/unblock/{targetId}")
+    public SuccessResponse<Message> unblock(@PathVariable String targetId) {
+        return new SuccessResponse<>(myPageService.unblock(targetId));//수정 필요
     }
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
