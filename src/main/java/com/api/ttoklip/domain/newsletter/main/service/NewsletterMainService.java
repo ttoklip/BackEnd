@@ -1,73 +1,74 @@
 package com.api.ttoklip.domain.newsletter.main.service;
 
-import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.newsletter.main.dto.response.LatestCategoryNewsletterRes;
-import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterCategoryRes;
-import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterMainRes;
+import com.api.ttoklip.domain.newsletter.main.dto.response.CategoryResponse;
+import com.api.ttoklip.domain.newsletter.main.dto.response.CategoryResponses;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterMainResponse;
+import com.api.ttoklip.domain.newsletter.main.dto.response.RandomTitleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.post.domain.repository.NewsletterRepository;
+import com.api.ttoklip.domain.newsletter.post.domain.TodayNewsletter;
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterDefaultRepository;
+import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class NewsletterMainService {
 
-    private final NewsletterRepository newsletterRepository;
-    public NewsletterMainRes main() {
+    private final NewsletterDefaultRepository newsletterDefaultRepository;
+    private final TodayNewsletterRepository todayNewsletterRepository;
 
-        // 3번. 카테고리 별 랜덤 뉴스레터 4개씩 리스트로 응답 객체 생성
-        List<NewsletterCategoryRes> newsletterCategoryList = getRandomNewslettersByCategory();
-
-        // 5번. 카테고리 별 최신 게시물 3개씩 리스트로 응답 객체 생성
-        List<LatestCategoryNewsletterRes> topThreeNewsletters = getLatestNewsletters();
-
-        // 전체 응답 객체 생성
-        NewsletterMainRes newsletterMainRes = NewsletterMainRes.builder()
-                .newsletterCategoryRes(newsletterCategoryList)
-                .topThreeNewsletters(topThreeNewsletters)
-                .build();
-
-
-        // 응답 객체 리턴
-        return newsletterMainRes;
+    public NewsletterMainResponse getMainData() {
+        List<RandomTitleResponse> randomNews = getRandomNews();
+        CategoryResponses categoryData = getCategoryData();
+        return NewsletterMainResponse.of(randomNews, categoryData);
     }
 
-    private List<NewsletterCategoryRes> getRandomNewslettersByCategory() {
-        // 각 카테고리별로 랜덤 뉴스레터 조회
-        List<NewsletterCategoryRes> randomNewsletters = new ArrayList<>();
-
-        // 모든 카테고리를 조회
-        List<Category> categories = Arrays.asList(Category.values());
-        for (Category category : categories) {
-            // 카테고리별 랜덤 뉴스레터 4개 조회
-            List<Newsletter> newsletters = newsletterRepository.findRandomNewslettersByCategory(category, 4);
-            for (Newsletter newsletter : newsletters) {
-                randomNewsletters.add(NewsletterCategoryRes.toDto(newsletter));
-            }
-        }
-        return randomNewsletters;
+    private List<RandomTitleResponse> getRandomNews() {
+        LocalDate today = getDayOfSeoul();
+        LocalDateTime startOfDay = getSeoulStartOfDay(today);
+        LocalDateTime endOfDay = getSeoulEndOfDay(today);
+        List<TodayNewsletter> todayNewsletters =
+                todayNewsletterRepository.findByCreatedDateBetween(startOfDay, endOfDay);
+        return todayNewsletters.stream()
+                .map(RandomTitleResponse::of)
+                .toList();
     }
 
-    private List<LatestCategoryNewsletterRes> getLatestNewsletters() {
-        // 각 카테고리별 최신 뉴스레터 조회
-        List<LatestCategoryNewsletterRes> latestNewsletters = new ArrayList<>();
+    private LocalDate getDayOfSeoul() {
+        return LocalDate.now(ZoneId.of("Asia/Seoul"));
+    }
 
-        // 모든 카테고리를 조회
-        List<Category> categories = Arrays.asList(Category.values());
-        for (Category category : categories) {
-            // 카테고리별 최신 뉴스레터 3개 조회
-            List<Newsletter> newsletters = newsletterRepository.findLatestNewslettersByCategory(category, 3);
-            for (Newsletter newsletter : newsletters) {
-                latestNewsletters.add(LatestCategoryNewsletterRes.toDto(newsletter));
-            }
-        }
+    private LocalDateTime getSeoulStartOfDay(final LocalDate today) {
+        return today.atStartOfDay(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+    }
 
-        return latestNewsletters;
+    private LocalDateTime getSeoulEndOfDay(final LocalDate today) {
+        return today.atTime(23, 59, 59).atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+    }
+
+    public CategoryResponses getCategoryData() {
+        List<Newsletter> houseWork = newsletterDefaultRepository.getHouseWork();
+        List<Newsletter> recipe = newsletterDefaultRepository.getRecipe();
+        List<Newsletter> safeLiving = newsletterDefaultRepository.getSafeLiving();
+        List<Newsletter> welfarePolicy = newsletterDefaultRepository.getWelfarePolicy();
+
+        List<CategoryResponse> houseWorkResponse = convertToCategoryResponse(houseWork);
+        List<CategoryResponse> recipeResponse = convertToCategoryResponse(recipe);
+        List<CategoryResponse> safeLivingResponse = convertToCategoryResponse(safeLiving);
+        List<CategoryResponse> welfarePolicyResponse = convertToCategoryResponse(welfarePolicy);
+
+        return CategoryResponses.of(houseWorkResponse, recipeResponse, safeLivingResponse, welfarePolicyResponse);
+    }
+
+    public List<CategoryResponse> convertToCategoryResponse(List<Newsletter> newsletters) {
+        return newsletters.stream()
+                .map(CategoryResponse::of)
+                .toList();
     }
 
 

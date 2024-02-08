@@ -25,6 +25,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     public HoneyTip findByIdActivated(final Long honeyTipId) {
         HoneyTip findHoneyTip = jpaQueryFactory
                 .selectFrom(honeyTip)
+                .distinct()
                 .where(
                         matchId(honeyTipId), getHoneyTipActivate()
                 )
@@ -45,6 +46,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     public HoneyTip findByIdFetchJoin(final Long honeyTipPostId) {
         HoneyTip findHoneyTip = jpaQueryFactory
                 .selectFrom(honeyTip)
+                .distinct()
                 .leftJoin(honeyTip.honeyTipImageList, honeyTipImage)
                 .leftJoin(honeyTip.honeyTipUrlList, honeyTipUrl)
                 .fetchJoin()
@@ -62,6 +64,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     public List<HoneyTipComment> findActiveCommentsByHoneyTipId(final Long honeyTipId) {
         return jpaQueryFactory
                 .selectFrom(honeyTipComment)
+                .distinct()
                 .where(
                         matchHoneyTipId(honeyTipId),
                         getCommentActivate()

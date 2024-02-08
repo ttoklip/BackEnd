@@ -26,6 +26,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     public Community findByIdActivated(final Long communityId) {
         Community findCommunity = jpaQueryFactory
                 .selectFrom(community)
+                .distinct()
                 .where(
                         matchId(communityId), getCommunityActivate()
                 )
@@ -46,6 +47,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     public Community findByIdFetchJoin(final Long communityPostId) {
         Community findCommunity = jpaQueryFactory
                 .selectFrom(community)
+                .distinct()
                 .leftJoin(community.communityImages, communityImage)
                 .fetchJoin()
                 .where(
@@ -62,6 +64,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     public List<CommunityComment> findActiveCommentsByCommunityId(final Long communityId) {
         return jpaQueryFactory
                 .selectFrom(communityComment)
+                .distinct()
                 .where(
                         matchCommunityId(communityId),
                         getCommentActivate()
