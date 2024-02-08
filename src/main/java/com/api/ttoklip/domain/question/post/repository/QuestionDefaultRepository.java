@@ -20,6 +20,7 @@ public class QuestionDefaultRepository {
         return jpaQueryFactory
                 .select(question)
                 .from(question)
+                .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .fetchJoin()
                 .where(question.category.eq(Category.HOUSEWORK))
@@ -32,6 +33,7 @@ public class QuestionDefaultRepository {
         return jpaQueryFactory
                 .select(question)
                 .from(question)
+                .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .fetchJoin()
                 .where(question.category.eq(Category.RECIPE))
@@ -44,6 +46,7 @@ public class QuestionDefaultRepository {
         return jpaQueryFactory
                 .select(question)
                 .from(question)
+                .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .fetchJoin()
                 .where(question.category.eq(Category.SAFE_LIVING))
@@ -56,6 +59,7 @@ public class QuestionDefaultRepository {
         return jpaQueryFactory
                 .select(question)
                 .from(question)
+                .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .fetchJoin()
                 .where(question.category.eq(Category.WELFARE_POLICY))

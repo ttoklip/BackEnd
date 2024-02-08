@@ -27,6 +27,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     public Cart findByIdActivated(final Long cartId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
+                .distinct()
                 .where(
                         matchId(cartId), getCartActivate()
                 )
@@ -47,6 +48,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     public Cart findByIdFetchJoin(final Long cartPostId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
+                .distinct()
                 .leftJoin(cart.cartImages, cartImage)
                 .leftJoin(cart.itemUrls, itemUrl)
                 .fetchJoin()
@@ -64,6 +66,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     public List<CartComment> findActiveCommentsByCartId(final Long cartId) {
         return jpaQueryFactory
                 .selectFrom(cartComment)
+                .distinct()
                 .where(
                         matchCartId(cartId),
                         getCommentActivate()

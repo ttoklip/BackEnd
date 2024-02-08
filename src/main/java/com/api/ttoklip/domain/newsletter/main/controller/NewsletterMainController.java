@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Newsletter Main", description = "Newsletter Main API")
+@Tag(name = "Newsletter Main", description = "메인화면 - 오늘의 랜덤 뉴스레터 4개와 최신순 10개 API입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/newsletters/posts")

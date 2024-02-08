@@ -29,6 +29,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
 
         Newsletter findNewsletter = queryFactory
                 .selectFrom(qNewsletter)
+                .distinct()
                 .leftJoin(qNewsletter.newsletterImageList, newsletterImage)
                 .fetchJoin()
                 .where(qNewsletter.id.eq(postId))
@@ -42,6 +43,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     public List<NewsletterComment> findActiveCommentsByNewsletterId(Long postId) {
         return queryFactory
                 .selectFrom(newsletterComment)
+                .distinct()
                 .where(
                         matchNewsletterId(postId),
                         getCommentActivate()
@@ -59,6 +61,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return queryFactory
                 .select(Wildcard.count)
                 .from(qNewsletter)
+                .distinct()
                 .fetchOne();
     }
 
