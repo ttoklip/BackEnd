@@ -6,11 +6,10 @@ import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.security.oauth.principal.CustomOAuth2User;
 import com.api.ttoklip.global.security.oauth.response.AuthResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -22,62 +21,48 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomOAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-
-    public static final String REDIRECT_URL = "http://localhost:3000";
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
                                         final Authentication authentication) throws IOException {
         CustomOAuth2User oauth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-        if (response.isCommitted()) {
-            log.debug("------------------ Response 전송 완료");
-        }
-
         Member member = oauth2User.getMember();
 
-        log.info("------------------ 소셜 로그인 성공: " + member.getUserNickname());
+        log.info("------------------ 소셜 로그인 성공: " + member.getName());
 
-        String email = member.getEmail();
-        String nickname = member.getUserNickname();
-        String profileImgUrl = member.getProfile().getProfileImgUrl();
+        String nickname = member.getName();
+        Long memberId = member.getId();
 
-        Member loginMember = memberService.findByEmail(email);
+        Member loginMember = memberService.findById(memberId);
 
-        String token = generateToken(loginMember.getEmail());
+        String profileImgUrl = loginMember.getProfile().getProfileImgUrl();
+
+        String token = generateToken(loginMember.getId());
 
         AuthResponse authResponse = AuthResponse.builder()
                 .memberId(loginMember.getId())
-                .memberEmail(email)
-                .nickname(nickname)
+                .name(nickname)
+                .token(token)
                 .profileImageUrl(profileImgUrl)
                 .build();
 
-        // ToDo 아래는 임시 데이터, front와 협의 후 수정
-        registerResponse(response, authResponse, token);
+        // 응답 설정
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        // JSON 형식으로 데이터 작성 및 전송
+        objectMapper.writeValue(response.getWriter(), authResponse);
+
     }
 
-    private String generateToken(final String loginMEmberEmail) {
-        String ourToken = jwtProvider.generateJwtToken(loginMEmberEmail);
+    private String generateToken(final Long memberId) {
+        String ourToken = jwtProvider.generateJwtToken(memberId);
         log.info("ourToken = " + ourToken);
         return ourToken;
-    }
-
-    private void registerResponse(final HttpServletResponse response,
-                                  final AuthResponse authResponse, String token) throws IOException {
-        String encodedMemberId = URLEncoder.encode(String.valueOf(authResponse.memberId()), StandardCharsets.UTF_8);
-        String encodedMemberNickname = URLEncoder.encode(authResponse.nickname(), StandardCharsets.UTF_8);
-        String encodedProfileImageUrl = URLEncoder.encode(authResponse.profileImageUrl(), StandardCharsets.UTF_8);
-
-        // 프론트엔드 페이지로 토큰과 함께 리다이렉트
-        String frontendRedirectUrl = String.format(
-                "%s/?token=%s&memberId=%s&gitLoginId=%s&profileImgUrl=%s",
-                REDIRECT_URL, token, encodedMemberId, encodedMemberNickname, encodedProfileImageUrl
-        );
-        log.info("Front! redirect url: " + REDIRECT_URL);
-        response.sendRedirect(frontendRedirectUrl);
     }
 
 }

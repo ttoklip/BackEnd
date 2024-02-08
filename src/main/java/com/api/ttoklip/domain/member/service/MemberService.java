@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.member.service;
 import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_BY_TOKEN;
 
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.repository.MemberOAuthRepository;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberOAuthRepository memberOAuthRepository;
 
-    public Member findByEmailOfToken(final String email) {
-        return memberRepository.findByEmail(email)
+    public Member findByIdOfToken(final Long memberId) {
+        return memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_BY_TOKEN));
     }
 
-    public Member findByEmail(final String email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_BY_TOKEN));
+    public Member findById(final Long id) {
+        return memberOAuthRepository.findByIdWithProfile(id);
     }
 }

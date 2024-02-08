@@ -16,7 +16,6 @@ public class ProfileService {
     @Transactional
     public Long register(final Profile profile) {
         profileRepository.save(profile);
-
         return profile.getId();
     }
 }

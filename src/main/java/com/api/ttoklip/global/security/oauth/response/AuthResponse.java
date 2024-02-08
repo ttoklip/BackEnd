@@ -3,5 +3,5 @@ package com.api.ttoklip.global.security.oauth.response;
 import lombok.Builder;
 
 @Builder
-public record AuthResponse(Long memberId, String memberEmail, String nickname, String profileImageUrl) {
+public record AuthResponse(String token, Long memberId, String name, String profileImageUrl) {
 }

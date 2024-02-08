@@ -20,7 +20,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 public class CustomOAuth2User implements OAuth2User {
 
     private final Member member;
-    private Map<String, Object> attributes;
+    private final Map<String, Object> attributes;
 
     public static CustomOAuth2User of(final Member member, final Map<String, Object> attributes) {
         return CustomOAuth2User.builder()
@@ -52,7 +52,7 @@ public class CustomOAuth2User implements OAuth2User {
         }
 
         if (member.getProvider().equals("naver")) {
-            return ((Map<?, ?>) attributes.get("response")).get("nickname").toString();
+            return ((Map<?, ?>) attributes.get("response")).get("name").toString();
         }
 
         throw new ApiException(ErrorType.OAUTH_NOTFOUND_NAME);

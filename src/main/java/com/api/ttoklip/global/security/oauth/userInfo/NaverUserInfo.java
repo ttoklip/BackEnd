@@ -12,14 +12,13 @@ public class NaverUserInfo implements OAuth2UserInfo {
         return (String) ((Map) attributes.get("response")).get("profile_image");
     }
 
-    @Override
     public String getEmail() {
         return (String) ((Map) attributes.get("response")).get("email");
     }
 
     @Override
     public String getName() {
-        return (String) ((Map) attributes.get("response")).get("nickname");
+        return (String) ((Map) attributes.get("response")).get("name"); // "nickname"을 "name"으로 수정
     }
 
 }

@@ -13,7 +13,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -37,8 +36,9 @@ public class JwtProvider {
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
 
-    public String generateJwtToken(final String email) {
-        Claims claims = createClaims(email);
+    public String generateJwtToken(final Long memberId) {
+
+        Claims claims = createClaims(memberId);
         Date now = new Date();
         long expiredDate = calculateExpirationDate(now);
         SecretKey secretKey = generateKey();
@@ -52,8 +52,8 @@ public class JwtProvider {
     }
 
     // JWT claims 생성
-    private Claims createClaims(final String email) {
-        return Jwts.claims().setSubject(email);
+    private Claims createClaims(final Long memberId) {
+        return Jwts.claims().setSubject(String.valueOf(memberId));
     }
 
     // JWT 만료 시간 계산
@@ -103,8 +103,8 @@ public class JwtProvider {
 
     // token 으로부터 유저 정보 확인
     private Member getMemberByToken(final String jwtToken) {
-        String email = getUserEmailFromToken(jwtToken);
-        return memberService.findByEmailOfToken(email);
+        String userIdStr = getUserIdFromToken(jwtToken);
+        return memberService.findByIdOfToken(Long.valueOf(userIdStr));
     }
 
     private void setContextHolder(String jwtToken, Member loginMember) {
@@ -123,7 +123,7 @@ public class JwtProvider {
 
 
     // 토큰에서 유저 아이디 얻기
-    public String getUserEmailFromToken(final String jwtToken) {
+    public String getUserIdFromToken(final String jwtToken) {
         SecretKey key = generateKey();
 
         Claims claims = Jwts.parserBuilder()
