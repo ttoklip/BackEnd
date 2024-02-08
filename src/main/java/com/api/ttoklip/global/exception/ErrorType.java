@@ -61,7 +61,11 @@ public enum ErrorType {
 
 
     // ------------------------------------------ Newsletter ------------------------------------------
-    NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다.");
+    NEWSLETTER_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "뉴스레터를 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Member ------------------------------------------
+    MEMBER_NOT_FOUND(NOT_FOUND, "Member_4040", "멤버를 찾을 수 없습니다.");
 
 
 

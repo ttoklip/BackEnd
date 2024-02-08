@@ -35,13 +35,17 @@ public class CommunitySingleResponse {
     @Schema(description = "소통해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
 
+    @Schema(description = "현재 사용자가 좋아요를 눌렀는지 여부", example = "true")
+    private boolean liked;
+
     @Schema(description = "소통해요에 포함된 이미지 URL 목록")
     private List<CommunityImageResponse> imageUrls;
 
     @Schema(description = "소통해요에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
-    public static CommunitySingleResponse of(final Community community, final List<CommunityComment> activeComments) {
+    public static CommunitySingleResponse of(final Community community,
+                                             final List<CommunityComment> activeComments) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(community);
@@ -60,6 +64,7 @@ public class CommunitySingleResponse {
                 .writtenTime(formattedCreatedDate)
                 .imageUrls(communityImageResponses)
                 .commentResponses(commentResponses)
+//                .liked(liked)   ToDo Member 엔티티 연결 후 수정
                 .build();
     }
 

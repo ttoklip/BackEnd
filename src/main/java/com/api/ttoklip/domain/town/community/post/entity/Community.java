@@ -3,8 +3,10 @@ package com.api.ttoklip.domain.town.community.post.entity;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
+import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
+import com.api.ttoklip.domain.town.community.like.entity.Like;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
 import jakarta.persistence.*;
@@ -36,6 +38,7 @@ public class Community extends BaseEntity {
 
     public static Community from(final CommunityCreateRequest request) {
         return Community.builder()
+
                 .content(request.getContent())
                 .title(request.getTitle())
                 .build();

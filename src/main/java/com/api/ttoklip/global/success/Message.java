@@ -18,6 +18,7 @@ public class Message {
 
     private static final String COMMENT = "댓글";
     private static final String POST = "게시글";
+    private static final String LIKE = "좋아요";
     private static final String CREATE = "생성";
     private static final String STATUS = "상태";
     private static final String EDIT = "수정";
@@ -66,5 +67,13 @@ public class Message {
 
     public static <T> Message editStatusSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, STATUS, EDIT);
+    }
+
+    public static <T> Message createLikeSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, LIKE, CREATE);
+    }
+
+    public static <T> Message deleteLikeSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, LIKE, DELETE);
     }
 }

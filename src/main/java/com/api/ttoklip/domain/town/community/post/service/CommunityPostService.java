@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
+import com.api.ttoklip.domain.town.community.like.repository.LikeRepository;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
@@ -29,6 +30,7 @@ public class CommunityPostService {
     private final CommunityImageService communityImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
+    private final LikeRepository likeRepository;
 
 
 
@@ -85,6 +87,9 @@ public class CommunityPostService {
 
         Community communityWithImg = communityRepository.findByIdFetchJoin(postId);
         List<CommunityComment> activeComments = communityRepository.findActiveCommentsByCommunityId(postId);
+
+        // todo 현재 사용자가 좋아요를 눌렀는지 확인
+
         CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg, activeComments);
         return communitySingleResponse;
     }
