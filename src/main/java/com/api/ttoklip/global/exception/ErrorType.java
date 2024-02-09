@@ -1,6 +1,7 @@
 package com.api.ttoklip.global.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -77,7 +78,12 @@ public enum ErrorType {
     // ------------------------------------------ USER ------------------------------------------
     _USER_NOT_FOUND_BY_TOKEN(NOT_FOUND, "USER_4040", "제공된 토큰으로 사용자를 찾을 수 없습니다."),
     _UNAUTHORIZED(UNAUTHORIZED, "USER_4010", "로그인되지 않은 상태입니다."),
-    _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다.");
+    _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
+
+    // ------------------------------------------ AUTHORIZATION ------------------------------------------
+    UNAUTHORIZED_EDITOR(FORBIDDEN, "AUTH_4030", "게시글의 작성자만 수정할 수 있습니다.");
+
+
 
 
     private final HttpStatus status;

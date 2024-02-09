@@ -5,6 +5,7 @@ import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.ho
 import static com.api.ttoklip.domain.honeytip.image.domain.QHoneyTipImage.honeyTipImage;
 import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 import static com.api.ttoklip.domain.honeytip.url.domain.QHoneyTipUrl.honeyTipUrl;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
 
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
@@ -26,6 +27,8 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
         HoneyTip findHoneyTip = jpaQueryFactory
                 .selectFrom(honeyTip)
                 .distinct()
+                .leftJoin(honeyTip.member, member)
+                .fetchJoin()
                 .where(
                         matchId(honeyTipId), getHoneyTipActivate()
                 )
@@ -49,6 +52,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 .distinct()
                 .leftJoin(honeyTip.honeyTipImageList, honeyTipImage)
                 .leftJoin(honeyTip.honeyTipUrlList, honeyTipUrl)
+                .leftJoin(honeyTip.member, member)
                 .fetchJoin()
                 .where(
                         getHoneyTipActivate(),

@@ -44,7 +44,6 @@ public class HoneyTipPostService {
     public Message register(final HoneyTipCreateReq request) {
 
         // HoneyTip 객체 생성 및 연관 관계 설정
-
         Member currentMember = getCurrentMember();
 
         HoneyTip honeytip = HoneyTip.of(request ,currentMember);
@@ -82,8 +81,7 @@ public class HoneyTipPostService {
 
         // 기존 게시글 찾기
         HoneyTip honeyTip = honeyTipCommonService.getHoneytip(postId);
-
-        // ToDO Validate currentMember
+        honeyTipCommonService.checkEditPermission(honeyTip);
 
         // title, content 수정
         HoneyTipPostEditor postEditor = getPostEditor(request, honeyTip);
@@ -132,6 +130,8 @@ public class HoneyTipPostService {
     @Transactional
     public Message delete(final Long postId) {
         HoneyTip honeyTip = honeyTipCommonService.getHoneytip(postId);
+
+        honeyTipCommonService.checkEditPermission(honeyTip);
         honeyTip.deactivate();
 
         return Message.deletePostSuccess(HoneyTip.class, postId);
