@@ -3,7 +3,6 @@ package com.api.ttoklip.domain.common.comment;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.global.util.SecurityUtil;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -43,10 +42,6 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.parent = parent;
         this.member = member;
-    }
-
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
     }
 
     public CommentEditor.CommentEditorBuilder toEditor() {

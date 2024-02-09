@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.honeytip.post.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
@@ -17,7 +19,6 @@ import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class HoneyTipPostService {
         // HoneyTip 객체 생성 및 연관 관계 설정
         Member currentMember = getCurrentMember();
 
-        HoneyTip honeytip = HoneyTip.of(request ,currentMember);
+        HoneyTip honeytip = HoneyTip.of(request, currentMember);
         honeytipRepository.save(honeytip);
 
         List<MultipartFile> uploadImages = request.getImages();
@@ -192,7 +193,4 @@ public class HoneyTipPostService {
         return Message.likePostSuccess(HoneyTip.class, postId);
     }
 
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
-    }
 }

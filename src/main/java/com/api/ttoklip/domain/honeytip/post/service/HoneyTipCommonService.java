@@ -1,12 +1,12 @@
 package com.api.ttoklip.domain.honeytip.post.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
-import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
-import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,12 +35,8 @@ public class HoneyTipCommonService {
         Long currentMemberId = getCurrentMember().getId();
 
         if (!writerId.equals(currentMemberId)) {
-            throw new ApiException(ErrorType.UNAUTHORIZED_EDITOR);
+            throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);
         }
-    }
-
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
     }
 
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
