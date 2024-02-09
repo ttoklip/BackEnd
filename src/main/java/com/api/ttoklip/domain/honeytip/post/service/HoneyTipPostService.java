@@ -186,6 +186,7 @@ public class HoneyTipPostService {
                 .toList();
     }
 
+    @Transactional
     public Message like(final Long postId) {
         honeyTipLikeService.register(postId);
         return Message.likePostSuccess(HoneyTip.class, postId);

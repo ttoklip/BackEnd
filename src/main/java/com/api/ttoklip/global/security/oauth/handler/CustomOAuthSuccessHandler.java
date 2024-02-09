@@ -38,7 +38,7 @@ public class CustomOAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String nickname = member.getName();
         Long memberId = member.getId();
 
-        Member loginMember = memberService.findById(memberId);
+        Member loginMember = memberService.findByIdWithProfile(memberId);
         String profileImgUrl = loginMember.getProfile().getProfileImgUrl();
         String token = generateToken(loginMember.getId());
 

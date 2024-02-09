@@ -110,6 +110,12 @@ public class HoneyTipPostController {
         return new SuccessResponse<>(message);
     }
 
+    @PostMapping("/like/{postId}")
+    public SuccessResponse<Message> like(final @PathVariable Long postId) {
+        Message message = honeytipPostService.like(postId);
+        return new SuccessResponse<>(message);
+    }
+
     /* READ */
     @Operation(summary = "꿀팁 게시글 조회", description = "꿀팁 ID에 해당하는 게시글을 조회합니다.")
     @ApiResponses(value = {

@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.member.domain;
 
+import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
+import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.profile.domain.Profile;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -9,8 +11,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,5 +47,11 @@ public class Member {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
     private Profile profile;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HoneyTip> honeyTips = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HoneyTipLike> honeyTipLikes = new ArrayList<>();
 
 }

@@ -22,6 +22,8 @@ public class Message {
     private static final String EDIT = "수정";
     private static final String DELETE = "삭제";
     private static final String REPORT = "신고";
+    private static final String LIKE = "좋아요";
+
 
     private static <T> Message actionSuccess(Class<T> itemType, Long itemId, String dataType, String action) {
         String typeName = itemType.getSimpleName(); // 클래스의 단순 이름을 가져옴
@@ -62,4 +64,10 @@ public class Message {
     public static <T> Message reportPostSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, POST, REPORT);
     }
+
+    public static <T> Message likePostSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, LIKE, REPORT);
+    }
+
+
 }

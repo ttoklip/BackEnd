@@ -23,7 +23,7 @@ public class MemberService {
                 .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_BY_TOKEN));
     }
 
-    public Member findById(final Long id) {
-        return memberOAuthRepository.findByIdWithProfile(id);
+    public Member findByIdWithProfile(final Long memberId) {
+        return memberOAuthRepository.findByIdWithProfile(memberId);
     }
 }
