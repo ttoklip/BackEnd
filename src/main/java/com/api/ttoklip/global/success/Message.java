@@ -66,8 +66,10 @@ public class Message {
     }
 
     public static <T> Message likePostSuccess(Class<T> itemType, Long itemId) {
-        return actionSuccess(itemType, itemId, LIKE, REPORT);
+        return actionSuccess(itemType, itemId, LIKE, CREATE);
     }
 
-
+    public static <T> Message likePostCancel(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, LIKE, DELETE);
+    }
 }

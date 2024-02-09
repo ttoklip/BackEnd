@@ -188,9 +188,14 @@ public class HoneyTipPostService {
     }
 
     @Transactional
-    public Message like(final Long postId) {
+    public Message registerLike(final Long postId) {
         honeyTipLikeService.register(postId);
         return Message.likePostSuccess(HoneyTip.class, postId);
     }
 
+    @Transactional
+    public Message cancelLike(final Long postId) {
+        honeyTipLikeService.cancel(postId);
+        return Message.likePostCancel(HoneyTip.class, postId);
+    }
 }

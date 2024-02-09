@@ -111,8 +111,14 @@ public class HoneyTipPostController {
     }
 
     @PostMapping("/like/{postId}")
-    public SuccessResponse<Message> like(final @PathVariable Long postId) {
-        Message message = honeytipPostService.like(postId);
+    public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
+        Message message = honeytipPostService.registerLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @DeleteMapping("/like/{postId}")
+    public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
+        Message message = honeytipPostService.cancelLike(postId);
         return new SuccessResponse<>(message);
     }
 

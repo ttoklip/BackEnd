@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.honeytip.like.domain;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
@@ -37,9 +39,9 @@ public class HoneyTipLike extends BaseTimeEntity {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-    public static HoneyTipLike of(final Member member, final HoneyTip honeyTip) {
+    public static HoneyTipLike from(final HoneyTip honeyTip) {
         return HoneyTipLike.builder()
-                .member(member)
+                .member(getCurrentMember())
                 .honeyTip(honeyTip)
                 .build();
     }
