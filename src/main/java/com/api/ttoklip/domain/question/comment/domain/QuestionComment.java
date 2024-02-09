@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.question.comment.domain;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -24,8 +25,8 @@ public class QuestionComment extends Comment {
     private Question question;
 
     @Builder
-    private QuestionComment(String content, Comment parent, Question question) {
-        super(content, parent); // Comment 클래스의 생성자 호출
+    private QuestionComment(String content, Comment parent, Question question, Member member) {
+        super(content, parent, member); // Comment 클래스의 생성자 호출
         this.question = question;
     }
 
@@ -35,6 +36,7 @@ public class QuestionComment extends Comment {
                 .content(request.getComment())
                 .parent(parent)
                 .question(question)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -43,6 +45,7 @@ public class QuestionComment extends Comment {
                 .content(request.getComment())
                 .parent(null)
                 .question(question)
+                .member(getCurrentMember())
                 .build();
     }
 }

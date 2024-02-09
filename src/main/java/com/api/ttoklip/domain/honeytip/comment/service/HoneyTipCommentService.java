@@ -8,7 +8,9 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -80,4 +82,8 @@ public class HoneyTipCommentService {
         return Message.deleteCommentSuccess(HoneyTipComment.class, commentId);
     }
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
+    public static Member getCurrentMember() {
+        return SecurityUtil.getCurrentMember();
+    }
 }
