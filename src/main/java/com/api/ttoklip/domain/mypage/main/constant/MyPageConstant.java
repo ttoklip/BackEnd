@@ -38,6 +38,7 @@ public class MyPageConstant {
             }
         }
         """;
+
     public static final String blockedUsersResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -58,6 +59,7 @@ public class MyPageConstant {
             }
         }
         """;
+
     public static final String unblockUserResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -66,6 +68,7 @@ public class MyPageConstant {
             "message": "사용자의 차단이 성공적으로 해제되었습니다."
         }
         """;
+
     public static final String scrapedPostsResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -114,6 +117,7 @@ public class MyPageConstant {
             }
         }
         """;
+
     public static final String myPostsResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -159,6 +163,7 @@ public class MyPageConstant {
             }
         }
         """;
+    
     public static final String participatedDealsResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
