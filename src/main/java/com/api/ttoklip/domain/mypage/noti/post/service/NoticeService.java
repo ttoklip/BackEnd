@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.mypage.noti.post.service;
 
-import com.api.ttoklip.domain.mypage.noti.post.domain.NoticeDefaultRepository;
+import com.api.ttoklip.domain.mypage.noti.post.domain.NoticeRepository;
 import com.api.ttoklip.domain.mypage.noti.post.domain.Notice;
 import com.api.ttoklip.domain.mypage.noti.post.domain.NoticePagingRepository;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
@@ -9,8 +9,6 @@ import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeSingleResponse;
 import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,19 +21,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class NotiService {
+public class NoticeService {
 
-    private final NoticeDefaultRepository noticeDefaultRepository;
+    private final NoticeRepository noticeRepository;
     private final NoticePagingRepository noticePagingRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Notice findNoticeById(final Long noticeId){
-        Notice notice= noticeDefaultRepository.findById(noticeId)
-                .orElseThrow(()->new ApiException(ErrorType.NOTICE_NOT_FOUND));
-        if(notice.isDeleted()==true){
-            throw new ApiException(ErrorType.NOTICE_NOT_FOUND); //notice 에러 추가 필요 SJ02.04
-        }
-        return notice;
+        return noticeRepository.findByIdActivated(noticeId);
     }
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
@@ -45,7 +38,7 @@ public class NotiService {
     public Message register(final NoticeRequest request){
 
         Notice notice=Notice.of(request);
-        noticeDefaultRepository.save(notice);
+        noticeRepository.save(notice);
         Long noticeId = notice.getId();
         return Message.registerPostSuccess(Notice.class,noticeId);
     }
@@ -76,7 +69,6 @@ public class NotiService {
     public Message deleteNotice(final Long noticeId){//소프트삭제 구현
         Notice notice = findNoticeById(noticeId);
         notice.deactivate();
-        noticeDefaultRepository.save(notice);
         return Message.deletePostSuccess(Notice.class, noticeId);
     }
     /* -------------------------------------------- DELETE 끝   -------------------------------------------- */

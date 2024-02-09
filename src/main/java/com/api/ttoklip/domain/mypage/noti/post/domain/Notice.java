@@ -24,6 +24,7 @@ public class Notice extends BaseEntity {
     private String content;
 
 
+
     public static Notice of (final NoticeRequest request){
         return Notice.builder()
                 .content(request.getContent())
@@ -41,5 +42,10 @@ public class Notice extends BaseEntity {
     public void edit(final NoticePostEditor editor) {
         this.title = editor.getTitle();
         this.content = editor.getContent();
+    }
+
+    @Override
+    public void deactivate() {
+        super.deactivate();// Notice 엔티티 비활성화
     }
 }

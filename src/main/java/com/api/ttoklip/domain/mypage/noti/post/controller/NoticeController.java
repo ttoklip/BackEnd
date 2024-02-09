@@ -5,7 +5,7 @@ import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
-import com.api.ttoklip.domain.mypage.noti.post.service.NotiService;
+import com.api.ttoklip.domain.mypage.noti.post.service.NoticeService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/notice")
-public class NotiController {
+public class NoticeController {
 
     private final static int PAGE_SIZE = 10; // 페이지 당 데이터 수
-    private final NotiService notiService;
+    private final NoticeService noticeService;
     @Operation(summary = "모든 공지사항 불러오기", description = "공지사항 목록을 가져옵니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "공지사항 조회 성공",
@@ -47,7 +47,7 @@ public class NotiController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NoticePaging noticePaging=notiService.getNoticeList(pageable);
+        NoticePaging noticePaging= noticeService.getNoticeList(pageable);
         return new SuccessResponse<>(noticePaging);
     }
 
@@ -64,7 +64,7 @@ public class NotiController {
                             )))})
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Message> register(final @Validated @ModelAttribute NoticeRequest request) {
-        Message message =notiService.register(request);
+        Message message = noticeService.register(request);
         return new SuccessResponse<>(message);
     }
 
@@ -81,7 +81,7 @@ public class NotiController {
                             )))})
     @GetMapping("/{noticeId}")
     public SuccessResponse<NoticeResponse> getSingleNotice(final @PathVariable Long noticeId) {
-        NoticeResponse response = notiService.getSingleNotice(noticeId);
+        NoticeResponse response = noticeService.getSingleNotice(noticeId);
         return new SuccessResponse<>(response);
     }
     @Operation(summary = "공지사항 삭제", description = "공지사항 ID에 해당하는 공지사항을 삭제합니다.")
@@ -97,7 +97,7 @@ public class NotiController {
                             )))})
     @DeleteMapping("/{noticeId}")
     public SuccessResponse<Message> deleteNotice(final @PathVariable Long noticeId) {
-        Message message = notiService.deleteNotice(noticeId);
+        Message message = noticeService.deleteNotice(noticeId);
         return new SuccessResponse<>(message);
     }
     @Operation(summary = "공지사항 수정", description = "공지사항 ID에 해당하는 공지사항을 수정합니다.")
@@ -113,7 +113,7 @@ public class NotiController {
                             )))})
     @PatchMapping("/{noticeId}")
     public SuccessResponse<Message> edit (final @PathVariable Long noticeId, final NoticeEditRequest request) {
-        Message message = notiService.edit(noticeId,request);
+        Message message = noticeService.edit(noticeId,request);
         return new SuccessResponse<>(message);
     }
 }
