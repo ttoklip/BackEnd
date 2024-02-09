@@ -81,7 +81,8 @@ public enum ErrorType {
     _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
 
     // ------------------------------------------ AUTHORIZATION ------------------------------------------
-    UNAUTHORIZED_EDITOR(FORBIDDEN, "AUTH_4030", "게시글의 작성자만 수정할 수 있습니다.");
+    UNAUTHORIZED_EDIT_POST(FORBIDDEN, "AUTH_4030", "게시글의 작성자만 수정할 수 있습니다."),
+    UNAUTHORIZED_DELETE_COMMENT(FORBIDDEN, "AUTH_4030", "댓글의 작성자만 삭제할 수 있습니다.");
 
 
 
