@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.mypage.noti.post.controller;
 
 import com.api.ttoklip.domain.mypage.noti.post.constant.NotiConstant;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
-import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeRequest;
+import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
 import com.api.ttoklip.domain.mypage.noti.post.service.NoticeService;
@@ -63,7 +63,7 @@ public class NoticeController {
                                     description = "공지사항이 생성되었습니다"
                             )))})
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Message> register(final @Validated @ModelAttribute NoticeRequest request) {
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute NoticeCreateRequest request) {
         Message message = noticeService.register(request);
         return new SuccessResponse<>(message);
     }

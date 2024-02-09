@@ -4,7 +4,7 @@ import com.api.ttoklip.domain.mypage.noti.post.domain.NoticeRepository;
 import com.api.ttoklip.domain.mypage.noti.post.domain.Notice;
 import com.api.ttoklip.domain.mypage.noti.post.domain.NoticePagingRepository;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
-import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeRequest;
+import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeSingleResponse;
@@ -35,7 +35,7 @@ public class NoticeService {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Message register(final NoticeRequest request){
+    public Message register(final NoticeCreateRequest request){
 
         Notice notice=Notice.of(request);
         noticeRepository.save(notice);

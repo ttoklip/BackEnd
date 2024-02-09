@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.mypage.noti.post.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeRequest;
+import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,7 +25,7 @@ public class Notice extends BaseEntity {
 
 
 
-    public static Notice of (final NoticeRequest request){
+    public static Notice of (final NoticeCreateRequest request){
         return Notice.builder()
                 .content(request.getContent())
                 .title(request.getTitle())
