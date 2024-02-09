@@ -61,7 +61,7 @@ public class HoneyTipSingleResponse {
                 .honeyTipId(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
-//                .writer(question.getMember().getName) ToDo Member 엔티티 연결 후 수정
+                .writer(honeyTip.getMember().getName())
                 .writtenTime(formattedCreatedDate)
                 .category(honeyTip.getCategory()) // 한글 카테고리 이름으로 반환
                 .imageUrls(imageResponses)

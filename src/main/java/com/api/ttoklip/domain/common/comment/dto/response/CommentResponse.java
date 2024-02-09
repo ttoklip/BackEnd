@@ -46,8 +46,8 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .commentId(questionComment.getId())
                 .commentContent(questionComment.getContent())
-                .parentId(parentCommentId) // 부모 댓글이 있는 경우
-//            .writer(questionComment.getMember().getName()) // ToDo Member Entity 생성 후 수정
+                .parentId(parentCommentId)
+                .writer(questionComment.getMember().getName())
                 .writtenTime(formatCreatedDate)
                 .build();
     }
