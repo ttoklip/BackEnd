@@ -1,15 +1,18 @@
 package com.api.ttoklip.domain.mypage.term.controller;
 
 
+import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.term.constant.TermConstant;
 import com.api.ttoklip.domain.mypage.term.domain.Term;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermEditRequest;
+import com.api.ttoklip.domain.mypage.term.dto.response.TermPaging;
 import com.api.ttoklip.domain.mypage.term.dto.response.TermResponse;
 import com.api.ttoklip.domain.mypage.term.service.TermService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +21,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/term")
 public class TermController {
+    private final static int PAGE_SIZE = 10;
     private final TermService termService;
     @Operation(summary = "이용약관 불러오기", description = "이용약관을 조회합니다")
     @ApiResponses(value = {
@@ -41,8 +47,12 @@ public class TermController {
                                     description = "이용약관을 조회했습니다"
                             )))})
     @GetMapping()
-    public SuccessResponse<List<Term>> getTermList() {
-        return new SuccessResponse<>(termService.getTermList());
+    public SuccessResponse<TermPaging> getTermList(
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        TermPaging termPaging= termService.getTermList(pageable);
+        return new SuccessResponse<>(termPaging);
     }
     @Operation(summary = "이용약관 하나 불러오기", description = "이용약관을 하나 조회합니다")
     @ApiResponses(value = {

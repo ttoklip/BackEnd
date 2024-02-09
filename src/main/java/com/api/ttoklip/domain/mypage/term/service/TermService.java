@@ -1,15 +1,20 @@
 package com.api.ttoklip.domain.mypage.term.service;
 
 import com.api.ttoklip.domain.mypage.term.domain.Term;
+import com.api.ttoklip.domain.mypage.term.domain.TermPaginRepository;
 import com.api.ttoklip.domain.mypage.term.domain.TermRepository;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermEditRequest;
+import com.api.ttoklip.domain.mypage.term.dto.response.TermPaging;
 import com.api.ttoklip.domain.mypage.term.dto.response.TermResponse;
+import com.api.ttoklip.domain.mypage.term.dto.response.TermSingleResponse;
 import com.api.ttoklip.domain.mypage.term.editor.TermEditor;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +25,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class TermService {
     private final TermRepository termRepository;
+    private final TermPaginRepository termPaginRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Term findTermById(final Long termId){
@@ -45,9 +51,20 @@ public class TermService {
         TermResponse termResponse = TermResponse.of(term);//
         return termResponse;
     }
-    public List<Term> getTermList() {//전체 조회
+    public TermPaging getTermList(final Pageable pageable) {//전체 조회
         //추후 구현
-        return termRepository.findAll();
+        Page<Term> contentPaging=termPaginRepository.getContain(pageable);
+        List<Term> contents=contentPaging.getContent();
+        List<TermSingleResponse>termSingleData=contents.stream()
+                .map(TermSingleResponse::termFrom)
+                .toList();
+        return TermPaging.builder()
+                .terms(termSingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
     }
     /* -------------------------------------------- DELETE  -------------------------------------------- */
     /* -------------------------------------------- DELETE 끝   -------------------------------------------- */
