@@ -45,7 +45,8 @@ public class CommunitySingleResponse {
     private List<CommentResponse> commentResponses;
 
     public static CommunitySingleResponse of(final Community community,
-                                             final List<CommunityComment> activeComments) {
+                                             final List<CommunityComment> activeComments,
+                                             boolean liked) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(community);
@@ -60,11 +61,11 @@ public class CommunitySingleResponse {
                 .communityId(community.getId())
                 .title(community.getTitle())
                 .content(community.getContent())
-//                .writer(community.getMember().getName) ToDo Member 엔티티 연결 후 수정
+                .writer(community.getMember().getName())
                 .writtenTime(formattedCreatedDate)
                 .imageUrls(communityImageResponses)
                 .commentResponses(commentResponses)
-//                .liked(liked)   ToDo Member 엔티티 연결 후 수정
+                .liked(liked)
                 .build();
     }
 

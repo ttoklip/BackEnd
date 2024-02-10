@@ -1,18 +1,16 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
-import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 
-import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
 import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
@@ -74,6 +72,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                         matchCommunityId(communityId),
                         getCommentActivate()
                 )
+                .leftJoin(communityComment.member, member)
                 .orderBy(
                         communityComment.createdDate.asc(),
                         communityComment.parent.id.asc().nullsFirst()
