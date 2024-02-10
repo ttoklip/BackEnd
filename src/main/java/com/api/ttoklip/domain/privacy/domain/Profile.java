@@ -39,4 +39,8 @@ public class Profile {
                 .profileImgUrl(profileImgUrl)
                 .build();
     }
+
+    public void changeProfile(String profileImgUrl) {
+        this.profileImgUrl = profileImgUrl;
+    }
 }

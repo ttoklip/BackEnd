@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -16,6 +17,7 @@ public class PrivacyCreateRequest {
     private String street;
     private String nickname;
     private List<String> categories;
+    private MultipartFile profileImage;
 
     @Min(0)
     @Max(99)

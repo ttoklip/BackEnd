@@ -6,7 +6,6 @@ import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.editor.MemberEditor;
 import com.api.ttoklip.domain.member.editor.MemberEditor.MemberEditorBuilder;
-import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.privacy.domain.Profile;
@@ -15,11 +14,13 @@ import com.api.ttoklip.domain.privacy.repository.InterestRepository;
 import com.api.ttoklip.domain.privacy.repository.ProfileRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final InterestRepository interestRepository;
     private final MemberService memberService;
+    private final S3FileUploader s3FileUploader;
 
     // 회원가입시 자동으로 프로필 이미지 기입
     @Transactional
@@ -41,16 +43,26 @@ public class ProfileService {
     @Transactional
     public Message insert(final PrivacyCreateRequest request) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
+
+        updateProfileImage(request, currentMember);
+
         MemberEditor editor = getEditor(currentMember, request);
         currentMember.insertPrivacy(editor);
         registerInterest(request, currentMember);
         return Message.insertPrivacy();
     }
 
+    private void updateProfileImage(final PrivacyCreateRequest request, final Member currentMember) {
+        // 프로필 이미지 URL 변경
+        MultipartFile profileImage = request.getProfileImage();
+        String uploadUrl = s3FileUploader.uploadMultipartFile(profileImage);
+        currentMember.getProfile().changeProfile(uploadUrl);
+    }
+
     private MemberEditor getEditor(final Member currentMember, final PrivacyCreateRequest request) {
         int independentYear = request.getIndependentYear();
-        int independentMonth = request.getIndependentMonth();
-        String nickname = request.getNickname();    // ToDo 추후에 닉네임 중복되는지 검사하는 로직 처리
+        int independentMonth = request.getIndependentMonth();   // ToDo 시간 자동으로 늘어나도록 설정
+        String nickname = request.getNickname();
         //        String street = request.getStreet(); // ToDo 추후에 Embeded로 주소 처리
         MemberEditorBuilder editorBuilder = currentMember.toEditor();
         return editorBuilder

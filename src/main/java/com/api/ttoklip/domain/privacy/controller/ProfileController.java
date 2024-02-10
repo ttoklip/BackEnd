@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.privacy;
+package com.api.ttoklip.domain.privacy.controller;
 
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +23,7 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @PostMapping("/insert")
-    public SuccessResponse<Message> register(@RequestBody @Validated final PrivacyCreateRequest request) {
+    public SuccessResponse<Message> register(@ModelAttribute @Validated final PrivacyCreateRequest request) {
         Message message = profileService.insert(request);
         return new SuccessResponse<>(message);
     }
