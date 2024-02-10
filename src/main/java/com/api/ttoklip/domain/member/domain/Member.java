@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.member.domain;
 
 import com.api.ttoklip.domain.common.comment.Comment;
+import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.profile.domain.Profile;
@@ -49,6 +50,10 @@ public class Member {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
     private Profile profile;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();

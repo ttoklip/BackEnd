@@ -1,9 +1,12 @@
 package com.api.ttoklip.domain.common.report.domain;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
@@ -42,6 +45,10 @@ public class Report extends BaseEntity {
     private ReportType reportType;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
@@ -71,6 +78,7 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .question(question)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -79,6 +87,7 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .newsletter(newsletter)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -87,6 +96,7 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .community(community)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -95,6 +105,7 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .cart(cart)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -103,6 +114,7 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .honeyTip(honeyTip)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -111,6 +123,7 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .comment(comment)
+                .member(getCurrentMember())
                 .build();
     }
 
