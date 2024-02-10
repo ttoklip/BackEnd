@@ -16,7 +16,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -40,6 +42,12 @@ public class HoneyTipSingleResponse {
     @Schema(description = "꿀팁 카테고리")
     private Category category;
 
+    @Schema(description = "좋아요 개수", example = "2")
+    private int likeCount;
+
+    @Schema(description = "댓글 개수", example = "5")
+    private int commentCount;
+
     @Schema(description = "꿀팁에 포함된 이미지 URL 목록")
     private List<ImageResponse> imageUrls;
 
@@ -50,9 +58,14 @@ public class HoneyTipSingleResponse {
     private List<UrlResponse> urlResponses;
 
     public static HoneyTipSingleResponse of(final HoneyTip honeyTip, final List<HoneyTipComment> activeComments) {
+        System.out.println("HoneyTipSingleResponse.of");
+        // HoneyTip의 좋아요 개수의 상태 = proxy 객체이지만 단순히 리스트(컬렉션)의 개수를 카운트하므로 문제 없음!
+        log.info("------------------ 쿼리 나가는 시점 - honeyTipLikeCount ------------------");
+        int honeyTipLikeCount = honeyTip.getHoneyTipLikes().size();
+        log.info("honeyTipLikeCount = " + honeyTipLikeCount);
+        log.info("------------------ 쿼리 끝나는 시점 ------------------");
 
         String formattedCreatedDate = getFormattedCreatedDate(honeyTip);
-
         List<ImageResponse> imageResponses = getImageResponses(honeyTip);
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
         List<UrlResponse> urlResponses = getUrlResponses(honeyTip);
@@ -64,6 +77,8 @@ public class HoneyTipSingleResponse {
                 .writer(honeyTip.getMember().getName())
                 .writtenTime(formattedCreatedDate)
                 .category(honeyTip.getCategory()) // 한글 카테고리 이름으로 반환
+                .likeCount(honeyTipLikeCount)
+                .commentCount(commentResponses.size())
                 .imageUrls(imageResponses)
                 .commentResponses(commentResponses)
                 .urlResponses(urlResponses)
