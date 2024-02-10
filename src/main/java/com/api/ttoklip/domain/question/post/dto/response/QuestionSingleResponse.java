@@ -38,6 +38,9 @@ public class QuestionSingleResponse {
     @Schema(description = "질문 카테고리")
     private Category category;
 
+    @Schema(description = "댓글 수")
+    private int commentCount;
+
     @Schema(description = "질문에 포함된 이미지 URL 목록")
     private List<ImageResponse> imageUrls;
 
@@ -45,23 +48,24 @@ public class QuestionSingleResponse {
     private List<CommentResponse> commentResponses;
 
     public static QuestionSingleResponse of(final Question question, final List<QuestionComment> activeComments) {
-
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(question);
 
         // CommunityImage entity to Response
         List<ImageResponse> imageResponses = getImageResponses(question);
-
         // Comment entity to Response
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
+
+        int commentCount = commentResponses.size();
 
         return QuestionSingleResponse.builder()
                 .questionId(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
-//                .writer(question.getMember().getName) ToDo Member 엔티티 연결 후 수정
+                .writer(question.getMember().getName())
                 .writtenTime(formattedCreatedDate)
                 .category(question.getCategory()) // 한글 카테고리 이름으로 반환
+                .commentCount(commentCount)
                 .imageUrls(imageResponses)
                 .commentResponses(commentResponses)
                 .build();

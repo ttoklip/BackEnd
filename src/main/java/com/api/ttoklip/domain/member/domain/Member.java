@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.profile.domain.Profile;
+import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,6 +55,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTip> honeyTips = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTipLike> honeyTipLikes = new ArrayList<>();

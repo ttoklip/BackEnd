@@ -23,13 +23,15 @@ public class TitleResponse {
     public static TitleResponse questionOf(final Question question) {
         LocalDateTime createdDate = question.getCreatedDate();
         String formattedCreatedDate = getFormattedCreatedDate(createdDate);
+        int commentCount = question.getQuestionComments().size();
+        String writer = question.getMember().getName();
 
         return TitleResponse.builder()
                 .honeyTipId(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
-//                .writer(quesion.member.getName())
-                .commentCount(question.getQuestionComments().size())
+                .writer(writer)
+                .commentCount(commentCount)
                 .writtenTime(formattedCreatedDate)
                 .build();
     }

@@ -189,6 +189,17 @@ public class HoneyTipPostService {
                 .toList();
     }
 
+    public List<TitleResponse> getTop5() {
+        List<HoneyTip> top5HoneyTips = honeyTipDefaultRepository.getTop5();
+        return top5HoneyTips.stream()
+                .map(TitleResponse::honeyTipFrom)
+                .toList();
+    }
+
+    /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- 좋아요 추가 & 취소 -------------------------------------------- */
     @Transactional
     public Message registerLike(final Long postId) {
         honeyTipLikeService.register(postId);
@@ -201,11 +212,7 @@ public class HoneyTipPostService {
         return Message.likePostCancel(HoneyTip.class, postId);
     }
 
-    public List<TitleResponse> getTop5() {
-        List<HoneyTip> top5HoneyTips = honeyTipDefaultRepository.getTop5();
-        return top5HoneyTips.stream()
-                .map(TitleResponse::honeyTipFrom)
-                .toList();
+    /* -------------------------------------------- 좋아요 추가 & 취소 끝 -------------------------------------------- */
 
-    }
+
 }
