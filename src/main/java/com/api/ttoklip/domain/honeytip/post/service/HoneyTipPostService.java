@@ -33,6 +33,7 @@ public class HoneyTipPostService {
     private final HoneyTipRepository honeytipRepository;
     private final HoneyTipDefaultRepository honeyTipDefaultRepository;
     private final ReportService reportService;
+
     private final HoneyTipUrlService honeyTipUrlService;
     private final HoneyTipImageService honeyTipImageService;
     private final HoneyTipLikeService honeyTipLikeService;
@@ -158,7 +159,7 @@ public class HoneyTipPostService {
 
         HoneyTip honeyTipWithImgAndUrl = honeytipRepository.findByIdFetchJoin(postId);
         List<HoneyTipComment> activeComments = honeytipRepository.findActiveCommentsByHoneyTipId(postId);
-        int likeCount = honeyTipWithImgAndUrl.getHoneyTipLikes().size();
+        int likeCount = honeyTipLikeService.countHoneyTipLikes(postId).intValue();
         HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
                 activeComments, likeCount);
         return honeyTipSingleResponse;

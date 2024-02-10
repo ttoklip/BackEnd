@@ -48,4 +48,8 @@ public class HoneyTipLikeService {
         honeyTipLikeRepository.deleteById(honeyTipLike.getId());
     }
 
+    public Long countHoneyTipLikes(final Long honeyTipId) {
+        return honeyTipLikeRepository.countHoneyTipLikesByHoneyTipId(honeyTipId);
+    }
+
 }
