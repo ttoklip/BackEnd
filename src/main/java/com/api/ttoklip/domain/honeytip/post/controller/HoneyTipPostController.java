@@ -110,12 +110,34 @@ public class HoneyTipPostController {
         return new SuccessResponse<>(message);
     }
 
+    @Operation(summary = "꿀팁공유해요 도움이되었어요 추가", description = "꿀팁 ID에 해당하는 게시글을 도움이되었어요를 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "도움이되었어요 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneyTipResponseConstant.REGISTER_LIKE,
+                                    description = "꿀팁을 도움이 되었어요를 추가했습니다."
+                            )))})
     @PostMapping("/like/{postId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
         Message message = honeytipPostService.registerLike(postId);
         return new SuccessResponse<>(message);
     }
 
+    @Operation(summary = "꿀팁공유해요 도움이되었어요 취소", description = "꿀팁 ID에 해당하는 게시글을 도움이되었어요를 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "도움이되었어요 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneyTipResponseConstant.CANCEL,
+                                    description = "꿀팁을 도움이 되었어요를 취소했습니다."
+                            )))})
     @DeleteMapping("/like/{postId}")
     public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
         Message message = honeytipPostService.cancelLike(postId);
