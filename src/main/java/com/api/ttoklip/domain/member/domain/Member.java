@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.member.domain;
 
+import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
@@ -33,7 +34,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -92,12 +93,8 @@ public class Member {
     }
 
     public void insertPrivacy(MemberEditor memberEditor) {
-        System.out.println("Member.insertPrivacy");
         independentYear = memberEditor.getIndependentYear();
         independentMonth = memberEditor.getIndependentMonth();
         nickname = memberEditor.getNickname();
-        System.out.println("independentYear = " + independentYear);
-        System.out.println("independentMonth = " + independentMonth);
-
     }
 }

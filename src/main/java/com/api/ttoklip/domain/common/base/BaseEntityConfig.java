@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.common.base;
 
+import com.api.ttoklip.domain.member.domain.Member;
 import java.util.Optional;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +21,9 @@ public class BaseEntityConfig {
                 return Optional.of("Anonymous");
             }
 
-            String name = authentication.getName();
-            return Optional.of(name);
+            Member member = (Member) authentication.getPrincipal();
+            String originName = member.getOriginName();
+            return Optional.of(originName);
         };
     }
 }
