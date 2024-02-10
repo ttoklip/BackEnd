@@ -14,7 +14,6 @@ import lombok.Getter;
 public class PrivacyCreateRequest {
 
     private String street;
-    직
     private String nickname;
     private List<String> categories;
 

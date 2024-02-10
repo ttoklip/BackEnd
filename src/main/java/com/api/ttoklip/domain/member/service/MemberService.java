@@ -26,4 +26,8 @@ public class MemberService {
     public Member findByIdWithProfile(final Long memberId) {
         return memberOAuthRepository.findByIdWithProfile(memberId);
     }
+
+    public boolean isExistsNickname(final String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
 }
