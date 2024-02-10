@@ -70,8 +70,8 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                         getCommentActivate()
                 )
                 .orderBy(
-                        communityComment.createdDate.asc(),
-                        communityComment.parent.id.asc().nullsFirst()
+                        communityComment.parent.id.asc().nullsFirst(),
+                        communityComment.createdDate.asc()
                 )
                 .fetch();
     }

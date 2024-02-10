@@ -43,8 +43,8 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                         getCommentActivate()
                 )
                 .orderBy(
-                        questionComment.createdDate.asc(),
-                        questionComment.parent.id.asc().nullsFirst()
+                        questionComment.parent.id.asc().nullsFirst(),
+                        questionComment.createdDate.asc()
                 )
                 .fetch();
     }

@@ -49,8 +49,8 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                         getCommentActivate()
                 )
                 .orderBy(
-                        newsletterComment.createdDate.asc(),
-                        newsletterComment.parent.id.asc().nullsFirst()
+                        newsletterComment.parent.id.asc().nullsFirst(),
+                        newsletterComment.createdDate.asc()
                 )
                 .fetch();
     }

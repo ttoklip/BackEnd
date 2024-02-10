@@ -75,8 +75,8 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 )
                 .leftJoin(honeyTipComment.member, member)
                 .orderBy(
-                        honeyTipComment.createdDate.asc(),
-                        honeyTipComment.parent.id.asc().nullsFirst()
+                        honeyTipComment.parent.id.asc().nullsFirst(),
+                        honeyTipComment.createdDate.asc()
                 )
                 .fetch();
     }

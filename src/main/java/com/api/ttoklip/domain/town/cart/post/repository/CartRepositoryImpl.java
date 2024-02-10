@@ -72,8 +72,8 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                         getCommentActivate()
                 )
                 .orderBy(
-                        cartComment.createdDate.asc(),
-                        cartComment.parent.id.asc().nullsFirst()
+                        cartComment.parent.id.asc().nullsFirst(),
+                        cartComment.createdDate.asc()
                 )
                 .fetch();
     }
