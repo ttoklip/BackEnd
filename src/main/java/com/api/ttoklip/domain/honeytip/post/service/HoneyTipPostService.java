@@ -200,4 +200,12 @@ public class HoneyTipPostService {
         honeyTipLikeService.cancel(postId);
         return Message.likePostCancel(HoneyTip.class, postId);
     }
+
+    public List<TitleResponse> getTop5() {
+        List<HoneyTip> top5HoneyTips = honeyTipDefaultRepository.getTop5();
+        return top5HoneyTips.stream()
+                .map(TitleResponse::honeyTipFrom)
+                .toList();
+
+    }
 }

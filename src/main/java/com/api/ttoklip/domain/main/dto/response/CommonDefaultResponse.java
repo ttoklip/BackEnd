@@ -21,7 +21,7 @@ public class CommonDefaultResponse {
         return CommonDefaultResponse.builder()
                 .questionCategory(question)
                 .honeyTipCategory(honeyTips)
-//                .topFiveQuestions(titleResponses)
+                .topFiveQuestions(titleResponses)
                 .build();
     }
 }
