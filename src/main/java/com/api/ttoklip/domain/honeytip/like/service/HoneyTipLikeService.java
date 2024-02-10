@@ -22,7 +22,8 @@ public class HoneyTipLikeService {
 
     // 좋아요 생성
     public void register(final Long honeyTipId) {
-        boolean exists = honeyTipLikeRepository.existsById(honeyTipId);
+        Long currentMemberId = getCurrentMember().getId();
+        boolean exists = honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
         if (exists) {
             return; // 이미 좋아요가 존재하면 좋아요를 생성하지 않고 return
         }
