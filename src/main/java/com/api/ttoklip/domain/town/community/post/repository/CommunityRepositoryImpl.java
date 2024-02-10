@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
+import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
 import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
@@ -27,6 +29,8 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         Community findCommunity = jpaQueryFactory
                 .selectFrom(community)
                 .distinct()
+                .leftJoin(community.member, member)
+                .fetchJoin()
                 .where(
                         matchId(communityId), getCommunityActivate()
                 )
@@ -49,6 +53,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .selectFrom(community)
                 .distinct()
                 .leftJoin(community.communityImages, communityImage)
+                .leftJoin(community.member, member)
                 .fetchJoin()
                 .where(
                         getCommunityActivate(),

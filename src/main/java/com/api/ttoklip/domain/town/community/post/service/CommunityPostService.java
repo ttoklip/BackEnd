@@ -44,6 +44,7 @@ public class CommunityPostService {
     public Message register(final CommunityCreateRequest request) {
 
         // Community 객체 생성 및 연관 관계 설정
+
         Member currentMember = getCurrentMember();
 
         Community community = Community.of(request, currentMember);
@@ -85,7 +86,11 @@ public class CommunityPostService {
     @Transactional
     public Message edit(final Long postId, final CommunityCreateRequest request) {
 
-        Community community = findCommunity(postId);
+        // 기존 게시글 찾기
+        Community community = communityCommonService.getCommunity(postId);
+
+        // 삭제 권한 확인
+        communityCommonService.checkEditPermission(community);
 
         CommunityPostEditor postEditor = getPostEditor(request, community);
         community.edit(postEditor);
@@ -123,7 +128,10 @@ public class CommunityPostService {
 
     @Transactional
     public Message delete(final Long postId) {
-        Community community = getCommunity(postId);
+        Community community = communityCommonService.getCommunity(postId);
+
+        // 삭제 권한 확인
+        communityCommonService.checkEditPermission(community);
         community.deactivate();
 
         return Message.deletePostSuccess(Community.class, postId);

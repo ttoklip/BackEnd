@@ -5,8 +5,6 @@ import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.dto.response.CommunityImageResponse;
 import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
-import com.api.ttoklip.domain.town.community.url.dto.response.UrlResponse;
-import com.api.ttoklip.domain.town.community.url.entity.CommunityUrl;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
