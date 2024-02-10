@@ -4,7 +4,10 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.profile.domain.Profile;
+import com.api.ttoklip.domain.member.editor.MemberEditor;
+import com.api.ttoklip.domain.member.editor.MemberEditor.MemberEditorBuilder;
+import com.api.ttoklip.domain.privacy.domain.Interest;
+import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -36,7 +39,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String originName;
 
     @Email
     private String naverEmail;
@@ -45,6 +48,11 @@ public class Member {
 
     private String provider;
 
+    private String nickname;
+//    private String street;
+    private int independentYear;
+    private int independentMonth;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -52,19 +60,44 @@ public class Member {
     private Profile profile;
 
     @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Interest> interests = new ArrayList<>();
+
+    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Report> reports = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTip> honeyTips = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTipLike> honeyTipLikes = new ArrayList<>();
 
+    public MemberEditorBuilder toEditor() {
+        return MemberEditor.builder()
+                .independentYear(independentYear)
+                .independentMonth(independentMonth)
+//                .street()
+                .nickname(nickname);
+    }
+
+    public void insertPrivacy(MemberEditor memberEditor) {
+        System.out.println("Member.insertPrivacy");
+        independentYear = memberEditor.getIndependentYear();
+        independentMonth = memberEditor.getIndependentMonth();
+        nickname = memberEditor.getNickname();
+        System.out.println("independentYear = " + independentYear);
+        System.out.println("independentMonth = " + independentMonth);
+
+    }
 }

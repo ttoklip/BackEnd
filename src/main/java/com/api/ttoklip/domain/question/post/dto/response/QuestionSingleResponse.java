@@ -62,7 +62,7 @@ public class QuestionSingleResponse {
                 .questionId(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
-                .writer(question.getMember().getName())
+                .writer(question.getMember().getOriginName())
                 .writtenTime(formattedCreatedDate)
                 .category(question.getCategory()) // 한글 카테고리 이름으로 반환
                 .commentCount(commentCount)

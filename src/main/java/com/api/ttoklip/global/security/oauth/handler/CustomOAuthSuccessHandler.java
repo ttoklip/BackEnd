@@ -33,9 +33,9 @@ public class CustomOAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         Member member = oauth2User.getMember();
         boolean isFirstLogin = oauth2User.isFirstLogin();
 
-        log.info("------------------ 소셜 로그인 성공: " + member.getName());
+        log.info("------------------ 소셜 로그인 성공: " + member.getOriginName());
 
-        String nickname = member.getName();
+        String nickname = member.getOriginName();
         Long memberId = member.getId();
 
         Member loginMember = memberService.findByIdWithProfile(memberId);

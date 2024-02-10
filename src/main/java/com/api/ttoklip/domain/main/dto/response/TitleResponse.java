@@ -24,7 +24,7 @@ public class TitleResponse {
         LocalDateTime createdDate = question.getCreatedDate();
         String formattedCreatedDate = getFormattedCreatedDate(createdDate);
         int commentCount = question.getQuestionComments().size();
-        String writer = question.getMember().getName();
+        String writer = question.getMember().getOriginName();
 
         return TitleResponse.builder()
                 .honeyTipId(question.getId())
@@ -41,7 +41,7 @@ public class TitleResponse {
         String formattedCreatedDate = getFormattedCreatedDate(createdDate);
         int commentCount = honeyTip.getHoneyTipComments().size();
         int likeCount = honeyTip.getHoneyTipLikes().size();
-        String writer = honeyTip.getMember().getName();
+        String writer = honeyTip.getMember().getOriginName();
 
         return TitleResponse.builder()
                 .honeyTipId(honeyTip.getId())

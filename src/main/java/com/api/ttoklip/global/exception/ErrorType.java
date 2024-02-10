@@ -84,11 +84,15 @@ public enum ErrorType {
     // ------------------------------------------ LIKE ------------------------------------------
     LIKE_NOT_FOUND(NOT_FOUND, "LIKE_4041", "좋아요가 존재하지 않습니다."),
 
+
     // ------------------------------------------ AUTHORIZATION ------------------------------------------
     UNAUTHORIZED_EDIT_POST(FORBIDDEN, "AUTH_4031", "게시글의 작성자만 수정할 수 있습니다."),
     UNAUTHORIZED_DELETE_COMMENT(FORBIDDEN, "AUTH_4032", "댓글의 작성자만 삭제할 수 있습니다."),
     UNAUTHORIZED_CANCEL_LIKE(FORBIDDEN, "AUTH_4033", "좋아요한 사용자만 본인의 좋아요를 취소할 수 있습니다."),
 
+
+    // ------------------------------------------ Privacy ------------------------------------------
+    INVALID_CATEGORIES_SIZE(BAD_REQUEST, "Privacy_4041", "회원가입시 카테고리는 최대 3개까지 선택가능합니다."),
 
     ;
 

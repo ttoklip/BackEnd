@@ -47,7 +47,7 @@ public class CommentResponse {
                 .commentId(questionComment.getId())
                 .commentContent(questionComment.getContent())
                 .parentId(parentCommentId)
-                .writer(questionComment.getMember().getName())
+                .writer(questionComment.getMember().getOriginName())
                 .writtenTime(formatCreatedDate)
                 .build();
     }

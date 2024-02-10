@@ -3,8 +3,8 @@ package com.api.ttoklip.global.security.oauth.service;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
-import com.api.ttoklip.domain.profile.domain.Profile;
-import com.api.ttoklip.domain.profile.service.ProfileService;
+import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.privacy.service.ProfileService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.security.oauth.principal.CustomOAuth2User;
@@ -100,7 +100,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                          final String email) {
         String name = oAuth2UserInfo.getName();
         Member newMember = Member.builder()
-                .name(name)
+                .originName(name)
                 .naverEmail(email)
                 .provider(provider)
                 .role(Role.CLIENT)
@@ -116,7 +116,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                          final Long kakaoId) {
         String name = oAuth2UserInfo.getName();
         Member newMember = Member.builder()
-                .name(name)
+                .originName(name)
                 .kakaoId(kakaoId)
                 .provider(provider)
                 .role(Role.CLIENT)

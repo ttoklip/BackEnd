@@ -67,7 +67,7 @@ public class HoneyTipSingleResponse {
                 .honeyTipId(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
-                .writer(honeyTip.getMember().getName())
+                .writer(honeyTip.getMember().getOriginName())
                 .writtenTime(formattedCreatedDate)
                 .category(honeyTip.getCategory()) // 한글 카테고리 이름으로 반환
                 .likeCount(likeCount)

@@ -1,42 +1,43 @@
-package com.api.ttoklip.domain.profile.domain;
+package com.api.ttoklip.domain.privacy.domain;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @Builder
 @Entity
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Profile {
+public class Interest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private String profileImgUrl;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
-    public static Profile of(final Member member, final String profileImgUrl) {
-        return Profile.builder()
+    public static Interest of(final Member member, final Category category) {
+        return Interest.builder()
                 .member(member)
-                .profileImgUrl(profileImgUrl)
+                .category(category)
                 .build();
     }
 }
