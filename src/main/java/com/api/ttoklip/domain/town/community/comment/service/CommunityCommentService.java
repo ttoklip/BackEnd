@@ -6,6 +6,7 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
@@ -13,6 +14,7 @@ import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,9 +98,12 @@ public class CommunityCommentService {
         // ToDo 본인이 썼는지 검증 과정 필요
         commentService.deleteById(commentId);
         return Message.deleteCommentSuccess(CommunityComment.class, commentId);
+    }
 
-        /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+    /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
 
+    public static Member getCurrentMember() {
+        return SecurityUtil.getCurrentMember();
     }
 }
 

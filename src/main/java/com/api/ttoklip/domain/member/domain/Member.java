@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.member.domain;
 
+import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
@@ -39,6 +40,9 @@ public class Member {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE)
     private Profile profile;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
 
 
