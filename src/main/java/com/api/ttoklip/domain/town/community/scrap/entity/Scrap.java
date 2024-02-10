@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.town.community.scrap.entity;
 
-import com.api.ttoklip.domain.Member;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import jakarta.persistence.*;
 import lombok.Builder;

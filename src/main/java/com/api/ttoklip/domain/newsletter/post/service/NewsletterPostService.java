@@ -5,9 +5,9 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.post.domain.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -15,6 +15,7 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,10 +44,12 @@ public class NewsletterPostService {
     @Transactional
     public Message register(final NewsletterCreateReq request) {
 
-        Newsletter newsletter = Newsletter.of(request);
+        String mainImageUrl = registerMainImage(request);
+
+        Newsletter newsletter = Newsletter.from(request, mainImageUrl);
         newsletterRepository.save(newsletter);
 
-        List<MultipartFile> images = request.getImages();
+        List<MultipartFile> images = request.getSubImages();
         if (images != null && !images.isEmpty()) {
             registerImages(newsletter, images);
         }
@@ -57,6 +60,15 @@ public class NewsletterPostService {
         }
 
         return Message.registerPostSuccess(Newsletter.class, newsletter.getId());
+    }
+
+    private String registerMainImage(final NewsletterCreateReq request) {
+        MultipartFile mainImage = request.getMainImage();
+        return uploadImage(mainImage);
+    }
+
+    private String uploadImage(final MultipartFile uploadImage) {
+        return s3FileUploader.uploadMultipartFile(uploadImage);
     }
 
     private void registerImages(final Newsletter newsletter, final List<MultipartFile> uploadImages) {
@@ -95,4 +107,36 @@ public class NewsletterPostService {
     }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- total entity count -------------------------------------------- */
+
+    public Long getEntityCount() {
+        return newsletterRepository.findNewsletterCount();
+    }
+
+    /* -------------------------------------------- total entity count 끝 -------------------------------------------- */
+
+    public List<Newsletter> getContentWithPageable(final Pageable pageable) {
+        return newsletterRepository.findAll(pageable).getContent();
+    }
+
+//    public CategoryResponses getDefaultCategoryRead() {
+//        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
+//        List<Question> recipeQuestions = questionDefaultRepository.getRecipe();
+//        List<Question> safeLivingQuestions = questionDefaultRepository.getSafeLiving();
+//        List<Question> welfarePolicyQuestions = questionDefaultRepository.getWelfarePolicy();
+//
+//        return CategoryResponses.builder()
+//                .housework(convertToTitleResponses(houseWorkQuestions))
+//                .cooking(convertToTitleResponses(recipeQuestions))
+//                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+//                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+//                .build();
+//    }
+//
+//    private List<TitleResponse> convertToTitleResponses(final List<Question> questions) {
+//        return questions.stream()
+//                .map(TitleResponse::questionOf)
+//                .toList();
+//    }
 }

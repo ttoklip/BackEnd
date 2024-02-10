@@ -69,7 +69,7 @@ public class Message {
         return actionSuccess(itemType, itemId, STATUS, EDIT);
     }
 
-    public static <T> Message createLikeSuccess(Class<T> itemType, Long itemId) {
+    public static <T> Message likePostSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, LIKE, CREATE);
     }
 

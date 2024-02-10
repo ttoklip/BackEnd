@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "HoneyTip Comment", description = "HoneyTip Comment API")
+@Tag(name = "HoneyTip Comment", description = "꿀팁공유해요 댓글 API입니다.")
 @RestController
 @RequestMapping("/api/v1/honeytip/comment")
 @RequiredArgsConstructor

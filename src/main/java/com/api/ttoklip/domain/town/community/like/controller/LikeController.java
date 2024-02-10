@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.town.community.like.controller;
 
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.like.dto.request.LikeRequest;
-import com.api.ttoklip.domain.town.community.like.service.LikeService;
+import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/town/comms")
 public class LikeController {
 
-    private final LikeService likeService;
+    private final CommunityLikeService communityLikeService;
 
     /* LIKE */
     @Operation(summary = "소통해요 좋아요 생성",
@@ -36,7 +36,7 @@ public class LikeController {
                             )))})
     @PostMapping("/{postId}/like")
     public SuccessResponse<Message> pushLikeButton(@PathVariable Long postId, @RequestBody LikeRequest request) {
-        Message message = likeService.pushLikeButton(request.getMemberId(), postId);
+        Message message = communityLikeService.pushLikeButton(request.getMemberId(), postId);
         return new SuccessResponse<>(message);
     }
 

@@ -9,6 +9,8 @@ import com.api.ttoklip.domain.newsletter.url.domain.NewsletterUrl;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +31,6 @@ import lombok.NoArgsConstructor;
 public class Newsletter extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(name = "title")
@@ -39,7 +40,10 @@ public class Newsletter extends BaseEntity {
     private String content;
 
     @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private Category category;
+
+    private String mainImageUrl;
 
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterImage> newsletterImageList = new ArrayList<>();
@@ -50,11 +54,12 @@ public class Newsletter extends BaseEntity {
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterComment> newsletterComments = new ArrayList<>();
 
-    public static Newsletter of(final NewsletterCreateReq req) {
+    public static Newsletter from(final NewsletterCreateReq req, final String mainImageUrl) {
         return Newsletter.builder()
                 .title(req.getTitle())
                 .content(req.getContent())
                 .category(req.getCategory())
+                .mainImageUrl(mainImageUrl)
                 .build();
     }
 }

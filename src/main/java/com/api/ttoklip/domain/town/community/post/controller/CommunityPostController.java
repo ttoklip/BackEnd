@@ -112,4 +112,11 @@ public class CommunityPostController {
         Message message = communityPostService.report(postId, request);
         return new SuccessResponse<>(message);
     }
+
+    /* LIKE */
+    @PostMapping("/like/{postId}")
+    public SuccessResponse<Message> like(final @PathVariable Long postId) {
+        Message message = communityPostService.like(postId);
+        return new SuccessResponse<>(message);
+    }
 }

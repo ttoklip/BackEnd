@@ -1,5 +1,8 @@
 package com.api.ttoklip.global.config;
 
+import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
+import com.api.ttoklip.global.security.oauth.handler.CustomOAuthSuccessHandler;
+import com.api.ttoklip.global.security.oauth.service.CustomOAuth2UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,12 +13,19 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomOAuthSuccessHandler customOAuthSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,7 +57,33 @@ public class SecurityConfig {
 
         // ToDo oauth 설정, filter, Handler 등
 
+        http    .oauth2Login()
+                .authorizationEndpoint().baseUri("/oauth/authorize")
+                .and()
+                .redirectionEndpoint().baseUri("/oauth/callback")
+                .and()
+                .userInfoEndpoint() // oauth2 로그인 성공후에 사용자 정보를 바로 가져온다.
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(customOAuthSuccessHandler);
+
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
+    }
+
+    // CORS
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*");
+        config.addExposedHeader("Authorization");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
 }

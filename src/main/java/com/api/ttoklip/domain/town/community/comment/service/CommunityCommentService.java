@@ -10,6 +10,7 @@ import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +24,14 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class CommunityCommentService {
 
-    private final CommunityPostService communityPostService;
+    private final CommunityCommonService communityCommonService;
     private final CommentService commentService;
     private final ReportService reportService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public Message register(final Long postId, final CommentCreateRequest request) {
-        Community findCommunity = communityPostService.findCommunity(postId);
+        Community findCommunity = communityCommonService.getCommunity(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();

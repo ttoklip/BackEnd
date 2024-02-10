@@ -2,9 +2,11 @@ package com.api.ttoklip.domain.town.community.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
-import com.api.ttoklip.domain.town.community.like.repository.LikeRepository;
+import com.api.ttoklip.domain.town.community.like.repository.CommunityLikeRepository;
+import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
@@ -12,14 +14,16 @@ import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunityRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import jakarta.activation.CommandMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static com.api.ttoklip.domain.town.community.like.service.CommunityLikeService.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -28,38 +32,21 @@ public class CommunityPostService {
     private final CommunityRepository communityRepository;
 
     private final CommunityImageService communityImageService;
-    private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
-    private final LikeRepository likeRepository;
+    private final CommunityLikeRepository communityLikeRepository;
+    private final CommunityLikeService communityLikeService;
+    private final CommunityCommonService communityCommonService;
 
-
-
-    /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Community findCommunityById(final Long postId) {
-        return communityRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUND));
-    }
-
-    public Community findCommunity(final Long postId) {
-        return communityRepository.findByIdActivated(postId);
-    }
-
-    private Community getCommunity(final Long postId) {
-        return communityRepository.findByIdActivated(postId);
-    }
-
-    private List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
-    }
-
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
     public Message register(final CommunityCreateRequest request) {
 
-        Community community = Community.from(request);
+        // Community 객체 생성 및 연관 관계 설정
+        Member currentMember = getCurrentMember();
+
+        Community community = Community.of(request, currentMember);
         communityRepository.save(community);
 
         List<MultipartFile> uploadImages = request.getImages();
@@ -70,13 +57,10 @@ public class CommunityPostService {
         return Message.registerPostSuccess(Community.class, community.getId());
     }
 
-    private void registerImages(final Community community, final List<MultipartFile> multipartFiles) {
-        List<String> uploadUrls = getImageUrls(multipartFiles);
+    private void registerImages(final Community community, final List<MultipartFile> uploadImages) {
+        // S3에 이미지 업로드 후 URL 목록을 가져온다.
+        List<String> uploadUrls = communityCommonService.uploadImages(uploadImages);
         uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
-    }
-
-    private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {
-        return s3FileUploader.uploadMultipartFiles(multipartFiles);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
@@ -168,4 +152,14 @@ public class CommunityPostService {
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
+    @Transactional
+    public Message like(final Long postId) {
+        communityLikeService.register(postId);
+        return Message.likePostSuccess(Community.class, postId);
+    }
+
+    public static Member getCurrentMember() {
+        return SecurityUtil.getCurrentMember();
+    }
 }
