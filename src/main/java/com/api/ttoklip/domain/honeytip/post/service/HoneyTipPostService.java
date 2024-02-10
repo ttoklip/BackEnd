@@ -185,7 +185,7 @@ public class HoneyTipPostService {
 
     private List<TitleResponse> convertToTitleResponses(final List<HoneyTip> honeyTips) {
         return honeyTips.stream()
-                .map(TitleResponse::honeyTipOf)
+                .map(TitleResponse::honeyTipFrom)
                 .toList();
     }
 

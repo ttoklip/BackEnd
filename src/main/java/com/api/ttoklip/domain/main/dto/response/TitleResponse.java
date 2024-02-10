@@ -3,7 +3,6 @@ package com.api.ttoklip.domain.main.dto.response;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.util.TimeUtil;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +16,7 @@ public class TitleResponse {
     private String title;
     private String content;
     private String writer;
+    private int likeCount;
     private int commentCount;
     private String writtenTime;
 
@@ -34,16 +34,20 @@ public class TitleResponse {
                 .build();
     }
 
-    public static TitleResponse honeyTipOf(final HoneyTip honeyTip) {
+    public static TitleResponse honeyTipFrom(final HoneyTip honeyTip) {
         LocalDateTime createdDate = honeyTip.getCreatedDate();
         String formattedCreatedDate = getFormattedCreatedDate(createdDate);
+        int commentCount = honeyTip.getHoneyTipComments().size();
+        int likeCount = honeyTip.getHoneyTipLikes().size();
+        String writer = honeyTip.getMember().getName();
 
         return TitleResponse.builder()
                 .honeyTipId(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
-//                .writer(honeyTip.member.getName())
-                .commentCount(honeyTip.getHoneyTipComments().size())
+                .writer(writer)
+                .likeCount(likeCount)
+                .commentCount(commentCount)
                 .writtenTime(formattedCreatedDate)
                 .build();
     }
