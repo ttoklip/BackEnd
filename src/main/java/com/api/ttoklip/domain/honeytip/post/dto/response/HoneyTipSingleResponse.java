@@ -57,14 +57,7 @@ public class HoneyTipSingleResponse {
     @Schema(description = "꿀팁 채팅 url 목록")
     private List<UrlResponse> urlResponses;
 
-    public static HoneyTipSingleResponse of(final HoneyTip honeyTip, final List<HoneyTipComment> activeComments) {
-        System.out.println("HoneyTipSingleResponse.of");
-        // HoneyTip의 좋아요 개수의 상태 = proxy 객체이지만 단순히 리스트(컬렉션)의 개수를 카운트하므로 문제 없음!
-        log.info("------------------ 쿼리 나가는 시점 - honeyTipLikeCount ------------------");
-        int honeyTipLikeCount = honeyTip.getHoneyTipLikes().size();
-        log.info("honeyTipLikeCount = " + honeyTipLikeCount);
-        log.info("------------------ 쿼리 끝나는 시점 ------------------");
-
+    public static HoneyTipSingleResponse of(final HoneyTip honeyTip, final List<HoneyTipComment> activeComments, final int likeCount) {
         String formattedCreatedDate = getFormattedCreatedDate(honeyTip);
         List<ImageResponse> imageResponses = getImageResponses(honeyTip);
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
@@ -77,7 +70,7 @@ public class HoneyTipSingleResponse {
                 .writer(honeyTip.getMember().getName())
                 .writtenTime(formattedCreatedDate)
                 .category(honeyTip.getCategory()) // 한글 카테고리 이름으로 반환
-                .likeCount(honeyTipLikeCount)
+                .likeCount(likeCount)
                 .commentCount(commentResponses.size())
                 .imageUrls(imageResponses)
                 .commentResponses(commentResponses)
