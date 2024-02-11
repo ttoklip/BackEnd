@@ -5,7 +5,7 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
-import com.api.ttoklip.domain.town.community.like.repository.CommunityLikeRepository;
+import com.api.ttoklip.domain.town.community.like.repository.CommunityCommunityLikeRepository;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
@@ -21,8 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -31,7 +29,7 @@ public class CommunityPostService {
 
     private final CommunityImageService communityImageService;
     private final ReportService reportService;
-    private final CommunityLikeRepository communityLikeRepository;
+    private final CommunityCommunityLikeRepository communityLikeRepository;
     private final CommunityLikeService communityLikeService;
     private final CommunityCommonService communityCommonService;
 
@@ -70,7 +68,7 @@ public class CommunityPostService {
 
         Community communityWithImg = communityRepository.findByIdFetchJoin(postId);
         List<CommunityComment> activeComments = communityRepository.findActiveCommentsByCommunityId(postId);
-        int likeCount = communityWithImg.getCommunityLikes().size();
+        int likeCount = communityLikeService.countCommunityLikes(postId).intValue();
         boolean liked = communityRepository.existsByCommunityIdAndMemberId(postId, memberId);
 
         CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg,

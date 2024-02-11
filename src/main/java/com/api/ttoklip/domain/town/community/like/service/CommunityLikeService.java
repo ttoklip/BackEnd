@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.community.like.service;
 
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
-import com.api.ttoklip.domain.town.community.like.repository.CommunityLikeRepository;
+import com.api.ttoklip.domain.town.community.like.repository.CommunityCommunityLikeRepository;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
 import com.api.ttoklip.global.exception.ApiException;
@@ -17,7 +17,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 @Transactional(readOnly = true)
 public class CommunityLikeService {
 
-    private final CommunityLikeRepository communityLikeRepository;
+    private final CommunityCommunityLikeRepository communityLikeRepository;
     private final CommunityCommonService communityCommonService;
 //    private final MemberRepository memberRepository;
 
@@ -48,6 +48,10 @@ public class CommunityLikeService {
         // 자격 검증: 이 단계에서는 findByHoneyTipIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.
         // 별도의 자격 검증 로직이 필요 없으며, 바로 삭제를 진행할 수 있습니다.
         communityLikeRepository.deleteById(communityLike.getId());
+    }
+
+    public Long countCommunityLikes(final Long communityId) {
+        return communityLikeRepository.countCommunityLikesByCommunityId(communityId);
     }
 
 
