@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.cart.comment;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,8 +21,8 @@ public class CartComment extends Comment {
     private Cart cart;
 
     @Builder
-    private CartComment(String content, Comment parent, Cart cart) {
-        super(content, parent); // Comment 클래스의 생성자 호출
+    private CartComment(String content, Comment parent, Cart cart, Member member) {
+        super(content, parent, member); // Comment 클래스의 생성자 호출
         this.cart = cart;
     }
 

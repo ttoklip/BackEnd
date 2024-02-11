@@ -12,7 +12,7 @@ public class CommunityLikeRepositoryImpl implements CommunityLikeRepositoryCusto
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Long countCommunityLikesByHoneyTipId(final Long communityId) {
+    public Long countCommunityLikesByCommunityId(final Long communityId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(communityLike)
