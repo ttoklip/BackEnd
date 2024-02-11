@@ -62,8 +62,9 @@ public class CommunityPostController {
                                     description = "소통해요 게시글이 조회되었습니다."
                             )))})
     @GetMapping("/{postId}")
-    public SuccessResponse<CommunitySingleResponse> getSinglePost(final @PathVariable Long postId) {
-        CommunitySingleResponse response = communityPostService.getSinglePost(postId);
+    public SuccessResponse<CommunitySingleResponse> getSinglePost(final @PathVariable Long postId,
+                                                                  final @PathVariable Long memberId) {
+        CommunitySingleResponse response = communityPostService.getSinglePost(postId, memberId);
         return new SuccessResponse<>(response);
     }
 

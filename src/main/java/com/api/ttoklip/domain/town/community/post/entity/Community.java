@@ -14,6 +14,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 @Entity
 @Getter
 @Builder
@@ -48,11 +50,11 @@ public class Community extends BaseEntity {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityLike> communityLikes = new ArrayList<>();
 
-    public static Community of(final CommunityCreateRequest request, final Member member) {
+    public static Community from(final CommunityCreateRequest request) {
         return Community.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .member(member)
+                .member(getCurrentMember())
                 .build();
     }
 

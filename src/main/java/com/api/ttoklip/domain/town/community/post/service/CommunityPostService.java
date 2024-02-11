@@ -179,4 +179,7 @@ public class CommunityPostService {
         communityLikeService.cancel(postId);
         return Message.likePostCancel(Community.class, postId);
     }
+
+    /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
+
 }
