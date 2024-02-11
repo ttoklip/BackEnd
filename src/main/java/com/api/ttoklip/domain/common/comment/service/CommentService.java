@@ -69,13 +69,13 @@ public class CommentService {
     @Transactional
     public void deleteById(final Long commentId) {
         Comment comment = findComment(commentId);
-        checkEditPermission(comment);
+        checkDeletePermission(comment);
         comment.deactivate();
     }
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
 
     // 본인이 썼는지 검증 과정
-    public void checkEditPermission(final Comment comment) {
+    public void checkDeletePermission(final Comment comment) {
         Long writerId = comment.getMember().getId();
         Long currentMemberId = getCurrentMember().getId();
 

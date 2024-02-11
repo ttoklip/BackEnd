@@ -6,6 +6,8 @@ import com.api.ttoklip.domain.town.community.post.entity.Community;
 import jakarta.persistence.*;
 import lombok.*;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 @Entity
 @Getter
 @Builder
@@ -26,9 +28,9 @@ public class CommunityLike extends BaseTimeEntity {
     @JoinColumn(name = "community_id")
     private Community community;
 
-    public static CommunityLike of(final Member member, final Community community) {
+    public static CommunityLike from(final Community community) {
         return CommunityLike.builder()
-                .member(member)
+                .member(getCurrentMember())
                 .community(community)
                 .build();
     }

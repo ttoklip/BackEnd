@@ -28,8 +28,8 @@ public enum ErrorType {
     S3_CONNECT(INTERNAL_SERVER_ERROR, "S5002", "서버오류, S3 연결 에러입니다."),
     S3_CONVERT(INTERNAL_SERVER_ERROR, "S5003", "서버오류, S3 변환 에러입니다."),
 
-    // ------------------------------------------ Category ------------------------------------------
 
+    // ------------------------------------------ Category ------------------------------------------
     CATEGORY_NOT_FOUND(NOT_FOUND, "Category_4040", "카테고리를 찾을 수 없습니다."),
 
 
@@ -81,10 +81,17 @@ public enum ErrorType {
     _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
 
 
+    // ------------------------------------------ LIKE ------------------------------------------
+    LIKE_NOT_FOUND(NOT_FOUND, "LIKE_4041", "좋아요가 존재하지 않습니다."),
+
+
     // ------------------------------------------ AUTHORIZATION ------------------------------------------
     UNAUTHORIZED_EDITOR(FORBIDDEN, "AUTH_4030", "게시글의 작성자만 수정할 수 있습니다."),
     UNAUTHORIZED_EDIT_POST(FORBIDDEN, "AUTH_4030", "게시글의 작성자만 수정할 수 있습니다."),
-    UNAUTHORIZED_DELETE_COMMENT(FORBIDDEN, "AUTH_4030", "댓글의 작성자만 삭제할 수 있습니다.");
+    UNAUTHORIZED_DELETE_COMMENT(FORBIDDEN, "AUTH_4030", "댓글의 작성자만 삭제할 수 있습니다."),
+
+
+    ; // 계속 추가해야되니까 세미클론 여기에다 적어두기
 
 
     private final HttpStatus status;

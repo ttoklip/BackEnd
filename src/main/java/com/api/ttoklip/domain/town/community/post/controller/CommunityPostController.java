@@ -115,8 +115,14 @@ public class CommunityPostController {
 
     /* LIKE */
     @PostMapping("/like/{postId}")
-    public SuccessResponse<Message> like(final @PathVariable Long postId) {
-        Message message = communityPostService.like(postId);
+    public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
+        Message message = communityPostService.registerLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @DeleteMapping("/like/{postId}")
+    public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
+        Message message = communityPostService.cancelLike(postId);
         return new SuccessResponse<>(message);
     }
 }

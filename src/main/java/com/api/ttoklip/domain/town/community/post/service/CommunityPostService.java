@@ -12,10 +12,8 @@ import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleRe
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunityRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
-import jakarta.activation.CommandMap;
+import com.api.ttoklip.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.api.ttoklip.domain.town.community.like.service.CommunityLikeService.getCurrentMember;
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -169,5 +167,17 @@ public class CommunityPostService {
 
     public static Member getCurrentMember() {
         return SecurityUtil.getCurrentMember();
+    }
+
+
+    /* -------------------------------------------- LIKE -------------------------------------------- */
+    public Message registerLike(Long postId) {
+        communityLikeService.register(postId);
+        return Message.likePostSuccess(Community.class, postId);
+    }
+
+    public Message cancelLike(Long postId) {
+        communityLikeService.cancel(postId);
+        return Message.likePostCancel(Community.class, postId);
     }
 }
