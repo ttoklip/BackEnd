@@ -45,8 +45,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .selectFrom(newsletterComment)
                 .distinct()
                 .where(
-                        matchNewsletterId(postId),
-                        getCommentActivate()
+                        matchNewsletterId(postId)
                 )
                 .orderBy(
                         newsletterComment.parent.id.asc().nullsFirst(),

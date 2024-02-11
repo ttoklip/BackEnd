@@ -41,8 +41,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .selectFrom(questionComment)
                 .distinct()
                 .where(
-                        matchQuestionId(questionId),
-                        getCommentActivate()
+                        matchQuestionId(questionId)
                 )
                 .orderBy(
                         questionComment.parent.id.asc().nullsFirst(),

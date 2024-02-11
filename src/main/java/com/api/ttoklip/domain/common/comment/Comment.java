@@ -52,4 +52,10 @@ public class Comment extends BaseEntity {
     public void edit(final CommentEditor commentEditor) {
         this.content = commentEditor.getContent();
     }
+
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        content = "삭제된 댓글입니다.";
+    }
 }

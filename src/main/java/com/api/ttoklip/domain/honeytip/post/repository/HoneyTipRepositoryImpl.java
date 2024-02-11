@@ -70,8 +70,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 .selectFrom(honeyTipComment)
                 .distinct()
                 .where(
-                        matchHoneyTipId(honeyTipId),
-                        getCommentActivate()
+                        matchHoneyTipId(honeyTipId)
                 )
                 .leftJoin(honeyTipComment.member, member)
                 .orderBy(
@@ -85,7 +84,4 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
         return honeyTipComment.honeyTip.id.eq(honeyTipId);
     }
 
-    private BooleanExpression getCommentActivate() {
-        return honeyTipComment.deleted.isFalse();
-    }
 }
