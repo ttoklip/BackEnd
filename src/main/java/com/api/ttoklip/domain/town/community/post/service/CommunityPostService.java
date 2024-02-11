@@ -66,14 +66,15 @@ public class CommunityPostService {
 
     /* -------------------------------------------- READ -------------------------------------------- */
 
-    public CommunitySingleResponse getSinglePost(final Long postId) {
+    public CommunitySingleResponse getSinglePost(final Long postId, final Long memberId) {
 
         Community communityWithImg = communityRepository.findByIdFetchJoin(postId);
         List<CommunityComment> activeComments = communityRepository.findActiveCommentsByCommunityId(postId);
+        int likeCount = communityWithImg.getCommunityLikes().size();
+        boolean liked = communityRepository.existsByCommunityIdAndMemberId(postId, memberId);
 
-        // todo 현재 사용자가 좋아요를 눌렀는지 확인
-
-        CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg, activeComments);
+        CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg,
+                activeComments, liked, likeCount);
         return communitySingleResponse;
     }
 

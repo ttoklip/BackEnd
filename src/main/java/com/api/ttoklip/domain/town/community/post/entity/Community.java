@@ -45,13 +45,13 @@ public class Community extends BaseEntity {
     @OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommunityComment> communityComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityLike> communityLikes = new ArrayList<>();
 
-    public static Community of(final CommunityCreateRequest req, final Member member) {
+    public static Community of(final CommunityCreateRequest request, final Member member) {
         return Community.builder()
-                .title(req.getTitle())
-                .content(req.getContent())
+                .title(request.getTitle())
+                .content(request.getContent())
                 .member(member)
                 .build();
     }
