@@ -73,4 +73,27 @@ public class CommunityResponseConstant {
             }
         }
         """;
+
+    public static final String REGISTER_LIKE = """
+            {
+                "time": "2024-02-10T12:55:35.127794",
+                "status": 200,
+                "code": "200",
+                "message": "요청에 성공하였습니다.",
+                "result": {
+                    "message": "Community Type의 3번째 좋아요을(를) 생성했습니다."
+                }
+            }
+            """;
+    public static final String CANCEL_LIKE = """
+            {
+                "time": "2024-02-10T13:01:49.26421",
+                "status": 200,
+                "code": "200",
+                "message": "요청에 성공하였습니다.",
+                "result": {
+                    "message": "Community Type의 3번째 좋아요을(를) 삭제했습니다."
+                }
+            }
+            """;
 }
