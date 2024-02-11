@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface CommunityLikeRepository extends JpaRepository<CommunityLike, Long>, LikeCustomRepositoty {
     Optional<CommunityLike> findByCommunityIdAndMemberId(Long communityId, Long memberId);
 
-    boolean existsByCommunityIdAndMemberId(Long honeyTipId, Long memberId);
+    boolean existsByCommunityIdAndMemberId(Long communityId, Long memberId);
 
 }

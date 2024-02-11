@@ -74,8 +74,8 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 )
                 .leftJoin(communityComment.member, member)
                 .orderBy(
-                        communityComment.createdDate.asc(),
-                        communityComment.parent.id.asc().nullsFirst()
+                        communityComment.parent.id.asc().nullsFirst(),
+                        communityComment.createdDate.asc()
                 )
                 .fetch();
     }
