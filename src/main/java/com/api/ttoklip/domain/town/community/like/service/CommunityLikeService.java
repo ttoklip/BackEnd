@@ -23,7 +23,9 @@ public class CommunityLikeService {
 
     // 좋아요 생성
     public void register(final Long communityId) {
-        boolean exists = communityLikeRepository.existsById(communityId);
+//        boolean exists = communityLikeRepository.existsById(communityId);
+        Long currentMemberId = getCurrentMember().getId();
+        boolean exists = communityLikeRepository.existsByCommunityIdAndMemberId(communityId, currentMemberId);
         if (exists) {
             return; // 이미 좋아요가 존재하면 좋아요를 생성하지 않고 return
         }
