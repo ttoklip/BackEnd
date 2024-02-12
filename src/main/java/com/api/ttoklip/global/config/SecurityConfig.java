@@ -38,11 +38,10 @@ public class SecurityConfig {
                                         "/favicon.ico"
                                         , "/health"
                                         , "/swagger-ui/**"
-                                        , "/oauth/**"
-                                        , "/login/**"
+                                        ,"/api/v1/auth"
                                         , "/**"
                                 ).permitAll()
-                                .anyRequest().permitAll());
+                                .anyRequest().authenticated());
         http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
