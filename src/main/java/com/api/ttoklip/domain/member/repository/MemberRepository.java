@@ -5,8 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Optional<Member> findByNaverEmail(String email);
-    Optional<Member> findByKakaoId(Long kakaoId);
+//    Optional<Member> findByNaverEmail(String email);
+//    Optional<Member> findByKakaoId(Long kakaoId);
+
+    Optional<Member> findByEmail(String email);
+
     boolean existsByNickname(String nickname);
 
 }

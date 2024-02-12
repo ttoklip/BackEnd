@@ -6,6 +6,7 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.repository.MemberOAuthRepository;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.global.exception.ApiException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +30,15 @@ public class MemberService {
 
     public boolean isExistsNickname(final String nickname) {
         return memberRepository.existsByNickname(nickname);
+    }
+
+    public Member findByEmail(final String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_BY_TOKEN));
+    }
+
+    public Optional<Member> findByEmailOptional(final String email) {
+        return memberRepository.findByEmail(email);
+
     }
 }

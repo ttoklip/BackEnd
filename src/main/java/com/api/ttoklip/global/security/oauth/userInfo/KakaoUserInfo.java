@@ -18,11 +18,10 @@ public class KakaoUserInfo implements OAuth2UserInfo {
         return (String) kakaoProfile.get("profile_image_url");
     }
 
-    // 카카오에서 이메일 미제공,,,
-//    @Override
-//    public String getEmail() {
-//        return (String) ((Map) attributes.get("kakao_account")).get("email");
-//    }
+    @Override
+    public String getEmail() {
+        return (String) ((Map) attributes.get("kakao_account")).get("email");
+    }
 
     @Override
     public String getName() {
@@ -30,10 +29,6 @@ public class KakaoUserInfo implements OAuth2UserInfo {
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return (String) kakaoProfile.get("nickname");
-    }
-
-    public Long getKakaoId() {
-        return (Long) attributes.get("id");
     }
 
 }

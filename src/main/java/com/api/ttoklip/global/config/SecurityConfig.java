@@ -1,7 +1,6 @@
 package com.api.ttoklip.global.config;
 
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
-import com.api.ttoklip.global.security.oauth.handler.CustomOAuthSuccessHandler;
 import com.api.ttoklip.global.security.oauth.service.CustomOAuth2UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
