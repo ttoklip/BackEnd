@@ -43,9 +43,9 @@ public class Member extends BaseEntity {
     private String originName;
 
     @Email
-    private String naverEmail;
+    private String email;
 
-    private Long kakaoId;
+//    private Long kakaoId;
 
     private String provider;
 

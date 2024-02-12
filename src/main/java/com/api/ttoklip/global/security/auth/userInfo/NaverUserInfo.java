@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.security.oauth.userInfo;
+package com.api.ttoklip.global.security.auth.userInfo;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
