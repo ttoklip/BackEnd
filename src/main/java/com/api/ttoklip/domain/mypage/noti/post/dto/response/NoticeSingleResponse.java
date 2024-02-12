@@ -14,7 +14,7 @@ public class NoticeSingleResponse {
     private String title;
     private String content;
 
-    public static NoticeSingleResponse noticeFrom(final Notice notice){
+    public static NoticeSingleResponse noticeFrom(final Notice notice) {
         return NoticeSingleResponse.builder()
                 .noticeId(notice.getId())
                 .title(notice.getTitle())

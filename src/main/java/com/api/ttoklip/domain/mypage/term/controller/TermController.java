@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 public class TermController {
     private final static int PAGE_SIZE = 10;
     private final TermService termService;
+
     @Operation(summary = "이용약관 불러오기", description = "이용약관을 조회합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "이용약관 조회 성공",
@@ -50,9 +51,10 @@ public class TermController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        TermPaging termPaging= termService.getTermList(pageable);
+        TermPaging termPaging = termService.getTermList(pageable);
         return new SuccessResponse<>(termPaging);
     }
+
     @Operation(summary = "이용약관 하나 불러오기", description = "이용약관을 하나 조회합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "이용약관 한개 조회 성공",
@@ -68,6 +70,7 @@ public class TermController {
     public SuccessResponse<TermResponse> getSingleTerm(final @PathVariable Long termId) {
         return new SuccessResponse<>(termService.getSingleTerm(termId));
     }
+
     @Operation(summary = "이용약관 수정하기", description = "이용약관을 수정합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "이용약관 수정 성공",
@@ -80,10 +83,11 @@ public class TermController {
                                     description = "이용약관을 수정했습니다"
                             )))})
     @PatchMapping("/{termId}")
-    public SuccessResponse<Message> edit (final @PathVariable Long termId, final @RequestBody TermEditRequest request) {
-        Message message = termService.edit(termId,request);
+    public SuccessResponse<Message> edit(final @PathVariable Long termId, final @RequestBody TermEditRequest request) {
+        Message message = termService.edit(termId, request);
         return new SuccessResponse<>(message);
     }
+
     @Operation(summary = "이용약관 생성하기", description = "이용약관을 생성합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "이용약관 생성 성공",

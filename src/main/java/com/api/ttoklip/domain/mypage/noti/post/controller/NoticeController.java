@@ -31,6 +31,7 @@ public class NoticeController {
 
     private final static int PAGE_SIZE = 10; // 페이지 당 데이터 수
     private final NoticeService noticeService;
+
     @Operation(summary = "모든 공지사항 불러오기", description = "공지사항 목록을 가져옵니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "공지사항 조회 성공",
@@ -47,7 +48,7 @@ public class NoticeController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NoticePaging noticePaging= noticeService.getNoticeList(pageable);
+        NoticePaging noticePaging = noticeService.getNoticeList(pageable);
         return new SuccessResponse<>(noticePaging);
     }
 
@@ -84,6 +85,7 @@ public class NoticeController {
         NoticeResponse response = noticeService.getSingleNotice(noticeId);
         return new SuccessResponse<>(response);
     }
+
     @Operation(summary = "공지사항 삭제", description = "공지사항 ID에 해당하는 공지사항을 삭제합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "공지사항 삭제 성공",
@@ -100,6 +102,7 @@ public class NoticeController {
         Message message = noticeService.deleteNotice(noticeId);
         return new SuccessResponse<>(message);
     }
+
     @Operation(summary = "공지사항 수정", description = "공지사항 ID에 해당하는 공지사항을 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "공지사항 수정 성공",
@@ -112,8 +115,8 @@ public class NoticeController {
                                     description = "공지사항이 수정되었습니다."
                             )))})
     @PatchMapping("/{noticeId}")
-    public SuccessResponse<Message> edit (final @PathVariable Long noticeId, final @RequestBody NoticeEditRequest request) {
-        Message message = noticeService.edit(noticeId,request);
+    public SuccessResponse<Message> edit(final @PathVariable Long noticeId, final @RequestBody NoticeEditRequest request) {
+        Message message = noticeService.edit(noticeId, request);
         return new SuccessResponse<>(message);
     }
 }

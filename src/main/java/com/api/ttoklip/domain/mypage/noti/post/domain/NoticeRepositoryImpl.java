@@ -9,8 +9,9 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 
 import static com.api.ttoklip.domain.mypage.noti.post.domain.QNotice.notice;
+
 @RequiredArgsConstructor
-public class NoticeRepositoryImpl implements NoticeRepositoryCustom{
+public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 

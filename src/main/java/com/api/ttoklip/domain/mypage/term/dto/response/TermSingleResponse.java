@@ -14,7 +14,7 @@ public class TermSingleResponse {
     private String title;
     private String content;
 
-    public static TermSingleResponse termFrom(final Term term){
+    public static TermSingleResponse termFrom(final Term term) {
         return TermSingleResponse.builder()
                 .termId(term.getId())
                 .title(term.getTitle())

@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
+
 @Getter
 @RequiredArgsConstructor
 public class TermEditor {

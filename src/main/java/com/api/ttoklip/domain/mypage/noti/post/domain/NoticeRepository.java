@@ -5,8 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface NoticeRepository extends JpaRepository<Notice, Long>, NoticeRepositoryCustom{
+public interface NoticeRepository extends JpaRepository<Notice, Long>, NoticeRepositoryCustom {
     @Query(value = "SELECT n FROM Notice n")
-    Page<Notice> findByContentContaining (final Pageable pageable);
+    Page<Notice> findByContentContaining(final Pageable pageable);
 
 }
