@@ -24,7 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
-    @Operation(summary = "Server 자체 로그인", description = "oauth accessToken으로 로그인")
+    @Operation(summary = "Server 자체 로그인", description = "oauth accessToken으로 로그인",
+            tags = {"Authentication"}) // 태그 추가
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "oauth accessToken으로 로그인",
                     content = @Content(

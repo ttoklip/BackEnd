@@ -37,9 +37,9 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/favicon.ico"
                                         , "/health"
-                                        , "/swagger-ui/**"
+                                        ,"/swagger-ui/**"
+                                        ,"/v3/api-docs/**"
                                         ,"/api/v1/auth"
-                                        , "/**"
                                 ).permitAll()
                                 .anyRequest().authenticated());
         http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
