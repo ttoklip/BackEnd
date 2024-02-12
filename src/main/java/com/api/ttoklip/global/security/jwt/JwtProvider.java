@@ -24,8 +24,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,7 +31,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    public static final long ACCESS_TOKEN_VALID_TIME = 15 * 60 * 1000L;
+    // 24시간 ToDo 개발 편의를 위해 늘려놓음 추후 수정
+    public static final long ACCESS_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
     private final MemberService memberService;
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
