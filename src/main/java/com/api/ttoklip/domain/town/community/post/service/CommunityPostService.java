@@ -182,4 +182,13 @@ public class CommunityPostService {
 
     /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- SCRAP -------------------------------------------- */
+    public Message registerScrap(Long postId) {
+        return null;
+    }
+
+    public Message cancelScrap(Long postId) {
+        return null;
+    }
 }

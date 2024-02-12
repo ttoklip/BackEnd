@@ -148,4 +148,39 @@ public class CommunityPostController {
         Message message = communityPostService.cancelLike(postId);
         return new SuccessResponse<>(message);
     }
+
+    /* SCRAP */
+    @Operation(summary = "소통해요 스크랩 추가", description = "소통해요 ID에 해당하는 게시글에 스크랩을 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.REGISTER_SCRAP,
+                                    description = "소통해요에 스크랩을 추가했습니다."
+                            )))})
+    @PostMapping("/scrap/{postId}")
+    public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
+        Message message = communityPostService.registerScrap(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "소통해요 스크랩 취소", description = "소통해요 ID에 해당하는 게시글에 스크랩을 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.CANCEL_SCRAP,
+                                    description = "소통해요에 스크랩을 취소했습니다."
+                            )))})
+    @DeleteMapping("/scrap/{postId}")
+    public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
+        Message message = communityPostService.cancelScrap(postId);
+        return new SuccessResponse<>(message);
+    }
 }
