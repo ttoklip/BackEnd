@@ -1,9 +1,11 @@
 package com.api.ttoklip.domain.question.post.repository;
 
+import static com.api.ttoklip.domain.member.domain.QMember.*;
 import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -22,6 +24,7 @@ public class QuestionDefaultRepository {
                 .from(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member)
                 .fetchJoin()
                 .where(question.category.eq(Category.HOUSEWORK))
                 .limit(10)
@@ -35,6 +38,7 @@ public class QuestionDefaultRepository {
                 .from(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member)
                 .fetchJoin()
                 .where(question.category.eq(Category.RECIPE))
                 .limit(10)
@@ -48,6 +52,7 @@ public class QuestionDefaultRepository {
                 .from(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member)
                 .fetchJoin()
                 .where(question.category.eq(Category.SAFE_LIVING))
                 .limit(10)
@@ -61,6 +66,7 @@ public class QuestionDefaultRepository {
                 .from(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member)
                 .fetchJoin()
                 .where(question.category.eq(Category.WELFARE_POLICY))
                 .limit(10)

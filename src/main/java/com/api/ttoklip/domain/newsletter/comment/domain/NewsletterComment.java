@@ -1,7 +1,10 @@
 package com.api.ttoklip.domain.newsletter.comment.domain;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -24,8 +27,8 @@ public class NewsletterComment extends Comment {
     private Newsletter newsletter;
 
     @Builder
-    public NewsletterComment(String content, Comment parent, Newsletter newsletter) {
-        super(content, parent);
+    public NewsletterComment(String content, Comment parent, Newsletter newsletter, Member member) {
+        super(content, parent, member);
         this.newsletter = newsletter;
     }
 
@@ -35,6 +38,7 @@ public class NewsletterComment extends Comment {
                 .content(request.getComment())
                 .parent(parent)
                 .newsletter(newsletter)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -43,6 +47,7 @@ public class NewsletterComment extends Comment {
                 .content(request.getComment())
                 .parent(null)
                 .newsletter(newsletter)
+                .member(getCurrentMember())
                 .build();
     }
 }

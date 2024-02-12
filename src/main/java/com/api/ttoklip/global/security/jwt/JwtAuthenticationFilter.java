@@ -32,10 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.info("-----   JWT filter do FilterInternal !!!!");
         String authorizationHeader = request.getHeader("Authorization");
-        log.info("------- authorizationHeader = " + authorizationHeader);
-
         if (authorizationHeader != null && isBearer(authorizationHeader)) {
             try {
                 // "Bearer " 이후의 문자열을 추출
@@ -64,10 +61,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private boolean isPublicUri(final String requestURI) {
         return
                 requestURI.startsWith("/swagger-ui/**") ||
-                        requestURI.startsWith("/api/health") ||
+                        requestURI.startsWith("/health") ||
+                        requestURI.startsWith("/v3/api-docs/**") ||
                         requestURI.startsWith("/favicon.ico") ||
-                        requestURI.startsWith("/api/v1/search/**") ||
-                        requestURI.startsWith("/api/compile/**") ||
-                        requestURI.startsWith("/login/**");
+                        requestURI.startsWith("/api/v1/auth");
     }
 }

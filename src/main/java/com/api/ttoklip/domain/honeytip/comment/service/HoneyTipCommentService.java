@@ -7,7 +7,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostService;
+import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
 import com.api.ttoklip.global.success.Message;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class HoneyTipCommentService {
 
-    private final HoneyTipPostService honeyTipPostService;
+    private final HoneyTipCommonService honeyTipCommonService;
     private final CommentService commentService;
     private final ReportService reportService;
 
     @Transactional
     public Message register(final Long postId, final CommentCreateRequest request) {
-        HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
+        HoneyTip findHoneyTip = honeyTipCommonService.getHoneytip(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
@@ -75,9 +75,9 @@ public class HoneyTipCommentService {
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
     public Message delete(final Long commentId) {
-        // ToDo 본인이 썼는지 검증 과정 필요
         commentService.deleteById(commentId);
         return Message.deleteCommentSuccess(HoneyTipComment.class, commentId);
     }
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
 }

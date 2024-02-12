@@ -66,12 +66,11 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .selectFrom(communityComment)
                 .distinct()
                 .where(
-                        matchCommunityId(communityId),
-                        getCommentActivate()
+                        matchCommunityId(communityId)
                 )
                 .orderBy(
-                        communityComment.createdDate.asc(),
-                        communityComment.parent.id.asc().nullsFirst()
+                        communityComment.parent.id.asc().nullsFirst(),
+                        communityComment.createdDate.asc()
                 )
                 .fetch();
     }
@@ -80,7 +79,4 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         return communityComment.community.id.eq(communityId);
     }
 
-    private BooleanExpression getCommentActivate() {
-        return communityComment.deleted.isFalse();
-    }
 }

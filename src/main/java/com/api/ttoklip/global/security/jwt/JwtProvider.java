@@ -31,14 +31,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    public static final long ACCESS_TOKEN_VALID_TIME = 15 * 60 * 1000L;
+    // 24시간 ToDo 개발 편의를 위해 늘려놓음 추후 수정
+    public static final long ACCESS_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
     private final MemberService memberService;
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
 
-    public String generateJwtToken(final Long memberId) {
+    public String generateJwtToken(final String email) {
 
-        Claims claims = createClaims(memberId);
+        Claims claims = createClaims(email);
         Date now = new Date();
         long expiredDate = calculateExpirationDate(now);
         SecretKey secretKey = generateKey();
@@ -52,8 +53,8 @@ public class JwtProvider {
     }
 
     // JWT claims 생성
-    private Claims createClaims(final Long memberId) {
-        return Jwts.claims().setSubject(String.valueOf(memberId));
+    private Claims createClaims(final String email) {
+        return Jwts.claims().setSubject(String.valueOf(email));
     }
 
     // JWT 만료 시간 계산
@@ -88,33 +89,26 @@ public class JwtProvider {
 
     // jwtToken 으로 Authentication 에 사용자 등록
     public void getAuthenticationFromToken(final String jwtToken) {
-
-        log.info("--------------------------------------------");
-        log.info("JwtProvider.getAuthenticationFromToken");
-        log.info("jwtToken = " + jwtToken);
-
-        log.info("-------------- getAuthenticationFromToken jwt token: " + jwtToken);
         Member loginMember = getMemberByToken(jwtToken);
-        // setContextHolder 메서드 내에서 로그 추가
-        log.debug("Setting SecurityContext with Member: {}", loginMember);
-
         setContextHolder(jwtToken, loginMember);
     }
 
     // token 으로부터 유저 정보 확인
     private Member getMemberByToken(final String jwtToken) {
-        String userIdStr = getUserIdFromToken(jwtToken);
-        return memberService.findByIdOfToken(Long.valueOf(userIdStr));
+        String userEmail = getUserEmailFromToken(jwtToken);
+        return memberService.findByEmail(userEmail);
     }
 
     private void setContextHolder(String jwtToken, Member loginMember) {
-
         // ToDO 현재 비어있는 권한 등록, 추후에 수정
         List<GrantedAuthority> authorities = getAuthorities(loginMember.getRole());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginMember, jwtToken, authorities);
+        log.info("------------------JwtProvider.setContextHolder");
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        log.info("loginMember = " + loginMember.getEmail());
+        log.info("------end------------JwtProvider.setContextHolder");
     }
 
     private List<GrantedAuthority> getAuthorities(Role role) {
@@ -123,7 +117,7 @@ public class JwtProvider {
 
 
     // 토큰에서 유저 아이디 얻기
-    public String getUserIdFromToken(final String jwtToken) {
+    public String getUserEmailFromToken(final String jwtToken) {
         SecretKey key = generateKey();
 
         Claims claims = Jwts.parserBuilder()

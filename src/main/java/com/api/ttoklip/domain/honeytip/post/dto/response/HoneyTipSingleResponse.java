@@ -16,7 +16,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -40,6 +42,12 @@ public class HoneyTipSingleResponse {
     @Schema(description = "꿀팁 카테고리")
     private Category category;
 
+    @Schema(description = "좋아요 개수", example = "2")
+    private int likeCount;
+
+    @Schema(description = "댓글 개수", example = "5")
+    private int commentCount;
+
     @Schema(description = "꿀팁에 포함된 이미지 URL 목록")
     private List<ImageResponse> imageUrls;
 
@@ -49,10 +57,8 @@ public class HoneyTipSingleResponse {
     @Schema(description = "꿀팁 채팅 url 목록")
     private List<UrlResponse> urlResponses;
 
-    public static HoneyTipSingleResponse of(final HoneyTip honeyTip, final List<HoneyTipComment> activeComments) {
-
+    public static HoneyTipSingleResponse of(final HoneyTip honeyTip, final List<HoneyTipComment> activeComments, final int likeCount) {
         String formattedCreatedDate = getFormattedCreatedDate(honeyTip);
-
         List<ImageResponse> imageResponses = getImageResponses(honeyTip);
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
         List<UrlResponse> urlResponses = getUrlResponses(honeyTip);
@@ -61,9 +67,11 @@ public class HoneyTipSingleResponse {
                 .honeyTipId(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
-//                .writer(question.getMember().getName) ToDo Member 엔티티 연결 후 수정
+                .writer(honeyTip.getMember().getOriginName())
                 .writtenTime(formattedCreatedDate)
                 .category(honeyTip.getCategory()) // 한글 카테고리 이름으로 반환
+                .likeCount(likeCount)
+                .commentCount(commentResponses.size())
                 .imageUrls(imageResponses)
                 .commentResponses(commentResponses)
                 .urlResponses(urlResponses)

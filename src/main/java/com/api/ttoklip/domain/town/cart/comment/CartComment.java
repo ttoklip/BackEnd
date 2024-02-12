@@ -1,9 +1,16 @@
 package com.api.ttoklip.domain.town.cart.comment;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,17 +27,18 @@ public class CartComment extends Comment {
     private Cart cart;
 
     @Builder
-    private CartComment(String content, Comment parent, Cart cart) {
-        super(content, parent); // Comment 클래스의 생성자 호출
+    private CartComment(String content, Comment parent, Cart cart, Member member) {
+        super(content, parent, member); // Comment 클래스의 생성자 호출
         this.cart = cart;
     }
 
     public static CartComment withParentOf(final CommentCreateRequest request, final Comment parent,
-                                                final Cart cart) {
+                                           final Cart cart) {
         return CartComment.builder()
                 .content(request.getComment())
                 .parent(parent)
                 .cart(cart)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -39,6 +47,7 @@ public class CartComment extends Comment {
                 .content(request.getComment())
                 .parent(null)
                 .cart(cart)
+                .member(getCurrentMember())
                 .build();
     }
 }

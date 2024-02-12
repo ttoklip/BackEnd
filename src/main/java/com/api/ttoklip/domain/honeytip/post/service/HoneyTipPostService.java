@@ -1,9 +1,12 @@
 package com.api.ttoklip.domain.honeytip.post.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
+import com.api.ttoklip.domain.honeytip.like.service.HoneyTipLikeService;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
@@ -14,7 +17,7 @@ import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.url.service.HoneyTipUrlService;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
-import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +29,15 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class HoneyTipPostService {
-    private final S3FileUploader s3FileUploader;
+
     private final HoneyTipRepository honeytipRepository;
     private final HoneyTipDefaultRepository honeyTipDefaultRepository;
     private final ReportService reportService;
+
     private final HoneyTipUrlService honeyTipUrlService;
     private final HoneyTipImageService honeyTipImageService;
-
-    /* -------------------------------------------- COMMON -------------------------------------------- */
-    public HoneyTip getHoneytip(final Long postId) {
-        return honeytipRepository.findByIdActivated(postId);
-    }
-
-    private List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
-    }
-
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
+    private final HoneyTipLikeService honeyTipLikeService;
+    private final HoneyTipCommonService honeyTipCommonService;
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
@@ -51,7 +46,9 @@ public class HoneyTipPostService {
     public Message register(final HoneyTipCreateReq request) {
 
         // HoneyTip 객체 생성 및 연관 관계 설정
-        HoneyTip honeytip = HoneyTip.from(request);
+        Member currentMember = getCurrentMember();
+
+        HoneyTip honeytip = HoneyTip.of(request, currentMember);
         honeytipRepository.save(honeytip);
 
         List<MultipartFile> uploadImages = request.getImages();
@@ -69,7 +66,7 @@ public class HoneyTipPostService {
 
     private void registerImages(final HoneyTip honeytip, final List<MultipartFile> uploadImages) {
         // S3에 이미지 업로드 후 URL 목록을 가져온다.
-        List<String> uploadUrls = uploadImages(uploadImages);
+        List<String> uploadUrls = honeyTipCommonService.uploadImages(uploadImages);
         uploadUrls.forEach(uploadUrl -> honeyTipImageService.register(honeytip, uploadUrl));
     }
 
@@ -85,9 +82,8 @@ public class HoneyTipPostService {
     public Message edit(final Long postId, final HoneyTipEditReq request) {
 
         // 기존 게시글 찾기
-        HoneyTip honeyTip = getHoneytip(postId);
-
-        // ToDO Validate currentMember
+        HoneyTip honeyTip = honeyTipCommonService.getHoneytip(postId);
+        honeyTipCommonService.checkEditPermission(honeyTip);
 
         // title, content 수정
         HoneyTipPostEditor postEditor = getPostEditor(request, honeyTip);
@@ -125,7 +121,7 @@ public class HoneyTipPostService {
         honeyTipImageService.deleteAllByPostId(honeyTipId);
 
         // 새로운 이미지 업로드
-        List<String> uploadUrls = uploadImages(multipartFiles);
+        List<String> uploadUrls = honeyTipCommonService.uploadImages(multipartFiles);
         uploadUrls.forEach(uploadUrl -> honeyTipImageService.register(honeyTip, uploadUrl));
     }
 
@@ -135,7 +131,9 @@ public class HoneyTipPostService {
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
     public Message delete(final Long postId) {
-        HoneyTip honeyTip = getHoneytip(postId);
+        HoneyTip honeyTip = honeyTipCommonService.getHoneytip(postId);
+
+        honeyTipCommonService.checkEditPermission(honeyTip);
         honeyTip.deactivate();
 
         return Message.deletePostSuccess(HoneyTip.class, postId);
@@ -147,7 +145,7 @@ public class HoneyTipPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
-        HoneyTip honeytip = getHoneytip(postId);
+        HoneyTip honeytip = honeyTipCommonService.getHoneytip(postId);
         reportService.reportHoneyTip(request, honeytip);
 
         return Message.reportPostSuccess(HoneyTip.class, postId);
@@ -161,8 +159,9 @@ public class HoneyTipPostService {
 
         HoneyTip honeyTipWithImgAndUrl = honeytipRepository.findByIdFetchJoin(postId);
         List<HoneyTipComment> activeComments = honeytipRepository.findActiveCommentsByHoneyTipId(postId);
+        int likeCount = honeyTipLikeService.countHoneyTipLikes(postId).intValue();
         HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
-                activeComments);
+                activeComments, likeCount);
         return honeyTipSingleResponse;
     }
 
@@ -186,8 +185,34 @@ public class HoneyTipPostService {
 
     private List<TitleResponse> convertToTitleResponses(final List<HoneyTip> honeyTips) {
         return honeyTips.stream()
-                .map(TitleResponse::honeyTipOf)
+                .map(TitleResponse::honeyTipFrom)
                 .toList();
     }
+
+    public List<TitleResponse> getTop5() {
+        List<HoneyTip> top5HoneyTips = honeyTipDefaultRepository.getTop5();
+        return top5HoneyTips.stream()
+                .map(TitleResponse::honeyTipFrom)
+                .toList();
+    }
+
+    /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- 좋아요 추가 & 취소 -------------------------------------------- */
+    @Transactional
+    public Message registerLike(final Long postId) {
+        honeyTipLikeService.register(postId);
+        return Message.likePostSuccess(HoneyTip.class, postId);
+    }
+
+    @Transactional
+    public Message cancelLike(final Long postId) {
+        honeyTipLikeService.cancel(postId);
+        return Message.likePostCancel(HoneyTip.class, postId);
+    }
+
+    /* -------------------------------------------- 좋아요 추가 & 취소 끝 -------------------------------------------- */
+
 
 }

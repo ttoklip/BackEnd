@@ -1,10 +1,14 @@
 package com.api.ttoklip.domain.common.comment.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor.CommentEditorBuilder;
 import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,9 +66,18 @@ public class CommentService {
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
     public void deleteById(final Long commentId) {
-        // ToDo 본인이 썼는지 검증 과정 필요
         Comment comment = findComment(commentId);
+        checkDeletePermission(comment);
         comment.deactivate();
     }
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
+    public void checkDeletePermission(final Comment comment) {
+        Long writerId = comment.getMember().getId();
+        Long currentMemberId = getCurrentMember().getId();
+
+        if (!writerId.equals(currentMemberId)) {
+            throw new ApiException(ErrorType.UNAUTHORIZED_DELETE_COMMENT);
+        }
+    }
 }
