@@ -37,7 +37,6 @@ public class JwtProvider {
     private final MemberService memberService;
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
-    private final UserDetailsService userDetailsService;
 
     public String generateJwtToken(final String email) {
 
@@ -92,26 +91,25 @@ public class JwtProvider {
     // jwtToken 으로 Authentication 에 사용자 등록
     public void getAuthenticationFromToken(final String jwtToken) {
         Member loginMember = getMemberByToken(jwtToken);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(loginMember.getEmail());
-        // setContextHolder 메서드 내에서 로그 추가
         setContextHolder(jwtToken, loginMember);
     }
 
     // token 으로부터 유저 정보 확인
     private Member getMemberByToken(final String jwtToken) {
         String userEmail = getUserEmailFromToken(jwtToken);
-
         return memberService.findByEmail(userEmail);
     }
 
     private void setContextHolder(String jwtToken, Member loginMember) {
-
         // ToDO 현재 비어있는 권한 등록, 추후에 수정
         List<GrantedAuthority> authorities = getAuthorities(loginMember.getRole());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginMember, jwtToken, authorities);
+        System.out.println("------------------JwtProvider.setContextHolder");
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        System.out.println("loginMember = " + loginMember.getEmail());
+        System.out.println("------end------------JwtProvider.setContextHolder");
     }
 
     private List<GrantedAuthority> getAuthorities(Role role) {

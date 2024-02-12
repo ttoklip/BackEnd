@@ -2,8 +2,8 @@ package com.api.ttoklip.global.security.auth.service;
 
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.security.oauth.userInfo.KakaoUserInfo;
-import com.api.ttoklip.global.security.oauth.userInfo.OAuth2UserInfo;
+import com.api.ttoklip.global.security.auth.userInfo.KakaoUserInfo;
+import com.api.ttoklip.global.security.auth.userInfo.OAuth2UserInfo;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ public class OAuth2UserInfoFactory {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
                 })
                 .block();
-
+        System.out.println("---------------------------------------- attributes = " + attributes);
         return new KakaoUserInfo(attributes);
     }
 }

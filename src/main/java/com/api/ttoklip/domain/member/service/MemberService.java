@@ -19,11 +19,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberOAuthRepository memberOAuthRepository;
 
-    public Member findByIdOfToken(final Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_BY_TOKEN));
-    }
-
     public Member findByIdWithProfile(final Long memberId) {
         return memberOAuthRepository.findByIdWithProfile(memberId);
     }
@@ -40,5 +35,10 @@ public class MemberService {
     public Optional<Member> findByEmailOptional(final String email) {
         return memberRepository.findByEmail(email);
 
+    }
+
+    @Transactional
+    public void register(final Member member) {
+        memberRepository.save(member);
     }
 }

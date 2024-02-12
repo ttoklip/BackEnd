@@ -1,5 +1,7 @@
-package com.api.ttoklip.global.security.oauth.userInfo;
+package com.api.ttoklip.global.security.auth.userInfo;
 
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +30,11 @@ public class KakaoUserInfo implements OAuth2UserInfo {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
-        return (String) kakaoProfile.get("nickname");
+        try {
+            return (String) kakaoProfile.get("nickname");
+        } catch (NullPointerException e) {
+            throw new ApiException(ErrorType.OAUTH_NOTFOUND_EMAIL);
+        }
     }
 
 }
