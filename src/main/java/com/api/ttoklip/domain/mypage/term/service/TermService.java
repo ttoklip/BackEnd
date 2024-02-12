@@ -28,34 +28,36 @@ public class TermService {
     private final TermPaginRepository termPaginRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Term findTermById(final Long termId){
+    public Term findTermById(final Long termId) {
         return termRepository.findById(termId)
-                .orElseThrow(()->new ApiException(ErrorType.TERM_NOT_FOUND));//notice 에러 추가 필요 SJ02.04
+                .orElseThrow(() -> new ApiException(ErrorType.TERM_NOT_FOUND));//notice 에러 추가 필요 SJ02.04
     }
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Message register(final TermCreateRequest request){
+    public Message register(final TermCreateRequest request) {
 
         Term term = Term.of(request);
         termRepository.save(term);
-        Long termId=term.getId();
+        Long termId = term.getId();
 
-        return Message.registerPostSuccess(Term.class,termId);
+        return Message.registerPostSuccess(Term.class, termId);
     }
+
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
     public TermResponse getSingleTerm(final Long termId) {//하나 조회
         Term term = findTermById(termId);
         TermResponse termResponse = TermResponse.of(term);//
         return termResponse;
     }
+
     public TermPaging getTermList(final Pageable pageable) {//전체 조회
         //추후 구현
-        Page<Term> contentPaging=termPaginRepository.getContain(pageable);
-        List<Term> contents=contentPaging.getContent();
-        List<TermSingleResponse>termSingleData=contents.stream()
+        Page<Term> contentPaging = termPaginRepository.getContain(pageable);
+        List<Term> contents = contentPaging.getContent();
+        List<TermSingleResponse> termSingleData = contents.stream()
                 .map(TermSingleResponse::termFrom)
                 .toList();
         return TermPaging.builder()

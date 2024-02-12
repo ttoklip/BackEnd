@@ -24,9 +24,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "이용약관", description = "이용약관 api입니다")
 @RequiredArgsConstructor
@@ -81,7 +80,7 @@ public class TermController {
                                     description = "이용약관을 수정했습니다"
                             )))})
     @PatchMapping("/{termId}")
-    public SuccessResponse<Message> edit (final @PathVariable Long termId, final TermEditRequest request) {
+    public SuccessResponse<Message> edit (final @PathVariable Long termId, final @RequestBody TermEditRequest request) {
         Message message = termService.edit(termId,request);
         return new SuccessResponse<>(message);
     }
@@ -96,8 +95,8 @@ public class TermController {
                                     value = TermConstant.createTermAndPolicy,
                                     description = "이용약관을 생성했습니다"
                             )))})
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Message> register(final @Valid @ModelAttribute TermCreateRequest request) {
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessResponse<Message> register(final @Validated @RequestBody TermCreateRequest request) {
         Message message = termService.register(request);
         return new SuccessResponse<>(message);
     }

@@ -62,8 +62,8 @@ public class NoticeController {
                                     value = NotiConstant.createNoticeResponse,
                                     description = "공지사항이 생성되었습니다"
                             )))})
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Message> register(final @Validated @ModelAttribute NoticeCreateRequest request) {
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessResponse<Message> register(final @Validated @RequestBody NoticeCreateRequest request) {
         Message message = noticeService.register(request);
         return new SuccessResponse<>(message);
     }
@@ -112,7 +112,7 @@ public class NoticeController {
                                     description = "공지사항이 수정되었습니다."
                             )))})
     @PatchMapping("/{noticeId}")
-    public SuccessResponse<Message> edit (final @PathVariable Long noticeId, final NoticeEditRequest request) {
+    public SuccessResponse<Message> edit (final @PathVariable Long noticeId, final @RequestBody NoticeEditRequest request) {
         Message message = noticeService.edit(noticeId,request);
         return new SuccessResponse<>(message);
     }

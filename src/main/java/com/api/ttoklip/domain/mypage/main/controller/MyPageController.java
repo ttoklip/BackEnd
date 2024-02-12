@@ -83,7 +83,7 @@ public class MyPageController {
                                     description = "제한 기간과 사유를 조회했습니다"
                             )))})
     @DeleteMapping("/unblock/{targetId}")
-    public SuccessResponse<Message> unblock(@PathVariable String targetId) {
+    public SuccessResponse<Message> unblock(@RequestParam String targetId) {
         return new SuccessResponse<>(myPageService.unblock(targetId));//수정 필요
     }
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")

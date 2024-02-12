@@ -14,14 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TermPaginRepository {
     private final JPAQueryFactory jpaQueryFactory;
-    private final QTerm term=QTerm.term;
+    private final QTerm term = QTerm.term;
 
-    public Page<Term> getContain(final Pageable pageable){
-        List<Term> terms=getPageContent(pageable);
+    public Page<Term> getContain(final Pageable pageable) {
+        List<Term> terms = getPageContent(pageable);
         Long count = countQuery();
-        return new PageImpl<>(terms,pageable,count);
+        return new PageImpl<>(terms, pageable, count);
     }
-    private List<Term> getPageContent(final Pageable pageable){
+
+    private List<Term> getPageContent(final Pageable pageable) {
         return jpaQueryFactory
                 .select(term)
                 .from(term)
@@ -31,6 +32,7 @@ public class TermPaginRepository {
                 .orderBy(term.id.desc())
                 .fetch();
     }
+
     private Long countQuery() {
         return jpaQueryFactory
                 .select(Wildcard.count)

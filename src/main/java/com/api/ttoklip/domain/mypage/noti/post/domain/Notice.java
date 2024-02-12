@@ -14,7 +14,7 @@ import lombok.*;
 public class Notice extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",updatable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(name = "title")
@@ -24,8 +24,7 @@ public class Notice extends BaseEntity {
     private String content;
 
 
-
-    public static Notice of (final NoticeCreateRequest request){
+    public static Notice of(final NoticeCreateRequest request) {
         return Notice.builder()
                 .content(request.getContent())
                 .title(request.getTitle())
@@ -44,7 +43,6 @@ public class Notice extends BaseEntity {
         this.content = editor.getContent();
     }
 
-    @Override
     public void deactivate() {
         super.deactivate();// Notice 엔티티 비활성화
     }

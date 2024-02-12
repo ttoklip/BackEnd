@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class RestricetdResponse {
-    @Schema(description = "제ㅔ제기간")
+    @Schema(description = "제재기간")
     private String time;
     private String reason;
 }

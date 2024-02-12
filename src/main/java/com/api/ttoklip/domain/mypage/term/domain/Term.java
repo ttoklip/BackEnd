@@ -14,7 +14,7 @@ import lombok.*;
 public class Term extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",updatable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Column(name = "title")
@@ -23,7 +23,7 @@ public class Term extends BaseEntity {
     @Column(name = "content")
     private String content;
 
-    public static Term of (final TermCreateRequest request){
+    public static Term of(final TermCreateRequest request) {
         return Term.builder()
                 .content(request.getContent())
                 .title(request.getTitle())

@@ -163,7 +163,7 @@ public class MyPageConstant {
             }
         }
         """;
-    
+
     public static final String participatedDealsResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",

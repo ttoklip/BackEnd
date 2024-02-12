@@ -27,7 +27,7 @@ public class NoticeService {
     private final NoticePagingRepository noticePagingRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Notice findNoticeById(final Long noticeId){
+    public Notice findNoticeById(final Long noticeId) {
         return noticeRepository.findByIdActivated(noticeId);
     }
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
@@ -35,23 +35,25 @@ public class NoticeService {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Message register(final NoticeCreateRequest request){
+    public Message register(final NoticeCreateRequest request) {
 
-        Notice notice=Notice.of(request);
+        Notice notice = Notice.of(request);
         noticeRepository.save(notice);
         Long noticeId = notice.getId();
-        return Message.registerPostSuccess(Notice.class,noticeId);
+        return Message.registerPostSuccess(Notice.class, noticeId);
     }
+
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
     public NoticeResponse getSingleNotice(final Long noticeId) {//하나 조회
-        Notice notice=findNoticeById(noticeId);
+        Notice notice = findNoticeById(noticeId);
         NoticeResponse noticeResponse = NoticeResponse.of(notice);//
         return noticeResponse;
     }
+
     public NoticePaging getNoticeList(final Pageable pageable) {//전체 조회
-        Page<Notice> contentPaging=noticePagingRepository.getContain(pageable);
-        List<Notice> contents=contentPaging.getContent();
-        List<NoticeSingleResponse>noticeSingleData = contents.stream()
+        Page<Notice> contentPaging = noticePagingRepository.getContain(pageable);
+        List<Notice> contents = contentPaging.getContent();
+        List<NoticeSingleResponse> noticeSingleData = contents.stream()
                 .map(NoticeSingleResponse::noticeFrom)
                 .toList();
         //추후 구현 02.08
@@ -64,9 +66,10 @@ public class NoticeService {
                 .totalPage(contentPaging.getTotalPages())
                 .build();
     }
+
     /* -------------------------------------------- DELETE  -------------------------------------------- */
     @Transactional
-    public Message deleteNotice(final Long noticeId){//소프트삭제 구현
+    public Message deleteNotice(final Long noticeId) {//소프트삭제 구현
         Notice notice = findNoticeById(noticeId);
         notice.deactivate();
         return Message.deletePostSuccess(Notice.class, noticeId);
