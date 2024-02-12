@@ -98,7 +98,7 @@ public class MyPageController {
                                     description = "스크랩한 글을 불러왔습니다"
                             )))})
     @GetMapping("/scraped-posts")
-    public SuccessResponse<ScrapPostsListResponse> scrpaPosts() {
+    public SuccessResponse<ScrapPostsListResponse> scrapPosts() {
         return new SuccessResponse<>(myPageService.scrapPosts());
     }
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
