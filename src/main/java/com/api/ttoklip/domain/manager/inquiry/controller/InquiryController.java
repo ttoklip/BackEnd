@@ -59,9 +59,9 @@ public class InquiryController {
     public SuccessResponse<List<FaQ>> getFaQList() {
         return new SuccessResponse<>(inquiryService.getFaQList());
     }*/ //FaQ는 프론트에서 넣어도 될듯
-    @Operation(summary = "문의하기", description = "문의한 내용을 전송합니다")
+    @Operation(summary = "문의하기", description = "문의한 내용을 생성합니다")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "문의 전송 성공",
+            @ApiResponse(responseCode = "200", description = "문의 생성 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class),
@@ -70,12 +70,12 @@ public class InquiryController {
                                     value = InquiryConstant.inquiryRegisterResponse,
                                     description = "문의에 성공하였습니다"
                             )))})
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Long> register(final @Validated @ModelAttribute InquiryCreateRequest request) {
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SuccessResponse<Long> register(final @Validated @RequestBody InquiryCreateRequest request) {
         Long inquiryId=inquiryService.register(request);
         return new SuccessResponse<>(inquiryId);
     }
-    @Operation(summary = "문의하기 조회", description = "문의하기 ID에 해당하는 공지사항을 조회합니다.")
+    @Operation(summary = "문의하기 조회", description = "문의하기 ID에 해당하는 문의사항을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "문의사항 성공",
                     content = @Content(
