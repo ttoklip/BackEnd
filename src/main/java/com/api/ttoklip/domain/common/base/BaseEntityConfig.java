@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.common.base;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+@Slf4j
 @EnableJpaAuditing
 @Configuration
 public class BaseEntityConfig {
@@ -21,9 +23,9 @@ public class BaseEntityConfig {
                 return Optional.of("AnonymousNULL");
             }
 
-            System.out.println("authentication = " + authentication);
-            System.out.println("----------- 클래스 타입" + authentication.getClass());
-            System.out.println("----------- 클래스 타입" + authentication.getPrincipal().getClass());
+            log.info("authentication = " + authentication);
+            log.info("----------- 클래스 타입" + authentication.getClass());
+            log.info("----------- 클래스 타입" + authentication.getPrincipal().getClass());
 
 
             Object principal = authentication.getPrincipal();

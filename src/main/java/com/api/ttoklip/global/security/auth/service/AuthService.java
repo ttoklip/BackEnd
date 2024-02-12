@@ -11,8 +11,10 @@ import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.security.auth.userInfo.OAuth2UserInfo;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -49,8 +51,8 @@ public class AuthService {
     }
 
     private Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
-        System.out.println("AuthService.registerNewMember");
-        System.out.println("userInfo.getName() = " + userInfo.getName());
+        log.info("AuthService.registerNewMember");
+        log.info("userInfo.getName() = " + userInfo.getName());
         Member newMember = Member.builder()
                 .email(userInfo.getEmail())
                 .originName(userInfo.getName())

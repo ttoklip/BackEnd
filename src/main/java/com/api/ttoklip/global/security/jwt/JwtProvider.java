@@ -104,11 +104,11 @@ public class JwtProvider {
         List<GrantedAuthority> authorities = getAuthorities(loginMember.getRole());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginMember, jwtToken, authorities);
-        System.out.println("------------------JwtProvider.setContextHolder");
+        log.info("------------------JwtProvider.setContextHolder");
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        System.out.println("loginMember = " + loginMember.getEmail());
-        System.out.println("------end------------JwtProvider.setContextHolder");
+        log.info("loginMember = " + loginMember.getEmail());
+        log.info("------end------------JwtProvider.setContextHolder");
     }
 
     private List<GrantedAuthority> getAuthorities(Role role) {

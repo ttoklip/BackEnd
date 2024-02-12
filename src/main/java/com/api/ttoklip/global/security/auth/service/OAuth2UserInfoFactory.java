@@ -47,7 +47,7 @@ public class OAuth2UserInfoFactory {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
                 })
                 .block();
-        System.out.println("---------------------------------------- attributes = " + attributes);
+        log.info("---------------------------------------- attributes = " + attributes);
         return new KakaoUserInfo(attributes);
     }
 
@@ -63,7 +63,7 @@ public class OAuth2UserInfoFactory {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
                 })
                 .block();
-        System.out.println("---------------------------------------- naver attributes = " + attributes);
+        log.info("---------------------------------------- naver attributes = " + attributes);
         return new NaverUserInfo(attributes);
     }
 }
