@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.privacy.domain;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Interest {
+public class Interest extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
