@@ -1,5 +1,7 @@
 package com.api.ttoklip.global.security.auth.userInfo;
 
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +13,11 @@ public class NaverUserInfo implements OAuth2UserInfo {
 
     @Override
     public String getProfile() {
-        return (String) ((Map) attributes.get("response")).get("profile_image");
+        try {
+            return (String) ((Map) attributes.get("response")).get("profile_image");
+        } catch (NullPointerException e) {
+            throw new ApiException(ErrorType.NAVER_NOTFOUND_EMAIL);
+        }
     }
 
     public String getEmail() {

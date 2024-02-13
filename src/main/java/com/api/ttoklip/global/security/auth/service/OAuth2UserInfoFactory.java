@@ -1,5 +1,7 @@
 package com.api.ttoklip.global.security.auth.service;
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.security.auth.userInfo.KakaoUserInfo;
@@ -12,6 +14,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
@@ -44,8 +47,11 @@ public class OAuth2UserInfoFactory {
         Map<String, Object> attributes = webClient.get()
                 .uri("/v2/user/me")
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                .onStatus(UNAUTHORIZED::equals, response -> {
+                    // 401 오류 처리
+                    return Mono.error(new ApiException(ErrorType.KAKAO_TOKEN_INVALID));
                 })
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
         log.info("---------------------------------------- attributes = " + attributes);
         return new KakaoUserInfo(attributes);
@@ -60,8 +66,11 @@ public class OAuth2UserInfoFactory {
         Map<String, Object> attributes = webClient.get()
                 .uri("/v1/nid/me")
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                .onStatus(UNAUTHORIZED::equals, response -> {
+                    // 401 오류 처리
+                    return Mono.error(new ApiException(ErrorType.NAVER_TOKEN_INVALID));
                 })
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
         log.info("---------------------------------------- naver attributes = " + attributes);
         return new NaverUserInfo(attributes);
