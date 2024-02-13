@@ -49,4 +49,8 @@ public class CommunityScrapService {
         communityScrapRepository.deleteById(communityScrap.getId());
     }
 
+    public Long countCommunityScraps(final Long communityId) {
+        return communityScrapRepository.countCommunityScrapsByCommunityId(communityId);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.town.community.scrap.entity;
 
+import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import jakarta.persistence.*;
@@ -12,7 +13,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CommunityScrap {
+public class CommunityScrap extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

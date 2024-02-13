@@ -71,10 +71,10 @@ public class CommunityPostService {
         Community communityWithImg = communityRepository.findByIdFetchJoin(postId);
         List<CommunityComment> activeComments = communityRepository.findActiveCommentsByCommunityId(postId);
         int likeCount = communityLikeService.countCommunityLikes(postId).intValue();
-        boolean liked = communityRepository.existsByCommunityIdAndMemberId(postId, memberId);
+        int scrapCount = communityScrapService.countCommunityScraps(postId).intValue();
 
         CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg,
-                activeComments, liked, likeCount);
+                activeComments, likeCount, scrapCount);
         return communitySingleResponse;
     }
 
@@ -117,7 +117,7 @@ public class CommunityPostService {
         communityImageService.deleteAllByPostId(communityId);
 
         // 새로운 이미지 업로드
-        List<String> uploadUrls = uploadImages(multipartFiles);
+        List<String> uploadUrls = communityCommonService.uploadImages(multipartFiles);
         uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
     }
 
@@ -152,7 +152,7 @@ public class CommunityPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
-        Community community = findCommunityById(postId);
+        Community community = communityCommonService.getCommunity(postId);
         reportService.reportCommunity(request, community);
 
         return Message.reportPostSuccess(Community.class, postId);
