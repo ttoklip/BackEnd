@@ -24,5 +24,8 @@ public class Inquiry extends BaseEntity {
                 .content(request.getContent())
                 .build();
     }
+    public void deactivate() {
+        super.deactivate();// inquiry 엔티티 비활성화
+    }
 
 }

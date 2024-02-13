@@ -34,7 +34,10 @@ public class InquiryConstant {
                 "time": "2024-01-11T16:06:30.852Z",
                 "status": 200,
                 "code": "200",
-                "message": "문의가 성공적으로 전송되었습니다."
+                "message": "요청에 성공하였습니다.",
+                "result": {
+                    "message": "Inquiry의 1번째 게시글을(를) 생성했습니다."
+                }
             }
                         
             """;
@@ -44,7 +47,10 @@ public class InquiryConstant {
                 "time": "2024-01-11T16:06:30.852Z",
                 "status": 200,
                 "code": "200",
-                "message": "문의가 성공적으로 삭제되었습니다."
+                "message": "요청에 성공하였습니다.",
+                "result": {
+                    "message": "Inquiry의 1번째 게시글을(를) 삭제했습니다."
+                }
             }
                         
             """;
@@ -54,10 +60,9 @@ public class InquiryConstant {
                 "time": "2024-01-11T16:06:30.852Z",
                 "status": 200,
                 "code": "200",
-                "message": "문의 조회에 성공하였습니다.",
+                "message": "요청에 성공하였습니다.",
                 "result": {
                     "inquiryId": 123,
-                    "title": "문의 제목",
                     "content": "문의 내용",
                     "createdBy": "사용자 이름",
                     "createdAt": "2024-01-11T10:30:00Z"
@@ -76,14 +81,12 @@ public class InquiryConstant {
                     "inquiries": [
                         {
                             "inquiryId": 123,
-                            "title": "문의 제목 1",
                             "content": "문의 내용 1",
                             "createdBy": "사용자 이름 1",
                             "createdAt": "2024-01-11T10:30:00Z"
                         },
                         {
                             "inquiryId": 124,
-                            "title": "문의 제목 2",
                             "content": "문의 내용 2",
                             "createdBy": "사용자 이름 2",
                             "createdAt": "2024-01-12T08:45:00Z"
