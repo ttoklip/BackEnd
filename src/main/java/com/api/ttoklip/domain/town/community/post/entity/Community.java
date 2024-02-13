@@ -54,11 +54,11 @@ public class Community extends BaseEntity {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityScrap> communityScraps = new ArrayList<>();
 
-    public static Community from(final CommunityCreateRequest request) {
+    public static Community of(final CommunityCreateRequest request, final Member member) {
         return Community.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .member(getCurrentMember())
+                .member(member)
                 .build();
     }
 

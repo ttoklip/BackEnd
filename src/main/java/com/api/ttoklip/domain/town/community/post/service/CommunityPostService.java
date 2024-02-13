@@ -160,11 +160,11 @@ public class CommunityPostService {
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
-    @Transactional
-    public Message like(final Long postId) {
-        communityLikeService.register(postId);
-        return Message.likePostSuccess(Community.class, postId);
-    }
+//    @Transactional
+//    public Message like(final Long postId) {
+//        communityLikeService.register(postId);
+//        return Message.likePostSuccess(Community.class, postId);
+//    }
 
     public static Member getCurrentMember() {
         return SecurityUtil.getCurrentMember();

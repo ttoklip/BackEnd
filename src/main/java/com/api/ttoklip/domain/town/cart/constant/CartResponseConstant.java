@@ -1,2 +1,4 @@
-package com.api.ttoklip.domain.town.cart.constant;public class CartResponseConstant {
+package com.api.ttoklip.domain.town.cart.constant;
+
+public class CartResponseConstant {
 }

@@ -59,21 +59,6 @@ public class CommunityResponseConstant {
             }
             """;
 
-    public static final String createLike = """
-        {
-            "time": "2024-01-30T12:00:00.000Z",
-            "status": 200,
-            "code": "200",
-            "message": "요청에 성공하였습니다.",
-            "result": {
-                "likeId": 1,
-                "memberId": 3,
-                "communityId": 5,
-                "likedTime": "24.02.08 12:00"
-            }
-        }
-        """;
-
     public static final String REGISTER_LIKE = """
             {
                 "time": "2024-02-10T12:55:35.127794",
