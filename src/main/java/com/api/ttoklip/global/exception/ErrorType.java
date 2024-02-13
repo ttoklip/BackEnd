@@ -85,6 +85,10 @@ public enum ErrorType {
     LIKE_NOT_FOUND(NOT_FOUND, "LIKE_4041", "좋아요가 존재하지 않습니다."),
 
 
+    // ------------------------------------------ SCRAP ------------------------------------------
+    SCRAP_NOT_FOUND(NOT_FOUND, "SCRAP_4041", "스크랩이 존재하지 않습니다."),
+
+
     // ------------------------------------------ AUTHORIZATION ------------------------------------------
     UNAUTHORIZED_EDITOR(FORBIDDEN, "AUTH_4030", "게시글의 작성자만 수정할 수 있습니다."),
     UNAUTHORIZED_EDIT_POST(FORBIDDEN, "AUTH_4030", "게시글의 작성자만 수정할 수 있습니다."),

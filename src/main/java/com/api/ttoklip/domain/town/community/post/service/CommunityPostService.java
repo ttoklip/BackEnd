@@ -12,6 +12,7 @@ import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleRe
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunityRepository;
+import com.api.ttoklip.domain.town.community.scrap.service.CommunityScrapService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class CommunityPostService {
     private final CommunityLikeRepository communityLikeRepository;
     private final CommunityLikeService communityLikeService;
     private final CommunityCommonService communityCommonService;
+    private final CommunityScrapService communityScrapService;
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
@@ -185,10 +187,15 @@ public class CommunityPostService {
 
     /* -------------------------------------------- SCRAP -------------------------------------------- */
     public Message registerScrap(Long postId) {
-        return null;
+        communityScrapService.registerScrap(postId);
+        return Message.scrapPostSuccess(Community.class, postId);
     }
 
     public Message cancelScrap(Long postId) {
-        return null;
+        communityScrapService.cancelScrap(postId);
+        return Message.scrapPostCancel(Community.class, postId);
     }
+
+    /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
+
 }
