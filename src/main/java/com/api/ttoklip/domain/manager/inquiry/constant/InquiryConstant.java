@@ -29,6 +29,18 @@ public class InquiryConstant {
             }
                         
             """;
+    public static final String faqRegisterResponse = """
+            {
+                "time": "2024-01-11T16:06:30.852Z",
+                "status": 200,
+                "code": "200",
+                "message": "요청에 성공하였습니다.",
+                "result": {
+                    "message": "Faq의 1번째 게시글을(를) 생성했습니다."
+                }
+            }
+                        
+            """;
     public static final String inquiryRegisterResponse = """
             {
                 "time": "2024-01-11T16:06:30.852Z",

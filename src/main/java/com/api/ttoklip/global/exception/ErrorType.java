@@ -57,7 +57,8 @@ public enum ErrorType {
 
 
     // ------------------------------------------ Inquiry ------------------------------------------
-    INQUIRY_NOT_FOUND(NOT_FOUND, "Newsletter_4040", "문의사항을 찾을 수 없습니다."),
+    INQUIRY_NOT_FOUND(NOT_FOUND, "Inquiry_4040", "문의사항을 찾을 수 없습니다."),
+    FAQ_NOT_FOUND(NOT_FOUND, "Faq_4040", "FAQ를 찾을 수 없습니다."),
 
     // ------------------------------------------ HoneyTip ------------------------------------------
     HONEY_TIP_NOT_FOUND(NOT_FOUND, "HoneyTip_4040", "꿀팁공유해요를 찾을 수 없습니다."),

@@ -1,12 +1,9 @@
 package com.api.ttoklip.domain.manager.inquiry.service;
 
-import com.api.ttoklip.domain.manager.inquiry.domain.Inquiry;
-import com.api.ttoklip.domain.manager.inquiry.domain.InquiryPagingRepository;
-import com.api.ttoklip.domain.manager.inquiry.domain.InquiryRepository;
+import com.api.ttoklip.domain.manager.inquiry.domain.*;
+import com.api.ttoklip.domain.manager.inquiry.dto.request.FaqCreateRequest;
 import com.api.ttoklip.domain.manager.inquiry.dto.request.InquiryCreateRequest;
-import com.api.ttoklip.domain.manager.inquiry.dto.response.InquiryPaging;
-import com.api.ttoklip.domain.manager.inquiry.dto.response.InquiryResponse;
-import com.api.ttoklip.domain.manager.inquiry.dto.response.InquirySingleResponse;
+import com.api.ttoklip.domain.manager.inquiry.dto.response.*;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
@@ -24,6 +21,8 @@ import java.util.List;
 public class InquiryService {
     private final InquiryRepository inquiryRepository;
     private final InquiryPagingRepository inquiryPagingRepository;
+    private final FaqRepository faqRepository;
+    private final FaqPagingRepository faqPagingRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Inquiry findInquiryById(final Long inquiryId) {
@@ -40,7 +39,13 @@ public class InquiryService {
         Long inquiryId = inquiry.getId();
         return Message.registerPostSuccess(Inquiry.class, inquiryId);
     }
-
+    @Transactional
+    public Message faqRegister(final FaqCreateRequest request) {
+        Faq faq = Faq.of(request);
+        faqRepository.save(faq);
+        Long faqId = faq.getId();
+        return Message.registerPostSuccess(Faq.class, faqId);
+    }
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
     public InquiryResponse getSingleInquiry(final Long inquiryId) {//하나 조회
         Inquiry inquiry = findInquiryById(inquiryId);
@@ -58,6 +63,23 @@ public class InquiryService {
         //return noticeDefaultRepository.findAll();
         return InquiryPaging.builder()
                 .inquiries(inquirySingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
+    }
+
+    public FaqPaging getFaqList(final Pageable pageable){
+        Page<Faq> contentPaging = faqPagingRepository.getContain(pageable);
+        List<Faq> contents = contentPaging.getContent();
+        List<FaqSingleResponse> faqSingleData = contents.stream()
+                .map(FaqSingleResponse::faqFrom)
+                .toList();
+        //추후 구현 02.08
+        //return noticeDefaultRepository.findAll();
+        return FaqPaging.builder()
+                .faqs(faqSingleData)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())

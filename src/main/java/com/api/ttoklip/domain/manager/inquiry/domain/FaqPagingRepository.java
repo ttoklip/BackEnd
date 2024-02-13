@@ -3,45 +3,43 @@ package com.api.ttoklip.domain.manager.inquiry.domain;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
-import static com.api.ttoklip.domain.manager.inquiry.domain.QInquiry.inquiry;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import static com.api.ttoklip.domain.manager.inquiry.domain.QFaq.faq;
 
 @Repository
 @RequiredArgsConstructor
-public class InquiryPagingRepository {
+public class FaqPagingRepository {
     private final JPAQueryFactory jpaQueryFactory;
-    private final QInquiry inquiry = QInquiry.inquiry;
+    private final QFaq faq = QFaq.faq;
 
-    public Page<Inquiry> getContain(final Pageable pageable) {
-        List<Inquiry> inquiries = getPageContent(pageable);
+    public Page<Faq> getContain(final Pageable pageable) {
+        List<Faq> faqs = getPageContent(pageable);
         Long count = countQuery();
-        return new PageImpl<>(inquiries, pageable, count);
+        return new PageImpl<>(faqs, pageable, count);
     }
 
-    private List<Inquiry> getPageContent(final Pageable pageable) {
+    private List<Faq> getPageContent(final Pageable pageable) {
         return jpaQueryFactory
-                .select(inquiry)
-                .from(inquiry)
+                .select(faq)
+                .from(faq)
                 .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(inquiry.id.desc())
+                .orderBy(faq.id.desc())
                 .fetch();
     }
 
     private Long countQuery() {
         return jpaQueryFactory
                 .select(Wildcard.count)
-                .from(inquiry)
+                .from(faq)
                 .distinct()
                 .fetchOne();
     }
-
 
 }
