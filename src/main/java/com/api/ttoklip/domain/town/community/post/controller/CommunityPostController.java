@@ -92,8 +92,12 @@ public class CommunityPostController {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 삭제 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class)
-                            ))})
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.deleteCommunity,
+                                    description = "소통해요 게시글을 삭제했습니다."
+                            )))})
     @DeleteMapping("/{postId}")
     public SuccessResponse<Message> delete(final @PathVariable Long postId) {
         return new SuccessResponse<>(communityPostService.delete(postId));
@@ -105,8 +109,12 @@ public class CommunityPostController {
             @ApiResponse(responseCode = "200", description = "소통해요 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class)
-                    ))})
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.REPORT_COMMUNITY,
+                                    description = "소통해요 게시글을 신고했습니다."
+                            )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
