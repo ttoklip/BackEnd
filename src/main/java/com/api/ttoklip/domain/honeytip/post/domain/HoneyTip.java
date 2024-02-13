@@ -54,15 +54,19 @@ public class HoneyTip extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder.Default
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTipImage> honeyTipImageList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTipUrl> honeyTipUrlList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTipComment> honeyTipComments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTipLike> honeyTipLikes = new ArrayList<>();
 
