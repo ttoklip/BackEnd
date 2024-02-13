@@ -25,18 +25,18 @@ public class HoneyTipSearchRepository {
 
 
     public Page<HoneyTip> getContain(final String keyword, final Pageable pageable) {
-        List<HoneyTip> content = getSearchPageContent(keyword, pageable);
+        List<HoneyTip> content = getSearchPageTitle(keyword, pageable);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<HoneyTip> getSearchPageContent(final String keyword, final Pageable pageable) {
+    private List<HoneyTip> getSearchPageTitle(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
                 .select(honeyTip)
                 .from(honeyTip)
                 .distinct()
                 .where(
-                        containContent(keyword)
+                        containTitle(keyword)
                 )
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
@@ -46,9 +46,9 @@ public class HoneyTipSearchRepository {
                 .fetch();
     }
 
-    private BooleanExpression containContent(final String keyword) {
+    private BooleanExpression containTitle(final String keyword) {
         if (StringUtils.hasText(keyword)) {
-            return honeyTip.content.contains(keyword);
+            return honeyTip.title.contains(keyword);
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class HoneyTipSearchRepository {
                 .from(honeyTip)
                 .distinct()
                 .where(
-                        containContent(keyword)
+                        containTitle(keyword)
                 )
                 .fetchOne();
     }

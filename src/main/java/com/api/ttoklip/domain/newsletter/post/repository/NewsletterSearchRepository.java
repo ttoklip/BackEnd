@@ -24,18 +24,18 @@ public class NewsletterSearchRepository {
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
 
     public Page<Newsletter> getContain(final String keyword, final Pageable pageable) {
-        List<Newsletter> content = getSearchPageContent(keyword, pageable);
+        List<Newsletter> content = getSearchPageTitle(keyword, pageable);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<Newsletter> getSearchPageContent(final String keyword, final Pageable pageable) {
+    private List<Newsletter> getSearchPageTitle(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
                 .select(newsletter)
                 .from(newsletter)
                 .distinct()
                 .where(
-                        containContent(keyword)
+                        containTitle(keyword)
                 )
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .fetchJoin()
@@ -45,9 +45,9 @@ public class NewsletterSearchRepository {
                 .fetch();
     }
 
-    private BooleanExpression containContent(final String keyword) {
+    private BooleanExpression containTitle(final String keyword) {
         if (StringUtils.hasText(keyword)) {
-            return newsletter.content.contains(keyword);
+            return newsletter.title.contains(keyword);
         }
         return null;
     }
@@ -58,7 +58,7 @@ public class NewsletterSearchRepository {
                 .from(newsletter)
                 .distinct()
                 .where(
-                        containContent(keyword)
+                        containTitle(keyword)
                 )
                 .fetchOne();
     }

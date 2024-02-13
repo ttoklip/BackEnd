@@ -46,8 +46,8 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .commentId(questionComment.getId())
                 .commentContent(questionComment.getContent())
-                .parentId(parentCommentId) // 부모 댓글이 있는 경우
-                .writer(questionComment.getMember().getName())
+                .parentId(parentCommentId)
+                .writer(questionComment.getMember().getOriginName())
                 .writtenTime(formatCreatedDate)
                 .build();
     }

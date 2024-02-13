@@ -3,7 +3,9 @@ package com.api.ttoklip.domain.main.service;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostService;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.CommonDefaultResponse;
+import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.post.service.QuestionPostService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +23,9 @@ public class CommonService {
     public CommonDefaultResponse getDefaultCategoryRead() {
         CategoryResponses questionCategoryResponse = questionPostService.getDefaultCategoryRead();
         CategoryResponses honeyTipCategoryResponse = honeyTipPostService.getDefaultCategoryRead();
-//        honeyTipPostService.getTop5();
+        List<TitleResponse> top5Responses = honeyTipPostService.getTop5();
 
-        return CommonDefaultResponse.of(questionCategoryResponse, honeyTipCategoryResponse, null);
+        return CommonDefaultResponse.of(questionCategoryResponse, honeyTipCategoryResponse, top5Responses);
     }
 
 

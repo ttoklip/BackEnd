@@ -7,7 +7,7 @@ import java.util.List;
 public interface HoneyTipRepositoryCustom {
     HoneyTip findByIdActivated(final Long honeyTipId);
 
-    HoneyTip findByIdFetchJoin(Long postId);
+    HoneyTip findByIdFetchJoin(final Long postId);
 
-    List<HoneyTipComment> findActiveCommentsByHoneyTipId(Long postId);
+    List<HoneyTipComment> findActiveCommentsByHoneyTipId(final Long postId);
 }

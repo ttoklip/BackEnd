@@ -1,10 +1,16 @@
 package com.api.ttoklip.domain.town.community.comment;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +33,7 @@ public class CommunityComment extends Comment {
     }
 
     public static CommunityComment withParentOf(final CommentCreateRequest request, final Comment parent,
-                                      final Community community) {
+                                                final Community community) {
         return CommunityComment.builder()
                 .content(request.getComment())
                 .parent(parent)

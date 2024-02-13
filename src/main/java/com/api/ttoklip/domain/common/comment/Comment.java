@@ -3,8 +3,6 @@ package com.api.ttoklip.domain.common.comment;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.question.post.domain.Question;
-import com.api.ttoklip.global.util.SecurityUtil;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -46,10 +44,6 @@ public class Comment extends BaseEntity {
         this.member = member;
     }
 
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
-    }
-
     public CommentEditor.CommentEditorBuilder toEditor() {
         return CommentEditor.builder()
                 .comment(content);
@@ -57,5 +51,11 @@ public class Comment extends BaseEntity {
 
     public void edit(final CommentEditor commentEditor) {
         this.content = commentEditor.getContent();
+    }
+
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        content = "삭제된 댓글입니다.";
     }
 }

@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.question.post.repository;
 
+import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
 import static com.api.ttoklip.domain.question.image.domain.QQuestionImage.questionImage;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
@@ -24,6 +25,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         Question findQuestion = jpaQueryFactory
                 .selectFrom(question)
                 .distinct()
+                .leftJoin(question.member, member)
                 .leftJoin(question.questionImages, questionImage)
                 .fetchJoin()
                 .where(question.id.eq(questionPostId))
@@ -39,12 +41,11 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .selectFrom(questionComment)
                 .distinct()
                 .where(
-                        matchQuestionId(questionId),
-                        getCommentActivate()
+                        matchQuestionId(questionId)
                 )
                 .orderBy(
-                        questionComment.createdDate.asc(),
-                        questionComment.parent.id.asc().nullsFirst()
+                        questionComment.parent.id.asc().nullsFirst(),
+                        questionComment.createdDate.asc()
                 )
                 .fetch();
     }

@@ -1,20 +1,18 @@
 package com.api.ttoklip.domain.common.comment.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor.CommentEditorBuilder;
 import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
-import java.util.Optional;
-
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +44,7 @@ public class CommentService {
     public void edit(final Long commentId, final CommentEditRequest request) {
 
         Comment comment = findComment(commentId);
-        // ToDo 작성자가 맞는지 검증 필요 - 댓글 수정 기능 없어서 나중에 필요하면 추가
+        // ToDo 작성자가 맞는지 검증 필요
         CommentEditor commentEditor = getCommentEditor(request, comment);
         comment.edit(commentEditor);
     }
@@ -74,7 +72,6 @@ public class CommentService {
     }
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
 
-    // 본인이 썼는지 검증 과정
     public void checkDeletePermission(final Comment comment) {
         Long writerId = comment.getMember().getId();
         Long currentMemberId = getCurrentMember().getId();

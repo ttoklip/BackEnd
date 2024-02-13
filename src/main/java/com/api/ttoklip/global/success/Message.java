@@ -26,6 +26,7 @@ public class Message {
     private static final String DELETE = "삭제";
     private static final String REPORT = "신고";
 
+
     private static <T> Message actionSuccess(Class<T> itemType, Long itemId, String dataType, String action) {
         String typeName = itemType.getSimpleName(); // 클래스의 단순 이름을 가져옴
         String message = String.format("%s Type의 %d번째 %s을(를) %s했습니다.", typeName, itemId, dataType, action);
@@ -66,16 +67,28 @@ public class Message {
         return actionSuccess(itemType, itemId, POST, REPORT);
     }
 
-    public static <T> Message editStatusSuccess(Class<T> itemType, Long itemId) {
-        return actionSuccess(itemType, itemId, STATUS, EDIT);
-    }
-
     public static <T> Message likePostSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, LIKE, CREATE);
-}
+    }
 
     public static <T> Message likePostCancel(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, LIKE, DELETE);
+    }
+
+    public static Message insertPrivacy() {
+        return Message.builder()
+                .message("회원가입 후 개인정보를 추가했습니다.")
+                .build();
+    }
+
+    public static Message validNickname() {
+        return Message.builder()
+                .message("닉네임 중복 확인에 통과하였습니다.")
+                .build();
+    }
+
+    public static <T> Message editStatusSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, STATUS, EDIT);
     }
 
     public static <T> Message scrapPostSuccess(Class<T> itemType, Long itemId) {

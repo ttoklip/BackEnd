@@ -25,19 +25,19 @@ public class CommunitySearchRepository {
     private final QCommunityComment communityComment = QCommunityComment.communityComment;
 
     public Page<Community> getContain(final String keyword, final Pageable pageable) {
-        List<Community> content = getSearchPageContent(keyword, pageable);
+        List<Community> content = getSearchPageTitle(keyword, pageable);
         Long count = countQuery(keyword);
 
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<Community> getSearchPageContent(final String keyword, final Pageable pageable) {
+    private List<Community> getSearchPageTitle(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
                 .select(community)
                 .from(community)
                 .distinct()
                 .where(
-                        containContent(keyword)
+                        containTitle(keyword)
                 )
                 .leftJoin(community.communityComments, communityComment)
                 .fetchJoin()
@@ -47,9 +47,9 @@ public class CommunitySearchRepository {
                 .fetch();
     }
 
-    private BooleanExpression containContent(final String keyword) {
+    private BooleanExpression containTitle(final String keyword) {
         if (StringUtils.hasText(keyword)) {
-            return community.content.contains(keyword);
+            return community.title.contains(keyword);
         }
         return null;
     }
@@ -60,7 +60,7 @@ public class CommunitySearchRepository {
                 .from(community)
                 .distinct()
                 .where(
-                        containContent(keyword)
+                        containTitle(keyword)
                 )
                 .fetchOne();
     }

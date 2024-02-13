@@ -68,12 +68,11 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .selectFrom(cartComment)
                 .distinct()
                 .where(
-                        matchCartId(cartId),
-                        getCommentActivate()
+                        matchCartId(cartId)
                 )
                 .orderBy(
-                        cartComment.createdDate.asc(),
-                        cartComment.parent.id.asc().nullsFirst()
+                        cartComment.parent.id.asc().nullsFirst(),
+                        cartComment.createdDate.asc()
                 )
                 .fetch();
     }
@@ -82,7 +81,4 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
         return cartComment.cart.id.eq(cartId);
     }
 
-    private BooleanExpression getCommentActivate() {
-        return cartComment.deleted.isFalse();
-    }
 }

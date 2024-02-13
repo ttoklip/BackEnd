@@ -1,8 +1,11 @@
 package com.api.ttoklip.domain.question.post.domain;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.domain.QuestionImage;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
@@ -14,6 +17,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,10 @@ public class Question extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     private String title;
     private String content;
 
@@ -45,6 +54,7 @@ public class Question extends BaseEntity {
                 .category(request.getCategory())
                 .content(request.getContent())
                 .title(request.getTitle())
+                .member(getCurrentMember())
                 .build();
     }
 

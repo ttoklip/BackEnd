@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.honeytip.comment.domain;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
@@ -36,6 +38,7 @@ public class HoneyTipComment extends Comment {
                 .content(request.getComment())
                 .parent(parent)
                 .honeyTip(honeyTip)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -44,6 +47,7 @@ public class HoneyTipComment extends Comment {
                 .content(request.getComment())
                 .parent(null)
                 .honeyTip(honeyTip)
+                .member(getCurrentMember())
                 .build();
     }
 }
