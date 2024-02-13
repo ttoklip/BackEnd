@@ -27,9 +27,9 @@ public class CommunityScrap {
     @JoinColumn(name = "community_id")
     private Community community;
 
-    public static CommunityScrap from(final Community community) {
+    public static CommunityScrap of(final Member member, final Community community) {
         return CommunityScrap.builder()
-                .member(getCurrentMember())
+                .member(member)
                 .community(community)
                 .build();
     }

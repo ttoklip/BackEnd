@@ -19,6 +19,7 @@ public class Message {
     private static final String COMMENT = "댓글";
     private static final String POST = "게시글";
     private static final String LIKE = "좋아요";
+    private static final String SCRAP = "스크랩";
     private static final String CREATE = "생성";
     private static final String STATUS = "상태";
     private static final String EDIT = "수정";
@@ -75,5 +76,13 @@ public class Message {
 
     public static <T> Message likePostCancel(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, LIKE, DELETE);
+    }
+
+    public static <T> Message scrapPostSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, SCRAP, CREATE);
+    }
+
+    public static <T> Message scrapPostCancel(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, SCRAP, DELETE);
     }
 }

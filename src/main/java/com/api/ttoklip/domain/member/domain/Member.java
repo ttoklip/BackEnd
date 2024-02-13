@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.scrap.entity.CommunityScrap;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AccessLevel;
@@ -49,21 +50,13 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-
-
-
-
-
-
-
-
-
-
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Community> communities = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityLike> communityLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommunityScrap> communityScraps = new ArrayList<>();
 
 }

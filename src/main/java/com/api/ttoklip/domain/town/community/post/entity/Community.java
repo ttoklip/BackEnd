@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
+import com.api.ttoklip.domain.town.community.scrap.entity.CommunityScrap;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,6 +51,9 @@ public class Community extends BaseEntity {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityLike> communityLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommunityScrap> communityScraps = new ArrayList<>();
+
     public static Community from(final CommunityCreateRequest request) {
         return Community.builder()
                 .title(request.getTitle())
@@ -77,5 +81,9 @@ public class Community extends BaseEntity {
 
     public long getLikesCount() {
         return communityLikes.size();
+    }
+
+    public long getScrapsCount() {
+        return communityScraps.size();
     }
 }

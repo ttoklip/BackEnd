@@ -5,7 +5,7 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
-import com.api.ttoklip.domain.town.community.like.repository.CommunityCommunityLikeRepository;
+import com.api.ttoklip.domain.town.community.like.repository.CommunityLikeRepository;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
@@ -29,7 +29,7 @@ public class CommunityPostService {
 
     private final CommunityImageService communityImageService;
     private final ReportService reportService;
-    private final CommunityCommunityLikeRepository communityLikeRepository;
+    private final CommunityLikeRepository communityLikeRepository;
     private final CommunityLikeService communityLikeService;
     private final CommunityCommonService communityCommonService;
 

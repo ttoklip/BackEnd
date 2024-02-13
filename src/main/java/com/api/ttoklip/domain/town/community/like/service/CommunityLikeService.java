@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.community.like.service;
 
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
-import com.api.ttoklip.domain.town.community.like.repository.CommunityCommunityLikeRepository;
+import com.api.ttoklip.domain.town.community.like.repository.CommunityLikeRepository;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
 import com.api.ttoklip.global.exception.ApiException;
@@ -17,7 +17,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 @Transactional(readOnly = true)
 public class CommunityLikeService {
 
-    private final CommunityCommunityLikeRepository communityLikeRepository;
+    private final CommunityLikeRepository communityLikeRepository;
     private final CommunityCommonService communityCommonService;
 //    private final MemberRepository memberRepository;
 
