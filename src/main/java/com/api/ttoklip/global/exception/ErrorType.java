@@ -72,7 +72,15 @@ public enum ErrorType {
 
     // ------------------------------------------ Auth ------------------------------------------
     OAUTH_INVALID_PROVIDER(INTERNAL_SERVER_ERROR, "OAUTH_5000", "올바르지 않은 Provider입니다."),
+
+    KAKAO_NOTFOUND_NAME(INTERNAL_SERVER_ERROR, "OAUTH_5001", "Kakao로부터 name을 받을 수 없습니다."),
+    KAKAO_NOTFOUND_EMAIL(INTERNAL_SERVER_ERROR, "OAUTH_5002", "Kakao로부터 email을 받을 수 없습니다."),
+    KAKAO_NOTFOUND_PROFILE_IMAGE_URL(INTERNAL_SERVER_ERROR, "OAUTH_5003", "Kakao로부터 profile image url을 받을 수 없습니다."),
     KAKAO_TOKEN_INVALID(UNAUTHORIZED, "OAUTH_4010", "Kakao 제공자에 요청하였지만, Token이 잘못되었거나 만료되었습니다."),
+
+    NAVER_NOTFOUND_NAME(INTERNAL_SERVER_ERROR, "OAUTH_5004", "Naver로부터 name을 받을 수 없습니다."),
+    NAVER_NOTFOUND_EMAIL(INTERNAL_SERVER_ERROR, "OAUTH_5005", "Naver로부터 email을 받을 수 없습니다."),
+    NAVER_NOTFOUND_PROFILE_IMAGE_URL(INTERNAL_SERVER_ERROR, "OAUTH_5006", "Naver로부터 profile image url을 받을 수 없습니다."),
     NAVER_TOKEN_INVALID(UNAUTHORIZED, "OAUTH_4011", "Naver 제공자에 요청하였지만, Token이 잘못되었거나 만료되었습니다."),
 
 
