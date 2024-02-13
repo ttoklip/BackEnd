@@ -37,11 +37,11 @@ public class CommunitySingleResponse {
     @Schema(description = "소통해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
 
-    @Schema(description = "현재 사용자가 좋아요를 눌렀는지 여부", example = "true")
-    private boolean liked;
-
     @Schema(description = "좋아요 개수", example = "5")
     private int likeCount;
+
+    @Schema(description = "스크랩 개수", example = "3")
+    private int scrapCount;
 
     @Schema(description = "댓글 개수", example = "11")
     private int commentCount;
@@ -54,8 +54,8 @@ public class CommunitySingleResponse {
 
     public static CommunitySingleResponse of(final Community community,
                                              final List<CommunityComment> activeComments,
-                                             boolean liked,
-                                             final int likeCount) {
+                                             final int likeCount,
+                                             final int scrapCount) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(community);
@@ -74,8 +74,8 @@ public class CommunitySingleResponse {
                 .writtenTime(formattedCreatedDate)
                 .imageUrls(communityImageResponses)
                 .commentResponses(commentResponses)
-                .liked(liked)
                 .likeCount(likeCount)
+                .scrapCount(scrapCount)
                 .commentCount(commentResponses.size())
                 .build();
     }
