@@ -172,11 +172,14 @@ public class CommunityPostService {
 
 
     /* -------------------------------------------- LIKE -------------------------------------------- */
+    @Transactional
+
     public Message registerLike(Long postId) {
         communityLikeService.register(postId);
         return Message.likePostSuccess(Community.class, postId);
     }
 
+    @Transactional
     public Message cancelLike(Long postId) {
         communityLikeService.cancel(postId);
         return Message.likePostCancel(Community.class, postId);
@@ -186,11 +189,13 @@ public class CommunityPostService {
 
 
     /* -------------------------------------------- SCRAP -------------------------------------------- */
+    @Transactional
     public Message registerScrap(Long postId) {
         communityScrapService.registerScrap(postId);
         return Message.scrapPostSuccess(Community.class, postId);
     }
 
+    @Transactional
     public Message cancelScrap(Long postId) {
         communityScrapService.cancelScrap(postId);
         return Message.scrapPostCancel(Community.class, postId);
