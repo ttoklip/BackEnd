@@ -66,7 +66,7 @@ public class CommunityPostService {
 
     /* -------------------------------------------- READ -------------------------------------------- */
 
-    public CommunitySingleResponse getSinglePost(final Long postId, final Long memberId) {
+    public CommunitySingleResponse getSinglePost(final Long postId) {
 
         Community communityWithImg = communityRepository.findByIdFetchJoin(postId);
         List<CommunityComment> activeComments = communityRepository.findActiveCommentsByCommunityId(postId);
