@@ -33,12 +33,24 @@ public class AuthService {
 
         Optional<Member> memberOptional = memberService.findByEmailOptional(email);
         if (memberOptional.isPresent()) {
+            // 이미 우리 회원일 때
             Member member = memberOptional.get();
-            return getLoginResponse(member, false);
+            return alreadyOurUser(member);
         }
 
+        // 회원가입
         Member member = registerNewMember(userInfo, provider);
         return getLoginResponse(member, true);
+    }
+
+    private LoginResponse alreadyOurUser(final Member member) {
+        String nickname = member.getNickname();
+        if (nickname == null) {
+            // 회원가입은 했지만 개인정보(프로필 사진, 닉네임, 독립 경력)을 입력하지 않았을 때 로그인처리, FirstLogin true 처리하여 개인정보 유도
+            return getLoginResponse(member, true);
+        }
+        // 로그인
+        return getLoginResponse(member, false);
     }
 
     private LoginResponse getLoginResponse(final Member member, final boolean ifFirstLogin) {
