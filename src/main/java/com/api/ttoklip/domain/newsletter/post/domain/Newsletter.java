@@ -45,12 +45,15 @@ public class Newsletter extends BaseEntity {
 
     private String mainImageUrl;
 
+    @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterImage> newsletterImageList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterUrl> newsletterUrlList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterComment> newsletterComments = new ArrayList<>();
 
