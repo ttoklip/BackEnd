@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.domain.NewsletterImage;
+import com.api.ttoklip.domain.newsletter.like.entity.NewsletterLike;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.scarp.entity.NewsletterScrap;
 import com.api.ttoklip.domain.newsletter.url.domain.NewsletterUrl;
@@ -59,6 +60,10 @@ public class Newsletter extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NewsletterLike> newsletterLikes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterScrap> newsletterScraps = new ArrayList<>();
 
     public static Newsletter of(final NewsletterCreateReq req, final String mainImageUrl, final Member member) {
@@ -73,5 +78,9 @@ public class Newsletter extends BaseEntity {
 
     public long getScrapsCount() {
         return newsletterScraps.size();
+    }
+
+    public long getLikesCount() {
+        return newsletterLikes.size();
     }
 }
