@@ -120,6 +120,19 @@ public class NewsletterPostService {
         return newsletterRepository.findAll(pageable).getContent();
     }
 
+
+    /* -------------------------------------------- SCRAP -------------------------------------------- */
+    public Message registerScrap(Long postId) {
+        return null;
+    }
+
+    public static Message cancelScrap(Long postId) {
+        return null;
+
+    }
+    /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
+
+
 //    public CategoryResponses getDefaultCategoryRead() {
 //        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
 //        List<Question> recipeQuestions = questionDefaultRepository.getRecipe();
