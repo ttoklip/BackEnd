@@ -37,7 +37,8 @@ public class CommunityCommonService {
         Long currentMemberId = getCurrentMember().getId();
 
         if (!writerId.equals(currentMemberId)) {
-            throw new ApiException(ErrorType.UNAUTHORIZED_EDITOR);
+            // todo 게시글 별 커스텀 에러 수정
+            throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);
         }
     }
 
