@@ -1,8 +1,5 @@
 package com.api.ttoklip.domain.newsletter.post.repository;
 
-import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
-import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
-
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
@@ -12,17 +9,21 @@ import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
+import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
 @RequiredArgsConstructor
 @Repository
 public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final NewsletterRepository newsletterRepository;
 
     @Override
     public Newsletter findByIdFetchJoin(Long postId) {
@@ -70,13 +71,18 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return newsletterComment.newsletter.id.eq(newsletterId);
     }
 
-    private BooleanExpression getCommentActivate() {
-        return newsletterComment.deleted.isFalse();
-    }
-
     @Override
-    public Newsletter findByIdActivated(Long id) {
-        return newsletterRepository.findById(id)
+    public Newsletter findByIdActivated(final Long newsletterId) {
+        Newsletter findNewsletter = jpaQueryFactory
+                .selectFrom(QNewsletter.newsletter)
+                .distinct()
+                .leftJoin(QNewsletter.newsletter.member, member)
+                .fetchJoin()
+                .where(
+                        matchNewsletterId(newsletterId), getCommentActivate()
+                )
+                .fetchOne();
+        return Optional.ofNullable(findNewsletter)
                 .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
     }
 
@@ -89,5 +95,8 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .fetchOne();
     }
 
+    private BooleanExpression getCommentActivate() {
+        return newsletterComment.deleted.isFalse();
+    }
 
 }
