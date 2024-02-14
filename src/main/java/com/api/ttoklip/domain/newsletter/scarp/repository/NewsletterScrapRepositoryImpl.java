@@ -20,6 +20,4 @@ public class NewsletterScrapRepositoryImpl implements NewsletterScrapRepositoryC
                 .where(newsletterScrap.newsletter.id.eq(newsletterId))
                 .fetchOne();
     }
-
-
 }
