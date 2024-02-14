@@ -80,6 +80,41 @@ public class NewsletterController {
         return new SuccessResponse<>(message);
     }
 
+    /* LIKE */
+    @Operation(summary = "뉴스레터 좋아요 추가", description = "뉴스레터 ID에 해당하는 게시글에 좋아요를 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.REGISTER_LIKE,
+                                    description = "뉴스레터에 좋아요를 추가했습니다."
+                            )))})
+    @PostMapping("/like/{postId}")
+    public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
+        Message message = newsletterPostService.registerLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "뉴스레터 좋아요 취소", description = "뉴스레터 ID에 해당하는 게시글에 좋아요를 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.CANCEL_LIKE,
+                                    description = "뉴스레터에 좋아요를 취소했습니다."
+                            )))})
+    @DeleteMapping("/like/{postId}")
+    public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
+        Message message = newsletterPostService.cancelLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
     /* SCRAP */
     @Operation(summary = "뉴스레터 스크랩 추가", description = "뉴스레터 ID에 해당하는 게시글에 스크랩을 추가합니다.")
     @ApiResponses(value = {

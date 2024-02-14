@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
+import com.api.ttoklip.domain.newsletter.like.service.NewsletterLikeService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
@@ -36,6 +37,7 @@ public class NewsletterPostService {
     private final NewsletterScrapRepository newsletterScrapRepository;
     private final NewsletterCommonService newsletterCommonService;
     private final NewsletterScrapService newsletterScrapService;
+    private final NewsletterLikeService newsletterLikeService;
 
 
 //    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
@@ -135,6 +137,20 @@ public class NewsletterPostService {
     public List<Newsletter> getContentWithPageable(final Pageable pageable) {
         return newsletterRepository.findAll(pageable).getContent();
     }
+
+    /* -------------------------------------------- LIKE -------------------------------------------- */
+    @Transactional
+    public Message registerLike(Long postId) {
+        newsletterLikeService.registerLike(postId);
+        return Message.likePostSuccess(Newsletter.class, postId);
+    }
+
+    @Transactional
+    public Message cancelLike(Long postId) {
+        newsletterLikeService.cancelLike(postId);
+        return Message.likePostCancel(Newsletter.class, postId);
+    }
+    /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- SCRAP -------------------------------------------- */
