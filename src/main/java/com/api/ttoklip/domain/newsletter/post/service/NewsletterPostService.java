@@ -9,17 +9,17 @@ import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.scarp.repository.NewsletterScrapRepository;
+import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +33,7 @@ public class NewsletterPostService {
     private final ReportService reportService;
     private final NewsletterScrapRepository newsletterScrapRepository;
     private final NewsletterCommonService newsletterCommonService;
+    private final NewsletterScrapService newsletterScrapService;
 
 
 //    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
@@ -126,13 +127,16 @@ public class NewsletterPostService {
 
 
     /* -------------------------------------------- SCRAP -------------------------------------------- */
+    @Transactional
     public Message registerScrap(Long postId) {
-        return null;
+        newsletterScrapService.registerScrap(postId);
+        return Message.scrapPostSuccess(Newsletter.class, postId);
     }
 
-    public static Message cancelScrap(Long postId) {
-        return null;
-
+    @Transactional
+    public Message cancelScrap(Long postId) {
+        newsletterScrapService.cancelScrap(postId);
+        return Message.scrapPostCancel(Newsletter.class, postId);
     }
     /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
 
