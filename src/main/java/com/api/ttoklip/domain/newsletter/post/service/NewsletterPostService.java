@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
-import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
+import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.scarp.repository.NewsletterScrapRepository;
 import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
@@ -93,11 +93,11 @@ public class NewsletterPostService {
 
 
     /* -------------------------------------------- FETCH JOIN READ -------------------------------------------- */
-    public NewsletterWithCommentRes getSinglePost(final Long postId) {
+    public NewsletterSingleResponse getSinglePost(final Long postId) {
         Newsletter newsletter = newsletterRepository.findByIdFetchJoin(postId);
         List<NewsletterComment> activeComments = newsletterRepository.findActiveCommentsByNewsletterId(postId);
-        NewsletterWithCommentRes newsletterWithCommentRes = NewsletterWithCommentRes.toDto(newsletter, activeComments);
-        return newsletterWithCommentRes;
+        NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletter, activeComments);
+        return newsletterSingleResponse;
     }
     /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
 

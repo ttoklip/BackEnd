@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.newsletter.post.controller;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
-import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
+import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -57,7 +57,7 @@ public class NewsletterController {
                                     description = "뉴스레터가 조회되었습니다."
                             )))})
     @GetMapping("/{postId}")
-    public SuccessResponse<NewsletterWithCommentRes> getSinglePost(final @PathVariable Long postId) {
+    public SuccessResponse<NewsletterSingleResponse> getSinglePost(final @PathVariable Long postId) {
         return new SuccessResponse<>(newsletterPostService.getSinglePost(postId));
     }
 
@@ -111,7 +111,7 @@ public class NewsletterController {
                             )))})
     @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
-        Message message = NewsletterPostService.cancelScrap(postId);
+        Message message = newsletterPostService.cancelScrap(postId);
         return new SuccessResponse<>(message);
     }
 }
