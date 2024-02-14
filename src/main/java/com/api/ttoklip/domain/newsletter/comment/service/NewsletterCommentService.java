@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.post.service.NewsletterCommonService;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.global.success.Message;
@@ -22,13 +23,13 @@ public class NewsletterCommentService {
 
     private final ReportService reportService;
     private final CommentService commentService;
-    private final NewsletterPostService newsletterPostService;
+    private final NewsletterCommonService newsletterCommonService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
     public Message register(final Long postId, final CommentCreateRequest request) {
-        Newsletter newsletter = newsletterPostService.findById(postId);
+        Newsletter findNewsletter = newsletterCommonService.getNewsletter(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
@@ -37,12 +38,12 @@ public class NewsletterCommentService {
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            Long newCommentId = registerCommentWithParent(request, newsletter, parentComment);
+            Long newCommentId = registerCommentWithParent(request, findNewsletter, parentComment);
             return Message.registerCommentSuccess(NewsletterComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        Long newCommentId = registerCommentOrphanage(request, newsletter);
+        Long newCommentId = registerCommentOrphanage(request, findNewsletter);
         return Message.registerCommentSuccess(NewsletterComment.class, newCommentId);
     }
 

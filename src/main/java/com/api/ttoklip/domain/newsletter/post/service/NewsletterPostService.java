@@ -94,9 +94,14 @@ public class NewsletterPostService {
 
     /* -------------------------------------------- FETCH JOIN READ -------------------------------------------- */
     public NewsletterSingleResponse getSinglePost(final Long postId) {
+
         Newsletter newsletter = newsletterRepository.findByIdFetchJoin(postId);
         List<NewsletterComment> activeComments = newsletterRepository.findActiveCommentsByNewsletterId(postId);
-        NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletter, activeComments);
+        int scrapCount = newsletterScrapService.countNewsletterScraps(postId).intValue();
+
+
+        NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletter,
+                activeComments, scrapCount);
         return newsletterSingleResponse;
     }
     /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */

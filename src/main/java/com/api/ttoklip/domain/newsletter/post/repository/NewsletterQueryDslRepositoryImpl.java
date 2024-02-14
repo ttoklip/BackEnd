@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.newsletter.post.repository;
 
 import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
+import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage;
@@ -20,14 +21,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository {
 
-    private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
+    private final NewsletterRepository newsletterRepository;
 
     @Override
     public Newsletter findByIdFetchJoin(Long postId) {
         QNewsletter qNewsletter = QNewsletter.newsletter;
         QNewsletterImage newsletterImage = QNewsletterImage.newsletterImage;
 
-        Newsletter findNewsletter = queryFactory
+        Newsletter findNewsletter = jpaQueryFactory
                 .selectFrom(qNewsletter)
                 .distinct()
                 .leftJoin(qNewsletter.newsletterImageList, newsletterImage)
@@ -41,7 +43,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
 
     @Override
     public List<NewsletterComment> findActiveCommentsByNewsletterId(Long postId) {
-        return queryFactory
+        return jpaQueryFactory
                 .selectFrom(newsletterComment)
                 .distinct()
                 .where(
@@ -57,7 +59,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     @Override
     public Long findNewsletterCount() {
         QNewsletter qNewsletter = QNewsletter.newsletter;
-        return queryFactory
+        return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(qNewsletter)
                 .distinct()
@@ -71,5 +73,21 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     private BooleanExpression getCommentActivate() {
         return newsletterComment.deleted.isFalse();
     }
+
+    @Override
+    public Newsletter findByIdActivated(Long id) {
+        return newsletterRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
+    }
+
+    @Override
+    public Long countNewsletterScrapsByNewsletterId(final Long communityId) {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(communityScrap)
+                .where(communityScrap.community.id.eq(communityId))
+                .fetchOne();
+    }
+
 
 }

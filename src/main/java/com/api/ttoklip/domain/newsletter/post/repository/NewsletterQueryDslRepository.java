@@ -16,6 +16,6 @@ public interface NewsletterQueryDslRepository {
 
     Newsletter findByIdActivated(final Long newsletterId);
 
-    Long countNewsletterScrapsByCommunityId(final Long newsletterId);
+    Long countNewsletterScrapsByNewsletterId(final Long newsletterId);
 
 }
