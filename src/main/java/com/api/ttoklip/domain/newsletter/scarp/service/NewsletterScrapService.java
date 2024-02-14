@@ -34,13 +34,15 @@ public class NewsletterScrapService {
 
     // 스크랩 취소
     public void cancelScrap(final Long newsletterId) {
-        // HoneyTipId (게시글 ID)
+        // NewsletterId (게시글 ID)
         Newsletter findNewsletter = newsletterCommonService.getNewsletter(newsletterId);
         Long findNewsletterId = findNewsletter.getId();
         Long currentMemberId = getCurrentMember().getId();
+
         NewsletterScrap newsletterScrap = newsletterScrapRepository.findByNewsletterIdAndMemberId(findNewsletterId, currentMemberId)
                 .orElseThrow(() -> new ApiException(ErrorType.SCRAP_NOT_FOUND));
-        // 자격 검증: 이 단계에서는 findByHoneyTipIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.
+
+        // 자격 검증: 이 단계에서는 findByNewsletterIdAndMemberId 결과가 존재하므로, 현재 사용자가 스크랩을 누른 것입니다.
         // 별도의 자격 검증 로직이 필요 없으며, 바로 삭제를 진행할 수 있습니다.
         newsletterScrapRepository.deleteById(newsletterScrap.getId());
     }

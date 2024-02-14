@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.newsletter.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
@@ -13,6 +14,7 @@ import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,9 +50,11 @@ public class NewsletterPostService {
     @Transactional
     public Message register(final NewsletterCreateReq request) {
 
+        Member currentMember = getCurrentMember();
+
         String mainImageUrl = registerMainImage(request);
 
-        Newsletter newsletter = Newsletter.from(request, mainImageUrl);
+        Newsletter newsletter = Newsletter.of(request, mainImageUrl, currentMember);
         newsletterRepository.save(newsletter);
 
         List<MultipartFile> images = request.getSubImages();
@@ -95,12 +99,11 @@ public class NewsletterPostService {
     /* -------------------------------------------- FETCH JOIN READ -------------------------------------------- */
     public NewsletterSingleResponse getSinglePost(final Long postId) {
 
-        Newsletter newsletter = newsletterRepository.findByIdFetchJoin(postId);
+        Newsletter newsletterWithImg = newsletterRepository.findByIdFetchJoin(postId);
         List<NewsletterComment> activeComments = newsletterRepository.findActiveCommentsByNewsletterId(postId);
         int scrapCount = newsletterScrapService.countNewsletterScraps(postId).intValue();
 
-
-        NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletter,
+        NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletterWithImg,
                 activeComments, scrapCount);
         return newsletterSingleResponse;
     }
@@ -118,6 +121,9 @@ public class NewsletterPostService {
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
 
+    public static Member getCurrentMember() {
+        return SecurityUtil.getCurrentMember();
+    }
     /* -------------------------------------------- total entity count -------------------------------------------- */
 
     public Long getEntityCount() {

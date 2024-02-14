@@ -47,7 +47,7 @@ public class Newsletter extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<NewsletterImage> newsletterImageList = new ArrayList<>();
+    private List<NewsletterImage> newsletterImages = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -61,13 +61,13 @@ public class Newsletter extends BaseEntity {
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterScrap> newsletterScraps = new ArrayList<>();
 
-    public static Newsletter from(final NewsletterCreateReq req, final String mainImageUrl) {
+    public static Newsletter of(final NewsletterCreateReq req, final String mainImageUrl, final Member member) {
         return Newsletter.builder()
                 .title(req.getTitle())
                 .content(req.getContent())
                 .category(req.getCategory())
                 .mainImageUrl(mainImageUrl)
-                .member(getCurrentMember())
+                .member(member)
                 .build();
     }
 

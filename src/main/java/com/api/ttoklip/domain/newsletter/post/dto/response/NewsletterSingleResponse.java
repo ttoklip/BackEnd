@@ -89,7 +89,7 @@ public class NewsletterSingleResponse {
     }
 
     private static List<ImageRes> getImageResponses(final Newsletter newsletter) {
-        List<NewsletterImage> newsletterImages = newsletter.getNewsletterImageList();
+        List<NewsletterImage> newsletterImages = newsletter.getNewsletterImages();
         return newsletterImages
                 .stream()
                 .map(ImageRes::toDto)

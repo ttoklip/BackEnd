@@ -8,14 +8,12 @@ import java.util.List;
 
 public interface NewsletterQueryDslRepository {
 
+    Newsletter findByIdActivated(final Long newsletterId);
+
     Newsletter findByIdFetchJoin(final Long postId);
 
     List<NewsletterComment> findActiveCommentsByNewsletterId(final Long postId);
 
     Long findNewsletterCount();
-
-    Newsletter findByIdActivated(final Long newsletterId);
-
-    Long countNewsletterScrapsByNewsletterId(final Long newsletterId);
 
 }
