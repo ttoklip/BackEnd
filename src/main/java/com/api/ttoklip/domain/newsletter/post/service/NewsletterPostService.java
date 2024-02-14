@@ -103,10 +103,11 @@ public class NewsletterPostService {
 
         Newsletter newsletterWithImg = newsletterRepository.findByIdFetchJoin(postId);
         List<NewsletterComment> activeComments = newsletterRepository.findActiveCommentsByNewsletterId(postId);
+        int likeCount = newsletterLikeService.countNewsletterLikes(postId).intValue();
         int scrapCount = newsletterScrapService.countNewsletterScraps(postId).intValue();
 
         NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletterWithImg,
-                activeComments, scrapCount);
+                activeComments, likeCount ,scrapCount);
         return newsletterSingleResponse;
     }
     /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */

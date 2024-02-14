@@ -19,7 +19,6 @@ public class CommunityLikeService {
 
     private final CommunityLikeRepository communityLikeRepository;
     private final CommunityCommonService communityCommonService;
-//    private final MemberRepository memberRepository;
 
     // 좋아요 생성
     public void register(final Long communityId) {

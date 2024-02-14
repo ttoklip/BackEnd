@@ -39,6 +39,9 @@ public class NewsletterSingleResponse {
     @Schema(description = "뉴스레터 카테고리")
     private Category category;
 
+    @Schema(description = "좋아요 개수", example = "3")
+    private int likeCount;
+
     @Schema(description = "스크랩 개수", example = "3")
     private int scrapCount;
 
@@ -55,6 +58,7 @@ public class NewsletterSingleResponse {
 
     public static NewsletterSingleResponse toDto(final Newsletter newsletter,
                                                  final List<NewsletterComment> activeComments,
+                                                 final int likeCount,
                                                  final int scrapCount) {
 
         // 시간 포멧팅
@@ -79,6 +83,7 @@ public class NewsletterSingleResponse {
                 .imageUrlList(imageResponses)
                 .urlList(urlResponses)
                 .commentResponses(commentResponses)
+                .likeCount(likeCount)
                 .scrapCount(scrapCount)
                 .build();
     }
