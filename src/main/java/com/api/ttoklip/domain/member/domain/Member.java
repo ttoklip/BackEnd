@@ -10,24 +10,15 @@ import com.api.ttoklip.domain.member.editor.MemberEditor.MemberEditorBuilder;
 import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.question.post.domain.Question;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.scrap.entity.CommunityScrap;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -50,7 +41,7 @@ public class Member extends BaseEntity {
     private String provider;
 
     private String nickname;
-//    private String street;
+    //    private String street;
     private int independentYear;
     private int independentMonth;
 
@@ -97,4 +88,16 @@ public class Member extends BaseEntity {
         independentMonth = memberEditor.getIndependentMonth();
         nickname = memberEditor.getNickname();
     }
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Community> communities = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommunityLike> communityLikes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommunityScrap> communityScraps = new ArrayList<>();
 }

@@ -18,11 +18,13 @@ public class Message {
 
     private static final String COMMENT = "댓글";
     private static final String POST = "게시글";
+    private static final String LIKE = "좋아요";
+    private static final String SCRAP = "스크랩";
     private static final String CREATE = "생성";
+    private static final String STATUS = "상태";
     private static final String EDIT = "수정";
     private static final String DELETE = "삭제";
     private static final String REPORT = "신고";
-    private static final String LIKE = "좋아요";
 
 
     private static <T> Message actionSuccess(Class<T> itemType, Long itemId, String dataType, String action) {
@@ -83,5 +85,17 @@ public class Message {
         return Message.builder()
                 .message("닉네임 중복 확인에 통과하였습니다.")
                 .build();
+    }
+
+    public static <T> Message editStatusSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, STATUS, EDIT);
+    }
+
+    public static <T> Message scrapPostSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, SCRAP, CREATE);
+    }
+
+    public static <T> Message scrapPostCancel(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, SCRAP, DELETE);
     }
 }

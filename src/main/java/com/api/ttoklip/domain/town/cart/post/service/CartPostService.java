@@ -9,6 +9,7 @@ import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
 import com.api.ttoklip.domain.town.cart.post.repository.CartRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -52,6 +53,9 @@ public class CartPostService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public Message register(final CartCreateRequest request) {
+
+//        Cart cart = Cart.from(request);
+//        cartRepository.save(cart);
 
         Cart cart = Cart.from(request);
         cartRepository.save(cart);
@@ -167,4 +171,16 @@ public class CartPostService {
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- UPDATE STATUS -------------------------------------------- */
+    @Transactional
+    public Message updateStatus(Long postId, TradeStatus newStatus) {
+        Cart cart = findCartById(postId);
+        cart.changeStatus(newStatus);
+        return Message.editStatusSuccess(Cart.class, cart.getId());
+    }
+
+    /* -------------------------------------------- UPDATE STATUS 끝-------------------------------------------- */
+
 }

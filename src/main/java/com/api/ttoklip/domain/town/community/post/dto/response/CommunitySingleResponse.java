@@ -11,10 +11,12 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -35,13 +37,25 @@ public class CommunitySingleResponse {
     @Schema(description = "소통해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
 
+    @Schema(description = "좋아요 개수", example = "5")
+    private int likeCount;
+
+    @Schema(description = "스크랩 개수", example = "3")
+    private int scrapCount;
+
+    @Schema(description = "댓글 개수", example = "11")
+    private int commentCount;
+
     @Schema(description = "소통해요에 포함된 이미지 URL 목록")
     private List<CommunityImageResponse> imageUrls;
 
     @Schema(description = "소통해요에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
-    public static CommunitySingleResponse of(final Community community, final List<CommunityComment> activeComments) {
+    public static CommunitySingleResponse of(final Community community,
+                                             final List<CommunityComment> activeComments,
+                                             final int likeCount,
+                                             final int scrapCount) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(community);
@@ -56,10 +70,13 @@ public class CommunitySingleResponse {
                 .communityId(community.getId())
                 .title(community.getTitle())
                 .content(community.getContent())
-//                .writer(community.getMember().getName) ToDo Member 엔티티 연결 후 수정
+                .writer(community.getMember().getOriginName())
                 .writtenTime(formattedCreatedDate)
                 .imageUrls(communityImageResponses)
                 .commentResponses(commentResponses)
+                .likeCount(likeCount)
+                .scrapCount(scrapCount)
+                .commentCount(commentResponses.size())
                 .build();
     }
 
