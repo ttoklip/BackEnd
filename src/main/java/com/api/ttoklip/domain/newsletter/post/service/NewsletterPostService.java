@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
+import com.api.ttoklip.domain.newsletter.scarp.repository.NewsletterScrapRepository;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -30,14 +31,16 @@ public class NewsletterPostService {
     private final NewsletterImageService imageService;
     private final NewsletterUrlService urlService;
     private final ReportService reportService;
+    private final NewsletterScrapRepository newsletterScrapRepository;
+    private final NewsletterCommonService newsletterCommonService;
 
 
-    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
-    public Newsletter findById(final Long postId) {
-        return newsletterRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
-    }
-    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
+//    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
+//    public Newsletter findById(final Long postId) {
+//        return newsletterRepository.findById(postId)
+//                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
+//    }
+//    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
@@ -101,8 +104,9 @@ public class NewsletterPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
-        Newsletter newsletter = findById(postId);
+        Newsletter newsletter = newsletterCommonService.getNewsletter(postId);
         reportService.reportNewsletter(request, newsletter);
+
         return Message.reportPostSuccess(Newsletter.class, postId);
     }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
