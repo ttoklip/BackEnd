@@ -41,7 +41,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     }
 
     private BooleanExpression matchNewsletterId(final Long newsletterId) {
-        return newsletterComment.newsletter.id.eq(newsletterId);
+        return newsletter.id.eq(newsletterId);
     }
 
     private BooleanExpression getNewsletterActivate() {

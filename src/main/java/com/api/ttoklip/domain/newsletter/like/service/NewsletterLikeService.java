@@ -24,10 +24,16 @@ public class NewsletterLikeService {
     // 좋아요 생성
     public void registerLike(final Long newsletterId) {
         Long currentMemberId = getCurrentMember().getId();
+        
         boolean exists = newsletterLikeRepository.existsByNewsletterIdAndMemberId(newsletterId, currentMemberId);
+        System.out.println("exists = " + exists);
+
         if (exists) {
             return; // 이미 좋아요가 존재하면 스크랩을 생성하지 않고 return
         }
+
+        System.out.println("newsletterId = " + newsletterId);
+
         Newsletter findNewsletter = newsletterCommonService.getNewsletter(newsletterId);
         NewsletterLike newsletterLike = NewsletterLike.from(findNewsletter);
         newsletterLikeRepository.save(newsletterLike);

@@ -9,5 +9,5 @@ public interface NewsletterLikeRepository extends JpaRepository<NewsletterLike, 
 
     Optional<NewsletterLike> findByNewsletterIdAndMemberId(Long newsletterId, Long memberId);
 
-    boolean existsByNewsletterIdAndMemberId(Long postId, Long memberId);
+    boolean existsByNewsletterIdAndMemberId(Long newsletterId, Long memberId);
 }
