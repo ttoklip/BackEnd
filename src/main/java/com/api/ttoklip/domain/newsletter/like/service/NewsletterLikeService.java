@@ -53,4 +53,9 @@ public class NewsletterLikeService {
     public Long countNewsletterLikes(final Long newsletterId) {
         return newsletterLikeRepository.countNewsletterLikesByNewsletterId(newsletterId);
     }
+
+    public boolean existsByNewsletterIdAndMemberId(final Long postId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return newsletterLikeRepository.existsByNewsletterIdAndMemberId(postId, currentMemberId);
+    }
 }

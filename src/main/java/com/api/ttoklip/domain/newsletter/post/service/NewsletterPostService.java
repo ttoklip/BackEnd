@@ -10,19 +10,17 @@ import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
-import com.api.ttoklip.domain.newsletter.scarp.repository.NewsletterScrapRepository;
 import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.SecurityUtil;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +32,9 @@ public class NewsletterPostService {
     private final NewsletterImageService imageService;
     private final NewsletterUrlService urlService;
     private final ReportService reportService;
-    private final NewsletterScrapRepository newsletterScrapRepository;
     private final NewsletterCommonService newsletterCommonService;
     private final NewsletterScrapService newsletterScrapService;
     private final NewsletterLikeService newsletterLikeService;
-
 
 //    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
 //    public Newsletter findById(final Long postId) {
@@ -47,6 +43,9 @@ public class NewsletterPostService {
 //    }
 //    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
 
+    public static Member getCurrentMember() {
+        return SecurityUtil.getCurrentMember();
+    }
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
@@ -91,12 +90,12 @@ public class NewsletterPostService {
         return s3FileUploader.uploadMultipartFiles(uploadImages);
     }
 
+    /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
+
     private void registerUrls(final Newsletter newsletter, final List<String> urls) {
         urls.forEach(url -> urlService.register(newsletter, url));
     }
-
-    /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
-
+    /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
 
     /* -------------------------------------------- FETCH JOIN READ -------------------------------------------- */
     public NewsletterSingleResponse getSinglePost(final Long postId) {
@@ -106,12 +105,13 @@ public class NewsletterPostService {
         int likeCount = newsletterLikeService.countNewsletterLikes(postId).intValue();
         int scrapCount = newsletterScrapService.countNewsletterScraps(postId).intValue();
 
+        boolean likedByCurrentUser = newsletterLikeService.existsByNewsletterIdAndMemberId(postId);
+
         NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletterWithImg,
-                activeComments, likeCount ,scrapCount);
+                activeComments, likeCount, scrapCount, likedByCurrentUser);
         return newsletterSingleResponse;
     }
-    /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
-
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
@@ -120,12 +120,6 @@ public class NewsletterPostService {
         reportService.reportNewsletter(request, newsletter);
 
         return Message.reportPostSuccess(Newsletter.class, postId);
-    }
-    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
-
-
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
     }
     /* -------------------------------------------- total entity count -------------------------------------------- */
 
@@ -167,7 +161,6 @@ public class NewsletterPostService {
         return Message.scrapPostCancel(Newsletter.class, postId);
     }
     /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
-
 
 //    public CategoryResponses getDefaultCategoryRead() {
 //        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
