@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.honeytip.post.domain;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.honeytip.Scrap.domain.HoneyTipScrap;
+import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
