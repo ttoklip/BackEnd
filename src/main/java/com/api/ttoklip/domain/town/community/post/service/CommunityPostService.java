@@ -5,7 +5,6 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
-import com.api.ttoklip.domain.town.community.like.repository.CommunityLikeRepository;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
@@ -15,12 +14,11 @@ import com.api.ttoklip.domain.town.community.post.repository.CommunityRepository
 import com.api.ttoklip.domain.town.community.scrap.service.CommunityScrapService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.SecurityUtil;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,13 +28,16 @@ public class CommunityPostService {
 
     private final CommunityImageService communityImageService;
     private final ReportService reportService;
-    private final CommunityLikeRepository communityLikeRepository;
     private final CommunityLikeService communityLikeService;
     private final CommunityCommonService communityCommonService;
     private final CommunityScrapService communityScrapService;
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
+
+    public static Member getCurrentMember() {
+        return SecurityUtil.getCurrentMember();
+    }
 
     @Transactional
     public Message register(final CommunityCreateRequest request) {
@@ -56,15 +57,19 @@ public class CommunityPostService {
         return Message.registerPostSuccess(Community.class, community.getId());
     }
 
+    /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
+
+    /* -------------------------------------------- READ -------------------------------------------- */
+
     private void registerImages(final Community community, final List<MultipartFile> uploadImages) {
         // S3에 이미지 업로드 후 URL 목록을 가져온다.
         List<String> uploadUrls = communityCommonService.uploadImages(uploadImages);
         uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
     }
 
-    /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
+    /* -------------------------------------------- READ 끝 -------------------------------------------- */
 
-    /* -------------------------------------------- READ -------------------------------------------- */
+    /* -------------------------------------------- EDIT -------------------------------------------- */
 
     public CommunitySingleResponse getSinglePost(final Long postId) {
 
@@ -73,14 +78,12 @@ public class CommunityPostService {
         int likeCount = communityLikeService.countCommunityLikes(postId).intValue();
         int scrapCount = communityScrapService.countCommunityScraps(postId).intValue();
 
+        boolean likedByCurrentUser = communityLikeService.existsByNewsletterIdAndMemberId(postId);
+
         CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg,
-                activeComments, likeCount, scrapCount);
+                activeComments, likeCount, scrapCount, likedByCurrentUser);
         return communitySingleResponse;
     }
-
-    /* -------------------------------------------- READ 끝 -------------------------------------------- */
-
-    /* -------------------------------------------- EDIT -------------------------------------------- */
 
     @Transactional
     public Message edit(final Long postId, final CommunityCreateRequest request) {
@@ -111,6 +114,10 @@ public class CommunityPostService {
         return communityPostEditor;
     }
 
+    /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
+
+    /* -------------------------------------------- DELETE -------------------------------------------- */
+
     private void editImages(final List<MultipartFile> multipartFiles, final Community community) {
         Long communityId = community.getId();
         // 기존 이미지 전부 제거
@@ -119,21 +126,6 @@ public class CommunityPostService {
         // 새로운 이미지 업로드
         List<String> uploadUrls = communityCommonService.uploadImages(multipartFiles);
         uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
-    }
-
-    /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
-
-    /* -------------------------------------------- DELETE -------------------------------------------- */
-
-    @Transactional
-    public Message delete(final Long postId) {
-        Community community = communityCommonService.getCommunity(postId);
-
-        // 삭제 권한 확인
-        communityCommonService.checkEditPermission(community);
-        community.deactivate();
-
-        return Message.deletePostSuccess(Community.class, postId);
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
@@ -148,14 +140,15 @@ public class CommunityPostService {
 
     /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
 
-
-    /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
-    public Message report(final Long postId, final ReportCreateRequest request) {
+    public Message delete(final Long postId) {
         Community community = communityCommonService.getCommunity(postId);
-        reportService.reportCommunity(request, community);
 
-        return Message.reportPostSuccess(Community.class, postId);
+        // 삭제 권한 확인
+        communityCommonService.checkEditPermission(community);
+        community.deactivate();
+
+        return Message.deletePostSuccess(Community.class, postId);
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
@@ -166,10 +159,14 @@ public class CommunityPostService {
 //        return Message.likePostSuccess(Community.class, postId);
 //    }
 
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
-    }
+    /* -------------------------------------------- REPORT -------------------------------------------- */
+    @Transactional
+    public Message report(final Long postId, final ReportCreateRequest request) {
+        Community community = communityCommonService.getCommunity(postId);
+        reportService.reportCommunity(request, community);
 
+        return Message.reportPostSuccess(Community.class, postId);
+    }
 
     /* -------------------------------------------- LIKE -------------------------------------------- */
     @Transactional
