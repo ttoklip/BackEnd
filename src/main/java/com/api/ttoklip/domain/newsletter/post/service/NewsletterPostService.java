@@ -106,9 +106,10 @@ public class NewsletterPostService {
         int scrapCount = newsletterScrapService.countNewsletterScraps(postId).intValue();
 
         boolean likedByCurrentUser = newsletterLikeService.existsByNewsletterIdAndMemberId(postId);
+        boolean scrapedByCurrentUser = newsletterScrapService.existsByNewsletterIdAndMemberId(postId);
 
         NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletterWithImg,
-                activeComments, likeCount, scrapCount, likedByCurrentUser);
+                activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
         return newsletterSingleResponse;
     }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
