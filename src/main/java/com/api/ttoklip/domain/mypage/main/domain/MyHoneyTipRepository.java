@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.mypage.main.domain;
 
+import com.api.ttoklip.domain.honeytip.Scrap.domain.QHoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
@@ -20,6 +21,7 @@ public class MyHoneyTipRepository {
     private final JPAQueryFactory jpaQueryFactory;
     private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
+    private final QHoneyTipScrap honeyTipScrap = QHoneyTipScrap.honeyTipScrap;
 
     public Page<HoneyTip> getContain(final Long userId, final Pageable pageable){
         List<HoneyTip> content = getSearchPageId(userId,pageable);
@@ -45,5 +47,25 @@ public class MyHoneyTipRepository {
                 .from(honeyTip)
                 .distinct()
                 .fetchOne();
+    }
+
+    public Page<HoneyTip> getScrapContain(final Long userId, final Pageable pageable){
+        List<HoneyTip> content = getSearchScrapPageId(userId,pageable);
+        Long count = countQuery();
+        return new PageImpl<>(content, pageable, count);
+    }
+    private List<HoneyTip> getSearchScrapPageId(final Long userId, final Pageable pageable) {
+        return jpaQueryFactory
+                .select(honeyTip)
+                .from(honeyTip)
+                .innerJoin(honeyTipScrap).on(honeyTip.id.eq(honeyTipScrap.honeyTip.id))
+                .where(honeyTipScrap.member.id.eq(userId))
+                .distinct()
+                .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .fetchJoin()
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .orderBy(honeyTip.id.desc())
+                .fetch();
     }
 }

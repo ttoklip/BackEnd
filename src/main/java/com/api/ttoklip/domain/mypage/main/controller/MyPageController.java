@@ -126,8 +126,8 @@ public class MyPageController {
                                     description = "스크랩한 허니팁들을 불러왔습니다"
                             )))})
     @GetMapping("/scraped-posts/honeytip")
-    public SuccessResponse<HoneyTipPaging> scrapHoneyTips() {
-        return new SuccessResponse<>(myPageService.scrapHoneyTips());
+    public SuccessResponse<HoneyTipPaging> scrapHoneyTips(final Pageable pageable) {
+        return new SuccessResponse<>(myPageService.scrapHoneyTips(pageable));
     }
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
@@ -141,8 +141,8 @@ public class MyPageController {
                                     description = "스크랩한 뉴스레터들을 불러왔습니다"
                             )))})
     @GetMapping("/scraped-posts/newsletter")
-    public SuccessResponse<NewsletterPaging> scrapNewsletters() {
-        return new SuccessResponse<>(myPageService.scrapNewsletters());
+    public SuccessResponse<NewsletterPaging> scrapNewsletters(final Pageable pageable) {
+        return new SuccessResponse<>(myPageService.scrapNewsletters(pageable));
     }
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
@@ -156,8 +156,8 @@ public class MyPageController {
                                     description = "스크랩한 소통해요들을 불러왔습니다"
                             )))})
     @GetMapping("/scraped-posts/community")
-    public SuccessResponse<CommunityPaging> scrapCommunity() {
-        return new SuccessResponse<>(myPageService.scrapCommunity());
+    public SuccessResponse<CommunityPaging> scrapCommunity(final Pageable pageable) {
+        return new SuccessResponse<>(myPageService.scrapCommunity(pageable));
     }
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
     @ApiResponses(value = {
@@ -171,7 +171,7 @@ public class MyPageController {
                                     description = "내가 작성한 글들을 불러왔습니다"
                             )))})
     @GetMapping("/honeytip")
-    public SuccessResponse<Message> myHoneyTip(final Pageable pageable) {
+    public SuccessResponse<HoneyTipPaging> myHoneyTip(final Pageable pageable) {
         return new SuccessResponse<>(myPageService.myHoneyTips(pageable));
     }
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
@@ -201,8 +201,8 @@ public class MyPageController {
                                     description = "내가 작성한 글들을 불러왔습니다"
                             )))})
     @GetMapping("/community")
-    public SuccessResponse<Message> myCommunity() {
-        return new SuccessResponse<>(myPageService.myCommunities());
+    public SuccessResponse<CommunityPaging> myCommunity(final Pageable pageable) {
+        return new SuccessResponse<>(myPageService.myCommunities(pageable));
     }
     @Operation(summary = "내가 참여한 거래 목록", description = "내가 참여한 거래 목록 불러오기")
     @ApiResponses(value = {

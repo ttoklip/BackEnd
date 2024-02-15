@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.mypage.main.domain.MyCommunityRepostiory;
 import com.api.ttoklip.domain.mypage.main.domain.MyHoneyTipRepository;
+import com.api.ttoklip.domain.mypage.main.domain.MyNewsLetterRepository;
 import com.api.ttoklip.domain.mypage.main.domain.MyQuestionRepository;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
@@ -32,6 +33,7 @@ public class MyPageService {
     private final MyQuestionRepository myQuestionRepository;
     private final MyCommunityRepostiory myCommunityRepostiory;
     private final MyHoneyTipRepository myHoneyTipRepository;
+    private final MyNewsLetterRepository myNewsLetterRepository;
 
 
     public MyPageResponse getMyProfile() {
@@ -61,9 +63,10 @@ public class MyPageService {
         return Message.activateUser();
     }
 
-    public HoneyTipPaging scrapHoneyTips() {
+    public HoneyTipPaging scrapHoneyTips(final Pageable pageable) {
 
-        /*Page<HoneyTip> contentPaging = honeyTipSearchRepository.getContain(keyword, pageable);
+        Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
+        Page<HoneyTip> contentPaging = myHoneyTipRepository.getScrapContain(currentMember.getId(), pageable);
 
         // List<Entity>
         List<HoneyTip> contents = contentPaging.getContent();
@@ -81,16 +84,31 @@ public class MyPageService {
                 .totalPage(contentPaging.getTotalPages())
                 .build();
 
-         */
-        return null;
     }
+
     public NewsletterPaging scrapNewsletters(final Pageable pageable) {
-        return null;
+        Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
+        Page<Newsletter> contentPaging = myNewsLetterRepository.getScrapContain(currentMember.getId(), pageable);
+        // List<Entity>
+        List<Newsletter> contents = contentPaging.getContent();
+
+        // Entity -> SingleResponse 반복
+        List<SingleResponse> newsletterSingleData = contents.stream()
+                .map(SingleResponse::newsletterFrom)
+                .toList();
+        return NewsletterPaging.builder()
+                .newsletters(newsletterSingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
     }
-    public CommunityPaging scrapCommunity() {
 
-        /*Page<Community> contentPaging = communitySearchRepository.getContain(keyword, pageable);
+    public CommunityPaging scrapCommunity(final Pageable pageable) {
 
+        Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
+        Page<Community> contentPaging = myCommunityRepostiory.getScrapContain(currentMember.getId(), pageable);
         // List<Entity>
         List<Community> contents = contentPaging.getContent();
 
@@ -105,11 +123,10 @@ public class MyPageService {
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())
                 .totalPage(contentPaging.getTotalPages())
-                .build();*/
-        return null;
+                .build();
     }
 
-    public QuestionPaging myQuestions(final Pageable pageable) {
+    /*public QuestionPaging myQuestions(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
         Page<Question> contentPaging = myQuestionRepository.getContain(currentMember.getId(),pageable);
         // List<Entity>
@@ -128,16 +145,20 @@ public class MyPageService {
                 .totalPage(contentPaging.getTotalPages())
                 .build();
 
+    }*/
+    public Message myQuestions(final Pageable pageable) {
+        return null;
     }
+
     public CommunityPaging myCommunities(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        Page<Community> contentPaging = myCommunityRepostiory.getContain(currentMember.getId(),pageable);
+        Page<Community> contentPaging = myCommunityRepostiory.getContain(currentMember.getId(), pageable);
         // List<Entity>
         List<Community> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
         List<CommunitySingleResponse> communitySingleData = contents.stream()
-                .map(CommunitySingleResponse :: from)
+                .map(CommunitySingleResponse::from)
                 .toList();
 
         return CommunityPaging.builder()
@@ -148,15 +169,16 @@ public class MyPageService {
                 .totalPage(contentPaging.getTotalPages())
                 .build();
     }
+
     public HoneyTipPaging myHoneyTips(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        Page<HoneyTip> contentPaging = myHoneyTipRepository.getContain(currentMember.getId(),pageable);
+        Page<HoneyTip> contentPaging = myHoneyTipRepository.getContain(currentMember.getId(), pageable);
         // List<Entity>
         List<HoneyTip> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
         List<SingleResponse> honeyTipSingleData = contents.stream()
-                .map(SingleResponse :: honeyTipFrom)
+                .map(SingleResponse::honeyTipFrom)
                 .toList();
 
         return HoneyTipPaging.builder()
