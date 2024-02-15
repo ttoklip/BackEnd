@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.honeytip.Scrap.domain;
+package com.api.ttoklip.domain.honeytip.scrap.domain;
 
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;

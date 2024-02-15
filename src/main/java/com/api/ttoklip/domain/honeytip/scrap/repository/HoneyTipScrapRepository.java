@@ -1,6 +1,6 @@
-package com.api.ttoklip.domain.honeytip.Scrap.repository;
+package com.api.ttoklip.domain.honeytip.scrap.repository;
 
-import com.api.ttoklip.domain.honeytip.Scrap.domain.HoneyTipScrap;
+import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

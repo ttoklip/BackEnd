@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.honeytip.Scrap.repository;
+package com.api.ttoklip.domain.honeytip.scrap.repository;
 
 public interface HoneyTipScrapRepositoryCustom {
 
