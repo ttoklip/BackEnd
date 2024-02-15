@@ -3,8 +3,8 @@ package com.api.ttoklip.domain.question.post.service;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
-import com.api.ttoklip.domain.main.dto.response.QuestionCategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.service.QuestionImageService;
@@ -107,17 +107,16 @@ public class QuestionPostService {
 
     /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
 
-
     // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 ------------------------------------
 
-    public QuestionCategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
+    public CategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
         Page<Question> questions = questionRepository.matchCategoryPaging(category, pageable);
         List<TitleResponse> data = questions.stream()
                 .map(TitleResponse::questionOf)
                 .toList();
 
-        return QuestionCategoryPagingResponse.builder()
-                .questionData(data)
+        return CategoryPagingResponse.builder()
+                .data(data)
                 .category(category)
                 .totalPage(questions.getTotalPages())
                 .totalElements(questions.getTotalElements())

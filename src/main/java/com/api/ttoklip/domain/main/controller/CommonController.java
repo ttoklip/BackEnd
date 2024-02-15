@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.main.controller;
 
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.main.dto.response.CommonDefaultResponse;
-import com.api.ttoklip.domain.main.dto.response.QuestionCategoryPagingResponse;
+import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.service.CommonService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,14 +51,28 @@ public class CommonController {
     @Operation(summary = "질문해요 카테고리별 페이징 조회",
             description = "질문해요 카테고리별로 페이징 조회합니다. 카테고리가 무엇인지 필수로 보내주셔야합니다.")
     @GetMapping("/question/paging")
-    public SuccessResponse<QuestionCategoryPagingResponse> questionCategoryPaging(
+    public SuccessResponse<CategoryPagingResponse> questionCategoryPaging(
             @Parameter(description = "카테고리. 유효한 값은 HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 중 하나입니다.", required = true, example = "HOUSEWORK")
             @RequestParam final String category,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page){
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        QuestionCategoryPagingResponse categoryPaging = commonService.getCategoryPaging(category, pageable);
+        CategoryPagingResponse categoryPaging = commonService.questionCategoryPaging(category, pageable);
+        return new SuccessResponse<>(categoryPaging);
+    }
+
+    @Operation(summary = "꿀팁공유해요 카테고리별 페이징 조회",
+            description = "꿀팁공유해요 카테고리별로 페이징 조회합니다. 카테고리가 무엇인지 필수로 보내주셔야합니다.")
+    @GetMapping("/honey-tip/paging")
+    public SuccessResponse<CategoryPagingResponse> honeyTipCategoryPaging(
+            @Parameter(description = "카테고리. 유효한 값은 HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 중 하나입니다.", required = true, example = "HOUSEWORK")
+            @RequestParam final String category,
+
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page){
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        CategoryPagingResponse categoryPaging = commonService.honeyTipCategoryPaging(category, pageable);
         return new SuccessResponse<>(categoryPaging);
     }
 }
