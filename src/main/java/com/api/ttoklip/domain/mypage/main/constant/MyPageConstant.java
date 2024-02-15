@@ -69,55 +69,127 @@ public class MyPageConstant {
         }
         """;
 
-    public static final String scrapedPostsResponse = """
+    public static final String scrapHoneyTipsResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
             "status": 200,
             "code": "200",
             "message": "요청에 성공하였습니다.",
             "result": {
-                "scrapedPosts": [
-                    {
-                        "postId": 1,
-                        "type": "honeytip",
-                        "title": "스크랩한 허니팁 제목 예시 1",
-                        "content": "스크랩한 허니팁 내용 예시 1",
-                        "author": "글쓴이1",
-                        "category": "카테고리1",
-                        "scrapedTime": "2024-01-11T16:06:30.852Z",
-                        "likes": 10,
-                        "comments": 3,
-                        "scrapCount": 20
-                    },
-                    {
-                        "postId": 2,
-                        "type": "newsletter",
-                        "title": "스크랩한 뉴스레터 제목 예시 2",
-                        "content": "스크랩한 뉴스레터 내용 예시 2",
-                        "author": "글쓴이2",
-                        "category": "카테고리2",
-                        "scrapedTime": "2024-01-10T10:30:00.000Z",
-                        "likes": 15,
-                        "comments": 5,
-                        "scrapCount": 30
-                    },
-                    {
-                        "postId": 3,
-                        "type": "cart",
-                        "title": "스크랩한 카트 제목 예시 3",
-                        "content": "스크랩한 카트 내용 예시 3",
-                        "author": "글쓴이3",
-                        "category": "카테고리3",
-                        "scrapedTime": "2024-01-09T12:00:00.000Z",
-                        "likes": 8,
-                        "comments": 2,
-                        "scrapCount": 25
-                    }
-                ]
+                "honeyTips": [
+                             {
+                                 "honeyTipId": 5,
+                                 "title": "first",
+                                 "content": "first"
+                             },
+                             {
+                                 "honeyTipId": 4,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "honeyTipId": 3,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "honeyTipId": 2,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "honeyTipId": 1,
+                                 "title": "first",
+                                 "content": "fff"
+                             }
+                         ],
+                         "totalPage": 1,
+                         "totalElements": 5,
+                         "isFirst": true,
+                         "isLast": true
             }
         }
         """;
-
+    public static final String scrapNewsLetterResponse = """
+        {
+            "time": "2024-01-11T16:06:30.852Z",
+            "status": 200,
+            "code": "200",
+            "message": "요청에 성공하였습니다.",
+            "result": {
+                "newsletters": [
+                             {
+                                 "newsLetterId"first",
+                                 "content": "first"
+                             },
+                             {
+                                 "newsLetterId": 4,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "newsLetterId": 3,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "newsLetterId": 2,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "newsLetterId": 1,
+                                 "title": "first",
+                                 "content": "fff"
+                             }
+                         ],
+                         "totalPage": 1,
+                         "totalElements": 5,
+                         "isFirst": true,
+                         "isLast": true
+            }
+        }
+        """;
+    public static final String scrapCommunityResponse = """
+        {
+            "time": "2024-01-11T16:06:30.852Z",
+            "status": 200,
+            "code": "200",
+            "message": "요청에 성공하였습니다.",
+            "result": {
+                "communities": [
+                             {
+                                 "communityId"first",
+                                 "content": "first"
+                             },
+                             {
+                                 "communityId": 4,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 3,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 2,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 1,
+                                 "title": "first",
+                                 "content": "fff"
+                             }
+                         ],
+                         "totalPage": 1,
+                         "totalElements": 5,
+                         "isFirst": true,
+                         "isLast": true
+            }
+        }
+        """;
     public static final String myPostsResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -163,7 +235,129 @@ public class MyPageConstant {
             }
         }
         """;
-
+    public static final String myHoneyTipsResponse = """
+        {
+            "time": "2024-01-11T16:06:30.852Z",
+            "status": 200,
+            "code": "200",
+            "message": "요청에 성공하였습니다.",
+            "result": {
+                "honeyTips": [
+                             {
+                                 "honeyTipId": 5,
+                                 "title": "first",
+                                 "content": "first"
+                             },
+                             {
+                                 "honeyTipId": 4,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "honeyTipId": 3,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "honeyTipId": 2,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "honeyTipId": 1,
+                                 "title": "first",
+                                 "content": "fff"
+                             }
+                         ],
+                         "totalPage": 1,
+                         "totalElements": 5,
+                         "isFirst": true,
+                         "isLast": true
+            }
+        }
+        """;
+    public static final String myCommunityResponse = """
+        {
+            "time": "2024-01-11T16:06:30.852Z",
+            "status": 200,
+            "code": "200",
+            "message": "요청에 성공하였습니다.",
+            "result": {
+                "communities": [
+                             {
+                                 "communityId":5,
+                                 "title": "first",
+                                 "content": "first"
+                             },
+                             {
+                                 "communityId": 4,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 3,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 2,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 1,
+                                 "title": "first",
+                                 "content": "fff"
+                             }
+                         ],
+                         "totalPage": 1,
+                         "totalElements": 5,
+                         "isFirst": true,
+                         "isLast": true
+            }
+        }
+        """;
+    public static final String myQuestionResponse = """
+        {
+            "time": "2024-01-11T16:06:30.852Z",
+            "status": 200,
+            "code": "200",
+            "message": "요청에 성공하였습니다.",
+            "result": {
+                "communities": [
+                             {
+                                 "questionId": 5,
+                                 "title": "first",
+                                 "content": "first"
+                             },
+                             {
+                                 "questionId": 4,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "questionId": 3,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "questionId": 2,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "questionId": 1,
+                                 "title": "first",
+                                 "content": "fff"
+                             }
+                         ],
+                         "totalPage": 1,
+                         "totalElements": 5,
+                         "isFirst": true,
+                         "isLast": true
+            }
+        }
+        """;
     public static final String participatedDealsResponse = """
         {
             "time": "2024-01-11T16:06:30.852Z",
@@ -198,7 +392,18 @@ public class MyPageConstant {
             }
         }
         """;
-
+    public static final String editMyProfile = """
+        {
+            "time": "2024-01-11T16:06:30.852Z",
+            "status": 200,
+            "code": "200",
+            "message": "요청에 성공하였습니다.",
+            "result": {
+                    "message": "개인정보를 수정했습니다."
+                }
+            }
+        }
+        """;
 
 
 

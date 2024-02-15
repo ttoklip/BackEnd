@@ -44,4 +44,6 @@ public class Profile extends BaseEntity {
     public void changeProfile(String profileImgUrl) {
         this.profileImgUrl = profileImgUrl;
     }
+
+
 }

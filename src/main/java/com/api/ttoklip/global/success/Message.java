@@ -93,9 +93,20 @@ public class Message {
                 .build();
     }
 
+    public static Message editProfile() {
+        return Message.builder()
+                .message("개인정보를 수정했습니다.")
+                .build();
+    }
+
     public static Message validNickname() {
         return Message.builder()
                 .message("닉네임 중복 확인에 통과하였습니다.")
+                .build();
+    }
+    public static Message activateUser(){
+        return Message.builder()
+                .message("차단해제 하였습니다.")
                 .build();
     }
 }
