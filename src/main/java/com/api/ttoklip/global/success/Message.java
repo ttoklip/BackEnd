@@ -75,18 +75,6 @@ public class Message {
         return actionSuccess(itemType, itemId, LIKE, DELETE);
     }
 
-    public static Message insertPrivacy() {
-        return Message.builder()
-                .message("회원가입 후 개인정보를 추가했습니다.")
-                .build();
-    }
-
-    public static Message validNickname() {
-        return Message.builder()
-                .message("닉네임 중복 확인에 통과하였습니다.")
-                .build();
-    }
-
     public static <T> Message editStatusSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, STATUS, EDIT);
     }
@@ -97,5 +85,17 @@ public class Message {
 
     public static <T> Message scrapPostCancel(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, SCRAP, DELETE);
+    }
+
+    public static Message insertPrivacy() {
+        return Message.builder()
+                .message("회원가입 후 개인정보를 추가했습니다.")
+                .build();
+    }
+
+    public static Message validNickname() {
+        return Message.builder()
+                .message("닉네임 중복 확인에 통과하였습니다.")
+                .build();
     }
 }

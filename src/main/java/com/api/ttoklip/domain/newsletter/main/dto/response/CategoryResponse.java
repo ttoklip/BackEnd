@@ -23,6 +23,7 @@ public class CategoryResponse {
                 .title(newsletter.getTitle())
                 .mainImageUrl(newsletter.getMainImageUrl())
                 .writtenTime(writtenTime)
+                // todo 댓글 수 추가
                 .build();
     }
 }

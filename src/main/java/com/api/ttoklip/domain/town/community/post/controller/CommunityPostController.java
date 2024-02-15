@@ -21,7 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Town", description = "우리동네 - 소통해요 API 입니다.")
+@Tag(name = "Community", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/town/comms")

@@ -1,20 +1,17 @@
 package com.api.ttoklip.domain.newsletter.post.domain;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.domain.NewsletterImage;
+import com.api.ttoklip.domain.newsletter.like.entity.NewsletterLike;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
+import com.api.ttoklip.domain.newsletter.scarp.entity.NewsletterScrap;
 import com.api.ttoklip.domain.newsletter.url.domain.NewsletterUrl;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -45,9 +42,13 @@ public class Newsletter extends BaseEntity {
 
     private String mainImageUrl;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<NewsletterImage> newsletterImageList = new ArrayList<>();
+    private List<NewsletterImage> newsletterImages = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -57,12 +58,29 @@ public class Newsletter extends BaseEntity {
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterComment> newsletterComments = new ArrayList<>();
 
-    public static Newsletter from(final NewsletterCreateReq req, final String mainImageUrl) {
+    @Builder.Default
+    @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NewsletterLike> newsletterLikes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NewsletterScrap> newsletterScraps = new ArrayList<>();
+
+    public static Newsletter of(final NewsletterCreateReq req, final String mainImageUrl, final Member member) {
         return Newsletter.builder()
                 .title(req.getTitle())
                 .content(req.getContent())
                 .category(req.getCategory())
                 .mainImageUrl(mainImageUrl)
+                .member(member)
                 .build();
+    }
+
+    public long getScrapsCount() {
+        return newsletterScraps.size();
+    }
+
+    public long getLikesCount() {
+        return newsletterLikes.size();
     }
 }
