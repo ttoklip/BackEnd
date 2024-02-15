@@ -4,6 +4,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.honeytip.Scrap.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
 import com.api.ttoklip.domain.honeytip.like.service.HoneyTipLikeService;
@@ -37,6 +38,7 @@ public class HoneyTipPostService {
     private final HoneyTipUrlService honeyTipUrlService;
     private final HoneyTipImageService honeyTipImageService;
     private final HoneyTipLikeService honeyTipLikeService;
+    private final HoneyTipScrapService honeyTipScrapService;
     private final HoneyTipCommonService honeyTipCommonService;
 
 
@@ -215,4 +217,18 @@ public class HoneyTipPostService {
     /* -------------------------------------------- 좋아요 추가 & 취소 끝 -------------------------------------------- */
 
 
+    /* -------------------------------------------- 스크랩 추가 & 취소 -------------------------------------------- */
+    @Transactional
+    public Message registerScrap(Long postId) {
+        honeyTipScrapService.registerScrap(postId);
+        return Message.scrapPostSuccess(HoneyTip.class, postId);
+    }
+
+    @Transactional
+    public Message cancelScrap(Long postId){
+        honeyTipScrapService.cancelScrap(postId);
+        return Message.scrapPostCancel(HoneyTip.class, postId);
+    }
+    /* -------------------------------------------- 스크랩 추가 & 취소 끝 -------------------------------------------- */
+    
 }
