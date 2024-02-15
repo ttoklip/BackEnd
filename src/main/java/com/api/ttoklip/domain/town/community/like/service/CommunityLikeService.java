@@ -53,23 +53,9 @@ public class CommunityLikeService {
         return communityLikeRepository.countCommunityLikesByCommunityId(communityId);
     }
 
+    public boolean existsByCommunityIdAndMemberId(final Long postId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return communityLikeRepository.existsByCommunityIdAndMemberId(postId, currentMemberId);
+    }
 
-//    @Transactional
-//    public Message pushLikeButton(Long memberId, Long communityId) {
-//        Member member = memberRepository.findById(memberId).
-//                orElseThrow(() -> new ApiException(ErrorType.MEMBER_NOT_FOUND));
-//
-//        Community community = communityRepository.findById(communityId).
-//                orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUND));
-//
-//        CommunityLike communityLike = communityLikeRepository.findByMemberAndCommunity(member, community);
-//        if(communityLike == null) {
-//            CommunityLike newCommunityLike = new CommunityLike(member, community);
-//            communityLikeRepository.save(newCommunityLike);
-//            return Message.createLikeSuccess(Community.class, communityId);
-//        } else {
-//            communityLikeRepository.delete(communityLike);
-//            return Message.deleteLikeSuccess(Community.class, communityId);
-//        }
-//    }
 }

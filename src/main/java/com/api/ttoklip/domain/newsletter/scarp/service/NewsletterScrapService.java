@@ -49,4 +49,9 @@ public class NewsletterScrapService {
     public Long countNewsletterScraps(final Long newsletterId) {
         return newsletterScrapRepository.countNewsletterScrapsByNewsletterId(newsletterId);
     }
+
+    public boolean existsByNewsletterIdAndMemberId(final Long postId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return newsletterScrapRepository.existsByNewsletterIdAndMemberId(postId, currentMemberId);
+    }
 }

@@ -60,10 +60,18 @@ public class HoneyTipSingleResponse {
     @Schema(description = "꿀팁 채팅 url 목록")
     private List<UrlResponse> urlResponses;
 
+    @Schema(description = "현재 사용자의 해당 게시글 좋아요 여부")
+    private boolean likedByCurrentUser;
+
+    @Schema(description = "현재 사용자의 해당 게시글 스크랩 여부")
+    private boolean scrapedByCurrentUser;
+
     public static HoneyTipSingleResponse of(final HoneyTip honeyTip,
                                             final List<HoneyTipComment> activeComments,
                                             final int likeCount,
-                                            final int scrapCount) {
+                                            final int scrapCount,
+                                            final boolean likedByCurrentUser,
+                                            final boolean scrapedByCurrentUser) {
         String formattedCreatedDate = getFormattedCreatedDate(honeyTip);
         List<ImageResponse> imageResponses = getImageResponses(honeyTip);
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
@@ -75,7 +83,9 @@ public class HoneyTipSingleResponse {
                 .content(honeyTip.getContent())
                 .writer(honeyTip.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
-                .category(honeyTip.getCategory()) // 한글 카테고리 이름으로 반환
+                .category(honeyTip.getCategory())
+                .likedByCurrentUser(likedByCurrentUser)
+                .scrapedByCurrentUser(scrapedByCurrentUser)
                 .likeCount(likeCount)
                 .scrapCount(scrapCount)
                 .commentCount(commentResponses.size())

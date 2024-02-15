@@ -57,12 +57,18 @@ public class NewsletterSingleResponse {
     @Schema(description = "뉴스레터에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
+    @Schema(description = "현재 사용자의 해당 게시글 좋아요 여부")
+    private boolean likedByCurrentUser;
 
+    @Schema(description = "현재 사용자의 해당 게시글 스크랩 여부")
+    private boolean scrapedByCurrentUser;
 
     public static NewsletterSingleResponse toDto(final Newsletter newsletter,
                                                  final List<NewsletterComment> activeComments,
                                                  final int likeCount,
-                                                 final int scrapCount) {
+                                                 final int scrapCount,
+                                                 final boolean likedByCurrentUser,
+                                                 final boolean scrapedByCurrentUser) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(newsletter);
@@ -85,6 +91,8 @@ public class NewsletterSingleResponse {
                 .writer(newsletter.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
                 .category(newsletter.getCategory())
+                .likedByCurrentUser(likedByCurrentUser)
+                .scrapedByCurrentUser(scrapedByCurrentUser)
                 .imageUrlList(imageResponses)
                 .urlList(urlResponses)
                 .commentResponses(commentResponses)

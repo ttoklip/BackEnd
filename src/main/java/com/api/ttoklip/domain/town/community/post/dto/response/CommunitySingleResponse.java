@@ -52,10 +52,18 @@ public class CommunitySingleResponse {
     @Schema(description = "소통해요에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
+    @Schema(description = "현재 사용자의 해당 게시글 좋아요 여부")
+    private boolean likedByCurrentUser;
+
+    @Schema(description = "현재 사용자의 해당 게시글 스크랩 여부")
+    private boolean scrapedByCurrentUser;
+
     public static CommunitySingleResponse of(final Community community,
                                              final List<CommunityComment> activeComments,
                                              final int likeCount,
-                                             final int scrapCount) {
+                                             final int scrapCount,
+                                             final boolean likedByCurrentUser,
+                                             final boolean scrapedByCurrentUser) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(community);
@@ -72,6 +80,8 @@ public class CommunitySingleResponse {
                 .content(community.getContent())
                 .writer(community.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
+                .likedByCurrentUser(likedByCurrentUser)
+                .scrapedByCurrentUser(scrapedByCurrentUser)
                 .imageUrls(communityImageResponses)
                 .commentResponses(commentResponses)
                 .likeCount(likeCount)

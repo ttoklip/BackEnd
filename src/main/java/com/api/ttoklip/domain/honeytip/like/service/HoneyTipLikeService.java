@@ -52,4 +52,8 @@ public class HoneyTipLikeService {
         return honeyTipLikeRepository.countHoneyTipLikesByHoneyTipId(honeyTipId);
     }
 
+    public boolean existsByHoneyTipIdAndMemberId(final Long postId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(postId, currentMemberId);
+    }
 }

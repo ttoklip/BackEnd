@@ -5,7 +5,6 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.honeytip.scrap.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
 import com.api.ttoklip.domain.honeytip.like.service.HoneyTipLikeService;
@@ -16,6 +15,7 @@ import com.api.ttoklip.domain.honeytip.post.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipDefaultRepository;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
+import com.api.ttoklip.domain.honeytip.scrap.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.honeytip.url.service.HoneyTipUrlService;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
@@ -162,14 +162,17 @@ public class HoneyTipPostService {
 
     /* -------------------------------------------- READ -------------------------------------------- */
     public HoneyTipSingleResponse getSinglePost(final Long postId) {
-
         HoneyTip honeyTipWithImgAndUrl = honeytipRepository.findByIdFetchJoin(postId);
         List<HoneyTipComment> activeComments = honeytipRepository.findActiveCommentsByHoneyTipId(postId);
         int likeCount = honeyTipLikeService.countHoneyTipLikes(postId).intValue();
         int scrapCount = honeyTipScrapService.countHoneyTipScraps(postId).intValue();
 
+        // 현재 사용자가 좋아요를 눌렀는지 확인
+        boolean likedByCurrentUser = honeyTipLikeService.existsByHoneyTipIdAndMemberId(postId);
+        boolean scrapedByCurrentUser = honeyTipScrapService.existsByHoneyTipIdAndMemberId(postId);
+
         HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
-                activeComments, likeCount, scrapCount);
+                activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
         return honeyTipSingleResponse;
     }
 
