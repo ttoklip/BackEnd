@@ -1,6 +1,8 @@
 package com.api.ttoklip.global.config;
 
-import java.util.List;
+//import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
+import com.api.ttoklip.global.security.auth.handler.CustomAuthenticationEntryPoint;
+import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,44 +12,58 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final TokenErrorHandler tokenErrorHandler;
+    private final CustomAuthenticationEntryPoint entryPoint;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic(HttpBasicConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
-                .cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
-                    CorsConfiguration cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(List.of("*", "http://localhost:3000", "http://localhost:8080"));
-                    cors.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE"));
-                    // cookie 비활성화
-                    cors.setAllowCredentials(false);
-                    // Authorization Header 노출
-                    cors.addExposedHeader("Authorization");
-                    return cors;
-                }))
+                .cors()
+                .and()
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers(
                                         "/favicon.ico"
-                                        ,"/health"
+                                        , "/health"
                                         ,"/swagger-ui/**"
-                                        ,"/oauth/**"
-                                        ,"/login/**"
-                                        , "/**"
+                                        ,"/v3/api-docs/**"
+                                        ,"/api/v1/auth"
+                                        ,"/error"
                                 ).permitAll()
-                                .anyRequest().permitAll());
+                                .anyRequest().authenticated());
+//        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
+        http.exceptionHandling()
+                .authenticationEntryPoint(entryPoint);
 
-        // ToDo oauth 설정, filter, Handler 등
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*");
+        config.addExposedHeader("Authorization");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
 }

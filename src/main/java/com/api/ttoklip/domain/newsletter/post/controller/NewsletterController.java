@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.newsletter.post.controller;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
-import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
+import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -17,15 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Newsletter Post", description = "Newsletter Post API")
+@Tag(name = "Newsletter Post", description = "뉴스레터 게시판 API입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/newsletter/posts")
@@ -63,7 +57,7 @@ public class NewsletterController {
                                     description = "뉴스레터가 조회되었습니다."
                             )))})
     @GetMapping("/{postId}")
-    public SuccessResponse<NewsletterWithCommentRes> getSinglePost(final @PathVariable Long postId) {
+    public SuccessResponse<NewsletterSingleResponse> getSinglePost(final @PathVariable Long postId) {
         return new SuccessResponse<>(newsletterPostService.getSinglePost(postId));
     }
 
@@ -83,6 +77,76 @@ public class NewsletterController {
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
         Message message = newsletterPostService.report(postId, request);
+        return new SuccessResponse<>(message);
+    }
+
+    /* LIKE */
+    @Operation(summary = "뉴스레터 좋아요 추가", description = "뉴스레터 ID에 해당하는 게시글에 좋아요를 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.REGISTER_LIKE,
+                                    description = "뉴스레터에 좋아요를 추가했습니다."
+                            )))})
+    @PostMapping("/like/{postId}")
+    public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
+        Message message = newsletterPostService.registerLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "뉴스레터 좋아요 취소", description = "뉴스레터 ID에 해당하는 게시글에 좋아요를 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.CANCEL_LIKE,
+                                    description = "뉴스레터에 좋아요를 취소했습니다."
+                            )))})
+    @DeleteMapping("/like/{postId}")
+    public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
+        Message message = newsletterPostService.cancelLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    /* SCRAP */
+    @Operation(summary = "뉴스레터 스크랩 추가", description = "뉴스레터 ID에 해당하는 게시글에 스크랩을 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.REGISTER_SCRAP,
+                                    description = "뉴스레터에 스크랩을 추가했습니다."
+                            )))})
+    @PostMapping("/scrap/{postId}")
+    public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
+        Message message = newsletterPostService.registerScrap(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "뉴스레터 스크랩 취소", description = "뉴스레터 ID에 해당하는 게시글에 스크랩을 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.CANCEL_SCRAP,
+                                    description = "뉴스레터에 스크랩을 취소했습니다."
+                            )))})
+    @DeleteMapping("/scrap/{postId}")
+    public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
+        Message message = newsletterPostService.cancelScrap(postId);
         return new SuccessResponse<>(message);
     }
 }

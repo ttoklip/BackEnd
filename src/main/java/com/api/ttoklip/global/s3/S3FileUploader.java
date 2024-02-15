@@ -44,6 +44,10 @@ public class S3FileUploader {
                 .toList();
     }
 
+    public String uploadMultipartFile(final MultipartFile multipartFile) {
+        return uploadSingleFile(multipartFile);
+    }
+
     private void validInput(final List<MultipartFile> multipartFiles) {
         validFileSize(multipartFiles);
         validFileNumber(multipartFiles.size());

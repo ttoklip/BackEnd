@@ -43,11 +43,12 @@ public class CommentResponse {
 
     private static CommentResponse getCommentResponse(final Comment questionComment, final Long parentCommentId,
                                                       final String formatCreatedDate) {
+        String nickname = questionComment.getMember().getNickname();
         return CommentResponse.builder()
                 .commentId(questionComment.getId())
                 .commentContent(questionComment.getContent())
-                .parentId(parentCommentId) // 부모 댓글이 있는 경우
-//            .writer(questionComment.getMember().getName()) // ToDo Member Entity 생성 후 수정
+                .parentId(parentCommentId)
+                .writer(nickname)
                 .writtenTime(formatCreatedDate)
                 .build();
     }

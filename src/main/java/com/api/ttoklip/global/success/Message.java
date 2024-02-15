@@ -18,10 +18,14 @@ public class Message {
 
     private static final String COMMENT = "댓글";
     private static final String POST = "게시글";
+    private static final String LIKE = "좋아요";
+    private static final String SCRAP = "스크랩";
     private static final String CREATE = "생성";
+    private static final String STATUS = "상태";
     private static final String EDIT = "수정";
     private static final String DELETE = "삭제";
     private static final String REPORT = "신고";
+
 
     private static <T> Message actionSuccess(Class<T> itemType, Long itemId, String dataType, String action) {
         String typeName = itemType.getSimpleName(); // 클래스의 단순 이름을 가져옴
@@ -61,5 +65,37 @@ public class Message {
 
     public static <T> Message reportPostSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, POST, REPORT);
+    }
+
+    public static <T> Message likePostSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, LIKE, CREATE);
+    }
+
+    public static <T> Message likePostCancel(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, LIKE, DELETE);
+    }
+
+    public static <T> Message editStatusSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, STATUS, EDIT);
+    }
+
+    public static <T> Message scrapPostSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, SCRAP, CREATE);
+    }
+
+    public static <T> Message scrapPostCancel(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, SCRAP, DELETE);
+    }
+
+    public static Message insertPrivacy() {
+        return Message.builder()
+                .message("회원가입 후 개인정보를 추가했습니다.")
+                .build();
+    }
+
+    public static Message validNickname() {
+        return Message.builder()
+                .message("닉네임 중복 확인에 통과하였습니다.")
+                .build();
     }
 }

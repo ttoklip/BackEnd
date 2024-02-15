@@ -1,8 +1,11 @@
 package com.api.ttoklip.domain.honeytip.comment.domain;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,8 +27,8 @@ public class HoneyTipComment extends Comment {
     private HoneyTip honeyTip;
 
     @Builder
-    private HoneyTipComment(String content, Comment parent, HoneyTip honeyTip) {
-        super(content, parent); // Comment 클래스의 생성자 호출
+    private HoneyTipComment(String content, Comment parent, HoneyTip honeyTip, Member member) {
+        super(content, parent, member); // Comment 클래스의 생성자 호출
         this.honeyTip = honeyTip;
     }
 
@@ -35,6 +38,7 @@ public class HoneyTipComment extends Comment {
                 .content(request.getComment())
                 .parent(parent)
                 .honeyTip(honeyTip)
+                .member(getCurrentMember())
                 .build();
     }
 
@@ -43,6 +47,7 @@ public class HoneyTipComment extends Comment {
                 .content(request.getComment())
                 .parent(null)
                 .honeyTip(honeyTip)
+                .member(getCurrentMember())
                 .build();
     }
 }

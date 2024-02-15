@@ -2,22 +2,27 @@ package com.api.ttoklip.domain.newsletter.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
+import com.api.ttoklip.domain.newsletter.like.service.NewsletterLikeService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.post.domain.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
-import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterWithCommentRes;
+import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
+import com.api.ttoklip.domain.newsletter.scarp.repository.NewsletterScrapRepository;
+import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
-import java.util.List;
+import com.api.ttoklip.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,24 +34,32 @@ public class NewsletterPostService {
     private final NewsletterImageService imageService;
     private final NewsletterUrlService urlService;
     private final ReportService reportService;
+    private final NewsletterScrapRepository newsletterScrapRepository;
+    private final NewsletterCommonService newsletterCommonService;
+    private final NewsletterScrapService newsletterScrapService;
+    private final NewsletterLikeService newsletterLikeService;
 
 
-    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
-    public Newsletter findById(final Long postId) {
-        return newsletterRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
-    }
-    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
+//    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
+//    public Newsletter findById(final Long postId) {
+//        return newsletterRepository.findById(postId)
+//                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
+//    }
+//    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public Message register(final NewsletterCreateReq request) {
 
-        Newsletter newsletter = Newsletter.of(request);
+        Member currentMember = getCurrentMember();
+
+        String mainImageUrl = registerMainImage(request);
+
+        Newsletter newsletter = Newsletter.of(request, mainImageUrl, currentMember);
         newsletterRepository.save(newsletter);
 
-        List<MultipartFile> images = request.getImages();
+        List<MultipartFile> images = request.getSubImages();
         if (images != null && !images.isEmpty()) {
             registerImages(newsletter, images);
         }
@@ -57,6 +70,15 @@ public class NewsletterPostService {
         }
 
         return Message.registerPostSuccess(Newsletter.class, newsletter.getId());
+    }
+
+    private String registerMainImage(final NewsletterCreateReq request) {
+        MultipartFile mainImage = request.getMainImage();
+        return uploadImage(mainImage);
+    }
+
+    private String uploadImage(final MultipartFile uploadImage) {
+        return s3FileUploader.uploadMultipartFile(uploadImage);
     }
 
     private void registerImages(final Newsletter newsletter, final List<MultipartFile> uploadImages) {
@@ -77,11 +99,16 @@ public class NewsletterPostService {
 
 
     /* -------------------------------------------- FETCH JOIN READ -------------------------------------------- */
-    public NewsletterWithCommentRes getSinglePost(final Long postId) {
-        Newsletter newsletter = newsletterRepository.findByIdFetchJoin(postId);
+    public NewsletterSingleResponse getSinglePost(final Long postId) {
+
+        Newsletter newsletterWithImg = newsletterRepository.findByIdFetchJoin(postId);
         List<NewsletterComment> activeComments = newsletterRepository.findActiveCommentsByNewsletterId(postId);
-        NewsletterWithCommentRes newsletterWithCommentRes = NewsletterWithCommentRes.toDto(newsletter, activeComments);
-        return newsletterWithCommentRes;
+        int likeCount = newsletterLikeService.countNewsletterLikes(postId).intValue();
+        int scrapCount = newsletterScrapService.countNewsletterScraps(postId).intValue();
+
+        NewsletterSingleResponse newsletterSingleResponse = NewsletterSingleResponse.toDto(newsletterWithImg,
+                activeComments, likeCount ,scrapCount);
+        return newsletterSingleResponse;
     }
     /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
 
@@ -89,10 +116,76 @@ public class NewsletterPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
-        Newsletter newsletter = findById(postId);
+        Newsletter newsletter = newsletterCommonService.getNewsletter(postId);
         reportService.reportNewsletter(request, newsletter);
+
         return Message.reportPostSuccess(Newsletter.class, postId);
     }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
+
+    public static Member getCurrentMember() {
+        return SecurityUtil.getCurrentMember();
+    }
+    /* -------------------------------------------- total entity count -------------------------------------------- */
+
+    public Long getEntityCount() {
+        return newsletterRepository.findNewsletterCount();
+    }
+
+    /* -------------------------------------------- total entity count 끝 -------------------------------------------- */
+
+    public List<Newsletter> getContentWithPageable(final Pageable pageable) {
+        return newsletterRepository.findAll(pageable).getContent();
+    }
+
+    /* -------------------------------------------- LIKE -------------------------------------------- */
+    @Transactional
+    public Message registerLike(Long postId) {
+        newsletterLikeService.registerLike(postId);
+        return Message.likePostSuccess(Newsletter.class, postId);
+    }
+
+    @Transactional
+    public Message cancelLike(Long postId) {
+        newsletterLikeService.cancelLike(postId);
+        return Message.likePostCancel(Newsletter.class, postId);
+    }
+    /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- SCRAP -------------------------------------------- */
+    @Transactional
+    public Message registerScrap(Long postId) {
+        newsletterScrapService.registerScrap(postId);
+        return Message.scrapPostSuccess(Newsletter.class, postId);
+    }
+
+    @Transactional
+    public Message cancelScrap(Long postId) {
+        newsletterScrapService.cancelScrap(postId);
+        return Message.scrapPostCancel(Newsletter.class, postId);
+    }
+    /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
+
+
+//    public CategoryResponses getDefaultCategoryRead() {
+//        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
+//        List<Question> recipeQuestions = questionDefaultRepository.getRecipe();
+//        List<Question> safeLivingQuestions = questionDefaultRepository.getSafeLiving();
+//        List<Question> welfarePolicyQuestions = questionDefaultRepository.getWelfarePolicy();
+//
+//        return CategoryResponses.builder()
+//                .housework(convertToTitleResponses(houseWorkQuestions))
+//                .cooking(convertToTitleResponses(recipeQuestions))
+//                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+//                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+//                .build();
+//    }
+//
+//    private List<TitleResponse> convertToTitleResponses(final List<Question> questions) {
+//        return questions.stream()
+//                .map(TitleResponse::questionOf)
+//                .toList();
+//    }
 }

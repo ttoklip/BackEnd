@@ -34,4 +34,29 @@ public class TownResponseConstant {
               }
             }
             """;
+
+    public static final String listTowns = """
+            {
+                "time": "2024-02-07T10:10:00.000Z",
+                "status": 200,
+                "code": "200",
+                "message": "요청에 성공하였습니다.",
+                "result": [
+                    {
+                        "TownId": 3,
+                        "title": "리스트 우리동네 제목 예시 1",
+                        "location": "리스트 우리동네 거래희망장소 예시 1",
+                        "author": "작성자3",
+                        "publicationDate": "24.02.07 17:00"
+                    },
+                    {
+                        "newsletterId": 4,
+                        "title": "리스트 뉴스레터 제목 예시 2",
+                        "location": "리스트 뉴스레터 거래희망장소 예시 2",
+                        "author": "작성자4",
+                        "publicationDate": "24.02.08 07:45"
+                    }
+                ]
+            }
+            """;
 }

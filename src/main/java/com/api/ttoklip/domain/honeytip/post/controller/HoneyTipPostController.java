@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "HoneyTip Post", description = "HoneyTip Post API")
+@Tag(name = "HoneyTip Post", description = "꿀팁공유해요 게시판 API입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/honeytips/posts")
@@ -107,6 +107,76 @@ public class HoneyTipPostController {
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
         Message message = honeytipPostService.report(postId, request);
+        return new SuccessResponse<>(message);
+    }
+
+    /* LIKE */
+    @Operation(summary = "꿀팁공유해요 도움이되었어요 추가", description = "꿀팁 ID에 해당하는 게시글을 도움이되었어요를 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "도움이되었어요 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneyTipResponseConstant.REGISTER_LIKE,
+                                    description = "꿀팁을 도움이 되었어요를 추가했습니다."
+                            )))})
+    @PostMapping("/like/{postId}")
+    public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
+        Message message = honeytipPostService.registerLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "꿀팁공유해요 도움이되었어요 취소", description = "꿀팁 ID에 해당하는 게시글을 도움이되었어요를 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "도움이되었어요 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneyTipResponseConstant.CANCEL,
+                                    description = "꿀팁을 도움이 되었어요를 취소했습니다."
+                            )))})
+    @DeleteMapping("/like/{postId}")
+    public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
+        Message message = honeytipPostService.cancelLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    /* SCRAP */
+    @Operation(summary = "꿀팁공유해요 스크랩 추가", description = "꿀팁 ID에 해당하는 게시글에 스크랩을 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneyTipResponseConstant.REGISTER_SCRAP,
+                                    description = "꿀팁의 스크랩을 추가했습니다."
+                            )))})
+    @PostMapping("/scrap/{postId}")
+    public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
+        Message message = honeytipPostService.registerScrap(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "꿀팁공유해요 스크랩 취소", description = "꿀팁 ID에 해당하는 게시글에 스크랩을 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = HoneyTipResponseConstant.CANCEL_SCRAP,
+                                    description = "꿀팁의 스크랩을 취소했습니다."
+                            )))})
+    @DeleteMapping("/scrap/{postId}")
+    public SuccessResponse<Message> cancleScrap(final @PathVariable Long postId) {
+        Message message = honeytipPostService.cancelScrap(postId);
         return new SuccessResponse<>(message);
     }
 

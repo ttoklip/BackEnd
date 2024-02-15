@@ -9,15 +9,20 @@ server:
     uri-encoding: UTF-8
 
 spring:
+  jackson:
+    time-zone: Asia/Seoul
   datasource:
     driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      data-source-properties:
+        serverTimezone: Asia/Seoul
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate # 바꾸지 말아주세요!
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -32,3 +37,7 @@ cloud:
     s3:
       bucket: ${CLOUD_AWS_S3_BUCKET}
       dirname: ${CLOUD_AWS_S3_DIRNAME}
+
+jwt:
+  secret:
+    key: ${JWT_VALUE}
