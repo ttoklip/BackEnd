@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.member.domain;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.domain.Report;
-import com.api.ttoklip.domain.honeytip.Scrap.domain.HoneyTipScrap;
+import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.member.editor.MemberEditor;

@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.newsletter.post.repository;
 
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
-import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
 import com.api.ttoklip.global.exception.ApiException;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
 import static com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage.newsletterImage;
@@ -86,7 +84,6 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     private BooleanExpression matchNewsletterId(final Long newsletterId) {
         return newsletterComment.newsletter.id.eq(newsletterId);
     }
-
 
     @Override
     public Long findNewsletterCount() {
