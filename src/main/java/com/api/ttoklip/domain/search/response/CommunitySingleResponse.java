@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.search.response;
+package com.api.ttoklip.domain.search.response;
 
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import lombok.AccessLevel;
