@@ -1,15 +1,11 @@
 package com.api.ttoklip.domain.mypage.main.controller;
 
-import com.api.ttoklip.domain.common.search.response.CommunityPaging;
-import com.api.ttoklip.domain.common.search.response.HoneyTipPaging;
-import com.api.ttoklip.domain.common.search.response.NewsletterPaging;
+import com.api.ttoklip.domain.search.response.CommunityPaging;
+import com.api.ttoklip.domain.search.response.HoneyTipPaging;
+import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.mypage.main.constant.MyPageConstant;
-import com.api.ttoklip.domain.mypage.main.dto.request.BlockedRequest;
-import com.api.ttoklip.domain.mypage.main.dto.request.MyPageRequest;
-import com.api.ttoklip.domain.mypage.main.dto.request.ProfileEditRequest;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
 import com.api.ttoklip.domain.mypage.main.service.MyPageService;
-import com.api.ttoklip.domain.privacy.constant.PrivacyConstant;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
 import com.api.ttoklip.global.success.Message;

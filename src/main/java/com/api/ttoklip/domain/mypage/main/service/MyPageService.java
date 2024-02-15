@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.mypage.main.service;
 
 
-import com.api.ttoklip.domain.common.search.response.*;
+import com.api.ttoklip.domain.search.response.*;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
@@ -11,7 +11,6 @@ import com.api.ttoklip.domain.mypage.main.domain.MyNewsLetterRepository;
 import com.api.ttoklip.domain.mypage.main.domain.MyQuestionRepository;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;

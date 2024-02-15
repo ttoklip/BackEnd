@@ -1,8 +1,6 @@
 package com.api.ttoklip.domain.mypage.main.domain;
 
 
-import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
-import com.api.ttoklip.domain.question.post.domain.QQuestion;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,12 +12,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
+import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
+
 @Repository
 @RequiredArgsConstructor
 public class MyQuestionRepository {
     private final JPAQueryFactory jpaQueryFactory;
-    private final QQuestion question = QQuestion.question;
-    private final QQuestionComment questionComment = QQuestionComment.questionComment;
 
     public Page<Question> getContain(final Long userId,final Pageable pageable){
         List<Question> content = getSearchPageId(userId,pageable);
@@ -28,8 +27,7 @@ public class MyQuestionRepository {
     }
     private List<Question> getSearchPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
-                .select(question)
-                .from(question)
+                .selectFrom(question)
                 .where(question.member.id.eq(userId))
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)

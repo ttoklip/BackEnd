@@ -1,9 +1,7 @@
 package com.api.ttoklip.domain.mypage.main.domain;
 
-import com.api.ttoklip.domain.honeytip.Scrap.domain.QHoneyTipScrap;
-import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
+
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
 
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,13 +13,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
+import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.*;
+import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
+
+
 @Repository
 @RequiredArgsConstructor
 public class MyHoneyTipRepository {
     private final JPAQueryFactory jpaQueryFactory;
-    private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
-    private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
-    private final QHoneyTipScrap honeyTipScrap = QHoneyTipScrap.honeyTipScrap;
 
     public Page<HoneyTip> getContain(final Long userId, final Pageable pageable){
         List<HoneyTip> content = getSearchPageId(userId,pageable);
@@ -55,10 +55,10 @@ public class MyHoneyTipRepository {
         return new PageImpl<>(content, pageable, count);
     }
     private List<HoneyTip> getSearchScrapPageId(final Long userId, final Pageable pageable) {
-        return jpaQueryFactory
-                .select(honeyTip)
-                .from(honeyTip)
-                .innerJoin(honeyTipScrap).on(honeyTip.id.eq(honeyTipScrap.honeyTip.id))
+         return jpaQueryFactory
+                .selectFrom(honeyTip)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
+////                .leftJoin(honeyTip.honeyTipScraps, QHoneyTipScrap.honeyTipScrap)
                 .where(honeyTipScrap.member.id.eq(userId))
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
@@ -67,5 +67,6 @@ public class MyHoneyTipRepository {
                 .offset(pageable.getOffset())
                 .orderBy(honeyTip.id.desc())
                 .fetch();
+
     }
 }
