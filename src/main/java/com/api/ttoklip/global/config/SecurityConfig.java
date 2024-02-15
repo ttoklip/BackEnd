@@ -42,11 +42,13 @@ public class SecurityConfig {
                                         ,"/swagger-ui/**"
                                         ,"/v3/api-docs/**"
                                         ,"/api/v1/auth"
+                                        ,"/error"
                                 ).permitAll()
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
         http.exceptionHandling()
                 .authenticationEntryPoint(entryPoint);
+
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

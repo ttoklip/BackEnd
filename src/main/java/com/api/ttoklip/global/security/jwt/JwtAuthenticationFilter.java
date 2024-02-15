@@ -64,6 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         requestURI.startsWith("/health") ||
                         requestURI.startsWith("/v3/api-docs/**") ||
                         requestURI.startsWith("/favicon.ico") ||
+                        requestURI.startsWith("/error") ||
                         requestURI.startsWith("/api/v1/auth");
     }
 }
