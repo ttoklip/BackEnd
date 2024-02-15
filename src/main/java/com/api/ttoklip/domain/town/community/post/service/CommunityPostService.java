@@ -78,10 +78,11 @@ public class CommunityPostService {
         int likeCount = communityLikeService.countCommunityLikes(postId).intValue();
         int scrapCount = communityScrapService.countCommunityScraps(postId).intValue();
 
-        boolean likedByCurrentUser = communityLikeService.existsByNewsletterIdAndMemberId(postId);
+        boolean likedByCurrentUser = communityLikeService.existsByCommunityIdAndMemberId(postId);
+        boolean scrapedByCurrentUser = communityScrapService.existsByCommunityIdAndMemberId(postId);
 
         CommunitySingleResponse communitySingleResponse = CommunitySingleResponse.of(communityWithImg,
-                activeComments, likeCount, scrapCount, likedByCurrentUser);
+                activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
         return communitySingleResponse;
     }
 
