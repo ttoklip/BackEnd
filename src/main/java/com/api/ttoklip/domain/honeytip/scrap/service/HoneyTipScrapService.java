@@ -51,4 +51,9 @@ public class HoneyTipScrapService {
     public Long countHoneyTipScraps(final Long honeyTipId) {
         return honeyTipScrapRepository.countHoneyTipScrapsByHoneyTipId(honeyTipId);
     }
+
+    public boolean existsByHoneyTipIdAndMemberId(final Long honeyTipId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
+    }
 }
