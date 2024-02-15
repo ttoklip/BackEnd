@@ -230,5 +230,5 @@ public class HoneyTipPostService {
         return Message.scrapPostCancel(HoneyTip.class, postId);
     }
     /* -------------------------------------------- 스크랩 추가 & 취소 끝 -------------------------------------------- */
-    
+
 }
