@@ -162,8 +162,10 @@ public class HoneyTipPostService {
         HoneyTip honeyTipWithImgAndUrl = honeytipRepository.findByIdFetchJoin(postId);
         List<HoneyTipComment> activeComments = honeytipRepository.findActiveCommentsByHoneyTipId(postId);
         int likeCount = honeyTipLikeService.countHoneyTipLikes(postId).intValue();
+        int scrapCount = honeyTipScrapService.countHoneyTipScraps(postId).intValue();
+
         HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
-                activeComments, likeCount);
+                activeComments, likeCount, scrapCount);
         return honeyTipSingleResponse;
     }
 
