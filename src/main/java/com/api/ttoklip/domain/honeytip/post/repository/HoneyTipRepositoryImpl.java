@@ -4,8 +4,6 @@ package com.api.ttoklip.domain.honeytip.post.repository;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
-import com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,8 +20,8 @@ import java.util.Optional;
 import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
 import static com.api.ttoklip.domain.honeytip.image.domain.QHoneyTipImage.honeyTipImage;
 import static com.api.ttoklip.domain.honeytip.like.domain.QHoneyTipLike.honeyTipLike;
-import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
 import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
+import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
 import static com.api.ttoklip.domain.honeytip.url.domain.QHoneyTipUrl.honeyTipUrl;
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 
