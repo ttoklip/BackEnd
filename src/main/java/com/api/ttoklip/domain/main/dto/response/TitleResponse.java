@@ -12,22 +12,23 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class TitleResponse {
-    private Long honeyTipId;
+    private Long id;
     private String title;
     private String content;
     private String writer;
     private int likeCount;
     private int commentCount;
+    private int scrapCount;
     private String writtenTime;
 
     public static TitleResponse questionOf(final Question question) {
         LocalDateTime createdDate = question.getCreatedDate();
         String formattedCreatedDate = getFormattedCreatedDate(createdDate);
         int commentCount = question.getQuestionComments().size();
-        String writer = question.getMember().getOriginName();
+        String writer = question.getMember().getNickname();
 
         return TitleResponse.builder()
-                .honeyTipId(question.getId())
+                .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
                 .writer(writer)
@@ -41,15 +42,17 @@ public class TitleResponse {
         String formattedCreatedDate = getFormattedCreatedDate(createdDate);
         int commentCount = honeyTip.getHoneyTipComments().size();
         int likeCount = honeyTip.getHoneyTipLikes().size();
-        String writer = honeyTip.getMember().getOriginName();
+        int scrapCount = honeyTip.getHoneyTipScraps().size();
+        String writer = honeyTip.getMember().getNickname();
 
         return TitleResponse.builder()
-                .honeyTipId(honeyTip.getId())
+                .id(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
                 .writer(writer)
                 .likeCount(likeCount)
                 .commentCount(commentCount)
+                .scrapCount(scrapCount)
                 .writtenTime(formattedCreatedDate)
                 .build();
     }

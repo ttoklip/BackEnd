@@ -45,6 +45,9 @@ public class NewsletterSingleResponse {
     @Schema(description = "스크랩 개수", example = "3")
     private int scrapCount;
 
+    @Schema(description = "댓글 개수", example = "14")
+    private int commentCount;
+
     @Schema(description = "뉴스레터에 포함된 이미지 URL 목록")
     private List<ImageRes> imageUrlList;
 
@@ -73,11 +76,13 @@ public class NewsletterSingleResponse {
         // Url entity to Response
         List<UrlRes> urlResponses = getUrlResponse(newsletter);
 
+        int commentCount = commentResponses.size();
+
         return NewsletterSingleResponse.builder()
                 .newsletterId(newsletter.getId())
                 .title(newsletter.getTitle())
                 .content(newsletter.getContent())
-                .writer(newsletter.getMember().getOriginName())
+                .writer(newsletter.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
                 .category(newsletter.getCategory())
                 .imageUrlList(imageResponses)
@@ -85,6 +90,7 @@ public class NewsletterSingleResponse {
                 .commentResponses(commentResponses)
                 .likeCount(likeCount)
                 .scrapCount(scrapCount)
+                .commentCount(commentCount)
                 .build();
     }
 

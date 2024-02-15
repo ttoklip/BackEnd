@@ -1,6 +1,7 @@
 package com.api.ttoklip.global.config;
 
-import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
+//import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
+import com.api.ttoklip.global.security.auth.handler.CustomAuthenticationEntryPoint;
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,8 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final TokenErrorHandler tokenErrorHandler;
+//    private final TokenErrorHandler tokenErrorHandler;
+    private final CustomAuthenticationEntryPoint entryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,9 +42,13 @@ public class SecurityConfig {
                                         ,"/swagger-ui/**"
                                         ,"/v3/api-docs/**"
                                         ,"/api/v1/auth"
+                                        ,"/error"
                                 ).permitAll()
                                 .anyRequest().authenticated());
-        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
+//        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
+        http.exceptionHandling()
+                .authenticationEntryPoint(entryPoint);
+
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

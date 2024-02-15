@@ -1,8 +1,7 @@
-package com.api.ttoklip.domain.honeytip.Scrap.service;
+package com.api.ttoklip.domain.honeytip.scrap.service;
 
-import com.api.ttoklip.domain.honeytip.Scrap.domain.HoneyTipScrap;
-import com.api.ttoklip.domain.honeytip.Scrap.repository.HoneyTipScrapRepository;
-import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
+import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
+import com.api.ttoklip.domain.honeytip.scrap.repository.HoneyTipScrapRepository;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
 import com.api.ttoklip.global.exception.ApiException;

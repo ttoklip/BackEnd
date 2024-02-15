@@ -2,9 +2,10 @@ package com.api.ttoklip.domain.honeytip.post.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.honeytip.Scrap.service.HoneyTipScrapService;
+import com.api.ttoklip.domain.honeytip.scrap.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
 import com.api.ttoklip.domain.honeytip.like.service.HoneyTipLikeService;
@@ -16,12 +17,15 @@ import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipDefaultRepository;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.url.service.HoneyTipUrlService;
+import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -216,6 +220,24 @@ public class HoneyTipPostService {
         return Message.likePostCancel(HoneyTip.class, postId);
     }
 
+    public CategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
+        Page<HoneyTip> questions = honeytipRepository.matchCategoryPaging(category, pageable);
+
+        List<TitleResponse> data = questions.stream()
+                .map(TitleResponse::honeyTipFrom)
+                .toList();
+
+        return CategoryPagingResponse.builder()
+                .data(data)
+                .category(category)
+                .totalPage(questions.getTotalPages())
+                .totalElements(questions.getTotalElements())
+                .isLast(questions.isLast())
+                .isFirst(questions.isFirst())
+                .build();
+    }
+
+
     /* -------------------------------------------- 좋아요 추가 & 취소 끝 -------------------------------------------- */
 
 
@@ -227,7 +249,7 @@ public class HoneyTipPostService {
     }
 
     @Transactional
-    public Message cancelScrap(Long postId){
+    public Message cancelScrap(Long postId) {
         honeyTipScrapService.cancelScrap(postId);
         return Message.scrapPostCancel(HoneyTip.class, postId);
     }

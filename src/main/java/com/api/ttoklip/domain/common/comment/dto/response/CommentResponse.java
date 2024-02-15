@@ -43,11 +43,12 @@ public class CommentResponse {
 
     private static CommentResponse getCommentResponse(final Comment questionComment, final Long parentCommentId,
                                                       final String formatCreatedDate) {
+        String nickname = questionComment.getMember().getNickname();
         return CommentResponse.builder()
                 .commentId(questionComment.getId())
                 .commentContent(questionComment.getContent())
                 .parentId(parentCommentId)
-                .writer(questionComment.getMember().getOriginName())
+                .writer(nickname)
                 .writtenTime(formatCreatedDate)
                 .build();
     }

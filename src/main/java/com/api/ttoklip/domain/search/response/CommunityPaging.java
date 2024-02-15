@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.search.response;
+package com.api.ttoklip.domain.search.response;
 
 import java.util.List;
 import lombok.Builder;

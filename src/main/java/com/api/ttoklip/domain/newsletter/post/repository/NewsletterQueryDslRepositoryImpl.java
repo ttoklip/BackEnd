@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.newsletter.post.repository;
 
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
-import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
 import com.api.ttoklip.global.exception.ApiException;
@@ -30,17 +29,17 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .selectFrom(newsletter)
                 .distinct()
                 .leftJoin(newsletter.member, member)
-                .leftJoin(newsletter.newsletterComments, newsletterComment)
+//                .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .fetchJoin()
                 .where(
-                        matchNewsletterId(newsletterId), getNewsletterActivate()
+                        matchId(newsletterId), getNewsletterActivate()
                 )
                 .fetchOne();
         return Optional.ofNullable(findNewsletter)
                 .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
     }
 
-    private BooleanExpression matchNewsletterId(final Long newsletterId) {
+    private BooleanExpression matchId(final Long newsletterId) {
         return newsletter.id.eq(newsletterId);
     }
 
@@ -50,11 +49,9 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
 
     @Override
     public Newsletter findByIdFetchJoin(Long newsletterPostId) {
-//        QNewsletterImage newsletterImage = QNewsletterImage.newsletterImage;
         Newsletter findNewsletter = jpaQueryFactory
                 .selectFrom(newsletter)
                 .distinct()
-//                .leftJoin(QNewsletterImage.newsletterImage, newsletterImage)
                 .leftJoin(newsletter.newsletterImages, newsletterImage)
                 .leftJoin(newsletter.member, member)
                 .fetchJoin()
@@ -76,11 +73,16 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .where(
                         matchNewsletterId(newsletterId)
                 )
+                .leftJoin(newsletter.member, member)
                 .orderBy(
                         newsletterComment.parent.id.asc().nullsFirst(),
                         newsletterComment.createdDate.asc()
                 )
                 .fetch();
+    }
+
+    private BooleanExpression matchNewsletterId(final Long newsletterId) {
+        return newsletterComment.newsletter.id.eq(newsletterId);
     }
 
     @Override

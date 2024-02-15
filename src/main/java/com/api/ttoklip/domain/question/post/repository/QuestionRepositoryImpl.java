@@ -5,15 +5,20 @@ import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.qu
 import static com.api.ttoklip.domain.question.image.domain.QQuestionImage.questionImage;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
@@ -53,6 +58,47 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     private BooleanExpression matchQuestionId(final Long questionId) {
         return questionComment.question.id.eq(questionId);
     }
+
+    // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 ------------------------------------
+
+    @Override
+    public Page<Question> matchCategoryPaging(final Category category, final Pageable pageable) {
+        List<Question> pageContent = getPageContent(category, pageable);
+        Long count = pagingCountQuery(category);
+        return new PageImpl<>(pageContent, pageable, count);
+    }
+
+    private List<Question> getPageContent(final Category category, final Pageable pageable) {
+        return jpaQueryFactory
+                .selectFrom(question)
+                .distinct()
+                .where(
+                        matchCategory(category)
+                )
+                .leftJoin(question.questionComments, questionComment)
+                .fetchJoin()
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .orderBy(question.id.desc())
+                .fetch();
+    }
+
+    private BooleanExpression matchCategory(final Category category) {
+        return question.category.eq(category);
+    }
+
+    private Long pagingCountQuery(final Category category) {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(question)
+                .distinct()
+                .where(
+                        matchCategory(category)
+                )
+                .fetchOne();
+    }
+
+    // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 끝 ------------------------------------
 
     private BooleanExpression getCommentActivate() {
         return questionComment.deleted.isFalse();
