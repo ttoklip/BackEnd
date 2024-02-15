@@ -22,7 +22,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update # 바꾸지 말아주세요!
+      ddl-auto: validate # 바꾸지 말아주세요!
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
