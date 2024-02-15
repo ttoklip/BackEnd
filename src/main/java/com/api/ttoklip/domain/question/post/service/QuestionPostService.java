@@ -1,8 +1,10 @@
 package com.api.ttoklip.domain.question.post.service;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
+import com.api.ttoklip.domain.main.dto.response.QuestionCategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.service.QuestionImageService;
@@ -17,6 +19,8 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -102,6 +106,26 @@ public class QuestionPostService {
     }
 
     /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
+
+
+    // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 ------------------------------------
+
+    public QuestionCategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
+        Page<Question> questions = questionRepository.matchCategoryPaging(category, pageable);
+        List<TitleResponse> data = questions.stream()
+                .map(TitleResponse::questionOf)
+                .toList();
+
+        return QuestionCategoryPagingResponse.builder()
+                .questionData(data)
+                .category(category)
+                .totalPage(questions.getTotalPages())
+                .totalElements(questions.getTotalElements())
+                .isLast(questions.isLast())
+                .isFirst(questions.isFirst())
+                .build();
+    }
+    // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 끝 ------------------------------------
 
 
     /* -------------------------------------------- REPORT -------------------------------------------- */

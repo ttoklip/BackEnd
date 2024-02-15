@@ -12,7 +12,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class TitleResponse {
-    private Long honeyTipId;
+    private Long id;
     private String title;
     private String content;
     private String writer;
@@ -27,7 +27,7 @@ public class TitleResponse {
         String writer = question.getMember().getOriginName();
 
         return TitleResponse.builder()
-                .honeyTipId(question.getId())
+                .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
                 .writer(writer)
@@ -44,7 +44,7 @@ public class TitleResponse {
         String writer = honeyTip.getMember().getOriginName();
 
         return TitleResponse.builder()
-                .honeyTipId(honeyTip.getId())
+                .id(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
                 .writer(writer)
