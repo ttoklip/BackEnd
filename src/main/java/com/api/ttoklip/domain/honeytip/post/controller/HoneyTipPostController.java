@@ -157,7 +157,7 @@ public class HoneyTipPostController {
                                     value = HoneyTipResponseConstant.REGISTER_SCRAP,
                                     description = "꿀팁의 스크랩을 추가했습니다."
                             )))})
-    @PostMapping("/like/{postId}")
+    @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
         Message message = honeytipPostService.registerScrap(postId);
         return new SuccessResponse<>(message);
@@ -174,7 +174,7 @@ public class HoneyTipPostController {
                                     value = HoneyTipResponseConstant.CANCEL_SCRAP,
                                     description = "꿀팁의 스크랩을 취소했습니다."
                             )))})
-    @DeleteMapping("/like/{postId}")
+    @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancleScrap(final @PathVariable Long postId) {
         Message message = honeytipPostService.cancelScrap(postId);
         return new SuccessResponse<>(message);
