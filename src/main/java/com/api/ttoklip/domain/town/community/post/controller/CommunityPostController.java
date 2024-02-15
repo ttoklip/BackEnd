@@ -21,7 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Town", description = "우리동네 - 소통해요 API 입니다.")
+@Tag(name = "Community", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/town/comms")
@@ -91,8 +91,12 @@ public class CommunityPostController {
             @ApiResponse(responseCode = "200", description = "소통해요 게시글 삭제 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class)
-                            ))})
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.deleteCommunity,
+                                    description = "소통해요 게시글을 삭제했습니다."
+                            )))})
     @DeleteMapping("/{postId}")
     public SuccessResponse<Message> delete(final @PathVariable Long postId) {
         return new SuccessResponse<>(communityPostService.delete(postId));
@@ -104,12 +108,86 @@ public class CommunityPostController {
             @ApiResponse(responseCode = "200", description = "소통해요 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class)
-                    ))})
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.REPORT_COMMUNITY,
+                                    description = "소통해요 게시글을 신고했습니다."
+                            )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                         final @RequestBody ReportCreateRequest request) {
         Message message = communityPostService.report(postId, request);
+        return new SuccessResponse<>(message);
+    }
+
+    /* LIKE */
+    @Operation(summary = "소통해요 좋아요 추가", description = "소통해요 ID에 해당하는 게시글에 좋아요를 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.REGISTER_LIKE,
+                                    description = "소통해요에 좋아요를 추가했습니다."
+                            )))})
+    @PostMapping("/like/{postId}")
+    public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
+        Message message = communityPostService.registerLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "소통해요 좋아요 취소", description = "소통해요 ID에 해당하는 게시글에 좋아요를 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.CANCEL_LIKE,
+                                    description = "소통해요에 좋아요를 취소했습니다."
+                            )))})
+    @DeleteMapping("/like/{postId}")
+    public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
+        Message message = communityPostService.cancelLike(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    /* SCRAP */
+    @Operation(summary = "소통해요 스크랩 추가", description = "소통해요 ID에 해당하는 게시글에 스크랩을 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.REGISTER_SCRAP,
+                                    description = "소통해요에 스크랩을 추가했습니다."
+                            )))})
+    @PostMapping("/scrap/{postId}")
+    public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
+        Message message = communityPostService.registerScrap(postId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "소통해요 스크랩 취소", description = "소통해요 ID에 해당하는 게시글에 스크랩을 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스크랩 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CommunityResponseConstant.CANCEL_SCRAP,
+                                    description = "소통해요에 스크랩을 취소했습니다."
+                            )))})
+    @DeleteMapping("/scrap/{postId}")
+    public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
+        Message message = communityPostService.cancelScrap(postId);
         return new SuccessResponse<>(message);
     }
 }

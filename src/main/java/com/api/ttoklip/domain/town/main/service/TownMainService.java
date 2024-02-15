@@ -1,14 +1,19 @@
 package com.api.ttoklip.domain.town.main.service;
 
-import com.api.ttoklip.domain.town.main.dto.request.TownSearchCondition;
-import com.api.ttoklip.domain.town.main.dto.response.TownSearchResponse;
+import com.api.ttoklip.domain.town.cart.post.repository.CartRepository;
+import com.api.ttoklip.domain.town.community.post.repository.CommunityRepository;
+import com.api.ttoklip.domain.town.main.dto.response.TownMainResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
-
 @Service
+@RequiredArgsConstructor
 public class TownMainService {
-    public TownSearchResponse search(final TownSearchCondition condition, final Pageable pageable) {
+
+    private final CartRepository cartRepository;
+    private final CommunityRepository communityRepository;
+    public TownMainResponse main() {
         return null;
     }
+
 }

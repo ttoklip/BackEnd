@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.honeytip.post.domain;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.api.ttoklip.domain.honeytip.Scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
@@ -70,6 +71,10 @@ public class HoneyTip extends BaseEntity {
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HoneyTipLike> honeyTipLikes = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HoneyTipScrap> honeyTipScraps = new ArrayList<>();
+
     public static HoneyTip of(final HoneyTipCreateReq req, final Member member) {
         return HoneyTip.builder()
                 .title(req.getTitle())
@@ -107,5 +112,9 @@ public class HoneyTip extends BaseEntity {
 
     public long getLikesCount() {
         return honeyTipLikes.size();
+    }
+
+    public long getScrapsCount() {
+        return honeyTipScraps.size();
     }
 }

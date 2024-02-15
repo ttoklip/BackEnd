@@ -19,7 +19,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class NewsletterWithCommentRes {
+public class NewsletterSingleResponse {
 
     @Schema(description = "뉴스레터 ID", example = "1")
     private Long newsletterId;
@@ -39,6 +39,12 @@ public class NewsletterWithCommentRes {
     @Schema(description = "뉴스레터 카테고리")
     private Category category;
 
+    @Schema(description = "좋아요 개수", example = "3")
+    private int likeCount;
+
+    @Schema(description = "스크랩 개수", example = "3")
+    private int scrapCount;
+
     @Schema(description = "뉴스레터에 포함된 이미지 URL 목록")
     private List<ImageRes> imageUrlList;
 
@@ -48,8 +54,12 @@ public class NewsletterWithCommentRes {
     @Schema(description = "뉴스레터에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
-    public static NewsletterWithCommentRes toDto(final Newsletter newsletter,
-                                                 final List<NewsletterComment> activeComments) {
+
+
+    public static NewsletterSingleResponse toDto(final Newsletter newsletter,
+                                                 final List<NewsletterComment> activeComments,
+                                                 final int likeCount,
+                                                 final int scrapCount) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(newsletter);
@@ -63,16 +73,18 @@ public class NewsletterWithCommentRes {
         // Url entity to Response
         List<UrlRes> urlResponses = getUrlResponse(newsletter);
 
-        return NewsletterWithCommentRes.builder()
+        return NewsletterSingleResponse.builder()
                 .newsletterId(newsletter.getId())
                 .title(newsletter.getTitle())
                 .content(newsletter.getContent())
-//                .writer(newsletter.get) To do. 멤버 엔티티 생성 후 연결
+                .writer(newsletter.getMember().getOriginName())
                 .writtenTime(formattedCreatedDate)
                 .category(newsletter.getCategory())
                 .imageUrlList(imageResponses)
                 .urlList(urlResponses)
                 .commentResponses(commentResponses)
+                .likeCount(likeCount)
+                .scrapCount(scrapCount)
                 .build();
     }
 
@@ -82,7 +94,7 @@ public class NewsletterWithCommentRes {
     }
 
     private static List<ImageRes> getImageResponses(final Newsletter newsletter) {
-        List<NewsletterImage> newsletterImages = newsletter.getNewsletterImageList();
+        List<NewsletterImage> newsletterImages = newsletter.getNewsletterImages();
         return newsletterImages
                 .stream()
                 .map(ImageRes::toDto)

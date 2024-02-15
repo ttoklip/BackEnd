@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 import com.api.ttoklip.domain.town.cart.itemUrl.dto.response.ItemUrlResponse;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -50,6 +51,9 @@ public class CartSingleResponse {
     @Schema(description = "함께해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
 
+    @Schema(description = "함께해요 거래 진행 상태", example = "진행 중 / 마감")
+    private String status;
+
     @Schema(description = "함께해요에 포함된 이미지 URL 목록")
     private List<CartImageResponse> imageUrls;
 
@@ -81,6 +85,7 @@ public class CartSingleResponse {
                 .location(cart.getLocation())
                 .chatUrl(cart.getChatUrl())
                 .party(cart.getParty())
+                .status(cart.getStatus().name())
 //                .writer(cart.getMember().getName) ToDo Member 엔티티 연결 후 수정
                 .writtenTime(formattedCreatedDate)
                 .itemUrls(itemUrlsResponses)

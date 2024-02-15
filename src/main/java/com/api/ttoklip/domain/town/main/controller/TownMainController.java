@@ -1,33 +1,44 @@
 package com.api.ttoklip.domain.town.main.controller;
 
-import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
-import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
-import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
-import com.api.ttoklip.global.success.SuccessResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.api.ttoklip.domain.town.main.service.TownMainService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.print.Pageable;
-import java.util.List;
-
+@Tag(name = "Town Main", description = "Town Main API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/town/main")
 public class TownMainController {
 
     private final CartPostService cartPostService;
-    private final CommunityPostService commService;
+    private final CommunityPostService communityPostService;
+    private final TownMainService townMainService;
+
+    // todo 최근 글 4개 페이징, 글쓰기 페이지로 이동(추가 안 해도 됨), 글목록 페이지로
+
+    // 메인 화면 조회
+//    @Operation(summary = "우리동네 메인화면 조회", description = "우리동네 메인 화면을 조회합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "우리동네 메인 화면 조회 성공",
+//                    content = @Content(
+//                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                            schema = @Schema(implementation = SuccessResponse.class),
+//                            examples = @ExampleObject(
+//                                    name = "SuccessResponse",
+//                                    value = TownResponseConstant.listTowns,
+//                                    description = "우리동네 메인 화면이 조회되었습니다."
+//                            )))})
+//    @GetMapping
+//    public SuccessResponse<TownMainResponse> d() {
+//        return new SuccessResponse<>(TownMainService.main());
+//    }
+
+
+
 
 //    @Operation(summary = "함께해요 더보기 페이지 조회",
 //            description = "함께해요 더보기 페이지를 조회합니다.")
@@ -63,7 +74,7 @@ public class TownMainController {
 //        CommunityListResponse commListResponse = commService.searchCommunityPaging(condition, pageable);
 //        return new SuccessResponse<>(commListResponse);
 //    }
-//
+
 //    @Operation(summary = "함께해요 게시글 생성",
 //            description = "함께해요 게시글을 생성합니다.")
 //    @ApiResponses(value = {
