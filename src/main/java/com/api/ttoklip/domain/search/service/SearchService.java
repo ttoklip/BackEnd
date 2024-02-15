@@ -1,10 +1,10 @@
-package com.api.ttoklip.domain.common.search.service;
+package com.api.ttoklip.domain.search.service;
 
-import com.api.ttoklip.domain.common.search.response.CommunityPaging;
-import com.api.ttoklip.domain.common.search.response.CommunitySingleResponse;
-import com.api.ttoklip.domain.common.search.response.HoneyTipPaging;
-import com.api.ttoklip.domain.common.search.response.NewsletterPaging;
-import com.api.ttoklip.domain.common.search.response.SingleResponse;
+import com.api.ttoklip.domain.search.response.CommunityPaging;
+import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
+import com.api.ttoklip.domain.search.response.HoneyTipPaging;
+import com.api.ttoklip.domain.search.response.NewsletterPaging;
+import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipSearchRepository;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;

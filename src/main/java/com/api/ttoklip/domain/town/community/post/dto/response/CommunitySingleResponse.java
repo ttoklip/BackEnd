@@ -70,7 +70,7 @@ public class CommunitySingleResponse {
                 .communityId(community.getId())
                 .title(community.getTitle())
                 .content(community.getContent())
-                .writer(community.getMember().getOriginName())
+                .writer(community.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
                 .imageUrls(communityImageResponses)
                 .commentResponses(commentResponses)

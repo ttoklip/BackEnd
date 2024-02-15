@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.honeytip.post.repository;
 
 
+import static com.api.ttoklip.domain.honeytip.Scrap.domain.QHoneyTipScrap.honeyTipScrap;
 import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
 import static com.api.ttoklip.domain.honeytip.like.domain.QHoneyTipLike.honeyTipLike;
 import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
@@ -24,6 +25,8 @@ public class HoneyTipDefaultRepository {
                 .selectFrom(honeyTip)
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.HOUSEWORK))
                 .limit(10)
@@ -36,6 +39,8 @@ public class HoneyTipDefaultRepository {
                 .selectFrom(honeyTip)
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.RECIPE))
                 .limit(10)
@@ -48,6 +53,8 @@ public class HoneyTipDefaultRepository {
                 .selectFrom(honeyTip)
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.SAFE_LIVING))
                 .limit(10)
@@ -60,6 +67,8 @@ public class HoneyTipDefaultRepository {
                 .selectFrom(honeyTip)
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
                 .where(honeyTip.category.eq(Category.WELFARE_POLICY))
                 .limit(10)
@@ -70,15 +79,22 @@ public class HoneyTipDefaultRepository {
     public List<HoneyTip> getTop5() {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
-                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .groupBy(honeyTip.id)
-                .orderBy(   // ToDo 스크랩 수 계산
-                        getLikeSize().add(getCommentSize())
+                .orderBy(
+                        getLikeSize()
+                                .add(getCommentSize())
+                                .add(getScrapSize())
                                 .desc()
                 )
                 .limit(5)
                 .fetch();
+    }
+
+    private NumberExpression<Integer> getScrapSize() {
+        return honeyTip.honeyTipScraps.size();
     }
 
     private NumberExpression<Integer> getCommentSize() {

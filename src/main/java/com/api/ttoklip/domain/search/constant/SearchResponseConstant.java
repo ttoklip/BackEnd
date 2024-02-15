@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.search.constant;
+package com.api.ttoklip.domain.search.constant;
 
 public class SearchResponseConstant {
     public static final String NEWSLETTER = """

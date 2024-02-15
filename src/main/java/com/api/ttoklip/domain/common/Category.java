@@ -25,6 +25,7 @@ public enum Category {
         }
     }
 
+    /*
     public static Category findCategoryByName(final String name) {
         for (Category category : Category.values()) {
             if (category.getName().equals(name)) {
@@ -42,4 +43,6 @@ public enum Category {
         }
         throw new ApiException(ErrorType.CATEGORY_NOT_FOUND);
     }
+
+     */
 }

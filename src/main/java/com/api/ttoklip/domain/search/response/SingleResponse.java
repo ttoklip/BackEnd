@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.search.response;
+package com.api.ttoklip.domain.search.response;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;

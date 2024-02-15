@@ -71,6 +71,7 @@ public enum ErrorType {
     // ---------------------------------------- JWT TOKEN ----------------------------------------
     _JWT_PARSING_ERROR(BAD_REQUEST, "JWT_4001", "JWT Token이 올바르지 않습니다."),
     _JWT_EXPIRED(UNAUTHORIZED, "JWT_4010", "Jwt Token의 유효 기간이 만료되었습니다."),
+    _JWT_NOT_FOUND(UNAUTHORIZED, "JWT_4010", "Jwt Token을 포함하셔야합니다."),
 
 
     // ------------------------------------------ Auth ------------------------------------------

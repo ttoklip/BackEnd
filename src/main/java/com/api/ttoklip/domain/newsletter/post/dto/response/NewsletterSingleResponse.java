@@ -77,7 +77,7 @@ public class NewsletterSingleResponse {
                 .newsletterId(newsletter.getId())
                 .title(newsletter.getTitle())
                 .content(newsletter.getContent())
-                .writer(newsletter.getMember().getOriginName())
+                .writer(newsletter.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
                 .category(newsletter.getCategory())
                 .imageUrlList(imageResponses)
