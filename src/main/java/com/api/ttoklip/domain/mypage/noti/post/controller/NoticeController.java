@@ -23,7 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "공지사항", description = "공지사항 api입니다")
+@Tag(name = "Notice", description = "공지사항 api입니다")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/notice")
