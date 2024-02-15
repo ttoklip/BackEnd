@@ -125,7 +125,7 @@ public class MyPageController {
                                     value = MyPageConstant.scrapHoneyTipsResponse,
                                     description = "스크랩한 허니팁들을 불러왔습니다"
                             )))})
-    @GetMapping("/scraped-posts/honeytip")
+    @GetMapping("/scrap-post/honeytip")
     public SuccessResponse<HoneyTipPaging> scrapHoneyTips(final Pageable pageable) {
         return new SuccessResponse<>(myPageService.scrapHoneyTips(pageable));
     }
@@ -140,7 +140,7 @@ public class MyPageController {
                                     value = MyPageConstant.scrapNewsLetterResponse,
                                     description = "스크랩한 뉴스레터들을 불러왔습니다"
                             )))})
-    @GetMapping("/scraped-posts/newsletter")
+    @GetMapping("/scrap-post/newsletter")
     public SuccessResponse<NewsletterPaging> scrapNewsletters(final Pageable pageable) {
         return new SuccessResponse<>(myPageService.scrapNewsletters(pageable));
     }
@@ -155,7 +155,7 @@ public class MyPageController {
                                     value = MyPageConstant.scrapCommunityResponse,
                                     description = "스크랩한 소통해요들을 불러왔습니다"
                             )))})
-    @GetMapping("/scraped-posts/community")
+    @GetMapping("/scrap-post/community")
     public SuccessResponse<CommunityPaging> scrapCommunity(final Pageable pageable) {
         return new SuccessResponse<>(myPageService.scrapCommunity(pageable));
     }
