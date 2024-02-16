@@ -43,8 +43,13 @@ public class CommentLikeService {
         CommentLike commentLike = commentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionCommentId, currentMemberId)
                 .orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
 
-        // 자격 검증: 이 단계에서는 findByQuestionIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.
+        // 자격 검증: 이 단계에서는 findByQuestionCommentIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.
         // 별도의 자격 검증 로직이 필요 없으며, 바로 삭제를 진행할 수 있습니다.
         commentLikeRepository.deleteById(commentLike.getId());
+    }
+
+    public boolean existsByQuestionCommentIdAndMemberId(final Long commentId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
     }
 }

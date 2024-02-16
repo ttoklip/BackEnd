@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.service.QuestionImageService;
+import com.api.ttoklip.domain.question.like.repository.CommentLikeRepository;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
@@ -24,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,6 +38,7 @@ public class QuestionPostService {
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
     private final QuestionCommonService questionCommonService;
+    private final CommentLikeRepository commentLikeRepository;
 
 //    /* -------------------------------------------- COMMON -------------------------------------------- */
 //    public Question findQuestionById(final Long postId) {
@@ -73,10 +77,18 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- 단건 READ -------------------------------------------- */
-    public QuestionSingleResponse getSinglePost(final Long postId) {
+    public QuestionSingleResponse getSinglePost(final Long postId, final Long commentId) {
         Question questionWithImg = questionRepository.findByIdFetchJoin(postId);
         List<QuestionComment> activeComments = questionRepository.findActiveCommentsByQuestionId(postId);
-        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg, activeComments);
+
+        // 현재 사용자 ID를 가져옴
+        Long currentMemberId = getCurrentMember().getId();
+
+        // 현재 사용자가 좋아요를 눌렀는지 확인
+        boolean likedByCurrentUser = commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
+
+        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg,
+                activeComments, likedByCurrentUser);
         return questionSingleResponse;
     }
 

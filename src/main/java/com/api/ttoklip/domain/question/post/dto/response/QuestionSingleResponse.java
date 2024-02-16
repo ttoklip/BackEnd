@@ -47,7 +47,12 @@ public class QuestionSingleResponse {
     @Schema(description = "질문에 대한 댓글 목록")
     private List<CommentResponse> commentResponses;
 
-    public static QuestionSingleResponse of(final Question question, final List<QuestionComment> activeComments) {
+    @Schema(description = "현재 사용자의 해당 댓글 좋아요 여부")
+    private boolean likedByCurrentUser;
+
+    public static QuestionSingleResponse of(final Question question,
+                                            final List<QuestionComment> activeComments,
+                                            final boolean likedByCurrentUser) {
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(question);
 
@@ -65,6 +70,7 @@ public class QuestionSingleResponse {
                 .writer(question.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
                 .category(question.getCategory()) // 한글 카테고리 이름으로 반환
+                .likedByCurrentUser(likedByCurrentUser)
                 .commentCount(commentCount)
                 .imageUrls(imageResponses)
                 .commentResponses(commentResponses)
