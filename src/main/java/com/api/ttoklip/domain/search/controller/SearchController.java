@@ -48,10 +48,13 @@ public class SearchController {
             @Parameter(description = "포함될 꿀팁공유해요 키워드", required = true, example = "최신 팁")
             @RequestParam final String title,
 
+            @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
+            @RequestParam final String descType,
+
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        HoneyTipPaging honeyTipPaging = searchService.honeyTipSearch(title, pageable);
+        HoneyTipPaging honeyTipPaging = searchService.honeyTipSearch(title, pageable, descType);
         return new SuccessResponse<>(honeyTipPaging);
     }
 

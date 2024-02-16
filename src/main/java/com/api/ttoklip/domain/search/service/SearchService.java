@@ -27,8 +27,8 @@ public class SearchService {
     private final NewsletterSearchRepository newsletterSearchRepository;
     private final CommunitySearchRepository communitySearchRepository;
 
-    public HoneyTipPaging honeyTipSearch(final String keyword, final Pageable pageable) {
-        Page<HoneyTip> contentPaging = honeyTipSearchRepository.getContain(keyword, pageable);
+    public HoneyTipPaging honeyTipSearch(final String keyword, final Pageable pageable, final String sort) {
+        Page<HoneyTip> contentPaging = honeyTipSearchRepository.getContain(keyword, pageable, sort);
 
         // List<Entity>
         List<HoneyTip> contents = contentPaging.getContent();
