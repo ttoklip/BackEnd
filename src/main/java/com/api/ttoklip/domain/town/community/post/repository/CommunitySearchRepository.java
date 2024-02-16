@@ -1,8 +1,13 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
+import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.*;
+import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.*;
+
 import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
+import com.api.ttoklip.domain.town.community.like.entity.QCommunityLike;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
+import com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,6 +45,8 @@ public class CommunitySearchRepository {
                         containTitle(keyword)
                 )
                 .leftJoin(community.communityComments, communityComment)
+                .leftJoin(community.communityLikes, communityLike)
+                .leftJoin(community.communityScraps, communityScrap)
                 .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())

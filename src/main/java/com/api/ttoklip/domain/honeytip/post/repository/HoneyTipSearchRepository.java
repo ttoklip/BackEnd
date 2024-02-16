@@ -1,6 +1,9 @@
 package com.api.ttoklip.domain.honeytip.post.repository;
 
 
+import static com.api.ttoklip.domain.honeytip.like.domain.QHoneyTipLike.honeyTipLike;
+import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
+
 import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
@@ -39,6 +42,8 @@ public class HoneyTipSearchRepository {
                         containTitle(keyword)
                 )
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())

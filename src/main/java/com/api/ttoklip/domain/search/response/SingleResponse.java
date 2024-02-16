@@ -17,11 +17,9 @@ public class SingleResponse {
     private Category category;
     private String title;
     private String content;
-
-//    private String writer;
-//    private Long stars;
-//    private Long likes;
-
+    private String writer;
+    private int likeCount;
+    private int scrapCount;
     private int commentCount;
 
     public static SingleResponse honeyTipFrom(final HoneyTip honeyTip){
@@ -31,9 +29,9 @@ public class SingleResponse {
                 .content(honeyTip.getContent())
                 .category(honeyTip.getCategory())
                 .commentCount(honeyTip.getHoneyTipComments().size())
-//                .writer(writer)
-//                .stars(stars)
-//                .likes(likes)
+                .writer(honeyTip.getMember().getNickname())
+                .scrapCount(honeyTip.getHoneyTipScraps().size())
+                .likeCount(honeyTip.getHoneyTipLikes().size())
                 .build();
     }
 
@@ -44,9 +42,9 @@ public class SingleResponse {
                 .content(newsletter.getContent())
                 .category(newsletter.getCategory())
                 .commentCount(newsletter.getNewsletterComments().size())
-//                .writer(writer)
-//                .stars(stars)
-//                .likes(likes)
+                .writer(newsletter.getMember().getNickname())
+                .scrapCount(newsletter.getNewsletterScraps().size())
+                .likeCount(newsletter.getNewsletterLikes().size())
                 .build();
     }
 }

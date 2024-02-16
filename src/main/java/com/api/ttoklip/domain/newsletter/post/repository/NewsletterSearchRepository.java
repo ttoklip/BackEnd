@@ -1,8 +1,13 @@
 package com.api.ttoklip.domain.newsletter.post.repository;
 
+import static com.api.ttoklip.domain.newsletter.like.entity.QNewsletterLike.*;
+import static com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap.*;
+
 import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
+import com.api.ttoklip.domain.newsletter.like.entity.QNewsletterLike;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
+import com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -38,6 +43,8 @@ public class NewsletterSearchRepository {
                         containTitle(keyword)
                 )
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
+                .leftJoin(newsletter.newsletterLikes, newsletterLike)
+                .leftJoin(newsletter.newsletterScraps, newsletterScrap)
                 .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
