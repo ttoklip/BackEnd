@@ -49,12 +49,12 @@ public class SearchController {
             @RequestParam final String title,
 
             @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
-            @RequestParam final String descType,
+            @RequestParam final String sort,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        HoneyTipPaging honeyTipPaging = searchService.honeyTipSearch(title, pageable, descType);
+        HoneyTipPaging honeyTipPaging = searchService.honeyTipSearch(title, pageable, sort);
         return new SuccessResponse<>(honeyTipPaging);
     }
 
@@ -74,10 +74,13 @@ public class SearchController {
             @Parameter(description = "포함될 뉴스레터의 키워드", required = true, example = "최신 팁")
             @RequestParam final String title,
 
+            @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
+            @RequestParam final String sort,
+
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NewsletterPaging newsletterPaging = searchService.newsletterPaging(title, pageable);
+        NewsletterPaging newsletterPaging = searchService.newsletterPaging(title, pageable, sort);
         return new SuccessResponse<>(newsletterPaging);
     }
 

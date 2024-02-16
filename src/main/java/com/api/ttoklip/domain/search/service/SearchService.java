@@ -47,8 +47,8 @@ public class SearchService {
                 .build();
     }
 
-    public NewsletterPaging newsletterPaging(final String keyword, final Pageable pageable) {
-        Page<Newsletter> contentPaging = newsletterSearchRepository.getContain(keyword, pageable);
+    public NewsletterPaging newsletterPaging(final String keyword, final Pageable pageable, final String sort) {
+        Page<Newsletter> contentPaging = newsletterSearchRepository.getContain(keyword, pageable, sort);
 
         // List<Entity>
         List<Newsletter> contents = contentPaging.getContent();

@@ -40,7 +40,7 @@ public class HoneyTipSearchRepository {
         JPAQuery<HoneyTip> query = defaultQuery(keyword, pageable);
 
         if (sort.equals("popularity")) {
-            return sorPopularity(query);
+            return sortPopularity(query);
         }
 
         if (sort.equals("latest")) {
@@ -73,7 +73,7 @@ public class HoneyTipSearchRepository {
         return null;
     }
 
-    private List<HoneyTip> sorPopularity(final JPAQuery<HoneyTip> query) {
+    private List<HoneyTip> sortPopularity(final JPAQuery<HoneyTip> query) {
         // 댓글, 좋아요, 스크랩 수에 따라 인기 점수 계산
         return query
                 .groupBy(honeyTip.id)
