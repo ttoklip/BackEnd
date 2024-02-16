@@ -23,7 +23,7 @@ public class CommentLikeService {
     // 좋아요 생성
     public void registerLike(final Long commentId) {
         Long currentMemberId = getCurrentMember().getId();
-        boolean exists = commentLikeRepository.existsByQuestionIdAndMemberId(commentId, currentMemberId);
+        boolean exists = commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
         if (exists) {
             return; // 이미 스크랩이 존재하면 좋아요를 생성하지 않고 return
         }
@@ -40,7 +40,7 @@ public class CommentLikeService {
         Long findQuestionCommentId = findQuestionComment.getId();
         Long currentMemberId = getCurrentMember().getId();
 
-        CommentLike commentLike = commentLikeRepository.findByQuestionIdAndMemberId(findQuestionCommentId, currentMemberId)
+        CommentLike commentLike = commentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionCommentId, currentMemberId)
                 .orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
 
         // 자격 검증: 이 단계에서는 findByQuestionIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.

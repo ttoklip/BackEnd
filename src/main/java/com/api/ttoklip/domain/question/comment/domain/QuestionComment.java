@@ -23,7 +23,7 @@ public class QuestionComment extends Comment {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "questionComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentLike> commentLikes  = new ArrayList<>();
 
     @Builder
