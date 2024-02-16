@@ -13,8 +13,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue(value = "Question")
 public class QuestionComment extends Comment {

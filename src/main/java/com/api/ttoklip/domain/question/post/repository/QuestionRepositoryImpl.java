@@ -1,10 +1,5 @@
 package com.api.ttoklip.domain.question.post.repository;
 
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
-import static com.api.ttoklip.domain.question.image.domain.QQuestionImage.questionImage;
-import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
-
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
@@ -13,17 +8,46 @@ import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+import java.util.Optional;
+
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
+import static com.api.ttoklip.domain.question.image.domain.QQuestionImage.questionImage;
+import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
+
 @RequiredArgsConstructor
 public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    @Override
+    public Question findByIdActivated(final Long questionId) {
+        Question findQuestion = jpaQueryFactory
+                .selectFrom(question)
+                .distinct()
+                .leftJoin(question.member, member)
+                .fetchJoin()
+                .where(
+                        matchId(questionId), getQuestionActivate()
+                )
+                .fetchOne();
+        return Optional.ofNullable(findQuestion)
+                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
+    }
+
+    private BooleanExpression matchId(final Long questionId) {
+        return question.id.eq(questionId);
+    }
+
+    private BooleanExpression getQuestionActivate() {
+        return question.deleted.isFalse();
+    }
 
     @Override
     public Question findByIdFetchJoin(final Long questionPostId) {
