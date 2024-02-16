@@ -95,5 +95,19 @@ public class QuestionCommentService {
         commentService.deleteById(commentId);
         return Message.deleteCommentSuccess(QuestionComment.class, commentId);
     }
+
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- LIKE -------------------------------------------- */
+    public Message registerLike(Long commentId) {
+        return null;
+    }
+
+    public Message cancleLike(Long commentId) {
+        return null;
+    }
+
+    /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
+
 }

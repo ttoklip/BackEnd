@@ -109,4 +109,39 @@ public class QuestionCommentController {
         return new SuccessResponse<>(message);
     }
 
+    /* LIKE */
+    @Operation(summary = "질문 댓글 좋아요 추가", description = "질문 ID에 해당하는 댓글에 좋아요를 추가합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 추가 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.REGISTER_LIKE,
+                                    description = "질문 댓글의 좋아요를 추가했습니다."
+                            )))})
+    @PostMapping("/like/{commentId}")
+    public SuccessResponse<Message> registerLike(final @PathVariable Long commentId) {
+        Message message = questionCommentService.registerLike(commentId);
+        return new SuccessResponse<>(message);
+    }
+
+    @Operation(summary = "질문 댓글 좋아요 취소", description = "질문 ID에 해당하는 댓글에 좋아요를 취소합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 취소 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = QuestionResponseConstant.CANCEL_LIKE,
+                                    description = "꿀팁의 스크랩을 취소했습니다."
+                            )))})
+    @DeleteMapping("/like/{commentId}")
+    public SuccessResponse<Message> cancleLike(final @PathVariable Long commentId) {
+        Message message = questionCommentService.cancleLike(commentId);
+        return new SuccessResponse<>(message);
+    }
+
 }
