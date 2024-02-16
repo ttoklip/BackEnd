@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.question.post.repository;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.exception.ApiException;
@@ -25,6 +26,29 @@ import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    @Override
+    public QuestionComment findByCommentIdActivated(final Long commentId) {
+        QuestionComment findQuestionComment = jpaQueryFactory
+                .selectFrom(questionComment)
+                .distinct()
+                .leftJoin(questionComment.member, member)
+                .fetchJoin()
+                .where(
+                        matchCommentId(commentId), getQuestionCommentActivate()
+                )
+                .fetchOne();
+        return Optional.ofNullable(findQuestionComment)
+                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
+    }
+
+    private BooleanExpression matchCommentId(final Long commentId) {
+        return question.id.eq(commentId);
+    }
+
+    private BooleanExpression getQuestionCommentActivate() {
+        return question.deleted.isFalse();
+    }
 
     @Override
     public Question findByIdActivated(final Long questionId) {

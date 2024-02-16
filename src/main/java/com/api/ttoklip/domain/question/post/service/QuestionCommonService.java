@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.question.post.service;
 
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
@@ -25,6 +26,10 @@ public class QuestionCommonService {
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Question getQuestion(final Long postId) {
         return questionRepository.findByIdActivated(postId);
+    }
+
+    public QuestionComment getQuestionComment(final Long commentId) {
+        return questionRepository.findByCommentIdActivated(commentId);
     }
 
     public List<String> uploadImages(final List<MultipartFile> uploadImages) {

@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.question.like.entity;
 
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,12 +27,12 @@ public class CommentLike extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
-    private Question question;
+    private QuestionComment questionComment;
 
-    public static CommentLike from(final Question question) {
+    public static CommentLike from(final QuestionComment questionComment) {
         return CommentLike.builder()
                 .member(getCurrentMember())
-                .question(question)
+                .questionComment(questionComment)
                 .build();
     }
 

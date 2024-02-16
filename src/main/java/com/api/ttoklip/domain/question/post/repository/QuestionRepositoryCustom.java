@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface QuestionRepositoryCustom {
 
-    Question findByIdActivated(final Long communityId);
+    Question findByIdActivated(final Long questionId);
+
+    QuestionComment findByCommentIdActivated(final Long commentId);
 
     Question findByIdFetchJoin(final Long questionPostId);
     List<QuestionComment> findActiveCommentsByQuestionId(final Long questionId);
