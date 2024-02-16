@@ -14,12 +14,10 @@ public class CommunitySingleResponse {
     private Long id;
     private String title;
     private String content;
-
-//    private String writer;
-//    private Long stars;
-//    private Long likes;
-
+    private String writer;
     private int commentCount;
+    private int likeCount;
+    private int scrapCount;
 
     public static CommunitySingleResponse from(final Community community) {
         return CommunitySingleResponse.builder()
@@ -27,9 +25,9 @@ public class CommunitySingleResponse {
                 .title(community.getTitle())
                 .content(community.getContent())
                 .commentCount(community.getCommunityComments().size())
-//                .writer(writer)
-//                .stars(stars)
-//                .likes(likes)
+                .writer(community.getMember().getNickname())
+                .scrapCount(community.getCommunityScraps().size())
+                .likeCount(community.getCommunityLikes().size())
                 .build();
     }
 

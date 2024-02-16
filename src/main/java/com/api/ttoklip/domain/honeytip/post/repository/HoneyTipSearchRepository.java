@@ -1,11 +1,18 @@
 package com.api.ttoklip.domain.honeytip.post.repository;
 
 
+import static com.api.ttoklip.domain.honeytip.like.domain.QHoneyTipLike.honeyTipLike;
+import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
+
 import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +30,27 @@ public class HoneyTipSearchRepository {
     private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
 
-
-    public Page<HoneyTip> getContain(final String keyword, final Pageable pageable) {
-        List<HoneyTip> content = getSearchPageTitle(keyword, pageable);
+    public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
+        List<HoneyTip> content = getSearchPageTitle(keyword, pageable, sort);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<HoneyTip> getSearchPageTitle(final String keyword, final Pageable pageable) {
+    private List<HoneyTip> getSearchPageTitle(final String keyword, final Pageable pageable, final String sort) {
+        JPAQuery<HoneyTip> query = defaultQuery(keyword, pageable);
+
+        if (sort.equals("popularity")) {
+            return sortPopularity(query);
+        }
+
+        if (sort.equals("latest")) {
+            return sortLatest(query);
+        }
+
+        throw new ApiException(ErrorType.INVALID_SORT_TYPE);
+    }
+
+    private JPAQuery<HoneyTip> defaultQuery(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
                 .select(honeyTip)
                 .from(honeyTip)
@@ -39,11 +59,11 @@ public class HoneyTipSearchRepository {
                         containTitle(keyword)
                 )
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
+                .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
                 .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
-                .orderBy(honeyTip.id.desc())
-                .fetch();
+                .offset(pageable.getOffset());
     }
 
     private BooleanExpression containTitle(final String keyword) {
@@ -51,6 +71,37 @@ public class HoneyTipSearchRepository {
             return honeyTip.title.contains(keyword);
         }
         return null;
+    }
+
+    private List<HoneyTip> sortPopularity(final JPAQuery<HoneyTip> query) {
+        // 댓글, 좋아요, 스크랩 수에 따라 인기 점수 계산
+        return query
+                .groupBy(honeyTip.id)
+                .orderBy(
+                        getLikeSize().add(
+                                getCommentSize()
+                        ).add(
+                                getScrapSize()
+                        ).desc()
+                ).fetch();
+    }
+
+    private NumberExpression<Integer> getLikeSize() {
+        return honeyTip.honeyTipLikes.size();
+    }
+
+    private NumberExpression<Integer> getCommentSize() {
+        return honeyTip.honeyTipComments.size();
+    }
+
+    private NumberExpression<Integer> getScrapSize() {
+        return honeyTip.honeyTipScraps.size();
+    }
+
+    private List<HoneyTip> sortLatest(final JPAQuery<HoneyTip> query) {
+        return query
+                .orderBy(honeyTip.id.desc())
+                .fetch();
     }
 
     private Long countQuery(final String keyword) {
