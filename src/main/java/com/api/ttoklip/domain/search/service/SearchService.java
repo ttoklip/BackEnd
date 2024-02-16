@@ -67,8 +67,8 @@ public class SearchService {
                 .build();
     }
 
-    public CommunityPaging communityPaging(final String keyword, final Pageable pageable) {
-        Page<Community> contentPaging = communitySearchRepository.getContain(keyword, pageable);
+    public CommunityPaging communityPaging(final String keyword, final Pageable pageable, final String sort) {
+        Page<Community> contentPaging = communitySearchRepository.getContain(keyword, pageable, sort);
 
         // List<Entity>
         List<Community> contents = contentPaging.getContent();

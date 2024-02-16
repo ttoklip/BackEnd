@@ -98,6 +98,12 @@ public class HoneyTipSearchRepository {
         return honeyTip.honeyTipScraps.size();
     }
 
+    private List<HoneyTip> sortLatest(final JPAQuery<HoneyTip> query) {
+        return query
+                .orderBy(honeyTip.id.desc())
+                .fetch();
+    }
+
     private Long countQuery(final String keyword) {
         return jpaQueryFactory
                 .select(Wildcard.count)
@@ -107,11 +113,5 @@ public class HoneyTipSearchRepository {
                         containTitle(keyword)
                 )
                 .fetchOne();
-    }
-
-    private List<HoneyTip> sortLatest(final JPAQuery<HoneyTip> query) {
-        return query
-                .orderBy(honeyTip.id.desc())
-                .fetch();
     }
 }
