@@ -13,17 +13,16 @@ import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.post.repository.QuestionDefaultRepository;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,14 +34,15 @@ public class QuestionPostService {
     private final QuestionImageService questionImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
+    private final QuestionCommonService questionCommonService;
 
-    /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Question findQuestionById(final Long postId) {
-        return questionRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
-    }
-
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
+//    /* -------------------------------------------- COMMON -------------------------------------------- */
+//    public Question findQuestionById(final Long postId) {
+//        return questionRepository.findById(postId)
+//                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
+//    }
+//
+//    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
@@ -130,7 +130,7 @@ public class QuestionPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
-        Question question = findQuestionById(postId);
+        Question question = questionCommonService.getQuestion(postId);
         reportService.reportQuestion(request, question);
 
         return Message.reportPostSuccess(Question.class, postId);
