@@ -6,18 +6,15 @@ import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
-import com.api.ttoklip.domain.question.like.repository.CommentLikeRepository;
 import com.api.ttoklip.domain.question.like.service.CommentLikeService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.service.QuestionCommonService;
-import com.api.ttoklip.domain.question.post.service.QuestionPostService;
-import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.success.Message;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -106,14 +103,16 @@ public class QuestionCommentService {
 
 
     /* -------------------------------------------- LIKE -------------------------------------------- */
+    @Transactional
     public Message registerLike(Long commentId) {
         commentLikeService.registerLike(commentId);
         return Message.likePostSuccess(Question.class, commentId);
     }
 
+    @Transactional
     public Message cancleLike(Long commentId) {
         commentLikeService.cancelLike(commentId);
-        return Message.likePostCancel(Community.class, commentId);
+        return Message.likePostCancel(Question.class, commentId);
     }
 
     /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
