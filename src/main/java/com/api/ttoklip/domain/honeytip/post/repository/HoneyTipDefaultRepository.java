@@ -8,6 +8,7 @@ import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -28,10 +29,18 @@ public class HoneyTipDefaultRepository {
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
-                .where(honeyTip.category.eq(Category.HOUSEWORK))
+                .where(
+                        honeyTip.category.eq(Category.HOUSEWORK),
+                        getHoneyTipActivate()
+                )
                 .limit(10)
                 .orderBy(honeyTip.id.desc())
                 .fetch();
+    }
+
+
+    private BooleanExpression getHoneyTipActivate() {
+        return honeyTip.deleted.isFalse();
     }
 
     public List<HoneyTip> getRecipe() {
@@ -42,7 +51,10 @@ public class HoneyTipDefaultRepository {
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
-                .where(honeyTip.category.eq(Category.RECIPE))
+                .where(
+                        honeyTip.category.eq(Category.RECIPE),
+                        getHoneyTipActivate()
+                )
                 .limit(10)
                 .orderBy(honeyTip.id.desc())
                 .fetch();
@@ -56,7 +68,10 @@ public class HoneyTipDefaultRepository {
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
-                .where(honeyTip.category.eq(Category.SAFE_LIVING))
+                .where(
+                        honeyTip.category.eq(Category.SAFE_LIVING),
+                        getHoneyTipActivate()
+                )
                 .limit(10)
                 .orderBy(honeyTip.id.desc())
                 .fetch();
@@ -70,7 +85,10 @@ public class HoneyTipDefaultRepository {
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .fetchJoin()
-                .where(honeyTip.category.eq(Category.WELFARE_POLICY))
+                .where(
+                        honeyTip.category.eq(Category.WELFARE_POLICY),
+                        getHoneyTipActivate()
+                )
                 .limit(10)
                 .orderBy(honeyTip.id.desc())
                 .fetch();
@@ -82,6 +100,9 @@ public class HoneyTipDefaultRepository {
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
+                .where(
+                        getHoneyTipActivate()
+                )
                 .groupBy(honeyTip.id)
                 .orderBy(
                         getLikeSize()
