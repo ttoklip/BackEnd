@@ -44,7 +44,7 @@ public class Cart extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TradeStatus status;
 
-    public static Cart from(final CartCreateRequest request) {
+    public static Cart from(final CartCreateRequest request, final Member member) {
         return Cart.builder()
                 .location(request.getLocation())
                 .totalPrice(request.getTotalPrice())
@@ -54,6 +54,7 @@ public class Cart extends BaseEntity {
                 .content(request.getContent())
                 .title(request.getTitle())
                 .status(TradeStatus.IN_PROGRESS)
+                .member(member)
                 .build();
     }
 
