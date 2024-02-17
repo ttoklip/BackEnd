@@ -140,16 +140,16 @@ public class CartPostController {
         return new SuccessResponse<>(message);
     }
 
-    /* 참여자 제거 */
-    @Operation(summary = "참여자 제거", description = "특정 카트에서 참여자를 제거합니다.")
+    /* 참여 취소 */
+    @Operation(summary = "참여 취소", description = "특정 카트에서 참여자를 취소합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "참여자 제거 성공",
+            @ApiResponse(responseCode = "200", description = "참여 취소 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = CartResponseConstant.REMOVE_PARTICIPANT,
-                                    description = "참여자가 제거되었습니다."
+                                    description = "참여를 취소되었습니다."
                             )))})
     @DeleteMapping("/{cartId}/participants/{memberId}")
     public SuccessResponse<Message> removeParticipant(final @PathVariable Long cartId, final @PathVariable Long memberId) {
