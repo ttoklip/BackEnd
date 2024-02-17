@@ -57,7 +57,8 @@ public class CommunitySearchRepository {
                 .from(community)
                 .distinct()
                 .where(
-                        containTitle(keyword)
+                        containTitle(keyword),
+                        getCommunityActivate()
                 )
                 .leftJoin(community.communityComments, communityComment)
                 .leftJoin(community.communityLikes, communityLike)
@@ -65,6 +66,10 @@ public class CommunitySearchRepository {
                 .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
+    }
+
+    private BooleanExpression getCommunityActivate() {
+        return community.deleted.isFalse();
     }
 
     private BooleanExpression containTitle(final String keyword) {
@@ -111,7 +116,8 @@ public class CommunitySearchRepository {
                 .from(community)
                 .distinct()
                 .where(
-                        containTitle(keyword)
+                        containTitle(keyword),
+                        getCommunityActivate()
                 )
                 .fetchOne();
     }

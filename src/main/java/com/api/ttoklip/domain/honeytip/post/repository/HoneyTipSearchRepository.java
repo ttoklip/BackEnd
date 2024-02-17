@@ -56,7 +56,8 @@ public class HoneyTipSearchRepository {
                 .from(honeyTip)
                 .distinct()
                 .where(
-                        containTitle(keyword)
+                        containTitle(keyword),
+                        getHoneyTipActivate()
                 )
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
@@ -71,6 +72,10 @@ public class HoneyTipSearchRepository {
             return honeyTip.title.contains(keyword);
         }
         return null;
+    }
+
+    private BooleanExpression getHoneyTipActivate() {
+        return honeyTip.deleted.isFalse();
     }
 
     private List<HoneyTip> sortPopularity(final JPAQuery<HoneyTip> query) {
