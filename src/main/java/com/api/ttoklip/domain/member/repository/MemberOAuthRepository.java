@@ -31,5 +31,21 @@ public class MemberOAuthRepository {
         return Optional.ofNullable(findMember)
                 .orElseThrow(() -> new ApiException(ErrorType._USER_NOT_FOUND_DB));
     }
+    public Member findByNickNameWithProfile(final String nickName){//02.17
+        QMember member = QMember.member;
+        QProfile profile = QProfile.profile;
+
+        Member findMember = jpaQueryFactory
+                .selectFrom(member)
+                .distinct()
+                .leftJoin(member.profile, profile)
+                .fetchJoin()
+                .where(member.nickname.eq(nickName))
+                .fetchOne();
+
+        return Optional.ofNullable(findMember)
+                .orElseThrow(() -> new ApiException(ErrorType._USER_NOT_FOUND_DB));
+
+    }
 
 }
