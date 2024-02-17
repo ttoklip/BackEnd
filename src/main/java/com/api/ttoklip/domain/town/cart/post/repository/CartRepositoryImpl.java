@@ -97,7 +97,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
     }
 
-    // 참여자 제거
+    // 참여 취소
     @Override
     public Cart removeParticipant(final Long cartId, final Long memberId) {
         jpaQueryFactory

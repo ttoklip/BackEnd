@@ -17,7 +17,7 @@ public interface CartRepositoryCustom {
     // 참여자 추가
     Cart addParticipant(Long cartId, Long memberId);
 
-    // 참여자 제거
+    // 참여 취소
     Cart removeParticipant(Long cartId, Long memberId);
 
     // 참여자 수 확인
