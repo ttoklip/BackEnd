@@ -44,7 +44,7 @@ public class StrangerService {
                 .totalPage(contentPaging.getTotalPages())
                 .build();
     }
-    public Message participateDeals(){
+    public Message participateDeals(final Pageable pageable, final Long userId){
         return null;
     }
 }

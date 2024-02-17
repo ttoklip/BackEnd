@@ -9,6 +9,7 @@ import com.api.ttoklip.domain.stranger.service.StrangerService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/stranger")
 public class StrangerController {
-
+    private final static int PAGE_SIZE = 10;
     private final StrangerService strangerService;
 
     @Operation(summary = "타인 정보 불러오기", description = "타인의 기본 정보인 닉네임,동네,레벨,충족도를 가져옵니다")
@@ -54,7 +56,11 @@ public class StrangerController {
                                     description = "타유저가 작성한 꿀팁들을 불러왔습니다"
                             )))})
     @GetMapping("/honeytip/{userId}")
-    public SuccessResponse<HoneyTipPaging> strangerHoneyTip(final Pageable pageable, @PathVariable final Long userId) {
+    public SuccessResponse<HoneyTipPaging> strangerHoneyTip(
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page,
+            @PathVariable final Long userId) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(strangerService.strangerHoneyTip(pageable,userId));
     }
     @Operation(summary = "타인이 참여한 거래 목록", description = "타인이 참여한 거래 목록 불러오기")
@@ -68,8 +74,12 @@ public class StrangerController {
                                     value = StrangerConstant.participatedDealsResponse,
                                     description = "타인이 참여한 거래를 조회했습니다"
                             )))})
-    @GetMapping("/participate-deals")
-    public SuccessResponse<Message> participateDeals() {
-        return new SuccessResponse<>(strangerService.participateDeals());
+    @GetMapping("/participate-deals/{userId}")
+    public SuccessResponse<Message> participateDeals(
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page,
+            @PathVariable final Long userId) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        return new SuccessResponse<>(strangerService.participateDeals(pageable,userId));
     }
 }
