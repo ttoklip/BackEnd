@@ -11,6 +11,7 @@ import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
 import com.api.ttoklip.domain.town.cart.post.repository.CartRepository;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
@@ -185,14 +186,14 @@ public class CartPostService {
 
     /* -------------------------------------------- PARTICIPANT -------------------------------------------- */
     @Transactional
-    public Message addParticipant(final Long cartId, final Long memberId) {
-        Cart cart = cartRepository.addParticipant(cartId, memberId);
+    public Message addParticipant(final Long cartId) {
+        Cart cart = cartRepository.addParticipant(cartId);
         return Message.addParticipantSuccess(Cart.class, cart.getId());
     }
 
     @Transactional
-    public Message removeParticipant(final Long cartId, final Long memberId) {
-        Cart cart = cartRepository.removeParticipant(cartId, memberId);
+    public Message removeParticipant(final Long cartId) {
+        Cart cart = cartRepository.removeParticipant(cartId);
         return Message.removeParticipantSuccess(Cart.class, cart.getId());
     }
 

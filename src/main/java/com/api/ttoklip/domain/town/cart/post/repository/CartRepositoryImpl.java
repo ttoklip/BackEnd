@@ -2,7 +2,6 @@ package com.api.ttoklip.domain.town.cart.post.repository;
 
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.entity.QCartMember;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -84,11 +83,11 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
 
     // 참여자 추가
     @Override
-    public Cart addParticipant(final Long cartId, final Long memberId) {
+    public Cart addParticipant(final Long cartId) {
         jpaQueryFactory
                 .insert(cartMember)
                 .columns(cartMember.id, cartMember.member.id)
-                .values(cartId, memberId)
+                .values(cartId)
                 .execute();
 
         Cart findCart = findByIdActivated(cartId);
@@ -99,11 +98,10 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
 
     // 참여 취소
     @Override
-    public Cart removeParticipant(final Long cartId, final Long memberId) {
+    public Cart removeParticipant(final Long cartId) {
         jpaQueryFactory
                 .delete(cartMember)
-                .where(cartMember.cart.id.eq(cartId),
-                        cartMember.member.id.eq(memberId))
+                .where(cartMember.cart.id.eq(cartId))
                 .execute();
 
         Cart findCart = findByIdActivated(cartId);

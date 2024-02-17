@@ -134,9 +134,9 @@ public class CartPostController {
                                     value = CartResponseConstant.ADD_PARTICIPANT,
                                     description = "참여자가 추가되었습니다."
                             )))})
-    @PostMapping("/{cartId}/participants/{memberId}")
-    public SuccessResponse<Message> addParticipant(final @PathVariable Long cartId, final @PathVariable Long memberId) {
-        Message message = cartPostService.addParticipant(cartId, memberId);
+    @PostMapping("/participants/{cartId}")
+    public SuccessResponse<Message> addParticipant(final @PathVariable Long cartId) {
+        Message message = cartPostService.addParticipant(cartId);
         return new SuccessResponse<>(message);
     }
 
@@ -151,9 +151,9 @@ public class CartPostController {
                                     value = CartResponseConstant.REMOVE_PARTICIPANT,
                                     description = "참여를 취소되었습니다."
                             )))})
-    @DeleteMapping("/{cartId}/participants/{memberId}")
-    public SuccessResponse<Message> removeParticipant(final @PathVariable Long cartId, final @PathVariable Long memberId) {
-        Message message = cartPostService.removeParticipant(cartId, memberId);
+    @DeleteMapping("/participants/{cartId}")
+    public SuccessResponse<Message> removeParticipant(final @PathVariable Long cartId) {
+        Message message = cartPostService.removeParticipant(cartId);
         return new SuccessResponse<>(message);
     }
 
@@ -168,7 +168,7 @@ public class CartPostController {
                                     value = CartResponseConstant.COUNT_PARTICIPANTS,
                                     description = "참여자 수를 확인하였습니다."
                             )))})
-    @GetMapping("/{cartId}/participants/count")
+    @GetMapping("/participants/count/{cartId}")
     public SuccessResponse<Integer> countParticipants(final @PathVariable Long cartId) {
         int count = cartPostService.countParticipants(cartId);
         return new SuccessResponse<>(count);
