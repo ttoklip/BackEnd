@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
+
 @Tag(name = "Question Post", description = "꿀팁공유해요 게시판 API입니다.")
 @RestController
 @RequestMapping("/api/v1/question/post")
@@ -66,7 +69,8 @@ public class QuestionPostController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<QuestionSingleResponse> getSinglePost(final @PathVariable Long postId) {
-        QuestionSingleResponse response = questionPostService.getSinglePost(postId);
+        Long commentId = getCurrentMember().getId();
+        QuestionSingleResponse response = questionPostService.getSinglePost(postId, commentId);
         return new SuccessResponse<>(response);
     }
 

@@ -13,6 +13,7 @@ import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.scarp.entity.NewsletterScrap;
 import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
@@ -106,6 +107,10 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterScrap> newsletterScraps = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
 
     public MemberEditorBuilder toEditor() {

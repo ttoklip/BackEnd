@@ -5,19 +5,16 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.domain.Question;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Getter
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue(value = "Question")
 public class QuestionComment extends Comment {
@@ -25,6 +22,9 @@ public class QuestionComment extends Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
+
+    @OneToMany(mappedBy = "questionComment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentLike> commentLikes  = new ArrayList<>();
 
     @Builder
     private QuestionComment(String content, Comment parent, Question question, Member member) {

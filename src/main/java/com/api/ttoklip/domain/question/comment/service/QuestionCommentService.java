@@ -6,28 +6,31 @@ import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.like.service.CommentLikeService;
 import com.api.ttoklip.domain.question.post.domain.Question;
-import com.api.ttoklip.domain.question.post.service.QuestionPostService;
+import com.api.ttoklip.domain.question.post.service.QuestionCommonService;
 import com.api.ttoklip.global.success.Message;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class QuestionCommentService {
 
-    private final QuestionPostService questionPostService;
     private final CommentService commentService;
     private final ReportService reportService;
+    private final QuestionCommonService questionCommonService;
+    private final CommentLikeService commentLikeService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
     public Message register(final Long postId, final CommentCreateRequest request) {
-        Question findQuestion = questionPostService.findQuestionById(postId);
+        Question findQuestion = questionCommonService.getQuestion(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
@@ -95,5 +98,23 @@ public class QuestionCommentService {
         commentService.deleteById(commentId);
         return Message.deleteCommentSuccess(QuestionComment.class, commentId);
     }
+
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- LIKE -------------------------------------------- */
+    @Transactional
+    public Message registerLike(Long commentId) {
+        commentLikeService.registerLike(commentId);
+        return Message.likePostSuccess(Question.class, commentId);
+    }
+
+    @Transactional
+    public Message cancleLike(Long commentId) {
+        commentLikeService.cancelLike(commentId);
+        return Message.likePostCancel(Question.class, commentId);
+    }
+
+    /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
+
 }

@@ -8,22 +8,24 @@ import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.service.QuestionImageService;
+import com.api.ttoklip.domain.question.like.repository.CommentLikeRepository;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.post.repository.QuestionDefaultRepository;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -35,14 +37,16 @@ public class QuestionPostService {
     private final QuestionImageService questionImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
+    private final QuestionCommonService questionCommonService;
+    private final CommentLikeRepository commentLikeRepository;
 
-    /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Question findQuestionById(final Long postId) {
-        return questionRepository.findById(postId)
-                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
-    }
-
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
+//    /* -------------------------------------------- COMMON -------------------------------------------- */
+//    public Question findQuestionById(final Long postId) {
+//        return questionRepository.findById(postId)
+//                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
+//    }
+//
+//    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
@@ -73,10 +77,18 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- 단건 READ -------------------------------------------- */
-    public QuestionSingleResponse getSinglePost(final Long postId) {
+    public QuestionSingleResponse getSinglePost(final Long postId, final Long commentId) {
         Question questionWithImg = questionRepository.findByIdFetchJoin(postId);
         List<QuestionComment> activeComments = questionRepository.findActiveCommentsByQuestionId(postId);
-        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg, activeComments);
+
+        // 현재 사용자 ID를 가져옴
+        Long currentMemberId = getCurrentMember().getId();
+
+        // 현재 사용자가 좋아요를 눌렀는지 확인
+        boolean likedByCurrentUser = commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
+
+        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg,
+                activeComments, likedByCurrentUser);
         return questionSingleResponse;
     }
 
@@ -130,7 +142,7 @@ public class QuestionPostService {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
-        Question question = findQuestionById(postId);
+        Question question = questionCommonService.getQuestion(postId);
         reportService.reportQuestion(request, question);
 
         return Message.reportPostSuccess(Question.class, postId);
