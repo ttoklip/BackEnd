@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.stranger.controller;
 
-import com.api.ttoklip.domain.mypage.main.constant.MyPageConstant;
-import com.api.ttoklip.domain.mypage.main.dto.response.MyPageResponse;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.stranger.constant.StrangerConstant;
 import com.api.ttoklip.domain.stranger.dto.response.StrangerResponse;

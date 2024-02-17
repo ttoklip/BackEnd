@@ -27,6 +27,7 @@ public class NoticePagingRepository {
         return jpaQueryFactory
                 .select(notice)
                 .from(notice)
+                .where(notice.deleted.eq(false))
                 .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())

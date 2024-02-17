@@ -29,7 +29,7 @@ public class StrangerHoneyTipRepository {
         return jpaQueryFactory
                 .select(honeyTip)
                 .from(honeyTip)
-                .where(honeyTip.member.id.eq(userId))
+                .where(honeyTip.member.id.eq(userId).and(honeyTip.deleted.eq(false)))
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()

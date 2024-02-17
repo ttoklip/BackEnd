@@ -28,7 +28,7 @@ public class MyQuestionRepository {
     private List<Question> getSearchPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(question)
-                .where(question.member.id.eq(userId))
+                .where(question.member.id.eq(userId).and(question.deleted.eq(false)))
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .fetchJoin()

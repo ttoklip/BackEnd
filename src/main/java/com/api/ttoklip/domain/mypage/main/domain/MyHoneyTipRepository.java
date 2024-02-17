@@ -32,7 +32,7 @@ public class MyHoneyTipRepository {
         return jpaQueryFactory
                 .select(honeyTip)
                 .from(honeyTip)
-                .where(honeyTip.member.id.eq(userId))
+                .where(honeyTip.member.id.eq(userId).and(honeyTip.deleted.eq(false)))
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
@@ -59,7 +59,7 @@ public class MyHoneyTipRepository {
                 .selectFrom(honeyTip)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
 ////                .leftJoin(honeyTip.honeyTipScraps, QHoneyTipScrap.honeyTipScrap)
-                .where(honeyTipScrap.member.id.eq(userId))
+                .where(honeyTipScrap.member.id.eq(userId).and(honeyTip.deleted.eq(false)))
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
