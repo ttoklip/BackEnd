@@ -37,7 +37,9 @@ public class Cart extends BaseEntity {
 
     private String chatUrl;
 
-    private Long party;
+    private Long partyCnt;
+
+    private Long partyMax;
 
     @Enumerated(EnumType.STRING)
     private TradeStatus status;
@@ -47,7 +49,8 @@ public class Cart extends BaseEntity {
                 .location(request.getLocation())
                 .totalPrice(request.getTotalPrice())
                 .chatUrl(request.getChatUrl())
-                .party(request.getParty())
+                .partyCnt(request.getPartyCnt())
+                .partyMax(request.getPartyMax())
                 .content(request.getContent())
                 .title(request.getTitle())
                 .status(TradeStatus.IN_PROGRESS)
@@ -79,6 +82,10 @@ public class Cart extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ItemUrl> itemUrls = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CartMember> cartMembers = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

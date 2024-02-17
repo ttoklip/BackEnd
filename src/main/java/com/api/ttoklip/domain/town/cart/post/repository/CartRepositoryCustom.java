@@ -14,4 +14,13 @@ public interface CartRepositoryCustom {
 
     List<CartComment> findActiveCommentsByCartId(final Long postId);
 
+    // 참여자 추가
+    Cart addParticipant(Long cartId, Long memberId);
+
+    // 참여자 제거
+    Cart removeParticipant(Long cartId, Long memberId);
+
+    // 참여자 수 확인
+    int countParticipants(Long cartId);
+
 }

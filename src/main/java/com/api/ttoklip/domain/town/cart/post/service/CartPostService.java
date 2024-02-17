@@ -183,4 +183,23 @@ public class CartPostService {
 
     /* -------------------------------------------- UPDATE STATUS 끝-------------------------------------------- */
 
+    /* -------------------------------------------- PARTICIPANT -------------------------------------------- */
+    @Transactional
+    public Message addParticipant(final Long cartId, final Long memberId) {
+        Cart cart = cartRepository.addParticipant(cartId, memberId);
+        return Message.addParticipantSuccess(Cart.class, cart.getId());
+    }
+
+    @Transactional
+    public Message removeParticipant(final Long cartId, final Long memberId) {
+        Cart cart = cartRepository.removeParticipant(cartId, memberId);
+        return Message.removeParticipantSuccess(Cart.class, cart.getId());
+    }
+
+    public int countParticipants(final Long cartId) {
+        return cartRepository.countParticipants(cartId);
+    }
+    /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
+
+
 }

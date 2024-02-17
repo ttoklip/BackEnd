@@ -45,8 +45,11 @@ public class CartSingleResponse {
     @Schema(description = "함께해요 오픈채팅방 링크", example = "오픈채팅방 링크 예시")
     private String chatUrl;
 
-    @Schema(description = "함께해요 공구 최대 인원", example = "공구 최대 인원 예시")
-    private Long party;
+    @Schema(description = "함께해요 공구 현재 인원", example = "3")
+    private Long partyCnt;
+
+    @Schema(description = "함께해요 공구 최대 인원", example = "5")
+    private Long partyMax;
 
     @Schema(description = "함께해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
@@ -84,7 +87,8 @@ public class CartSingleResponse {
                 .totalPrice(cart.getTotalPrice())
                 .location(cart.getLocation())
                 .chatUrl(cart.getChatUrl())
-                .party(cart.getParty())
+                .partyCnt(cart.getPartyCnt())
+                .partyMax(cart.getPartyMax())
                 .status(cart.getStatus().name())
                 .writer(cart.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)

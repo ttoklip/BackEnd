@@ -83,4 +83,41 @@ public class CartResponseConstant {
                     }
                 }
             """;
+
+    public static final String ADD_PARTICIPANT = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "함께하기에 참여하였습니다."
+                    }
+                }
+            """;
+
+    public static final String REMOVE_PARTICIPANT = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "함께하기에 참여를 취소했습니다."
+                    }
+                }
+            """;
+
+    public static final String COUNT_PARTICIPANTS = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "참여자 수는 n명입니다."
+                    }
+                }
+            """;
+
 }
