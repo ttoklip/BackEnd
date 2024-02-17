@@ -42,6 +42,7 @@ public class StrangerController {
     public SuccessResponse<StrangerResponse> getStrangerProfile(@RequestParam String nickname) {
         return new SuccessResponse<>(strangerService.getStrangerProfile(nickname));
     }
+
     @Operation(summary = "타인이 작성한 꿀팁 목록", description = "타인이 작성한 꿀팁 글 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
@@ -59,8 +60,9 @@ public class StrangerController {
             @RequestParam(required = false, defaultValue = "0") final int page,
             @PathVariable final Long userId) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(strangerService.strangerHoneyTip(pageable,userId));
+        return new SuccessResponse<>(strangerService.strangerHoneyTip(pageable, userId));
     }
+
     @Operation(summary = "타인이 참여한 거래 목록", description = "타인이 참여한 거래 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "참여한 거래 목록 조회 성공",
@@ -78,6 +80,6 @@ public class StrangerController {
             @RequestParam(required = false, defaultValue = "0") final int page,
             @PathVariable final Long userId) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(strangerService.participateDeals(pageable,userId));
+        return new SuccessResponse<>(strangerService.participateDeals(pageable, userId));
     }
 }

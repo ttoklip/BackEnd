@@ -20,14 +20,16 @@ import java.util.List;
 public class StrangerService {
     private final MemberService memberService;
     private final StrangerHoneyTipRepository strangerHoneyTipRepository;
-    public StrangerResponse getStrangerProfile(final String nickname){
+
+    public StrangerResponse getStrangerProfile(final String nickname) {
         Member stranger = memberService.findByNickNameWithProfile(nickname);
         StrangerResponse strangerResponse = StrangerResponse.of(stranger);
         return strangerResponse;
     }
-    public HoneyTipPaging strangerHoneyTip(final Pageable pageable, final Long userId){
+
+    public HoneyTipPaging strangerHoneyTip(final Pageable pageable, final Long userId) {
         Member stranger = memberService.findByIdWithProfile(userId);
-        Page<HoneyTip> contentPaging = strangerHoneyTipRepository.getContain(userId,pageable);
+        Page<HoneyTip> contentPaging = strangerHoneyTipRepository.getContain(userId, pageable);
         // List<Entity>
         List<HoneyTip> contents = contentPaging.getContent();
 
@@ -44,7 +46,8 @@ public class StrangerService {
                 .totalPage(contentPaging.getTotalPages())
                 .build();
     }
-    public Message participateDeals(final Pageable pageable, final Long userId){
+
+    public Message participateDeals(final Pageable pageable, final Long userId) {
         return null;
     }
 }

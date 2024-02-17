@@ -84,6 +84,7 @@ public class MyPageController {
     public SuccessResponse<Message> restricted() {
         return new SuccessResponse<>(myPageService.restricted());
     }
+
     @Operation(summary = "내가 차단한 계정", description = "내가 차단한 계정들을 불러옵니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "차단계정 목록 조회 성공",
@@ -99,6 +100,7 @@ public class MyPageController {
     public SuccessResponse<Message> blockedUser() {
         return new SuccessResponse<>(myPageService.blockedUser());
     }
+
     @Operation(summary = "차단을 해제 합니다", description = "차단을 해제 합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "차단 해제 성공",
@@ -114,6 +116,7 @@ public class MyPageController {
     public SuccessResponse<Message> unblock(@PathVariable Long targetId) {
         return new SuccessResponse<>(myPageService.unblock(targetId));//수정 필요
     }
+
     @Operation(summary = "스크랩한 허니팁 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "스크랩 조회 성공",
@@ -132,6 +135,7 @@ public class MyPageController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(myPageService.scrapHoneyTips(pageable));
     }
+
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "스크랩 조회 성공",
@@ -150,6 +154,7 @@ public class MyPageController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(myPageService.scrapNewsletters(pageable));
     }
+
     @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "스크랩 조회 성공",
@@ -168,6 +173,7 @@ public class MyPageController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(myPageService.scrapCommunity(pageable));
     }
+
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
@@ -186,6 +192,7 @@ public class MyPageController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(myPageService.myHoneyTips(pageable));
     }
+
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
@@ -204,6 +211,7 @@ public class MyPageController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(myPageService.myQuestions(pageable));
     }
+
     @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
@@ -222,6 +230,7 @@ public class MyPageController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(myPageService.myCommunities(pageable));
     }
+
     @Operation(summary = "내가 참여한 거래 목록", description = "내가 참여한 거래 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "참여한 거래 목록 조회 성공",
