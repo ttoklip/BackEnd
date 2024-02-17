@@ -117,9 +117,9 @@ public class MyPageController {
         return new SuccessResponse<>(myPageService.unblock(targetId));//수정 필요
     }
 
-    @Operation(summary = "스크랩한 허니팁 목록", description = "스크랩한 글 목록 불러오기")
+    @Operation(summary = "스크랩한 허니팁 목록", description = "스크랩한 허니팁 목록 불러오기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "스크랩 조회 성공",
+            @ApiResponse(responseCode = "200", description = "스크랩 허니팁 성공",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = SuccessResponse.class),
@@ -136,9 +136,9 @@ public class MyPageController {
         return new SuccessResponse<>(myPageService.scrapHoneyTips(pageable));
     }
 
-    @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
+    @Operation(summary = "스크랩한 뉴스레터 목록", description = "스크랩한 뉴스레터 목록 불러오기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "스크랩 조회 성공",
+            @ApiResponse(responseCode = "200", description = "스크랩 뉴스레터 성공",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = SuccessResponse.class),
@@ -155,9 +155,9 @@ public class MyPageController {
         return new SuccessResponse<>(myPageService.scrapNewsletters(pageable));
     }
 
-    @Operation(summary = "스크랩한 글 목록", description = "스크랩한 글 목록 불러오기")
+    @Operation(summary = "스크랩한 소통해요 목록", description = "스크랩한 소통해요 목록 불러오기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "스크랩 조회 성공",
+            @ApiResponse(responseCode = "200", description = "스크랩 소통해요 성공",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = SuccessResponse.class),
@@ -174,16 +174,16 @@ public class MyPageController {
         return new SuccessResponse<>(myPageService.scrapCommunity(pageable));
     }
 
-    @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
+    @Operation(summary = "내가 작성한 꿀팁 목록", description = "내가 작성한 꿀팁 목록 불러오기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
+            @ApiResponse(responseCode = "200", description = "작성한 꿀팁 목록 조회 성공",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = MyPageConstant.myHoneyTipsResponse,
-                                    description = "내가 작성한 글들을 불러왔습니다"
+                                    description = "내가 작성한 꿀팁 들을 불러왔습니다"
                             )))})
     @GetMapping("/honeytip")
     public SuccessResponse<HoneyTipPaging> myHoneyTip(
@@ -193,7 +193,7 @@ public class MyPageController {
         return new SuccessResponse<>(myPageService.myHoneyTips(pageable));
     }
 
-    @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
+    @Operation(summary = "내가 작성한 질문해요 목록", description = "내가 작성한 질문해요 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
                     content = @Content(
@@ -202,7 +202,7 @@ public class MyPageController {
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = MyPageConstant.myQuestionResponse,
-                                    description = "내가 작성한 글들을 불러왔습니다"
+                                    description = "내가 작성한 질문해요들을 불러왔습니다"
                             )))})
     @GetMapping("/question")
     public SuccessResponse<Message> myQuestion(
@@ -212,7 +212,7 @@ public class MyPageController {
         return new SuccessResponse<>(myPageService.myQuestions(pageable));
     }
 
-    @Operation(summary = "내가 작성한 글 목록", description = "내가 작성한 글 목록 불러오기")
+    @Operation(summary = "내가 작성한 소통해요 목록", description = "내가 작성한 소통해요 목록 불러오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
                     content = @Content(
@@ -221,7 +221,7 @@ public class MyPageController {
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = MyPageConstant.myCommunityResponse,
-                                    description = "내가 작성한 글들을 불러왔습니다"
+                                    description = "내가 작성한 소통해요들을 불러왔습니다"
                             )))})
     @GetMapping("/community")
     public SuccessResponse<CommunityPaging> myCommunity(

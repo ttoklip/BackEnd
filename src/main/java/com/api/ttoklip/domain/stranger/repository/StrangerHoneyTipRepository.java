@@ -20,17 +20,17 @@ public class StrangerHoneyTipRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Page<HoneyTip> getContain(final Long userId, final Pageable pageable) {
-        List<HoneyTip> content = getSearchPageId(userId, pageable);
+    public Page<HoneyTip> getContain(final Long targetId, final Pageable pageable) {
+        List<HoneyTip> content = getSearchPageId(targetId, pageable);
         Long count = countQuery();
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<HoneyTip> getSearchPageId(final Long userId, final Pageable pageable) {
+    private List<HoneyTip> getSearchPageId(final Long targetId, final Pageable pageable) {
         return jpaQueryFactory
                 .select(honeyTip)
                 .from(honeyTip)
-                .where(honeyTip.member.id.eq(userId).and(honeyTip.deleted.eq(false)))
+                .where(honeyTip.member.id.eq(targetId).and(honeyTip.deleted.eq(false)))
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()

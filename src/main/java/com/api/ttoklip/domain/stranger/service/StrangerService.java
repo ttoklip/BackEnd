@@ -27,9 +27,9 @@ public class StrangerService {
         return strangerResponse;
     }
 
-    public HoneyTipPaging strangerHoneyTip(final Pageable pageable, final Long userId) {
-        Member stranger = memberService.findByIdWithProfile(userId);
-        Page<HoneyTip> contentPaging = strangerHoneyTipRepository.getContain(userId, pageable);
+    public HoneyTipPaging strangerHoneyTip(final Pageable pageable, final Long targetId) {
+        Member stranger = memberService.findByIdWithProfile(targetId);
+        Page<HoneyTip> contentPaging = strangerHoneyTipRepository.getContain(targetId, pageable);
         // List<Entity>
         List<HoneyTip> contents = contentPaging.getContent();
 
@@ -47,7 +47,7 @@ public class StrangerService {
                 .build();
     }
 
-    public Message participateDeals(final Pageable pageable, final Long userId) {
+    public Message participateDeals(final Pageable pageable, final Long targetId) {
         return null;
     }
 }
