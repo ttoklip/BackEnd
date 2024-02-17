@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.cart.post.entity;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
@@ -78,6 +79,10 @@ public class Cart extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ItemUrl> itemUrls = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     public CartPostEditorBuilder toEditor() {
         return CartPostEditor.builder()
