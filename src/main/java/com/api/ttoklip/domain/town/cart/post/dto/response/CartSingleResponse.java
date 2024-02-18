@@ -1,14 +1,13 @@
 package com.api.ttoklip.domain.town.cart.post.dto.response;
 
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
-import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 import com.api.ttoklip.domain.town.cart.itemUrl.dto.response.ItemUrlResponse;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
+import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -46,7 +45,7 @@ public class CartSingleResponse {
     private String chatUrl;
 
     @Schema(description = "함께해요 공구 현재 인원", example = "3")
-    private Long partyCnt;
+    private int partyCnt;
 
     @Schema(description = "함께해요 공구 최대 인원", example = "5")
     private Long partyMax;
@@ -66,6 +65,8 @@ public class CartSingleResponse {
     @Schema(description = "함께해요에 대한 상품관련 링크")
     private List<ItemUrlResponse> itemUrls;
 
+
+
     public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments) {
 
         // 시간 포멧팅
@@ -80,6 +81,13 @@ public class CartSingleResponse {
         List<ItemUrl> itemUrls = cart.getItemUrls();
         List<ItemUrlResponse> itemUrlsResponses = getItemUrls(itemUrls);
 
+        List<CartMember> cartMembers = cart.getCartMembers();
+
+        String writerName = null;
+        if (cart.getMember() != null) {
+            writerName = cart.getMember().getNickname();
+        }
+
         return CartSingleResponse.builder()
                 .cartId(cart.getId())
                 .title(cart.getTitle())
@@ -87,10 +95,11 @@ public class CartSingleResponse {
                 .totalPrice(cart.getTotalPrice())
                 .location(cart.getLocation())
                 .chatUrl(cart.getChatUrl())
-                .partyCnt(cart.getPartyCnt())
+                .partyCnt(cart.getCartMembers().size())
                 .partyMax(cart.getPartyMax())
                 .status(cart.getStatus().name())
                 .writer(cart.getMember().getNickname())
+//                .writer(writerName)
                 .writtenTime(formattedCreatedDate)
                 .itemUrls(itemUrlsResponses)
                 .imageUrls(imageResponses)

@@ -41,9 +41,9 @@ public class CartCreateRequest {
     @Size(max = 50)
     public String chatUrl;
 
-    @Schema(description = "공구 현재 참여 인원", example = "3")
-    @NotNull
-    public Long partyCnt;
+//    @Schema(description = "공구 현재 참여 인원", example = "3")
+//    @NotNull
+//    public Long partyCnt;
 
     @Schema(description = "공구 최대 인원", example = "10")
     @NotNull

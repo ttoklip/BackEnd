@@ -1,9 +1,13 @@
 package com.api.ttoklip.domain.town.cart.post.repository;
 
+import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.entity.QCart;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.util.SecurityUtil;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -84,13 +88,20 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     // 참여자 추가
     @Override
     public Cart addParticipant(final Long cartId) {
+        Cart findCart = jpaQueryFactory
+                .selectFrom(cart)
+//                .distinct()
+//                .leftJoin(member, cart.member)
+//                .fetchJoin()
+                .where(cart.id.eq(cartId))
+                .fetchOne();
+        Long memberId = SecurityUtil.getCurrentMember().getId();
+
         jpaQueryFactory
                 .insert(cartMember)
-                .columns(cartMember.id, cartMember.member.id)
-                .values(cartId)
+                .columns(cartMember.cart.id, cartMember.member.id)
+                .values(cartId, memberId)
                 .execute();
-
-        Cart findCart = findByIdActivated(cartId);
 
         return Optional.ofNullable(findCart)
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));

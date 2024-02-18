@@ -33,7 +33,6 @@ public enum ErrorType {
     S3_CONVERT(INTERNAL_SERVER_ERROR, "S5003", "서버오류, S3 변환 에러입니다."),
 
     // ------------------------------------------ Category ------------------------------------------
-
     CATEGORY_NOT_FOUND(NOT_FOUND, "Category_4040", "카테고리를 찾을 수 없습니다."),
 
 
@@ -50,6 +49,9 @@ public enum ErrorType {
 
     // ------------------------------------------ Cart ------------------------------------------
     CART_NOT_FOUND(NOT_FOUND, "Cart_4040", "함께해요를 찾을 수 없습니다."),
+    PARTICIPANT_EXCEEDED(BAD_REQUEST, "Cart_4000", "참가자 수가 공구 인원의 최대 허용 인원을 초과하였습니다."),
+    ALREADY_PARTICIPATED(BAD_REQUEST, "Cart_4000", "이미 공구에 참여 중입니다."),
+    NOT_PARTICIPATED(BAD_REQUEST, "Cart_4000", "참여 중이 아니라 취소할 수 없습니다."),
 
 
     // ------------------------------------------ Community ------------------------------------------

@@ -37,19 +37,16 @@ public class Cart extends BaseEntity {
 
     private String chatUrl;
 
-    private Long partyCnt;
-
     private Long partyMax;
 
     @Enumerated(EnumType.STRING)
     private TradeStatus status;
 
-    public static Cart from(final CartCreateRequest request, final Member member) {
+    public static Cart of(final CartCreateRequest request, final Member member) {
         return Cart.builder()
                 .location(request.getLocation())
                 .totalPrice(request.getTotalPrice())
                 .chatUrl(request.getChatUrl())
-                .partyCnt(request.getPartyCnt())
                 .partyMax(request.getPartyMax())
                 .content(request.getContent())
                 .title(request.getTitle())
