@@ -23,6 +23,10 @@ public class MemberService {
         return memberOAuthRepository.findByIdWithProfile(memberId);
     }
 
+    public Member findByNickNameWithProfile(final String nickName){
+        return memberOAuthRepository.findByNickNameWithProfile(nickName);//02.17
+    }
+
     public boolean isExistsNickname(final String nickname) {
         return memberRepository.existsByNickname(nickname);
     }

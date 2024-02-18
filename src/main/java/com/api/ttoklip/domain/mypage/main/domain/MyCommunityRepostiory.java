@@ -31,7 +31,7 @@ public class MyCommunityRepostiory {
         return jpaQueryFactory
                 .select(community)
                 .from(community)
-                .where(community.member.id.eq(userId))
+                .where(community.member.id.eq(userId).and(community.deleted.eq(false)))
                 .distinct()
                 .leftJoin(community.communityComments, communityComment)
                 .fetchJoin()
@@ -59,7 +59,7 @@ public class MyCommunityRepostiory {
         return jpaQueryFactory
                 .selectFrom(community)
                 .leftJoin(community.communityScraps, communityScrap)
-                .where(communityScrap.member.id.eq(userId))
+                .where(communityScrap.member.id.eq(userId).and(community.deleted.eq(false)))
                 .distinct()
                 .leftJoin(community.communityComments, communityComment)
                 .fetchJoin()

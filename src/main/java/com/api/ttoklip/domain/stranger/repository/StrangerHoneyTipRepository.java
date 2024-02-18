@@ -1,7 +1,6 @@
-package com.api.ttoklip.domain.mypage.main.domain;
+package com.api.ttoklip.domain.stranger.repository;
 
-
-import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -12,35 +11,39 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
-import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
+import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
+import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 
 @Repository
 @RequiredArgsConstructor
-public class MyQuestionRepository {
+public class StrangerHoneyTipRepository {
+
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Page<Question> getContain(final Long userId,final Pageable pageable){
-        List<Question> content = getSearchPageId(userId,pageable);
+    public Page<HoneyTip> getContain(final Long targetId, final Pageable pageable) {
+        List<HoneyTip> content = getSearchPageId(targetId, pageable);
         Long count = countQuery();
         return new PageImpl<>(content, pageable, count);
     }
-    private List<Question> getSearchPageId(final Long userId, final Pageable pageable) {
+
+    private List<HoneyTip> getSearchPageId(final Long targetId, final Pageable pageable) {
         return jpaQueryFactory
-                .selectFrom(question)
-                .where(question.member.id.eq(userId).and(question.deleted.eq(false)))
+                .select(honeyTip)
+                .from(honeyTip)
+                .where(honeyTip.member.id.eq(targetId).and(honeyTip.deleted.eq(false)))
                 .distinct()
-                .leftJoin(question.questionComments, questionComment)
+                .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(question.id.desc())
+                .orderBy(honeyTip.id.desc())
                 .fetch();
     }
+
     private Long countQuery() {
         return jpaQueryFactory
                 .select(Wildcard.count)
-                .from(question)
+                .from(honeyTip)
                 .distinct()
                 .fetchOne();
     }
