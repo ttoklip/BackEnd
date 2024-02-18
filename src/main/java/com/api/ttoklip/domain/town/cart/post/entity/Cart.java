@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.cart.post.entity;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
@@ -36,20 +37,21 @@ public class Cart extends BaseEntity {
 
     private String chatUrl;
 
-    private Long party;
+    private Long partyMax;
 
     @Enumerated(EnumType.STRING)
     private TradeStatus status;
 
-    public static Cart from(final CartCreateRequest request) {
+    public static Cart of(final CartCreateRequest request, final Member member) {
         return Cart.builder()
                 .location(request.getLocation())
                 .totalPrice(request.getTotalPrice())
                 .chatUrl(request.getChatUrl())
-                .party(request.getParty())
+                .partyMax(request.getPartyMax())
                 .content(request.getContent())
                 .title(request.getTitle())
                 .status(TradeStatus.IN_PROGRESS)
+                .member(member)
                 .build();
     }
 
@@ -78,6 +80,14 @@ public class Cart extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ItemUrl> itemUrls = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CartMember> cartMembers = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     public CartPostEditorBuilder toEditor() {
         return CartPostEditor.builder()

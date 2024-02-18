@@ -1,14 +1,13 @@
 package com.api.ttoklip.domain.town.cart.post.dto.response;
 
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
-import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 import com.api.ttoklip.domain.town.cart.itemUrl.dto.response.ItemUrlResponse;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
+import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -45,8 +44,11 @@ public class CartSingleResponse {
     @Schema(description = "함께해요 오픈채팅방 링크", example = "오픈채팅방 링크 예시")
     private String chatUrl;
 
-    @Schema(description = "함께해요 공구 최대 인원", example = "공구 최대 인원 예시")
-    private Long party;
+    @Schema(description = "함께해요 공구 현재 인원", example = "3")
+    private int partyCnt;
+
+    @Schema(description = "함께해요 공구 최대 인원", example = "5")
+    private Long partyMax;
 
     @Schema(description = "함께해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
@@ -63,6 +65,8 @@ public class CartSingleResponse {
     @Schema(description = "함께해요에 대한 상품관련 링크")
     private List<ItemUrlResponse> itemUrls;
 
+
+
     public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments) {
 
         // 시간 포멧팅
@@ -77,6 +81,13 @@ public class CartSingleResponse {
         List<ItemUrl> itemUrls = cart.getItemUrls();
         List<ItemUrlResponse> itemUrlsResponses = getItemUrls(itemUrls);
 
+        List<CartMember> cartMembers = cart.getCartMembers();
+
+        String writerName = null;
+        if (cart.getMember() != null) {
+            writerName = cart.getMember().getNickname();
+        }
+
         return CartSingleResponse.builder()
                 .cartId(cart.getId())
                 .title(cart.getTitle())
@@ -84,9 +95,11 @@ public class CartSingleResponse {
                 .totalPrice(cart.getTotalPrice())
                 .location(cart.getLocation())
                 .chatUrl(cart.getChatUrl())
-                .party(cart.getParty())
+                .partyCnt(cart.getCartMembers().size())
+                .partyMax(cart.getPartyMax())
                 .status(cart.getStatus().name())
-//                .writer(cart.getMember().getName) ToDo Member 엔티티 연결 후 수정
+                .writer(cart.getMember().getNickname())
+//                .writer(writerName)
                 .writtenTime(formattedCreatedDate)
                 .itemUrls(itemUrlsResponses)
                 .imageUrls(imageResponses)

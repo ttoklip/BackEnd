@@ -1,21 +1,25 @@
 package com.api.ttoklip.domain.town.cart.post.repository;
 
+import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.entity.QCart;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.util.SecurityUtil;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
-
-import lombok.RequiredArgsConstructor;
 
 import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage;
 import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
+import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
 
 
 @RequiredArgsConstructor
@@ -81,4 +85,48 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
         return cartComment.cart.id.eq(cartId);
     }
 
+    // 참여자 추가
+    @Override
+    public Cart addParticipant(final Long cartId) {
+        Cart findCart = jpaQueryFactory
+                .selectFrom(cart)
+//                .distinct()
+//                .leftJoin(member, cart.member)
+//                .fetchJoin()
+                .where(cart.id.eq(cartId))
+                .fetchOne();
+        Long memberId = SecurityUtil.getCurrentMember().getId();
+
+        jpaQueryFactory
+                .insert(cartMember)
+                .columns(cartMember.cart.id, cartMember.member.id)
+                .values(cartId, memberId)
+                .execute();
+
+        return Optional.ofNullable(findCart)
+                .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
+    }
+
+    // 참여 취소
+    @Override
+    public Cart removeParticipant(final Long cartId) {
+        jpaQueryFactory
+                .delete(cartMember)
+                .where(cartMember.cart.id.eq(cartId))
+                .execute();
+
+        Cart findCart = findByIdActivated(cartId);
+
+        return Optional.ofNullable(findCart)
+                .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
+    }
+
+    // 참여자 수 확인
+    @Override
+    public int countParticipants(Long cartId) {
+        return (int) jpaQueryFactory
+                .selectFrom(cartMember)
+                .where(cartMember.cart.id.eq(cartId))
+                .fetchCount();
+    }
 }

@@ -67,10 +67,6 @@ public class CommunityPostService {
         uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
     }
 
-    /* -------------------------------------------- READ 끝 -------------------------------------------- */
-
-    /* -------------------------------------------- EDIT -------------------------------------------- */
-
     public CommunitySingleResponse getSinglePost(final Long postId) {
 
         Community communityWithImg = communityRepository.findByIdFetchJoin(postId);
@@ -85,6 +81,11 @@ public class CommunityPostService {
                 activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
         return communitySingleResponse;
     }
+
+    /* -------------------------------------------- READ 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- EDIT -------------------------------------------- */
 
     @Transactional
     public Message edit(final Long postId, final CommunityCreateRequest request) {

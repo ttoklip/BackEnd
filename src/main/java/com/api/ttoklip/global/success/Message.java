@@ -20,6 +20,7 @@ public class Message {
     private static final String POST = "게시글";
     private static final String LIKE = "좋아요";
     private static final String SCRAP = "스크랩";
+    private static final String PARTY = "공구 참여";
     private static final String CREATE = "생성";
     private static final String STATUS = "상태";
     private static final String EDIT = "수정";
@@ -85,6 +86,14 @@ public class Message {
 
     public static <T> Message scrapPostCancel(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, SCRAP, DELETE);
+    }
+
+    public static <T> Message addParticipantSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, PARTY, CREATE);
+    }
+
+    public static <T> Message removeParticipantSuccess(Class<T> itemType, Long itemId) {
+        return actionSuccess(itemType, itemId, PARTY, DELETE);
     }
 
     public static Message insertPrivacy() {

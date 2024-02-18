@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.cart.post.service;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
@@ -9,7 +10,9 @@ import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
 import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
+import com.api.ttoklip.domain.town.cart.post.repository.CartMemberRepository;
 import com.api.ttoklip.domain.town.cart.post.repository.CartRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -22,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -32,6 +37,8 @@ public class CartPostService {
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
     private final ItemUrlService itemUrlService;
+    private final CartMemberService cartMemberService;
+    private final CartMemberRepository cartMemberRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Cart findCartById(final Long postId) {
@@ -51,14 +58,16 @@ public class CartPostService {
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
+
     @Transactional
     public Message register(final CartCreateRequest request) {
 
-//        Cart cart = Cart.from(request);
-//        cartRepository.save(cart);
+        Member currentMember = getCurrentMember();
 
-        Cart cart = Cart.from(request);
+        Cart cart = Cart.of(request, currentMember);
         cartRepository.save(cart);
+
+        addParticipant(cart.getId());
 
         List<MultipartFile> uploadImages = request.getImages();
         if (uploadImages != null && !uploadImages.isEmpty()) {
@@ -153,7 +162,6 @@ public class CartPostService {
         cart.deactivate(); // 비활성화
     }
 
-    //
     public Cart findCart(final Long postId) {
         return cartRepository.findByIdActivated(postId);
     }
@@ -182,5 +190,50 @@ public class CartPostService {
     }
 
     /* -------------------------------------------- UPDATE STATUS 끝-------------------------------------------- */
+
+    /* -------------------------------------------- PARTICIPANT -------------------------------------------- */
+    // 공구 참여
+    @Transactional
+    public Message addParticipant(final Long cartId) {
+        Cart cart = cartRepository.findByIdActivated(cartId);
+        Long MaxValue = cart.getPartyMax();
+        List<CartMember> cartMembers = cartMemberRepository.findByCartId(cartId);
+
+        if (MaxValue < cartMembers.size() + 1) {
+            throw new ApiException(ErrorType.PARTICIPANT_EXCEEDED);
+        }
+        // 이미 참가하기 눌렀을 때
+        Long currentMemberId = getCurrentMember().getId();
+        if (cartMemberRepository.existsCartMemberByMemberIdAndCartId(currentMemberId, cartId)) {
+            throw new ApiException(ErrorType.ALREADY_PARTICIPATED);
+        }
+        cartMemberService.register(cart);
+
+        return Message.addParticipantSuccess(Cart.class, cart.getId());
+    }
+
+    // 공구 취소
+    @Transactional
+    public Message removeParticipant(final Long cartId) {
+        System.out.println(220);
+        Long currentMemberId = getCurrentMember().getId();
+        System.out.println(222);
+        // 참가자가 공구에 참여하지 않았을 때
+        CartMember cartMember = cartMemberRepository.findByMemberIdAndCartId(currentMemberId, cartId)
+                .orElseThrow(() -> new ApiException(ErrorType.NOT_PARTICIPATED));
+        System.out.println(226);
+        System.out.println("cartMember = " + cartMember);
+
+        cartMemberRepository.delete(cartMember);
+        System.out.println(230);
+        Cart cart = cartRepository.findByIdActivated(cartId);
+        return Message.removeParticipantSuccess(Cart.class, cart.getId());
+    }
+
+    public int countParticipants(final Long cartId) {
+        return cartRepository.countParticipants(cartId);
+    }
+    /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
+
 
 }

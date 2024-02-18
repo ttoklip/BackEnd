@@ -15,6 +15,8 @@ import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.scrap.entity.CommunityScrap;
@@ -111,6 +113,14 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> carts = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartMember> cartMembers = new ArrayList<>();
 
 
     public MemberEditorBuilder toEditor() {

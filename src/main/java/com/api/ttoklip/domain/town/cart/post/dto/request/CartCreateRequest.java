@@ -41,9 +41,13 @@ public class CartCreateRequest {
     @Size(max = 50)
     public String chatUrl;
 
-    @Schema(description = "공구 최대 인원", example = "공구 최대 인원 예시")
+//    @Schema(description = "공구 현재 참여 인원", example = "3")
+//    @NotNull
+//    public Long partyCnt;
+
+    @Schema(description = "공구 최대 인원", example = "10")
     @NotNull
-    public Long party;
+    public Long partyMax;
 
     @Schema(description = "게시글에 첨부할 이미지 파일. 파일 형식은 binary이며, 지원되는 이미지 형식은 JPEG, PNG 등입니다.",
             format = "binary")
