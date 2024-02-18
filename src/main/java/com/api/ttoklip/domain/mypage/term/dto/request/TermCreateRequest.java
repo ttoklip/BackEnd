@@ -16,6 +16,5 @@ public class TermCreateRequest {
 
     @Schema(description = "공지사항 내용", example = "공지사항 내용 예시")
     @NotEmpty
-    @Size(max = 500)
     public String content;
 }
