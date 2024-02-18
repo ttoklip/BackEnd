@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestionImageService {
     private final QuestionImageRepository questionImageRepository;
 
-    @Transactional
     public void register(final Question question, final String uploadUrl) {
         QuestionImage newQuestionImage = QuestionImage.of(question, uploadUrl);
         questionImageRepository.save(newQuestionImage);

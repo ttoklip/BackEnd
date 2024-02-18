@@ -116,6 +116,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 )
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
+                .orderBy(newsletter.id.desc())
                 .fetch();
     }
 
