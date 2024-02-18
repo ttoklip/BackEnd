@@ -44,7 +44,7 @@ public class Member extends BaseEntity {
     private String email;
 
 //    private Long kakaoId;
-    //private String street;//02.14 세준-주소
+//    private String street;//02.14 세준-주소
     private String provider;
 
     private String nickname;

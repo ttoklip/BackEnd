@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.search.response;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,4 +48,5 @@ public class SingleResponse {
                 .likeCount(newsletter.getNewsletterLikes().size())
                 .build();
     }
+
 }
