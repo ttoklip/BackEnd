@@ -1,13 +1,16 @@
 package com.api.ttoklip.domain.newsletter.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
+import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,9 +18,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Newsletter Post", description = "뉴스레터 게시판 API입니다.")
 @RequiredArgsConstructor
@@ -25,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/newsletter/posts")
 public class NewsletterController {
 
+    private final static int PAGE_SIZE = 10; // 페이지 당 데이터 수
     private final NewsletterPostService newsletterPostService;
 
     /* CREATE */
@@ -59,6 +73,18 @@ public class NewsletterController {
     @GetMapping("/{postId}")
     public SuccessResponse<NewsletterSingleResponse> getSinglePost(final @PathVariable Long postId) {
         return new SuccessResponse<>(newsletterPostService.getSinglePost(postId));
+    }
+
+    // 카테고리별 페이징 조회
+    @GetMapping
+    public SuccessResponse<NewsletterPaging> getPagingCategory(
+            @Parameter(description = "카테고리. 유효한 값은 HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 중 하나입니다.", required = true, example = "HOUSEWORK")
+            @RequestParam final String category,
+
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        return new SuccessResponse<>(newsletterPostService.getPagingCategory(category, pageable));
     }
 
     /* REPORT */

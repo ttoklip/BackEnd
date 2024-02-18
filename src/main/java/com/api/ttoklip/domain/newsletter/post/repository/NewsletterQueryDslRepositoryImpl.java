@@ -1,5 +1,11 @@
 package com.api.ttoklip.domain.newsletter.post.repository;
 
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
+import static com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage.newsletterImage;
+import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletter.newsletter;
+
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
@@ -8,15 +14,12 @@ import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 import java.util.Optional;
-
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
-import static com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage.newsletterImage;
-import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletter.newsletter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository {
@@ -92,6 +95,43 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .select(Wildcard.count)
                 .from(qNewsletter)
                 .distinct()
+                .fetchOne();
+    }
+
+    @Override
+    public Page<Newsletter> getPaging(final Category category, final Pageable pageable) {
+        List<Newsletter> pageContent = getPageContent(category, pageable);
+        Long count = countQuery(category);
+        return new PageImpl<>(pageContent, pageable, count);
+    }
+
+    private List<Newsletter> getPageContent(final Category category, final Pageable pageable) {
+        return jpaQueryFactory
+                .select(newsletter)
+                .from(newsletter)
+                .distinct()
+                .where(
+                        matchCategory(category),
+                        getNewsletterActivate()
+                )
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+    }
+
+    private BooleanExpression matchCategory(final Category category) {
+        return newsletter.category.eq(category);
+    }
+
+    private Long countQuery(final Category category) {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(newsletter)
+                .distinct()
+                .where(
+                        matchCategory(category),
+                        getNewsletterActivate()
+                )
                 .fetchOne();
     }
 

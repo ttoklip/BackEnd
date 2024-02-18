@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.newsletter.post.service;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
@@ -12,11 +13,14 @@ import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleRespo
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
+import com.api.ttoklip.domain.search.response.NewsletterPaging;
+import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -160,6 +164,27 @@ public class NewsletterPostService {
     public Message cancelScrap(Long postId) {
         newsletterScrapService.cancelScrap(postId);
         return Message.scrapPostCancel(Newsletter.class, postId);
+    }
+
+    public NewsletterPaging getPagingCategory(final String inputCategory, final Pageable pageable) {
+        Category category = Category.valueOf(inputCategory);
+        Page<Newsletter> contentPaging = newsletterRepository.getPaging(category, pageable);
+
+        // List<Entity>
+        List<Newsletter> contents = contentPaging.getContent();
+
+        // Entity -> SingleResponse 반복
+        List<SingleResponse> newsletterSingleData = contents.stream()
+                .map(SingleResponse::newsletterFrom)
+                .toList();
+
+        return NewsletterPaging.builder()
+                .newsletters(newsletterSingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
     }
     /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
 
