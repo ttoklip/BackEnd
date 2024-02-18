@@ -27,16 +27,15 @@ public class BaseEntityConfig {
             log.info("----------- 클래스 타입" + authentication.getClass());
             log.info("----------- 클래스 타입" + authentication.getPrincipal().getClass());
 
-
             Object principal = authentication.getPrincipal();
             if (principal instanceof Member) {
                 Member member = (Member) principal;
                 String email = member.getEmail();
                 return Optional.ofNullable(email);
-            } else {
-                // principal이 Member 타입이 아닌 경우의 처리
-                return Optional.of("AnonymousNOT_TYPE");
             }
+            // principal이 Member 타입이 아닌 경우의 처리
+            return Optional.of("AnonymousNOT_TYPE");
+
 
         };
     }
