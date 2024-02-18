@@ -114,7 +114,6 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                         matchCategory(category),
                         getNewsletterActivate()
                 )
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
