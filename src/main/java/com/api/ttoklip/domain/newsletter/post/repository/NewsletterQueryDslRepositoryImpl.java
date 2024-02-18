@@ -136,4 +136,16 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .fetchOne();
     }
 
+
+    @Override
+    public List<Newsletter> getRecent3() {
+        return jpaQueryFactory
+                .selectFrom(newsletter)
+                .where(
+                        getNewsletterActivate()
+                )
+                .orderBy(newsletter.id.desc())
+                .limit(3)
+                .fetch();
+    }
 }

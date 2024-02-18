@@ -10,15 +10,15 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CategoryResponses {
-    private List<CategoryResponse> houseWork;
-    private List<CategoryResponse> recipe;
-    private List<CategoryResponse> safeLiving;
-    private List<CategoryResponse> welfarePolicy;
+    private List<NewsletterThumbnailResponse> houseWork;
+    private List<NewsletterThumbnailResponse> recipe;
+    private List<NewsletterThumbnailResponse> safeLiving;
+    private List<NewsletterThumbnailResponse> welfarePolicy;
 
-    public static CategoryResponses of(final List<CategoryResponse> houseWork,
-                                       final List<CategoryResponse> recipe,
-                                       final List<CategoryResponse> safeLiving,
-                                       final List<CategoryResponse> welfarePolicy) {
+    public static CategoryResponses of(final List<NewsletterThumbnailResponse> houseWork,
+                                       final List<NewsletterThumbnailResponse> recipe,
+                                       final List<NewsletterThumbnailResponse> safeLiving,
+                                       final List<NewsletterThumbnailResponse> welfarePolicy) {
         return CategoryResponses.builder()
                 .houseWork(houseWork)
                 .recipe(recipe)

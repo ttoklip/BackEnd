@@ -18,4 +18,6 @@ public interface NewsletterQueryDslRepository {
     Long findNewsletterCount();
 
     Page<Newsletter> getPaging(final Category category, final Pageable pageable);
+
+    List<Newsletter> getRecent3();
 }

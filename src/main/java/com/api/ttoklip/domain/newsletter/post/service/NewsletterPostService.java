@@ -7,8 +7,8 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
 import com.api.ttoklip.domain.newsletter.like.service.NewsletterLikeService;
-import com.api.ttoklip.domain.newsletter.main.dto.response.CategoryResponse;
 import com.api.ttoklip.domain.newsletter.main.dto.response.NewsCategoryPagingResponse;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
@@ -178,10 +178,10 @@ public class NewsletterPostService {
         List<Newsletter> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
-        List<CategoryResponse> categoryResponses = convertToCategoryResponse(contents);
+        List<NewsletterThumbnailResponse> newsletterThumbnailRespons = convertToCategoryResponse(contents);
 
         return NewsCategoryPagingResponse.builder()
-                .categoryResponses(categoryResponses)
+                .newsletterThumbnailRespons(newsletterThumbnailRespons)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())
@@ -189,9 +189,17 @@ public class NewsletterPostService {
                 .build();
     }
 
-    public List<CategoryResponse> convertToCategoryResponse(List<Newsletter> newsletters) {
+    public List<NewsletterThumbnailResponse> convertToCategoryResponse(List<Newsletter> newsletters) {
         return newsletters.stream()
-                .map(CategoryResponse::of)
+                .map(NewsletterThumbnailResponse::from)
+                .toList();
+    }
+
+    public List<NewsletterThumbnailResponse> getRecent3() {
+        List<Newsletter> newsletters = newsletterRepository.getRecent3();
+
+        return newsletters.stream()
+                .map(NewsletterThumbnailResponse::from)
                 .toList();
     }
 

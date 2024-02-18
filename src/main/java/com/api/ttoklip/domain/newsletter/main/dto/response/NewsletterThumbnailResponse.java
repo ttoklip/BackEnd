@@ -9,16 +9,16 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class CategoryResponse {
+public class NewsletterThumbnailResponse {
     private Long newsletterId;
     private String title;
     private String mainImageUrl;
     private String writtenTime;
 
-    public static CategoryResponse of(final Newsletter newsletter) {
+    public static NewsletterThumbnailResponse from(final Newsletter newsletter) {
         String writtenTime = TimeUtil.newsletterTimeFormat(newsletter.getCreatedDate());
 
-        return CategoryResponse.builder()
+        return NewsletterThumbnailResponse.builder()
                 .newsletterId(newsletter.getId())
                 .title(newsletter.getTitle())
                 .mainImageUrl(newsletter.getMainImageUrl())

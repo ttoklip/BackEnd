@@ -1,7 +1,11 @@
 package com.api.ttoklip.domain.home.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
+import com.api.ttoklip.domain.home.response.HomeResponse;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostService;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,20 +18,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class HomeService {
 
     private final HoneyTipPostService honeyTipPostService;
+    private final NewsletterPostService newsletterPostService;
 
 
-    public void home() {
+    public HomeResponse home() {
         // ToDo 함께해요는 추후에
+        System.out.println("HomeService.home");
 
         List<TitleResponse> honeyTipRecent3 = honeyTipPostService.getRecent3();
+        List<NewsletterThumbnailResponse> newsletterRecent3 = newsletterPostService.getRecent3();
 
-//        HomeResponse.builder()
-//                .honeyTips(honeyTipRecent3)
-//                .newsLetters()
-//                .currentMemberNickname(getCurrentMember().getNickname())
-//                .street()
+        return HomeResponse.builder()
+                .honeyTips(honeyTipRecent3)
+                .newsLetters(newsletterRecent3)
+                .currentMemberNickname(getCurrentMember().getNickname())
+//                .street(getCurrentMember().get)
 //                .weather()
-//                .build()
+                .build();
 
     }
 }
