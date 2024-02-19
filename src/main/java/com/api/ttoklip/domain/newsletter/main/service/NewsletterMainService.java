@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.newsletter.main.service;
 
-import com.api.ttoklip.domain.newsletter.main.dto.response.CategoryResponse;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterMainResponse;
 import com.api.ttoklip.domain.newsletter.main.dto.response.RandomTitleResponse;
@@ -57,17 +57,17 @@ public class NewsletterMainService {
         List<Newsletter> safeLiving = newsletterDefaultRepository.getSafeLiving();
         List<Newsletter> welfarePolicy = newsletterDefaultRepository.getWelfarePolicy();
 
-        List<CategoryResponse> houseWorkResponse = convertToCategoryResponse(houseWork);
-        List<CategoryResponse> recipeResponse = convertToCategoryResponse(recipe);
-        List<CategoryResponse> safeLivingResponse = convertToCategoryResponse(safeLiving);
-        List<CategoryResponse> welfarePolicyResponse = convertToCategoryResponse(welfarePolicy);
+        List<NewsletterThumbnailResponse> houseWorkResponse = convertToCategoryResponse(houseWork);
+        List<NewsletterThumbnailResponse> recipeResponse = convertToCategoryResponse(recipe);
+        List<NewsletterThumbnailResponse> safeLivingResponse = convertToCategoryResponse(safeLiving);
+        List<NewsletterThumbnailResponse> welfarePolicyResponse = convertToCategoryResponse(welfarePolicy);
 
         return CategoryResponses.of(houseWorkResponse, recipeResponse, safeLivingResponse, welfarePolicyResponse);
     }
 
-    public List<CategoryResponse> convertToCategoryResponse(List<Newsletter> newsletters) {
+    public List<NewsletterThumbnailResponse> convertToCategoryResponse(List<Newsletter> newsletters) {
         return newsletters.stream()
-                .map(CategoryResponse::of)
+                .map(NewsletterThumbnailResponse::from)
                 .toList();
     }
 

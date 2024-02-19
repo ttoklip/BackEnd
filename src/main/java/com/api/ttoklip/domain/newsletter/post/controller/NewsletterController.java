@@ -1,12 +1,11 @@
 package com.api.ttoklip.domain.newsletter.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstant;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsCategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
-import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -77,7 +76,7 @@ public class NewsletterController {
 
     // 카테고리별 페이징 조회
     @GetMapping
-    public SuccessResponse<NewsletterPaging> getPagingCategory(
+    public SuccessResponse<NewsCategoryPagingResponse> getPagingCategory(
             @Parameter(description = "카테고리. 유효한 값은 HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 중 하나입니다.", required = true, example = "HOUSEWORK")
             @RequestParam final String category,
 

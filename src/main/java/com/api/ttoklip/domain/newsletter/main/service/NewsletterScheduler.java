@@ -23,7 +23,7 @@ public class NewsletterScheduler {
     private final TodayNewsletterRepository todayNewsletterRepository;
 
     // 매일 자정에 실행되는 스케줄링된 작업 (아시아/서울 시간대 기준)
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul") // 초, 분, 시, 일, 월, 요일
+    @Scheduled(cron = "0 1 0 * * *", zone = "Asia/Seoul") // 초, 분, 시, 일, 월, 요일
     public void selectRandomNewsletter() {
         long newsletterCount = newsletterPostService.getEntityCount();
         if (newsletterCount == 0) {

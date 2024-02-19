@@ -43,12 +43,9 @@ public class Member extends BaseEntity {
     @Email
     private String email;
 
-//    private Long kakaoId;
-    //private String street;//02.14 세준-주소
     private String provider;
-
     private String nickname;
-    //    private String street;
+    private String street;
     private int independentYear;
     private int independentMonth;
 
@@ -127,12 +124,14 @@ public class Member extends BaseEntity {
         return MemberEditor.builder()
                 .independentYear(independentYear)
                 .independentMonth(independentMonth)
-                .nickname(nickname);
+                .nickname(nickname)
+                .street(street);
     }
 
     public void insertPrivacy(MemberEditor memberEditor) {
         independentYear = memberEditor.getIndependentYear();
         independentMonth = memberEditor.getIndependentMonth();
         nickname = memberEditor.getNickname();
+        street = memberEditor.getStreet();
     }
 }

@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.question.post.repository;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.common.comment.QComment;
 import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
@@ -37,17 +38,18 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .where(
                         matchCommentId(commentId), getQuestionCommentActivate()
                 )
+//                .fetchFirst();
                 .fetchOne();
         return Optional.ofNullable(findQuestionComment)
-                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
     }
 
     private BooleanExpression matchCommentId(final Long commentId) {
-        return question.id.eq(commentId);
+        return questionComment.id.eq(commentId);
     }
 
     private BooleanExpression getQuestionCommentActivate() {
-        return question.deleted.isFalse();
+        return questionComment.deleted.isFalse();
     }
 
     @Override

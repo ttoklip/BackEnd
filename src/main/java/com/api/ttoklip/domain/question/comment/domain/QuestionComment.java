@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.domain.Question;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,8 @@ public class QuestionComment extends Comment {
 
     @OneToMany(mappedBy = "questionComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentLike> commentLikes  = new ArrayList<>();
+
+
 
     @Builder
     private QuestionComment(String content, Comment parent, Question question, Member member) {

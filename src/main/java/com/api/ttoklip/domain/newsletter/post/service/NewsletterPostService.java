@@ -7,14 +7,14 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.image.service.NewsletterImageService;
 import com.api.ttoklip.domain.newsletter.like.service.NewsletterLikeService;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsCategoryPagingResponse;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.post.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
-import com.api.ttoklip.domain.search.response.NewsletterPaging;
-import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.SecurityUtil;
@@ -166,7 +166,11 @@ public class NewsletterPostService {
         return Message.scrapPostCancel(Newsletter.class, postId);
     }
 
-    public NewsletterPaging getPagingCategory(final String inputCategory, final Pageable pageable) {
+    /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
+
+    /* -------------------------------------------- Newsletter -------------------------------------------- */
+
+    public NewsCategoryPagingResponse getPagingCategory(final String inputCategory, final Pageable pageable) {
         Category category = Category.valueOf(inputCategory);
         Page<Newsletter> contentPaging = newsletterRepository.getPaging(category, pageable);
 
@@ -174,18 +178,33 @@ public class NewsletterPostService {
         List<Newsletter> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
-        List<SingleResponse> newsletterSingleData = contents.stream()
-                .map(SingleResponse::newsletterFrom)
-                .toList();
+        List<NewsletterThumbnailResponse> newsletterThumbnailRespons = convertToCategoryResponse(contents);
 
-        return NewsletterPaging.builder()
-                .newsletters(newsletterSingleData)
+        return NewsCategoryPagingResponse.builder()
+                .newsletterThumbnailRespons(newsletterThumbnailRespons)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())
                 .totalPage(contentPaging.getTotalPages())
                 .build();
     }
+
+    public List<NewsletterThumbnailResponse> convertToCategoryResponse(List<Newsletter> newsletters) {
+        return newsletters.stream()
+                .map(NewsletterThumbnailResponse::from)
+                .toList();
+    }
+
+    public List<NewsletterThumbnailResponse> getRecent3() {
+        List<Newsletter> newsletters = newsletterRepository.getRecent3();
+
+        return newsletters.stream()
+                .map(NewsletterThumbnailResponse::from)
+                .toList();
+    }
+
+    /* -------------------------------------------- Newsletter 끝 -------------------------------------------- */
+
     /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
 
 //    public CategoryResponses getDefaultCategoryRead() {

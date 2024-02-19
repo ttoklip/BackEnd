@@ -16,4 +16,6 @@ public interface HoneyTipRepositoryCustom {
     List<HoneyTipComment> findActiveCommentsByHoneyTipId(final Long postId);
 
     Page<HoneyTip> matchCategoryPaging(Category category, Pageable pageable);
+
+    List<HoneyTip> findRecent3();
 }

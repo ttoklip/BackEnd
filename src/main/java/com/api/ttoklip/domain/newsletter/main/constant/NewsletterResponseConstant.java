@@ -37,7 +37,7 @@ public class NewsletterResponseConstant {
                  "message": "요청에 성공하였습니다.",
                  "result": {
                      "randomNews": [],
-                     "categoryResponses": {
+                     "newsletterThumbnailRespons": {
                          "houseWork": [
                              {
                                  "newsletterId": 39,

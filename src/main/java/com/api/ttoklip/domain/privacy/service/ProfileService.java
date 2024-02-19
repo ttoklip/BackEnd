@@ -42,43 +42,72 @@ public class ProfileService {
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 -------------
     @Transactional
     public Message insert(final PrivacyCreateRequest request) {
+        Member currentMember = insertPrivacy(request);
+
+        // 카테고리 없을 경우 에러 처리
+        if (request.getCategories() == null && request.getCategories().isEmpty()) {
+            throw new ApiException(ErrorType.CATEGORY_NOT_EXISTS);
+        }
+
+        registerInterest(request, currentMember);
+        return Message.insertPrivacy();
+    }
+
+    private Member insertPrivacy(final PrivacyCreateRequest request) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
 
         updateProfileImage(request, currentMember);
-
         MemberEditor editor = getEditor(currentMember, request);
         currentMember.insertPrivacy(editor);
-        registerInterest(request, currentMember);
+        return currentMember;
+    }
+
+    // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 -------------
+    private void registerInterest(final PrivacyCreateRequest request, final Member currentMember) {
+        interestRepository.deleteAllByMemberId(getCurrentMember().getId());
+
+        List<Category> requestCategories = request.getCategories();
+        List<Interest> interests = requestCategories
+                .stream()
+                .map(category -> Interest.of(currentMember, category))
+                .toList();
+
+        interestRepository.saveAll(interests);
+    }
+
+    @Transactional
+    public Message edit(final PrivacyCreateRequest request) {
+        Member currentMember = insertPrivacy(request);
+
+        // 실제 존재할 때만 사용
+        if (request.getCategories() != null && !request.getCategories().isEmpty()) {
+            registerInterest(request, currentMember);
+        }
+
         return Message.insertPrivacy();
     }
 
     private void updateProfileImage(final PrivacyCreateRequest request, final Member currentMember) {
         // 프로필 이미지 URL 변경
         MultipartFile profileImage = request.getProfileImage();
-        String uploadUrl = s3FileUploader.uploadMultipartFile(profileImage);
-        currentMember.getProfile().changeProfile(uploadUrl);
+        if (profileImage != null && !profileImage.isEmpty()) {
+            String uploadUrl = s3FileUploader.uploadMultipartFile(profileImage);
+            currentMember.getProfile().changeProfile(uploadUrl);
+        }
     }
 
     private MemberEditor getEditor(final Member currentMember, final PrivacyCreateRequest request) {
         int independentYear = request.getIndependentYear();
-        int independentMonth = request.getIndependentMonth();   // ToDo 시간 자동으로 늘어나도록 설정
+        int independentMonth = request.getIndependentMonth();
         String nickname = request.getNickname();
-        //        String street = request.getStreet(); // ToDo 추후에 Embeded로 주소 처리
+        String street = request.getStreet();
         MemberEditorBuilder editorBuilder = currentMember.toEditor();
         return editorBuilder
                 .independentYear(independentYear)
                 .independentMonth(independentMonth)
+                .street(street)
                 .nickname(nickname)
                 .build();
-    }
-
-    private void registerInterest(final PrivacyCreateRequest request, final Member currentMember) {
-        List<Category> requestCategories = request.getCategories();
-        List<Interest> interests = requestCategories
-                .stream()
-                .map(category -> Interest.of(currentMember, category))
-                .toList();
-        interestRepository.saveAll(interests);
     }
 
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 끝 -------------
