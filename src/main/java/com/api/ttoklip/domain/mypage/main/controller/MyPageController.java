@@ -48,7 +48,7 @@ public class MyPageController {
                                     value = MyPageConstant.myPageResponse,
                                     description = "마이페이지 정보 조회 성공했습니다"
                             )))})
-    @GetMapping()
+    @GetMapping
     public SuccessResponse<MyPageResponse> getMyProfile() {
         return new SuccessResponse<>(myPageService.getMyProfile());
     }

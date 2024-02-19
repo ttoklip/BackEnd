@@ -30,7 +30,7 @@ public class MyPageResponse {
 
         return MyPageResponse.builder()
                 .nickname(member.getNickname())
-                //.street(member.getStreet())
+                .street(member.getStreet())
                 .profileImage(member.getProfile().getProfileImgUrl())
                 .independentMonth(member.getIndependentMonth())
                 .independentYear(member.getIndependentYear())
