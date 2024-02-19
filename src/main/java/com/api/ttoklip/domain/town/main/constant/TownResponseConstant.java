@@ -101,4 +101,46 @@ public class TownResponseConstant {
             }
         }
         """;
+
+    public static final String getCarts = """
+        {
+            "time": "2024-01-11T16:06:30.852Z",
+            "status": 200,
+            "code": "200",
+            "message": "요청에 성공하였습니다.",
+            "result": {
+                "communities": [
+                             {
+                                 "communityId":5,
+                                 "title": "first",
+                                 "content": "first"
+                             },
+                             {
+                                 "communityId": 4,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 3,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 2,
+                                 "title": "first",
+                                 "content": "fff"
+                             },
+                             {
+                                 "communityId": 1,
+                                 "title": "first",
+                                 "content": "fff"
+                             }
+                         ],
+                         "totalPage": 1,
+                         "totalElements": 5,
+                         "isFirst": true,
+                         "isLast": true
+            }
+        }
+        """;
 }
