@@ -104,6 +104,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 .selectFrom(honeyTip)
                 .distinct()
                 .where(
+                        getHoneyTipActivate(),
                         matchCategory(category)
                 )
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
@@ -122,6 +123,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 .from(honeyTip)
                 .distinct()
                 .where(
+                        getHoneyTipActivate(),
                         matchCategory(category)
                 )
                 .fetchOne();
@@ -131,5 +133,16 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
         return honeyTip.category.eq(category);
     }
 
+    @Override
+    public List<HoneyTip> findRecent3() {
+        return jpaQueryFactory
+                .selectFrom(honeyTip)
+                .where(
+                        getHoneyTipActivate()
+                )
+                .orderBy(honeyTip.id.desc())
+                .limit(3)
+                .fetch();
+    }
 
 }

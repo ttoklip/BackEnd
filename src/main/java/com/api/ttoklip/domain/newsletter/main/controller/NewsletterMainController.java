@@ -42,6 +42,4 @@ public class NewsletterMainController {
         return new SuccessResponse<>(newsletterMainService.getMainData());
     }
 
-    // 카테고리 별 무한 스크롤 게시글 조회
-
 }
