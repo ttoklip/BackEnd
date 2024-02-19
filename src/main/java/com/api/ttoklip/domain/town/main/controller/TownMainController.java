@@ -100,7 +100,7 @@ public class TownMainController {
             @Parameter(description = "시작인원", example = "1")
             @RequestParam(required = false, defaultValue = "1") final Long startParty,
             @Parameter(description = "마지막인원", example = "5000")
-            @RequestParam(required = false, defaultValue = "5000") final Long lastParty) {
+            @RequestParam(required = false, defaultValue = "500000") final Long lastParty) {
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(townMainService.getCarts(pageable, startMoney, lastMoney, startParty, lastParty));
