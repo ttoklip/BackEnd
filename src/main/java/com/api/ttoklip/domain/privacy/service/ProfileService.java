@@ -90,8 +90,10 @@ public class ProfileService {
     private void updateProfileImage(final PrivacyCreateRequest request, final Member currentMember) {
         // 프로필 이미지 URL 변경
         MultipartFile profileImage = request.getProfileImage();
-        String uploadUrl = s3FileUploader.uploadMultipartFile(profileImage);
-        currentMember.getProfile().changeProfile(uploadUrl);
+        if (profileImage != null && !profileImage.isEmpty()) {
+            String uploadUrl = s3FileUploader.uploadMultipartFile(profileImage);
+            currentMember.getProfile().changeProfile(uploadUrl);
+        }
     }
 
     private MemberEditor getEditor(final Member currentMember, final PrivacyCreateRequest request) {
