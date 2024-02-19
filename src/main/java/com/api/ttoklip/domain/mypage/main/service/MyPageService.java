@@ -11,6 +11,7 @@ import com.api.ttoklip.domain.mypage.main.domain.MyNewsLetterRepository;
 import com.api.ttoklip.domain.mypage.main.domain.MyQuestionRepository;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
@@ -189,7 +190,8 @@ public class MyPageService {
                 .build();
     }
 
-    public Message participateDeals() {
+    public CartPaging participateDeals(final Pageable pageable) {
+        //Member currentMember =
         return null;
     }
 }
