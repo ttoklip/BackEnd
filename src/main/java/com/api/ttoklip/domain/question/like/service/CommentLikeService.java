@@ -20,7 +20,9 @@ public class CommentLikeService {
     private final CommentLikeRepository commentLikeRepository;
     private final QuestionCommonService questionCommonService;
 
+
     // 좋아요 생성
+    @Transactional
     public void registerLike(final Long commentId) {
         Long currentMemberId = getCurrentMember().getId();
         boolean exists = commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
@@ -29,11 +31,16 @@ public class CommentLikeService {
         }
 
         QuestionComment findQuestionComment = questionCommonService.getQuestionComment(commentId);
+
+        System.out.println("findQuestionComment.getId() = " + findQuestionComment.getId());
+        System.out.println("findQuestionComment.getContent() = " + findQuestionComment.getContent());
+
         CommentLike commentLike = CommentLike.from(findQuestionComment);
         commentLikeRepository.save(commentLike);
     }
 
     // 좋아요 취소
+    @Transactional
     public void cancelLike(final Long commentId) {
         // commentId (댓글 ID)
         QuestionComment findQuestionComment = questionCommonService.getQuestionComment(commentId);
