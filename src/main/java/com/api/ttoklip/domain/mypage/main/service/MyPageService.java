@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.mypage.main.service;
 
 
+import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.search.response.*;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
@@ -125,29 +126,29 @@ public class MyPageService {
                 .build();
     }
 
-    /*public QuestionPaging myQuestions(final Pageable pageable) {
+    public QuestionPaging myQuestions(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
         Page<Question> contentPaging = myQuestionRepository.getContain(currentMember.getId(),pageable);
         // List<Entity>
         List<Question> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
-        List<> questionSingleData = contents.stream()
-                .map()
+        List<UserSingleResponse> questionSingleData = contents.stream()
+                .map(UserSingleResponse::questionFrom)
                 .toList();
 
         return QuestionPaging.builder()
-                .newsletters(questionSingleData)
+                .questions(questionSingleData)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())
                 .totalPage(contentPaging.getTotalPages())
                 .build();
 
-    }*/
-    public Message myQuestions(final Pageable pageable) {
-        return null;
     }
+    /*public Message myQuestions(final Pageable pageable) {
+        return null;
+    }*/
 
     public CommunityPaging myCommunities(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
