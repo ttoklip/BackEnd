@@ -21,7 +21,6 @@ public class HomeService {
 
     private final HoneyTipPostService honeyTipPostService;
     private final NewsletterPostService newsletterPostService;
-    private final WeatherService weatherService;
     private final TodayToDoListRepository todayToDoListRepository;
 
     @Transactional
