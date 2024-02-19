@@ -19,7 +19,6 @@ public class PrivacyCreateRequest {
     private String nickname;
     private List<String> categories;
 
-    @NotNull(message = "프로필 이미지는 필수입니다.")
     private MultipartFile profileImage;
 
     @Min(0)
@@ -41,7 +40,7 @@ public class PrivacyCreateRequest {
     }
 
     private void validCategorySize() {
-        if (categories.size() > 3) {
+        if (categories != null && categories.size() > 3) {
             throw new ApiException(ErrorType.INVALID_CATEGORIES_SIZE);
         }
     }
