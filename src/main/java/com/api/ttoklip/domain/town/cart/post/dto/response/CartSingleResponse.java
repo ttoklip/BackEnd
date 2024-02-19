@@ -56,6 +56,9 @@ public class CartSingleResponse {
     @Schema(description = "함께해요 거래 진행 상태", example = "진행 중 / 마감")
     private String status;
 
+    @Schema(description = "함께해요 현재 모집인원 비례 가격")
+    private int currrentPrice;
+
     @Schema(description = "함께해요에 포함된 이미지 URL 목록")
     private List<CartImageResponse> imageUrls;
 
@@ -83,6 +86,8 @@ public class CartSingleResponse {
 
         List<CartMember> cartMembers = cart.getCartMembers();
 
+        int currentPrice = (int)(cart.getTotalPrice()/cart.getPartyMax()*cartMembers.size());
+
         String writerName = null;
         if (cart.getMember() != null) {
             writerName = cart.getMember().getNickname();
@@ -93,6 +98,7 @@ public class CartSingleResponse {
                 .title(cart.getTitle())
                 .content(cart.getContent())
                 .totalPrice(cart.getTotalPrice())
+                .currrentPrice(currentPrice)
                 .location(cart.getLocation())
                 .chatUrl(cart.getChatUrl())
                 .partyCnt(cart.getCartMembers().size())
