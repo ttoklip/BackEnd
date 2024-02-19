@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.todolist.domain;
 
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -17,5 +19,11 @@ public enum ToDoList {
 
     public String getDescription() {
         return description;
+    }
+
+    public static ToDoList getRandomToDoList() {
+        List<ToDoList> valuesList = new java.util.ArrayList<>(List.of(ToDoList.values()));
+        Collections.shuffle(valuesList);
+        return valuesList.get(0);
     }
 }
