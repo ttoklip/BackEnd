@@ -65,7 +65,7 @@ public class MyPageController {
                             )))})
     @PatchMapping("/edit")
     public SuccessResponse<Message> edit(@ModelAttribute @Validated final PrivacyCreateRequest request) {
-        Message message = profileService.insert(request);
+        Message message = profileService.edit(request);
         return new SuccessResponse<>(message);
     }
 
