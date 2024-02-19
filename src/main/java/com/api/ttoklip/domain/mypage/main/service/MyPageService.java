@@ -126,7 +126,7 @@ public class MyPageService {
                 .build();
     }
 
-    public MyQuestionPaging myQuestions(final Pageable pageable) {
+    public QuestionPaging myQuestions(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
         Page<Question> contentPaging = myQuestionRepository.getContain(currentMember.getId(),pageable);
         // List<Entity>
@@ -137,7 +137,7 @@ public class MyPageService {
                 .map(UserSingleResponse::questionFrom)
                 .toList();
 
-        return MyQuestionPaging.builder()
+        return QuestionPaging.builder()
                 .questions(questionSingleData)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())

@@ -205,7 +205,7 @@ public class MyPageController {
                                     description = "내가 작성한 질문해요들을 불러왔습니다"
                             )))})
     @GetMapping("/question")
-    public SuccessResponse<MyQuestionPaging> myQuestion(
+    public SuccessResponse<QuestionPaging> myQuestion(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
