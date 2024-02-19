@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.town.cart.post.service;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
@@ -103,6 +104,13 @@ public class CartPostService {
         List<CartComment> activeComments = cartRepository.findActiveCommentsByCartId(postId);
         CartSingleResponse cartSingleResponse = CartSingleResponse.of(cartWithImg, activeComments);
         return cartSingleResponse;
+    }
+
+    public List<UserCartSingleResponse> getRecent3(){
+        List<Cart> carts = cartRepository.findRecent3();
+        return carts.stream()
+                .map(UserCartSingleResponse::cartFrom)
+                .toList();
     }
 
     /* -------------------------------------------- READ 끝 -------------------------------------------- */
@@ -246,7 +254,7 @@ public class CartPostService {
         return Message.removeParticipantSuccess(Cart.class, cart.getId());
     }
 
-    public int countParticipants(final Long cartId) {
+    public Long countParticipants(final Long cartId) {
         return cartRepository.countParticipants(cartId);
     }
     /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
