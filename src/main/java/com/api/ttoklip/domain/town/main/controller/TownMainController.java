@@ -1,8 +1,7 @@
 package com.api.ttoklip.domain.town.main.controller;
 
-import com.api.ttoklip.domain.mypage.main.constant.MyPageConstant;
+import com.api.ttoklip.domain.search.response.CartSearchPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
@@ -51,7 +50,7 @@ public class TownMainController {
 //                                    description = "함께해요 글 목록을 불러왔습니다."
 //                            )))})
 //    @GetMapping("/cart")
-//    public SuccessResponse<CartPaging> getCarts(
+//    public SuccessResponse<CartSearchPaging> getCarts(
 //            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
 //            @RequestParam(required = false, defaultValue = "0") final int page) {
 //        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
@@ -76,6 +75,35 @@ public class TownMainController {
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(townMainService.getCommunities(pageable));
+    }
+
+    /* Cart Paging */
+    @Operation(summary = "함께해요 더보기", description = "함께해요 글 목록 불러오기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "함께해요 불러오기 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = TownResponseConstant.getCarts,
+                                    description = "함께해요 글 목록을 불러왔습니다."
+                            )))})
+    @GetMapping("/cart")
+    public SuccessResponse<CartSearchPaging> getCarts(
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page,
+            @Parameter(description = "시작가격", example = "30000")
+            @RequestParam(required = false, defaultValue = "100") final Long startMoney,
+            @Parameter(description = "마지막가격", example = "50000")
+            @RequestParam(required = false, defaultValue = "100000000") final Long lastMoney,
+            @Parameter(description = "시작인원", example = "1")
+            @RequestParam(required = false, defaultValue = "1") final Long startParty,
+            @Parameter(description = "마지막인원", example = "5000")
+            @RequestParam(required = false, defaultValue = "500000") final Long lastParty) {
+
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        return new SuccessResponse<>(townMainService.getCarts(pageable, startMoney, lastMoney, startParty, lastParty));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.town.cart.post.dto.response;
 
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
+import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
@@ -8,6 +9,7 @@ import com.api.ttoklip.domain.town.cart.itemUrl.dto.response.ItemUrlResponse;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -67,6 +69,7 @@ public class CartSingleResponse {
 
     @Schema(description = "함께해요에 대한 상품관련 링크")
     private List<ItemUrlResponse> itemUrls;
+
 
 
 
@@ -139,4 +142,14 @@ public class CartSingleResponse {
                 .map(ItemUrlResponse::from)
                 .toList();
     }
+
+//    public static CartSingleResponse cartFrom(final Cart cart){
+//        return CartSingleResponse.builder()
+//                .cartId(cart.getId())
+//                .title(cart.getTitle())
+//                .commentCount(cart.getCartComments().size())
+//                .writer(cart.getMember().getNickname())
+//                .location(cart.getLocation())
+//                .build();
+//    }
 }
