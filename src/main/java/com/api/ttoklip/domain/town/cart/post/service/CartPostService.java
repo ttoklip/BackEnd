@@ -208,6 +208,9 @@ public class CartPostService {
             throw new ApiException(ErrorType.ALREADY_PARTICIPATED);
         }
         cartMemberService.register(cart);
+        if(cart.getCartMembers().size()==cart.getPartyMax()){
+            cart.changeComplete();
+        }
 
         return Message.addParticipantSuccess(Cart.class, cart.getId());
     }
@@ -215,18 +218,16 @@ public class CartPostService {
     // 공구 취소
     @Transactional
     public Message removeParticipant(final Long cartId) {
-        System.out.println(220);
         Long currentMemberId = getCurrentMember().getId();
-        System.out.println(222);
         // 참가자가 공구에 참여하지 않았을 때
         CartMember cartMember = cartMemberRepository.findByMemberIdAndCartId(currentMemberId, cartId)
                 .orElseThrow(() -> new ApiException(ErrorType.NOT_PARTICIPATED));
-        System.out.println(226);
-        System.out.println("cartMember = " + cartMember);
 
         cartMemberRepository.delete(cartMember);
-        System.out.println(230);
         Cart cart = cartRepository.findByIdActivated(cartId);
+        if(cart.getCartMembers().size()<cart.getPartyMax()){
+            cart.changeProgress();
+        }
         return Message.removeParticipantSuccess(Cart.class, cart.getId());
     }
 
