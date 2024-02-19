@@ -98,13 +98,14 @@ public class ProfileService {
 
     private MemberEditor getEditor(final Member currentMember, final PrivacyCreateRequest request) {
         int independentYear = request.getIndependentYear();
-        int independentMonth = request.getIndependentMonth();   // ToDo 시간 자동으로 늘어나도록 설정
+        int independentMonth = request.getIndependentMonth();
         String nickname = request.getNickname();
-        //        String street = request.getStreet(); // ToDo 추후에 Embeded로 주소 처리
+        String street = request.getStreet();
         MemberEditorBuilder editorBuilder = currentMember.toEditor();
         return editorBuilder
                 .independentYear(independentYear)
                 .independentMonth(independentMonth)
+                .street(street)
                 .nickname(nickname)
                 .build();
     }
