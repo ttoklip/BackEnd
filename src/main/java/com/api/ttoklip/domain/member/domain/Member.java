@@ -48,6 +48,8 @@ public class Member extends BaseEntity {
     private String street;
     private int independentYear;
     private int independentMonth;
+    private Integer locationX;
+    private Integer locationY;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -125,7 +127,9 @@ public class Member extends BaseEntity {
                 .independentYear(independentYear)
                 .independentMonth(independentMonth)
                 .nickname(nickname)
-                .street(street);
+                .street(street)
+                .locationX(locationX)
+                .locationY(locationY);
     }
 
     public void insertPrivacy(MemberEditor memberEditor) {
@@ -133,5 +137,7 @@ public class Member extends BaseEntity {
         independentMonth = memberEditor.getIndependentMonth();
         nickname = memberEditor.getNickname();
         street = memberEditor.getStreet();
+        locationX = memberEditor.getLocationX();
+        locationY = memberEditor.getLocationY();
     }
 }
