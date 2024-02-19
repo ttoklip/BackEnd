@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.mypage.main.dto.response.*;
 import com.api.ttoklip.domain.mypage.main.service.MyPageService;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,7 +66,7 @@ public class MyPageController {
                             )))})
     @PatchMapping("/edit")
     public SuccessResponse<Message> edit(@ModelAttribute @Validated final PrivacyCreateRequest request) {
-        Message message = profileService.insert(request);
+        Message message = profileService.edit(request);
         return new SuccessResponse<>(message);
     }
 
@@ -243,11 +244,11 @@ public class MyPageController {
                                     description = "참여한 거래를 조회했습니다"
                             )))})
     @GetMapping("/participate-deals")
-    public SuccessResponse<Message> participateDeals(
+    public SuccessResponse<CartPaging> participateDeals(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.participateDeals());
+        return new SuccessResponse<>(myPageService.participateDeals(pageable));
     }
 
 }
