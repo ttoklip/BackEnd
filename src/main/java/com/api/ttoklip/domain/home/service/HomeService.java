@@ -28,7 +28,6 @@ public class HomeService {
 
     @Transactional
     public HomeResponse home() {
-        // ToDo 함께해요, 날씨 api, 오늘의 투두리스트 추후에
         List<TitleResponse> honeyTipRecent3 = honeyTipPostService.getRecent3();
         List<NewsletterThumbnailResponse> newsletterRecent3 = newsletterPostService.getRecent3();
 
@@ -45,6 +44,5 @@ public class HomeService {
                 .newsLetters(newsletterRecent3)
                 .carts(cartRecent3)
                 .build();
-
     }
 }
