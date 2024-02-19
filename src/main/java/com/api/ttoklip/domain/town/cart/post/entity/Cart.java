@@ -58,9 +58,12 @@ public class Cart extends BaseEntity {
     public void changeComplete() {
         this.status = TradeStatus.COMPLETED;//마감
     }
-    public void changeProgress(){
-        this.status = TradeStatus.IN_PROGRESS;//진행중
+
+    public void changeProgress() {
+        System.out.println(63);
+        this.status = TradeStatus.IN_PROGRESS;
     }
+
     @Override
     public void deactivate() {
         super.deactivate();  // BaseEntity에 정의되어 있는 메소드

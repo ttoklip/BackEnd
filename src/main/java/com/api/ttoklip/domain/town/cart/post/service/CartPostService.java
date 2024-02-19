@@ -18,6 +18,7 @@ import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,7 @@ public class CartPostService {
     private final ItemUrlService itemUrlService;
     private final CartMemberService cartMemberService;
     private final CartMemberRepository cartMemberRepository;
+    private final EntityManager em;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Cart findCartById(final Long postId) {
@@ -224,10 +226,23 @@ public class CartPostService {
                 .orElseThrow(() -> new ApiException(ErrorType.NOT_PARTICIPATED));
 
         cartMemberRepository.delete(cartMember);
+        em.flush();//db와 application동기화
+        em.clear();//db와 application동기화
+
         Cart cart = cartRepository.findByIdActivated(cartId);
+
+        List<CartMember> cartMembers = cart.getCartMembers();
+        System.out.println("cart.getCartMembers().size() = " + cartMembers.size());
+        for (CartMember member : cartMembers) {
+            System.out.println("member.getMember().getEmail() = " + member.getMember().getEmail());
+        }
+
+        System.out.println("cart.getPartyMax() = " + cart.getPartyMax());
         if(cart.getCartMembers().size()<cart.getPartyMax()){
+            System.out.println("------------------------------------------CartPostService.removeParticipant");
             cart.changeProgress();
         }
+
         return Message.removeParticipantSuccess(Cart.class, cart.getId());
     }
 
