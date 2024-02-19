@@ -17,5 +17,6 @@ public class HomeResponse {
 //    private Object weather;
     private List<TitleResponse> honeyTips;
     private List<NewsletterThumbnailResponse> newsLetters;
+    private String todayToDoList;
 //    private Object community;
 }

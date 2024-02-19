@@ -16,8 +16,8 @@ public class ToDoListScheduler {
     private final TodayToDoListRepository todayToDoListRepository;
 
     @Transactional
-    // 매일 자정 5분에 실행 (서울 기준)
-    @Scheduled(cron = "0 5 0 * * *", zone = "Asia/Seoul")
+    // 매일 자정에 실행 (서울 기준)
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void generateTodayToDoList() {
 
         List<Member> allMembers = queryFactory
