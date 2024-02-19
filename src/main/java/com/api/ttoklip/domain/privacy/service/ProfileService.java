@@ -52,10 +52,6 @@ public class ProfileService {
     }
 
     private static void validate(final PrivacyCreateRequest request) {
-        // 위 경도 중 하나라도 포함되어 있지 않은 경우
-        if (request.getLocationX() == null || request.getLocationY() == null) {
-            throw new ApiException(ErrorType.LOCATION_NOT_FOUND);
-        }
 
         // 카테고리 없을 경우 에러 처리
         if (request.getCategories() == null && request.getCategories().isEmpty()) {
@@ -111,8 +107,6 @@ public class ProfileService {
         int independentMonth = request.getIndependentMonth();
         String nickname = request.getNickname();
         String street = request.getStreet();
-        Integer locationX = request.getLocationX();
-        Integer locationY = request.getLocationY();
 
         MemberEditorBuilder editorBuilder = currentMember.toEditor();
         return editorBuilder
@@ -120,8 +114,6 @@ public class ProfileService {
                 .independentMonth(independentMonth)
                 .street(street)
                 .nickname(nickname)
-                .locationX(locationX)
-                .locationY(locationY)
                 .build();
     }
 

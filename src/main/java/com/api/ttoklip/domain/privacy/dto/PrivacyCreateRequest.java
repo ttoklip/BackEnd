@@ -28,9 +28,6 @@ public class PrivacyCreateRequest {
     @Max(11)
     private int independentMonth;
 
-    private Integer locationX;
-    private Integer locationY;
-
     public List<Category> getCategories() {
         validCategorySize();
         return categories.stream()

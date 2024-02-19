@@ -11,8 +11,6 @@ public class MemberEditor {
     private final String street;
     private final int independentYear;
     private final int independentMonth;
-    private final Integer locationX;
-    private final Integer locationY;
 
     public static MemberEditorBuilder builder() {
         return new MemberEditorBuilder();
@@ -23,8 +21,6 @@ public class MemberEditor {
         private String street;
         private int independentYear;
         private int independentMonth;
-        private Integer locationX;
-        private Integer locationY;
 
         MemberEditorBuilder(){
         }
@@ -53,22 +49,8 @@ public class MemberEditor {
             return this;
         }
 
-        public MemberEditorBuilder locationX(final Integer locationX) {
-            if (locationX != null) {
-                this.locationX = locationX;
-            }
-            return this;
-        }
-
-        public MemberEditorBuilder locationY(final Integer locationY) {
-            if (locationY != null) {
-                this.locationY = locationY;
-            }
-            return this;
-        }
-
         public MemberEditor build() {
-            return new MemberEditor(nickname, street, independentYear, independentMonth, locationX, locationY);
+            return new MemberEditor(nickname, street, independentYear, independentMonth);
         }
     }
 }
