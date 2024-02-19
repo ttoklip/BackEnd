@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.response.CommunityRecent3Response;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
@@ -198,6 +199,13 @@ public class CommunityPostService {
     public Message cancelScrap(Long postId) {
         communityScrapService.cancelScrap(postId);
         return Message.scrapPostCancel(Community.class, postId);
+    }
+
+    public List<CommunityRecent3Response> getRecent3() {
+        List<Community> communities = communityRepository.getRecent3();
+        return communities.stream()
+                .map(CommunityRecent3Response::of)
+                .toList();
     }
 
     /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */

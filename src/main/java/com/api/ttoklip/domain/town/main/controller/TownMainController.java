@@ -1,8 +1,10 @@
 package com.api.ttoklip.domain.town.main.controller;
 
+import com.api.ttoklip.domain.mypage.main.constant.MyPageConstant;
 import com.api.ttoklip.domain.search.response.CartSearchPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
+import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.domain.town.main.service.TownMainService;
@@ -26,36 +28,30 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Town Main", description = "Town Main API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/town/main")
+@RequestMapping("/api/v1/town/main")
 public class TownMainController {
 
     private final static int PAGE_SIZE = 10;
 
-    private final CartPostService cartPostService;
-    private final CommunityPostService communityPostService;
     private final TownMainService townMainService;
 
-    // todo 최근 글 4개 페이징, 글쓰기 페이지로 이동(추가 안 해도 됨), 글목록 페이지로
-
     /* Cart Paging */
-//    @Operation(summary = "함께해요 더보기", description = "함께해요 글 목록 불러오기")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "함께해요 불러오기 성공",
-//                    content = @Content(
-//                            mediaType = "application/json",
-//                            schema = @Schema(implementation = SuccessResponse.class),
-//                            examples = @ExampleObject(
-//                                    name = "SuccessResponse",
-//                                    value = MyPageConstant.scrapHoneyTipsResponse,
-//                                    description = "함께해요 글 목록을 불러왔습니다."
-//                            )))})
-//    @GetMapping("/cart")
-//    public SuccessResponse<CartSearchPaging> getCarts(
-//            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-//            @RequestParam(required = false, defaultValue = "0") final int page) {
-//        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-//        return new SuccessResponse<>(cartPageService.getCarts(pageable));
-//    }
+    @Operation(summary = "함께해요 더보기", description = "함께해요 글 목록 불러오기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "함께해요 불러오기 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = MyPageConstant.scrapHoneyTipsResponse,
+                                    description = "함께해요 메인 페이지입니다."
+                            )))})
+    @GetMapping
+    public SuccessResponse<CartMainResponse> getCarts() {
+        CartMainResponse cartMainResponse = townMainService.getRecent3();
+        return new SuccessResponse<>(cartMainResponse);
+    }
 
     /* Community Paging */
     @Operation(summary = "소통해요 더보기", description = "소통해요 글 목록 불러오기")

@@ -13,4 +13,5 @@ public interface CommunityRepositoryCustom {
 
     List<CommunityComment> findActiveCommentsByCommunityId(final Long postId);
 
+    List<Community> getRecent3();
 }
