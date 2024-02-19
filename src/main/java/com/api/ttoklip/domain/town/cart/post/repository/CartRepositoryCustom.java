@@ -22,6 +22,7 @@ public interface CartRepositoryCustom {
     Cart removeParticipant(final Long cartId);
 
     // 참여자 수 확인
-    int countParticipants(Long cartId);
+    Long countParticipants(Long cartId);
 
+    List<Cart> findRecent3();
 }

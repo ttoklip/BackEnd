@@ -42,15 +42,25 @@ public class ProfileService {
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 -------------
     @Transactional
     public Message insert(final PrivacyCreateRequest request) {
+
+        validate(request);
+
         Member currentMember = insertPrivacy(request);
+
+        registerInterest(request, currentMember);
+        return Message.insertPrivacy();
+    }
+
+    private static void validate(final PrivacyCreateRequest request) {
+        // 위 경도 중 하나라도 포함되어 있지 않은 경우
+        if (request.getLocationX() == null || request.getLocationY() == null) {
+            throw new ApiException(ErrorType.LOCATION_NOT_FOUND);
+        }
 
         // 카테고리 없을 경우 에러 처리
         if (request.getCategories() == null && request.getCategories().isEmpty()) {
             throw new ApiException(ErrorType.CATEGORY_NOT_EXISTS);
         }
-
-        registerInterest(request, currentMember);
-        return Message.insertPrivacy();
     }
 
     private Member insertPrivacy(final PrivacyCreateRequest request) {
@@ -101,12 +111,17 @@ public class ProfileService {
         int independentMonth = request.getIndependentMonth();
         String nickname = request.getNickname();
         String street = request.getStreet();
+        Integer locationX = request.getLocationX();
+        Integer locationY = request.getLocationY();
+
         MemberEditorBuilder editorBuilder = currentMember.toEditor();
         return editorBuilder
                 .independentYear(independentYear)
                 .independentMonth(independentMonth)
                 .street(street)
                 .nickname(nickname)
+                .locationX(locationX)
+                .locationY(locationY)
                 .build();
     }
 

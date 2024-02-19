@@ -21,8 +21,9 @@ public class UserCartSingleResponse {
     private int commentCount;
     private int currentPrice;
     private TradeStatus tradeStatus;
-    public static UserCartSingleResponse cartFrom (final Cart cart){
-        int currentPrice = (int)(cart.getTotalPrice()/cart.getPartyMax()*cart.getCartMembers().size());
+
+    public static UserCartSingleResponse cartFrom(final Cart cart) {
+        int currentPrice = (int) (cart.getTotalPrice() / cart.getPartyMax() * cart.getCartMembers().size());
         return UserCartSingleResponse.builder()
                 .id(cart.getId())
                 .title(cart.getTitle())

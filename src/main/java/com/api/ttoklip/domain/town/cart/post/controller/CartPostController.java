@@ -169,8 +169,8 @@ public class CartPostController {
                                     description = "참여자 수를 확인하였습니다."
                             )))})
     @GetMapping("/participants/count/{cartId}")
-    public SuccessResponse<Integer> countParticipants(final @PathVariable Long cartId) {
-        int count = cartPostService.countParticipants(cartId);
+    public SuccessResponse<Long> countParticipants(final @PathVariable Long cartId) {
+        Long count = cartPostService.countParticipants(cartId);
         return new SuccessResponse<>(count);
     }
 

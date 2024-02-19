@@ -5,7 +5,6 @@ import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +18,6 @@ public class PrivacyCreateRequest {
     private String nickname;
     private List<String> categories;
 
-    @NotNull(message = "프로필 이미지는 필수입니다.")
     private MultipartFile profileImage;
 
     @Min(0)
@@ -30,6 +28,9 @@ public class PrivacyCreateRequest {
     @Max(11)
     private int independentMonth;
 
+    private Integer locationX;
+    private Integer locationY;
+
     public List<Category> getCategories() {
         validCategorySize();
         return categories.stream()
@@ -38,7 +39,7 @@ public class PrivacyCreateRequest {
     }
 
     private void validCategorySize() {
-        if (categories.size() > 3) {
+        if (categories != null && categories.size() > 3) {
             throw new ApiException(ErrorType.INVALID_CATEGORIES_SIZE);
         }
     }
