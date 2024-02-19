@@ -1,20 +1,20 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
+import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
+import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
+
+import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 import java.util.Optional;
-
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
-import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
-import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
+import lombok.RequiredArgsConstructor;
 
 
 @RequiredArgsConstructor
@@ -76,6 +76,21 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                         communityComment.parent.id.asc().nullsFirst(),
                         communityComment.createdDate.asc()
                 )
+                .fetch();
+    }
+
+    @Override
+    public List<Community> getRecent3() {
+        return jpaQueryFactory
+                .selectFrom(community)
+                .distinct()
+                .where(
+                        getCommunityActivate()
+                )
+                .leftJoin(community.member, member)
+                .fetchJoin()
+                .orderBy(community.id.desc())
+                .limit(3)
                 .fetch();
     }
 
