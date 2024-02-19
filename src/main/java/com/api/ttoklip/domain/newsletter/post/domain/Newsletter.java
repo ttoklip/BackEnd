@@ -33,6 +33,7 @@ public class Newsletter extends BaseEntity {
     @Column(name = "title")
     private String title;
 
+    @Lob
     @Column(name = "content")
     private String content;
 

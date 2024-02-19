@@ -19,6 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class Question extends BaseEntity {
     private Member member;
 
     private String title;
+
+    @Lob
     private String content;
 
     public static Question from(final QuestionCreateRequest request) {

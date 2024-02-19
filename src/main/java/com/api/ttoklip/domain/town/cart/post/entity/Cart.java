@@ -28,6 +28,7 @@ public class Cart extends BaseEntity {
 
     private String title;
 
+    @Lob
     private String content;
 
     // todo 위치 기반으로
