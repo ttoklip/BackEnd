@@ -70,10 +70,10 @@ public class CartSingleResponse {
     @Schema(description = "함께해요에 대한 상품관련 링크")
     private List<ItemUrlResponse> itemUrls;
 
+    @Schema(description = "함께해요 참여했는지에 대한 여부")
+    private boolean isAlreadyJoin;
 
-
-
-    public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments) {
+    public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments, final boolean isAlreadyJoin) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(cart);
@@ -108,7 +108,7 @@ public class CartSingleResponse {
                 .partyMax(cart.getPartyMax())
                 .status(cart.getStatus().name())
                 .writer(cart.getMember().getNickname())
-//                .writer(writerName)
+                .isAlreadyJoin(isAlreadyJoin)
                 .writtenTime(formattedCreatedDate)
                 .itemUrls(itemUrlsResponses)
                 .imageUrls(imageResponses)
