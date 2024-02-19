@@ -107,20 +107,20 @@ public class CartPostController {
 
     /* UPDATE STATUS */
     @Operation(summary = "함께해요 게시글 상태 수정", description = "함께해요 게시글의 상태를 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "함께해요 게시글 상태 수정 성공",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = CartResponseConstant.STATUS_CART,
-                                    description = "함께해요 게시글의 상태를 마감으로 수정했습니다."
-                            )))})
-    @PatchMapping("/{postId}/status")
-    public SuccessResponse<Message> updateStatus(final @PathVariable Long postId,
-                                                 final @RequestBody UpdateStatusRequest request) {
-        Message message = cartPostService.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
-        return new SuccessResponse<>(message);
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200", description = "함께해요 게시글 상태 수정 성공",
+                        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                schema = @Schema(implementation = SuccessResponse.class),
+                                examples = @ExampleObject(
+                                        name = "SuccessResponse",
+                                        value = CartResponseConstant.STATUS_CART,
+                                        description = "함께해요 게시글의 상태를 마감으로 수정했습니다."
+                                )))})
+        @PatchMapping("/{postId}/status")
+        public SuccessResponse<Message> updateStatus(final @PathVariable Long postId,
+        final @RequestBody UpdateStatusRequest request) {
+            Message message = cartPostService.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
+            return new SuccessResponse<>(message);
     }
 
     /* 참여자 추가 */

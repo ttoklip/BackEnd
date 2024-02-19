@@ -6,6 +6,7 @@ import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.comment.dto.response.QuestionCommentResponse;
 import com.api.ttoklip.domain.question.like.service.CommentLikeService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.service.QuestionCommonService;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -59,6 +61,7 @@ public class QuestionCommentService {
     // 최상위 댓글 생성
     private Long registerCommentOrphanage(final CommentCreateRequest request, final Question findQuestion) {
         QuestionComment newQuestionComment = QuestionComment.orphanageOf(request, findQuestion);
+        System.out.println("newQuestionComment.getContent() = " + newQuestionComment.getContent());
         commentService.register(newQuestionComment);
         return newQuestionComment.getId();
     }
@@ -117,4 +120,12 @@ public class QuestionCommentService {
 
     /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
 
+    public List<QuestionCommentResponse> getCommentResponse(final Question question) {
+        List<QuestionComment> questionComments = question.getQuestionComments();
+        return questionComments.stream()
+                .map(questionComment -> {
+                    boolean likedByCurrentUser = commentLikeService.existsByQuestionCommentIdAndMemberId(questionComment.getId());
+                    return QuestionCommentResponse.from(questionComment, likedByCurrentUser);
+                }).toList();
+    }
 }

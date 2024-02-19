@@ -1,19 +1,19 @@
 package com.api.ttoklip.domain.question.post.dto.response;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
-import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.comment.dto.response.QuestionCommentResponse;
 import com.api.ttoklip.domain.question.image.domain.QuestionImage;
 import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -45,23 +45,18 @@ public class QuestionSingleResponse {
     private List<ImageResponse> imageUrls;
 
     @Schema(description = "질문에 대한 댓글 목록")
-    private List<CommentResponse> commentResponses;
+    private List<QuestionCommentResponse> questionCommentResponses;
 
-    @Schema(description = "현재 사용자의 해당 댓글 좋아요 여부")
-    private boolean likedByCurrentUser;
-
-    public static QuestionSingleResponse of(final Question question,
-                                            final List<QuestionComment> activeComments,
-                                            final boolean likedByCurrentUser) {
+    public static QuestionSingleResponse of(final Question question, final List<QuestionCommentResponse> commentResponses) {
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(question);
 
         // CommunityImage entity to Response
         List<ImageResponse> imageResponses = getImageResponses(question);
-        // Comment entity to Response
-        List<CommentResponse> commentResponses = getCommentResponses(activeComments);
 
-        int commentCount = commentResponses.size();
+        // Comment entity to Response
+
+        int commentCount = question.getQuestionComments().size();
 
         return QuestionSingleResponse.builder()
                 .questionId(question.getId())
@@ -70,10 +65,9 @@ public class QuestionSingleResponse {
                 .writer(question.getMember().getNickname())
                 .writtenTime(formattedCreatedDate)
                 .category(question.getCategory()) // 한글 카테고리 이름으로 반환
-                .likedByCurrentUser(likedByCurrentUser)
                 .commentCount(commentCount)
                 .imageUrls(imageResponses)
-                .commentResponses(commentResponses)
+                .questionCommentResponses(commentResponses)
                 .build();
     }
 
@@ -90,10 +84,12 @@ public class QuestionSingleResponse {
                 .toList();
     }
 
-    private static List<CommentResponse> getCommentResponses(final List<QuestionComment> questionComments) {
-        return questionComments
-                .stream()
-                .map(CommentResponse::from)
-                .toList();
-    }
+
+//    private static List<QuestionCommentResponse> getQuestionCommentResponses(final List<QuestionComment> questionComments, final Long currentUserId) {
+//        return questionComments
+//                .stream()
+//                .map(questionComment -> QuestionCommentResponse.from(questionComment, currentUserId))
+//                .collect(Collectors.toList());
+//    }
+
 }

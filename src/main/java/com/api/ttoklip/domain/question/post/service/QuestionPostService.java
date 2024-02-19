@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.comment.dto.response.QuestionCommentResponse;
+import com.api.ttoklip.domain.question.comment.service.QuestionCommentService;
 import com.api.ttoklip.domain.question.image.service.QuestionImageService;
 import com.api.ttoklip.domain.question.like.repository.CommentLikeRepository;
 import com.api.ttoklip.domain.question.post.domain.Question;
@@ -38,7 +40,7 @@ public class QuestionPostService {
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
     private final QuestionCommonService questionCommonService;
-    private final CommentLikeRepository commentLikeRepository;
+    private final QuestionCommentService questionCommentService;
 
 //    /* -------------------------------------------- COMMON -------------------------------------------- */
 //    public Question findQuestionById(final Long postId) {
@@ -77,18 +79,14 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- 단건 READ -------------------------------------------- */
-    public QuestionSingleResponse getSinglePost(final Long postId, final Long commentId) {
+    public QuestionSingleResponse getSinglePost(final Long postId) {
         Question questionWithImg = questionRepository.findByIdFetchJoin(postId);
-        List<QuestionComment> activeComments = questionRepository.findActiveCommentsByQuestionId(postId);
-
-        // 현재 사용자 ID를 가져옴
-        Long currentMemberId = getCurrentMember().getId();
 
         // 현재 사용자가 좋아요를 눌렀는지 확인
-        boolean likedByCurrentUser = commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
+        List<QuestionCommentResponse> commentResponses = questionCommentService.getCommentResponse(questionWithImg);
 
         QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg,
-                activeComments, likedByCurrentUser);
+                commentResponses);
         return questionSingleResponse;
     }
 
