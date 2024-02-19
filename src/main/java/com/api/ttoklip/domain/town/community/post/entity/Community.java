@@ -48,9 +48,11 @@ public class Community extends BaseEntity {
     @OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommunityComment> communityComments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityLike> communityLikes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityScrap> communityScraps = new ArrayList<>();
 
