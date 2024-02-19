@@ -11,11 +11,11 @@ import lombok.Getter;
 public class NoticeCreateRequest {
     @Schema(description = "공지사항 제목", example = "공지사항 제목 예시")
     @NotEmpty
-    @Size(max = 50)
+    @Size(max = 500)
     public String title;
 
     @Schema(description = "공지사항 내용", example = "공지사항 내용 예시")
     @NotEmpty
-    @Size(max = 500)
+    @Size(max = 5000)
     public String content;
 }

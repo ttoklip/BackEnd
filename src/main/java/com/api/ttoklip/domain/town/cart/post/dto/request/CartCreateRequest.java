@@ -19,12 +19,12 @@ public class CartCreateRequest {
 
     @Schema(description = "게시글 제목", example = "게시글 제목 예시")
     @NotEmpty
-    @Size(max = 50)
+    @Size(max = 500)
     public String title;
 
     @Schema(description = "게시글 내용", example = "게시글 내용 예시")
     @NotEmpty
-    @Size(max = 500)
+    @Size(max = 5000)
     public String content;
 
     @Schema(description = "총 가격", example = "총 가격 예시")
@@ -33,12 +33,12 @@ public class CartCreateRequest {
 
     @Schema(description = "거래희망 장소", example = "거래희망 장소 예시")
     @NotEmpty
-    @Size(max = 50)
+    @Size(max = 500)
     public String location;
 
     @Schema(description = "오픈채팅방 링크", example = "오픈채팅방 링크 예시")
     @NotEmpty
-    @Size(max = 50)
+    @Size(max = 500)
     public String chatUrl;
 
 //    @Schema(description = "공구 현재 참여 인원", example = "3")
