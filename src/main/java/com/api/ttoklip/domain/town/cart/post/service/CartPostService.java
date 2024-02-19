@@ -99,10 +99,10 @@ public class CartPostService {
 
     /* -------------------------------------------- READ -------------------------------------------- */
     public CartSingleResponse getSinglePost(final Long postId) {
-
         Cart cartWithImg = cartRepository.findByIdFetchJoin(postId);
         List<CartComment> activeComments = cartRepository.findActiveCommentsByCartId(postId);
-        CartSingleResponse cartSingleResponse = CartSingleResponse.of(cartWithImg, activeComments);
+        boolean isAlreadyJoin = cartMemberRepository.existsByMemberIdAndCartId(getCurrentMember().getId(), cartWithImg.getId());
+        CartSingleResponse cartSingleResponse = CartSingleResponse.of(cartWithImg, activeComments, isAlreadyJoin);
         return cartSingleResponse;
     }
 
