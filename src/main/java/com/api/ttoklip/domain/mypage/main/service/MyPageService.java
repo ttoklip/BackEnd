@@ -1,17 +1,16 @@
 package com.api.ttoklip.domain.mypage.main.service;
 
 
+import com.api.ttoklip.domain.mypage.main.domain.*;
 import com.api.ttoklip.domain.search.response.*;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.domain.mypage.main.domain.MyCommunityRepostiory;
-import com.api.ttoklip.domain.mypage.main.domain.MyHoneyTipRepository;
-import com.api.ttoklip.domain.mypage.main.domain.MyNewsLetterRepository;
-import com.api.ttoklip.domain.mypage.main.domain.MyQuestionRepository;
 import com.api.ttoklip.domain.mypage.main.dto.response.*;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
+import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +33,7 @@ public class MyPageService {
     private final MyCommunityRepostiory myCommunityRepostiory;
     private final MyHoneyTipRepository myHoneyTipRepository;
     private final MyNewsLetterRepository myNewsLetterRepository;
+    private final MyCartRepository myCartRepository;
 
 
     public MyPageResponse getMyProfile() {
@@ -191,7 +191,18 @@ public class MyPageService {
     }
 
     public CartPaging participateDeals(final Pageable pageable) {
-        //Member currentMember =
-        return null;
+        Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
+        Page<Cart> contentPaging = myCartRepository.getContain(currentMember.getId(),pageable);
+        List<Cart> contents = contentPaging.getContent();
+        List<UserCartSingleResponse> cartSingleData=contents.stream()
+                .map(UserCartSingleResponse::cartFrom)
+                .toList();
+        return CartPaging.builder()
+                .carts(cartSingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
     }
 }
