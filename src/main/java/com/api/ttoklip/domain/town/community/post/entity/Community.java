@@ -31,6 +31,7 @@ public class Community extends BaseEntity {
     private String title;
 
     @Lob
+    @Column(name = "content", columnDefinition="LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

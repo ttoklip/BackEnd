@@ -21,7 +21,7 @@ public class Term extends BaseEntity {
     private String title;
 
     @Lob
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition="LONGTEXT")
     private String content;
 
     public static Term of(final TermCreateRequest request) {

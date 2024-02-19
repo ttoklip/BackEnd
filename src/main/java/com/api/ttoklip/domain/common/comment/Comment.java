@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.common.comment;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
 import com.api.ttoklip.domain.member.domain.Member;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,7 +31,8 @@ public class Comment extends BaseEntity {
     private Long id;
 
     @Lob
-    private String content; // 댓글 내용
+    @Column(name = "content", columnDefinition="LONGTEXT")
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

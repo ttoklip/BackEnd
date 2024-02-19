@@ -29,6 +29,7 @@ public class Cart extends BaseEntity {
     private String title;
 
     @Lob
+    @Column(name = "content", columnDefinition="LONGTEXT")
     private String content;
 
     // todo 위치 기반으로

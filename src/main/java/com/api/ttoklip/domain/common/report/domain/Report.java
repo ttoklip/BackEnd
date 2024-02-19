@@ -40,6 +40,7 @@ public class Report extends BaseEntity {
     private Long id;
 
     @Lob
+    @Column(name = "content", columnDefinition="LONGTEXT")
     private String content;
 
     @Enumerated(EnumType.STRING)

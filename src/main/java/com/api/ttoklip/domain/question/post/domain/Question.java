@@ -11,6 +11,7 @@ import com.api.ttoklip.domain.question.image.domain.QuestionImage;
 import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -51,6 +52,7 @@ public class Question extends BaseEntity {
     private String title;
 
     @Lob
+    @Column(name = "content", columnDefinition="LONGTEXT")
     private String content;
 
     public static Question from(final QuestionCreateRequest request) {
