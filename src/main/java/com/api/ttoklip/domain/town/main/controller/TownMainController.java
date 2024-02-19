@@ -92,9 +92,18 @@ public class TownMainController {
     @GetMapping("/cart")
     public SuccessResponse<CartSearchPaging> getCarts(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            @RequestParam(required = false, defaultValue = "0") final int page) {
+            @RequestParam(required = false, defaultValue = "0") final int page,
+            @Parameter(description = "시작가격", example = "30000")
+            @RequestParam(required = false, defaultValue = "100") final Long startMoney,
+            @Parameter(description = "마지막가격", example = "50000")
+            @RequestParam(required = false, defaultValue = "100000000") final Long lastMoney,
+            @Parameter(description = "시작인원", example = "1")
+            @RequestParam(required = false, defaultValue = "1") final Long startParty,
+            @Parameter(description = "마지막인원", example = "5000")
+            @RequestParam(required = false, defaultValue = "5000") final Long lastParty) {
+
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(townMainService.getCarts(pageable));
+        return new SuccessResponse<>(townMainService.getCarts(pageable, startMoney, lastMoney, startParty, lastParty));
     }
 
 }

@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.town.main.service;
 import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.search.response.*;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.main.repository.CartPageRepository;
 import com.api.ttoklip.domain.town.main.repository.CommunityPageRepository;
@@ -19,6 +20,7 @@ public class TownMainService {
 
     private final CommunityPageRepository communityPageRepository;
     private final CartPageRepository cartPageRepository;
+    private final CartSearchRepository cartSearchRepository;
 
     public CommunityPaging getCommunities(final Pageable pageable) {
 
@@ -42,22 +44,23 @@ public class TownMainService {
 
     }
 
-    public CartSearchPaging getCarts(final Pageable pageable) {
+    public CartSearchPaging getCarts(final Pageable pageable,
+                                     final Long startMoney,
+                                     final Long lastMoney,
+                                     final Long startParty,
+                                     final Long lastParty) {
 
-        Page<Cart> contentPaging = cartPageRepository.findAllByOrderByIdDesc(pageable);
+        Page<Cart> contentPaging = cartSearchRepository.getContain(pageable, startMoney, lastMoney, startParty, lastParty);
 
-        System.out.println("--------------------49");
         // List<Entity>
         List<Cart> contents = contentPaging.getContent();
 
-        System.out.println("--------------------53");
 
         // Entity -> SingleResponse 반복
         List<UserCartSingleResponse> cartSingleData = contents.stream()
                 .map(UserCartSingleResponse::cartFrom)
                 .toList();
 
-        System.out.println("--------------------60");
 
         return CartSearchPaging.builder()
                 .carts(cartSingleData)
