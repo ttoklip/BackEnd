@@ -64,6 +64,10 @@ public enum ErrorType {
     COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다."),
 
 
+    // ------------------------------------------ Inquiry ------------------------------------------
+    INQUIRY_NOT_FOUND(NOT_FOUND, "Inquiry_4040", "문의사항을 찾을 수 없습니다."),
+    FAQ_NOT_FOUND(NOT_FOUND, "Faq_4040", "FAQ를 찾을 수 없습니다."),
+
     // ------------------------------------------ HoneyTip ------------------------------------------
     HONEY_TIP_NOT_FOUND(NOT_FOUND, "HoneyTip_4040", "꿀팁공유해요를 찾을 수 없습니다."),
 
@@ -110,6 +114,7 @@ public enum ErrorType {
     UNAUTHORIZED_EDIT_POST(FORBIDDEN, "AUTH_4031", "게시글의 작성자만 수정할 수 있습니다."),
     UNAUTHORIZED_DELETE_COMMENT(FORBIDDEN, "AUTH_4032", "댓글의 작성자만 삭제할 수 있습니다."),
     UNAUTHORIZED_CANCEL_LIKE(FORBIDDEN, "AUTH_4033", "좋아요한 사용자만 본인의 좋아요를 취소할 수 있습니다."),
+
 
 
     // ------------------------------------------ Privacy ------------------------------------------
