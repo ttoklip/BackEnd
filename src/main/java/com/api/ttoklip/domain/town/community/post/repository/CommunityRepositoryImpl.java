@@ -121,7 +121,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 )
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(newsletter.id.desc())
+                .orderBy(community.id.desc())
                 .fetch();
     }
 
