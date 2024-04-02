@@ -17,6 +17,8 @@ import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -135,14 +137,6 @@ public class CommunityPostService {
 
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
-//    public void delete(final Long postId) {
-//        Community community = findCommunity(postId);
-//        community.deactivate(); // 비활성화
-//    }
-
-
-    /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
-
     @Transactional
     public Message delete(final Long postId) {
         Community community = communityCommonService.getCommunity(postId);
@@ -154,13 +148,8 @@ public class CommunityPostService {
         return Message.deletePostSuccess(Community.class, postId);
     }
 
-    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+    /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
 
-//    @Transactional
-//    public Message like(final Long postId) {
-//        communityLikeService.register(postId);
-//        return Message.likePostSuccess(Community.class, postId);
-//    }
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
@@ -170,6 +159,7 @@ public class CommunityPostService {
 
         return Message.reportPostSuccess(Community.class, postId);
     }
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
     /* -------------------------------------------- LIKE -------------------------------------------- */
     @Transactional
@@ -210,4 +200,10 @@ public class CommunityPostService {
 
     /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- Community 페이징 -------------------------------------------- */
+    public Page<Community> getPaging(final Pageable pageable) {
+        return communityRepository.getPaging(pageable);
+    }
+    /* -------------------------------------------- Community 끝 -------------------------------------------- */
 }
