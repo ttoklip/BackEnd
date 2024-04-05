@@ -16,10 +16,10 @@ public class Message {
     @Schema(type = "string", example = "메시지 문구를 출력합니다.", description = "메시지 입니다.")
     private String message;
 
-    private static final String COMMENT = "댓글";
+    public static final String COMMENT = "댓글";
     private static final String POST = "게시글";
-    private static final String LIKE = "좋아요";
-    private static final String SCRAP = "스크랩";
+    public static final String LIKE = "좋아요";
+    public static final String SCRAP = "스크랩";
     private static final String PARTY = "공구 참여";
     private static final String CREATE = "생성";
     private static final String STATUS = "상태";
