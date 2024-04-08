@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.join.service;
 
-import com.api.ttoklip.domain.join.dto.JoinRequest;
+import com.api.ttoklip.domain.join.dto.request.JoinRequest;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;

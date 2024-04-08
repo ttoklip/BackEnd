@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.join.dto;
+package com.api.ttoklip.domain.join.dto.request;
 
 import lombok.Getter;
 
