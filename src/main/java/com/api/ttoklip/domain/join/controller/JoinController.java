@@ -38,8 +38,8 @@ public class JoinController {
                             (schema = @Schema(implementation = ApiExceptionResponse.class)))
     })
     @PostMapping("/signup")
-    public void signup(@RequestBody RegisterRequest request) {
-        joinService.register(request);
+    public void signup(@RequestBody JoinRequest request) {
+        joinService.join(request);
     }
 
     @Operation(summary = "로그인", description = "직접 로그인을 진행합니다.")
