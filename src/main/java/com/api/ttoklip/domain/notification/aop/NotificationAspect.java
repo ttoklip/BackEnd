@@ -4,7 +4,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.notification.dto.request.NotificationRequest;
-import com.api.ttoklip.domain.notification.service.FCMNotificationService;
+import com.api.ttoklip.domain.notification.service.NotificationDispatcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NotificationAspect {
 
-    private final FCMNotificationService fcmNotificationService;
+    private final NotificationDispatcher notificationDispatcher;
 
     @AfterReturning(value = "@annotation(notification)")
     public void afterScrapNotification(JoinPoint joinPoint, SendNotification notification) {
@@ -27,7 +27,7 @@ public class NotificationAspect {
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String methodName = joinPoint.getSignature().getName();
 
-        fcmNotificationService.sendNotification(
+        notificationDispatcher.dispatchNotification(
                 NotificationRequest.of(getCurrentMember().getId(), className, methodName)
         );
     }

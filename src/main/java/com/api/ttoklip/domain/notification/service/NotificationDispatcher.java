@@ -14,20 +14,20 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FCMNotificationService {
+public class NotificationDispatcher {
 
-    private final FCMManager fcmManager;
+    private final FCMService fcmService;
     private final MemberService memberService;
-    private final NotificationService notificationService;
+    private final NotificationRegistry notificationRegistry;
 
-    public void sendNotification(final NotificationRequest request) {
+    public void dispatchNotification(final NotificationRequest request) {
         Member member = memberService.findById(request.targetMemberId());
         String fcmToken = member.getFcmToken();
         validFCMToken(fcmToken);
 
-        NotiCategory notiCategory = notificationService.judgeNotiCategory(request.className(), request.methodName());
-        notificationService.register(notiCategory, member);
-        fcmManager.send(notiCategory, fcmToken);
+        NotiCategory notiCategory = notificationRegistry.determineNotiCategory(request.className(), request.methodName());
+        notificationRegistry.register(notiCategory, member);
+        fcmService.sendNotification(notiCategory, fcmToken);
         log.info("[Send Notification Success]" + Message.sendAlarmSuccess().getMessage());
     }
 

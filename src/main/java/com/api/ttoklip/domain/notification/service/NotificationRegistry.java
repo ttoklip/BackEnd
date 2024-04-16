@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class NotificationService {
+public class NotificationRegistry {
 
     private final NotificationRepository notificationRepository;
 
@@ -23,7 +23,7 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
-    public NotiCategory judgeNotiCategory(final String className, final String methodName) {
+    public NotiCategory determineNotiCategory(final String className, final String methodName) {
         // 클래스 이름과 메서드 이름을 검사하여 알림 종류를 판단
 
         // ToDo Notification Entity 저장 로직

@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FCMManager {
+public class FCMService {
 
     private static final String TEXT_DATA_NAME = "text";
     private static final String TITLE_DATA_NAME = "title";
 
-    public void send(
+    public void sendNotification(
             final NotiCategory categoryName,
             final String fcmToken
     ) {
