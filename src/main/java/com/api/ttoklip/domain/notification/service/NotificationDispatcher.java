@@ -26,6 +26,7 @@ public class NotificationDispatcher {
     private final FCMService fcmService;
     private final MemberService memberService;
     private final NotificationRegistry notificationRegistry;
+    private final NotificationTargetFilter filter;
 
     public void dispatchNotification(final NotificationRequest request) {
         NotiCategory notiCategory = notificationRegistry.determineNotiCategory(request.className(),
@@ -48,14 +49,14 @@ public class NotificationDispatcher {
 
         // 댓글이 생성됨을 게시글 작성자에게 알려야하는데 현재 사용자가 게시글 작성자가 맞다면
         if (notifyPostWriter) {
-            if (determinePostNoticeTarget(comment)) {
+            if (filter.determinePostNoticeTarget(comment)) {
                 dispatch(targetMemberId, notiCategory);
             }
         }
 
-        // 답글이 생성됨을 댓글 작성자에게 알려야하는데 현재 사용자가 댓글 작성자가 맞다면
+        // 답글이고 & 답글이 생성됨을 댓글 작성자에게 알려야하는데 현재 사용자가 댓글 작성자가 맞다면
         if (notifyCommentWriter && (comment.getParent() != null)) {
-            if (determineCommentNoticeTarget(comment)) {
+            if (filter.determineCommentNoticeTarget(comment)) {
                 dispatch(targetMemberId, notiCategory);
             }
         }
@@ -76,52 +77,5 @@ public class NotificationDispatcher {
             log.error("[Send Notification ERROR] --- ERROR !!");
             throw new ApiException(ErrorType._USER_FCM_TOKEN_NOT_FOUND);
         }
-    }
-
-    // ToDo FetchJoin
-    private boolean determineCommentNoticeTarget(final Comment comment) {
-        // 댓글 작성자가 맞는지 필터링
-        Long parentCommentWriterId = comment.getParent().getMember().getId();
-        if (getCurrentMember().getId().equals(parentCommentWriterId)) {
-            return true;
-        }
-        return false;
-    }
-
-    // ToDo FetchJoin
-    private boolean determinePostNoticeTarget(final Comment comment) {
-        // 꿀팁공유해요 작성자가 맞는지 필터링
-        if (comment instanceof HoneyTipComment honeyTipComment) {
-            Long honeyTipWriterId = honeyTipComment.getHoneyTip().getMember().getId();
-            if (getCurrentMember().getId().equals(honeyTipWriterId)) {
-                return true;
-            }
-        }
-
-        // 질문해요 작성자가 맞는지 필터링
-        if (comment instanceof QuestionComment questionComment) {
-            Long questionWriterId = questionComment.getQuestion().getMember().getId();
-            if (getCurrentMember().getId().equals(questionWriterId)) {
-                return true;
-            }
-        }
-
-        // 함께해요 작성자가 맞는지 필터링
-        if (comment instanceof CartComment cartComment) {
-            Long cartWriterId = cartComment.getCart().getMember().getId();
-            if (getCurrentMember().getId().equals(cartWriterId)) {
-                return true;
-            }
-        }
-
-        // 소통해요 작성자가 맞는지 필터링
-        if (comment instanceof CommunityComment communityComment) {
-            Long communityWriterId = communityComment.getCommunity().getMember().getId();
-            if (getCurrentMember().getId().equals(communityWriterId)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
