@@ -10,9 +10,11 @@ import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NotificationTargetFilter {
 
     private final NotificationCommentRepository notiCommentRepository;

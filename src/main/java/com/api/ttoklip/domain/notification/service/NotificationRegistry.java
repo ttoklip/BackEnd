@@ -38,7 +38,6 @@ public class NotificationRegistry {
             return NotiCategory.HONEY_TIP_HELPFUL; // 스크랩 생성에 대한 알림
         }
 
-        // ToDo Notification Entity 저장 로직
         // ToDo 알림 종류 판단 로직
         return NotiCategory.HONEY_TIP_COMMENT;
     }

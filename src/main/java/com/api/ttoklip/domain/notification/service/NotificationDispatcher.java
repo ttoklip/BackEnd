@@ -1,16 +1,10 @@
 package com.api.ttoklip.domain.notification.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.notification.dto.request.NotificationRequest;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
-import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
-import com.api.ttoklip.domain.town.cart.comment.CartComment;
-import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
@@ -41,7 +35,6 @@ public class NotificationDispatcher {
             log.info("[NOTICE BAD TYPE] 잘못된 로그가 반환되어 알림 AOP를 종료합니다.");
             return;
         }
-
         // 게시글 작성자에게 알릴 여부
         boolean notifyPostWriter = notiCategory.isNotifyPostWriter();
         // 댓글 작성자에게 알릴 여부
