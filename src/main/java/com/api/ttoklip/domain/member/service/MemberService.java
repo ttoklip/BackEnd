@@ -1,11 +1,13 @@
 package com.api.ttoklip.domain.member.service;
 
 import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_BY_TOKEN;
+import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_DB;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.repository.MemberOAuthRepository;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.success.Message;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberOAuthRepository memberOAuthRepository;
+
+    public Member findById(final Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_DB));
+    }
 
     public Member findByIdWithProfile(final Long memberId) {
         return memberOAuthRepository.findByIdWithProfile(memberId);
@@ -44,5 +51,10 @@ public class MemberService {
     @Transactional
     public void register(final Member member) {
         memberRepository.save(member);
+    }
+
+    public Message updateMemberFCMToken(final Member member, final String fcmToken) {
+        member.updateFcmToken(fcmToken);
+        return Message.updateFCM();
     }
 }

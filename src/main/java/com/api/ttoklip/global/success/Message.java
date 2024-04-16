@@ -118,4 +118,10 @@ public class Message {
                 .message("차단해제 하였습니다.")
                 .build();
     }
+
+    public static Message updateFCM() {
+        return Message.builder()
+                .message("FCM Token이 생성되었습니다.")
+                .build();
+    }
 }
