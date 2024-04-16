@@ -96,6 +96,7 @@ public enum ErrorType {
     _USER_NOT_FOUND_BY_TOKEN(NOT_FOUND, "USER_4040", "제공된 토큰으로 사용자를 찾을 수 없습니다."),
     _UNAUTHORIZED(UNAUTHORIZED, "USER_4010", "로그인되지 않은 상태입니다."),
     _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
+    _USER_FCM_TOKEN_NOT_FOUND(NOT_FOUND, "USER_4042", "FCM 토큰이 없습니다."),
 
 
     // ------------------------------------------ LIKE ------------------------------------------
@@ -120,6 +121,9 @@ public enum ErrorType {
 
     // ------------------------------------------ Query ------------------------------------------
     INVALID_SORT_TYPE(BAD_REQUEST, "Sort_4041", "지원하지 않는 조회 타입입니다."),
+
+    // ------------------------------------------ Infra ------------------------------------------
+    _NOT_SEND_ABLE(INTERNAL_SERVER_ERROR, "Firebase_5001", "Firebase를 통해 알림을 전송할 수 없습니다."),
 
     ;
 

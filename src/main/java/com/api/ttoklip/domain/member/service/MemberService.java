@@ -53,6 +53,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional
     public Message updateMemberFCMToken(final Member member, final String fcmToken) {
         member.updateFcmToken(fcmToken);
         return Message.updateFCM();
