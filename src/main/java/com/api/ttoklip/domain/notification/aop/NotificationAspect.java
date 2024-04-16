@@ -1,9 +1,11 @@
 package com.api.ttoklip.domain.notification.aop;
 
-import static com.api.ttoklip.global.success.Message.SCRAP;
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
-import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.domain.notification.dto.request.NotificationRequest;
+import com.api.ttoklip.domain.notification.service.FCMNotificationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -13,24 +15,20 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class NotificationAspect {
 
-    @AfterReturning(value = "@annotation(notification)", returning = "message")
-    public void afterScrapNotification(JoinPoint joinPoint, SendNotification notification, Message message) {
+    private final FCMNotificationService fcmNotificationService;
 
+    @AfterReturning(value = "@annotation(notification)")
+    public void afterScrapNotification(JoinPoint joinPoint, SendNotification notification) {
         log.info("[Notification] {}", joinPoint.getSignature());
-        // Scrap 알림 발송
-        if (message != null && message.getMessage().contains(SCRAP)) {
-            sendHoneyTipScrap(message.getMessage());
-        }
 
-    }
+        String className = joinPoint.getTarget().getClass().getSimpleName();
+        String methodName = joinPoint.getSignature().getName();
 
-    // ToDo 추후 수정
-    private void sendHoneyTipScrap(final String message) {
-    }
-
-    // ToDo FCM 기능 완성
-    private void sendFCM() {
+        fcmNotificationService.sendNotification(
+                NotificationRequest.of(getCurrentMember().getId(), className, methodName)
+        );
     }
 }
