@@ -16,26 +16,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FCMNotificationService {
 
-    private final MemberService memberService;
     private final FCMManager fcmManager;
+    private final MemberService memberService;
+    private final NotificationService notificationService;
 
     public void sendNotification(final NotificationRequest request) {
         Member member = memberService.findById(request.targetMemberId());
         String fcmToken = member.getFcmToken();
         validFCMToken(fcmToken);
 
-        NotiCategory notiCategory = judgeNotiCategory(request.className(), request.methodName());
+        NotiCategory notiCategory = notificationService.judgeNotiCategory(request.className(), request.methodName());
+        notificationService.register(notiCategory, member);
         fcmManager.send(notiCategory, fcmToken);
         log.info("[Send Notification Success]" + Message.sendAlarmSuccess().getMessage());
     }
-
-    private NotiCategory judgeNotiCategory(final String className, final String methodName) {
-        // ToDo Notification Entity 저장 로직
-
-        // ToDo 알림 종류 판단 로직
-        return NotiCategory.HONEY_TIP_SCRAP;
-    }
-
 
     private void validFCMToken(final String fcmToken) {
         if (fcmToken == null || fcmToken.isBlank()) {
