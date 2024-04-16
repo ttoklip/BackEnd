@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.notification.service;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
+import com.api.ttoklip.domain.notification.entity.Notification;
 import com.api.ttoklip.domain.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,8 @@ public class NotificationService {
 
     @Transactional
     public void register(final NotiCategory notiCategory, final Member member) {
-
+        Notification notification = Notification.of(member, notiCategory.getTitle(), notiCategory.getText(), notiCategory);
+        notificationRepository.save(notification);
     }
 
     public NotiCategory judgeNotiCategory(final String className, final String methodName) {

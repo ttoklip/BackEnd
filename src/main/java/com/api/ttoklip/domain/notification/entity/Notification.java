@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.notification.entity;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.Column;
@@ -14,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +39,23 @@ public class Notification extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private NotiCategory notiCategory;
 
-    @Enumerated(value = EnumType.STRING)
-    private Category category;
+
+    @Builder
+    private Notification(final Member member, final String title, final String text,
+                         final NotiCategory notiCategory) {
+        this.member = member;
+        this.title = title;
+        this.text = text;
+        this.notiCategory = notiCategory;
+    }
+
+    public static Notification of(Member member, String title, String text,
+                                  NotiCategory notiCategory) {
+        return Notification.builder()
+                .member(member)
+                .title(title)
+                .text(text)
+                .notiCategory(notiCategory)
+                .build();
+    }
 }
