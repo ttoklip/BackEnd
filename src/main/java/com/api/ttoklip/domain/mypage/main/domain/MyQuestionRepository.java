@@ -28,10 +28,9 @@ public class MyQuestionRepository {
     private List<Question> getSearchPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(question)
-                .where(question.member.id.eq(userId).and(question.deleted.eq(false)))
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
-                .fetchJoin()
+                .where(question.member.id.eq(userId).and(question.deleted.eq(false)))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(question.id.desc())
@@ -41,7 +40,6 @@ public class MyQuestionRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(question)
-                .distinct()
                 .fetchOne();
     }
 }

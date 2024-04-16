@@ -5,6 +5,7 @@ import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage
 import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
@@ -28,7 +29,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     public Cart findByIdActivated(final Long cartId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
-                .distinct()
                 .where(
                         matchId(cartId), getCartActivate()
                 )
@@ -52,7 +52,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .distinct()
                 .leftJoin(cart.cartImages, cartImage)
                 .leftJoin(cart.itemUrls, itemUrl)
-                .fetchJoin()
                 .where(
                         getCartActivate(),
                         cart.id.eq(cartPostId)
@@ -67,7 +66,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     public List<CartComment> findActiveCommentsByCartId(final Long cartId) {
         return jpaQueryFactory
                 .selectFrom(cartComment)
-                .distinct()
                 .where(
                         matchCartId(cartId)
                 )
@@ -87,12 +85,9 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     public Cart addParticipant(final Long cartId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
-//                .distinct()
-//                .leftJoin(member, cart.member)
-//                .fetchJoin()
                 .where(cart.id.eq(cartId))
                 .fetchOne();
-        Long memberId = SecurityUtil.getCurrentMember().getId();
+        Long memberId = getCurrentMember().getId();
 
         jpaQueryFactory
                 .insert(cartMember)

@@ -33,8 +33,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         QuestionComment findQuestionComment = jpaQueryFactory
                 .selectFrom(questionComment)
                 .distinct()
-                .leftJoin(questionComment.member, member)
-                .fetchJoin()
+                .leftJoin(questionComment.member, member).fetchJoin()
                 .where(
                         matchCommentId(commentId)
                 )
@@ -53,8 +52,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         Question findQuestion = jpaQueryFactory
                 .selectFrom(question)
                 .distinct()
-                .leftJoin(question.member, member)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(
                         matchId(questionId), getQuestionActivate()
                 )
@@ -76,9 +74,8 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         Question findQuestion = jpaQueryFactory
                 .selectFrom(question)
                 .distinct()
-                .leftJoin(question.member, member)
                 .leftJoin(question.questionImages, questionImage)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(question.id.eq(questionPostId))
                 .fetchOne();
 
@@ -122,7 +119,6 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                         matchCategory(category)
                 )
                 .leftJoin(question.questionComments, questionComment)
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(question.id.desc())
@@ -137,7 +133,6 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(question)
-                .distinct()
                 .where(
                         matchCategory(category)
                 )

@@ -18,11 +18,9 @@ public class NewsletterDefaultRepository {
 
     public List<Newsletter> getHouseWork() {
         return jpaQueryFactory
-                .select(newsletter)
-                .from(newsletter)
+                .selectFrom(newsletter)
                 .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
-                .fetchJoin()
                 .where(newsletter.category.eq(Category.HOUSEWORK))
                 .limit(10)
                 .orderBy(newsletter.id.desc())
@@ -31,11 +29,9 @@ public class NewsletterDefaultRepository {
 
     public List<Newsletter> getRecipe() {
         return jpaQueryFactory
-                .select(newsletter)
-                .from(newsletter)
+                .selectFrom(newsletter)
                 .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
-                .fetchJoin()
                 .where(newsletter.category.eq(Category.RECIPE))
                 .limit(10)
                 .orderBy(newsletter.id.desc())
@@ -44,11 +40,9 @@ public class NewsletterDefaultRepository {
 
     public List<Newsletter> getSafeLiving() {
         return jpaQueryFactory
-                .select(newsletter)
-                .from(newsletter)
+                .selectFrom(newsletter)
                 .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
-                .fetchJoin()
                 .where(newsletter.category.eq(Category.SAFE_LIVING))
                 .limit(10)
                 .orderBy(newsletter.id.desc())
@@ -57,11 +51,9 @@ public class NewsletterDefaultRepository {
 
     public List<Newsletter> getWelfarePolicy() {
         return jpaQueryFactory
-                .select(newsletter)
-                .from(newsletter)
+                .selectFrom(newsletter)
                 .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
-                .fetchJoin()
                 .where(newsletter.category.eq(Category.WELFARE_POLICY))
                 .limit(10)
                 .orderBy(newsletter.id.desc())

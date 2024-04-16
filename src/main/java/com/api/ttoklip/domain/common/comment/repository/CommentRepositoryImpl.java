@@ -19,7 +19,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     public Comment findByIdActivated(final Long commentId) {
         Comment findComment = jpaQueryFactory
                 .selectFrom(comment)
-                .distinct()
                 .where(
                         matchId(commentId)
                 )
@@ -32,7 +31,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     public Optional<Comment> findByIdActivatedOptional(final Long commentId) {
         Comment findComment = jpaQueryFactory
                 .selectFrom(comment)
-                .distinct()
                 .where(
                         matchId(commentId)
                 )

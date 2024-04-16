@@ -76,8 +76,7 @@ public class NewsletterSearchRepository {
 
     private JPAQuery<Newsletter> defaultQuery(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
-                .select(newsletter)
-                .from(newsletter)
+                .selectFrom(newsletter)
                 .distinct()
                 .where(
                         containTitle(keyword)
@@ -85,7 +84,6 @@ public class NewsletterSearchRepository {
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .leftJoin(newsletter.newsletterLikes, newsletterLike)
                 .leftJoin(newsletter.newsletterScraps, newsletterScrap)
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
@@ -101,7 +99,6 @@ public class NewsletterSearchRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(newsletter)
-                .distinct()
                 .where(
                         containTitle(keyword)
                 )

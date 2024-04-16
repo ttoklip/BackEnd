@@ -62,7 +62,7 @@ public enum ErrorType {
 
     // ------------------------------------------ Comment ------------------------------------------
     COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다."),
-
+    COMMENT_IS_DISABLE(BAD_REQUEST, "Comment_4041", "삭제된 댓글에는 답글을 작성할 수 없습니다."),
 
     // ------------------------------------------ HoneyTip ------------------------------------------
     HONEY_TIP_NOT_FOUND(NOT_FOUND, "HoneyTip_4040", "꿀팁공유해요를 찾을 수 없습니다."),
