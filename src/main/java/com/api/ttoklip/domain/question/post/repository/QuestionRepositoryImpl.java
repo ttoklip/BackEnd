@@ -36,7 +36,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .leftJoin(questionComment.member, member)
                 .fetchJoin()
                 .where(
-                        matchCommentId(commentId), getQuestionCommentActivate()
+                        matchCommentId(commentId)
                 )
 //                .fetchFirst();
                 .fetchOne();
@@ -46,10 +46,6 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     private BooleanExpression matchCommentId(final Long commentId) {
         return questionComment.id.eq(commentId);
-    }
-
-    private BooleanExpression getQuestionCommentActivate() {
-        return questionComment.deleted.isFalse();
     }
 
     @Override
@@ -149,9 +145,5 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     }
 
     // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 끝 ------------------------------------
-
-    private BooleanExpression getCommentActivate() {
-        return questionComment.deleted.isFalse();
-    }
 
 }
