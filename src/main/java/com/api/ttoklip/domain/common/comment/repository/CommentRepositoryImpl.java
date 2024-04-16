@@ -21,7 +21,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .selectFrom(comment)
                 .distinct()
                 .where(
-                        matchId(commentId), getCommentActivate()
+                        matchId(commentId)
                 )
                 .fetchOne();
         return Optional.ofNullable(findComment)
@@ -34,7 +34,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .selectFrom(comment)
                 .distinct()
                 .where(
-                        matchId(commentId), getCommentActivate()
+                        matchId(commentId)
                 )
                 .fetchOne();
         return Optional.ofNullable(findComment);
@@ -44,7 +44,4 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         return comment.id.eq(commentId);
     }
 
-    private BooleanExpression getCommentActivate() {
-        return comment.deleted.isFalse();
-    }
 }
