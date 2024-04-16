@@ -25,6 +25,15 @@ public class NotificationRegistry {
 
     public NotiCategory determineNotiCategory(final String className, final String methodName) {
         // 클래스 이름과 메서드 이름을 검사하여 알림 종류를 판단
+        if ("HoneyTipScrapService".equals(className) && "register".equals(methodName)) {
+            return NotiCategory.HONEY_TIP_SCRAP; // 스크랩 생성에 대한 알림
+        }
+
+        if ("HoneyTipLikeService".equals(className) && "register".equals(methodName)) {
+            return NotiCategory.HONEY_TIP_HELPFUL; // 스크랩 생성에 대한 알림
+        }
+
+
 
         // ToDo Notification Entity 저장 로직
         // ToDo 알림 종류 판단 로직

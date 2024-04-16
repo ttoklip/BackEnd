@@ -247,7 +247,7 @@ public class HoneyTipPostService {
     /* -------------------------------------------- 스크랩 추가 & 취소 -------------------------------------------- */
     @Transactional
     public Message registerScrap(Long postId) {
-        honeyTipScrapService.registerScrap(postId);
+        honeyTipScrapService.register(postId);
         return Message.scrapPostSuccess(HoneyTip.class, postId);
     }
 

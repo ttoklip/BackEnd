@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.scrap.repository.HoneyTipScrapRepository;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,8 @@ public class HoneyTipScrapService {
     private final HoneyTipCommonService honeyTipCommonService;
 
     // 스크랩 생성
-    public void registerScrap(final Long honeyTipId) {
+    @SendNotification
+    public void register(final Long honeyTipId) {
         Long currentMemberId = getCurrentMember().getId();
         boolean exists = honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
         if (exists) {
