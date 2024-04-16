@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.notification.annotation;
+package com.api.ttoklip.domain.notification.aop.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

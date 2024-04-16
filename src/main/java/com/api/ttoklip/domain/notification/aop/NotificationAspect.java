@@ -1,8 +1,8 @@
-package com.api.ttoklip.domain.notification;
+package com.api.ttoklip.domain.notification.aop;
 
 import static com.api.ttoklip.global.success.Message.SCRAP;
 
-import com.api.ttoklip.domain.notification.annotation.SendNotification;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.global.success.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
