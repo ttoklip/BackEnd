@@ -21,6 +21,6 @@ public class CommentNotificationAspect {
     public void handleCommentNotification(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         Comment comment = (Comment) args[0];
-        notificationDispatcher.dispatchCommentNotification(getCurrentMember().getId(), comment);
+        notificationDispatcher.dispatchCommentNotification(comment);
     }
 }

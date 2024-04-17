@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class NotificationDispatcher {
     private final FCMService fcmService;
     private final MemberService memberService;
     private final NotificationRegistry notificationRegistry;
-    private final NotificationTargetFilter filter;
+    private final NotificationTargetFinder finder;
 
     public void dispatchNotification(final NotificationRequest request) {
         NotiCategory notiCategory = notificationRegistry.determineNotiCategory(request.className(),
@@ -29,7 +30,7 @@ public class NotificationDispatcher {
     }
 
     // 댓글 알림 타겟 결정 및 알림 전송
-    public void dispatchCommentNotification(final Long targetMemberId, final Comment comment) {
+    public void dispatchCommentNotification(final Comment comment) {
         NotiCategory notiCategory = notificationRegistry.determineCommentNotiCategory(comment);
         if (notiCategory.equals(NotiCategory.BAD_TYPE_NOTIFICATION)) {
             log.info("[NOTICE BAD TYPE] 잘못된 로그가 반환되어 알림 AOP를 종료합니다.");
@@ -40,18 +41,19 @@ public class NotificationDispatcher {
         // 댓글 작성자에게 알릴 여부
         boolean notifyCommentWriter = notiCategory.isNotifyCommentWriter();
 
-        // 댓글이 생성됨을 게시글 작성자에게 알려야하는데 현재 사용자가 게시글 작성자가 맞다면
+        // (댓글과 답글 모두인 경우) 생성됨을 게시글 작성자에게 알려야하므로 게시글 작성자의 ID로 전송
         if (notifyPostWriter) {
-            if (filter.determinePostNoticeTarget(comment)) {
-                dispatch(targetMemberId, notiCategory);
+            Optional<Long> optionalWriterId = finder.getPostWriterId(comment);
+            if (optionalWriterId.isPresent()) {
+                Long writerId = optionalWriterId.get();
+                dispatch(writerId, notiCategory);
             }
         }
 
-        // 답글이고 & 답글이 생성됨을 댓글 작성자에게 알려야하는데 현재 사용자가 댓글 작성자가 맞다면
+        // 답글이고 & 답글이 생성됨을 댓글 작작성자에게 알려야하므로 댓글(부모 댓글) 작성자의 ID로 전송
         if (notifyCommentWriter && (comment.getParent() != null)) {
-            if (filter.determineCommentNoticeTarget(comment)) {
-                dispatch(targetMemberId, notiCategory);
-            }
+            Long parentCommentWriterId = finder.getParentCommentWriterId(comment);
+            dispatch(parentCommentWriterId, notiCategory);
         }
     }
 
