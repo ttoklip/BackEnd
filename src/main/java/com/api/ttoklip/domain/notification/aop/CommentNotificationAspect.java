@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -17,10 +18,11 @@ public class CommentNotificationAspect {
 
     private final NotificationDispatcher notificationDispatcher;
 
-    @AfterReturning(pointcut = "execution(* com.api.ttoklip.domain.common.comment.service.CommentService.register())")
-    public void handleCommentNotification(JoinPoint joinPoint) {
-        Object[] args = joinPoint.getArgs();
-        Comment comment = (Comment) args[0];
+    @Pointcut("execution(* com.api.ttoklip.domain.common.comment.service.CommentService.register(com.api.ttoklip.domain.common.comment.Comment))")
+    private void commentPointCut() {}
+
+    @AfterReturning(pointcut = "commentPointCut() && args(comment)")
+    public void handleCommentNotification(Comment comment) {
         notificationDispatcher.dispatchCommentNotification(comment);
     }
 }
