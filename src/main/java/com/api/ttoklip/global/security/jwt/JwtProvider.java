@@ -31,8 +31,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    // 24시간 ToDo 개발 편의를 위해 늘려놓음 추후 수정
-    public static final long ACCESS_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
+    // 24시간 * 7 ToDo 개발 편의를 위해 늘려놓음 추후 수정
+    public static final long ACCESS_TOKEN_VALID_TIME = 7 * 24 * 60 * 60 * 1000L;
     private final MemberService memberService;
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
