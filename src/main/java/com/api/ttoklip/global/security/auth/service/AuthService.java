@@ -39,8 +39,8 @@ public class AuthService {
             Member member = memberOptional.get();
 
             boolean equalsProvider = member.getProvider().equals(provider);
-            boolean isKakaoMember = member.getProvider().equals("KAKAO");
-            boolean isNaverMember = member.getProvider().equals("NAVER");
+            boolean isKakaoMember = member.getProvider().equals("kakao");
+            boolean isNaverMember = member.getProvider().equals("naver");
             if (!equalsProvider && isKakaoMember) {
                 throw new ApiException(ErrorType._USER_ALREADY_KAKAO_PLATFORM);
             }
