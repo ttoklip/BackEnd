@@ -97,6 +97,8 @@ public enum ErrorType {
     _UNAUTHORIZED(UNAUTHORIZED, "USER_4010", "로그인되지 않은 상태입니다."),
     _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
     _USER_FCM_TOKEN_NOT_FOUND(NOT_FOUND, "USER_4042", "FCM 토큰이 없습니다."),
+    _USER_ALREADY_KAKAO_PLATFORM(BAD_REQUEST, "USER_4043", "이미 카카오로 가입된 회원입니다."),
+    _USER_ALREADY_NAVER_PLATFORM(BAD_REQUEST, "USER_4043", "이미 네이버로 가입된 회원입니다."),
 
 
     // ------------------------------------------ LIKE ------------------------------------------

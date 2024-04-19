@@ -5,6 +5,8 @@ import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.security.auth.dto.LoginRequest;
 import com.api.ttoklip.global.security.auth.dto.LoginResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
@@ -35,6 +37,17 @@ public class AuthService {
         if (memberOptional.isPresent()) {
             // 이미 우리 회원일 때
             Member member = memberOptional.get();
+
+            boolean equalsProvider = member.getProvider().equals(provider);
+            boolean isKakaoMember = member.getProvider().equals("KAKAO");
+            boolean isNaverMember = member.getProvider().equals("NAVER");
+            if (!equalsProvider && isKakaoMember) {
+                throw new ApiException(ErrorType._USER_ALREADY_KAKAO_PLATFORM);
+            }
+
+            if (!equalsProvider && isNaverMember) {
+                throw new ApiException(ErrorType._USER_ALREADY_NAVER_PLATFORM);
+            }
             return alreadyOurUser(member);
         }
 
