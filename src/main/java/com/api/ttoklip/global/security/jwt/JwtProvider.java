@@ -37,9 +37,11 @@ public class JwtProvider {
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
 
-    public String generateJwtToken(final String email) {
+    public String generateJwtToken(final String email, final String provider) {
 
-        Claims claims = createClaims(email);
+        JwtDto jwtDto = JwtDto.of(email, provider);
+
+        Claims claims = createClaims(jwtDto);
         Date now = new Date();
         long expiredDate = calculateExpirationDate(now);
         SecretKey secretKey = generateKey();
@@ -53,8 +55,10 @@ public class JwtProvider {
     }
 
     // JWT claims 생성
-    private Claims createClaims(final String email) {
-        return Jwts.claims().setSubject(String.valueOf(email));
+    private Claims createClaims(final JwtDto jwtDto) {
+        String email = jwtDto.email();
+        String provider = jwtDto.provider();
+        return Jwts.claims().setSubject(email + "#" + provider);
     }
 
     // JWT 만료 시간 계산
