@@ -11,7 +11,9 @@ import com.api.ttoklip.global.success.Message;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -26,11 +28,13 @@ public class NotificationDispatcher {
     public void dispatchNotification(final NotificationRequest request) {
         NotiCategory notiCategory = notificationRegistry.determineNotiCategory(request.className(),
                 request.methodName());
-        dispatch(request.targetMemberId(), notiCategory);
+        // dispatch(0L, notiCategory);
     }
 
     // 댓글 알림 타겟 결정 및 알림 전송
+    @Transactional
     public void dispatchCommentNotification(final Comment comment) {
+        log.info("========== NotificationDispatcher.dispatchCommentNotification");
         NotiCategory notiCategory = notificationRegistry.determineCommentNotiCategory(comment);
         if (notiCategory.equals(NotiCategory.BAD_TYPE_NOTIFICATION)) {
             log.info("[NOTICE BAD TYPE] 잘못된 로그가 반환되어 알림 AOP를 종료합니다.");
@@ -58,10 +62,11 @@ public class NotificationDispatcher {
     }
 
     private void dispatch(final Long targetMemberId, final NotiCategory notiCategory) {
+        log.info("========== NotificationDispatcher.dispatch");
+
         Member findMember = memberService.findById(targetMemberId);
         String fcmToken = findMember.getFcmToken();
         validFCMToken(fcmToken);
-
         notificationRegistry.register(notiCategory, findMember);
         fcmService.sendNotification(notiCategory, fcmToken);
         log.info("[Send Notification Success]" + Message.sendAlarmSuccess().getMessage());
