@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.join.controller;
 
+import com.api.ttoklip.domain.join.dto.request.JoinRequest;
 import com.api.ttoklip.domain.join.dto.response.LoginResponse;
 import com.api.ttoklip.domain.join.service.JoinService;
 import com.api.ttoklip.global.exception.ApiExceptionResponse;
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class JoinController {
 
     private final JoinService joinService;
+
+    /* --------------------------------- signup --------------------------------- */
     @Operation(summary = "회원가입", description = "직접 회원가입을 진행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공"),
@@ -42,6 +45,7 @@ public class JoinController {
         joinService.join(request);
     }
 
+    /* --------------------------------- login --------------------------------- */
     @Operation(summary = "로그인", description = "직접 로그인을 진행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공"),
@@ -54,6 +58,7 @@ public class JoinController {
         return ResponseEntity.ok().body(loginResponse);
     }
 
+    /* --------------------------------- logout --------------------------------- */
     @Operation(summary = "로그아웃", description = "로그아웃을 진행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
@@ -64,4 +69,4 @@ public class JoinController {
     }
 }
 
-// todo 서비스 로직 구현
+// todo 서비스 로직 구현 필요 (JoinService)
