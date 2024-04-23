@@ -54,7 +54,7 @@ public class NotificationCommentRepository {
                 .where(honeyTipComment.id.eq(honeyTipCommentId))
                 .fetchOne();
         return Optional.ofNullable(findHoneyTipComment)
-                .orElseThrow(() -> new ApiException(ErrorType.HONEY_TIP_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(ErrorType.HONEY_TIP_COMMENT_NOT_FOUND));
     }
 
     public QuestionComment findQuestionCommentFetchJoin(final Long questionCommentId) {
@@ -66,7 +66,7 @@ public class NotificationCommentRepository {
                 .where(questionComment.id.eq(questionCommentId))
                 .fetchOne();
         return Optional.ofNullable(findHoneyTipComment)
-                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(ErrorType.QUESTION_COMMENT_NOT_FOUND));
     }
 
     public CartComment findCartCommentFetchJoin(final Long cartCommentId) {
@@ -78,7 +78,7 @@ public class NotificationCommentRepository {
                 .where(cartComment.id.eq(cartCommentId))
                 .fetchOne();
         return Optional.ofNullable(findCartComment)
-                .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(ErrorType.CART_COMMENT_NOT_FOUND));
     }
 
     public CommunityComment findCommunityCommentFetchJoin(final Long communityCommentId) {
@@ -90,6 +90,6 @@ public class NotificationCommentRepository {
                 .where(communityComment.id.eq(communityCommentId))
                 .fetchOne();
         return Optional.ofNullable(findCommunityComment)
-                .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_COMMENT_NOT_FOUND));
     }
 }

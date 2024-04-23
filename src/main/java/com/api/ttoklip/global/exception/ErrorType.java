@@ -63,6 +63,10 @@ public enum ErrorType {
     // ------------------------------------------ Comment ------------------------------------------
     COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다."),
     COMMENT_IS_DISABLE(BAD_REQUEST, "Comment_4041", "삭제된 댓글에는 답글을 작성할 수 없습니다."),
+    HONEY_TIP_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4042", "꿀팁공유해요의 댓글을 찾을 수 없습니다."),
+    QUESTION_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4043", "질문해요의 댓글을 찾을 수 없습니다."),
+    CART_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4043", "함께해요의 댓글을 찾을 수 없습니다."),
+    COMMUNITY_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4043", "소통해요의 댓글을 찾을 수 없습니다."),
 
     // ------------------------------------------ HoneyTip ------------------------------------------
     HONEY_TIP_NOT_FOUND(NOT_FOUND, "HoneyTip_4040", "꿀팁공유해요를 찾을 수 없습니다."),
@@ -126,6 +130,7 @@ public enum ErrorType {
 
     // ------------------------------------------ Infra ------------------------------------------
     _NOT_SEND_ABLE(INTERNAL_SERVER_ERROR, "Firebase_5001", "Firebase를 통해 알림을 전송할 수 없습니다."),
+    _NOT_SEND_CONDITION(INTERNAL_SERVER_ERROR, "Firebase_5002", "FCM TOKEN 혹은 TOPIC이 잘못됐습니다."),
 
     ;
 
