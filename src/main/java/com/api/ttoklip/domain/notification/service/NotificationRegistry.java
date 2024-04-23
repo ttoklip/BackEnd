@@ -2,11 +2,8 @@ package com.api.ttoklip.domain.notification.service;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
-import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
-import com.api.ttoklip.domain.notification.entity.Notification;
-import com.api.ttoklip.domain.notification.repository.NotificationRepository;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NotificationRegistry {
-
-    private final NotificationRepository notificationRepository;
-
-    @Transactional
-    public void register(final NotiCategory notiCategory, final Member member) {
-        Notification notification = Notification.of(member, notiCategory.getTitle(), notiCategory.getText(), notiCategory);
-        notificationRepository.save(notification);
-    }
 
     public NotiCategory determineNotiCategory(final String className, final String methodName) {
         // 클래스 이름과 메서드 이름을 검사하여 알림 종류를 판단
