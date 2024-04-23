@@ -4,14 +4,14 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.notification.entity.CommentCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
-public class NotificationService {
+public class NotificationListener {
     private final NotificationDispatcher notificationDispatcher;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
@@ -20,5 +20,5 @@ public class NotificationService {
         Comment comment = event.getComment();
         notificationDispatcher.dispatchCommentNotification(comment);
     }
-}
 
+}
