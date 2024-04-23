@@ -35,16 +35,10 @@ public class NotificationTargetFinder {
     public Optional<Long> getPostWriterId(final Comment comment) {
         // 꿀팁공유해요 작성자가 맞는지 필터링
         if (comment instanceof HoneyTipComment findHoneyTipComment) {
-            log.info("================= NotificationTargetFinder.getPostWriterId");
-
-            log.info("findHoneyTipComment.getId() = " + findHoneyTipComment.getId());
-            log.info("findHoneyTipComment.getContent() = " + findHoneyTipComment.getContent());
 
             HoneyTipComment honeyTipComment = notiCommentRepository.findHoneyTipCommentFetchJoin(
                     findHoneyTipComment.getId());
-            log.info("flag1");
             Long honeyTipWriterId = honeyTipComment.getHoneyTip().getMember().getId();
-            log.info("flag2");
             return Optional.of(honeyTipWriterId);
         }
 
