@@ -39,10 +39,11 @@ public class Notification extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private NotiCategory notiCategory;
 
+    private boolean status;
 
     @Builder
     private Notification(final Member member, final String title, final String text,
-                         final NotiCategory notiCategory) {
+                         final NotiCategory notiCategory, boolean status) {
         this.member = member;
         this.title = title;
         this.text = text;
@@ -50,12 +51,13 @@ public class Notification extends BaseEntity {
     }
 
     public static Notification of(Member member, String title, String text,
-                                  NotiCategory notiCategory) {
+                                  NotiCategory notiCategory, boolean status) {
         return Notification.builder()
                 .member(member)
                 .title(title)
                 .text(text)
                 .notiCategory(notiCategory)
+                .status(status)
                 .build();
     }
 }
