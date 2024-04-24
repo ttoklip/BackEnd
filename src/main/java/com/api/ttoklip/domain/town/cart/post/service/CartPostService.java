@@ -49,10 +49,6 @@ public class CartPostService {
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
     }
 
-    public Cart getCart(final Long postId) {
-        return cartRepository.findByIdActivated(postId);
-    }
-
     private List<String> uploadImages(final List<MultipartFile> uploadImages) {
         return s3FileUploader.uploadMultipartFiles(uploadImages);
     }
@@ -120,7 +116,7 @@ public class CartPostService {
     @Transactional
     public Message edit(final Long postId, final CartCreateRequest request) {
 
-        Cart cart = getCart(postId);
+        Cart cart = findCartByIdActivated(postId);
 
         CartPostEditor postEditor = getPostEditor(request, cart);
         cart.edit(postEditor);
@@ -168,11 +164,11 @@ public class CartPostService {
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
     public void delete(final Long postId) {
-        Cart cart = findCart(postId);
+        Cart cart = findCartByIdActivated(postId);
         cart.deactivate(); // 비활성화
     }
 
-    public Cart findCart(final Long postId) {
+    public Cart findCartByIdActivated(final Long postId) {
         return cartRepository.findByIdActivated(postId);
     }
 

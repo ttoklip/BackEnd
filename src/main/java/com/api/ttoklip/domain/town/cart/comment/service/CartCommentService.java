@@ -6,7 +6,6 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
@@ -29,7 +28,7 @@ public class CartCommentService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public Message register(final Long postId, final CommentCreateRequest request) {
-        Cart findCart = cartPostService.findCart(postId);
+        Cart findCart = cartPostService.findCartByIdActivated(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();

@@ -32,6 +32,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .where(
                         matchId(cartId), getCartActivate()
                 )
+                .leftJoin(cart.member, member).fetchJoin()
                 .fetchOne();
         return Optional.ofNullable(findCart)
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
@@ -52,7 +53,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .distinct()
                 .leftJoin(cart.cartImages, cartImage)
                 .leftJoin(cart.itemUrls, itemUrl)
-                .leftJoin(cart.member, member)
+                .leftJoin(cart.member, member).fetchJoin()
                 .where(
                         getCartActivate(),
                         cart.id.eq(cartPostId)
