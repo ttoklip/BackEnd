@@ -27,8 +27,12 @@ public class NotificationAspect {
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String methodName = joinPoint.getSignature().getName();
 
+        // targetId
+        Object argumentObj = joinPoint.getArgs()[0];
+        Long targetIndex = (Long) argumentObj;
+
         notificationDispatcher.dispatchNotification(
-                NotificationRequest.of(getCurrentMember().getId(), className, methodName)
+                NotificationRequest.of(targetIndex, className, methodName)
         );
     }
 }

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum NotiCategory {
 
     HONEY_TIP_SCRAP("꿀팁 공유해요", "누군가가 글을 스크랩 했어요", true, false),
-    HONEY_TIP_HELPFUL("꿀팁 공유해요", "누군가에게 글이 도움이 되었대요", true, false),
+    HONEY_TIP_LIKE("꿀팁 공유해요", "누군가에게 글이 도움이 되었대요", true, false),
     HONEY_TIP_COMMENT("꿀팁 공유해요", "누군가가 댓글을 남겼어요", true, false),
     HONEY_TIP_CHILD_COMMENT("꿀팁 공유해요", "누군가 답글을 남겼어요", true, true),
 

@@ -24,11 +24,11 @@ public class NotificationRegistry {
         }
 
         if ("HoneyTipLikeService".equals(className) && "register".equals(methodName)) {
-            return NotiCategory.HONEY_TIP_HELPFUL; // 스크랩 생성에 대한 알림
+            return NotiCategory.HONEY_TIP_LIKE; // 스크랩 생성에 대한 알림
         }
 
         // ToDo 알림 종류 판단 로직
-        return NotiCategory.HONEY_TIP_COMMENT;
+        return NotiCategory.BAD_TYPE_NOTIFICATION;
     }
 
     public NotiCategory determineCommentNotiCategory(final Comment comment) {

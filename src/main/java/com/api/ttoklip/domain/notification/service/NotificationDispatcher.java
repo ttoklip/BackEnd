@@ -22,11 +22,31 @@ public class NotificationDispatcher {
     private final MemberService memberService;
     private final NotificationRegistry notificationRegistry;
     private final NotificationCommentTargetFinder commentTargetFinder;
+    private final NotificationPostTargetFinder postTargetFinder;
 
     public void dispatchNotification(final NotificationRequest request) {
         NotiCategory notiCategory = notificationRegistry.determineNotiCategory(request.className(),
                 request.methodName());
-//        dispatch(, notiCategory);
+
+        Long targetIndex = request.targetIndex();
+
+        if (notiCategory.equals(NotiCategory.BAD_TYPE_NOTIFICATION)) {
+            log.info("[NOTICE BAD TYPE] 잘못된 로그가 반환되어 알림 AOP를 종료합니다.");
+            return;
+        }
+
+        // 게시글 작성자에게 알릴 여부
+        boolean notifyPostWriter = notiCategory.isNotifyPostWriter();
+
+        if (notifyPostWriter) {
+            Optional<Long> optionalWriterId = postTargetFinder.getPostWriterId(notiCategory, targetIndex);
+
+            if (optionalWriterId.isPresent()) {
+                Long writerId = optionalWriterId.get();
+                dispatch(writerId, notiCategory);
+            }
+        }
+
     }
 
     // 댓글 알림 타겟 결정 및 알림 전송
