@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.notification.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
@@ -36,15 +38,12 @@ public class NotificationDispatcher {
         }
 
         // 게시글 작성자에게 알릴 여부
-        boolean notifyPostWriter = notiCategory.isNotifyPostWriter();
+        Optional<Long> optionalWriterId = postTargetFinder.getPostWriterId(notiCategory, targetIndex);
 
-        if (notifyPostWriter) {
-            Optional<Long> optionalWriterId = postTargetFinder.getPostWriterId(notiCategory, targetIndex);
+        if (optionalWriterId.isPresent()) {
+            Long writerId = optionalWriterId.get();
 
-            if (optionalWriterId.isPresent()) {
-                Long writerId = optionalWriterId.get();
-                dispatch(writerId, notiCategory);
-            }
+            dispatch(writerId, notiCategory);
         }
 
     }
@@ -80,6 +79,12 @@ public class NotificationDispatcher {
 
     private void dispatch(final Long targetMemberId, final NotiCategory notiCategory) {
         log.info("========== NotificationDispatcher.dispatch");
+
+        // 알림 받을 대상이 본인인 경우 전송 x
+        if (isSelfNotification(targetMemberId)) {
+            return;
+        }
+
         Member findMember = memberService.findById(targetMemberId);
         String fcmToken = findMember.getFcmToken();
 
@@ -91,7 +96,15 @@ public class NotificationDispatcher {
         }
         fcmService.sendNotification(notiCategory, findMember);
 
-         log.info("[Send Notification Success]" + Message.sendAlarmSuccess(findMember.getEmail()).getMessage());
+        log.info("[Send Notification Success]" + Message.sendAlarmSuccess(findMember.getEmail()).getMessage());
+    }
+
+    // 게시글에 좋아요, 스크랩을 남긴 사람이 본인인 경우 알림 전송 x
+    private boolean isSelfNotification(final Long writerId) {
+        if (getCurrentMember().getId().equals(writerId)) {
+            return true;
+        }
+        return false;
     }
 
     private void validFCMToken(final String fcmToken) {

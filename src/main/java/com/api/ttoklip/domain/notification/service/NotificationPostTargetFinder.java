@@ -30,12 +30,14 @@ public class NotificationPostTargetFinder {
         // 꿀팁공유해요 작성자 반환
         if (request.equals(NotiCategory.HONEY_TIP_SCRAP) || request.equals(NotiCategory.HONEY_TIP_LIKE)) {
             HoneyTip honeytip = honeyTipCommonService.getHoneytip(targetIndex);
-            return Optional.of(honeytip.getMember().getId());
+            Long writerId = honeytip.getMember().getId();
+            return Optional.of(writerId);
         }
 
         if (request.equals(NotiCategory.OUR_TOWN_SCRAP)) {
             Community community = communityCommonService.getCommunity(targetIndex);
-            return Optional.of(community.getMember().getId());
+            Long writerId = community.getMember().getId();
+            return Optional.of(writerId);
         }
 
         if (request.equals(NotiCategory.OUR_TOWN_TOGETHER)) {
