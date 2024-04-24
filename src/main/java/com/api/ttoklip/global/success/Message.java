@@ -124,9 +124,9 @@ public class Message {
                 .build();
     }
 
-    public static Message sendAlarmSuccess() {
+    public static Message sendAlarmSuccess(final String email) {
         return Message.builder()
-                .message("targetId {}님에게 알림이 성공적으러로 전송되었습니다")
+                .message("target " + email + "님에게 알림이 성공적으러로 전송되었습니다")
                 .build();
     }
 }

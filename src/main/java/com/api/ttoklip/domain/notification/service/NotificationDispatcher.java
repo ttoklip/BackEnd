@@ -71,7 +71,7 @@ public class NotificationDispatcher {
         }
         fcmService.sendNotification(notiCategory, findMember);
 
-         log.info("[Send Notification Success]" + Message.sendAlarmSuccess(targetMemberId).getMessage());
+         log.info("[Send Notification Success]" + Message.sendAlarmSuccess(findMember.getEmail()).getMessage());
     }
 
     private void validFCMToken(final String fcmToken) {

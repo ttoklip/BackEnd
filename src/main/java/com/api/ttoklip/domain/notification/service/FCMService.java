@@ -10,7 +10,6 @@ import com.google.firebase.messaging.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -41,9 +40,11 @@ public class FCMService {
             log.info("FCMService.sendNotification + FirebaseMessagingException");
             notificationService.register(categoryName, member, false);
             throw new ApiException(ErrorType._NOT_SEND_ABLE);
+
         } catch (IllegalArgumentException e) {
             log.info("FCMService.sendNotification + IllegalArgumentException");
             notificationService.register(categoryName, member, false);
+            throw new ApiException(ErrorType._NOT_SEND_ABLE);
         }
     }
 }
