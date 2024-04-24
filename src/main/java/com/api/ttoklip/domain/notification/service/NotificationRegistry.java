@@ -27,6 +27,14 @@ public class NotificationRegistry {
             return NotiCategory.HONEY_TIP_LIKE; // 스크랩 생성에 대한 알림
         }
 
+//        if ("A".equals(className) && "B".equals(methodName)) {
+//            return NotiCategory.QUESTION_COMMENT_LIKE;
+//        }
+
+        if ("CommunityPostService".equals(className) && "registerScrap".equals(methodName)) {
+            return NotiCategory.OUR_TOWN_SCRAP;
+        }
+
         // ToDo 알림 종류 판단 로직
         return NotiCategory.BAD_TYPE_NOTIFICATION;
     }
