@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class NotificationTargetFinder {
+public class NotificationCommentTargetFinder {
 
     private final NotificationCommentRepository notiCommentRepository;
 

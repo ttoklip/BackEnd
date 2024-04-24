@@ -21,12 +21,12 @@ public class NotificationDispatcher {
     private final FCMService fcmService;
     private final MemberService memberService;
     private final NotificationRegistry notificationRegistry;
-    private final NotificationTargetFinder finder;
+    private final NotificationCommentTargetFinder commentTargetFinder;
 
     public void dispatchNotification(final NotificationRequest request) {
         NotiCategory notiCategory = notificationRegistry.determineNotiCategory(request.className(),
                 request.methodName());
-//         dispatch(, notiCategory);
+//        dispatch(, notiCategory);
     }
 
     // 댓글 알림 타겟 결정 및 알림 전송
@@ -44,7 +44,7 @@ public class NotificationDispatcher {
 
         // (댓글과 답글 모두의 경우) 댓글이 생성됨을 게시글 작성자에게 알려야하므로 게시글 작성자의 ID로 전송
         if (notifyPostWriter) {
-            Optional<Long> optionalWriterId = finder.getPostWriterId(comment);
+            Optional<Long> optionalWriterId = commentTargetFinder.getPostWriterId(comment);
             if (optionalWriterId.isPresent()) {
                 Long writerId = optionalWriterId.get();
                 dispatch(writerId, notiCategory);
@@ -53,7 +53,7 @@ public class NotificationDispatcher {
 
         // 답글이고 & 답글이 생성됨을 댓글 작작성자에게 알려야하므로 댓글(부모 댓글) 작성자의 ID로 전송
         if (notifyCommentWriter && (comment.getParent() != null)) {
-            Long parentCommentWriterId = finder.getParentCommentWriterId(comment);
+            Long parentCommentWriterId = commentTargetFinder.getParentCommentWriterId(comment);
             dispatch(parentCommentWriterId, notiCategory);
         }
     }
