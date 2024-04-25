@@ -1,15 +1,13 @@
 package com.api.ttoklip.domain.notification.aop;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
-import com.api.ttoklip.domain.notification.dto.request.NotificationRequest;
-import com.api.ttoklip.domain.notification.service.NotificationDispatcher;
+import com.api.ttoklip.domain.notification.entity.PostETCEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -18,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NotificationAspect {
 
-    private final NotificationDispatcher notificationDispatcher;
+    private final ApplicationEventPublisher eventPublisher;
 
     @AfterReturning(value = "@annotation(notification)")
     public void afterScrapNotification(JoinPoint joinPoint, SendNotification notification) {
@@ -31,8 +29,10 @@ public class NotificationAspect {
         Object argumentObj = joinPoint.getArgs()[0];
         Long targetIndex = (Long) argumentObj;
 
-        notificationDispatcher.dispatchNotification(
-                NotificationRequest.of(targetIndex, className, methodName)
-        );
+        eventPublisher.publishEvent(new PostETCEvent(targetIndex, className, methodName));
+
+//        notificationDispatcher.dispatchNotification(
+//                NotificationRequest.of(targetIndex, className, methodName)
+//        );
     }
 }
