@@ -39,7 +39,6 @@ public class NotificationRegistry {
             return NotiCategory.OUR_TOWN_TOGETHER;
         }
 
-        // ToDo 알림 종류 판단 로직
         return NotiCategory.BAD_TYPE_NOTIFICATION;
     }
 

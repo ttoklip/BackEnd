@@ -24,8 +24,10 @@ public class FCMService {
 
     public void sendNotification(
             final NotiCategory categoryName,
-            final Member member
+            final Member member,
+            final Long targetClassId
     ) {
+        // ToDo TargetClassName, TargetClassIndex를 어떻게 알림을 보내야할지
         try {
             Message message = Message.builder()
                     .putData(TOPIC_DATA_NAME, categoryName.name())
@@ -35,15 +37,15 @@ public class FCMService {
                     .build();
             FirebaseMessaging.getInstance()
                     .send(message);
-            notificationService.register(categoryName, member, true);
+            notificationService.register(categoryName, member, targetClassId,true);
         } catch (FirebaseMessagingException e) {
             log.info("FCMService.sendNotification + FirebaseMessagingException");
-            notificationService.register(categoryName, member, false);
+            notificationService.register(categoryName, member, targetClassId, false);
             throw new ApiException(ErrorType._NOT_SEND_ABLE);
 
         } catch (IllegalArgumentException e) {
             log.info("FCMService.sendNotification + IllegalArgumentException");
-            notificationService.register(categoryName, member, false);
+            notificationService.register(categoryName, member, targetClassId, false);
             throw new ApiException(ErrorType._NOT_SEND_ABLE);
         }
     }

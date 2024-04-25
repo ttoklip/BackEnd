@@ -132,6 +132,12 @@ public enum ErrorType {
     _NOT_SEND_ABLE(INTERNAL_SERVER_ERROR, "Firebase_5001", "Firebase를 통해 알림을 전송할 수 없습니다."),
     _NOT_SEND_CONDITION(INTERNAL_SERVER_ERROR, "Firebase_5002", "FCM TOKEN 혹은 TOPIC이 잘못됐습니다."),
 
+
+    // ------------------------------------------ Notification ------------------------------------------
+    BAD_CATEGORY_NOTIFICATION(BAD_REQUEST, "Notification_4001", "지원하지 않는 알림 카테고리입니다."),
+    _BAD_CATEGORY_NOTIFICATION_TYPE(INTERNAL_SERVER_ERROR, "Notification_5001", "내부에서 공지타입을 찾는데 오류가 발생했습니다."),
+
+
     ;
 
     private final HttpStatus status;

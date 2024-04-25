@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.notification.service;
 
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
+import com.api.ttoklip.domain.notification.dto.response.NotificationServerResponse;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.comment.service.QuestionCommentService;
@@ -26,35 +27,43 @@ public class NotificationPostTargetFinder {
     private final CartPostService cartPostService;
     private final QuestionCommentService questionCommentService;
 
-    public Optional<Long> getPostWriterId(final NotiCategory request, final Long targetIndex) {
+    public Optional<NotificationServerResponse> getPostWriterId(final NotiCategory request, final Long targetIndex) {
 
         // 꿀팁공유해요 작성자 반환
         if (request.equals(NotiCategory.HONEY_TIP_SCRAP) || request.equals(NotiCategory.HONEY_TIP_LIKE)) {
             HoneyTip honeytip = honeyTipCommonService.getHoneytip(targetIndex);
             Long writerId = honeytip.getMember().getId();
-            return Optional.of(writerId);
+
+            NotificationServerResponse response = NotificationServerResponse.of(writerId, honeytip.getId());
+            return Optional.of(response);
         }
 
         if (request.equals(NotiCategory.OUR_TOWN_SCRAP)) {
             Community community = communityCommonService.getCommunity(targetIndex);
             Long writerId = community.getMember().getId();
-            return Optional.of(writerId);
+
+            NotificationServerResponse response = NotificationServerResponse.of(writerId, community.getId());
+            return Optional.of(response);
         }
 
         if (request.equals(NotiCategory.OUR_TOWN_TOGETHER)) {
             Cart cart = cartPostService.findCartByIdActivated(targetIndex);
             Long writerId = cart.getMember().getId();
-            return Optional.of(writerId);
+
+            NotificationServerResponse response = NotificationServerResponse.of(writerId, cart.getId());
+            return Optional.of(response);
         }
 
         return Optional.empty();
     }
 
-    public Optional<Long> getCommentWriterId(final NotiCategory request, final Long targetIndex) {
+    public Optional<NotificationServerResponse> getCommentWriterId(final NotiCategory request, final Long targetIndex) {
         if (request.equals(NotiCategory.QUESTION_COMMENT_LIKE)) {
             QuestionComment questionComment = questionCommentService.findQuestionComment(targetIndex);
             Long writerId = questionComment.getMember().getId();
-            return Optional.of(writerId);
+
+            NotificationServerResponse response = NotificationServerResponse.of(writerId, questionComment.getId());
+            return Optional.of(response);
         }
 
         return Optional.empty();

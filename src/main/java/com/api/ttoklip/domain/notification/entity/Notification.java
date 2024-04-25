@@ -41,22 +41,33 @@ public class Notification extends BaseEntity {
 
     private boolean status;
 
+    private String targetType;
+
+    private Long targetIndex;
+
+
     @Builder
     private Notification(final Member member, final String title, final String text,
-                         final NotiCategory notiCategory, boolean status) {
+                         final NotiCategory notiCategory, String targetType, Long targetIndex, boolean status) {
         this.member = member;
         this.title = title;
         this.text = text;
         this.notiCategory = notiCategory;
+        this.targetType = targetType;
+        this.targetIndex = targetIndex;
+        this.status = status;
     }
 
     public static Notification of(Member member, String title, String text,
-                                  NotiCategory notiCategory, boolean status) {
+                                  NotiCategory notiCategory, String targetType,
+                                  Long targetIndex, boolean status) {
         return Notification.builder()
                 .member(member)
                 .title(title)
                 .text(text)
                 .notiCategory(notiCategory)
+                .targetType(targetType)
+                .targetIndex(targetIndex)
                 .status(status)
                 .build();
     }
