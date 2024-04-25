@@ -5,18 +5,19 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.comment.dto.response.QuestionCommentResponse;
+import com.api.ttoklip.domain.question.comment.repository.QuestionCommentRepositoryImpl;
 import com.api.ttoklip.domain.question.like.service.CommentLikeService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.service.QuestionCommonService;
 import com.api.ttoklip.global.success.Message;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,16 @@ public class QuestionCommentService {
     private final ReportService reportService;
     private final QuestionCommonService questionCommonService;
     private final CommentLikeService commentLikeService;
+    private final QuestionCommentRepositoryImpl questionCommentRepositoryImpl;
+
+    /* -------------------------------------------- READ -------------------------------------------- */
+
+    public QuestionComment findQuestionComment(final Long commentId) {
+        return questionCommentRepositoryImpl.findByCommentIdFetchJoin(commentId);
+    }
+
+    /* -------------------------------------------- READ 끝 -------------------------------------------- */
+
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
@@ -107,6 +118,7 @@ public class QuestionCommentService {
 
     /* -------------------------------------------- LIKE -------------------------------------------- */
     @Transactional
+    @SendNotification
     public Message registerLike(Long commentId) {
         commentLikeService.registerLike(commentId);
         return Message.likePostSuccess(Question.class, commentId);
@@ -124,7 +136,8 @@ public class QuestionCommentService {
         List<QuestionComment> questionComments = question.getQuestionComments();
         return questionComments.stream()
                 .map(questionComment -> {
-                    boolean likedByCurrentUser = commentLikeService.existsByQuestionCommentIdAndMemberId(questionComment.getId());
+                    boolean likedByCurrentUser = commentLikeService.existsByQuestionCommentIdAndMemberId(
+                            questionComment.getId());
                     return QuestionCommentResponse.from(questionComment, likedByCurrentUser);
                 }).toList();
     }

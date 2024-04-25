@@ -38,12 +38,26 @@ public class NotificationDispatcher {
         }
 
         // 게시글 작성자에게 알릴 여부
-        Optional<Long> optionalWriterId = postTargetFinder.getPostWriterId(notiCategory, targetIndex);
+        boolean notifyPostWriter = notiCategory.isNotifyPostWriter();
+        // 댓글 작성자에게 알릴 여부
+        boolean notifyCommentWriter = notiCategory.isNotifyCommentWriter();
 
-        if (optionalWriterId.isPresent()) {
-            Long writerId = optionalWriterId.get();
+        if (notifyPostWriter) {     // 게시글 작성자에게 알릴 여부
+            Optional<Long> optionalPostWriterId = postTargetFinder.getPostWriterId(notiCategory, targetIndex);
 
-            dispatch(writerId, notiCategory);
+            if (optionalPostWriterId.isPresent()) {
+                Long postWriterId = optionalPostWriterId.get();
+                dispatch(postWriterId, notiCategory);
+            }
+        }
+
+        if (notifyCommentWriter) {   // 댓글 작성자에게 알릴 여부
+            Optional<Long> optionalCommentWriterId = postTargetFinder.getCommentWriterId(notiCategory, targetIndex);
+
+            if (optionalCommentWriterId.isPresent()) {
+                Long commentWriterId = optionalCommentWriterId.get();
+                dispatch(commentWriterId, notiCategory);
+            }
         }
 
     }
@@ -80,10 +94,10 @@ public class NotificationDispatcher {
     private void dispatch(final Long targetMemberId, final NotiCategory notiCategory) {
         log.info("========== NotificationDispatcher.dispatch");
 
-        // 알림 받을 대상이 본인인 경우 전송 x
-        if (isSelfNotification(targetMemberId)) {
-            return;
-        }
+//        // 알림 받을 대상이 본인인 경우 전송 x
+//        if (isSelfNotification(targetMemberId)) {
+//            return;
+//        }
 
         Member findMember = memberService.findById(targetMemberId);
         String fcmToken = findMember.getFcmToken();

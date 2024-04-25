@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.question.like.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.like.repository.CommentLikeRepository;
@@ -9,8 +11,6 @@ import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,6 @@ public class CommentLikeService {
 
 
     // 좋아요 생성
-    @Transactional
     public void registerLike(final Long commentId) {
         Long currentMemberId = getCurrentMember().getId();
         boolean exists = commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
@@ -47,7 +46,8 @@ public class CommentLikeService {
         Long findQuestionCommentId = findQuestionComment.getId();
         Long currentMemberId = getCurrentMember().getId();
 
-        CommentLike commentLike = commentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionCommentId, currentMemberId)
+        CommentLike commentLike = commentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionCommentId,
+                        currentMemberId)
                 .orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
 
         // 자격 검증: 이 단계에서는 findByQuestionCommentIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.

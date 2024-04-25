@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.notification.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
+import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.comment.service.QuestionCommentService;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
@@ -24,6 +24,7 @@ public class NotificationPostTargetFinder {
     private final HoneyTipCommonService honeyTipCommonService;
     private final CommunityCommonService communityCommonService;
     private final CartPostService cartPostService;
+    private final QuestionCommentService questionCommentService;
 
     public Optional<Long> getPostWriterId(final NotiCategory request, final Long targetIndex) {
 
@@ -43,6 +44,16 @@ public class NotificationPostTargetFinder {
         if (request.equals(NotiCategory.OUR_TOWN_TOGETHER)) {
             Cart cart = cartPostService.findCartByIdActivated(targetIndex);
             Long writerId = cart.getMember().getId();
+            return Optional.of(writerId);
+        }
+
+        return Optional.empty();
+    }
+
+    public Optional<Long> getCommentWriterId(final NotiCategory request, final Long targetIndex) {
+        if (request.equals(NotiCategory.QUESTION_COMMENT_LIKE)) {
+            QuestionComment questionComment = questionCommentService.findQuestionComment(targetIndex);
+            Long writerId = questionComment.getMember().getId();
             return Optional.of(writerId);
         }
 
