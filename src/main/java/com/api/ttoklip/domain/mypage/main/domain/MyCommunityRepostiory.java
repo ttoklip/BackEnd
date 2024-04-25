@@ -29,12 +29,10 @@ public class MyCommunityRepostiory {
 
     private List<Community> getSearchPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
-                .select(community)
-                .from(community)
-                .where(community.member.id.eq(userId).and(community.deleted.eq(false)))
+                .selectFrom(community)
                 .distinct()
+                .where(community.member.id.eq(userId).and(community.deleted.eq(false)))
                 .leftJoin(community.communityComments, communityComment)
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(community.id.desc())
@@ -46,7 +44,6 @@ public class MyCommunityRepostiory {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(community)
-                .distinct()
                 .fetchOne();
     }
 
@@ -58,11 +55,10 @@ public class MyCommunityRepostiory {
     private List<Community> getSearchScrapPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(community)
-                .leftJoin(community.communityScraps, communityScrap)
-                .where(communityScrap.member.id.eq(userId).and(community.deleted.eq(false)))
                 .distinct()
+                .leftJoin(community.communityScraps, communityScrap)
                 .leftJoin(community.communityComments, communityComment)
-                .fetchJoin()
+                .where(communityScrap.member.id.eq(userId).and(community.deleted.eq(false)))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(community.id.desc())

@@ -6,6 +6,7 @@ import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.like.repository.HoneyTipLikeRepository;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class HoneyTipLikeService {
     private final HoneyTipCommonService honeyTipCommonService;
 
     // 좋아요 생성
+    @SendNotification
     public void register(final Long honeyTipId) {
         Long currentMemberId = getCurrentMember().getId();
         boolean exists = honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);

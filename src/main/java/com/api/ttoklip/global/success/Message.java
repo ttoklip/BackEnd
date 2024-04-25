@@ -13,20 +13,18 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Message {
 
-    @Schema(type = "string", example = "메시지 문구를 출력합니다.", description = "메시지 입니다.")
-    private String message;
-
-    private static final String COMMENT = "댓글";
+    public static final String COMMENT = "댓글";
+    public static final String LIKE = "좋아요";
+    public static final String SCRAP = "스크랩";
     private static final String POST = "게시글";
-    private static final String LIKE = "좋아요";
-    private static final String SCRAP = "스크랩";
     private static final String PARTY = "공구 참여";
     private static final String CREATE = "생성";
     private static final String STATUS = "상태";
     private static final String EDIT = "수정";
     private static final String DELETE = "삭제";
     private static final String REPORT = "신고";
-
+    @Schema(type = "string", example = "메시지 문구를 출력합니다.", description = "메시지 입니다.")
+    private String message;
 
     private static <T> Message actionSuccess(Class<T> itemType, Long itemId, String dataType, String action) {
         String typeName = itemType.getSimpleName(); // 클래스의 단순 이름을 가져옴
@@ -113,9 +111,22 @@ public class Message {
                 .message("닉네임 중복 확인에 통과하였습니다.")
                 .build();
     }
-    public static Message activateUser(){
+
+    public static Message activateUser() {
         return Message.builder()
                 .message("차단해제 하였습니다.")
+                .build();
+    }
+
+    public static Message updateFCM() {
+        return Message.builder()
+                .message("FCM Token이 생성되었습니다.")
+                .build();
+    }
+
+    public static Message sendAlarmSuccess(final String email) {
+        return Message.builder()
+                .message("target " + email + "님에게 알림이 성공적으러로 전송되었습니다")
                 .build();
     }
 }

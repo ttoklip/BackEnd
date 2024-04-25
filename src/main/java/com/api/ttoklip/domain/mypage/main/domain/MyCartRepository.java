@@ -31,11 +31,10 @@ public class MyCartRepository {
     private List<Cart> getSearchPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(cart)
-                .leftJoin(cart.cartMembers,cartMember)
-                .where(cartMember.member.id.eq(userId))
                 .distinct()
+                .leftJoin(cart.cartMembers, cartMember)
                 .leftJoin(cart.cartComments, cartComment)
-                .fetchJoin()
+                .where(cartMember.member.id.eq(userId))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(cart.id.desc())
@@ -45,7 +44,6 @@ public class MyCartRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(question)
-                .distinct()
                 .fetchOne();
     }
 }

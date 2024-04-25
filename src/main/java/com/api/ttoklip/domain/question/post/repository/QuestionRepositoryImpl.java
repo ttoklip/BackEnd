@@ -33,10 +33,9 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         QuestionComment findQuestionComment = jpaQueryFactory
                 .selectFrom(questionComment)
                 .distinct()
-                .leftJoin(questionComment.member, member)
-                .fetchJoin()
+                .leftJoin(questionComment.member, member).fetchJoin()
                 .where(
-                        matchCommentId(commentId), getQuestionCommentActivate()
+                        matchCommentId(commentId)
                 )
 //                .fetchFirst();
                 .fetchOne();
@@ -48,17 +47,12 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         return questionComment.id.eq(commentId);
     }
 
-    private BooleanExpression getQuestionCommentActivate() {
-        return questionComment.deleted.isFalse();
-    }
-
     @Override
     public Question findByIdActivated(final Long questionId) {
         Question findQuestion = jpaQueryFactory
                 .selectFrom(question)
                 .distinct()
-                .leftJoin(question.member, member)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(
                         matchId(questionId), getQuestionActivate()
                 )
@@ -80,9 +74,8 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         Question findQuestion = jpaQueryFactory
                 .selectFrom(question)
                 .distinct()
-                .leftJoin(question.member, member)
                 .leftJoin(question.questionImages, questionImage)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(question.id.eq(questionPostId))
                 .fetchOne();
 
@@ -126,7 +119,6 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                         matchCategory(category)
                 )
                 .leftJoin(question.questionComments, questionComment)
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(question.id.desc())
@@ -141,7 +133,6 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(question)
-                .distinct()
                 .where(
                         matchCategory(category)
                 )
@@ -149,9 +140,5 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     }
 
     // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 끝 ------------------------------------
-
-    private BooleanExpression getCommentActivate() {
-        return questionComment.deleted.isFalse();
-    }
 
 }

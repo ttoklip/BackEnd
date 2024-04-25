@@ -24,6 +24,10 @@ public class CommentService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     public void register(final Comment comment) {
+        boolean isChildParent = comment.getParent() != null;
+        if (isChildParent && comment.getParent().isDeleted()) {
+            throw new ApiException(ErrorType.COMMENT_IS_DISABLE);
+        }
         commentRepository.save(comment);
     }
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */

@@ -45,3 +45,9 @@ cloud:
 jwt:
   secret:
     key: ${JWT_VALUE}
+
+google:
+  firebase:
+    fcm:
+      resource:
+        path: ${FIREBASE_JSON}

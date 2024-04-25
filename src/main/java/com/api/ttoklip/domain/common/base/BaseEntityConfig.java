@@ -23,9 +23,9 @@ public class BaseEntityConfig {
                 return Optional.of("AnonymousNULL");
             }
 
-            log.info("authentication = " + authentication);
-            log.info("----------- 클래스 타입" + authentication.getClass());
-            log.info("----------- 클래스 타입" + authentication.getPrincipal().getClass());
+//            log.info("authentication = " + authentication);
+//            log.info("----------- 클래스 타입" + authentication.getClass());
+//            log.info("----------- 클래스 타입" + authentication.getPrincipal().getClass());
 
             Object principal = authentication.getPrincipal();
             if (principal instanceof Member) {

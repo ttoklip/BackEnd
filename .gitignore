@@ -39,3 +39,5 @@ out/
 .env
 
 /src/main/generated/
+
+/src/main/resources/firebase/**

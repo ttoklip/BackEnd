@@ -29,11 +29,10 @@ public class MyNewsLetterRepository {
     private List<Newsletter> getSearchScrapPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(newsletter)
-                .leftJoin(newsletter.newsletterScraps, newsletterScrap)
-                .where(newsletterScrap.member.id.eq(userId))
                 .distinct()
+                .leftJoin(newsletter.newsletterScraps, newsletterScrap)
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
-                .fetchJoin()
+                .where(newsletterScrap.member.id.eq(userId))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(newsletter.id.desc())
@@ -44,7 +43,6 @@ public class MyNewsLetterRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(newsletter)
-                .distinct()
                 .fetchOne();
     }
 

@@ -28,12 +28,10 @@ public class StrangerHoneyTipRepository {
 
     private List<HoneyTip> getSearchPageId(final Long targetId, final Pageable pageable) {
         return jpaQueryFactory
-                .select(honeyTip)
-                .from(honeyTip)
-                .where(honeyTip.member.id.eq(targetId).and(honeyTip.deleted.eq(false)))
+                .selectFrom(honeyTip)
                 .distinct()
+                .where(honeyTip.member.id.eq(targetId).and(honeyTip.deleted.eq(false)))
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(honeyTip.id.desc())
@@ -44,7 +42,6 @@ public class StrangerHoneyTipRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(honeyTip)
-                .distinct()
                 .fetchOne();
     }
 }

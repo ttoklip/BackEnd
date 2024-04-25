@@ -31,8 +31,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         Community findCommunity = jpaQueryFactory
                 .selectFrom(community)
                 .distinct()
-                .leftJoin(community.member, member)
-                .fetchJoin()
+                .leftJoin(community.member, member).fetchJoin()
                 .where(
                         matchId(communityId), getCommunityActivate()
                 )
@@ -91,8 +90,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .where(
                         getCommunityActivate()
                 )
-                .leftJoin(community.member, member)
-                .fetchJoin()
+                .leftJoin(community.member, member).fetchJoin()
                 .orderBy(community.id.desc())
                 .limit(3)
                 .fetch();
@@ -113,9 +111,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
     private List<Community> getPageContent(final Pageable pageable) {
         return jpaQueryFactory
-                .select(community)
-                .from(community)
-                .distinct()
+                .selectFrom(community)
                 .where(
                         getCommunityActivate()
                 )
@@ -129,7 +125,6 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(community)
-                .distinct()
                 .where(
                         getCommunityActivate()
                 )

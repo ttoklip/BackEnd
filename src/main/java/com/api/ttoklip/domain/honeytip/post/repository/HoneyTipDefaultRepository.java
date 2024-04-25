@@ -40,7 +40,6 @@ public class HoneyTipDefaultRepository {
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
-                .fetchJoin()
                 .limit(10)
                 .orderBy(honeyTip.id.desc());
     }
@@ -85,6 +84,7 @@ public class HoneyTipDefaultRepository {
     public List<HoneyTip> getTop5() {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
+                .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)

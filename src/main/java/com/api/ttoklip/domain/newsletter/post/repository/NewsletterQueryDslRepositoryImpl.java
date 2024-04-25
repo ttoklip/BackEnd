@@ -31,9 +31,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         Newsletter findNewsletter = jpaQueryFactory
                 .selectFrom(newsletter)
                 .distinct()
-                .leftJoin(newsletter.member, member)
-//                .leftJoin(newsletter.newsletterComments, newsletterComment)
-                .fetchJoin()
+                .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
                         matchId(newsletterId), getNewsletterActivate()
                 )
@@ -56,8 +54,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .selectFrom(newsletter)
                 .distinct()
                 .leftJoin(newsletter.newsletterImages, newsletterImage)
-                .leftJoin(newsletter.member, member)
-                .fetchJoin()
+                .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
                         getNewsletterActivate(),
                         newsletter.id.eq(newsletterPostId)
@@ -73,10 +70,10 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return jpaQueryFactory
                 .selectFrom(newsletterComment)
                 .distinct()
+                .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
                         matchNewsletterId(newsletterId)
                 )
-                .leftJoin(newsletter.member, member)
                 .orderBy(
                         newsletterComment.parent.id.asc().nullsFirst(),
                         newsletterComment.createdDate.asc()
@@ -94,7 +91,6 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(qNewsletter)
-                .distinct()
                 .fetchOne();
     }
 
@@ -107,9 +103,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
 
     private List<Newsletter> getPageContent(final Category category, final Pageable pageable) {
         return jpaQueryFactory
-                .select(newsletter)
-                .from(newsletter)
-                .distinct()
+                .selectFrom(newsletter)
                 .where(
                         matchCategory(category),
                         getNewsletterActivate()
@@ -128,7 +122,6 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(newsletter)
-                .distinct()
                 .where(
                         matchCategory(category),
                         getNewsletterActivate()

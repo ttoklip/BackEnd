@@ -62,7 +62,11 @@ public enum ErrorType {
 
     // ------------------------------------------ Comment ------------------------------------------
     COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4040", "댓글을 찾을 수 없습니다."),
-
+    COMMENT_IS_DISABLE(BAD_REQUEST, "Comment_4041", "삭제된 댓글에는 답글을 작성할 수 없습니다."),
+    HONEY_TIP_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4042", "꿀팁공유해요의 댓글을 찾을 수 없습니다."),
+    QUESTION_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4043", "질문해요의 댓글을 찾을 수 없습니다."),
+    CART_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4043", "함께해요의 댓글을 찾을 수 없습니다."),
+    COMMUNITY_COMMENT_NOT_FOUND(NOT_FOUND, "Comment_4043", "소통해요의 댓글을 찾을 수 없습니다."),
 
     // ------------------------------------------ HoneyTip ------------------------------------------
     HONEY_TIP_NOT_FOUND(NOT_FOUND, "HoneyTip_4040", "꿀팁공유해요를 찾을 수 없습니다."),
@@ -96,6 +100,9 @@ public enum ErrorType {
     _USER_NOT_FOUND_BY_TOKEN(NOT_FOUND, "USER_4040", "제공된 토큰으로 사용자를 찾을 수 없습니다."),
     _UNAUTHORIZED(UNAUTHORIZED, "USER_4010", "로그인되지 않은 상태입니다."),
     _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
+    _USER_FCM_TOKEN_NOT_FOUND(NOT_FOUND, "USER_4042", "FCM 토큰이 없습니다."),
+    _USER_ALREADY_KAKAO_PLATFORM(BAD_REQUEST, "USER_4043", "이미 카카오로 가입된 회원입니다."),
+    _USER_ALREADY_NAVER_PLATFORM(BAD_REQUEST, "USER_4043", "이미 네이버로 가입된 회원입니다."),
 
 
     // ------------------------------------------ LIKE ------------------------------------------
@@ -120,6 +127,16 @@ public enum ErrorType {
 
     // ------------------------------------------ Query ------------------------------------------
     INVALID_SORT_TYPE(BAD_REQUEST, "Sort_4041", "지원하지 않는 조회 타입입니다."),
+
+    // ------------------------------------------ Infra ------------------------------------------
+    _NOT_SEND_ABLE(INTERNAL_SERVER_ERROR, "Firebase_5001", "Firebase를 통해 알림을 전송할 수 없습니다."),
+    _NOT_SEND_CONDITION(INTERNAL_SERVER_ERROR, "Firebase_5002", "FCM TOKEN 혹은 TOPIC이 잘못됐습니다."),
+
+
+    // ------------------------------------------ Notification ------------------------------------------
+    BAD_CATEGORY_NOTIFICATION(BAD_REQUEST, "Notification_4001", "지원하지 않는 알림 카테고리입니다."),
+    _BAD_CATEGORY_NOTIFICATION_TYPE(INTERNAL_SERVER_ERROR, "Notification_5001", "내부에서 공지타입을 찾는데 오류가 발생했습니다."),
+
 
     ;
 

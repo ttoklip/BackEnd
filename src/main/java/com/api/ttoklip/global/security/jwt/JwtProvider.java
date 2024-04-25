@@ -31,14 +31,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    // 24시간 ToDo 개발 편의를 위해 늘려놓음 추후 수정
-    public static final long ACCESS_TOKEN_VALID_TIME = 24 * 60 * 60 * 1000L;
+    // 24시간 * 7 ToDo 개발 편의를 위해 늘려놓음 추후 수정
+    public static final long ACCESS_TOKEN_VALID_TIME = 7 * 24 * 60 * 60 * 1000L;
     private final MemberService memberService;
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
 
     public String generateJwtToken(final String email) {
-
         Claims claims = createClaims(email);
         Date now = new Date();
         long expiredDate = calculateExpirationDate(now);
@@ -100,7 +99,6 @@ public class JwtProvider {
     }
 
     private void setContextHolder(String jwtToken, Member loginMember) {
-        // ToDO 현재 비어있는 권한 등록, 추후에 수정
         List<GrantedAuthority> authorities = getAuthorities(loginMember.getRole());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginMember, jwtToken, authorities);

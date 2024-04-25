@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.town.community.post.service;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
@@ -180,6 +181,7 @@ public class CommunityPostService {
 
     /* -------------------------------------------- SCRAP -------------------------------------------- */
     @Transactional
+    @SendNotification
     public Message registerScrap(Long postId) {
         communityScrapService.registerScrap(postId);
         return Message.scrapPostSuccess(Community.class, postId);

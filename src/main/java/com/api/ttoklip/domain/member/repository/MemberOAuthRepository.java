@@ -23,8 +23,7 @@ public class MemberOAuthRepository {
         Member findMember = jpaQueryFactory
                 .selectFrom(member)
                 .distinct()
-                .leftJoin(member.profile, profile)
-                .fetchJoin()
+                .leftJoin(member.profile, profile).fetchJoin()
                 .where(member.id.eq(inputId))
                 .fetchOne();
 
@@ -38,8 +37,7 @@ public class MemberOAuthRepository {
         Member findMember = jpaQueryFactory
                 .selectFrom(member)
                 .distinct()
-                .leftJoin(member.profile, profile)
-                .fetchJoin()
+                .leftJoin(member.profile, profile).fetchJoin()
                 .where(member.nickname.eq(nickName))
                 .fetchOne();
 

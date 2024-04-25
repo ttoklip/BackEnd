@@ -42,12 +42,14 @@ public class Member extends BaseEntity {
 
     @Email
     private String email;
+    private String provider;        // 카카오, 네이버, origin
+    private String nickname;        // 닉네임
+    private String street;          // 주소
+    private int independentYear;    // 동릭 경력 년
+    private int independentMonth; // 독립 경력 월
 
-    private String provider;
-    private String nickname;
-    private String street;
-    private int independentYear;
-    private int independentMonth;
+    @Column(name = "fcm_token", columnDefinition="LONGTEXT")
+    private String fcmToken;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -128,10 +130,14 @@ public class Member extends BaseEntity {
                 .street(street);
     }
 
-    public void insertPrivacy(MemberEditor memberEditor) {
+    public void insertPrivacy(final MemberEditor memberEditor) {
         independentYear = memberEditor.getIndependentYear();
         independentMonth = memberEditor.getIndependentMonth();
         nickname = memberEditor.getNickname();
         street = memberEditor.getStreet();
+    }
+
+    public void updateFcmToken(final String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 }

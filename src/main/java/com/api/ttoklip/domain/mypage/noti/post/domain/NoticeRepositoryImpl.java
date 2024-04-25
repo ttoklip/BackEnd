@@ -19,7 +19,6 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
     public Notice findByIdActivated(final Long noticeId) {
         Notice findNotice = jpaQueryFactory
                 .selectFrom(notice)
-                .distinct()
                 .where(
                         matchId(noticeId), getNoticeActivate()
                 )
