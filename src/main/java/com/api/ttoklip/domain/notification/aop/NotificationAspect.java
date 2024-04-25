@@ -29,7 +29,9 @@ public class NotificationAspect {
         Object argumentObj = joinPoint.getArgs()[0];
         Long targetIndex = (Long) argumentObj;
 
-        eventPublisher.publishEvent(new PostETCEvent(targetIndex, className, methodName));
+        eventPublisher.publishEvent(
+                PostETCEvent.of(targetIndex, className, methodName)
+        );
 
 //        notificationDispatcher.dispatchNotification(
 //                NotificationRequest.of(targetIndex, className, methodName)

@@ -20,7 +20,7 @@ public class NotificationListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void processCommentNotification(final CommentCreatedEvent event) {
         log.info("----- NotificationService.processCommentNotification call");
-        Comment comment = event.getComment();
+        Comment comment = event.comment();
         notificationDispatcher.dispatchCommentNotification(comment);
     }
 
@@ -30,7 +30,7 @@ public class NotificationListener {
         log.info("----- NotificationService.processPostNotification call");
 
         notificationDispatcher.dispatchNotification(
-                NotificationRequest.of(event.getPostId(), event.getClassName(), event.getMethodName())
+                NotificationRequest.of(event.postId(), event.className(), event.methodName())
         );
     }
 

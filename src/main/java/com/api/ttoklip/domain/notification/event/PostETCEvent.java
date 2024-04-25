@@ -1,13 +1,8 @@
 package com.api.ttoklip.domain.notification.event;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+public record PostETCEvent(Long postId, String className, String methodName) {
 
-@RequiredArgsConstructor
-@Getter
-public class PostETCEvent {
-
-    private final Long postId;
-    private final String className;
-    private final String methodName;
+    public static PostETCEvent of(Long postId, String className, String methodName) {
+        return new PostETCEvent(postId, className, methodName);
+    }
 }
