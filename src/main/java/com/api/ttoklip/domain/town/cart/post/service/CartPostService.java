@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
@@ -200,6 +201,7 @@ public class CartPostService {
     /* -------------------------------------------- PARTICIPANT -------------------------------------------- */
     // 공구 참여
     @Transactional
+    @SendNotification
     public Message addParticipant(final Long cartId) {
         Cart cart = cartRepository.findByIdActivated(cartId);
         Long MaxValue = cart.getPartyMax();
