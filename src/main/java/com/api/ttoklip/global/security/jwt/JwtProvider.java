@@ -99,7 +99,6 @@ public class JwtProvider {
     }
 
     private void setContextHolder(String jwtToken, Member loginMember) {
-        // ToDO 현재 비어있는 권한 등록, 추후에 수정
         List<GrantedAuthority> authorities = getAuthorities(loginMember.getRole());
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginMember, jwtToken, authorities);

@@ -80,7 +80,6 @@ public class CartCommentService {
     /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
     public void edit(final Long commentId, final CommentEditRequest request) {
-        // ToDo 본인이 썼는지 검증 과정 필요
         commentService.edit(commentId, request);
     }
 
@@ -90,7 +89,6 @@ public class CartCommentService {
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
     public Message delete(final Long commentId) {
-        // ToDo 본인이 썼는지 검증 과정 필요
         commentService.deleteById(commentId);
         return Message.deleteCommentSuccess(CartComment.class, commentId);
     }

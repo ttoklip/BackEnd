@@ -80,7 +80,6 @@ public class NewsletterCommentService {
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
     public Message delete(final Long commentId) {
-        // ToDo 본인이 썼는지 검증 과정 필요
         commentService.deleteById(commentId);
         return Message.deleteCommentSuccess(Newsletter.class, commentId);
     }
