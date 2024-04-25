@@ -12,7 +12,7 @@ public enum NotiCategory {
     HONEY_TIP_COMMENT("꿀팁 공유해요", "누군가가 댓글을 남겼어요", true, false),
     HONEY_TIP_CHILD_COMMENT("꿀팁 공유해요", "누군가 답글을 남겼어요", true, true),
 
-    QUESTION_HELPFUL("질문해요", "누군가에게 남겨준 댓글이 도움이 되었대요", true, false),
+    QUESTION_COMMENT_LIKE("질문해요", "누군가에게 남겨준 댓글이 도움이 되었대요", false, true),
     QUESTION_COMMENT("질문해요", "누군가가 댓글을 남겼어요", true, false),
     QUESTION_CHILD_COMMENT("질문해요", "누군가가 답글을 남겼어요", true, true),
 

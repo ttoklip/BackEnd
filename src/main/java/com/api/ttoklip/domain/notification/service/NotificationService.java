@@ -4,7 +4,6 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.notification.entity.Notification;
 import com.api.ttoklip.domain.notification.repository.NotificationRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

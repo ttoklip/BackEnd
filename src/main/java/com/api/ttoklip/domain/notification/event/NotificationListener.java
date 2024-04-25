@@ -1,9 +1,8 @@
-package com.api.ttoklip.domain.notification.service;
+package com.api.ttoklip.domain.notification.event;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.notification.dto.request.NotificationRequest;
-import com.api.ttoklip.domain.notification.entity.CommentCreatedEvent;
-import com.api.ttoklip.domain.notification.entity.PostETCEvent;
+import com.api.ttoklip.domain.notification.service.NotificationDispatcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -28,7 +27,7 @@ public class NotificationListener {
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void processPostNotification(final PostETCEvent event) {
-        log.info("----- NotificationService.processCommentNotification call");
+        log.info("----- NotificationService.processPostNotification call");
 
         notificationDispatcher.dispatchNotification(
                 NotificationRequest.of(event.getPostId(), event.getClassName(), event.getMethodName())

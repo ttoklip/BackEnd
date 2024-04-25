@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.notification.aop;
 
 import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.notification.entity.CommentCreatedEvent;
+import com.api.ttoklip.domain.notification.event.CommentCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;

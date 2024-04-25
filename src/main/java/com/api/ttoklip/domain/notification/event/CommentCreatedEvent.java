@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.notification.entity;
+package com.api.ttoklip.domain.notification.event;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import lombok.Getter;
