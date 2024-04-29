@@ -31,6 +31,13 @@ public class ProfileLike extends BaseTimeEntity {
     @JoinColumn(name = "target_member_id") // 'targetMember' field
     private Member targetMember;
 
+    public static ProfileLike of(final Member fromMember, final Member targetMember) {
+        return ProfileLike.builder()
+                .fromMember(fromMember)
+                .targetMember(targetMember)
+                .build();
+    }
+
     public Long getId() {
         return id;
     }
