@@ -113,9 +113,21 @@ public class Message {
                 .message("닉네임 중복 확인에 통과하였습니다.")
                 .build();
     }
+
+    public static Message validId() {
+        return Message.builder()
+                .message("아이디 중복 확인에 통과하였습니다.")
+                .build();
+    }
+
     public static Message activateUser(){
         return Message.builder()
                 .message("차단해제 하였습니다.")
+                .build();
+    }
+    public static Message registerUser(){
+        return Message.builder()
+                .message("회원가입 성공하였습니다.")
                 .build();
     }
 }

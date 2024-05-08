@@ -1,13 +1,25 @@
 package com.api.ttoklip.domain.join.service;
 
 import com.api.ttoklip.domain.join.dto.request.JoinRequest;
+import com.api.ttoklip.domain.join.dto.request.LoginRequest;
+import com.api.ttoklip.domain.join.dto.response.LoginResponse;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
+import com.api.ttoklip.domain.member.service.MemberService;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.security.auth.service.AuthService;
+import com.api.ttoklip.global.security.jwt.JwtProvider;
+import com.api.ttoklip.global.success.Message;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -16,29 +28,89 @@ public class JoinService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final MemberService memberService;
+    private final JwtProvider jwtProvider;
+    private final AuthService authService;
 
-    public void joinProcess(JoinRequest joinRequest) {
+    @Transactional
+    public Message signup(JoinRequest joinRequest) {
 
         String joinId = joinRequest.getJoinId();
         String password = joinRequest.getPassword();
+        String originName = joinRequest.getOriginName();
+        String birth = joinRequest.getBirth();
 
         Boolean isExist = memberRepository.existsByJoinId(joinId);
 
         if (isExist) {
-
-            return;
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
         }
-
         Member data = Member.builder()
                 .joinId(joinId)
                 .password(bCryptPasswordEncoder.encode(password))
+                .originName(originName)
+//                .birth
                 .role(Role.CLIENT)
                 .build();
-
         memberRepository.save(data);
+
+        return Message.registerUser();
+
     }
 
+    @Transactional
+    public Message duplicate(final String newId) {
+        boolean isExist = memberRepository.existsByJoinId(newId);
+        if (isExist) {
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
+        }
+        return Message.validId();
+    }
+
+    public LoginResponse login(final LoginRequest loginRequest) {
+
+        // ToDo if(로그인 성공시) jwt 생성
 
 
+        if (!localoginSuccess(loginRequest)) {
+            throw new ApiException(ErrorType._LOGIN_FAIL);
+        }
+
+        String email = loginRequest.getJoinId();
+        String jwtToken = jwtProvider.generateJwtToken(email);
+
+        Member findMember = memberService.findByEmail(email);
+        jwtProvider.setContextHolder(jwtToken, findMember);
+
+        boolean existsNickname = memberService.isExistsNickname(findMember.getNickname());
+        if (existsNickname) {
+            return getLoginResponse(jwtToken, false);
+        }
+
+        return getLoginResponse(jwtToken, true);
+    }
+
+    private boolean localoginSuccess(LoginRequest loginRequest) {
+        String email = loginRequest.getJoinId();
+        String password = loginRequest.getPassword();
+
+        Member findMember = memberService.findByEmail(email);
+
+        boolean success = findMember.getPassword().equals(password);
+        if (!success) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private LoginResponse getLoginResponse(final String jwtToken, final boolean ifFirstLogin) {
+        // Server JWT Token
+        return LoginResponse.builder()
+                .jwtToken(jwtToken)
+                .ifFirstLogin(ifFirstLogin)
+                .build();
+    }
 
 }
+

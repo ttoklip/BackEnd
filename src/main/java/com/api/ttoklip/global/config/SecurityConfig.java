@@ -50,6 +50,7 @@ public class SecurityConfig {
                                         ,"/v3/api-docs/**"
                                         ,"/api/v1/auth"
                                         ,"/error"
+                                        ,"/api/v1/join/**"
                                 ).permitAll()
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));

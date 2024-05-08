@@ -15,4 +15,5 @@ public class LoginRequest {
 
     @Schema(description = "비밀번호", example = "asdf1234!")
     private String password;
+
 }

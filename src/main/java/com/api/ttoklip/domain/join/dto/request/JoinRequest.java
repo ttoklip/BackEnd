@@ -15,4 +15,14 @@ public class JoinRequest {
 
     @Schema(description = "비밀번호", example = "asdf1234!")
     private String password;
+
+    @Schema(description = "이름", example = "민희진")
+    private String originName;
+
+    @Schema(description = "생년원일", example = "2024.05.06")
+    private String birth;
+
+    private String email;
+
+    private Boolean emailAuth;
 }

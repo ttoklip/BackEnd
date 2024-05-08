@@ -1,4 +1,7 @@
 package com.api.ttoklip.domain.join.dto.response;
 
-public class LoginResponse {
+import lombok.Builder;
+
+@Builder
+public record LoginResponse(String jwtToken, boolean ifFirstLogin) {
 }

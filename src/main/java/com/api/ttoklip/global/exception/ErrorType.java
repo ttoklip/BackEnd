@@ -76,6 +76,7 @@ public enum ErrorType {
     _JWT_PARSING_ERROR(BAD_REQUEST, "JWT_4001", "JWT Token이 올바르지 않습니다."),
     _JWT_EXPIRED(UNAUTHORIZED, "JWT_4010", "Jwt Token의 유효 기간이 만료되었습니다."),
     _JWT_NOT_FOUND(UNAUTHORIZED, "JWT_4010", "Jwt Token을 포함하셔야합니다."),
+    _LOGIN_FAIL(FORBIDDEN, "LOGIN_4031", "로그인을 실패했습니다."),
 
 
     // ------------------------------------------ Auth ------------------------------------------
@@ -116,6 +117,7 @@ public enum ErrorType {
     INVALID_CATEGORIES_SIZE(BAD_REQUEST, "Privacy_4041", "회원가입시 카테고리는 최대 3개까지 선택가능합니다."),
     ALREADY_EXISTS_NICKNAME(BAD_REQUEST, "Privacy_4042", "이미 사용중인 닉네임입니다."),
     LOCATION_NOT_FOUND(BAD_REQUEST, "Privacy_4043", "위도와 경고는 필수입니다."),
+    ALREADY_EXISTS_JOINID(BAD_REQUEST, "Privacy_4044", "이미 사용중인 아이디입니다."),
 
 
     // ------------------------------------------ Query ------------------------------------------
