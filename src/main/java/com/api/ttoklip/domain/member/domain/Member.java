@@ -40,11 +40,9 @@ public class Member extends BaseEntity {
 
     private String originName;
 
-    private String joinId;
-    private String password;
-
     @Email
     private String email;
+    private String password;
 
     private String provider;
     private String nickname;

@@ -35,18 +35,18 @@ public class JoinService {
     @Transactional
     public Message signup(JoinRequest joinRequest) {
 
-        String joinId = joinRequest.getJoinId();
+        String email = joinRequest.getEmail();
         String password = joinRequest.getPassword();
         String originName = joinRequest.getOriginName();
         String birth = joinRequest.getBirth();
 
-        Boolean isExist = memberRepository.existsByJoinId(joinId);
+        Boolean isExist = memberRepository.existsByEmail(email);
 
         if (isExist) {
             throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
         }
         Member data = Member.builder()
-                .joinId(joinId)
+                .email(email)
                 .password(bCryptPasswordEncoder.encode(password))
                 .originName(originName)
 //                .birth
@@ -59,8 +59,8 @@ public class JoinService {
     }
 
     @Transactional
-    public Message duplicate(final String newId) {
-        boolean isExist = memberRepository.existsByJoinId(newId);
+    public Message duplicate(final String email) {
+        boolean isExist = memberRepository.existsByEmail(email);
         if (isExist) {
             throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
         }
@@ -69,16 +69,15 @@ public class JoinService {
 
     public LoginResponse login(final LoginRequest loginRequest) {
 
-        // ToDo if(로그인 성공시) jwt 생성
-
 
         if (!localoginSuccess(loginRequest)) {
             throw new ApiException(ErrorType._LOGIN_FAIL);
         }
 
-        String email = loginRequest.getJoinId();
+        String email = loginRequest.getEmail();
         String jwtToken = jwtProvider.generateJwtToken(email);
 
+//        Member findMember = memberService.findByEmail(email);
         Member findMember = memberService.findByEmail(email);
         jwtProvider.setContextHolder(jwtToken, findMember);
 
@@ -91,12 +90,13 @@ public class JoinService {
     }
 
     private boolean localoginSuccess(LoginRequest loginRequest) {
-        String email = loginRequest.getJoinId();
+        String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
         Member findMember = memberService.findByEmail(email);
 
-        boolean success = findMember.getPassword().equals(password);
+//        boolean success = findMember.getPassword().equals(password);
+        boolean success = findMember.getEmail().equals(email);
         if (!success) {
             return false;
         }

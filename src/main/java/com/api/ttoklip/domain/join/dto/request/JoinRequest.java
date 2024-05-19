@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JoinRequest {
 
-    @Schema(description = "직접 로그인 ID", example = "ttok123")
-    private String joinId;
+    @Schema(description = "직접 로그인 ID", example = "ttok123@naver.com")
+    private String email;
 
     @Schema(description = "비밀번호", example = "asdf1234!")
     private String password;
@@ -21,8 +21,6 @@ public class JoinRequest {
 
     @Schema(description = "생년원일", example = "2024.05.06")
     private String birth;
-
-    private String email;
 
     private Boolean emailAuth;
 }
