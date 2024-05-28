@@ -17,7 +17,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final RedisUtil redisUtil;
-    private static final String senderEmail = "sanbyul1@naver.com";
+    private static final String senderEmail = "gmfd78459123@gmail.com";
 
     private String createCode() {
         int leftLimit = 48; // number '0'
