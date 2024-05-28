@@ -30,4 +30,17 @@ public class ProfileLikeService {
         ProfileLike profileLike = ProfileLike.of(currentMember, targetMember);
         profileLikeRepository.save(profileLike);
     }
+
+    @Transactional
+    public void cancelProfileLike(final Long targetMemberId) {
+        Member targetMember = memberService.findById(targetMemberId);
+        Member currentMember = getCurrentMember();
+
+        ProfileLike profileLike = profileLikeRepository.findByFromMemberIdAndTargetMemberId(
+                currentMember.getId(), targetMember.getId()
+        );
+
+        profileLikeRepository.deleteById(profileLike.getId());
+    }
+
 }
