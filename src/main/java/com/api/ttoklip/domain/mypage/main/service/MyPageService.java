@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.mypage.main.service;
 
 
 
+import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.mypage.main.domain.*;
 import com.api.ttoklip.domain.question.post.domain.Question;
 
@@ -37,11 +38,8 @@ public class MyPageService {
     private final MyNewsLetterRepository myNewsLetterRepository;
     private final MyCartRepository myCartRepository;
 
-
-    public MyPageResponse getMyProfile() {
-        Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        MyPageResponse myPageResponse = MyPageResponse.of(currentMember);
-        return myPageResponse;
+    public TargetMemberProfile getMyProfile() {
+        return memberService.getTargetMemberProfile(getCurrentMember().getId());
     }
 
     public Message blockedUser() {
