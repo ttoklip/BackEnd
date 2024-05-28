@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.email.controller;
 
+import com.api.ttoklip.domain.email.dto.request.EmailRequest;
+import com.api.ttoklip.domain.email.service.EmailService;
 import com.api.ttoklip.global.exception.ApiExceptionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +41,7 @@ public class EmailController {
     @PostMapping("/send")
     public String mailSend(EmailRequest request) throws MessagingException {
         log.info("EmailController.mailSend()");
-        emailService.sendEmail(request.getMail());
+        emailService.sendEmail(request.getEmail());
         return "인증코드가 발송되었습니다.";
     }
 
@@ -57,7 +59,7 @@ public class EmailController {
     @PostMapping("/verify")
     public String verify(EmailRequest request) {
         log.info("EmailController.verify()");
-        boolean isVerify = emailService.verifyEmailCode(request.getMail(), request.getVerifyCode());
+        boolean isVerify = emailService.verifyEmailCode(request.getEmail(), request.getVerifyCode());
         return isVerify ? "인증이 완료되었습니다." : "인증 실패하셨습니다.";
     }
 }
