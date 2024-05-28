@@ -35,8 +35,10 @@ public class FCMService {
                     .putData(TEXT_DATA_NAME, categoryName.getText())
                     .setToken(member.getFcmToken())
                     .build();
+
             FirebaseMessaging.getInstance()
                     .send(message);
+
             notificationService.register(categoryName, member, targetClassId, true);
         } catch (FirebaseMessagingException e) {
             log.info("FCMService.sendNotification + FirebaseMessagingException");
@@ -47,8 +49,11 @@ public class FCMService {
             log.info("FCMService.sendNotification + IllegalArgumentException");
             notificationService.register(categoryName, member, targetClassId, false);
             throw new ApiException(ErrorType._NOT_SEND_ABLE);
+
         } catch (Exception e) {
             e.printStackTrace();
+            notificationService.register(categoryName, member, targetClassId, false);
+            throw new ApiException(ErrorType._NOT_SEND_ABLE);
         }
     }
 }
