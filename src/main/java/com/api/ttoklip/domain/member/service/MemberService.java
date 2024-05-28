@@ -4,6 +4,7 @@ import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_BY_TOKE
 import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_DB;
 
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.repository.MemberOAuthRepository;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.global.exception.ApiException;
@@ -30,7 +31,7 @@ public class MemberService {
         return memberOAuthRepository.findByIdWithProfile(memberId);
     }
 
-    public Member findByNickNameWithProfile(final String nickName){
+    public Member findByNickNameWithProfile(final String nickName) {
         return memberOAuthRepository.findByNickNameWithProfile(nickName);//02.17
     }
 
@@ -58,5 +59,13 @@ public class MemberService {
         Member currentMember = findById(member.getId());
         currentMember.updateFcmToken(fcmToken);
         return Message.updateFCM();
+    }
+
+    public TargetMemberProfile getTargetMemberProfile(final Long targetMemberId) {
+        Member member = memberRepository.getTargetMemberProfile(targetMemberId);
+        return TargetMemberProfile.of(
+                member.getId(), member.getNickname(), member.getStreet(), member.getIndependentYear(),
+                member.getIndependentMonth(), member.getProfileLikesFrom().size()
+        );
     }
 }

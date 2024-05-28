@@ -121,6 +121,13 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartMember> cartMembers = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProfileLike> profileLikesFrom = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "targetMember", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProfileLike> profileLikesTo = new ArrayList<>();
 
     public MemberEditorBuilder toEditor() {
         return MemberEditor.builder()
