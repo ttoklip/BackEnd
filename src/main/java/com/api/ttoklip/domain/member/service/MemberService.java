@@ -55,7 +55,8 @@ public class MemberService {
 
     @Transactional
     public Message updateMemberFCMToken(final Member member, final String fcmToken) {
-        member.updateFcmToken(fcmToken);
+        Member currentMember = findById(member.getId());
+        currentMember.updateFcmToken(fcmToken);
         return Message.updateFCM();
     }
 }
