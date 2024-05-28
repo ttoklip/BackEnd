@@ -44,4 +44,13 @@ public class ProfileLikeRepositoryImpl implements ProfileLikeRepositoryCustom {
                 .orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
     }
 
+    @Override
+    public Long countProfileLikesByMemberId(final Long targetMemberId) {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(profileLike)
+                .where(profileLike.targetMember.id.eq(targetMemberId))
+                .fetchOne();
+    }
+
 }
