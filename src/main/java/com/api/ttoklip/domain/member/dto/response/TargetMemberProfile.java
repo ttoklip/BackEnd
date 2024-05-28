@@ -7,6 +7,9 @@ public record TargetMemberProfile(
         @Schema(description = "타겟 멤버의 ID")
         Long targetMemberId,
 
+        @Schema(description = "타겟 멤버의 프로필 이미지 url")
+        String profileImgUrl,
+
         @Schema(description = "타겟 멤버의 닉네임")
         String nickname,
 
@@ -23,8 +26,11 @@ public record TargetMemberProfile(
         int likeCount
 ) {
 
-    public static TargetMemberProfile of(final Long targetMemberId, final String nickname, final String street,
-                                         final int independentYear, final int independentMonth, final int likeCount) {
-        return new TargetMemberProfile(targetMemberId, nickname, street, independentYear, independentMonth, likeCount);
+    public static TargetMemberProfile of(Long targetMemberId, String nickname, String profileImgUrl, String street,
+                                         int independentYear, int independentMonth, int likeCount) {
+        return new TargetMemberProfile(
+                targetMemberId, nickname, profileImgUrl,
+                street, independentYear, independentMonth, likeCount
+        );
     }
 }
