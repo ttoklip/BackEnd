@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/privacy")
 @RequiredArgsConstructor
-public class ProfileController {
+public class OurServiceJoinController {
 
     private final ProfileService profileService;
 

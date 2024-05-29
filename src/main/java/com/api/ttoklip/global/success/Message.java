@@ -129,4 +129,16 @@ public class Message {
                 .message("target " + email + "님에게 알림이 성공적으러로 전송되었습니다")
                 .build();
     }
+
+    public static Message registerProfileLike(final Long targetMemberId) {
+        return Message.builder()
+                .message("target " + targetMemberId + "번 회원 프로필에 좋아요를 추가했습니다")
+                .build();
+    }
+
+    public static Message cancelProfileLike(final Long targetMemberId) {
+        return Message.builder()
+                .message("target " + targetMemberId + "번 회원 프로필에 좋아요를 취소했습니다")
+                .build();
+    }
 }

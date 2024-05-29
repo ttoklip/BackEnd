@@ -138,6 +138,10 @@ public enum ErrorType {
     _BAD_CATEGORY_NOTIFICATION_TYPE(INTERNAL_SERVER_ERROR, "Notification_5001", "내부에서 공지타입을 찾는데 오류가 발생했습니다."),
 
 
+    // ------------------------------------------ ProfileLike ------------------------------------------
+    PROfile_LIKE_MYSELF(BAD_REQUEST, "ProfileLike_4001", "본인 프로필에 좋아요할 수 없습니다."),
+
+
     ;
 
     private final HttpStatus status;
