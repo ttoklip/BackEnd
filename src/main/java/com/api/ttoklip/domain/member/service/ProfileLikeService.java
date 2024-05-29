@@ -59,8 +59,4 @@ public class ProfileLikeService {
         }
     }
 
-    public Long countMemberLikeCount(final Long targetMemberId) {
-        return profileLikeRepository.countProfileLikesByMemberId(targetMemberId);
-    }
-
 }
