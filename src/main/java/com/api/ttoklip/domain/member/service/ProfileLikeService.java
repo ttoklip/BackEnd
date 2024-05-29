@@ -5,6 +5,8 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.ProfileLike;
 import com.api.ttoklip.domain.member.repository.ProfileLikeRepository;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,10 @@ public class ProfileLikeService {
 
     @Transactional
     public Message registerProfileLike(final Long targetMemberId) {
-        Member targetMember = memberService.findById(targetMemberId);
         Member currentMember = getCurrentMember();
+        validLikeMyself(targetMemberId, currentMember);
+
+        Member targetMember = memberService.findById(targetMemberId);
 
         boolean isExists = profileLikeRepository.isExists(currentMember.getId(), targetMemberId);
         if (isExists) {
@@ -36,8 +40,10 @@ public class ProfileLikeService {
 
     @Transactional
     public Message cancelProfileLike(final Long targetMemberId) {
-        Member targetMember = memberService.findById(targetMemberId);
         Member currentMember = getCurrentMember();
+        validLikeMyself(targetMemberId, currentMember);
+
+        Member targetMember = memberService.findById(targetMemberId);
 
         ProfileLike profileLike = profileLikeRepository.findByFromMemberIdAndTargetMemberId(
                 currentMember.getId(), targetMember.getId()
@@ -45,6 +51,12 @@ public class ProfileLikeService {
 
         profileLikeRepository.deleteById(profileLike.getId());
         return Message.registerProfileLike(targetMemberId);
+    }
+
+    private void validLikeMyself(final Long targetMemberId, final Member currentMember) {
+        if (currentMember.getId().equals(targetMemberId)) {
+            throw new ApiException(ErrorType.PROfile_LIKE_MYSELF);
+        }
     }
 
     public Long countMemberLikeCount(final Long targetMemberId) {
