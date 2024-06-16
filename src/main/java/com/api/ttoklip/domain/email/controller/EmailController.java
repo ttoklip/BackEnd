@@ -13,6 +13,7 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,8 +40,11 @@ public class EmailController {
                             (schema = @Schema(implementation = ApiExceptionResponse.class)))
     })
     @PostMapping("/send")
-    public String mailSend(EmailRequest request) throws MessagingException {
+    public String mailSend(@RequestBody EmailRequest request) throws MessagingException {
         log.info("EmailController.mailSend()");
+        if (request.getEmail() == null || request.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email must not be null or empty");
+        }
         emailService.sendEmail(request.getEmail());
         return "인증코드가 발송되었습니다.";
     }
@@ -57,7 +61,7 @@ public class EmailController {
                             (schema = @Schema(implementation = ApiExceptionResponse.class)))
     })
     @PostMapping("/verify")
-    public String verify(EmailRequest request) {
+    public String verify(@RequestBody EmailRequest request) {
         log.info("EmailController.verify()");
         boolean isVerify = emailService.verifyEmailCode(request.getEmail(), request.getVerifyCode());
         return isVerify ? "인증이 완료되었습니다." : "인증 실패하셨습니다.";
