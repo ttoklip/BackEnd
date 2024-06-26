@@ -17,8 +17,8 @@ public class EmailConfig {
     @Value("${spring.mail.port}")
     private int port;
 
-    @Value("${spring.mail.username}")
-    private String username;
+    @Value("${spring.mail.sender-email}")
+    private String senderEmail;
 
     @Value("${spring.mail.password}")
     private String password;
@@ -46,7 +46,7 @@ public class EmailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
         mailSender.setPort(port);
-        mailSender.setUsername(username);
+        mailSender.setUsername(senderEmail);
         mailSender.setPassword(password);
         mailSender.setDefaultEncoding("UTF-8");
         mailSender.setJavaMailProperties(getMailProperties());
