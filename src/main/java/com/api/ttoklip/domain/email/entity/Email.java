@@ -22,9 +22,13 @@ public class Email {
     private boolean emailStatus;
 
     @Builder
-    public Email(String email) {
+    private Email(String email, boolean emailStatus) {
         this.email = email;
         this.emailStatus = false;
+    }
+
+    public static Email from(String email){
+        return new Email(email, false);
     }
 }
 
