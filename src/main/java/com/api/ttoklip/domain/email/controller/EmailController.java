@@ -3,6 +3,8 @@ package com.api.ttoklip.domain.email.controller;
 import com.api.ttoklip.domain.email.dto.request.EmailRequest;
 import com.api.ttoklip.domain.email.service.EmailService;
 import com.api.ttoklip.global.exception.ApiExceptionResponse;
+import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,8 +28,6 @@ public class EmailController {
 
     private final EmailService emailService;
 
-    // todo 응답  Message 형태로 바꾸기
-
     /* --------------------------------- send authentication code --------------------------------- */
     @Operation(summary = "인증코드 메일 발송", description = "인증코드를 메일로 발송합니다.")
     @ApiResponses(value = {
@@ -40,13 +40,9 @@ public class EmailController {
                             (schema = @Schema(implementation = ApiExceptionResponse.class)))
     })
     @PostMapping("/send")
-    public String mailSend(@RequestBody EmailRequest request) throws MessagingException {
+    public SuccessResponse<Message> mailSend(@RequestBody EmailRequest request) throws MessagingException {
         log.info("EmailController.mailSend()");
-        if (request.getEmail() == null || request.getEmail().isEmpty()) {
-            throw new IllegalArgumentException("Email must not be null or empty");
-        }
-        emailService.sendEmail(request.getEmail());
-        return "인증코드가 발송되었습니다.";
+        return new SuccessResponse<>(emailService.sendEmail(request.getEmail()));
     }
 
     /* --------------------------------- verify --------------------------------- */
@@ -61,9 +57,9 @@ public class EmailController {
                             (schema = @Schema(implementation = ApiExceptionResponse.class)))
     })
     @PostMapping("/verify")
-    public String verify(@RequestBody EmailRequest request) {
+    public SuccessResponse<Message> verify(@RequestBody EmailRequest request) {
         log.info("EmailController.verify()");
         boolean isVerify = emailService.verifyEmailCode(request.getEmail(), request.getVerifyCode());
-        return isVerify ? "인증이 완료되었습니다." : "인증 실패하셨습니다.";
+        return new SuccessResponse<>(isVerify ? Message.verifyCodeSuccess() : Message.verifyCodeFail());
     }
 }

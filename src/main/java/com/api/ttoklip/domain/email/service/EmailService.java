@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.email.service;
 
+import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -53,7 +54,10 @@ public class EmailService {
     }
 
     // 인증코드 이메일 발송
-    public void sendEmail(String toEmail) throws MessagingException {
+    public Message sendEmail(String toEmail) throws MessagingException {
+        if (toEmail == null || toEmail.isEmpty()) {
+            throw new IllegalArgumentException("Email must not be null or empty");
+        }
         if (redisUtil.existData(toEmail)) {
             redisUtil.deleteData(toEmail);
         }
@@ -61,6 +65,8 @@ public class EmailService {
         MimeMessage emailForm = createEmailForm(toEmail);
         // 이메일 발송
         javaMailSender.send(emailForm);
+
+        return Message.sendEmail();
     }
 
     // 코드 검증
