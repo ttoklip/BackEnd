@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TtoklipApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TtoklipApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TtoklipApplication.class, args);
+    }
 
 }

@@ -1,8 +1,6 @@
 package com.api.ttoklip.domain.town.community.comment.controller;
 
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
-import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
-import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.community.comment.service.CommunityCommentService;
 import com.api.ttoklip.global.success.Message;
@@ -15,7 +13,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Town", description = "우리동네 - 소통해요 댓글 API 입니다.")
 @RestController
@@ -52,7 +55,7 @@ public class CommunityCommentController {
                     ))})
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
-                                        final @RequestBody ReportCreateRequest request) {
+                                           final @RequestBody ReportCreateRequest request) {
         Message message = communityCommentService.report(commentId, request);
         return new SuccessResponse<>(message);
     }
@@ -78,9 +81,9 @@ public class CommunityCommentController {
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class)
-                            ))})
+                    ))})
     @DeleteMapping("/{commentId}")
-    public SuccessResponse<Message> delete ( final @PathVariable Long commentId){
+    public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
         Message message = communityCommentService.delete(commentId);
         return new SuccessResponse<>(message);
     }

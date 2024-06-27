@@ -37,72 +37,72 @@ public class QuestionResponseConstant {
             """;
 
     public static final String categoryValue = """
-                {
-                    "time": "2024-01-11T16:06:30.852Z",
-                    "status": 200,
-                    "code": "200",
-                    "message": "요청에 성공하였습니다.",
-                    "result": {
-                        "categoryResponse": {
-                            "houseworkQuestions": [
+                    {
+                        "time": "2024-01-11T16:06:30.852Z",
+                        "status": 200,
+                        "code": "200",
+                        "message": "요청에 성공하였습니다.",
+                        "result": {
+                            "categoryResponse": {
+                                "houseworkQuestions": [
+                                    {
+                                        "questionId": 1,
+                                        "title": "집안일 관련 질문 예시",
+                                        "content": "집안일 관련 내용 예시",
+                                        "writer": "작성자1",
+                                        "commentCount": 2,
+                                        "writtenTime": "24.01.10 12:00",
+                                        "category": "HOUSEWORK"
+                                    }
+                                ],
+                                "cookingQuestions": [
+                                    {
+                                        "questionId": 2,
+                                        "title": "요리 관련 질문 예시",
+                                        "content": "요리 관련 내용 예시",
+                                        "writer": "작성자2",
+                                        "commentCount": 3,
+                                        "writtenTime": "24.01.11 13:00",
+                                        "category": "COOKING"
+                                    }
+                                ],
+                                "safeLivingQuestions": [
                                 {
-                                    "questionId": 1,
-                                    "title": "집안일 관련 질문 예시",
-                                    "content": "집안일 관련 내용 예시",
-                                    "writer": "작성자1",
-                                    "commentCount": 2,
-                                    "writtenTime": "24.01.10 12:00",
-                                    "category": "HOUSEWORK"
-                                }
-                            ],
-                            "cookingQuestions": [
+                                        "questionId": 2,
+                                        "title": "복지 관련 질문 예시",
+                                        "content": "복지 관련 내용 예시",
+                                        "writer": "작성자2",
+                                        "commentCount": 3,
+                                        "writtenTime": "24.01.11 13:00",
+                                        "category": "SAFE_LIVING"
+                                    }
+                                ],
+                                "welfarePolicyQuestions": [
                                 {
-                                    "questionId": 2,
-                                    "title": "요리 관련 질문 예시",
-                                    "content": "요리 관련 내용 예시",
-                                    "writer": "작성자2",
-                                    "commentCount": 3,
-                                    "writtenTime": "24.01.11 13:00",
-                                    "category": "COOKING"
+                                        "questionId": 2,
+                                        "title": "요리 관련 질문 예시",
+                                        "content": "요리 관련 내용 예시",
+                                        "writer": "작성자2",
+                                        "commentCount": 3,
+                                        "writtenTime": "24.01.11 13:00",
+                                        "category": "WELFARE_POLICY"
                                 }
-                            ],
-                            "safeLivingQuestions": [
-                            {
-                                    "questionId": 2,
-                                    "title": "복지 관련 질문 예시",
-                                    "content": "복지 관련 내용 예시",
-                                    "writer": "작성자2",
-                                    "commentCount": 3,
-                                    "writtenTime": "24.01.11 13:00",
-                                    "category": "SAFE_LIVING"
-                                }
-                            ],
-                            "welfarePolicyQuestions": [
-                            {
-                                    "questionId": 2,
-                                    "title": "요리 관련 질문 예시",
-                                    "content": "요리 관련 내용 예시",
-                                    "writer": "작성자2",
-                                    "commentCount": 3,
-                                    "writtenTime": "24.01.11 13:00",
+                                ]
+                            },
+                            "topFiveQuestions": [
+                                {
+                                    "questionId": 5,
+                                    "title": "TOP 5중 1등 게시글 제목 예시",
+                                    "content": "TOP 5중 1등 게시글 내용 예시",
+                                    "writer": "작성자5",
+                                    "commentCount": 5,
+                                    "writtenTime": "24.01.13 16:00",
                                     "category": "WELFARE_POLICY"
-                            }
+                                }
                             ]
-                        },
-                        "topFiveQuestions": [
-                            {
-                                "questionId": 5,
-                                "title": "TOP 5중 1등 게시글 제목 예시",
-                                "content": "TOP 5중 1등 게시글 내용 예시",
-                                "writer": "작성자5",
-                                "commentCount": 5,
-                                "writtenTime": "24.01.13 16:00",
-                                "category": "WELFARE_POLICY"
-                            }
-                        ]
+                        }
                     }
-                }      
-        """;
+            """;
 
     public final static String readSingleQuestion = """
                 {

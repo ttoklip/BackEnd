@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.town.cart.comment.controller;
 
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
-import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.comment.service.CartCommentService;
 import com.api.ttoklip.global.success.Message;
@@ -14,7 +13,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Town", description = "우리동네 - 함께해요 댓글 API 입니다.")
 @RestController

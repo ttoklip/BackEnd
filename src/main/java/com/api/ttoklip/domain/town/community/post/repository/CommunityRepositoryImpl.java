@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletter.newsletter;
 import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
 import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;

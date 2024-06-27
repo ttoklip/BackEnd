@@ -54,7 +54,8 @@ public class NotificationDispatcher {
         }
 
         if (notifyCommentWriter) {   // 댓글 작성자에게 알릴 여부
-            Optional<NotificationServerResponse> optionalCommentWriterId = postTargetFinder.getCommentWriterId(notiCategory,
+            Optional<NotificationServerResponse> optionalCommentWriterId = postTargetFinder.getCommentWriterId(
+                    notiCategory,
                     targetIndex);
 
             if (optionalCommentWriterId.isPresent()) {

@@ -22,7 +22,7 @@ public class MemberEditor {
         private int independentYear;
         private int independentMonth;
 
-        MemberEditorBuilder(){
+        MemberEditorBuilder() {
         }
 
         public MemberEditorBuilder nickname(final String nickname) {

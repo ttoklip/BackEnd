@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.town.cart.post.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
@@ -21,14 +23,11 @@ import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -98,12 +97,13 @@ public class CartPostService {
     public CartSingleResponse getSinglePost(final Long postId) {
         Cart cartWithImg = cartRepository.findByIdFetchJoin(postId);
         List<CartComment> activeComments = cartRepository.findActiveCommentsByCartId(postId);
-        boolean isAlreadyJoin = cartMemberRepository.existsByMemberIdAndCartId(getCurrentMember().getId(), cartWithImg.getId());
+        boolean isAlreadyJoin = cartMemberRepository.existsByMemberIdAndCartId(getCurrentMember().getId(),
+                cartWithImg.getId());
         CartSingleResponse cartSingleResponse = CartSingleResponse.of(cartWithImg, activeComments, isAlreadyJoin);
         return cartSingleResponse;
     }
 
-    public List<UserCartSingleResponse> getRecent3(){
+    public List<UserCartSingleResponse> getRecent3() {
         List<Cart> carts = cartRepository.findRecent3();
         return carts.stream()
                 .map(UserCartSingleResponse::cartFrom)
@@ -131,7 +131,6 @@ public class CartPostService {
         if (itemUrls != null && !itemUrls.isEmpty()) {
             editItemUrls(cart, itemUrls);
         }
-
 
         return Message.editPostSuccess(Cart.class, cart.getId());
     }
@@ -216,7 +215,7 @@ public class CartPostService {
             throw new ApiException(ErrorType.ALREADY_PARTICIPATED);
         }
         cartMemberService.register(cart);
-        if(cart.getCartMembers().size()==cart.getPartyMax()){
+        if (cart.getCartMembers().size() == cart.getPartyMax()) {
             cart.changeComplete();
         }
 
@@ -244,7 +243,7 @@ public class CartPostService {
         }
 
         System.out.println("cart.getPartyMax() = " + cart.getPartyMax());
-        if(cart.getCartMembers().size()<cart.getPartyMax()){
+        if (cart.getCartMembers().size() < cart.getPartyMax()) {
             System.out.println("------------------------------------------CartPostService.removeParticipant");
             cart.changeProgress();
         }

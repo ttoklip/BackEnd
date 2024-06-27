@@ -3,11 +3,10 @@ package com.api.ttoklip.domain.town.community.post.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Getter
 @AllArgsConstructor

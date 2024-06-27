@@ -7,14 +7,13 @@ import com.api.ttoklip.domain.town.community.image.entity.CommunityImage;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @Getter

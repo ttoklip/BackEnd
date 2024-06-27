@@ -2,7 +2,6 @@ package com.api.ttoklip.domain.newsletter.comment.controller;
 
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.newsletter.comment.service.NewsletterCommentService;
 import com.api.ttoklip.domain.newsletter.main.constant.NewsletterResponseConstant;
 import com.api.ttoklip.global.success.Message;

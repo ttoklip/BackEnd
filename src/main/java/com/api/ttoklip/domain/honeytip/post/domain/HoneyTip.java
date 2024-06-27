@@ -2,13 +2,13 @@ package com.api.ttoklip.domain.honeytip.post.domain;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor.HoneyTipPostEditorBuilder;
+import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.url.domain.HoneyTipUrl;
 import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;
@@ -46,7 +46,7 @@ public class HoneyTip extends BaseEntity {
     private String title;
 
     @Lob
-    @Column(name = "content", columnDefinition="LONGTEXT")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
     @Column(name = "category")

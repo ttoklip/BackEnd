@@ -3,7 +3,6 @@ package com.api.ttoklip.domain.honeytip.url.repository;
 
 import static com.api.ttoklip.domain.honeytip.url.domain.QHoneyTipUrl.*;
 
-import com.api.ttoklip.domain.honeytip.url.domain.QHoneyTipUrl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

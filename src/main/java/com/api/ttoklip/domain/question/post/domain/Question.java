@@ -8,7 +8,6 @@ import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.image.domain.QuestionImage;
-import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -52,7 +51,7 @@ public class Question extends BaseEntity {
     private String title;
 
     @Lob
-    @Column(name = "content", columnDefinition="LONGTEXT")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
     public static Question from(final QuestionCreateRequest request) {

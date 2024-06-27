@@ -30,7 +30,8 @@ public class MemberOAuthRepository {
         return Optional.ofNullable(findMember)
                 .orElseThrow(() -> new ApiException(ErrorType._USER_NOT_FOUND_DB));
     }
-    public Member findByNickNameWithProfile(final String nickName){//02.17
+
+    public Member findByNickNameWithProfile(final String nickName) {//02.17
         QMember member = QMember.member;
         QProfile profile = QProfile.profile;
 

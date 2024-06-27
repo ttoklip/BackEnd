@@ -5,7 +5,6 @@ import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.qu
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

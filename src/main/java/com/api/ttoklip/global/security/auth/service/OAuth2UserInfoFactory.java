@@ -51,7 +51,8 @@ public class OAuth2UserInfoFactory {
                     // 401 오류 처리
                     return Mono.error(new ApiException(ErrorType.KAKAO_TOKEN_INVALID));
                 })
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                })
                 .block();
         log.info("---------------------------------------- attributes = " + attributes);
         return new KakaoUserInfo(attributes);
@@ -70,7 +71,8 @@ public class OAuth2UserInfoFactory {
                     // 401 오류 처리
                     return Mono.error(new ApiException(ErrorType.NAVER_TOKEN_INVALID));
                 })
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                })
                 .block();
         log.info("---------------------------------------- naver attributes = " + attributes);
         return new NaverUserInfo(attributes);

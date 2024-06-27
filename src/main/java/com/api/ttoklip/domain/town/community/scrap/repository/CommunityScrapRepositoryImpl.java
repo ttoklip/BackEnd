@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.town.community.scrap.repository;
 
+import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
+
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-
-import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
 @RequiredArgsConstructor
 public class CommunityScrapRepositoryImpl implements CommunityScrapRepositoryCustom {

@@ -1,18 +1,17 @@
 package com.api.ttoklip.domain.stranger.repository;
 
+import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
+import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
+
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
-import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 
 @Repository
 @RequiredArgsConstructor

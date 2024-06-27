@@ -8,12 +8,11 @@ import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.domain.stranger.dto.response.StrangerResponse;
 import com.api.ttoklip.domain.stranger.repository.StrangerHoneyTipRepository;
 import com.api.ttoklip.global.success.Message;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

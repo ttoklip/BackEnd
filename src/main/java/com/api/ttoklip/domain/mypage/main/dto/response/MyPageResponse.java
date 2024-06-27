@@ -1,14 +1,10 @@
 package com.api.ttoklip.domain.mypage.main.dto.response;
 
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Getter
 @Builder

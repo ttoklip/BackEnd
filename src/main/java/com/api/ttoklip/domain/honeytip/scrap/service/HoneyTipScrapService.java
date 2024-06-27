@@ -1,17 +1,17 @@
 package com.api.ttoklip.domain.honeytip.scrap.service;
 
-import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
-import com.api.ttoklip.domain.honeytip.scrap.repository.HoneyTipScrapRepository;
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
+import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
+import com.api.ttoklip.domain.honeytip.scrap.repository.HoneyTipScrapRepository;
 import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +42,8 @@ public class HoneyTipScrapService {
         Long findHoneyTipId = findHoneyTip.getId();
         Long currentMemberId = getCurrentMember().getId();
 
-        HoneyTipScrap honeyTipScrap = honeyTipScrapRepository.findByHoneyTipIdAndMemberId(findHoneyTipId, currentMemberId)
+        HoneyTipScrap honeyTipScrap = honeyTipScrapRepository.findByHoneyTipIdAndMemberId(findHoneyTipId,
+                        currentMemberId)
                 .orElseThrow(() -> new ApiException(ErrorType.SCRAP_NOT_FOUND));
 
         // 자격 검증: 이 단계에서는 findByHoneyTipIdAndMemberId 결과가 존재하므로, 현재 사용자가 스크랩을 누른 것입니다.

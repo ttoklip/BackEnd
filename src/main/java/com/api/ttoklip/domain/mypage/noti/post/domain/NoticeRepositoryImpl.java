@@ -1,14 +1,13 @@
 package com.api.ttoklip.domain.mypage.noti.post.domain;
 
+import static com.api.ttoklip.domain.mypage.noti.post.domain.QNotice.notice;
+
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-
 import java.util.Optional;
-
-import static com.api.ttoklip.domain.mypage.noti.post.domain.QNotice.notice;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class NoticeRepositoryImpl implements NoticeRepositoryCustom {

@@ -19,7 +19,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Cart", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
@@ -55,7 +63,7 @@ public class CartPostController {
             description = "함께해요 단일 게시글을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 조회 성공",
-                    content = @Content(mediaType =  MediaType.APPLICATION_JSON_VALUE,
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = CartSingleResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
@@ -100,27 +108,27 @@ public class CartPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                        final @RequestBody ReportCreateRequest request) {
+                                           final @RequestBody ReportCreateRequest request) {
         Message message = cartPostService.report(postId, request);
         return new SuccessResponse<>(message);
     }
 
     /* UPDATE STATUS */
     @Operation(summary = "함께해요 게시글 상태 수정", description = "함께해요 게시글의 상태를 수정합니다.")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "200", description = "함께해요 게시글 상태 수정 성공",
-                        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                schema = @Schema(implementation = SuccessResponse.class),
-                                examples = @ExampleObject(
-                                        name = "SuccessResponse",
-                                        value = CartResponseConstant.STATUS_CART,
-                                        description = "함께해요 게시글의 상태를 마감으로 수정했습니다."
-                                )))})
-        @PatchMapping("/{postId}/status")
-        public SuccessResponse<Message> updateStatus(final @PathVariable Long postId,
-        final @RequestBody UpdateStatusRequest request) {
-            Message message = cartPostService.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
-            return new SuccessResponse<>(message);
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "함께해요 게시글 상태 수정 성공",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CartResponseConstant.STATUS_CART,
+                                    description = "함께해요 게시글의 상태를 마감으로 수정했습니다."
+                            )))})
+    @PatchMapping("/{postId}/status")
+    public SuccessResponse<Message> updateStatus(final @PathVariable Long postId,
+                                                 final @RequestBody UpdateStatusRequest request) {
+        Message message = cartPostService.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
+        return new SuccessResponse<>(message);
     }
 
     /* 참여자 추가 */

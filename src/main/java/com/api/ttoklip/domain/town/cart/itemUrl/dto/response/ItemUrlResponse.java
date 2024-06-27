@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.town.cart.itemUrl.dto.response;
 
-import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
-import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

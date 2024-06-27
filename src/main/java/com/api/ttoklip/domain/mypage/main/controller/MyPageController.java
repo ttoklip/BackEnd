@@ -1,14 +1,14 @@
 package com.api.ttoklip.domain.mypage.main.controller;
 
 import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
-import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.response.HoneyTipPaging;
-import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.mypage.main.constant.MyPageConstant;
-import com.api.ttoklip.domain.mypage.main.dto.response.*;
+import com.api.ttoklip.domain.mypage.main.dto.response.QuestionPaging;
 import com.api.ttoklip.domain.mypage.main.service.MyPageService;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
+import com.api.ttoklip.domain.search.response.CommunityPaging;
+import com.api.ttoklip.domain.search.response.HoneyTipPaging;
+import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -25,7 +25,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "My Page", description = "마이페이지 api입니다")
 @RequiredArgsConstructor

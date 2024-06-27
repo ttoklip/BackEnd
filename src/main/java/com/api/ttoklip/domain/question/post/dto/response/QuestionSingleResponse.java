@@ -7,13 +7,12 @@ import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -47,7 +46,8 @@ public class QuestionSingleResponse {
     @Schema(description = "질문에 대한 댓글 목록")
     private List<QuestionCommentResponse> questionCommentResponses;
 
-    public static QuestionSingleResponse of(final Question question, final List<QuestionCommentResponse> commentResponses) {
+    public static QuestionSingleResponse of(final Question question,
+                                            final List<QuestionCommentResponse> commentResponses) {
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(question);
 
@@ -83,7 +83,6 @@ public class QuestionSingleResponse {
                 .map(ImageResponse::questionFrom)
                 .toList();
     }
-
 
 //    private static List<QuestionCommentResponse> getQuestionCommentResponses(final List<QuestionComment> questionComments, final Long currentUserId) {
 //        return questionComments

@@ -1,14 +1,12 @@
 package com.api.ttoklip.domain.mypage.noti.post.dto.response;
 
 import com.api.ttoklip.domain.mypage.noti.post.domain.Notice;
-import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder

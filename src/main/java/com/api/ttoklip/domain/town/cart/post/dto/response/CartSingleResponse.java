@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.town.cart.post.dto.response;
 
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
-import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.dto.response.CartImageResponse;
 import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
@@ -9,16 +8,14 @@ import com.api.ttoklip.domain.town.cart.itemUrl.dto.response.ItemUrlResponse;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -73,7 +70,8 @@ public class CartSingleResponse {
     @Schema(description = "함께해요 참여했는지에 대한 여부")
     private boolean isAlreadyJoin;
 
-    public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments, final boolean isAlreadyJoin) {
+    public static CartSingleResponse of(final Cart cart, final List<CartComment> activeComments,
+                                        final boolean isAlreadyJoin) {
 
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(cart);
@@ -89,7 +87,7 @@ public class CartSingleResponse {
 
         List<CartMember> cartMembers = cart.getCartMembers();
 
-        int currentPrice = (int)(cart.getTotalPrice()/cart.getPartyMax()*cartMembers.size());
+        int currentPrice = (int) (cart.getTotalPrice() / cart.getPartyMax() * cartMembers.size());
 
         String writerName = null;
         if (cart.getMember() != null) {
