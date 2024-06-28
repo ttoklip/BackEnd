@@ -1,5 +1,3 @@
-## What Is Ttoklip??
-
 ![in1.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/in1.png)
 
 ![in2.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/in2.png)
@@ -8,10 +6,10 @@
 
 ![in4.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/in4.png)
 
-## Architecture
+## Model Diagram
 ![ttoklipdb.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/ttoklipdb.png)
 
-## Model Diagram
+## Architecture
 ![ttokliparc.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/ttokliparc.png)
 
 ## Project Folder Structure
