@@ -51,6 +51,7 @@ public class JoinService {
                 .originName(originName)
 //                .birth
                 .role(Role.CLIENT)
+                .provider("local")
                 .build();
         memberRepository.save(data);
 
