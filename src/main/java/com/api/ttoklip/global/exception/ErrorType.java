@@ -117,7 +117,7 @@ public enum ErrorType {
     INVALID_CATEGORIES_SIZE(BAD_REQUEST, "Privacy_4041", "회원가입시 카테고리는 최대 3개까지 선택가능합니다."),
     ALREADY_EXISTS_NICKNAME(BAD_REQUEST, "Privacy_4042", "이미 사용중인 닉네임입니다."),
     LOCATION_NOT_FOUND(BAD_REQUEST, "Privacy_4043", "위도와 경고는 필수입니다."),
-    ALREADY_EXISTS_JOINID(BAD_REQUEST, "Privacy_4044", "이미 사용중인 아이디입니다."),
+    ALREADY_EXISTS_JOINID(BAD_REQUEST, "Privacy_4044", "이미 사용중인 아이디(이메일)입니다."),
 
 
     // ------------------------------------------ Query ------------------------------------------
