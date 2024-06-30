@@ -10,8 +10,11 @@ import com.api.ttoklip.global.security.auth.dto.LoginResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.security.auth.userInfo.OAuth2UserInfo;
 import java.util.Optional;
+import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -21,6 +24,7 @@ public class AuthService {
 
     private final MemberService memberService;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtProvider jwtProvider;
     private final ProfileService profileService;
 
@@ -65,11 +69,17 @@ public class AuthService {
     private Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
         log.info("AuthService.registerNewMember");
         log.info("userInfo.getName() = " + userInfo.getName());
+
+        // 소셜 로그인 사용자의 비밀번호에 임의의 해시 값 설정
+        String randomPassword = UUID.randomUUID().toString();
+        String encodedPassword = bCryptPasswordEncoder.encode(randomPassword);
+
         Member newMember = Member.builder()
                 .email(userInfo.getEmail())
                 .originName(userInfo.getName())
                 .provider(provider)
                 .role(Role.CLIENT)
+                .password(encodedPassword)
                 .build();
         memberService.register(newMember);
 
