@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "email", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class Email {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "email_id", unique = true, nullable = false)
+    @Column(name = "email_id", nullable = false)
     private Long id;
 
     @Column(name = "email", nullable = false)
