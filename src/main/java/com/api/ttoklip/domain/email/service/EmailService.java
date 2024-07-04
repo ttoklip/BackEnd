@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -53,8 +54,9 @@ public class EmailService {
         return message;
     }
 
+    @Async
     // 인증코드 이메일 발송
-    public Message sendEmail(String toEmail) throws MessagingException {
+    public void sendEmail(String toEmail) throws MessagingException {
         if (toEmail == null || toEmail.isEmpty()) {
             throw new IllegalArgumentException("Email must not be null or empty");
         }
@@ -66,7 +68,7 @@ public class EmailService {
         // 이메일 발송
         javaMailSender.send(emailForm);
 
-        return Message.sendEmail();
+//        return Message.sendEmail();
     }
 
     // 코드 검증

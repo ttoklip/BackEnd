@@ -39,10 +39,18 @@ public class EmailController {
                     content = @Content
                             (schema = @Schema(implementation = ApiExceptionResponse.class)))
     })
+//    @PostMapping("/send")
+//    public SuccessResponse<Message> mailSend(@RequestBody EmailRequest request) throws MessagingException {
+//        log.info("EmailController.mailSend()");
+//        return new SuccessResponse<>(emailService.sendEmail(request.getEmail()));
+//    }
+
+    // 인증코드 메일 발송
     @PostMapping("/send")
-    public SuccessResponse<Message> mailSend(@RequestBody EmailRequest request) throws MessagingException {
+    public SuccessResponse<String> mailSend(@RequestBody EmailRequest request) throws MessagingException {
         log.info("EmailController.mailSend()");
-        return new SuccessResponse<>(emailService.sendEmail(request.getEmail()));
+        emailService.sendEmail(request.getEmail());
+        return new SuccessResponse<>("인증코드가 발송되었습니다.");
     }
 
     /* --------------------------------- verify --------------------------------- */
