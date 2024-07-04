@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.email.service;
 
-import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
