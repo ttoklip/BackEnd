@@ -39,13 +39,6 @@ public class EmailController {
                     content = @Content
                             (schema = @Schema(implementation = ApiExceptionResponse.class)))
     })
-//    @PostMapping("/send")
-//    public SuccessResponse<Message> mailSend(@RequestBody EmailRequest request) throws MessagingException {
-//        log.info("EmailController.mailSend()");
-//        return new SuccessResponse<>(emailService.sendEmail(request.getEmail()));
-//    }
-
-    // 인증코드 메일 발송
     @PostMapping("/send")
     public SuccessResponse<String> mailSend(@RequestBody EmailRequest request) throws MessagingException {
         log.info("EmailController.mailSend()");

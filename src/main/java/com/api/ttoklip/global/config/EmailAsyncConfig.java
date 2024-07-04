@@ -30,9 +30,4 @@ public class EmailAsyncConfig implements AsyncConfigurer {
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return AsyncConfigurer.super.getAsyncUncaughtExceptionHandler();
     }
-
-//    @PostConstruct
-//    public void initSecurityContextHolderStrategy() {
-//        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-//    }
 }
