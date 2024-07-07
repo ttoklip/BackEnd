@@ -41,28 +41,6 @@ public class MyPageService {
     public TargetMemberProfile getMyProfile() {
         return memberService.getTargetMemberProfile(getCurrentMember().getId());
     }
-
-    public Message blockedUser() {
-        return null;
-    }
-
-    public Message restricted() {
-        return null;
-    }
-
-    public Message unblock(Long targetId) {
-        /*Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        List<Member> blockedUsers = currentMember.getBlockedUsers();
-
-        for (Iterator<Member> iterator = blockedUsers.iterator(); iterator.hasNext(); ) {
-            Member blockedUser = iterator.next();
-            if (blockedUser.getId().equals(targetId)) {
-                iterator.remove();
-            }
-        }*/
-        return Message.activateUser();
-    }
-
     public HoneyTipPaging scrapHoneyTips(final Pageable pageable) {
 
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());

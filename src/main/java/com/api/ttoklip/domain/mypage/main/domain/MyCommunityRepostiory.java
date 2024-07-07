@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.mypage.main.domain;
 
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
