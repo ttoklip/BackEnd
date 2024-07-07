@@ -128,7 +128,6 @@ public class HoneyTipPostService {
 
 
     private void deleteImages(final List<Long> deleteImageIds) {
-        // 기존 이미지가 DB에 존재하는 이미지들인지?
         honeyTipImageService.deleteImages(deleteImageIds);
     }
 

@@ -144,6 +144,7 @@ public enum ErrorType {
 
     // ------------------------------------------ Image ------------------------------------------
     DELETE_INVALID_IMAGE_IDS(BAD_REQUEST, "Image_4041", "삭제하려는 이미지 ID가 DB에 존재하지 않는 게 있습니다."),
+    INVALID_DELETE_IMAGE_OWNER(FORBIDDEN, "Image_4031", "이미지들의 오너가 아닙니다."),
 
     ;
 
