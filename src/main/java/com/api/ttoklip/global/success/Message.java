@@ -112,9 +112,39 @@ public class Message {
                 .build();
     }
 
+    public static Message validId() {
+        return Message.builder()
+                .message("아이디 중복 확인에 통과하였습니다.")
+                .build();
+    }
+
     public static Message activateUser() {
         return Message.builder()
                 .message("차단해제 하였습니다.")
+                .build();
+    }
+
+    public static Message registerUser() {
+        return Message.builder()
+                .message("회원가입 성공하였습니다.")
+                .build();
+    }
+
+    public static Message sendEmail() {
+        return Message.builder()
+                .message("인증코드가 발송되었습니다.")
+                .build();
+    }
+
+    public static Message verifyCodeSuccess() {
+        return Message.builder()
+                .message("인증이 완료되었습니다.")
+                .build();
+    }
+
+    public static Message verifyCodeFail() {
+        return Message.builder()
+                .message("인증 실패하셨습니다.")
                 .build();
     }
 

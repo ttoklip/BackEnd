@@ -1,7 +1,7 @@
 package com.api.ttoklip.global.config;
 
 //import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
-import com.api.ttoklip.global.security.auth.handler.CustomAuthenticationEntryPoint;
+import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -27,6 +28,11 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint entryPoint;
 
     @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic(HttpBasicConfigurer::disable)
@@ -41,8 +47,11 @@ public class SecurityConfig {
                                         , "/health"
                                         ,"/swagger-ui/**"
                                         ,"/v3/api-docs/**"
-                                        ,"/api/v1/auth"
+                                        ,"/api/v1/auth/**"
+                                        ,"/api/v1/oauth"
                                         ,"/error"
+                                        ,"/api/v1/join/**"
+                                        ,"api/v1/email/**"
                                 ).permitAll()
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));

@@ -42,11 +42,12 @@ public class Member extends BaseEntity {
 
     @Email
     private String email;
+    private String password;
     private String provider;        // 카카오, 네이버, origin
     private String nickname;        // 닉네임
     private String street;          // 주소
-    private int independentYear;    // 동릭 경력 년
-    private int independentMonth; // 독립 경력 월
+    private int independentYear;    // 독립 경력 년
+    private int independentMonth;   // 독립 경력 월
 
     @Column(name = "fcm_token", columnDefinition="LONGTEXT")
     private String fcmToken;

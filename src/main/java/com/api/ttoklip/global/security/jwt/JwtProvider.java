@@ -98,6 +98,7 @@ public class JwtProvider {
         return memberService.findByEmail(userEmail);
     }
 
+
     private void setContextHolder(String jwtToken, Member loginMember) {
         List<GrantedAuthority> authorities = getAuthorities(loginMember.getRole());
         UsernamePasswordAuthenticationToken authenticationToken =

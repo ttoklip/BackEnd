@@ -79,9 +79,10 @@ public enum ErrorType {
     _JWT_PARSING_ERROR(BAD_REQUEST, "JWT_4001", "JWT Token이 올바르지 않습니다."),
     _JWT_EXPIRED(UNAUTHORIZED, "JWT_4010", "Jwt Token의 유효 기간이 만료되었습니다."),
     _JWT_NOT_FOUND(UNAUTHORIZED, "JWT_4010", "Jwt Token을 포함하셔야합니다."),
+    _LOGIN_FAIL(FORBIDDEN, "LOGIN_4031", "로그인을 실패했습니다."),
 
 
-    // ------------------------------------------ Auth ------------------------------------------
+    // ------------------------------------------ OAuth ------------------------------------------
     OAUTH_INVALID_PROVIDER(INTERNAL_SERVER_ERROR, "OAUTH_5000", "올바르지 않은 Provider입니다."),
 
     KAKAO_NOTFOUND_NAME(INTERNAL_SERVER_ERROR, "OAUTH_5001", "Kakao로부터 name을 받을 수 없습니다."),
@@ -122,10 +123,28 @@ public enum ErrorType {
     INVALID_CATEGORIES_SIZE(BAD_REQUEST, "Privacy_4041", "회원가입시 카테고리는 최대 3개까지 선택가능합니다."),
     ALREADY_EXISTS_NICKNAME(BAD_REQUEST, "Privacy_4042", "이미 사용중인 닉네임입니다."),
     LOCATION_NOT_FOUND(BAD_REQUEST, "Privacy_4043", "위도와 경고는 필수입니다."),
+    ALREADY_EXISTS_JOINID(BAD_REQUEST, "Privacy_4044", "이미 사용중인 아이디(이메일)입니다."),
 
 
     // ------------------------------------------ Query ------------------------------------------
-    INVALID_SORT_TYPE(BAD_REQUEST, "Sort_4041", "지원하지 않는 조회 타입입니다."),
+    INVALID_SORT_TYPE(BAD_REQUEST, "Sort_4001", "지원하지 않는 조회 타입입니다."),
+
+
+    // ------------------------------------------ Mail ------------------------------------------
+    INVALID_MAIL_TYPE(BAD_REQUEST, "Mail_4001", "지원하지 않는 이메일 타입입니다."),
+    INVALID_MAIL_CODE(BAD_REQUEST, "Mail_4002", "인증 코드가 다릅니다."),
+    INVALID_MAIL_EMPTY_CODE(BAD_REQUEST, "Mail_4003", "인증 코드가 비어있습니다."),
+
+
+    // ------------------------------------------ Redis ------------------------------------------
+    REDIS_EMAIL_NOT_FOUND(NOT_FOUND, "Redis_Email_4041", "요청한 이메일을 찾을 수 없습니다."),
+
+
+    // ------------------------------------------ Auth ------------------------------------------
+    AUTH_INVALID_PASSWORD(BAD_REQUEST, "Auth_4001", "올바르지 않은 Password입니다."),
+
+
+
 
     // ------------------------------------------ Infra ------------------------------------------
     _NOT_SEND_ABLE(INTERNAL_SERVER_ERROR, "Firebase_5001", "Firebase를 통해 알림을 전송할 수 없습니다."),

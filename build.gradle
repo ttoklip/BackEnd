@@ -70,6 +70,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
 	implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
 
+	// mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 	// FCM
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
 

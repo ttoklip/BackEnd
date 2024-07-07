@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.security.auth.userInfo;
+package com.api.ttoklip.global.security.oauth2.userInfo;
 
 public interface OAuth2UserInfo {
     String getProfile();

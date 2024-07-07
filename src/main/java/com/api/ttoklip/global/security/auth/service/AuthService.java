@@ -2,93 +2,128 @@ package com.api.ttoklip.global.security.auth.service;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.security.auth.dto.LoginRequest;
-import com.api.ttoklip.global.security.auth.dto.LoginResponse;
+import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
+import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
+import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
-import com.api.ttoklip.global.security.auth.userInfo.OAuth2UserInfo;
-import java.util.Optional;
-import lombok.RequiredArgsConstructor;
+import com.api.ttoklip.global.success.Message;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
+import java.util.List;
+
+import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
+
 @Service
-@RequiredArgsConstructor
+@Slf4j
+@AllArgsConstructor
 public class AuthService {
 
+    private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
-    private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
     private final JwtProvider jwtProvider;
+    private static final String PROVIDER_LOCAL = "local";
     private final ProfileService profileService;
+    private final S3FileUploader s3FileUploader;
 
-    public LoginResponse authenticate(final LoginRequest request) {
-        String provider = request.getProvider();
-        String accessToken = request.getAccessToken();
 
-        OAuth2UserInfo userInfo = oAuth2UserInfoFactory.getUserInfo(provider, accessToken);
-        String email = userInfo.getEmail();
+    @Transactional
+    public Message signup(final AuthRequest authRequest) {
+        String email = authRequest.getEmail();
+        String password = authRequest.getPassword();
+        String originName = authRequest.getOriginName();
+        String nickname = authRequest.getNickname();
+        int independentYear = authRequest.getIndependentYear();
+        int independentMonth = authRequest.getIndependentMonth();
+        String street = authRequest.getStreet();
+        List<String> categories = authRequest.getCategories();
+        MultipartFile profileImage = authRequest.getProfileImage();
 
-        Optional<Member> memberOptional = memberService.findByEmailOptional(email);
-        if (memberOptional.isPresent()) {
-            // 이미 우리 회원일 때
-            Member member = memberOptional.get();
+        boolean isExist = memberRepository.existsByEmail(email);
 
-            boolean equalsProvider = member.getProvider().equals(provider);
-            boolean isKakaoMember = member.getProvider().equals("kakao");
-            boolean isNaverMember = member.getProvider().equals("naver");
-            if (!equalsProvider && isKakaoMember) {
-                throw new ApiException(ErrorType._USER_ALREADY_KAKAO_PLATFORM);
-            }
-
-            if (!equalsProvider && isNaverMember) {
-                throw new ApiException(ErrorType._USER_ALREADY_NAVER_PLATFORM);
-            }
-            return alreadyOurUser(member);
+        if (isExist) {
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
         }
 
-        // 회원가입
-        Member member = registerNewMember(userInfo, provider);
-        return getLoginResponse(member, true);
+        String registerPassword = bCryptPasswordEncoder.encode(password);
+        log.info("---------------------" + registerPassword);
+
+        Member newMember = Member.builder()
+                .email(email)
+                .password(registerPassword)
+                .originName(originName)
+                .nickname(nickname)
+                .role(Role.CLIENT)
+                .provider(PROVIDER_LOCAL)
+                .independentYear(independentYear)
+                .independentMonth(independentMonth)
+                .street(street)
+                .build();
+
+        memberRepository.save(newMember);
+
+        String profileImgUrl = s3FileUploader.uploadMultipartFile(profileImage);
+        Profile profile = Profile.of(newMember, profileImgUrl);
+        profileService.register(profile);
+
+        return Message.registerUser();
     }
 
-    private LoginResponse alreadyOurUser(final Member member) {
-        String nickname = member.getNickname();
-        if (nickname == null) {
-            // 회원가입은 했지만 개인정보(프로필 사진, 닉네임, 독립 경력)을 입력하지 않았을 때 로그인처리, FirstLogin true 처리하여 개인정보 유도
-            return getLoginResponse(member, true);
+    @Transactional
+    public Message duplicate(final String email) {
+        boolean isExist = memberRepository.existsByEmail(email);
+        if (isExist) {
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
         }
-        // 로그인
-        return getLoginResponse(member, false);
+        return Message.validId();
     }
 
-    private LoginResponse getLoginResponse(final Member member, final boolean ifFirstLogin) {
+    public AuthLoginResponse login(final AuthLoginRequest authLoginRequest) {
+
+        Member loginMember = authenticate(authLoginRequest);
+        String jwtToken = jwtProvider.generateJwtToken(loginMember.getEmail());
+
+        boolean existsNickname = memberService.isExistsNickname(loginMember.getNickname());
+        if (existsNickname) {
+            return getLoginResponse(jwtToken, false);
+        }
+
+        return getLoginResponse(jwtToken, true);
+    }
+
+    private Member authenticate(AuthLoginRequest authLoginRequest) {
+        String email = authLoginRequest.getEmail();
+        String password = authLoginRequest.getPassword();
+
+        Member findMember = memberService.findByEmail(email);
+
+        if (!bCryptPasswordEncoder.matches(password, findMember.getPassword())) {
+            throw new ApiException(ErrorType.AUTH_INVALID_PASSWORD);
+        }
+
+        return findMember;
+    }
+
+    private AuthLoginResponse getLoginResponse(final String jwtToken, final boolean ifFirstLogin) {
         // Server JWT Token
-        String jwtToken = jwtProvider.generateJwtToken(member.getEmail());
-        return LoginResponse.builder()
+        return AuthLoginResponse.builder()
                 .jwtToken(jwtToken)
                 .ifFirstLogin(ifFirstLogin)
                 .build();
     }
 
-    private Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
-        log.info("AuthService.registerNewMember");
-        log.info("userInfo.getName() = " + userInfo.getName());
-        Member newMember = Member.builder()
-                .email(userInfo.getEmail())
-                .originName(userInfo.getName())
-                .provider(provider)
-                .role(Role.CLIENT)
-                .build();
-        memberService.register(newMember);
-
-        Profile profile = Profile.of(newMember, userInfo.getProfile());
-        profileService.register(profile);
-
-        return newMember;
-    }
 }
+

@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.security.auth.handler;
+package com.api.ttoklip.global.security.oauth2.handler;
 
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthFailureHandler implements AuthenticationFailureHandler {
+public class OAuthFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response,
