@@ -1,10 +1,9 @@
 package com.api.ttoklip.domain.town.community.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.honeytip.post.constant.HoneyTipResponseConstant;
-import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityEditReq;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
 import com.api.ttoklip.global.success.Message;
@@ -19,7 +18,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Community", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
@@ -81,7 +88,7 @@ public class CommunityPostController {
                             )))})
     @PatchMapping("/{postId}")
     public SuccessResponse<Message> edit(final @PathVariable Long postId,
-                                      final @Validated @ModelAttribute CommunityCreateRequest request) {
+                                         final @Validated @ModelAttribute CommunityEditReq request) {
         return new SuccessResponse<>(communityPostService.edit(postId, request));
     }
 
@@ -116,7 +123,7 @@ public class CommunityPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                        final @RequestBody ReportCreateRequest request) {
+                                           final @RequestBody ReportCreateRequest request) {
         Message message = communityPostService.report(postId, request);
         return new SuccessResponse<>(message);
     }

@@ -53,8 +53,7 @@ public class CommunitySearchRepository {
 
     private JPAQuery<Community> defaultQuery(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
-                .select(community)
-                .from(community)
+                .selectFrom(community)
                 .distinct()
                 .where(
                         containTitle(keyword),
@@ -63,7 +62,6 @@ public class CommunitySearchRepository {
                 .leftJoin(community.communityComments, communityComment)
                 .leftJoin(community.communityLikes, communityLike)
                 .leftJoin(community.communityScraps, communityScrap)
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
@@ -114,7 +112,6 @@ public class CommunitySearchRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(community)
-                .distinct()
                 .where(
                         containTitle(keyword),
                         getCommunityActivate()

@@ -52,8 +52,7 @@ public class HoneyTipSearchRepository {
 
     private JPAQuery<HoneyTip> defaultQuery(final String keyword, final Pageable pageable) {
         return jpaQueryFactory
-                .select(honeyTip)
-                .from(honeyTip)
+                .selectFrom(honeyTip)
                 .distinct()
                 .where(
                         containTitle(keyword),
@@ -62,7 +61,6 @@ public class HoneyTipSearchRepository {
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
-                .fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
@@ -113,7 +111,6 @@ public class HoneyTipSearchRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(honeyTip)
-                .distinct()
                 .where(
                         containTitle(keyword)
                 )

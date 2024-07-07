@@ -24,9 +24,7 @@ public class TermPaginRepository {
 
     private List<Term> getPageContent(final Pageable pageable) {
         return jpaQueryFactory
-                .select(term)
-                .from(term)
-                .distinct()
+                .selectFrom(term)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(term.id.desc())
@@ -37,7 +35,6 @@ public class TermPaginRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(term)
-                .distinct()
                 .fetchOne();
     }
 }

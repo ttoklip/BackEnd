@@ -3,10 +3,12 @@ package com.api.ttoklip.domain.town.community.post.service;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityEditReq;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunityRecent3Response;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
@@ -17,6 +19,8 @@ import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -89,7 +93,7 @@ public class CommunityPostService {
     /* -------------------------------------------- EDIT -------------------------------------------- */
 
     @Transactional
-    public Message edit(final Long postId, final CommunityCreateRequest request) {
+    public Message edit(final Long postId, final CommunityEditReq request) {
 
         // 기존 게시글 찾기
         Community community = communityCommonService.getCommunity(postId);
@@ -100,15 +104,20 @@ public class CommunityPostService {
         CommunityPostEditor postEditor = getPostEditor(request, community);
         community.edit(postEditor);
 
-        List<MultipartFile> images = request.getImages();
-        if (images != null && !images.isEmpty()) {
-            editImages(images, community);
+        List<MultipartFile> addImages = request.getAddImages();
+        if (addImages != null && !addImages.isEmpty()) {
+            registerImages(community, addImages);
+        }
+
+        List<Long> deleteImageIds = request.getDeleteImageIds();
+        if (deleteImageIds != null && !deleteImageIds.isEmpty()) {
+            deleteImages(deleteImageIds);
         }
 
         return Message.editPostSuccess(Community.class, community.getId());
     }
 
-    private CommunityPostEditor getPostEditor(final CommunityCreateRequest request, final Community community) {
+    private CommunityPostEditor getPostEditor(final CommunityEditReq request, final Community community) {
         CommunityPostEditor.CommunityPostEditorBuilder editorBuilder = community.toEditor();
         CommunityPostEditor communityPostEditor = editorBuilder
                 .title(request.getTitle())
@@ -121,28 +130,14 @@ public class CommunityPostService {
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
 
-    private void editImages(final List<MultipartFile> multipartFiles, final Community community) {
-        Long communityId = community.getId();
-        // 기존 이미지 전부 제거
-        communityImageService.deleteAllByPostId(communityId);
-
-        // 새로운 이미지 업로드
-        List<String> uploadUrls = communityCommonService.uploadImages(multipartFiles);
-        uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
+    private void deleteImages(List<Long> deleteImageIds) {
+        communityImageService.deleteImages(deleteImageIds);
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
 
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
-//    public void delete(final Long postId) {
-//        Community community = findCommunity(postId);
-//        community.deactivate(); // 비활성화
-//    }
-
-
-    /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
-
     @Transactional
     public Message delete(final Long postId) {
         Community community = communityCommonService.getCommunity(postId);
@@ -154,13 +149,8 @@ public class CommunityPostService {
         return Message.deletePostSuccess(Community.class, postId);
     }
 
-    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
+    /* -------------------------------------------- Soft Delete 끝 -------------------------------------------- */
 
-//    @Transactional
-//    public Message like(final Long postId) {
-//        communityLikeService.register(postId);
-//        return Message.likePostSuccess(Community.class, postId);
-//    }
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
@@ -170,6 +160,7 @@ public class CommunityPostService {
 
         return Message.reportPostSuccess(Community.class, postId);
     }
+    /* -------------------------------------------- REPORT 끝 -------------------------------------------- */
 
     /* -------------------------------------------- LIKE -------------------------------------------- */
     @Transactional
@@ -190,6 +181,7 @@ public class CommunityPostService {
 
     /* -------------------------------------------- SCRAP -------------------------------------------- */
     @Transactional
+    @SendNotification
     public Message registerScrap(Long postId) {
         communityScrapService.registerScrap(postId);
         return Message.scrapPostSuccess(Community.class, postId);
@@ -210,4 +202,10 @@ public class CommunityPostService {
 
     /* -------------------------------------------- SCRAP 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- Community 페이징 -------------------------------------------- */
+    public Page<Community> getPaging(final Pageable pageable) {
+        return communityRepository.getPaging(pageable);
+    }
+    /* -------------------------------------------- Community 끝 -------------------------------------------- */
 }

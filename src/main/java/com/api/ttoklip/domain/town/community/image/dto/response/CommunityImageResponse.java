@@ -11,11 +11,13 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommunityImageResponse {
 
-    private String imageUrl;
+    private Long communityImageId;
+    private String communityImageUrl;
 
     public static CommunityImageResponse from(final CommunityImage image) {
         return CommunityImageResponse.builder()
-                .imageUrl(image.getUrl())
+                .communityImageId(image.getId())
+                .communityImageUrl(image.getUrl())
                 .build();
     }
 }

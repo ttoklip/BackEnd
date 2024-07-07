@@ -25,10 +25,8 @@ public class NoticePagingRepository {
 
     private List<Notice> getPageContent(final Pageable pageable) {
         return jpaQueryFactory
-                .select(notice)
-                .from(notice)
+                .selectFrom(notice)
                 .where(notice.deleted.eq(false))
-                .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(notice.id.desc())
@@ -39,7 +37,6 @@ public class NoticePagingRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(notice)
-                .distinct()
                 .fetchOne();
     }
 

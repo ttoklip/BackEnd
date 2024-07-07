@@ -43,12 +43,14 @@ public class Member extends BaseEntity {
     @Email
     private String email;
     private String password;
+    private String provider;        // 카카오, 네이버, origin
+    private String nickname;        // 닉네임
+    private String street;          // 주소
+    private int independentYear;    // 독립 경력 년
+    private int independentMonth;   // 독립 경력 월
 
-    private String provider;
-    private String nickname;
-    private String street;
-    private int independentYear;
-    private int independentMonth;
+    @Column(name = "fcm_token", columnDefinition="LONGTEXT")
+    private String fcmToken;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -120,6 +122,13 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartMember> cartMembers = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProfileLike> profileLikesFrom = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "targetMember", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProfileLike> profileLikesTo = new ArrayList<>();
 
     public MemberEditorBuilder toEditor() {
         return MemberEditor.builder()
@@ -129,10 +138,14 @@ public class Member extends BaseEntity {
                 .street(street);
     }
 
-    public void insertPrivacy(MemberEditor memberEditor) {
+    public void insertPrivacy(final MemberEditor memberEditor) {
         independentYear = memberEditor.getIndependentYear();
         independentMonth = memberEditor.getIndependentMonth();
         nickname = memberEditor.getNickname();
         street = memberEditor.getStreet();
+    }
+
+    public void updateFcmToken(final String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 }

@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.mypage.main.controller;
 
+import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.search.response.NewsletterPaging;
@@ -37,19 +38,9 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final ProfileService profileService;
 
-    @Operation(summary = "마이페이지 정보 불러오기", description = "마이페이지의 기본 정보인 닉네임,동네,레벨,충족도를 가져옵니다")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "마이페이지 정보 조회 성공",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = MyPageConstant.myPageResponse,
-                                    description = "마이페이지 정보 조회 성공했습니다"
-                            )))})
+    @Operation(summary = "마이페이지 정보 불러오기")
     @GetMapping
-    public SuccessResponse<MyPageResponse> getMyProfile() {
+    public SuccessResponse<TargetMemberProfile> getMyProfile() {
         return new SuccessResponse<>(myPageService.getMyProfile());
     }
 

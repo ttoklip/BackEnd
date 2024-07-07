@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
+import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
@@ -47,10 +48,6 @@ public class CartPostService {
     public Cart findCartById(final Long postId) {
         return cartRepository.findById(postId)
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
-    }
-
-    public Cart getCart(final Long postId) {
-        return cartRepository.findByIdActivated(postId);
     }
 
     private List<String> uploadImages(final List<MultipartFile> uploadImages) {
@@ -120,7 +117,7 @@ public class CartPostService {
     @Transactional
     public Message edit(final Long postId, final CartCreateRequest request) {
 
-        Cart cart = getCart(postId);
+        Cart cart = findCartByIdActivated(postId);
 
         CartPostEditor postEditor = getPostEditor(request, cart);
         cart.edit(postEditor);
@@ -168,11 +165,11 @@ public class CartPostService {
 
     /* -------------------------------------------- Soft Delete -------------------------------------------- */
     public void delete(final Long postId) {
-        Cart cart = findCart(postId);
+        Cart cart = findCartByIdActivated(postId);
         cart.deactivate(); // 비활성화
     }
 
-    public Cart findCart(final Long postId) {
+    public Cart findCartByIdActivated(final Long postId) {
         return cartRepository.findByIdActivated(postId);
     }
 
@@ -204,6 +201,7 @@ public class CartPostService {
     /* -------------------------------------------- PARTICIPANT -------------------------------------------- */
     // 공구 참여
     @Transactional
+    @SendNotification
     public Message addParticipant(final Long cartId) {
         Cart cart = cartRepository.findByIdActivated(cartId);
         Long MaxValue = cart.getPartyMax();

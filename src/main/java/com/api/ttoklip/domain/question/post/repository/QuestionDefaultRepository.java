@@ -20,12 +20,10 @@ public class QuestionDefaultRepository {
 
     public List<Question> getHouseWork() {
         return jpaQueryFactory
-                .select(question)
-                .from(question)
+                .selectFrom(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
-                .leftJoin(question.member, member)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(question.category.eq(Category.HOUSEWORK))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -34,12 +32,10 @@ public class QuestionDefaultRepository {
 
     public List<Question> getRecipe() {
         return jpaQueryFactory
-                .select(question)
-                .from(question)
+                .selectFrom(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
-                .leftJoin(question.member, member)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(question.category.eq(Category.RECIPE))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -48,12 +44,10 @@ public class QuestionDefaultRepository {
 
     public List<Question> getSafeLiving() {
         return jpaQueryFactory
-                .select(question)
-                .from(question)
+                .selectFrom(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
-                .leftJoin(question.member, member)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(question.category.eq(Category.SAFE_LIVING))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -62,12 +56,10 @@ public class QuestionDefaultRepository {
 
     public List<Question> getWelfarePolicy() {
         return jpaQueryFactory
-                .select(question)
-                .from(question)
+                .selectFrom(question)
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
-                .leftJoin(question.member, member)
-                .fetchJoin()
+                .leftJoin(question.member, member).fetchJoin()
                 .where(question.category.eq(Category.WELFARE_POLICY))
                 .limit(10)
                 .orderBy(question.id.desc())
