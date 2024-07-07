@@ -7,7 +7,9 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.repository.MemberOAuthRepository;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
+import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +65,14 @@ public class MemberService {
 
     public TargetMemberProfile getTargetMemberProfile(final Long targetMemberId) {
         Member member = memberRepository.getTargetMemberProfile(targetMemberId);
+        validProfile(member.getProfile());
+
         return TargetMemberProfile.of(member, member.getProfileLikesFrom().size());
+    }
+
+    private void validProfile(final Profile profile) {
+        if (profile == null) {
+            throw new ApiException(ErrorType.Profile_NOT_FOUND);
+        }
     }
 }
