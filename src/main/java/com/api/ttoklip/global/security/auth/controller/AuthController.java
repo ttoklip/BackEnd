@@ -14,12 +14,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Auth", description = "회원가입/로그인 관련 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/join")
+@RequestMapping("/api/v1/auth")
 @Slf4j
 public class AuthController {
 
@@ -31,7 +32,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공")
     })
     @PostMapping("/signup")
-    public SuccessResponse<Message> signup(@RequestBody AuthRequest request) {
+    public SuccessResponse<Message> signup(final @Validated @ModelAttribute AuthRequest request) {
         return new SuccessResponse<>(authService.signup(request));
     }
 
