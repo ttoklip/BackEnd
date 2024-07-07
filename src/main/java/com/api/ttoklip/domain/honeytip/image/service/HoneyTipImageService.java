@@ -3,6 +3,9 @@ package com.api.ttoklip.domain.honeytip.image.service;
 import com.api.ttoklip.domain.honeytip.image.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.image.repository.HoneyTipImageRepository;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +23,15 @@ public class HoneyTipImageService {
     }
 
     @Transactional
-    public void deleteAllByPostId(final Long honeyTipId) {
-        // 이미지 삭제
-        honeyTipImageRepository.deleteAllByHoneyTipId(honeyTipId);
+    public void deleteImages(final List<Long> imageIds) {
+        validImagesExists(imageIds);
+        honeyTipImageRepository.deleteByImageIds(imageIds);
     }
 
+    private void validImagesExists(final List<Long> imageIds) {
+        boolean allImageIdsExist = honeyTipImageRepository.doAllImageIdsExist(imageIds);
+        if (!allImageIdsExist) {
+            throw new ApiException(ErrorType.DELETE_INVALID_IMAGE_IDS);
+        }
+    }
 }

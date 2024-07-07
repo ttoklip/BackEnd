@@ -1,9 +1,7 @@
 package com.api.ttoklip.domain.honeytip.post.dto.request;
 
-import com.api.ttoklip.domain.common.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -28,7 +26,10 @@ public class HoneyTipEditReq {
 
     @Schema(description = "게시글에 첨부할 이미지 파일. 파일 형식은 binary이며, 지원되는 이미지 형식은 JPEG, PNG 등입니다.",
             format = "binary")
-    public List<MultipartFile> images;
+    public List<MultipartFile> addImages;
+
+    @Schema(description = "삭제할 이미지의 ID 리스트", example = "[1, 2, 3]")
+    public List<Long> deleteImageIds;
 
     @Schema(description = "게시글에 첨부할 URL. URL은 string이며 리스트로 여러개의 url을 사용할 수 있습니다, 클릭 시 글을 자유롭게 이동할 수 있습니다.", example = "[\"https://www.example.com/recipe\", \"https://www.example.com/tips\"]")
     public List<String> url;

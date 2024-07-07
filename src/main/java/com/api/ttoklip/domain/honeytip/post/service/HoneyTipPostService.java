@@ -102,10 +102,16 @@ public class HoneyTipPostService {
             honeyTipUrlService.updateHoneyTipUrls(honeyTip, urls);
         }
 
-        // 이미지 수정
-        List<MultipartFile> images = request.getImages();
-        if (images != null && !images.isEmpty()) {
-            editImages(images, honeyTip);
+        // 이미지 추가
+        List<MultipartFile> addImages = request.getAddImages();
+        if (addImages != null && !addImages.isEmpty()) {
+            registerImages(honeyTip, addImages);
+        }
+
+        // 이미지 삭제
+        List<Long> deleteImageIds = request.getDeleteImageIds();
+        if (deleteImageIds != null && !deleteImageIds.isEmpty()) {
+            deleteImages(deleteImageIds);
         }
 
         return Message.editPostSuccess(HoneyTip.class, honeyTip.getId());
@@ -121,14 +127,9 @@ public class HoneyTipPostService {
     }
 
 
-    private void editImages(final List<MultipartFile> multipartFiles, final HoneyTip honeyTip) {
-        Long honeyTipId = honeyTip.getId();
-        // 기존 이미지 전부 제거
-        honeyTipImageService.deleteAllByPostId(honeyTipId);
-
-        // 새로운 이미지 업로드
-        List<String> uploadUrls = honeyTipCommonService.uploadImages(multipartFiles);
-        uploadUrls.forEach(uploadUrl -> honeyTipImageService.register(honeyTip, uploadUrl));
+    private void deleteImages(final List<Long> deleteImageIds) {
+        // 기존 이미지가 DB에 존재하는 이미지들인지?
+        honeyTipImageService.deleteImages(deleteImageIds);
     }
 
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
