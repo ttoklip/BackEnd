@@ -56,7 +56,7 @@ public class JoinController {
             @ApiResponse(responseCode = "200", description = "로그인 성공")
     })
     @PostMapping("/login")
-    public SuccessResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws Exception {
+    public SuccessResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         LoginResponse loginResponse = joinService.login(loginRequest);
         return new SuccessResponse<>(loginResponse);
     }

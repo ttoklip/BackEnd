@@ -12,14 +12,11 @@ import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.security.auth.service.AuthService;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.success.Message;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,32 +28,33 @@ public class JoinService {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
     private final AuthService authService;
+    private static final String PROVIDER_LOCAL = "local";
 
     @Transactional
-    public Message signup(JoinRequest joinRequest) {
-
+    public Message signup(final JoinRequest joinRequest) {
         String email = joinRequest.getEmail();
         String password = joinRequest.getPassword();
         String originName = joinRequest.getOriginName();
-        String birth = joinRequest.getBirth();
 
-        Boolean isExist = memberRepository.existsByEmail(email);
+        boolean isExist = memberRepository.existsByEmail(email);
 
         if (isExist) {
             throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
         }
+
+        String registerPassword = bCryptPasswordEncoder.encode(password);
+        log.info("---------------------" + registerPassword);
         Member data = Member.builder()
                 .email(email)
-                .password(bCryptPasswordEncoder.encode(password))
+                .password(registerPassword)
                 .originName(originName)
-//                .birth
                 .role(Role.CLIENT)
-                .provider("local")
+                .provider(PROVIDER_LOCAL)
                 .build();
+
         memberRepository.save(data);
 
         return Message.registerUser();
-
     }
 
     @Transactional
@@ -70,19 +68,10 @@ public class JoinService {
 
     public LoginResponse login(final LoginRequest loginRequest) {
 
+        Member loginMember = authenticate(loginRequest);
+        String jwtToken = jwtProvider.generateJwtToken(loginMember.getEmail());
 
-        if (!localoginSuccess(loginRequest)) {
-            throw new ApiException(ErrorType._LOGIN_FAIL);
-        }
-
-        String email = loginRequest.getEmail();
-        String jwtToken = jwtProvider.generateJwtToken(email);
-
-//        Member findMember = memberService.findByEmail(email);
-        Member findMember = memberService.findByEmail(email);
-        jwtProvider.setContextHolder(jwtToken, findMember);
-
-        boolean existsNickname = memberService.isExistsNickname(findMember.getNickname());
+        boolean existsNickname = memberService.isExistsNickname(loginMember.getNickname());
         if (existsNickname) {
             return getLoginResponse(jwtToken, false);
         }
@@ -90,19 +79,19 @@ public class JoinService {
         return getLoginResponse(jwtToken, true);
     }
 
-    private boolean localoginSuccess(LoginRequest loginRequest) {
+    private Member authenticate(LoginRequest loginRequest) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
         Member findMember = memberService.findByEmail(email);
+        String encodedPassword = bCryptPasswordEncoder.encode(password);
 
-//        boolean success = findMember.getPassword().equals(password);
-        boolean success = findMember.getEmail().equals(email);
-        if (!success) {
-            return false;
+        log.info("------------- login encodedPassword = " + encodedPassword);
+        if (!encodedPassword.matches(findMember.getPassword())) {
+            throw new ApiException(ErrorType.AUTH_INVALID_PASSWORD);
         }
 
-        return true;
+        return findMember;
     }
 
     private LoginResponse getLoginResponse(final String jwtToken, final boolean ifFirstLogin) {
