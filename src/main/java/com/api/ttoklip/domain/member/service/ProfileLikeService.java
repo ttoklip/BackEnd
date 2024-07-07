@@ -55,7 +55,7 @@ public class ProfileLikeService {
 
     private void validLikeMyself(final Long targetMemberId, final Member currentMember) {
         if (currentMember.getId().equals(targetMemberId)) {
-            throw new ApiException(ErrorType.PROfile_LIKE_MYSELF);
+            throw new ApiException(ErrorType.Profile_LIKE_MYSELF);
         }
     }
 

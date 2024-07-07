@@ -37,7 +37,6 @@ public enum ErrorType {
     CATEGORY_NOT_EXISTS(NOT_FOUND, "Category_4041", "카테고리는 필수로 선택해야합니다."),
 
 
-
     // ------------------------------------------ Report ------------------------------------------
     REPORT_NOT_FOUND(NOT_FOUND, "Report_4040", "신고 타입을 찾을 수 없습니다."),
 
@@ -139,8 +138,8 @@ public enum ErrorType {
 
 
     // ------------------------------------------ ProfileLike ------------------------------------------
-    PROfile_LIKE_MYSELF(BAD_REQUEST, "ProfileLike_4001", "본인 프로필에 좋아요할 수 없습니다."),
-
+    Profile_LIKE_MYSELF(BAD_REQUEST, "ProfileLike_4001", "본인 프로필에 좋아요할 수 없습니다."),
+    Profile_NOT_FOUND(NOT_FOUND, "Profile_4041", "프로필을 찾을 수 없습니다."),
 
     ;
 

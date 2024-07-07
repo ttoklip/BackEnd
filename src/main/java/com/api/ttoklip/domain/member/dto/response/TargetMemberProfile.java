@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.member.dto.response;
 
+import com.api.ttoklip.domain.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record TargetMemberProfile(
@@ -26,11 +27,10 @@ public record TargetMemberProfile(
         int likeCount
 ) {
 
-    public static TargetMemberProfile of(Long targetMemberId, String nickname, String profileImgUrl, String street,
-                                         int independentYear, int independentMonth, int likeCount) {
+    public static TargetMemberProfile of(Member member, int likeCount) {
         return new TargetMemberProfile(
-                targetMemberId, nickname, profileImgUrl,
-                street, independentYear, independentMonth, likeCount
+                member.getId(), member.getProfile().getProfileImgUrl(), member.getNickname(),
+                member.getStreet(), member.getIndependentYear(), member.getIndependentMonth(), likeCount
         );
     }
 }
