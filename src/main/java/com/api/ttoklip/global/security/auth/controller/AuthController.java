@@ -1,24 +1,19 @@
-package com.api.ttoklip.domain.join.controller;
+package com.api.ttoklip.global.security.auth.controller;
 
-import com.api.ttoklip.domain.join.dto.request.JoinRequest;
+import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
 
-import com.api.ttoklip.domain.join.dto.request.LoginRequest;
-import com.api.ttoklip.domain.join.dto.response.LoginResponse;
-import com.api.ttoklip.domain.join.service.JoinService;
-import com.api.ttoklip.global.exception.ApiExceptionResponse;
+import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
+import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
+import com.api.ttoklip.global.security.auth.service.AuthService;
 
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Auth", description = "회원가입/로그인 관련 API")
@@ -26,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/join")
 @Slf4j
-public class JoinController {
+public class AuthController {
 
-    private final JoinService joinService;
+    private final AuthService authService;
 
     /* --------------------------------- signup --------------------------------- */
     @Operation(summary = "회원가입", description = "직접 회원가입을 진행합니다.")
@@ -36,8 +31,8 @@ public class JoinController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공")
     })
     @PostMapping("/signup")
-    public SuccessResponse<Message> signup(@RequestBody JoinRequest request) {
-        return new SuccessResponse<>(joinService.signup(request));
+    public SuccessResponse<Message> signup(@RequestBody AuthRequest request) {
+        return new SuccessResponse<>(authService.signup(request));
     }
 
     /* --------------------------------- duplicate --------------------------------- */
@@ -47,7 +42,7 @@ public class JoinController {
     })
     @PostMapping("/duplicate")
     public SuccessResponse<Message> duplicate(@RequestParam String newId) {
-        return new SuccessResponse<>(joinService.duplicate(newId));
+        return new SuccessResponse<>(authService.duplicate(newId));
     }
 
     /* --------------------------------- login --------------------------------- */
@@ -56,9 +51,9 @@ public class JoinController {
             @ApiResponse(responseCode = "200", description = "로그인 성공")
     })
     @PostMapping("/login")
-    public SuccessResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        LoginResponse loginResponse = joinService.login(loginRequest);
-        return new SuccessResponse<>(loginResponse);
+    public SuccessResponse<AuthLoginResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
+        AuthLoginResponse authLoginResponse = authService.login(authLoginRequest);
+        return new SuccessResponse<>(authLoginResponse);
     }
 
 //    /* --------------------------------- logout --------------------------------- */
@@ -72,4 +67,4 @@ public class JoinController {
 //    }
 }
 
-// todo 서비스 로직 구현 필요 (JoinService)
+// todo 서비스 로직 구현 필요 (AuthService)

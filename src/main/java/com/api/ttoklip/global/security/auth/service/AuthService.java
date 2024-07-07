@@ -1,8 +1,8 @@
-package com.api.ttoklip.domain.join.service;
+package com.api.ttoklip.global.security.auth.service;
 
-import com.api.ttoklip.domain.join.dto.request.JoinRequest;
-import com.api.ttoklip.domain.join.dto.request.LoginRequest;
-import com.api.ttoklip.domain.join.dto.response.LoginResponse;
+import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
+import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
+import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class JoinService {
+public class AuthService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -31,10 +31,10 @@ public class JoinService {
     private static final String PROVIDER_LOCAL = "local";
 
     @Transactional
-    public Message signup(final JoinRequest joinRequest) {
-        String email = joinRequest.getEmail();
-        String password = joinRequest.getPassword();
-        String originName = joinRequest.getOriginName();
+    public Message signup(final AuthRequest authRequest) {
+        String email = authRequest.getEmail();
+        String password = authRequest.getPassword();
+        String originName = authRequest.getOriginName();
 
         boolean isExist = memberRepository.existsByEmail(email);
 
@@ -66,9 +66,9 @@ public class JoinService {
         return Message.validId();
     }
 
-    public LoginResponse login(final LoginRequest loginRequest) {
+    public AuthLoginResponse login(final AuthLoginRequest authLoginRequest) {
 
-        Member loginMember = authenticate(loginRequest);
+        Member loginMember = authenticate(authLoginRequest);
         String jwtToken = jwtProvider.generateJwtToken(loginMember.getEmail());
 
         boolean existsNickname = memberService.isExistsNickname(loginMember.getNickname());
@@ -79,9 +79,9 @@ public class JoinService {
         return getLoginResponse(jwtToken, true);
     }
 
-    private Member authenticate(LoginRequest loginRequest) {
-        String email = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
+    private Member authenticate(AuthLoginRequest authLoginRequest) {
+        String email = authLoginRequest.getEmail();
+        String password = authLoginRequest.getPassword();
 
         Member findMember = memberService.findByEmail(email);
 
@@ -92,9 +92,9 @@ public class JoinService {
         return findMember;
     }
 
-    private LoginResponse getLoginResponse(final String jwtToken, final boolean ifFirstLogin) {
+    private AuthLoginResponse getLoginResponse(final String jwtToken, final boolean ifFirstLogin) {
         // Server JWT Token
-        return LoginResponse.builder()
+        return AuthLoginResponse.builder()
                 .jwtToken(jwtToken)
                 .ifFirstLogin(ifFirstLogin)
                 .build();
