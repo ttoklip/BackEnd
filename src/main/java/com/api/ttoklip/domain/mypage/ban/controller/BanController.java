@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.mypage.ban.controller;
 
 import com.api.ttoklip.domain.mypage.ban.constant.BanConstant;
+import com.api.ttoklip.domain.mypage.ban.service.BanService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/ban")
 public class BanController {
 
+    private final BanService banService;
+
     //Todo 여기에 차단과 차단해제 기능 추가 부탁합니다 api는 만들어 뒀어요
 
     @Operation(summary = "내가 차단한 계정", description = "내가 차단한 계정들을 불러옵니다")
@@ -34,7 +37,7 @@ public class BanController {
                             )))})
     @GetMapping()
     public SuccessResponse<Message> blockedUser() {
-        return new SuccessResponse<>(myPageService.blockedUser());//Todo 수정 필요
+        return new SuccessResponse<>(banService.banUsersList());//Todo 함수 로직 수정 필요
     }
 
     @Operation(summary = "계정 차단", description = "계정을 차단합니다")
@@ -50,7 +53,7 @@ public class BanController {
                             )))})
     @PostMapping("/{targetId}")
     public SuccessResponse<Message> blockedUser(@PathVariable Long targetId) {
-        return new SuccessResponse<>(myPageService.blockedUser());//Todo 수정 필요
+        return new SuccessResponse<>(banService.userBan());//Todo 함수 로직 수정 필요
     }
 
     @Operation(summary = "차단을 해제 합니다", description = "차단을 해제 합니다")
@@ -66,6 +69,6 @@ public class BanController {
                             )))})
     @DeleteMapping("/delete/{targetId}")
     public SuccessResponse<Message> unblock(@PathVariable Long targetId) {
-        return new SuccessResponse<>(myPageService.unblock(targetId));//Todo 수정 필요
+        return new SuccessResponse<>(banService.deleteBanUser());//Todo 함수 로직 수정 필요
     }
 }
