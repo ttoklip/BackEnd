@@ -63,9 +63,6 @@ public class MemberService {
 
     public TargetMemberProfile getTargetMemberProfile(final Long targetMemberId) {
         Member member = memberRepository.getTargetMemberProfile(targetMemberId);
-        return TargetMemberProfile.of(
-                member.getId(), member.getNickname(), member.getStreet(), member.getProfile().getProfileImgUrl(),
-                member.getIndependentYear(), member.getIndependentMonth(), member.getProfileLikesFrom().size()
-        );
+        return TargetMemberProfile.of(member, member.getProfileLikesFrom().size());
     }
 }
