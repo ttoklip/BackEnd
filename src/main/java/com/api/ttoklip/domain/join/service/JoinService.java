@@ -84,10 +84,8 @@ public class JoinService {
         String password = loginRequest.getPassword();
 
         Member findMember = memberService.findByEmail(email);
-        String encodedPassword = bCryptPasswordEncoder.encode(password);
 
-        log.info("------------- login encodedPassword = " + encodedPassword);
-        if (!encodedPassword.matches(findMember.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(password, findMember.getPassword())) {
             throw new ApiException(ErrorType.AUTH_INVALID_PASSWORD);
         }
 
