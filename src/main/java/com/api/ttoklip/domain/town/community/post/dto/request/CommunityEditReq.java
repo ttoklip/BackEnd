@@ -1,18 +1,16 @@
-package com.api.ttoklip.domain.honeytip.post.dto.request;
+package com.api.ttoklip.domain.town.community.post.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-@Builder
 @AllArgsConstructor
-public class HoneyTipEditReq {
+public class CommunityEditReq {
 
     @Schema(type = "string", description = "게시글 제목", example = "게시글 제목 예시")
     @NotEmpty

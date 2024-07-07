@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
 import com.api.ttoklip.domain.town.community.post.dto.request.CommunityCreateRequest;
+import com.api.ttoklip.domain.town.community.post.dto.request.CommunityEditReq;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunityRecent3Response;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.community.post.editor.CommunityPostEditor;
@@ -92,7 +93,7 @@ public class CommunityPostService {
     /* -------------------------------------------- EDIT -------------------------------------------- */
 
     @Transactional
-    public Message edit(final Long postId, final CommunityCreateRequest request) {
+    public Message edit(final Long postId, final CommunityEditReq request) {
 
         // 기존 게시글 찾기
         Community community = communityCommonService.getCommunity(postId);
@@ -103,15 +104,20 @@ public class CommunityPostService {
         CommunityPostEditor postEditor = getPostEditor(request, community);
         community.edit(postEditor);
 
-        List<MultipartFile> images = request.getImages();
-        if (images != null && !images.isEmpty()) {
-            editImages(images, community);
+        List<MultipartFile> addImages = request.getAddImages();
+        if (addImages != null && !addImages.isEmpty()) {
+            registerImages(community, addImages);
+        }
+
+        List<Long> deleteImageIds = request.getDeleteImageIds();
+        if (deleteImageIds != null && !deleteImageIds.isEmpty()) {
+            deleteImages(deleteImageIds);
         }
 
         return Message.editPostSuccess(Community.class, community.getId());
     }
 
-    private CommunityPostEditor getPostEditor(final CommunityCreateRequest request, final Community community) {
+    private CommunityPostEditor getPostEditor(final CommunityEditReq request, final Community community) {
         CommunityPostEditor.CommunityPostEditorBuilder editorBuilder = community.toEditor();
         CommunityPostEditor communityPostEditor = editorBuilder
                 .title(request.getTitle())
@@ -124,14 +130,8 @@ public class CommunityPostService {
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
 
-    private void editImages(final List<MultipartFile> multipartFiles, final Community community) {
-        Long communityId = community.getId();
-        // 기존 이미지 전부 제거
-        communityImageService.deleteAllByPostId(communityId);
-
-        // 새로운 이미지 업로드
-        List<String> uploadUrls = communityCommonService.uploadImages(multipartFiles);
-        uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
+    private void deleteImages(List<Long> deleteImageIds) {
+        communityImageService.deleteImages(deleteImageIds);
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */

@@ -141,6 +141,11 @@ public enum ErrorType {
     Profile_LIKE_MYSELF(BAD_REQUEST, "ProfileLike_4001", "본인 프로필에 좋아요할 수 없습니다."),
     Profile_NOT_FOUND(NOT_FOUND, "Profile_4041", "프로필을 찾을 수 없습니다."),
 
+
+    // ------------------------------------------ Image ------------------------------------------
+    DELETE_INVALID_IMAGE_IDS(BAD_REQUEST, "Image_4041", "삭제하려는 이미지 ID가 DB에 존재하지 않는 게 있습니다."),
+    INVALID_DELETE_IMAGE_OWNER(FORBIDDEN, "Image_4031", "이미지들의 오너가 아닙니다."),
+
     ;
 
     private final HttpStatus status;

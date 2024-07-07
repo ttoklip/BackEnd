@@ -1,8 +1,7 @@
-package com.api.ttoklip.domain.honeytip.image.repository;
+package com.api.ttoklip.domain.town.community.image.repository;
 
 import java.util.List;
-public interface HoneyTipImageRepositoryCustom {
-
+public interface CommunityImageRepositoryCustom {
     void allImageOwner(List<Long> imageIds, Long memberId);
 
     boolean doAllImageIdsExist(List<Long> imageIds);
