@@ -121,7 +121,18 @@ public enum ErrorType {
 
 
     // ------------------------------------------ Query ------------------------------------------
-    INVALID_SORT_TYPE(BAD_REQUEST, "Sort_4041", "지원하지 않는 조회 타입입니다."),
+    INVALID_SORT_TYPE(BAD_REQUEST, "Sort_4001", "지원하지 않는 조회 타입입니다."),
+
+
+    // ------------------------------------------ Mail ------------------------------------------
+    INVALID_MAIL_TYPE(BAD_REQUEST, "Mail_4001", "지원하지 않는 이메일 타입입니다."),
+    INVALID_MAIL_CODE(BAD_REQUEST, "Mail_4002", "인증 코드가 다릅니다."),
+    INVALID_MAIL_EMPTY_CODE(BAD_REQUEST, "Mail_4003", "인증 코드가 비어있습니다."),
+
+
+    // ------------------------------------------ Redis ------------------------------------------
+    REDIS_EMAIL_NOT_FOUND(NOT_FOUND, "Redis_Email_4041", "요청한 이메일을 찾을 수 없습니다."),
+
 
     ;
 
