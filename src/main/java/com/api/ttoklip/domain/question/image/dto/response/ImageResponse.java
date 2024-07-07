@@ -13,17 +13,22 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageResponse {
 
+    @Schema(description = "포스트 이미지 id")
+    private Long imageId;
+
     @Schema(description = "포스트 이미지 url")
     private String imageUrl;
 
     public static ImageResponse questionFrom(final QuestionImage image) {
         return ImageResponse.builder()
+                .imageId(image.getId())
                 .imageUrl(image.getUrl())
                 .build();
     }
 
     public static ImageResponse honeyTipFrom(final HoneyTipImage image) {
         return ImageResponse.builder()
+                .imageId(image.getId())
                 .imageUrl(image.getUrl())
                 .build();
     }
