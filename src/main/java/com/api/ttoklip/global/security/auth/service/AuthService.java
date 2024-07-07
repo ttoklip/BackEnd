@@ -42,7 +42,6 @@ public class AuthService {
 
     @Transactional
     public Message signup(final AuthRequest authRequest) {
-//        String email = authRequest.getEmail();
         String email = authRequest.getEmail();
         String password = authRequest.getPassword();
         String originName = authRequest.getOriginName();
@@ -79,10 +78,6 @@ public class AuthService {
         String profileImgUrl = s3FileUploader.uploadMultipartFile(profileImage);
         Profile profile = Profile.of(newMember, profileImgUrl);
         profileService.register(profile);
-
-        PrivacyCreateRequest privacyCreateRequest = new PrivacyCreateRequest(
-                street, nickname, categories, profileImage, independentYear, independentMonth);
-        profileService.insert(privacyCreateRequest);
 
         return Message.registerUser();
     }
