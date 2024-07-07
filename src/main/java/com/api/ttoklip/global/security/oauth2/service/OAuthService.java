@@ -1,14 +1,14 @@
-package com.api.ttoklip.global.security.auth.service;
+package com.api.ttoklip.global.security.oauth2.service;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
-import com.api.ttoklip.global.security.auth.dto.LoginRequest;
-import com.api.ttoklip.global.security.auth.dto.LoginResponse;
+import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginRequest;
+import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
-import com.api.ttoklip.global.security.auth.userInfo.OAuth2UserInfo;
+import com.api.ttoklip.global.security.oauth2.userInfo.OAuth2UserInfo;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class OAuthService {
 
     private final MemberService memberService;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
@@ -28,7 +28,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final ProfileService profileService;
 
-    public LoginResponse authenticate(final LoginRequest request) {
+    public OAuthLoginResponse authenticate(final OAuthLoginRequest request) {
         String provider = request.getProvider();
         String accessToken = request.getAccessToken();
 
@@ -47,7 +47,7 @@ public class AuthService {
         return getLoginResponse(member, true);
     }
 
-    private LoginResponse alreadyOurUser(final Member member) {
+    private OAuthLoginResponse alreadyOurUser(final Member member) {
         String nickname = member.getNickname();
         if (nickname == null) {
             // 회원가입은 했지만 개인정보(프로필 사진, 닉네임, 독립 경력)을 입력하지 않았을 때 로그인처리, FirstLogin true 처리하여 개인정보 유도
@@ -57,17 +57,17 @@ public class AuthService {
         return getLoginResponse(member, false);
     }
 
-    private LoginResponse getLoginResponse(final Member member, final boolean ifFirstLogin) {
+    private OAuthLoginResponse getLoginResponse(final Member member, final boolean ifFirstLogin) {
         // Server JWT Token
         String jwtToken = jwtProvider.generateJwtToken(member.getEmail());
-        return LoginResponse.builder()
+        return OAuthLoginResponse.builder()
                 .jwtToken(jwtToken)
                 .ifFirstLogin(ifFirstLogin)
                 .build();
     }
 
     private Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
-        log.info("AuthService.registerNewMember");
+        log.info("OAuthService.registerNewMember");
         log.info("userInfo.getName() = " + userInfo.getName());
 
         // 소셜 로그인 사용자의 비밀번호에 임의의 해시 값 설정

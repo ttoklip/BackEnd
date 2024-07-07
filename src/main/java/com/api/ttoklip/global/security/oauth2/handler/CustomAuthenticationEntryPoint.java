@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.security.auth.handler;
+package com.api.ttoklip.global.security.oauth2.handler;
 
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;

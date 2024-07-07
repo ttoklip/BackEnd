@@ -1,10 +1,9 @@
 package com.api.ttoklip.global.config;
 
 //import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
-import com.api.ttoklip.global.security.auth.handler.CustomAuthenticationEntryPoint;
+import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

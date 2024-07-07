@@ -9,7 +9,7 @@ import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.security.auth.service.AuthService;
+import com.api.ttoklip.global.security.oauth2.service.OAuthService;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.success.Message;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class JoinService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
-    private final AuthService authService;
+    private final OAuthService OAuthService;
     private static final String PROVIDER_LOCAL = "local";
 
     @Transactional

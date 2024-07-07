@@ -1,12 +1,12 @@
-package com.api.ttoklip.global.security.auth.service;
+package com.api.ttoklip.global.security.oauth2.service;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.security.auth.userInfo.KakaoUserInfo;
-import com.api.ttoklip.global.security.auth.userInfo.NaverUserInfo;
-import com.api.ttoklip.global.security.auth.userInfo.OAuth2UserInfo;
+import com.api.ttoklip.global.security.oauth2.userInfo.KakaoUserInfo;
+import com.api.ttoklip.global.security.oauth2.userInfo.NaverUserInfo;
+import com.api.ttoklip.global.security.oauth2.userInfo.OAuth2UserInfo;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

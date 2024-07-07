@@ -1,9 +1,9 @@
-package com.api.ttoklip.global.security.auth.controller;
+package com.api.ttoklip.global.security.oauth2.controller;
 
 import com.api.ttoklip.domain.privacy.constant.PrivacyConstant;
-import com.api.ttoklip.global.security.auth.dto.LoginRequest;
-import com.api.ttoklip.global.security.auth.dto.LoginResponse;
-import com.api.ttoklip.global.security.auth.service.AuthService;
+import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginRequest;
+import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginResponse;
+import com.api.ttoklip.global.security.oauth2.service.OAuthService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-public class AuthController {
-    private final AuthService authService;
+public class OAuthController {
+    private final OAuthService OAuthService;
 
     @Operation(summary = "Server 자체 로그인", description = "oauth accessToken으로 로그인",
             tags = {"Authentication"}) // 태그 추가
@@ -37,8 +37,8 @@ public class AuthController {
                                     description = "로그인"
                             )))})
     @PostMapping
-    public SuccessResponse<LoginResponse> login(final @RequestBody LoginRequest request) {
-        LoginResponse loginResponse = authService.authenticate(request);
-        return new SuccessResponse<>(loginResponse);
+    public SuccessResponse<OAuthLoginResponse> login(final @RequestBody OAuthLoginRequest request) {
+        OAuthLoginResponse OAuthLoginResponse = OAuthService.authenticate(request);
+        return new SuccessResponse<>(OAuthLoginResponse);
     }
 }
