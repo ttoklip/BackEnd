@@ -1,30 +1,35 @@
 package com.api.ttoklip.domain.mypage.main.service;
 
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
-import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
-import com.api.ttoklip.domain.mypage.main.domain.*;
-import com.api.ttoklip.domain.question.post.domain.Question;
-
-import com.api.ttoklip.domain.search.response.*;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.domain.mypage.main.dto.response.*;
+import com.api.ttoklip.domain.mypage.main.domain.MyCartRepository;
+import com.api.ttoklip.domain.mypage.main.domain.MyCommunityRepostiory;
+import com.api.ttoklip.domain.mypage.main.domain.MyHoneyTipRepository;
+import com.api.ttoklip.domain.mypage.main.domain.MyNewsLetterRepository;
+import com.api.ttoklip.domain.mypage.main.domain.MyQuestionRepository;
+import com.api.ttoklip.domain.mypage.main.dto.response.QuestionPaging;
+import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
+import com.api.ttoklip.domain.mypage.main.dto.response.UserSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.search.response.CommunityPaging;
+import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
+import com.api.ttoklip.domain.search.response.HoneyTipPaging;
+import com.api.ttoklip.domain.search.response.NewsletterPaging;
+import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
-import com.api.ttoklip.global.success.Message;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 
 @Service
@@ -41,6 +46,7 @@ public class MyPageService {
     public TargetMemberProfile getMyProfile() {
         return memberService.getTargetMemberProfile(getCurrentMember().getId());
     }
+
     public HoneyTipPaging scrapHoneyTips(final Pageable pageable) {
 
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
@@ -106,7 +112,7 @@ public class MyPageService {
 
     public QuestionPaging myQuestions(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        Page<Question> contentPaging = myQuestionRepository.getContain(currentMember.getId(),pageable);
+        Page<Question> contentPaging = myQuestionRepository.getContain(currentMember.getId(), pageable);
         // List<Entity>
         List<Question> contents = contentPaging.getContent();
 
@@ -170,9 +176,9 @@ public class MyPageService {
 
     public CartPaging participateDeals(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        Page<Cart> contentPaging = myCartRepository.getContain(currentMember.getId(),pageable);
+        Page<Cart> contentPaging = myCartRepository.getContain(currentMember.getId(), pageable);
         List<Cart> contents = contentPaging.getContent();
-        List<UserCartSingleResponse> cartSingleData=contents.stream()
+        List<UserCartSingleResponse> cartSingleData = contents.stream()
                 .map(UserCartSingleResponse::cartFrom)
                 .toList();
         return CartPaging.builder()

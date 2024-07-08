@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.honeytip.image.repository;
 
 
-import static com.api.ttoklip.domain.honeytip.image.domain.QHoneyTipImage.*;
+import static com.api.ttoklip.domain.honeytip.image.domain.QHoneyTipImage.honeyTipImage;
 import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 

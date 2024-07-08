@@ -24,11 +24,11 @@ public class OAuthFailureHandler implements AuthenticationFailureHandler {
 
         response.setContentType("application/json;charset=UTF-8");
 
-        int status = Integer.parseInt(String.valueOf(errorType.getStatus()).substring(0,3));
+        int status = Integer.parseInt(String.valueOf(errorType.getStatus()).substring(0, 3));
         response.setStatus(status);
 
         response.getWriter().println(
-                "{\"status\" : \"" +  status + "\"," +
+                "{\"status\" : \"" + status + "\"," +
                         "\"errorCode\" : \"" + errorType.getErrorCode() + "\"," +
                         " \"message\" : \"" + errorType.getMessage() +
                         "\"}");

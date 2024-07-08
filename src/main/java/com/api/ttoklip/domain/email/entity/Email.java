@@ -1,6 +1,12 @@
 package com.api.ttoklip.domain.email.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +34,7 @@ public class Email {
         this.emailStatus = false;
     }
 
-    public static Email from(String email){
+    public static Email from(String email) {
         return new Email(email, false);
     }
 }

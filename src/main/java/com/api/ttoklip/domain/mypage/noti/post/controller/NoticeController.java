@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.mypage.noti.post.controller;
 
 import com.api.ttoklip.domain.mypage.noti.post.constant.NotiConstant;
-import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
+import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeEditRequest;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticePaging;
 import com.api.ttoklip.domain.mypage.noti.post.dto.response.NoticeResponse;
 import com.api.ttoklip.domain.mypage.noti.post.service.NoticeService;
@@ -21,7 +21,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Notice", description = "공지사항 api입니다")
 @RequiredArgsConstructor
@@ -115,7 +123,8 @@ public class NoticeController {
                                     description = "공지사항이 수정되었습니다."
                             )))})
     @PatchMapping("/{noticeId}")
-    public SuccessResponse<Message> edit(final @PathVariable Long noticeId, final @RequestBody NoticeEditRequest request) {
+    public SuccessResponse<Message> edit(final @PathVariable Long noticeId,
+                                         final @RequestBody NoticeEditRequest request) {
         Message message = noticeService.edit(noticeId, request);
         return new SuccessResponse<>(message);
     }

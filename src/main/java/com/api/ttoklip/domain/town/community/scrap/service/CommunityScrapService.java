@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.town.community.scrap.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
 import com.api.ttoklip.domain.town.community.scrap.entity.CommunityScrap;
@@ -9,8 +11,6 @@ import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +41,8 @@ public class CommunityScrapService {
         Long findCommunityId = findCommunity.getId();
         Long currentMemberId = getCurrentMember().getId();
 
-        CommunityScrap communityScrap = communityScrapRepository.findByCommunityIdAndMemberId(findCommunityId, currentMemberId)
+        CommunityScrap communityScrap = communityScrapRepository.findByCommunityIdAndMemberId(findCommunityId,
+                        currentMemberId)
                 .orElseThrow(() -> new ApiException(ErrorType.SCRAP_NOT_FOUND));
 
         // 자격 검증: 이 단계에서는 findByHoneyTipIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.

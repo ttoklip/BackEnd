@@ -6,18 +6,15 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
 import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.util.SecurityUtil;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -97,9 +94,5 @@ public class CommunityCommentService {
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
-
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
-    }
 }
 

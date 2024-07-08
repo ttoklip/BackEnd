@@ -1,19 +1,18 @@
 package com.api.ttoklip.domain.mypage.main.domain;
 
+import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
+import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
+import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
+
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
-import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.*;
-import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,7 +20,7 @@ public class MyCommunityRepostiory {
     private final JPAQueryFactory jpaQueryFactory;
 
     public Page<Community> getContain(final Long userId, final Pageable pageable) {
-        List<Community> content = getSearchPageId(userId ,pageable);
+        List<Community> content = getSearchPageId(userId, pageable);
         Long count = countQuery();
         return new PageImpl<>(content, pageable, count);
     }
@@ -46,11 +45,12 @@ public class MyCommunityRepostiory {
                 .fetchOne();
     }
 
-    public Page<Community> getScrapContain(final Long userId, final Pageable pageable){
-        List<Community> content = getSearchScrapPageId(userId,pageable);
+    public Page<Community> getScrapContain(final Long userId, final Pageable pageable) {
+        List<Community> content = getSearchScrapPageId(userId, pageable);
         Long count = countQuery();
         return new PageImpl<>(content, pageable, count);
     }
+
     private List<Community> getSearchScrapPageId(final Long userId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(community)

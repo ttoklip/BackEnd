@@ -3,7 +3,6 @@ package com.api.ttoklip.domain.search.response;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +22,7 @@ public class SingleResponse {
     private int scrapCount;
     private int commentCount;
 
-    public static SingleResponse honeyTipFrom(final HoneyTip honeyTip){
+    public static SingleResponse honeyTipFrom(final HoneyTip honeyTip) {
         return SingleResponse.builder()
                 .id(honeyTip.getId())
                 .title(honeyTip.getTitle())
@@ -36,7 +35,7 @@ public class SingleResponse {
                 .build();
     }
 
-    public static SingleResponse newsletterFrom(final Newsletter newsletter){
+    public static SingleResponse newsletterFrom(final Newsletter newsletter) {
         return SingleResponse.builder()
                 .id(newsletter.getId())
                 .title(newsletter.getTitle())

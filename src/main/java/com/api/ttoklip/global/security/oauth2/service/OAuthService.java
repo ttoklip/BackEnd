@@ -5,13 +5,12 @@ import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
+import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginRequest;
 import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginResponse;
-import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.security.oauth2.userInfo.OAuth2UserInfo;
 import java.util.Optional;
 import java.util.UUID;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

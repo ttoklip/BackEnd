@@ -31,7 +31,7 @@ public class Comment extends BaseEntity {
     private Long id;
 
     @Lob
-    @Column(name = "content", columnDefinition="LONGTEXT")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

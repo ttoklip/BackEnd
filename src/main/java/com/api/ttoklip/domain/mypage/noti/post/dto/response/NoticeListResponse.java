@@ -1,9 +1,9 @@
 package com.api.ttoklip.domain.mypage.noti.post.dto.response;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder

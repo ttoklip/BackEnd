@@ -2,12 +2,9 @@ package com.api.ttoklip.domain.email.controller;
 
 import com.api.ttoklip.domain.email.dto.request.EmailRequest;
 import com.api.ttoklip.domain.email.service.EmailService;
-import com.api.ttoklip.global.exception.ApiExceptionResponse;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;

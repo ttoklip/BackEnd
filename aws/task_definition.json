@@ -1,52 +1,52 @@
 {
-  "containerDefinitions": [
-    {
-      "name": "ddoklip-backend",
-      "image": "851725223974.dkr.ecr.ap-northeast-2.amazonaws.com/ddokliprp:10",
-      "cpu": 0,
-      "portMappings": [
+    "containerDefinitions": [
         {
-          "name": "ddokliip-backend-8080-tcp",
-          "containerPort": 8080,
-          "hostPort": 8080,
-          "protocol": "tcp",
-          "appProtocol": "http"
+            "name": "ddoklip-backend",
+            "image": "851725223974.dkr.ecr.ap-northeast-2.amazonaws.com/ddokliprp:10",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "ddokliip-backend-8080-tcp",
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "TZ",
+                    "value": "Asia/Seoul"
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/ddoklip-backend-task-definition",
+                    "awslogs-region": "ap-northeast-2",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
         }
-      ],
-      "essential": true,
-      "environment": [
-        {
-          "name": "TZ",
-          "value": "Asia/Seoul"
-        }
-      ],
-      "environmentFiles": [],
-      "mountPoints": [],
-      "volumesFrom": [],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-create-group": "true",
-          "awslogs-group": "/ecs/ddoklip-backend-task-definition",
-          "awslogs-region": "ap-northeast-2",
-          "awslogs-stream-prefix": "ecs"
-        }
-      }
-    }
-  ],
-  "family": "ddoklip-backend-task-definition",
-  "executionRoleArn": "arn:aws:iam::851725223974:role/ecsTaskExecutionRole",
-  "networkMode": "awsvpc",
-  "volumes": [],
-  "placementConstraints": [],
-  "requiresCompatibilities": [
-    "FARGATE"
-  ],
-  "cpu": "512",
-  "memory": "1024",
-  "runtimePlatform": {
-    "cpuArchitecture": "X86_64",
-    "operatingSystemFamily": "LINUX"
-  },
-  "tags": []
+    ],
+    "family": "ddoklip-backend-task-definition",
+    "executionRoleArn": "arn:aws:iam::851725223974:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "volumes": [],
+    "placementConstraints": [],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "tags": []
 }

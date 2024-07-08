@@ -1,13 +1,11 @@
 package com.api.ttoklip.global.security.auth.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Getter
 @AllArgsConstructor

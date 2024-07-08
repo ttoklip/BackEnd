@@ -1,10 +1,9 @@
 package com.api.ttoklip.domain.notification.repository;
 
-import static com.api.ttoklip.domain.member.domain.QMember.*;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.notification.entity.QNotification.notification;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
-import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.notification.entity.Notification;
 import com.querydsl.jpa.impl.JPAQueryFactory;

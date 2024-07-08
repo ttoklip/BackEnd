@@ -3,12 +3,11 @@ package com.api.ttoklip.domain.question.comment.dto.response;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -43,12 +42,14 @@ public class QuestionCommentResponse {
             return getQuestionCommentResponse(questionComment, null, formatCreatedDate, likedByCurrentUser);
         }
 
-        return getQuestionCommentResponse(questionComment, questionComment.getParent().getId(), formatCreatedDate, likedByCurrentUser);
+        return getQuestionCommentResponse(questionComment, questionComment.getParent().getId(), formatCreatedDate,
+                likedByCurrentUser);
     }
 
-    private static QuestionCommentResponse getQuestionCommentResponse(final QuestionComment questionComment, final Long parentCommentId,
-                                                                      final String formatCreatedDate, final boolean likedByCurrentUser) {
-
+    private static QuestionCommentResponse getQuestionCommentResponse(final QuestionComment questionComment,
+                                                                      final Long parentCommentId,
+                                                                      final String formatCreatedDate,
+                                                                      final boolean likedByCurrentUser) {
 
         return QuestionCommentResponse.builder()
                 .commentId(questionComment.getId())

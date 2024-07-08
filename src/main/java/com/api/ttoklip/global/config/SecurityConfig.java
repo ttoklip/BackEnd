@@ -1,8 +1,9 @@
 package com.api.ttoklip.global.config;
 
 //import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
-import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
+
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
+import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-//    private final TokenErrorHandler tokenErrorHandler;
+    //    private final TokenErrorHandler tokenErrorHandler;
     private final CustomAuthenticationEntryPoint entryPoint;
 
     @Bean
@@ -45,13 +46,13 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/favicon.ico"
                                         , "/health"
-                                        ,"/swagger-ui/**"
-                                        ,"/v3/api-docs/**"
-                                        ,"/api/v1/auth/**"
-                                        ,"/api/v1/oauth"
-                                        ,"/error"
-                                        ,"/api/v1/join/**"
-                                        ,"api/v1/email/**"
+                                        , "/swagger-ui/**"
+                                        , "/v3/api-docs/**"
+                                        , "/api/v1/auth/**"
+                                        , "/api/v1/oauth"
+                                        , "/error"
+                                        , "/api/v1/join/**"
+                                        , "api/v1/email/**"
                                 ).permitAll()
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));

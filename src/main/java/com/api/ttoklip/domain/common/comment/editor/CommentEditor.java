@@ -13,6 +13,7 @@ public class CommentEditor {
     public static CommentEditorBuilder builder() {
         return new CommentEditorBuilder();
     }
+
     public static class CommentEditorBuilder {
         private String content;
 

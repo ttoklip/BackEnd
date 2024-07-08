@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.question.comment.repository;
 
-import static com.api.ttoklip.domain.member.domain.QMember.*;
-import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.*;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
 
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.global.exception.ApiException;
