@@ -29,7 +29,7 @@ public class SuccessResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    public SuccessResponse(final T result){
+    public SuccessResponse(final T result) {
         this.result = result;
         this.status = HttpStatus.OK.value();
         this.time = now();

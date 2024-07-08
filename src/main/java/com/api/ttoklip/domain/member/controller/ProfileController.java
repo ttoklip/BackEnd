@@ -28,8 +28,7 @@ public class ProfileController {
     @Operation(summary = "타인 프로필 좋아요 추가", description = "해당하는 사람의 프로필에 좋아요를 추가합니다.")
     @PostMapping("/like")
     public SuccessResponse<Message> registerLike(
-            @Parameter(description = "좋아요를 추가할 대상 회원의 ID", required = true, example = "1")
-            final @RequestParam Long targetMemberId
+            @Parameter(description = "좋아요를 추가할 대상 회원의 ID", required = true, example = "1") final @RequestParam Long targetMemberId
     ) {
         Message message = profileLikeService.registerProfileLike(targetMemberId);
         return new SuccessResponse<>(message);
@@ -39,8 +38,7 @@ public class ProfileController {
     @Operation(summary = "타인 프로필 좋아요 취소", description = "해당하는 사람의 프로필에 좋아요를 취소합니다.")
     @PostMapping("/cancel")
     public SuccessResponse<Message> cancelLike(
-            @Parameter(description = "좋아요를 취소할 대상 회원의 ID", required = true, example = "1")
-            final @RequestParam Long targetMemberId
+            @Parameter(description = "좋아요를 취소할 대상 회원의 ID", required = true, example = "1") final @RequestParam Long targetMemberId
     ) {
         Message message = profileLikeService.cancelProfileLike(targetMemberId);
         return new SuccessResponse<>(message);
@@ -50,8 +48,7 @@ public class ProfileController {
     @Operation(summary = "타인 프로필 조회", description = "해당하는 사람의 프로필을 조회합니다.")
     @GetMapping
     public SuccessResponse<TargetMemberProfile> getTargetProfile(
-            @Parameter(description = "조회할 회원의 ID", required = true, example = "1")
-            final @RequestParam Long targetMemberId
+            @Parameter(description = "조회할 회원의 ID", required = true, example = "1") final @RequestParam Long targetMemberId
     ) {
         return new SuccessResponse<>(memberService.getTargetMemberProfile(targetMemberId));
     }

@@ -5,7 +5,6 @@ import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Profile;
-import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -15,16 +14,13 @@ import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
 import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.success.Message;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 
 @Service
 @Slf4j

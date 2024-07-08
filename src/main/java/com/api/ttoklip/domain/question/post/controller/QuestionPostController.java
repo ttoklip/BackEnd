@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.question.post.controller;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
@@ -24,8 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 
 @Tag(name = "Question Post", description = "꿀팁공유해요 게시판 API입니다.")
@@ -89,7 +89,7 @@ public class QuestionPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                        final @RequestBody ReportCreateRequest request) {
+                                           final @RequestBody ReportCreateRequest request) {
         Message message = questionPostService.report(postId, request);
         return new SuccessResponse<>(message);
     }

@@ -3,8 +3,17 @@ package com.api.ttoklip.domain.mypage.term.domain;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.mypage.term.editor.TermEditor;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
@@ -21,7 +30,7 @@ public class Term extends BaseEntity {
     private String title;
 
     @Lob
-    @Column(name = "content", columnDefinition="LONGTEXT")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
     public static Term of(final TermCreateRequest request) {

@@ -81,7 +81,7 @@ public class NewsletterController {
             @RequestParam final String category,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-    @RequestParam(required = false, defaultValue = "0") final int page) {
+            @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new SuccessResponse<>(newsletterPostService.getPagingCategory(category, pageable));
     }

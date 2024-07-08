@@ -1,53 +1,53 @@
 logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
+    level:
+        org:
+            springframework:
+                security: DEBUG
 
 server:
-  tomcat:
-    uri-encoding: UTF-8
+    tomcat:
+        uri-encoding: UTF-8
 
 spring:
-  jackson:
-    time-zone: Asia/Seoul
-  datasource:
-    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    hikari:
-      data-source-properties:
-        serverTimezone: Asia/Seoul
-  servlet:
-    multipart:
-      max-file-size: 10MB
-#      max-request-size: 10MB
+    jackson:
+        time-zone: Asia/Seoul
+    datasource:
+        driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+        url: ${SPRING_DATASOURCE_URL}
+        username: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
+        hikari:
+            data-source-properties:
+                serverTimezone: Asia/Seoul
+    servlet:
+        multipart:
+            max-file-size: 10MB
+    #      max-request-size: 10MB
 
-  jpa:
-    hibernate:
-      ddl-auto: validate # 바꾸지 말아주세요!
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+    jpa:
+        hibernate:
+            ddl-auto: validate # 바꾸지 말아주세요!
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL8Dialect
 
 cloud:
-  aws:
-    credentials:
-      accessKey: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
-      secretKey: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
-    region:
-      static: ${CLOUD_AWS_REGION_STATIC}
-    s3:
-      bucket: ${CLOUD_AWS_S3_BUCKET}
-      dirname: ${CLOUD_AWS_S3_DIRNAME}
+    aws:
+        credentials:
+            accessKey: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
+            secretKey: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
+        region:
+            static: ${CLOUD_AWS_REGION_STATIC}
+        s3:
+            bucket: ${CLOUD_AWS_S3_BUCKET}
+            dirname: ${CLOUD_AWS_S3_DIRNAME}
 
 jwt:
-  secret:
-    key: ${JWT_VALUE}
+    secret:
+        key: ${JWT_VALUE}
 
 google:
-  firebase:
-    fcm:
-      resource:
-        path: ${FIREBASE_JSON}
+    firebase:
+        fcm:
+            resource:
+                path: ${FIREBASE_JSON}

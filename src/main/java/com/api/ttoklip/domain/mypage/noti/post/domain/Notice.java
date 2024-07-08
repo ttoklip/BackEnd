@@ -3,8 +3,17 @@ package com.api.ttoklip.domain.mypage.noti.post.domain;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.mypage.noti.post.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.mypage.noti.post.editor.NoticePostEditor;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -21,7 +30,7 @@ public class Notice extends BaseEntity {
     private String title;
 
     @Lob
-    @Column(name = "content", columnDefinition="LONGTEXT")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
 

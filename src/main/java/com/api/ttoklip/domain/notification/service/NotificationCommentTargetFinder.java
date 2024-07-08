@@ -42,7 +42,8 @@ public class NotificationCommentTargetFinder {
                     findHoneyTipComment.getId());
             Long honeyTipWriterId = honeyTipComment.getHoneyTip().getMember().getId();
 
-            NotificationServerResponse response = NotificationServerResponse.of(honeyTipWriterId, honeyTipComment.getId());
+            NotificationServerResponse response = NotificationServerResponse.of(honeyTipWriterId,
+                    honeyTipComment.getId());
             return Optional.of(response);
         }
 
@@ -52,7 +53,8 @@ public class NotificationCommentTargetFinder {
                     findQuestionComment.getId());
             Long questionWriterId = questionComment.getQuestion().getMember().getId();
 
-            NotificationServerResponse response = NotificationServerResponse.of(questionWriterId, questionComment.getId());
+            NotificationServerResponse response = NotificationServerResponse.of(questionWriterId,
+                    questionComment.getId());
             return Optional.of(response);
         }
 
@@ -71,7 +73,8 @@ public class NotificationCommentTargetFinder {
             CommunityComment communityComment = notiCommentRepository.findCommunityCommentFetchJoin(
                     findCommunityComment.getId());
             Long communityWriterId = communityComment.getCommunity().getMember().getId();
-            NotificationServerResponse response = NotificationServerResponse.of(communityWriterId, communityComment.getId());
+            NotificationServerResponse response = NotificationServerResponse.of(communityWriterId,
+                    communityComment.getId());
             return Optional.of(response);
         }
 

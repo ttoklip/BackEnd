@@ -6,11 +6,10 @@ import com.api.ttoklip.global.exception.ErrorType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ProfileEditRequest {

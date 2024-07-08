@@ -1,10 +1,13 @@
 ### Issue number and Link
+
 이슈 번호 : ex) #500
 
 ### Summary
+
 ex) 홈 화면 api를 구현하였습니다.
 
 ### PR Type
+
 - [ ] Feature
 - [ ] Bugfix
 - [ ] Refactoring
@@ -12,8 +15,8 @@ ex) 홈 화면 api를 구현하였습니다.
 - [ ] Other
 
 ### Other Information
-ex) 후에 ~api 연결 필요
 
+ex) 후에 ~api 연결 필요
 
 ### Common Type
 
@@ -28,6 +31,7 @@ ex) 후에 ~api 연결 필요
 - merge : 서로 다른 브랜치 간의 코드 병합
 - setting : 프로젝트 기초 세팅 관련 작업
 ~~~
+
 ### branch
 
 ~~~

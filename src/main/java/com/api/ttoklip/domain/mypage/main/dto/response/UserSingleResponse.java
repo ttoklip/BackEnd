@@ -17,7 +17,7 @@ public class UserSingleResponse {
     private String writer;
     private int commentCount;
 
-    public static UserSingleResponse questionFrom(final Question question){
+    public static UserSingleResponse questionFrom(final Question question) {
         return UserSingleResponse.builder()
                 .id(question.getId())
                 .title(question.getTitle())

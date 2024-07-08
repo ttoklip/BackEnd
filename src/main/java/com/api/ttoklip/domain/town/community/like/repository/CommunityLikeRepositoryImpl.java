@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.town.community.like.repository;
 
+import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.communityLike;
+
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-
-import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.communityLike;
 
 @RequiredArgsConstructor
 public class CommunityLikeRepositoryImpl implements CommunityLikeRepositoryCustom {

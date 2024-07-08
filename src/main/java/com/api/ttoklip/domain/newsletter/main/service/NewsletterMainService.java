@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.newsletter.main.service;
 
-import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterMainResponse;
+import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.main.dto.response.RandomTitleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.TodayNewsletter;

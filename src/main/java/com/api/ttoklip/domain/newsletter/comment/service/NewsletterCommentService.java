@@ -8,8 +8,6 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterCommonService;
-import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
-import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.global.success.Message;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

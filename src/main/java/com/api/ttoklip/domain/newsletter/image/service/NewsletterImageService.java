@@ -3,7 +3,6 @@ package com.api.ttoklip.domain.newsletter.image.service;
 import com.api.ttoklip.domain.newsletter.image.domain.NewsletterImage;
 import com.api.ttoklip.domain.newsletter.image.repository.NewsletterImageRepository;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,10 +1,9 @@
 package com.api.ttoklip.domain.town.cart.post.repository;
 
 import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CartMemberRepository extends JpaRepository<CartMember, Long>, CartMemberRepositoryCustom {
 

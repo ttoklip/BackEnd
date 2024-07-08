@@ -3,9 +3,9 @@ package com.api.ttoklip.domain.member.domain;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.domain.Report;
-import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.member.editor.MemberEditor;
 import com.api.ttoklip.domain.member.editor.MemberEditor.MemberEditorBuilder;
 import com.api.ttoklip.domain.newsletter.like.entity.NewsletterLike;
@@ -20,12 +20,25 @@ import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
 import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.scrap.entity.CommunityScrap;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
-import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -49,7 +62,7 @@ public class Member extends BaseEntity {
     private int independentYear;    // 독립 경력 년
     private int independentMonth;   // 독립 경력 월
 
-    @Column(name = "fcm_token", columnDefinition="LONGTEXT")
+    @Column(name = "fcm_token", columnDefinition = "LONGTEXT")
     private String fcmToken;
 
     @Enumerated(EnumType.STRING)

@@ -31,7 +31,7 @@ public class CommunitySingleResponse {
                 .build();
     }
 
-    public static CommunitySingleResponse communityFrom(final Community community){
+    public static CommunitySingleResponse communityFrom(final Community community) {
         return CommunitySingleResponse.builder()
                 .id(community.getId())
                 .title(community.getTitle())

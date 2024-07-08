@@ -7,12 +7,19 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.domain.Question;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
-import lombok.*;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -25,8 +32,7 @@ public class QuestionComment extends Comment {
     private Question question;
 
     @OneToMany(mappedBy = "questionComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentLike> commentLikes  = new ArrayList<>();
-
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
 
     @Builder

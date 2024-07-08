@@ -1,11 +1,10 @@
 package com.api.ttoklip.global.util;
 
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
 
 @RequiredArgsConstructor
 @Service

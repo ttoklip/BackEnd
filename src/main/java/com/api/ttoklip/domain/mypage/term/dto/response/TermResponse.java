@@ -4,9 +4,10 @@ package com.api.ttoklip.domain.mypage.term.dto.response;
 import com.api.ttoklip.domain.mypage.term.domain.Term;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder

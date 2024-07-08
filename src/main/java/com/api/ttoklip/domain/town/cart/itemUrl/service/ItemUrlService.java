@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.town.cart.itemUrl.service;
 
-import com.api.ttoklip.domain.town.cart.image.entity.CartImage;
 import com.api.ttoklip.domain.town.cart.itemUrl.entity.ItemUrl;
 import com.api.ttoklip.domain.town.cart.itemUrl.repository.ItemUrlRepository;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;

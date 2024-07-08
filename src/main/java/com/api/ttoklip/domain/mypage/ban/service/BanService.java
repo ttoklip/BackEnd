@@ -7,13 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BanService {
-    public Message userBan(){
+    public Message userBan() {
         return null;
     }
-    public Message deleteBanUser(){
+
+    public Message deleteBanUser() {
         return null;
     }
-    public Message banUsersList(){
+
+    public Message banUsersList() {
         return null;
     }
 }

@@ -19,7 +19,8 @@ public class CommentNotificationAspect {
     private final ApplicationEventPublisher eventPublisher;
 
     @Pointcut("execution(* com.api.ttoklip.domain.common.comment.service.CommentService.register(com.api.ttoklip.domain.common.comment.Comment))")
-    private void commentPointCut() {}
+    private void commentPointCut() {
+    }
 
     @AfterReturning(pointcut = "commentPointCut() && args(comment)")
     public void handleCommentNotification(Comment comment) {
