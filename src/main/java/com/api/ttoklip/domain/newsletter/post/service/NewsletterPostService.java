@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.newsletter.post.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
@@ -17,7 +19,6 @@ import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,16 +41,6 @@ public class NewsletterPostService {
     private final NewsletterScrapService newsletterScrapService;
     private final NewsletterLikeService newsletterLikeService;
 
-//    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
-//    public Newsletter findById(final Long postId) {
-//        return newsletterRepository.findById(postId)
-//                .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
-//    }
-//    /* -------------------------------------------- 존재 여부 확인 -------------------------------------------- */
-
-    public static Member getCurrentMember() {
-        return SecurityUtil.getCurrentMember();
-    }
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
