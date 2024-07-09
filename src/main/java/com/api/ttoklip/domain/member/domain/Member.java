@@ -75,9 +75,15 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Interest> interests = new ArrayList<>();
 
+    // 신고한 리포트 리스트
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Report> reports = new ArrayList<>();
+    @OneToMany(mappedBy = "reporter", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Report> reportedReports = new ArrayList<>();
+
+    // 신고당한 리포트 리스트
+    @Builder.Default
+    @OneToMany(mappedBy = "reportedMember", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Report> receivedReports = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)

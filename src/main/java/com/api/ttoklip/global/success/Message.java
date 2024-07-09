@@ -66,6 +66,14 @@ public class Message {
         return actionSuccess(itemType, itemId, POST, REPORT);
     }
 
+    public static Message reportMemberSuccess(String reportedMemberNickName) {
+        String message = String.format("닉네임 %s인 회원을 신고하였습니다.", reportedMemberNickName);
+
+        return Message.builder()
+                .message(message)
+                .build();
+    }
+
     public static <T> Message likePostSuccess(Class<T> itemType, Long itemId) {
         return actionSuccess(itemType, itemId, LIKE, CREATE);
     }

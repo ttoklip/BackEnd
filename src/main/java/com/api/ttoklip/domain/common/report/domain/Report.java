@@ -47,8 +47,12 @@ public class Report extends BaseEntity {
     private ReportType reportType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "reporter_id")
+    private Member reporter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reported_member_id")
+    private Member reportedMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
@@ -75,12 +79,22 @@ public class Report extends BaseEntity {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+    public static Report memberOf(final ReportCreateRequest request, final Member reportedMember) {
+        return Report.builder()
+                .content(request.getContent())
+                .reportType(request.getReportType())
+                .reporter(getCurrentMember())
+                .reportedMember(reportedMember)
+                .build();
+    }
+
     public static Report questionOf(final ReportCreateRequest request, final Question question) {
         return Report.builder()
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .question(question)
-                .member(getCurrentMember())
+                .reporter(getCurrentMember())
+                .reportedMember(question.getMember())
                 .build();
     }
 
@@ -89,7 +103,8 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .newsletter(newsletter)
-                .member(getCurrentMember())
+                .reporter(getCurrentMember())
+                .reportedMember(newsletter.getMember())
                 .build();
     }
 
@@ -98,7 +113,8 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .community(community)
-                .member(getCurrentMember())
+                .reporter(getCurrentMember())
+                .reportedMember(community.getMember())
                 .build();
     }
 
@@ -107,7 +123,8 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .cart(cart)
-                .member(getCurrentMember())
+                .reporter(getCurrentMember())
+                .reportedMember(cart.getMember())
                 .build();
     }
 
@@ -116,7 +133,8 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .honeyTip(honeyTip)
-                .member(getCurrentMember())
+                .reporter(getCurrentMember())
+                .reportedMember(honeyTip.getMember())
                 .build();
     }
 
@@ -125,7 +143,8 @@ public class Report extends BaseEntity {
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .comment(comment)
-                .member(getCurrentMember())
+                .reporter(getCurrentMember())
+                .reportedMember(comment.getMember())
                 .build();
     }
 

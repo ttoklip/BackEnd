@@ -5,10 +5,13 @@ import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.repository.ReportRepository;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReportService {
 
+    private final MemberService memberService;
     private final ReportRepository reportRepository;
 
     @Transactional
@@ -56,4 +60,13 @@ public class ReportService {
         Report report = Report.newsletterOf(request, newsletter);
         reportRepository.save(report);
     }
+
+    @Transactional
+    public Message reportMember(final ReportCreateRequest request, final String reportedMemberNickName) {
+        Member reportedMember = memberService.findByNickNameWithProfile(reportedMemberNickName);
+        Report report = Report.memberOf(request, reportedMember);
+        reportRepository.save(report);
+        return Message.reportMemberSuccess(reportedMemberNickName);
+    }
+
 }
