@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@Tag(name = "Report list api", description = "회원을 신고하는 API입니다.")
+@Tag(name = "Report api", description = "회원을 신고하는 API입니다.")
 @RestController
 @RequestMapping("/api/v1/member/report")
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class ReportController {
     private final ReportService reportService;
 
     /* CREATE */
-    @Operation(summary = "회원 신고", description = "신고할 유저의 를 받아 신고합니다.")
+    @Operation(summary = "회원 신고", description = "신고할 유저의 닉네임과 신고할 타입으로 신고합니다.")
     @PostMapping
     public SuccessResponse<Message> register(
             @RequestParam @Schema(description = "신고할 회원의 닉네임", example = "user123") String nickName,
