@@ -5,16 +5,20 @@ import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.context.Context;
+
+import java.io.IOException;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final RedisUtil redisUtil;
+    private final SpringTemplateEngine templateEngine;
 
     @Value("${spring.mail.sender-email}")
     private String senderEmail;
@@ -41,22 +46,21 @@ public class EmailService {
                 .toString();
     }
 
+    private String setContext(String authCode) {
+        Context context = new Context();
+        context.setVariable("authCode", authCode);
+        return templateEngine.process("mail", context);
+    }
+
     // 이메일 폼 생성
-    private MimeMessage createEmailForm(String email) throws MessagingException {
+    private MimeMessage createEmailForm(String email) throws MessagingException, IOException {
         String authCode = createCode();
 
         MimeMessage message = javaMailSender.createMimeMessage();
-//        message.addRecipients(MimeMessage.RecipientType.TO, email);
-//        message.setSubject("안녕하세요. 인증번호입니다.");
-//        message.setFrom("no-reply@ttoklip.co.kr");
-//        message.setText("인증코드: " + authCode, "utf-8");
-
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-        helper.setTo(email);
-        helper.setSubject("안녕하세요. 인증번호입니다.");
-        helper.setText("인증코드: " + authCode, true); // true indicates the content is HTML
-        helper.setFrom("no-reply@ttoklip.co.kr"); // 발신자 이메일 주소 설정
+        message.addRecipients(MimeMessage.RecipientType.TO, email);
+        message.setSubject("안녕하세요. 똑립 인증 번호입니다.");
+        message.setFrom(new InternetAddress(senderEmail, "똑립"));
+        message.setText(setContext(authCode), "utf-8", "html");
 
         // Redis 에 해당 인증코드 인증 시간 설정
 
@@ -72,7 +76,7 @@ public class EmailService {
 
     @Async
     // 인증코드 이메일 발송
-    public void sendEmail(String toEmail) throws MessagingException {
+    public void sendEmail(String toEmail) throws MessagingException, IOException {
         if (toEmail == null || toEmail.isEmpty()) {
             throw new ApiException(ErrorType.INVALID_MAIL_TYPE);
         }
