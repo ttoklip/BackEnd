@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @Tag(name = "Email", description = "메일 인증 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class EmailController {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/send")
-    public SuccessResponse<Message> mailSend(@RequestBody EmailRequest request) throws MessagingException {
+    public SuccessResponse<Message> mailSend(@RequestBody EmailRequest request) throws MessagingException, IOException {
         log.info("EmailController.mailSend()");
         emailService.sendEmail(request.getEmail());
         return new SuccessResponse<>(Message.sendEmail());
