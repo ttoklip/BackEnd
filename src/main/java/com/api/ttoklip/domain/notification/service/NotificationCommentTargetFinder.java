@@ -43,7 +43,7 @@ public class NotificationCommentTargetFinder {
             Long honeyTipWriterId = honeyTipComment.getHoneyTip().getMember().getId();
 
             NotificationServerResponse response = NotificationServerResponse.of(honeyTipWriterId,
-                    honeyTipComment.getId());
+                    honeyTipComment.getHoneyTip().getId());
             return Optional.of(response);
         }
 
@@ -54,7 +54,7 @@ public class NotificationCommentTargetFinder {
             Long questionWriterId = questionComment.getQuestion().getMember().getId();
 
             NotificationServerResponse response = NotificationServerResponse.of(questionWriterId,
-                    questionComment.getId());
+                    questionComment.getQuestion().getId());
             return Optional.of(response);
         }
 
@@ -64,7 +64,9 @@ public class NotificationCommentTargetFinder {
                     findCartComment.getId());
             Long cartWriterId = cartComment.getCart().getMember().getId();
 
-            NotificationServerResponse response = NotificationServerResponse.of(cartWriterId, cartComment.getId());
+            NotificationServerResponse response = NotificationServerResponse.of(
+                    cartWriterId, cartComment.getCart().getId()
+            );
             return Optional.of(response);
         }
 
@@ -74,7 +76,7 @@ public class NotificationCommentTargetFinder {
                     findCommunityComment.getId());
             Long communityWriterId = communityComment.getCommunity().getMember().getId();
             NotificationServerResponse response = NotificationServerResponse.of(communityWriterId,
-                    communityComment.getId());
+                    communityComment.getCommunity().getId());
             return Optional.of(response);
         }
 
