@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class EmailRequest {
+public class EmailVerifyRequest {
 
     @Schema(description = "이메일", example = "ttok123@naver.com")
     private String email;

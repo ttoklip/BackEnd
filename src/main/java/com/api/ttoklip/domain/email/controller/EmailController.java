@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.email.controller;
 
-import com.api.ttoklip.domain.email.dto.request.EmailRequest;
+import com.api.ttoklip.domain.email.dto.request.EmailSendRequest;
+import com.api.ttoklip.domain.email.dto.request.EmailVerifyRequest;
 import com.api.ttoklip.domain.email.service.EmailService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -32,19 +33,19 @@ public class EmailController {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/send")
-    public SuccessResponse<Message> mailSend(@RequestBody EmailRequest request) throws MessagingException, IOException {
+    public SuccessResponse<Message> mailSend(@RequestBody EmailSendRequest request) throws MessagingException, IOException {
         log.info("EmailController.mailSend()");
         emailService.sendEmail(request.getEmail());
         return new SuccessResponse<>(Message.sendEmail());
     }
 
     /* --------------------------------- verify --------------------------------- */
-    @Operation(summary = "인증코드 인증", description = "인증코드를 인증합니다.")
+    @Operation(summary = "인증코드 검증", description = "인증코드를 검증합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/verify")
-    public SuccessResponse<Message> verify(@RequestBody EmailRequest request) {
+    public SuccessResponse<Message> verify(@RequestBody EmailVerifyRequest request) {
         log.info("EmailController.verify()");
         emailService.verifyEmailCode(request);
         return new SuccessResponse<>(Message.verifyCodeSuccess());

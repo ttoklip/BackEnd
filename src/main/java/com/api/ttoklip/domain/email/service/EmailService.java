@@ -1,14 +1,12 @@
 package com.api.ttoklip.domain.email.service;
 
-import com.api.ttoklip.domain.email.dto.request.EmailRequest;
+import com.api.ttoklip.domain.email.dto.request.EmailVerifyRequest;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import java.io.IOException;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -98,7 +99,7 @@ public class EmailService {
     }
 
     // 코드 검증
-    public void verifyEmailCode(EmailRequest request) {
+    public void verifyEmailCode(EmailVerifyRequest request) {
         validEmail(request.getEmail());
         validCode(request.getEmail(), request.getVerifyCode());
     }
