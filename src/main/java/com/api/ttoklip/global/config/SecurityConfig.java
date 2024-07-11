@@ -51,8 +51,8 @@ public class SecurityConfig {
                                         , "/api/v1/auth/**"
                                         , "/api/v1/oauth"
                                         , "/error"
-                                        , "/api/v1/join/**"
-                                        , "api/v1/email/**"
+                                        , "/api/v1/email/**"
+                                        ,"/api/v1/privacy/local/check-nickname"
                                 ).permitAll()
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
