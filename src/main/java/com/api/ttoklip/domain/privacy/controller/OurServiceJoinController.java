@@ -64,7 +64,7 @@ public class OurServiceJoinController {
         return new SuccessResponse<>(message);
     }
 
-    @Operation(summary = "똑립 local 전용 닉네임 중복 확인", description = "local 로그인 이후 개인정보 입력 전 닉네임 중복 확인")
+    @Operation(summary = "똑립 local 전용 닉네임 중복 확인", description = "local 회원가입 이후 개인정보 입력 전 닉네임 중복 확인")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "닉네임 중복 확인",
                     content = @Content(
