@@ -47,7 +47,7 @@ public class OurServiceJoinController {
         return new SuccessResponse<>(message);
     }
 
-    @Operation(summary = "똑립 전용 닉네임 중복 확인", description = "개인정보 입력 전 닉네임 중복 확인")
+    @Operation(summary = "똑립 oauth 전용 닉네임 중복 확인", description = "oauth 이후 개인정보 입력 전 닉네임 중복 확인")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "닉네임 중복 확인",
                     content = @Content(
@@ -58,10 +58,26 @@ public class OurServiceJoinController {
                                     value = PrivacyConstant.VALIDATE_NICKNAME,
                                     description = "닉네임 중복 통과 여부"
                             )))})
-    @GetMapping("/check-nickname")
-    public SuccessResponse<Message> checkNickname(@RequestParam final String nickname) {
+    @GetMapping("oauth/check-nickname")
+    public SuccessResponse<Message> checkOauthNickname(@RequestParam final String nickname) {
         Message message = profileService.validNickname(nickname);
         return new SuccessResponse<>(message);
     }
 
+    @Operation(summary = "똑립 local 전용 닉네임 중복 확인", description = "local 이후 개인정보 입력 전 닉네임 중복 확인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "닉네임 중복 확인",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = PrivacyConstant.VALIDATE_NICKNAME,
+                                    description = "닉네임 중복 통과 여부"
+                            )))})
+    @GetMapping("local/check-nickname")
+    public SuccessResponse<Message> checkLocalNickname(@RequestParam final String nickname) {
+        Message message = profileService.validNickname(nickname);
+        return new SuccessResponse<>(message);
+    }
 }
