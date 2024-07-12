@@ -1,10 +1,13 @@
 package com.api.ttoklip.global.security.auth.service;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
+import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.privacy.repository.InterestRepository;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -31,6 +34,7 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
+    private final InterestRepository interestRepository;
     private static final String PROVIDER_LOCAL = "local";
     private final ProfileService profileService;
     private final S3FileUploader s3FileUploader;
@@ -45,7 +49,7 @@ public class AuthService {
         int independentYear = authRequest.getIndependentYear();
         int independentMonth = authRequest.getIndependentMonth();
         String street = authRequest.getStreet();
-        List<String> categories = authRequest.getCategories();
+        //List<Category> categories = authRequest.getCategories();
         MultipartFile profileImage = authRequest.getProfileImage();
 
         boolean isExist = memberRepository.existsByEmail(email);
@@ -74,7 +78,7 @@ public class AuthService {
         String profileImgUrl = s3FileUploader.uploadMultipartFile(profileImage);
         Profile profile = Profile.of(newMember, profileImgUrl);
         profileService.register(profile);
-
+        registerInterest(authRequest,newMember);
         return Message.registerUser();
     }
 
@@ -119,6 +123,17 @@ public class AuthService {
                 .jwtToken(jwtToken)
                 .ifFirstLogin(ifFirstLogin)
                 .build();
+    }
+
+    private void registerInterest(final AuthRequest authRequest,final Member currentMember){
+        List<Category>categories=authRequest.getCategories();
+        List<Interest>interests=categories
+                .stream()
+                .map(category -> Interest.of(currentMember,category))
+                .toList();
+
+        interestRepository.saveAll(interests);
+
     }
 
 }

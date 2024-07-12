@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
+import com.api.ttoklip.domain.privacy.dto.InterestResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
@@ -264,14 +265,14 @@ public class CartPostService {
         if(cartMemberRepository.findByMemberIdAndCartId(currentMemberId, cartId).isEmpty()){
             throw new ApiException(ErrorType.NOT_PARTICIPATED);
         }
-
         Cart cart = cartRepository.findByIdActivated(cartId);
         List<CartMember> cartMembers=cart.getCartMembers();
-        System.out.println("리스트카트:"+cartMembers.get(0).getMember().getNickname()+"이미지: "+cartMembers.get(0).getMember().getProfile().getProfileImgUrl());
         return cartMembers.stream()
                 .map(member -> CartMemberResponse.builder()
                         .nickname(member.getMember().getNickname())
                         .profileImgUrl(member.getMember().getProfile().getProfileImgUrl())
+                        .email(member.getMember().getEmail())
+                        .interests()
                         .build())
                 .collect(Collectors.toList());
     }
