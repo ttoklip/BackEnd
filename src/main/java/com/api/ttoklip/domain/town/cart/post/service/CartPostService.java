@@ -7,11 +7,11 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
-import com.api.ttoklip.domain.privacy.dto.InterestResponse;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartGroupMemberResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartMemberResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
@@ -26,8 +26,6 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import jakarta.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -257,26 +255,29 @@ public class CartPostService {
 
     public Long countParticipants(final Long cartId) {
         Cart cart = cartRepository.findByIdActivated(cartId);
-        System.out.println("카트카트카트"+cart.getCartMembers().listIterator());
+        System.out.println("카트카트카트" + cart.getCartMembers().listIterator());
         return cartRepository.countParticipants(cartId);
     }
-    public List<CartMemberResponse> checkParticipants(final Long cartId){
+
+    public CartGroupMemberResponse checkParticipants(final Long cartId) {
         Long currentMemberId = getCurrentMember().getId();
-        if(cartMemberRepository.findByMemberIdAndCartId(currentMemberId, cartId).isEmpty()){
-            throw new ApiException(ErrorType.NOT_PARTICIPATED);
-        }
+
+        isAllReadyParticipants(cartId, currentMemberId);
+
         Cart cart = cartRepository.findByIdActivated(cartId);
-        List<CartMember> cartMembers=cart.getCartMembers();
-        return cartMembers.stream()
-                .map(member -> CartMemberResponse.builder()
-                        .nickname(member.getMember().getNickname())
-                        .profileImgUrl(member.getMember().getProfile().getProfileImgUrl())
-                        .email(member.getMember().getEmail())
-                        .interests(member.getMember().getInterests().stream()
-                                .map(InterestResponse::from)
-                                .collect(Collectors.toList()))
-                        .build())
-                .collect(Collectors.toList());
+
+        List<CartMemberResponse> cartMemberResponses = cart.getCartMembers().stream()
+                .map(cartMember -> CartMemberResponse.of(
+                                cartMember.getMember(), cartMember.getMember().getInterests()
+                        )
+                ).toList();
+
+        return CartGroupMemberResponse.of(cartMemberResponses);
+    }
+
+    private void isAllReadyParticipants(final Long cartId, final Long currentMemberId) {
+        cartMemberRepository.findByMemberIdAndCartId(currentMemberId, cartId)
+                .orElseThrow(() -> new ApiException(ErrorType.NOT_PARTICIPATED));
     }
     /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
 

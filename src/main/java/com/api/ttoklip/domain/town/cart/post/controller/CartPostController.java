@@ -4,9 +4,8 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.constant.CartResponseConstant;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.request.UpdateStatusRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartMemberResponse;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartGroupMemberResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
-import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
 import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.global.success.Message;
@@ -30,8 +29,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Tag(name = "Cart", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
@@ -185,6 +182,7 @@ public class CartPostController {
         Long count = cartPostService.countParticipants(cartId);
         return new SuccessResponse<>(count);
     }
+
     @Operation(summary = "참여자 확인", description = "특정 카트의 참여자를 확인합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "참여자 확인 성공",
@@ -196,9 +194,9 @@ public class CartPostController {
                                     description = "참여자를 확인하였습니다."
                             )))})
     @GetMapping("/participants/members/{cartId}")
-    public SuccessResponse<List<CartMemberResponse>> checkParticipants(final @PathVariable Long cartId) {
-        List<CartMemberResponse>cartMembers = cartPostService.checkParticipants(cartId);
-        return new SuccessResponse<>(cartMembers);
+    public SuccessResponse<CartGroupMemberResponse> checkParticipants(final @PathVariable Long cartId) {
+        CartGroupMemberResponse cartGroupMemberResponse = cartPostService.checkParticipants(cartId);
+        return new SuccessResponse<>(cartGroupMemberResponse);
 //        Long count = cartPostService.countParticipants(cartId);
 //        return new SuccessResponse<>(count);
     }
