@@ -272,7 +272,9 @@ public class CartPostService {
                         .nickname(member.getMember().getNickname())
                         .profileImgUrl(member.getMember().getProfile().getProfileImgUrl())
                         .email(member.getMember().getEmail())
-                        .interests()
+                        .interests(member.getMember().getInterests().stream()
+                                .map(InterestResponse::from)
+                                .collect(Collectors.toList()))
                         .build())
                 .collect(Collectors.toList());
     }
