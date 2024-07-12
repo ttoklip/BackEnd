@@ -78,7 +78,7 @@ public class AuthService {
         String profileImgUrl = s3FileUploader.uploadMultipartFile(profileImage);
         Profile profile = Profile.of(newMember, profileImgUrl);
         profileService.register(profile);
-        registerInterest(authRequest,newMember);
+        registerInterest(authRequest, newMember);
         return Message.registerUser();
     }
 
@@ -125,11 +125,11 @@ public class AuthService {
                 .build();
     }
 
-    private void registerInterest(final AuthRequest authRequest,final Member currentMember){
-        List<Category>categories=authRequest.getCategories();
-        List<Interest>interests=categories
+    private void registerInterest(final AuthRequest authRequest, final Member currentMember) {
+        List<Category> categories = authRequest.getCategories();
+        List<Interest> interests = categories
                 .stream()
-                .map(category -> Interest.of(currentMember,category))
+                .map(category -> Interest.of(currentMember, category))
                 .toList();
 
         interestRepository.saveAll(interests);

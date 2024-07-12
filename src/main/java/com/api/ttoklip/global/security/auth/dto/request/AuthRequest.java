@@ -1,12 +1,9 @@
 package com.api.ttoklip.global.security.auth.dto.request;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,12 +37,14 @@ public class AuthRequest {
     private String street;
 
     private List<String> categories;
+
     public List<Category> getCategories() {
         validCategorySize();
         return categories.stream()
                 .map(Category::findCategoryByValue)
                 .toList();
     }
+
     private void validCategorySize() {
         if (categories != null && categories.size() > 3) {
             throw new ApiException(ErrorType.INVALID_CATEGORIES_SIZE);

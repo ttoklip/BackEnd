@@ -33,7 +33,7 @@ public class EmailController {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/send")
-    public SuccessResponse<Message> mailSend(@RequestBody EmailSendRequest request) throws MessagingException, IOException {
+    public SuccessResponse<Message> mailSend(@RequestBody EmailSendRequest request) {
         log.info("EmailController.mailSend()");
         emailService.sendEmail(request.getEmail());
         return new SuccessResponse<>(Message.sendEmail());

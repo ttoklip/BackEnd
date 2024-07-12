@@ -7,6 +7,8 @@ import com.api.ttoklip.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,9 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import java.io.IOException;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -64,29 +63,52 @@ public class EmailService {
 
         // Redis 에 해당 인증코드 인증 시간 설정
 
+        setRedisData(email, authCode);
+
+        return message;
+    }
+
+    private void setRedisData(final String email, final String authCode) {
         try {
             redisUtil.setDataExpire(email, authCode, 60 * 30L);
         } catch (Exception e) {
             log.error("Redis 에 저장하는데 문제가 생겼습니다.");
             e.printStackTrace();
         }
-
-        return message;
     }
 
     @Async
     // 인증코드 이메일 발송
-    public void sendEmail(String toEmail) throws MessagingException, IOException {
-        if (toEmail == null || toEmail.isEmpty()) {
-            throw new ApiException(ErrorType.INVALID_MAIL_TYPE);
-        }
+    public void sendEmail(String toEmail) {
+        validEmailHasText(toEmail);
+        validRedisHasEmail(toEmail);
+
+        // 이메일 폼 생성
+        createEmail(toEmail);
+    }
+
+    private void validRedisHasEmail(final String toEmail) {
         if (redisUtil.existData(toEmail)) {
             redisUtil.deleteData(toEmail);
         }
+    }
 
-        // 이메일 폼 생성
-        MimeMessage emailForm = createEmailForm(toEmail);
+    private void createEmail(final String toEmail) {
+        try {
+            MimeMessage emailForm = createEmailForm(toEmail);
+            sendEmail(emailForm);
+        } catch (MessagingException e) {
+            // ToDo 우리만의 에러 발생
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            // ToDo 우리만의 에러 발생
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
+    private void sendEmail(final MimeMessage emailForm) {
         try {
             // 이메일 발송
             javaMailSender.send(emailForm);
@@ -94,17 +116,15 @@ public class EmailService {
             log.error("이메일을 발송하는데 문제가 생겼습니다.");
             e.printStackTrace();
         }
-
-//        return Message.sendEmail();
     }
 
     // 코드 검증
     public void verifyEmailCode(EmailVerifyRequest request) {
-        validEmail(request.getEmail());
+        validEmailHasText(request.getEmail());
         validCode(request.getEmail(), request.getVerifyCode());
     }
 
-    private void validEmail(String email) {
+    private void validEmailHasText(String email) {
         if (!StringUtils.hasText(email)) {
             throw new ApiException(ErrorType.INVALID_MAIL_TYPE);
         }
