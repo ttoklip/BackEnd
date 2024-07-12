@@ -11,6 +11,7 @@ import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartMemberResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
@@ -24,6 +25,8 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -252,7 +255,25 @@ public class CartPostService {
     }
 
     public Long countParticipants(final Long cartId) {
+        Cart cart = cartRepository.findByIdActivated(cartId);
+        System.out.println("카트카트카트"+cart.getCartMembers().listIterator());
         return cartRepository.countParticipants(cartId);
+    }
+    public List<CartMemberResponse> checkParticipants(final Long cartId){
+        Long currentMemberId = getCurrentMember().getId();
+        if(cartMemberRepository.findByMemberIdAndCartId(currentMemberId, cartId).isEmpty()){
+            throw new ApiException(ErrorType.NOT_PARTICIPATED);
+        }
+
+        Cart cart = cartRepository.findByIdActivated(cartId);
+        List<CartMember> cartMembers=cart.getCartMembers();
+        System.out.println("리스트카트:"+cartMembers.get(0).getMember().getNickname()+"이미지: "+cartMembers.get(0).getMember().getProfile().getProfileImgUrl());
+        return cartMembers.stream()
+                .map(member -> CartMemberResponse.builder()
+                        .nickname(member.getMember().getNickname())
+                        .profileImgUrl(member.getMember().getProfile().getProfileImgUrl())
+                        .build())
+                .collect(Collectors.toList());
     }
     /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
 
