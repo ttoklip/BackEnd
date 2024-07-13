@@ -72,8 +72,7 @@ public class EmailService {
         try {
             redisUtil.setDataExpire(email, authCode, 60 * 30L);
         } catch (Exception e) {
-            log.error("Redis 에 저장하는데 문제가 생겼습니다.");
-            e.printStackTrace();
+            throw new ApiException(ErrorType.REDIS_SAVE_ERROR);
         }
     }
 
@@ -98,13 +97,9 @@ public class EmailService {
             MimeMessage emailForm = createEmailForm(toEmail);
             sendEmail(emailForm);
         } catch (MessagingException e) {
-            // ToDo 우리만의 에러 발생
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
         } catch (IOException e) {
-            // ToDo 우리만의 에러 발생
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
         }
     }
 
@@ -113,8 +108,7 @@ public class EmailService {
             // 이메일 발송
             javaMailSender.send(emailForm);
         } catch (Exception e) {
-            log.error("이메일을 발송하는데 문제가 생겼습니다.");
-            e.printStackTrace();
+            throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
         }
     }
 
