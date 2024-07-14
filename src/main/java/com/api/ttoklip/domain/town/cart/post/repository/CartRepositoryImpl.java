@@ -8,6 +8,8 @@ import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.privacy.domain.QInterest;
+import com.api.ttoklip.domain.privacy.domain.QProfile;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.global.exception.ApiException;
@@ -33,6 +35,8 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                         matchId(cartId), getCartActivate()
                 )
                 .leftJoin(cart.member, member).fetchJoin()
+                .leftJoin(cart.member.interests, QInterest.interest).fetchJoin()
+                .leftJoin(cart.member.profile, QProfile.profile).fetchJoin()
                 .fetchOne();
         return Optional.ofNullable(findCart)
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));

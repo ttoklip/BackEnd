@@ -52,7 +52,7 @@ public enum ErrorType {
     CART_NOT_FOUND(NOT_FOUND, "Cart_4040", "함께해요를 찾을 수 없습니다."),
     PARTICIPANT_EXCEEDED(BAD_REQUEST, "Cart_4000", "참가자 수가 공구 인원의 최대 허용 인원을 초과하였습니다."),
     ALREADY_PARTICIPATED(BAD_REQUEST, "Cart_4000", "이미 공구에 참여 중입니다."),
-    NOT_PARTICIPATED(BAD_REQUEST, "Cart_4000", "참여 중이 아니라 취소할 수 없습니다."),
+    NOT_PARTICIPATED(BAD_REQUEST, "Cart_4000", "참여 중이 아닙니다."),
 
 
     // ------------------------------------------ Community ------------------------------------------
@@ -138,6 +138,7 @@ public enum ErrorType {
 
     // ------------------------------------------ Redis ------------------------------------------
     REDIS_EMAIL_NOT_FOUND(NOT_FOUND, "Redis_Email_4041", "요청한 이메일을 찾을 수 없습니다."),
+    REDIS_SAVE_ERROR(INTERNAL_SERVER_ERROR, "Redis_Save_5001", "Redis에 데이터를 저장하는데 문제가 발생했습니다."),
 
 
     // ------------------------------------------ Auth ------------------------------------------
@@ -162,6 +163,12 @@ public enum ErrorType {
     // ------------------------------------------ Image ------------------------------------------
     DELETE_INVALID_IMAGE_IDS(BAD_REQUEST, "Image_4041", "삭제하려는 이미지 ID가 DB에 존재하지 않는 게 있습니다."),
     INVALID_DELETE_IMAGE_OWNER(FORBIDDEN, "Image_4031", "이미지들의 오너가 아닙니다."),
+
+
+    // ------------------------------------------ Email ------------------------------------------
+    EMAIL_SENDING_ERROR(INTERNAL_SERVER_ERROR, "EMAIL_5001", "이메일 전송 중 오류가 발생했습니다."),
+    EMAIL_FORM_CREATION_ERROR(INTERNAL_SERVER_ERROR, "EMAIL_5002", "이메일 양식 생성 중 오류가 발생했습니다."),
+
 
     ;
 

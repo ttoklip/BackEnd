@@ -11,6 +11,8 @@ import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartGroupMemberResponse;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartMemberResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.editor.CartPostEditor;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
@@ -252,7 +254,30 @@ public class CartPostService {
     }
 
     public Long countParticipants(final Long cartId) {
+        Cart cart = cartRepository.findByIdActivated(cartId);
+        System.out.println("카트카트카트" + cart.getCartMembers().listIterator());
         return cartRepository.countParticipants(cartId);
+    }
+
+    public CartGroupMemberResponse checkParticipants(final Long cartId) {
+        Long currentMemberId = getCurrentMember().getId();
+
+        isAllReadyParticipants(cartId, currentMemberId);
+
+        Cart cart = cartRepository.findByIdActivated(cartId);
+
+        List<CartMemberResponse> cartMemberResponses = cart.getCartMembers().stream()
+                .map(cartMember -> CartMemberResponse.of(
+                                cartMember.getMember(), cartMember.getMember().getInterests()
+                        )
+                ).toList();
+
+        return CartGroupMemberResponse.of(cartMemberResponses);
+    }
+
+    private void isAllReadyParticipants(final Long cartId, final Long currentMemberId) {
+        cartMemberRepository.findByMemberIdAndCartId(currentMemberId, cartId)
+                .orElseThrow(() -> new ApiException(ErrorType.NOT_PARTICIPATED));
     }
     /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
 

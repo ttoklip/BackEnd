@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.constant.CartResponseConstant;
 import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
 import com.api.ttoklip.domain.town.cart.post.dto.request.UpdateStatusRequest;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartGroupMemberResponse;
 import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
@@ -180,6 +181,24 @@ public class CartPostController {
     public SuccessResponse<Long> countParticipants(final @PathVariable Long cartId) {
         Long count = cartPostService.countParticipants(cartId);
         return new SuccessResponse<>(count);
+    }
+
+    @Operation(summary = "참여자 확인", description = "특정 카트의 참여자를 확인합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "참여자 확인 성공",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = CartResponseConstant.CHECK_PARTICIPANTS,
+                                    description = "참여자를 확인하였습니다."
+                            )))})
+    @GetMapping("/participants/members/{cartId}")
+    public SuccessResponse<CartGroupMemberResponse> checkParticipants(final @PathVariable Long cartId) {
+        CartGroupMemberResponse cartGroupMemberResponse = cartPostService.checkParticipants(cartId);
+        return new SuccessResponse<>(cartGroupMemberResponse);
+//        Long count = cartPostService.countParticipants(cartId);
+//        return new SuccessResponse<>(count);
     }
 
 }
