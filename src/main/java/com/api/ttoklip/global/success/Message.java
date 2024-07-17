@@ -179,4 +179,10 @@ public class Message {
                 .message("target " + targetMemberId + "번 회원 프로필에 좋아요를 취소했습니다")
                 .build();
     }
+
+    public static Message agreeTerms() {
+        return Message.builder()
+                .message("모든 약관에 동의하였습니다.")
+                .build();
+    }
 }

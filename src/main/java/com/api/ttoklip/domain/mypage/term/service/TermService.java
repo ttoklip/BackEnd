@@ -1,8 +1,11 @@
 package com.api.ttoklip.domain.mypage.term.service;
 
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.mypage.term.domain.Term;
+import com.api.ttoklip.domain.mypage.term.domain.TermAgreement;
 import com.api.ttoklip.domain.mypage.term.domain.TermPaginRepository;
-import com.api.ttoklip.domain.mypage.term.domain.TermRepository;
+import com.api.ttoklip.domain.mypage.term.repository.TermAgreementRepository;
+import com.api.ttoklip.domain.mypage.term.repository.TermRepository;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.mypage.term.dto.request.TermEditRequest;
 import com.api.ttoklip.domain.mypage.term.dto.response.TermPaging;
@@ -19,12 +22,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TermService {
     private final TermRepository termRepository;
     private final TermPaginRepository termPaginRepository;
+    private final TermAgreementRepository termAgreementRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Term findTermById(final Long termId) {
@@ -96,4 +102,18 @@ public class TermService {
     }
 
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- AGREE  -------------------------------------------- */
+    @Transactional
+    public Message agreeTerm() {
+        Member currentMember = getCurrentMember();
+
+        TermAgreement termAgreement = TermAgreement.from(currentMember);
+        termAgreementRepository.save(termAgreement);
+
+        return Message.agreeTerms();
+    }
+
+    /* -------------------------------------------- AGREE 끝  -------------------------------------------- */
 }
