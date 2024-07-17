@@ -63,6 +63,7 @@ public class TermConstant {
             }
                         
             """;
+
     public static final String termsAndPolicyResponse = """
             {
                 "time": "2024-01-11T16:06:30.852Z",
@@ -74,6 +75,19 @@ public class TermConstant {
                     "title": "특정 약관",
                     "content": "특정 약관 내용 예시",
                     "createdAt": "24.02.12 14:43"
+                }
+            }
+                        
+            """;
+
+    public static final String agreeTerm = """
+            {
+                "time": "2024-01-11T16:06:30.852Z",
+                "status": 200,
+                "code": "200",
+                "message": "요청에 성공하였습니다.",
+                "result": {
+                    "message": "약관에 동의하였습니다."
                 }
             }
                         

@@ -108,4 +108,21 @@ public class TermController {
         Message message = termService.register(request);
         return new SuccessResponse<>(message);
     }
+
+    @Operation(summary = "이용약관 동의하기", description = "이용약관에 동의합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "이용약관 동의 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = TermConstant.agreeTerm,
+                                    description = "이용약관에 동의했습니다"
+                            )))})
+    @PostMapping("/agree")
+    public SuccessResponse<Message> agreeTerm() {
+        Message message = termService.agreeTerm();
+        return new SuccessResponse<>(message);
+    }
 }
