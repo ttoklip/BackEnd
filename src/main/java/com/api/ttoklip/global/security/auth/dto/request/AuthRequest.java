@@ -36,6 +36,18 @@ public class AuthRequest {
     @Schema(description = "주소", example = "경기도 안산시 상록구")
     private String street;
 
+    @Schema(description = "이용약관 동의 여부", example = "true")
+    private boolean term1Agreement;
+
+    @Schema(description = "개인정보처리방침 동의 여부", example = "true")
+    private boolean term2Agreement;
+
+    @Schema(description = "위치기반서비스 동의 여부", example = "true")
+    private boolean term3Agreement;
+
+    @Schema(description = "사용자 계정 및 데이터 삭제 요청 동의 여부", example = "true")
+    private boolean term4Agreement;
+
     private List<String> categories;
 
     public List<Category> getCategories() {

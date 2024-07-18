@@ -24,10 +24,23 @@ public class TermAgreement extends BaseEntity {
 
     private LocalDateTime agreedDate;
 
-    public static TermAgreement from(Member member) {
+    private boolean term1Agreement;
+    private boolean term2Agreement;
+    private boolean term3Agreement;
+    private boolean term4Agreement;
+
+    public static TermAgreement from(Member member,
+                                     boolean term1Agreement,
+                                     boolean term2Agreement,
+                                     boolean term3Agreement,
+                                     boolean term4Agreement) {
         return TermAgreement.builder()
                 .member(member)
                 .agreedDate(LocalDateTime.now())
+                .term1Agreement(term1Agreement)
+                .term2Agreement(term2Agreement)
+                .term3Agreement(term3Agreement)
+                .term4Agreement(term4Agreement)
                 .build();
     }
 }

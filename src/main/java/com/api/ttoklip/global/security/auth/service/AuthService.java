@@ -5,6 +5,8 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
+import com.api.ttoklip.domain.mypage.term.domain.TermAgreement;
+import com.api.ttoklip.domain.mypage.term.repository.TermAgreementRepository;
 import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.privacy.repository.InterestRepository;
@@ -38,6 +40,7 @@ public class AuthService {
     private static final String PROVIDER_LOCAL = "local";
     private final ProfileService profileService;
     private final S3FileUploader s3FileUploader;
+    private final TermAgreementRepository termAgreementRepository;
 
 
     @Transactional
@@ -79,6 +82,8 @@ public class AuthService {
         Profile profile = Profile.of(newMember, profileImgUrl);
         profileService.register(profile);
         registerInterest(authRequest, newMember);
+        saveTermAgreement(authRequest, newMember);
+
         return Message.registerUser();
     }
 
@@ -136,5 +141,16 @@ public class AuthService {
 
     }
 
+    private void saveTermAgreement(final AuthRequest authRequest, final Member currentMember) {
+        TermAgreement termAgreement = TermAgreement.from(
+                currentMember,
+                authRequest.isTerm1Agreement(),
+                authRequest.isTerm2Agreement(),
+                authRequest.isTerm3Agreement(),
+                authRequest.isTerm4Agreement()
+        );
+
+        termAgreementRepository.save(termAgreement);
+    }
 }
 
