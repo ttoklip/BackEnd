@@ -104,16 +104,16 @@ public class TermService {
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
 
 
-    /* -------------------------------------------- AGREE  -------------------------------------------- */
-    @Transactional
-    public Message agreeTerm() {
-        Member currentMember = getCurrentMember();
-
-        TermAgreement termAgreement = TermAgreement.from(currentMember);
-        termAgreementRepository.save(termAgreement);
-
-        return Message.agreeTerms();
-    }
-
-    /* -------------------------------------------- AGREE 끝  -------------------------------------------- */
+//    /* -------------------------------------------- AGREE  -------------------------------------------- */
+//    @Transactional
+//    public Message agreeTerm() {
+//        Member currentMember = getCurrentMember();
+//
+//        TermAgreement termAgreement = TermAgreement.from(currentMember);
+//        termAgreementRepository.save(termAgreement);
+//
+//        return Message.agreeTerms();
+//    }
+//
+//    /* -------------------------------------------- AGREE 끝  -------------------------------------------- */
 }
