@@ -9,10 +9,10 @@ import lombok.Getter;
 
 @Getter
 public class CartMemberResponse {
-    private String nickname;
-    private String profileImgUrl;
-    private String email;
-    private List<InterestResponse> interests;
+    private final String nickname;
+    private final String profileImgUrl;
+    private final String email;
+    private final List<InterestResponse> interests;
 
 
     @Builder

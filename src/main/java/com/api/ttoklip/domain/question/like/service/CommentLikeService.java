@@ -31,9 +31,6 @@ public class CommentLikeService {
 
         QuestionComment findQuestionComment = questionCommonService.getQuestionComment(commentId);
 
-        System.out.println("findQuestionComment.getId() = " + findQuestionComment.getId());
-        System.out.println("findQuestionComment.getContent() = " + findQuestionComment.getContent());
-
         CommentLike commentLike = CommentLike.from(findQuestionComment);
         commentLikeRepository.save(commentLike);
     }

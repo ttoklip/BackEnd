@@ -28,8 +28,7 @@ public class BaseEntityConfig {
 //            log.info("----------- 클래스 타입" + authentication.getPrincipal().getClass());
 
             Object principal = authentication.getPrincipal();
-            if (principal instanceof Member) {
-                Member member = (Member) principal;
+            if (principal instanceof Member member) {
                 String email = member.getEmail();
                 return Optional.ofNullable(email);
             }

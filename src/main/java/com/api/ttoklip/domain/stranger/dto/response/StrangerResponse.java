@@ -24,7 +24,6 @@ public class StrangerResponse {
     private final int independentMonth;
 
     public static StrangerResponse of(final Member member) {
-        System.out.println("member.getProfile() = " + member.getProfile());
 
         return StrangerResponse.builder()
                 .nickname(member.getNickname())

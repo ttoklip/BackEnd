@@ -5,7 +5,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
+import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
@@ -239,12 +239,11 @@ public class CartPostService {
         Cart cart = cartRepository.findByIdActivated(cartId);
 
         List<CartMember> cartMembers = cart.getCartMembers();
-        System.out.println("cart.getCartMembers().size() = " + cartMembers.size());
+
         for (CartMember member : cartMembers) {
             System.out.println("member.getMember().getEmail() = " + member.getMember().getEmail());
         }
 
-        System.out.println("cart.getPartyMax() = " + cart.getPartyMax());
         if (cart.getCartMembers().size() < cart.getPartyMax()) {
             System.out.println("------------------------------------------CartPostService.removeParticipant");
             cart.changeProgress();

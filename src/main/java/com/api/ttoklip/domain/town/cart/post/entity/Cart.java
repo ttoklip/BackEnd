@@ -77,7 +77,6 @@ public class Cart extends BaseEntity {
     }
 
     public void changeProgress() {
-        System.out.println(63);
         this.status = TradeStatus.IN_PROGRESS;
     }
 

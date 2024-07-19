@@ -9,6 +9,9 @@ import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.privacy.repository.InterestRepository;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
+import com.api.ttoklip.domain.term.domain.Term;
+import com.api.ttoklip.domain.term.domain.TermAgreement;
+import com.api.ttoklip.domain.term.service.TermService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
@@ -18,6 +21,9 @@ import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,30 +41,38 @@ public class AuthService {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
     private final InterestRepository interestRepository;
-    private static final String PROVIDER_LOCAL = "local";
     private final ProfileService profileService;
     private final S3FileUploader s3FileUploader;
+    private final TermService termService;
+    private static final String PROVIDER_LOCAL = "local";
 
 
     @Transactional
     public Message signup(final AuthRequest authRequest) {
+        Member newMember = registerMember(authRequest);
+
+        MultipartFile profileImage = authRequest.getProfileImage();
+        String profileImgUrl = s3FileUploader.uploadMultipartFile(profileImage);
+        registerProfile(newMember, profileImgUrl);
+
+        registerInterest(authRequest.getCategories(), newMember);
+        registerTermAgreements(authRequest, newMember);
+
+        return Message.registerUser();
+    }
+
+    private Member registerMember(final AuthRequest authRequest) {
         String email = authRequest.getEmail();
+        validateEmail(email);
+
         String password = authRequest.getPassword();
+        String registerPassword = bCryptPasswordEncoder.encode(password);
         String originName = authRequest.getOriginName();
         String nickname = authRequest.getNickname();
         int independentYear = authRequest.getIndependentYear();
         int independentMonth = authRequest.getIndependentMonth();
         String street = authRequest.getStreet();
-        //List<Category> categories = authRequest.getCategories();
-        MultipartFile profileImage = authRequest.getProfileImage();
 
-        boolean isExist = memberRepository.existsByEmail(email);
-
-        if (isExist) {
-            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
-        }
-
-        String registerPassword = bCryptPasswordEncoder.encode(password);
         log.info("---------------------" + registerPassword);
 
         Member newMember = Member.builder()
@@ -74,25 +88,29 @@ public class AuthService {
                 .build();
 
         memberRepository.save(newMember);
+        return newMember;
+    }
 
-        String profileImgUrl = s3FileUploader.uploadMultipartFile(profileImage);
+    private void validateEmail(final String email) {
+        boolean isExist = memberRepository.existsByEmail(email);
+
+        if (isExist) {
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
+        }
+    }
+
+    private void registerProfile(final Member newMember, final String profileImgUrl) {
         Profile profile = Profile.of(newMember, profileImgUrl);
         profileService.register(profile);
-        registerInterest(authRequest, newMember);
-        return Message.registerUser();
     }
 
     @Transactional
     public Message duplicate(final String email) {
-        boolean isExist = memberRepository.existsByEmail(email);
-        if (isExist) {
-            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
-        }
+        validateEmail(email);
         return Message.validId();
     }
 
     public AuthLoginResponse login(final AuthLoginRequest authLoginRequest) {
-
         Member loginMember = authenticate(authLoginRequest);
         String jwtToken = jwtProvider.generateJwtToken(loginMember.getEmail());
 
@@ -125,15 +143,33 @@ public class AuthService {
                 .build();
     }
 
-    private void registerInterest(final AuthRequest authRequest, final Member currentMember) {
-        List<Category> categories = authRequest.getCategories();
+    private void registerInterest(final List<Category> categories, final Member currentMember) {
         List<Interest> interests = categories
                 .stream()
                 .map(category -> Interest.of(currentMember, category))
                 .toList();
 
         interestRepository.saveAll(interests);
+    }
 
+    private void registerTermAgreements(final AuthRequest request, final Member newMember) {
+        List<TermAgreement> termAgreements = Stream.of(
+                createTermAgreement(request.isAgreeTermsOfService(), newMember, termService::getAgreeTermsOfService),
+                createTermAgreement(request.isAgreePrivacyPolicy(), newMember, termService::getAgreePrivacyPolicy),
+                createTermAgreement(request.isAgreeLocationService(), newMember, termService::getAgreeLocationService)
+        ).flatMap(Optional::stream).toList();
+
+        termService.saveTermAgreementRepository(termAgreements);
+    }
+
+    private Optional<TermAgreement> createTermAgreement(boolean isAgreed, Member member, Supplier<Term> termSupplier) {
+        if (isAgreed) {
+            Term term = termSupplier.get();
+            return Optional.of(
+                    TermAgreement.of(member, term)
+            );
+        }
+        return Optional.empty();
     }
 
 }

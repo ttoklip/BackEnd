@@ -42,8 +42,7 @@ public class NotificationService {
     }
 
     private String getTargetType(Object target) {
-        if (target instanceof Class) {
-            Class<?> clazz = (Class<?>) target;
+        if (target instanceof Class<?> clazz) {
 
             if (clazz.equals(HoneyTip.class)) {
                 return HoneyTip.class.getSimpleName();

@@ -72,7 +72,6 @@ public class QuestionCommentService {
     // 최상위 댓글 생성
     private Long registerCommentOrphanage(final CommentCreateRequest request, final Question findQuestion) {
         QuestionComment newQuestionComment = QuestionComment.orphanageOf(request, findQuestion);
-        System.out.println("newQuestionComment.getContent() = " + newQuestionComment.getContent());
         commentService.register(newQuestionComment);
         return newQuestionComment.getId();
     }
