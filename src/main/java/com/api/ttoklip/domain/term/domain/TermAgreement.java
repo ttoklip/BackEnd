@@ -18,29 +18,20 @@ public class TermAgreement extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    private LocalDateTime agreedDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "term_id", nullable = false)
+    private Term term;
 
-    private boolean term1Agreement;
-    private boolean term2Agreement;
-    private boolean term3Agreement;
-    private boolean term4Agreement;
-
-    public static TermAgreement of(Member member,
-                                   boolean term1Agreement,
-                                   boolean term2Agreement,
-                                   boolean term3Agreement,
-                                   boolean term4Agreement) {
+    public static TermAgreement of(
+            final Member member, final Term term
+    ) {
         return TermAgreement.builder()
                 .member(member)
-                .agreedDate(LocalDateTime.now())
-                .term1Agreement(term1Agreement)
-                .term2Agreement(term2Agreement)
-                .term3Agreement(term3Agreement)
-                .term4Agreement(term4Agreement)
+                .term(term)
                 .build();
     }
 }

@@ -33,7 +33,7 @@ public class Term extends BaseEntity {
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
-    public static Term of(final TermCreateRequest request) {
+    public static Term from(final TermCreateRequest request) {
         return Term.builder()
                 .content(request.getContent())
                 .title(request.getTitle())
