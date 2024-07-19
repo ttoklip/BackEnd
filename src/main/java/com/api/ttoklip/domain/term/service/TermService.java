@@ -1,6 +1,8 @@
 package com.api.ttoklip.domain.term.service;
 
 import com.api.ttoklip.domain.term.domain.Term;
+import com.api.ttoklip.domain.term.domain.TermAgreement;
+import com.api.ttoklip.domain.term.repository.TermAgreementRepository;
 import com.api.ttoklip.domain.term.repository.TermPagingRepository;
 import com.api.ttoklip.domain.term.repository.TermRepository;
 import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TermService {
     private final TermRepository termRepository;
     private final TermPagingRepository termPagingRepository;
+    private final TermAgreementRepository termAgreementRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Term findTermById(final Long termId) {
@@ -38,7 +41,7 @@ public class TermService {
     @Transactional
     public Message register(final TermCreateRequest request) {
 
-        Term term = Term.of(request);
+        Term term = Term.from(request);
         termRepository.save(term);
         Long termId = term.getId();
 
@@ -96,5 +99,22 @@ public class TermService {
     }
 
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
+
+    // 이용약관 정보 READ
+    public Term getAgreeTermsOfService() {
+        return termRepository.getAgreeTermsOfService();
+    }
+
+    public Term getAgreePrivacyPolicy() {
+        return termRepository.getAgreePrivacyPolicy();
+    }
+
+    public Term getAgreeLocationService() {
+        return termRepository.getAgreeLocationService();
+    }
+
+    public void saveTermAgreementRepository(List<TermAgreement> termAgreements) {
+        termAgreementRepository.saveAll(termAgreements);
+    }
 
 }
