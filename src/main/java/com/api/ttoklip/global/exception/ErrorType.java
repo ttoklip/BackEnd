@@ -47,6 +47,9 @@ public enum ErrorType {
     NOTICE_NOT_FOUND(NOT_FOUND, "Notice_4040", "공지사항을 찾을 수 없습니다."),
     // ------------------------------------------ Notice ------------------------------------------
     TERM_NOT_FOUND(NOT_FOUND, "Term_4040", "약관을 찾을 수 없습니다."),
+    TERM_SERVICE_NOT_FOUND(INTERNAL_SERVER_ERROR, "Term_5001", "이용약관 동의여부를 찾을 수 없습니다."),
+    TERM_PRIVACY_POLICY_NOT_FOUND(INTERNAL_SERVER_ERROR, "Term_5002", "개인정보 처리방침 동의여부를 찾을 수 없습니다."),
+    TERM_LOCATIONS_SERVICE_NOT_FOUND(INTERNAL_SERVER_ERROR, "Term_5003", "위치서비스 동의여부를 찾을 수 없습니다."),
 
     // ------------------------------------------ Cart ------------------------------------------
     CART_NOT_FOUND(NOT_FOUND, "Cart_4040", "함께해요를 찾을 수 없습니다."),
@@ -168,7 +171,6 @@ public enum ErrorType {
     // ------------------------------------------ Email ------------------------------------------
     EMAIL_SENDING_ERROR(INTERNAL_SERVER_ERROR, "EMAIL_5001", "이메일 전송 중 오류가 발생했습니다."),
     EMAIL_FORM_CREATION_ERROR(INTERNAL_SERVER_ERROR, "EMAIL_5002", "이메일 양식 생성 중 오류가 발생했습니다."),
-
 
     ;
 
