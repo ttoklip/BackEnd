@@ -37,7 +37,6 @@ public class AuthController {
     })
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Message> signup(final @Validated @ModelAttribute AuthRequest request) {
-        System.out.println("request = " + request);
         return new SuccessResponse<>(authService.signup(request));
     }
 

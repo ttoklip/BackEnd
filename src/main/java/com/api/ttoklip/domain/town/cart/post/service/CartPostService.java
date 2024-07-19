@@ -239,12 +239,11 @@ public class CartPostService {
         Cart cart = cartRepository.findByIdActivated(cartId);
 
         List<CartMember> cartMembers = cart.getCartMembers();
-        System.out.println("cart.getCartMembers().size() = " + cartMembers.size());
+
         for (CartMember member : cartMembers) {
             System.out.println("member.getMember().getEmail() = " + member.getMember().getEmail());
         }
 
-        System.out.println("cart.getPartyMax() = " + cart.getPartyMax());
         if (cart.getCartMembers().size() < cart.getPartyMax()) {
             System.out.println("------------------------------------------CartPostService.removeParticipant");
             cart.changeProgress();

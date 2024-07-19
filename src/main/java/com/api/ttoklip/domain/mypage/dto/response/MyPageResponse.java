@@ -22,7 +22,6 @@ public class MyPageResponse {
     private final int independentMonth;
 
     public static MyPageResponse of(final Member member) {
-        System.out.println("member.getProfile() = " + member.getProfile());
 
         return MyPageResponse.builder()
                 .nickname(member.getNickname())
