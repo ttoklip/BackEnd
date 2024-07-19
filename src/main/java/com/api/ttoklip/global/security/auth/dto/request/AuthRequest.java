@@ -37,16 +37,13 @@ public class AuthRequest {
     private String street;
 
     @Schema(description = "이용약관 동의 여부", example = "true")
-    private boolean term1Agreement;
+    private boolean agreeTermsOfService;
 
     @Schema(description = "개인정보처리방침 동의 여부", example = "true")
-    private boolean term2Agreement;
+    private boolean agreePrivacyPolicy;
 
     @Schema(description = "위치기반서비스 동의 여부", example = "true")
-    private boolean term3Agreement;
-
-    @Schema(description = "사용자 계정 및 데이터 삭제 요청 동의 여부", example = "true")
-    private boolean term4Agreement;
+    private boolean agreeLocationService;
 
     private List<String> categories;
 
