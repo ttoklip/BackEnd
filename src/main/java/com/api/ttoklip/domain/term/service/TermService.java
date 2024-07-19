@@ -2,15 +2,15 @@ package com.api.ttoklip.domain.term.service;
 
 import com.api.ttoklip.domain.term.domain.Term;
 import com.api.ttoklip.domain.term.domain.TermAgreement;
-import com.api.ttoklip.domain.term.repository.TermAgreementRepository;
-import com.api.ttoklip.domain.term.repository.TermPagingRepository;
-import com.api.ttoklip.domain.term.repository.TermRepository;
 import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.term.dto.request.TermEditRequest;
 import com.api.ttoklip.domain.term.dto.response.TermPaging;
 import com.api.ttoklip.domain.term.dto.response.TermResponse;
 import com.api.ttoklip.domain.term.dto.response.TermSingleResponse;
 import com.api.ttoklip.domain.term.editor.TermEditor;
+import com.api.ttoklip.domain.term.repository.TermAgreementRepository;
+import com.api.ttoklip.domain.term.repository.TermPagingRepository;
+import com.api.ttoklip.domain.term.repository.TermRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;

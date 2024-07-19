@@ -1,9 +1,9 @@
 package com.api.ttoklip.domain.bulletin.domain;
 
+import com.api.ttoklip.domain.bulletin.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.bulletin.editor.NoticePostEditor;
 import com.api.ttoklip.domain.bulletin.editor.NoticePostEditor.NoticePostEditorBuilder;
 import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.bulletin.dto.request.NoticeCreateRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

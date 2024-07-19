@@ -119,10 +119,7 @@ public class NotificationDispatcher {
 
     // 게시글에 좋아요, 스크랩을 남긴 사람이 본인인 경우 알림 전송 x
     private boolean isSelfNotification(final Long writerId) {
-        if (getCurrentMember().getId().equals(writerId)) {
-            return true;
-        }
-        return false;
+        return getCurrentMember().getId().equals(writerId);
     }
 
     private void validFCMToken(final String fcmToken) {
