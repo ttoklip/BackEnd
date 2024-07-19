@@ -30,7 +30,6 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 public class TermService {
     private final TermRepository termRepository;
     private final TermPaginRepository termPaginRepository;
-    private final TermAgreementRepository termAgreementRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     public Term findTermById(final Long termId) {
@@ -102,18 +101,5 @@ public class TermService {
     }
 
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
-
-
-//    /* -------------------------------------------- AGREE  -------------------------------------------- */
-//    @Transactional
-//    public Message agreeTerm() {
-//        Member currentMember = getCurrentMember();
-//
-//        TermAgreement termAgreement = TermAgreement.from(currentMember);
-//        termAgreementRepository.save(termAgreement);
-//
-//        return Message.agreeTerms();
-//    }
-//
-//    /* -------------------------------------------- AGREE 끝  -------------------------------------------- */
+    
 }

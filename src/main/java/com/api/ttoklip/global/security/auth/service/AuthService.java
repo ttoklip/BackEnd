@@ -142,7 +142,7 @@ public class AuthService {
     }
 
     private void saveTermAgreement(final AuthRequest authRequest, final Member currentMember) {
-        TermAgreement termAgreement = TermAgreement.from(
+        TermAgreement termAgreement = TermAgreement.of(
                 currentMember,
                 authRequest.isTerm1Agreement(),
                 authRequest.isTerm2Agreement(),

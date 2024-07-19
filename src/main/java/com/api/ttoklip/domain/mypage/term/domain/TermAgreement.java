@@ -29,11 +29,11 @@ public class TermAgreement extends BaseEntity {
     private boolean term3Agreement;
     private boolean term4Agreement;
 
-    public static TermAgreement from(Member member,
-                                     boolean term1Agreement,
-                                     boolean term2Agreement,
-                                     boolean term3Agreement,
-                                     boolean term4Agreement) {
+    public static TermAgreement of(Member member,
+                                   boolean term1Agreement,
+                                   boolean term2Agreement,
+                                   boolean term3Agreement,
+                                   boolean term4Agreement) {
         return TermAgreement.builder()
                 .member(member)
                 .agreedDate(LocalDateTime.now())
