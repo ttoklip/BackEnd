@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.town.main.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
-import com.api.ttoklip.domain.mypage.main.dto.response.UserCartSingleResponse;
+import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.search.response.CartSearchPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
