@@ -146,8 +146,8 @@ public class TermService {
         return TermSignUpResponse.of(termsOfServiceResponse, termLocationService, termPrivacyPolicy);
     }
 
-    private TermClientResponse transformTerm(final Term termsOfService) {
-        return TermClientResponse.from(termsOfService);
+    private TermClientResponse transformTerm(final Term term) {
+        return TermClientResponse.from(term);
     }
 
 }
