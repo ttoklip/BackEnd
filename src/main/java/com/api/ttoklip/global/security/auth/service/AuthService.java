@@ -18,6 +18,7 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
 import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
 import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
+import com.api.ttoklip.global.security.auth.dto.response.TermSignUpResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class AuthService {
 
+    private static final String PROVIDER_LOCAL = "local";
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
@@ -44,8 +46,6 @@ public class AuthService {
     private final ProfileService profileService;
     private final S3FileUploader s3FileUploader;
     private final TermService termService;
-    private static final String PROVIDER_LOCAL = "local";
-
 
     @Transactional
     public Message signup(final AuthRequest authRequest) {
@@ -160,6 +160,7 @@ public class AuthService {
         ).flatMap(Optional::stream).toList();
 
         termService.saveTermAgreementRepository(termAgreements);
+//        termService.saveTermAgreementRepository(termAgreements, newMember);
     }
 
     private Optional<TermAgreement> createTermAgreement(boolean isAgreed, Member member, Supplier<Term> termSupplier) {
@@ -170,6 +171,10 @@ public class AuthService {
             );
         }
         return Optional.empty();
+    }
+
+    public TermSignUpResponse getTermWhenSignUp() {
+        return termService.getTermWhenSignUp();
     }
 
 }

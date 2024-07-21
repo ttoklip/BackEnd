@@ -5,7 +5,7 @@ import com.api.ttoklip.domain.term.constant.TermConstant;
 import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.term.dto.request.TermEditRequest;
 import com.api.ttoklip.domain.term.dto.response.TermPaging;
-import com.api.ttoklip.domain.term.dto.response.TermResponse;
+import com.api.ttoklip.domain.term.dto.response.TermAdminResponse;
 import com.api.ttoklip.domain.term.service.TermService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -71,7 +71,7 @@ public class TermController {
                                     description = "이용약관을 한개 조회했습니다"
                             )))})
     @GetMapping("/{termId}")
-    public SuccessResponse<TermResponse> getSingleTerm(final @PathVariable Long termId) {
+    public SuccessResponse<TermAdminResponse> getSingleTerm(final @PathVariable Long termId) {
         return new SuccessResponse<>(termService.getSingleTerm(termId));
     }
 

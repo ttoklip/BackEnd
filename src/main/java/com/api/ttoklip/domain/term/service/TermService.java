@@ -1,11 +1,12 @@
 package com.api.ttoklip.domain.term.service;
 
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.term.domain.Term;
 import com.api.ttoklip.domain.term.domain.TermAgreement;
 import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.term.dto.request.TermEditRequest;
+import com.api.ttoklip.domain.term.dto.response.TermAdminResponse;
 import com.api.ttoklip.domain.term.dto.response.TermPaging;
-import com.api.ttoklip.domain.term.dto.response.TermResponse;
 import com.api.ttoklip.domain.term.dto.response.TermSingleResponse;
 import com.api.ttoklip.domain.term.editor.TermEditor;
 import com.api.ttoklip.domain.term.repository.TermAgreementRepository;
@@ -13,6 +14,8 @@ import com.api.ttoklip.domain.term.repository.TermPagingRepository;
 import com.api.ttoklip.domain.term.repository.TermRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.security.auth.dto.response.TermClientResponse;
+import com.api.ttoklip.global.security.auth.dto.response.TermSignUpResponse;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -49,10 +52,10 @@ public class TermService {
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
-    public TermResponse getSingleTerm(final Long termId) {//하나 조회
+    public TermAdminResponse getSingleTerm(final Long termId) {//하나 조회
         Term term = findTermById(termId);
-        TermResponse termResponse = TermResponse.of(term);//
-        return termResponse;
+        TermAdminResponse termAdminResponse = TermAdminResponse.of(term);//
+        return termAdminResponse;
     }
 
     public TermPaging getTermList(final Pageable pageable) {//전체 조회
@@ -115,6 +118,37 @@ public class TermService {
 
     public void saveTermAgreementRepository(List<TermAgreement> termAgreements) {
         termAgreementRepository.saveAll(termAgreements);
+    }
+//    public void saveTermAgreementRepository(List<TermAgreement> termAgreements, final Member newMember) {
+//
+//        for (TermAgreement termAgreement : termAgreements) {
+//            Long memberId = newMember.getId();
+//            Long termId = termAgreement.getTerm().getId();
+//            boolean exists = termAgreementRepository.existsByMemberIdAndTermId(memberId, termId);
+//
+//            if (exists) {
+//                // 이미 존재한다면 바로 리턴
+//                return;
+//            }
+//        }
+//
+//        termAgreementRepository.saveAll(termAgreements);
+//    }
+
+    public TermSignUpResponse getTermWhenSignUp() {
+        Term termsOfService = termRepository.getAgreeTermsOfService();
+        Term locationService = termRepository.getAgreeLocationService();
+        Term privacyPolicy = termRepository.getAgreePrivacyPolicy();
+
+        TermClientResponse termsOfServiceResponse = transformTerm(termsOfService);
+        TermClientResponse termLocationService = transformTerm(locationService);
+        TermClientResponse termPrivacyPolicy = transformTerm(privacyPolicy);
+
+        return TermSignUpResponse.of(termsOfServiceResponse, termLocationService, termPrivacyPolicy);
+    }
+
+    private TermClientResponse transformTerm(final Term termsOfService) {
+        return TermClientResponse.from(termsOfService);
     }
 
 }
