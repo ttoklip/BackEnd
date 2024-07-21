@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.term.service;
 
-import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.term.domain.Term;
 import com.api.ttoklip.domain.term.domain.TermAgreement;
 import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
