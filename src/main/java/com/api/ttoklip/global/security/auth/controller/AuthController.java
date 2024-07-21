@@ -3,6 +3,7 @@ package com.api.ttoklip.global.security.auth.controller;
 import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
 import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
 import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
+import com.api.ttoklip.global.security.auth.dto.response.TermSignUpResponse;
 import com.api.ttoklip.global.security.auth.service.AuthService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,4 +63,12 @@ public class AuthController {
         return new SuccessResponse<>(authLoginResponse);
     }
 
+    @Operation(summary = "회원가입 전용 이용약관 조회", description = "회원가입 전 이용약관을 조회하는 API입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "이용약관 조회 성공")
+    })
+    @GetMapping("/agree")
+    public SuccessResponse<TermSignUpResponse> getTermSignUp() {
+        return new SuccessResponse<>(authService.getTermWhenSignUp());
+    }
 }

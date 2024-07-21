@@ -2,6 +2,7 @@ package com.api.ttoklip.global.config;
 
 //import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
 
+import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
 import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +54,11 @@ public class SecurityConfig {
                                         , "/error"
                                         , "/api/v1/email/**"
                                         , "/api/v1/privacy/local/check-nickname"
-                                        , "/api/v1/term/agree"
                                 ).permitAll()
+                                .requestMatchers(
+                                        "/api/v1/admin/**"
+                                )
+                                .hasAnyRole(Role.MANAGER.name())
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
         http.exceptionHandling()

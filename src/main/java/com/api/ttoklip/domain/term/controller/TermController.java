@@ -4,8 +4,8 @@ package com.api.ttoklip.domain.term.controller;
 import com.api.ttoklip.domain.term.constant.TermConstant;
 import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
 import com.api.ttoklip.domain.term.dto.request.TermEditRequest;
+import com.api.ttoklip.domain.term.dto.response.TermAdminResponse;
 import com.api.ttoklip.domain.term.dto.response.TermPaging;
-import com.api.ttoklip.domain.term.dto.response.TermResponse;
 import com.api.ttoklip.domain.term.service.TermService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Term", description = "이용약관 api입니다")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/term")
+@RequestMapping("/api/v1/admin/term")
 public class TermController {
     private final static int PAGE_SIZE = 10;
     private final TermService termService;
@@ -50,7 +50,7 @@ public class TermController {
                                     value = TermConstant.termsAndPolicyListResponse,
                                     description = "이용약관을 조회했습니다"
                             )))})
-    @GetMapping()
+    @GetMapping
     public SuccessResponse<TermPaging> getTermList(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
@@ -71,7 +71,7 @@ public class TermController {
                                     description = "이용약관을 한개 조회했습니다"
                             )))})
     @GetMapping("/{termId}")
-    public SuccessResponse<TermResponse> getSingleTerm(final @PathVariable Long termId) {
+    public SuccessResponse<TermAdminResponse> getSingleTerm(final @PathVariable Long termId) {
         return new SuccessResponse<>(termService.getSingleTerm(termId));
     }
 

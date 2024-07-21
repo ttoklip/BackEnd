@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class TermResponse {
+public class TermAdminResponse {
     @Schema(description = "약관 ID")
     private Long termId;
 
@@ -25,11 +25,11 @@ public class TermResponse {
     @Schema(description = "약관 작성일자")
     private String createdAt;
 
-    public static TermResponse of(final Term term) {
+    public static TermAdminResponse of(final Term term) {
 
         String formattedCreatedDate = getFormattedCreatedDate(term);
 
-        return TermResponse.builder()
+        return TermAdminResponse.builder()
                 .termId(term.getId())
                 .title(term.getTitle())
                 .content(term.getContent())
