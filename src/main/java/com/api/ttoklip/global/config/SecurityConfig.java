@@ -53,7 +53,7 @@ public class SecurityConfig {
                                         , "/error"
                                         , "/api/v1/email/**"
                                         , "/api/v1/privacy/local/check-nickname"
-                                        , "/api/v1/term/agree"
+                                        , "/api/v1/term"
                                 ).permitAll()
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
