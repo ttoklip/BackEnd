@@ -4,23 +4,27 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
-import java.io.FileInputStream;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Value;
+import java.io.InputStream;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 public class FCMConfig {
 
-    @Value("${firebase.config.path:/app/config/firebase-config.json}")
-    private String firebaseConfigPath;
+    private static final String FILE_PATH = "firebase/ttoklip-firebase-adminsdk.json";
+    private static final String TTOKLIP = "ttoklip";
 
     @PostConstruct
-    public void init() throws IOException {
-        FileInputStream serviceAccount = new FileInputStream(firebaseConfigPath);
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+    public void firebaseMessaging() throws IOException {
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(getCredential()))
+                .setProjectId(TTOKLIP)
                 .build();
         FirebaseApp.initializeApp(options);
+    }
+
+    private InputStream getCredential() throws IOException {
+        return new ClassPathResource(FILE_PATH).getInputStream();
     }
 }

@@ -1,5 +1,4 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:381491947058:task-definition/ttoklip-v2-taskdefinition-auto:1",
     "containerDefinitions": [
         {
             "name": "ttoklip-v2-container",
@@ -42,14 +41,8 @@
     "taskRoleArn": "arn:aws:iam::381491947058:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::381491947058:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
     "volumes": [],
-    "status": "ACTIVE",
     "placementConstraints": [],
-    "compatibilities": [
-        "EC2",
-        "FARGATE"
-    ],
     "requiresCompatibilities": [
         "FARGATE"
     ],
