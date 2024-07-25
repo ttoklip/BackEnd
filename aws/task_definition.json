@@ -1,4 +1,5 @@
 {
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:381491947058:task-definition/ttoklip-v2-taskdefinition-auto:1",
     "containerDefinitions": [
         {
             "name": "ttoklip-v2-container",
@@ -23,22 +24,32 @@
             "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
+            "ulimits": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
+                    "awslogs-group": "/ecs/ttoklip-v2-taskdefinition-auto",
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/100shot-task-definition-20",
                     "awslogs-region": "ap-northeast-2",
                     "awslogs-stream-prefix": "ecs"
-                }
-            }
+                },
+                "secretOptions": []
+            },
+            "systemControls": []
         }
     ],
-    "family": "100shot-task-definition-20",
+    "family": "ttoklip-v2-taskdefinition-auto",
+    "taskRoleArn": "arn:aws:iam::381491947058:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::381491947058:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
+    "revision": 1,
     "volumes": [],
+    "status": "ACTIVE",
     "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
     "requiresCompatibilities": [
         "FARGATE"
     ],
