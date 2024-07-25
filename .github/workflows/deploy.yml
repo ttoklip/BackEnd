@@ -33,12 +33,12 @@ jobs:
             - name: Add Firebase config to environment
               run: echo "${{ secrets.FIREBASE_CONFIG }}" > $GITHUB_WORKSPACE/firebase-config.json
 
-            -   name: Build with Gradle
-                env:
-                    JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
-                run: |
-                    chmod +x gradlew
-                    ./gradlew bootJar -PJASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+            - name: Build with Gradle
+              env:
+                JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+              run: |
+                  chmod +x gradlew
+                  ./gradlew bootJar
 
             - name: Configure AWS ECR credentials
               uses: aws-actions/configure-aws-credentials@v1
