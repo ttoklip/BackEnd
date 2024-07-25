@@ -2,7 +2,7 @@ name: Deploy to Amazon ECS - Develop
 
 on:
     push:
-        branches: [ "cicd/ci-test2" ]
+        branches: [ "cicd-test" ]
 
 env:
     AWS_REGION: ap-northeast-2
