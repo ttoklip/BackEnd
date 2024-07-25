@@ -1,6 +1,10 @@
 FROM openjdk:17
 ARG JAR_FILE=build/libs/*.jar
 ARG JASYPT_ENCRYPTOR_PASSWORD
+ARG FIREBASE_CONFIG
 ENV JASYPT_ENCRYPTOR_PASSWORD=${JASYPT_ENCRYPTOR_PASSWORD}
+ENV FIREBASE_CONFIG=${FIREBASE_CONFIG}
+RUN mkdir -p /app/config/
 COPY ${JAR_FILE} app.jar
+RUN echo $FIREBASE_CONFIG | base64 -d > /app/config/firebase-config.json
 ENTRYPOINT ["java","-jar","/app.jar"]
