@@ -30,9 +30,6 @@ jobs:
                   java-version: '17'
                   distribution: 'temurin'
 
-            - name: Add Firebase config to environment
-              run: echo "${{ secrets.FIREBASE_CONFIG }}" > $GITHUB_WORKSPACE/firebase-config.json
-
             - name: Build with Gradle
               run: ./gradlew bootJar
 
