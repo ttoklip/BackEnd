@@ -2,15 +2,11 @@ name: Deploy to Amazon ECS - Develop
 
 on:
     push:
-        branches: [ "cicd-test" ]
+        branches: [ "develop" ]
 
 env:
     AWS_REGION: ap-northeast-2
     ECR_REPOSITORY: ttoklip-v2
-#    ECS_SERVICE: ddoklip-backservice
-#    ECS_CLUSTER: ddoklip
-#    ECS_TASK_DEFINITION: ./aws/task_definition.json
-#    CONTAINER_NAME: ddoklip-backend
 
 permissions:
     contents: read
@@ -29,6 +25,9 @@ jobs:
               with:
                   java-version: '17'
                   distribution: 'temurin'
+
+            - name: Add Firebase config to environment
+              run: echo "${{ secrets.FIREBASE_CONFIG }}" > $GITHUB_WORKSPACE/firebase-config.json
 
             - name: Build with Gradle
               run: ./gradlew bootJar
