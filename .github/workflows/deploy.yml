@@ -21,46 +21,52 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+            -   name: Checkout
+                uses: actions/checkout@v3
 
-            - name: Set up JDK 17
-              uses: actions/setup-java@v3
-              with:
-                  java-version: '17'
-                  distribution: 'temurin'
+            -   name: Set up JDK 17
+                uses: actions/setup-java@v3
+                with:
+                    java-version: '17'
+                    distribution: 'temurin'
 
-            - name: Add Firebase config to environment
-              run: echo "${{ secrets.FIREBASE_CONFIG }}" > $GITHUB_WORKSPACE/firebase-config.json
+            -   name: Add Firebase config to environment
+                run: echo "${{ secrets.FIREBASE_CONFIG }}" > $GITHUB_WORKSPACE/firebase-config.json
 
-            - name: Build with Gradle
-              env:
-                JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
-              run: |
-                  chmod +x gradlew
-                  ./gradlew bootJar
+            #            - name: Build with Gradle
+            #              env:
+            ##                JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+            #                JASYPT_ENCRYPTOR_PASSWORD: k5BhxZjItyPKODSZgyAy7ZwQDrPhXEyW
+            #              run: |
+            #                  chmod +x gradlew
+            #                  ./gradlew bootJar
 
-            - name: Configure AWS ECR credentials
-              uses: aws-actions/configure-aws-credentials@v1
-              with:
-                  aws-access-key-id: ${{ secrets.AWS_ECR_PUSH_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_ECR_PUSH_SECRET }}
-                  aws-region: ${{ env.AWS_REGION }}
+            -   name: Build with Gradle
+                env:
+                    JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+                run: ./gradlew clean bootJar
 
-            - name: Login to Amazon ECR
-              id: login-ecr
-              uses: aws-actions/amazon-ecr-login@v1
+            -   name: Configure AWS ECR credentials
+                uses: aws-actions/configure-aws-credentials@v1
+                with:
+                    aws-access-key-id: ${{ secrets.AWS_ECR_PUSH_ID }}
+                    aws-secret-access-key: ${{ secrets.AWS_ECR_PUSH_SECRET }}
+                    aws-region: ${{ env.AWS_REGION }}
+
+            -   name: Login to Amazon ECR
+                id: login-ecr
+                uses: aws-actions/amazon-ecr-login@v1
 
             # 이미지를 빌드, 태그 및 ECR에 푸시합니다.
-            - name: Build, tag, and push image to Amazon ECR
-              id: build-image
-              env:
-                  ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                  IMAGE_TAG: ${{ github.sha }}
-              run: |
-                  docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-                  docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                  echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+            -   name: Build, tag, and push image to Amazon ECR
+                id: build-image
+                env:
+                    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                    IMAGE_TAG: ${{ github.sha }}
+                run: |
+                    docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+                    docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                    echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
 #            -   name: Fill in the new image ID in the Amazon ECS task definition
 #                id: task-def
