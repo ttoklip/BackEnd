@@ -1,9 +1,8 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:381491947058:task-definition/100shot-task-definition-20:4",
     "containerDefinitions": [
         {
             "name": "ttoklip-v2-container",
-            "image": "381491947058.dkr.ecr.ap-northeast-2.amazonaws.com/ttoklip-v2:204ed1cd36b848fe935d19f8a105b719d932115c",
+            "image": "381491947058.dkr.ecr.ap-northeast-2.amazonaws.com/ttoklip-v2:latest",
             "cpu": 0,
             "portMappings": [
                 {
