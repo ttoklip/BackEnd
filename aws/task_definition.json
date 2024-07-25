@@ -1,12 +1,13 @@
 {
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:381491947058:task-definition/100shot-task-definition-20:4",
     "containerDefinitions": [
         {
-            "name": "ddoklip-backend",
-            "image": "851725223974.dkr.ecr.ap-northeast-2.amazonaws.com/ddokliprp:10",
+            "name": "ttoklip-v2-container",
+            "image": "381491947058.dkr.ecr.ap-northeast-2.amazonaws.com/ttoklip-v2:204ed1cd36b848fe935d19f8a105b719d932115c",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "ddokliip-backend-8080-tcp",
+                    "name": "ttoklip-port-8080",
                     "containerPort": 8080,
                     "hostPort": 8080,
                     "protocol": "tcp",
@@ -27,15 +28,14 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/ddoklip-backend-task-definition",
                     "awslogs-region": "ap-northeast-2",
                     "awslogs-stream-prefix": "ecs"
                 }
             }
         }
     ],
-    "family": "ddoklip-backend-task-definition",
-    "executionRoleArn": "arn:aws:iam::851725223974:role/ecsTaskExecutionRole",
+    "family": "100shot-task-definition-20",
+    "executionRoleArn": "arn:aws:iam::381491947058:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "volumes": [],
     "placementConstraints": [],
