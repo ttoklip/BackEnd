@@ -94,3 +94,7 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+bootJar {
+    mainClass = 'com.api.ttoklip.TtoklipApplication'
+}
