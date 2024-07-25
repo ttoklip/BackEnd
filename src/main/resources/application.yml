@@ -12,42 +12,71 @@ spring:
     jackson:
         time-zone: Asia/Seoul
     datasource:
-        driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
-        url: ${SPRING_DATASOURCE_URL}
-        username: ${SPRING_DATASOURCE_USERNAME}
-        password: ${SPRING_DATASOURCE_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: ENC(WFk66f1yW1ScePrjVXtNkD583lPA22lCf8CKSAtjoWJgYPBKvmDweiOoifK559d+2Eynoz1Gy1yZKATTQGW4ww+ggSzJ5CslVQ07NsH8AtyGHAmmpz/L2m052TZprgvy)
+        username: ENC(nDVimcgDVyy1KRjg2ctKjQ==)
+        password: ENC(3SMxxiwN0hQ0QXvt9r24HMf5U+nQk8lc)
         hikari:
             data-source-properties:
                 serverTimezone: Asia/Seoul
+
     servlet:
         multipart:
-            max-file-size: 10MB
-    #      max-request-size: 10MB
+            max-file-size: 20MB
 
     jpa:
         hibernate:
-            ddl-auto: validate # 바꾸지 말아주세요!
+            ddl-auto: none
         properties:
             hibernate:
-                dialect: org.hibernate.dialect.MySQL8Dialect
+                dialect: ENC(wvHQPgB402IXW85HHlu4kOAwZWKIrG37GCmHPa2CIoo0vMefVWzmRa1rEHNwzMWH)
+                default_batch_fetch_size: ENC(vlfxBKZ6fXmAzqpH/OcG6A==)
+
+
+
+    mail:
+        host: ENC(0Vvh3+ob969wXeaK3tbxmTzTHXZFdzBX)
+        port: 587
+        sender-email: ENC(qNXclDf2Zpkn5ILAQnbzgQHKkLfs94734v4csyKqjl4=)
+        real-sender-email: ENC(SjW6JIhujtre/rJmUeH/3Jtt1nW1euUlpO5c01LNkHQ=)
+        password: ENC(wUuJAAu5Glt+xrBMpAHESCa9mdjyWo+wbOCHfTcJ9zk=)
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+                        required: true
+                    connectiontimeout: 5000
+                    timeout: 5000
+                    writetimeout: 5000
+    #            auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30?
+
+    data:
+        redis:
+            host: localhost
+            port: 6379
 
 cloud:
     aws:
         credentials:
-            accessKey: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
-            secretKey: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
+            accessKey: ENC(SJv3Q6Kya+e0vv90IUu10KEptIU2OPtBRrDngS+2VEk=)
+            secretKey: ENC(PPxIknKNn+UJfvNSV3l4lH84FIio3m9SgReMhSQDgC+IBWz9FiT26HG372CzSxum749+Z9GLIEA=)
         region:
-            static: ${CLOUD_AWS_REGION_STATIC}
+            static: ap-northeast-2
         s3:
-            bucket: ${CLOUD_AWS_S3_BUCKET}
-            dirname: ${CLOUD_AWS_S3_DIRNAME}
+            bucket: ENC(o/ib/PhYeF9khIBN1TIJt1+tTlBEELR0)
+            dirname: ENC(qQBWAF+TGWVncxA4oIdEaxoCC8WOsJyt)
 
 jwt:
     secret:
-        key: ${JWT_VALUE}
+        key: ENC(KR2DiPWemDkz0qiwysKkyKTzfAZ3xn+xfQGcfw0g/zsHsE+b+rjTIOCOt2W490X8ZqvybLfmzvHn1wx6EhmBbFbJ9TDYGbWsElOu3nNvJ49Gtnl2l/uwU4oScdbH1A/OsLIfISr+d2G3CpRpTyJmyAvzG1mVLkDEhTH6YBEJ1x2hfI+iBUQm9A==)
 
 google:
     firebase:
         fcm:
             resource:
-                path: ${FIREBASE_JSON}
+                path: ${FIREBASE_CONFIG_PATH:firebase-config.json}
+jasypt:
+    encryptor:
+        password: ${JASYPT_ENCRYPTOR_PASSWORD}
