@@ -36,7 +36,7 @@ jobs:
             -   name: Build with Gradle
                 run: |
                     export JASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
-                    ./gradlew clean bootJar
+                    ./gradlew bootJar
 
             -   name: Configure AWS ECR credentials
                 uses: aws-actions/configure-aws-credentials@v1
