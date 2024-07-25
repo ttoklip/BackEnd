@@ -4,13 +4,18 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.springframework.core.io.ClassPathResource;
+import java.nio.charset.StandardCharsets;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FCMConfig {
+
+    @Value("${FIREBASE_CONFIG}")
+    private String firebaseConfig;
 
     @PostConstruct
     public void firebaseMessaging() throws IOException {
@@ -22,8 +27,8 @@ public class FCMConfig {
         FirebaseApp.initializeApp(options);
     }
 
-    private InputStream getCredential() throws IOException {
-        return new ClassPathResource("firebase/ttoklip-firebase-adminsdk-trxhp-c7534ab7b1.json").getInputStream();
+    private InputStream getCredential() {
+        return new ByteArrayInputStream(firebaseConfig.getBytes(StandardCharsets.UTF_8));
     }
 
 }
