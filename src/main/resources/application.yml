@@ -37,9 +37,8 @@ spring:
     mail:
         host: ENC(0Vvh3+ob969wXeaK3tbxmTzTHXZFdzBX)
         port: 587
-        sender-email: ENC(qNXclDf2Zpkn5ILAQnbzgQHKkLfs94734v4csyKqjl4=)
-        real-sender-email: ENC(SjW6JIhujtre/rJmUeH/3Jtt1nW1euUlpO5c01LNkHQ=)
-        password: ENC(wUuJAAu5Glt+xrBMpAHESCa9mdjyWo+wbOCHfTcJ9zk=)
+        sender-email: ENC(r+IUBL3xBykx982BDOkp+jYVbar4Yyy90YTNujYUoHo=)
+        password: ENC(PsdXxe7MqpA5LMWaYhqpbLpyOh3nu9cCLBuCBlavJLA=)
         properties:
             mail:
                 smtp:

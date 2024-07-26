@@ -7,6 +7,7 @@ import com.api.ttoklip.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
@@ -62,10 +63,11 @@ public class EmailService {
             message.setFrom(new InternetAddress(senderEmail, "똑립"));
             message.setText(setContext(authCode), "utf-8", "html");
         } catch (MessagingException e) {
-            log.error("Failed to create email message: {}", e.getMessage(), e);
+            log.error("MessagingException while creating email form: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            log.error("IOException while creating email form: {}", e.getMessage(), e);
+            throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
         }
 
         // Redis 에 해당 인증코드 인증 시간 설정
@@ -73,6 +75,7 @@ public class EmailService {
 
         return message;
     }
+
 
     private void setRedisData(final String email, final String authCode) {
         try {
