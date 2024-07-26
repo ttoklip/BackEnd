@@ -1,13 +1,12 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:381491947058:task-definition/ttoklip-v7-taskdefinition:1",
     "containerDefinitions": [
         {
-            "name": "ttoklip-v7-container",
-            "image": "381491947058.dkr.ecr.ap-northeast-2.amazonaws.com/ttoklip-v2:latest",
+            "name": "ttoklip-version10-ct",
+            "image": "381491947058.dkr.ecr.ap-northeast-2.amazonaws.com/ttoklip-v10-repository:latest",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "ttoklip-port-v6-8080",
+                    "name": "ttoklip-version10-port",
                     "containerPort": 8080,
                     "hostPort": 8080,
                     "protocol": "tcp",
@@ -28,7 +27,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/ttoklip-v7-taskdefinition",
+                    "awslogs-group": "/ecs/ttoklip-version10-td",
                     "awslogs-create-group": "true",
                     "awslogs-region": "ap-northeast-2",
                     "awslogs-stream-prefix": "ecs"
@@ -38,13 +37,17 @@
             "systemControls": []
         }
     ],
-    "family": "ttoklip-v7-taskdefinition",
-    "taskRoleArn": "arn:aws:iam::381491947058:role/ecsTaskExecutionRole",
+    "family": "ttoklip-version10-td",
     "executionRoleArn": "arn:aws:iam::381491947058:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
     "volumes": [],
+    "status": "ACTIVE",
     "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
     "requiresCompatibilities": [
         "FARGATE"
     ],
@@ -54,5 +57,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
+    "registeredAt": "2024-07-26T12:52:21.714Z",
+    "registeredBy": "arn:aws:iam::381491947058:root",
     "tags": []
 }
