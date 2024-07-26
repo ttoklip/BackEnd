@@ -35,26 +35,26 @@ spring:
 
 
     mail:
-        host: ENC(0Vvh3+ob969wXeaK3tbxmTzTHXZFdzBX)
+        host: smtp.gmail.com
         port: 587
-        sender-email: ENC(qNXclDf2Zpkn5ILAQnbzgQHKkLfs94734v4csyKqjl4=)
-        real-sender-email: ENC(SjW6JIhujtre/rJmUeH/3Jtt1nW1euUlpO5c01LNkHQ=)
-        password: ENC(wUuJAAu5Glt+xrBMpAHESCa9mdjyWo+wbOCHfTcJ9zk=)
+        sender-email: ENC(XY41e1DCUH9AsqGoXILdUTLQRIFNRRmG4YjJRNwOzBQOiP+2tkUFSg==)
+        password: ENC(2gk/TTxPHgwJb1UuomrSKXxtToyzjO+Yo4qa9YGsjPQ=)
         properties:
             mail:
                 smtp:
                     auth: true
-                    starttls:
-                        enable: true
-                        required: true
                     connectiontimeout: 5000
                     timeout: 5000
                     writetimeout: 5000
+                    starttls:
+                        enable: true
+                        required: true
+
     #            auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30?
 
     data:
         redis:
-            host: ENC(t7ZnIhc4tDMKjU+KDY49gumJVO4Z5iYaSByV426MJ2xo35Nm7/oTEwWt6rbIdXahuoLdjG7KH56H7tI/xxgyQWuJz0dOr5Cu)
+            host: ENC(1xiKDNpnqSNdYDm2jh+IBCc/qdE8rDG1s3cw34Aah8N23+oojr+oSlYjRxeH1pobQthJcPfUbJ5+udWBbH0HGF3njvj5ygD3)
             port: 6379
 
 cloud:
