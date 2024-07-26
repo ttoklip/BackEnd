@@ -7,10 +7,10 @@ on:
 env:
     AWS_REGION: ap-northeast-2
     ECR_REPOSITORY: ttoklip-v2
-    ECS_SERVICE: ttoklip-back-service
-    ECS_CLUSTER: ttoklip-v2-cluster-3
+    ECS_SERVICE: ttoklip-v7-service
+    ECS_CLUSTER: ttoklip-v5-cluster
     ECS_TASK_DEFINITION: ./aws/task_definition.json
-    CONTAINER_NAME: ttoklip-v2-container
+    CONTAINER_NAME: ttoklip-v7-container
 
 permissions:
     contents: read
