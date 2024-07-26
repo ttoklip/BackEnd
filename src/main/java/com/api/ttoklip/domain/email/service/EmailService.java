@@ -8,6 +8,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,21 +53,33 @@ public class EmailService {
     }
 
     // 이메일 폼 생성
-    private MimeMessage createEmailForm(String email) throws MessagingException, IOException {
+    private MimeMessage createEmailForm(String email) throws Exception {
         String authCode = createCode();
 
-        MimeMessage message = javaMailSender.createMimeMessage();
-        message.addRecipients(MimeMessage.RecipientType.TO, email);
-        message.setSubject("안녕하세요. 똑립 인증 번호입니다.");
-        message.setFrom(new InternetAddress(senderEmail, "똑립"));
-        message.setText(setContext(authCode), "utf-8", "html");
+        MimeMessage message;
+        try {
+            message = javaMailSender.createMimeMessage();
+            message.addRecipients(MimeMessage.RecipientType.TO, email);
+            message.setSubject("안녕하세요. 똑립 인증 번호입니다.");
+            message.setFrom(new InternetAddress(senderEmail, "똑립"));
+            message.setText(setContext(authCode), "utf-8", "html");
+        } catch (MessagingException e) {
+            log.error("Failed to create email message: {}", e.getMessage(), e);
+            throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
+        } catch (UnsupportedEncodingException e) {
+            log.error("UnsupportedEncodingException");
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            log.error("global exception error");
+            throw new RuntimeException(e);
+        }
 
         // Redis 에 해당 인증코드 인증 시간 설정
-
         setRedisData(email, authCode);
 
         return message;
     }
+
 
     private void setRedisData(final String email, final String authCode) {
         try {
@@ -100,6 +113,8 @@ public class EmailService {
             throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
         } catch (IOException e) {
             throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
