@@ -52,7 +52,10 @@ jobs:
               run: |
                   docker build --build-arg JASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                  echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+                  echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+            - name: Output Image Tag
+              run: echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
     deploy-ecs:
         name: Deploy to ECS
@@ -79,21 +82,19 @@ jobs:
               id: task-def
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                  IMAGE_TAG: ${{ steps.build-image.outputs.image }}
+                  ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+                  IMAGE_TAG: ${{ env.IMAGE_TAG }}
+              run: |
+                  echo "ECR_REGISTRY: $ECR_REGISTRY"
+                  echo "ECR_REPOSITORY: $ECR_REPOSITORY"
+                  echo "IMAGE_TAG: $IMAGE_TAG"
+                  echo "Full Image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
               uses: aws-actions/amazon-ecs-render-task-definition@v1
               with:
                   task-definition: ${{ env.ECS_TASK_DEFINITION }}
                   container-name: ${{ env.CONTAINER_NAME }}
-                  image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+                  image: ${{ ECR_REGISTRY }}/{{ ECR_REPOSITORY }}:{{ IMAGE_TAG }}
 
-            -   name: Debug Image Info
-                run: |
-                    echo "Registry: ${{ env.ECR_REGISTRY }}"
-                    echo "Repository: ${{ env.ECR_REPOSITORY }}"
-                    echo "Image Tag: ${{ env.IMAGE_TAG }}"
-                    echo "Full Image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
-
-            # 새로운 ECS 작업 정의를 배포하는 단계입니다.
             - name: Deploy Amazon ECS task definition
               uses: aws-actions/amazon-ecs-deploy-task-definition@v1
               with:
