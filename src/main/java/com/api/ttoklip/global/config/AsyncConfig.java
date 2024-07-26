@@ -1,13 +1,17 @@
 package com.api.ttoklip.global.config;
 
 import jakarta.annotation.PostConstruct;
+import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+@Slf4j
 @EnableAsync
 @Configuration
 public class AsyncConfig implements AsyncConfigurer {
@@ -31,5 +35,22 @@ public class AsyncConfig implements AsyncConfigurer {
     @PostConstruct
     public void initSecurityContextHolderStrategy() {
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    }
+
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new CustomAsyncExceptionHandler();
+    }
+
+    public static class CustomAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
+
+        @Override
+        public void handleUncaughtException(Throwable ex, Method method, Object... params) {
+            // 비동기 메소드에서 발생한 예외를 로그에 남깁니다.
+            log.error("Unexpected exception occurred in async method: " + method.getName(), ex);
+            for (Object param : params) {
+                log.error("Parameter value - " + param);
+            }
+        }
     }
 }
