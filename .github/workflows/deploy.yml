@@ -64,7 +64,6 @@ jobs:
             -   name: Checkout
                 uses: actions/checkout@v3
 
-            # AWS 자격 증명을 구성하는 단계입니다.
             -   name: Configure AWS credentials
                 uses: aws-actions/configure-aws-credentials@v1
                 with:
@@ -72,29 +71,30 @@ jobs:
                     aws-secret-access-key: ${{ secrets.AWS_ECS_DEPLOY_SECRET }}
                     aws-region: ${{ env.AWS_REGION }}
 
-            # Amazon ECR에 로그인하는 단계입니다.
             -   name: Login to Amazon ECR
                 id: login-ecr
                 uses: aws-actions/amazon-ecr-login@v1
 
-            # 새로운 이미지 ID를 ECS 작업 정의에 채워 넣는 단계입니다.
-            -   name: Fill in the new image ID in the Amazon ECS task definition
-                id: task-def
-                env:
-                    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                    ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-                    IMAGE_TAG: ${{ needs.build-docker-and-push-ecr.outputs.image }}
-                uses: aws-actions/amazon-ecs-render-task-definition@v1
-                with:
-                    task-definition: ${{ env.ECS_TASK_DEFINITION }}
-                    container-name: ${{ env.CONTAINER_NAME }}
-                    image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+            - name: Fill in the new image ID in the Amazon ECS task definition
+              id: task-def
+              uses: aws-actions/amazon-ecs-render-task-definition@v1
+              with:
+                  task-definition: ${{ env.ECS_TASK_DEFINITION }}
+                  container-name: ${{ env.CONTAINER_NAME }}
+                  image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
+            -   name: Debug Image Info
+                run: |
+                    echo "Registry: ${{ env.ECR_REGISTRY }}"
+                    echo "Repository: ${{ env.ECR_REPOSITORY }}"
+                    echo "Image Tag: ${{ env.IMAGE_TAG }}"
+                    echo "Full Image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
 
             # 새로운 ECS 작업 정의를 배포하는 단계입니다.
-            -   name: Deploy Amazon ECS task definition
-                uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-                with:
-                    task-definition: ${{ steps.task-def.outputs.task-definition }}
-                    service: ${{ env.ECS_SERVICE }}
-                    cluster: ${{ env.ECS_CLUSTER }}
-                    wait-for-service-stability: true
+            - name: Deploy Amazon ECS task definition
+              uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+              with:
+                  task-definition: ${{ steps.task-def.outputs.task-definition }}
+                  service: ${{ env.ECS_SERVICE }}
+                  cluster: ${{ env.ECS_CLUSTER }}
+                  wait-for-service-stability: true
