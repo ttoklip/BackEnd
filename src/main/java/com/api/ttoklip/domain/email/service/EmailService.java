@@ -7,7 +7,6 @@ import com.api.ttoklip.global.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,6 @@ public class EmailService {
     @Value("${spring.mail.sender-email}")
     private String senderEmail;
 
-
     private String createCode() {
         int leftLimit = 48; // number '0'
         int rightLimit = 122; // alphabet 'z'
@@ -53,7 +51,7 @@ public class EmailService {
     }
 
     // 이메일 폼 생성
-    private MimeMessage createEmailForm(String email) throws Exception {
+    private MimeMessage createEmailForm(String email) {
         String authCode = createCode();
 
         MimeMessage message;
@@ -67,10 +65,6 @@ public class EmailService {
             log.error("Failed to create email message: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
         } catch (UnsupportedEncodingException e) {
-            log.error("UnsupportedEncodingException");
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            log.error("global exception error");
             throw new RuntimeException(e);
         }
 
@@ -80,11 +74,11 @@ public class EmailService {
         return message;
     }
 
-
     private void setRedisData(final String email, final String authCode) {
         try {
             redisUtil.setDataExpire(email, authCode, 60 * 30L);
         } catch (Exception e) {
+            log.error("Failed to set Redis data: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.REDIS_SAVE_ERROR);
         }
     }
@@ -92,11 +86,16 @@ public class EmailService {
     @Async
     // 인증코드 이메일 발송
     public void sendEmail(String toEmail) {
-        validEmailHasText(toEmail);
-        validRedisHasEmail(toEmail);
+        try {
+            validEmailHasText(toEmail);
+            validRedisHasEmail(toEmail);
 
-        // 이메일 폼 생성
-        createEmail(toEmail);
+            // 이메일 폼 생성
+            createEmail(toEmail);
+        } catch (Exception e) {
+            log.error("Exception in sendEmail: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     private void validRedisHasEmail(final String toEmail) {
@@ -109,12 +108,12 @@ public class EmailService {
         try {
             MimeMessage emailForm = createEmailForm(toEmail);
             sendEmail(emailForm);
-        } catch (MessagingException e) {
-            throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
-        } catch (IOException e) {
-            throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
+        } catch (ApiException e) {
+            log.error("ApiException during email creation: {}", e.getMessage(), e);
+            throw e; // 이미 ApiException을 던지므로 다시 던짐
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Unexpected error during email creation: {}", e.getMessage(), e);
+            throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
         }
     }
 
@@ -123,7 +122,8 @@ public class EmailService {
             // 이메일 발송
             javaMailSender.send(emailForm);
         } catch (Exception e) {
-            throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
+            log.error("Failed to send email: {}", e.getMessage(), e);
+            throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
         }
     }
 
@@ -149,6 +149,7 @@ public class EmailService {
             log.info("code found by email: " + codeFoundByEmail);
             validAuthenticationCode(code, codeFoundByEmail);
         } catch (Exception e) {
+            log.error("Failed to retrieve data from Redis: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.REDIS_EMAIL_NOT_FOUND);
         }
     }
