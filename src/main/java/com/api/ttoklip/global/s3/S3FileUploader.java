@@ -1,6 +1,5 @@
 package com.api.ttoklip.global.s3;
 
-
 import static com.api.ttoklip.global.exception.ErrorType.EXCEEDING_FILE_COUNT;
 import static com.api.ttoklip.global.exception.ErrorType.S3_CONNECT;
 import static com.api.ttoklip.global.exception.ErrorType.S3_CONVERT;
@@ -91,14 +90,16 @@ public class S3FileUploader {
         return convertFile;
     }
 
+    // ------------ 시작 ------------
+    // 파일 이름을 고유하게 생성하도록 수정
     private String validFileName(final String originalFilename) {
-        if (!StringUtils.hasText(originalFilename) || originalFilename.startsWith(".")) {
-            return UUID.randomUUID() + getFileExtension(originalFilename);
-        }
-        return originalFilename;
+        String extension = getFileExtension(originalFilename);
+        String uuid = UUID.randomUUID().toString();
+        return uuid + extension;
     }
+    // ------------ 변경종료 -----------
 
-    private String getFileExtension(String filename) { // 새로 추가됨
+    private String getFileExtension(String filename) {
         int dotIndex = filename.lastIndexOf('.');
         if (dotIndex > 0 && dotIndex < filename.length() - 1) {
             return filename.substring(dotIndex);
@@ -113,7 +114,8 @@ public class S3FileUploader {
     }
 
     private String upload(final File uploadFile, final String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        // S3에 업로드할 때도 고유한 파일 이름을 사용하도록 수정
+        String fileName = dirName + "/" + UUID.randomUUID() + "_" + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제
