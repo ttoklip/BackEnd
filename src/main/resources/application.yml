@@ -54,7 +54,7 @@ spring:
 
     data:
         redis:
-            host: ENC(t7ZnIhc4tDMKjU+KDY49gumJVO4Z5iYaSByV426MJ2xo35Nm7/oTEwWt6rbIdXahuoLdjG7KH56H7tI/xxgyQWuJz0dOr5Cu)
+            host: ENC(1xiKDNpnqSNdYDm2jh+IBCc/qdE8rDG1s3cw34Aah8N23+oojr+oSlYjRxeH1pobQthJcPfUbJ5+udWBbH0HGF3njvj5ygD3)
             port: 6379
 
 cloud:
