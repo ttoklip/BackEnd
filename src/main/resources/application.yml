@@ -76,7 +76,8 @@ google:
     firebase:
         fcm:
             resource:
-                path: ${FIREBASE_CONFIG_PATH:firebase-config.json}
+                path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
+
 jasypt:
     encryptor:
         password: ${JASYPT_ENCRYPTOR_PASSWORD}
