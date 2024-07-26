@@ -6,7 +6,11 @@ on:
 
 env:
     AWS_REGION: ap-northeast-2
-    ECR_REPOSITORY: ttoklip-v2
+    ECR_REPOSITORY: ttoklip-v10-repository
+    ECS_SERVICE: ttoklip-version10-service
+    ECS_CLUSTER: ttoklip-version10
+    ECS_TASK_DEFINITION: ./aws/task_definition.json
+    CONTAINER_NAME: ttoklip-version10-ct
 
 permissions:
     contents: read
@@ -46,22 +50,54 @@ jobs:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
                   IMAGE_TAG: ${{ github.sha }}
               run: |
-                  docker build --build-arg JASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }} --build-arg FIREBASE_CONFIG=${{ secrets.FIREBASE_CONFIG }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+                  docker build --build-arg JASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                   echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-#            -   name: Fill in the new image ID in the Amazon ECS task definition
-#                id: task-def
-#                uses: aws-actions/amazon-ecs-render-task-definition@v1
-#                with:
-#                    task-definition: ${{ env.ECS_TASK_DEFINITION }}
-#                    container-name: ${{ env.CONTAINER_NAME }}
-#                    image: ${{ steps.build-image.outputs.image }}
-#
-#            -   name: Deploy Amazon ECS task definition
-#                uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#                with:
-#                    task-definition: ${{ steps.task-def.outputs.task-definition }}
-#                    service: ${{ env.ECS_SERVICE }}
-#                    cluster: ${{ env.ECS_CLUSTER }}
-#                    wait-for-service-stability: true
+    deploy-ecs:
+        name: Deploy to ECS
+        needs: build-docker-and-push-ecr
+        runs-on: ubuntu-latest
+        environment: production
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            # AWS 자격 증명을 구성하는 단계입니다.
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ECS_DEPLOY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_ECS_DEPLOY_SECRET }}
+                  aws-region: ${{ env.AWS_REGION }}
+
+            # Amazon ECR에 로그인하는 단계입니다.
+            - name: Login to Amazon ECR
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v1
+
+            -   name: Debug Image Details
+                run: |
+                    echo "ECR Registry: ${{ steps.login-ecr.outputs.registry }}"
+                    echo "ECR Repository: ${{ env.ECR_REPOSITORY }}"
+                    echo "Image Tag: ${{ github.sha }}"
+                    echo "Full Image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}"
+
+            # 새로운 이미지 ID를 ECS 작업 정의에 채워 넣는 단계입니다.
+            - name: Fill in the new image ID in the Amazon ECS task definition
+              id: task-def
+              uses: aws-actions/amazon-ecs-render-task-definition@v1
+              with:
+                  task-definition: ${{ env.ECS_TASK_DEFINITION }}
+                  container-name: ${{ env.CONTAINER_NAME }}
+                  image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+
+            # 새로운 ECS 작업 정의를 배포하는 단계입니다.
+            - name: Deploy Amazon ECS task definition
+              uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+              with:
+                  task-definition: ${{ steps.task-def.outputs.task-definition }}
+                  service: ${{ env.ECS_SERVICE }}
+                  cluster: ${{ env.ECS_CLUSTER }}
+                  wait-for-service-stability: true
