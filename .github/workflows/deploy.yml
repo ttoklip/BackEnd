@@ -80,6 +80,10 @@ jobs:
             # 새로운 이미지 ID를 ECS 작업 정의에 채워 넣는 단계입니다.
             -   name: Fill in the new image ID in the Amazon ECS task definition
                 id: task-def
+                env:
+                    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                    ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+                    IMAGE_TAG: ${{ needs.build-docker-and-push-ecr.outputs.image }}
                 uses: aws-actions/amazon-ecs-render-task-definition@v1
                 with:
                     task-definition: ${{ env.ECS_TASK_DEFINITION }}
