@@ -35,7 +35,7 @@ public class CartSingleResponse {
     private String writer;
 
     @Schema(description = "함께해요 작성자 프로필 사진 url", example = "작성자 프로필 사진 예시")
-    private String userProfileImageUrl;
+    private String writerProfileImageUrl;
 
     @Schema(description = "함께해요 총 가격", example = "총 가격 예시")
     private Long totalPrice;
@@ -109,7 +109,7 @@ public class CartSingleResponse {
                 .partyMax(cart.getPartyMax())
                 .status(cart.getStatus().name())
                 .writer(cart.getMember().getNickname())
-                .userProfileImageUrl(cart.getMember().getProfile().getProfileImgUrl())
+                .writerProfileImageUrl(cart.getMember().getProfile().getProfileImgUrl())
                 .isAlreadyJoin(isAlreadyJoin)
                 .writtenTime(formattedCreatedDate)
                 .itemUrls(itemUrlsResponses)

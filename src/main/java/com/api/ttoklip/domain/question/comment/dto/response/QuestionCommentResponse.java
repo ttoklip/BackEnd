@@ -26,6 +26,9 @@ public class QuestionCommentResponse {
     @Schema(description = "댓글 작성자", example = "댓글 작성자 예시")
     private String writer;
 
+    @Schema(description = "댓글 작성자 프로필 이미지", example = "댓글 작성자 프로필 이미지 예시")
+    private String writerProfileImageUrl;
+
     @Schema(description = "댓글 작성 시간", example = "2024-02-15 11:00:00")
     private String writtenTime;
 
@@ -56,6 +59,7 @@ public class QuestionCommentResponse {
                 .commentContent(questionComment.getContent())
                 .parentId(parentCommentId)
                 .writer(questionComment.getMember().getNickname())
+                .writerProfileImageUrl(questionComment.getMember().getProfile().getProfileImgUrl())
                 .writtenTime(formatCreatedDate)
                 .likedByCurrentUser(likedByCurrentUser)
                 .build();
