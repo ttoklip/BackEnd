@@ -37,7 +37,7 @@ public class HoneyTipSingleResponse {
     private String writer;
 
     @Schema(description = "꿀팁 작성자 프로필 사진 url", example = "작성자 프로필 사진 예시")
-    private String userProfileImageUrl;
+    private String writerProfileImageUrl;
 
     @Schema(description = "질문 작성 시간", example = "2024-01-11 10:00:00")
     private String writtenTime;
@@ -85,7 +85,7 @@ public class HoneyTipSingleResponse {
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
                 .writer(honeyTip.getMember().getNickname())
-                .userProfileImageUrl(honeyTip.getMember().getProfile().getProfileImgUrl())
+                .writerProfileImageUrl(honeyTip.getMember().getProfile().getProfileImgUrl())
                 .writtenTime(formattedCreatedDate)
                 .category(honeyTip.getCategory())
                 .likedByCurrentUser(likedByCurrentUser)
