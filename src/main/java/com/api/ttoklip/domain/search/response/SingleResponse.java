@@ -18,6 +18,7 @@ public class SingleResponse {
     private String title;
     private String content;
     private String writer;
+    private String writerProfileImageUrl;
     private int likeCount;
     private int scrapCount;
     private int commentCount;
@@ -30,6 +31,7 @@ public class SingleResponse {
                 .category(honeyTip.getCategory())
                 .commentCount(honeyTip.getHoneyTipComments().size())
                 .writer(honeyTip.getMember().getNickname())
+                .writerProfileImageUrl(honeyTip.getMember().getProfile().getProfileImgUrl())
                 .scrapCount(honeyTip.getHoneyTipScraps().size())
                 .likeCount(honeyTip.getHoneyTipLikes().size())
                 .build();
