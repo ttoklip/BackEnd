@@ -33,17 +33,17 @@ public class TownMainController {
 
     private final TownMainService townMainService;
 
-    /* Cart Paging */
-    @Operation(summary = "함께해요 더보기", description = "함께해요 글 목록 불러오기")
+    /* Town Paging */
+    @Operation(summary = "우리동네 메인", description = "함께해요, 소통해요 최신글 3개씩 불러오기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "함께해요 불러오기 성공",
+            @ApiResponse(responseCode = "200", description = "우리동네 불러오기 성공",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = MyPageConstant.scrapHoneyTipsResponse,
-                                    description = "함께해요 메인 페이지입니다."
+                                    value = TownResponseConstant.getRecent3,
+                                    description = "우리동네 메인 페이지입니다."
                             )))})
     @GetMapping
     public SuccessResponse<CartMainResponse> getCarts() {

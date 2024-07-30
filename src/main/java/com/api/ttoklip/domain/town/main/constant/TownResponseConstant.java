@@ -143,4 +143,49 @@ public class TownResponseConstant {
                 }
             }
             """;
+
+    public static final String getRecent3 = """ 
+            {
+              "time": "2024-07-29T20:42:52.316866",
+              "status": 200,
+              "code": "200",
+              "message": "요청에 성공하였습니다.",
+              "result": {
+                "communityRecent3": [
+                  {
+                    "communityId": 15,
+                    "title": "소통해요 제목 예시1",
+                    "street": "서울"
+                  },
+                  {
+                    "communityId": 14,
+                    "title": "소통해요 제목 예시2",
+                    "street": "경기도 안양시 동안구 비산동  1185"
+                  },
+                  {
+                    "communityId": 13,
+                    "title": "소통해요 제목 예시3",
+                    "street": "경기도 안양시 동안구 비산동  1185"
+                  }
+                ],
+                "cartRecent3": [
+                  {
+                    "id": 13,
+                    "title": "함께해요 제목 예시1",
+                    "location": "경기도 안양시 동안구 비산동  1185"
+                  },
+                  {
+                    "id": 25,
+                    "title": "함께해요 제목 예시2",
+                    "location": "Road, Mountain View,"
+                  },
+                  {
+                    "id": 24,
+                    "title": "함께해요 제목 예시3",
+                    "location": "서울특별시 송파구 문정로"
+                  }
+                ]
+              }
+            }
+            """;
 }
