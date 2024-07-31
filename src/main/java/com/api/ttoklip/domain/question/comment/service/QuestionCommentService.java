@@ -131,7 +131,9 @@ public class QuestionCommentService {
     /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
 
     public List<QuestionCommentResponse> getCommentResponse(final Question question) {
-        List<QuestionComment> questionComments = question.getQuestionComments();
+        List<QuestionComment> questionComments = questionCommentRepositoryImpl.findQuestionCommentsByQuestionId(
+                question.getId());
+
         return questionComments.stream()
                 .map(questionComment -> {
                     boolean likedByCurrentUser = commentLikeService.existsByQuestionCommentIdAndMemberId(

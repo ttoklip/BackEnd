@@ -31,6 +31,9 @@ public class QuestionSingleResponse {
     @Schema(description = "질문 작성자", example = "작성자 예시")
     private String writer;
 
+    @Schema(description = "질문 작성자 프로필 사진 url", example = "작성자 프로필 사진 예시")
+    private String writerProfileImageUrl;
+
     @Schema(description = "질문 작성 시간", example = "2024-01-11 10:00:00")
     private String writtenTime;
 
@@ -63,6 +66,7 @@ public class QuestionSingleResponse {
                 .title(question.getTitle())
                 .content(question.getContent())
                 .writer(question.getMember().getNickname())
+                .writerProfileImageUrl(question.getMember().getProfile().getProfileImgUrl())
                 .writtenTime(formattedCreatedDate)
                 .category(question.getCategory()) // 한글 카테고리 이름으로 반환
                 .commentCount(commentCount)

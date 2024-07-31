@@ -15,6 +15,7 @@ public class UserSingleResponse {
     private String title;
     private String content;
     private String writer;
+    private String writerProfileImageUrl;
     private int commentCount;
 
     public static UserSingleResponse questionFrom(final Question question) {
@@ -25,6 +26,7 @@ public class UserSingleResponse {
                 .category(question.getCategory())
                 .commentCount(question.getQuestionComments().size())
                 .writer(question.getMember().getNickname())
+                .writerProfileImageUrl(question.getMember().getProfile().getProfileImgUrl())
                 .build();
     }
 }

@@ -5,6 +5,7 @@ import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.co
 import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
 
+import com.api.ttoklip.domain.privacy.domain.QProfile;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.exception.ApiException;
@@ -114,6 +115,8 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .where(
                         getCommunityActivate()
                 )
+                .leftJoin(community.member, member).fetchJoin()
+                .leftJoin(community.member.profile, QProfile.profile).fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(community.id.desc())

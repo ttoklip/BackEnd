@@ -33,6 +33,9 @@ public class CommunitySingleResponse {
     @Schema(description = "소통해요 작성자", example = "작성자 예시")
     private String writer;
 
+    @Schema(description = "소통해요 작성자 프로필 사진 url", example = "작성자 프로필 사진 예시")
+    private String userProfileImageUrl;
+
     @Schema(description = "소통해요 작성 시간", example = "2024-01-15 10:00:00")
     private String writtenTime;
 
@@ -78,6 +81,7 @@ public class CommunitySingleResponse {
                 .title(community.getTitle())
                 .content(community.getContent())
                 .writer(community.getMember().getNickname())
+                .userProfileImageUrl(community.getMember().getProfile().getProfileImgUrl())
                 .writtenTime(formattedCreatedDate)
                 .likedByCurrentUser(likedByCurrentUser)
                 .scrapedByCurrentUser(scrapedByCurrentUser)

@@ -15,6 +15,7 @@ public class CommunitySingleResponse {
     private String title;
     private String content;
     private String writer;
+    private String writerProfileImageUrl;
     private int commentCount;
     private int likeCount;
     private int scrapCount;
@@ -26,6 +27,7 @@ public class CommunitySingleResponse {
                 .content(community.getContent())
                 .commentCount(community.getCommunityComments().size())
                 .writer(community.getMember().getNickname())
+                .writerProfileImageUrl(community.getMember().getProfile().getProfileImgUrl())
                 .scrapCount(community.getCommunityScraps().size())
                 .likeCount(community.getCommunityLikes().size())
                 .build();
@@ -38,6 +40,7 @@ public class CommunitySingleResponse {
                 .content(community.getContent())
                 .commentCount(community.getCommunityComments().size())
                 .writer(community.getMember().getNickname())
+                .writerProfileImageUrl(community.getMember().getProfile().getProfileImgUrl())
 //                .street(community.getMember().getStreet())  todo 멤버 주소 추가되면 넣기
                 .scrapCount(community.getCommunityScraps().size())
                 .likeCount(community.getCommunityLikes().size())

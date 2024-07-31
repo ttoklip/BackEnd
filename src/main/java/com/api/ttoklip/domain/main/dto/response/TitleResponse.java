@@ -4,6 +4,8 @@ import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.util.TimeUtil;
 import java.time.LocalDateTime;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +18,7 @@ public class TitleResponse {
     private String title;
     private String content;
     private String writer;
+    private String writerProfileImageUrl;
     private int likeCount;
     private int commentCount;
     private int scrapCount;
@@ -32,6 +35,7 @@ public class TitleResponse {
                 .title(question.getTitle())
                 .content(question.getContent())
                 .writer(writer)
+                .writerProfileImageUrl(question.getMember().getProfile().getProfileImgUrl())
                 .commentCount(commentCount)
                 .writtenTime(formattedCreatedDate)
                 .build();
@@ -50,6 +54,7 @@ public class TitleResponse {
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
                 .writer(writer)
+                .writerProfileImageUrl(honeyTip.getMember().getProfile().getProfileImgUrl())
                 .likeCount(likeCount)
                 .commentCount(commentCount)
                 .scrapCount(scrapCount)
