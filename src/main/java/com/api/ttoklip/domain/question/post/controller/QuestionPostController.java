@@ -69,7 +69,6 @@ public class QuestionPostController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<QuestionSingleResponse> getSinglePost(final @PathVariable Long postId) {
-        Long commentId = getCurrentMember().getId();
         QuestionSingleResponse response = questionPostService.getSinglePost(postId);
         return new SuccessResponse<>(response);
     }
