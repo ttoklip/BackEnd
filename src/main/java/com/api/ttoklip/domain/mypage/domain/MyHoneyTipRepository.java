@@ -4,6 +4,8 @@ package com.api.ttoklip.domain.mypage.domain;
 import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
 import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
 import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -32,6 +34,8 @@ public class MyHoneyTipRepository {
                 .selectFrom(honeyTip)
                 .distinct()
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.member, member).fetchJoin()
+                .leftJoin(honeyTip.member.profile, profile).fetchJoin()
                 .where(honeyTip.member.id.eq(userId).and(honeyTip.deleted.eq(false)))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
@@ -58,6 +62,8 @@ public class MyHoneyTipRepository {
                 .distinct()
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .leftJoin(honeyTip.member, member).fetchJoin()
+                .leftJoin(honeyTip.member.profile, profile).fetchJoin()
                 .where(honeyTipScrap.member.id.eq(userId).and(honeyTip.deleted.eq(false)))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())

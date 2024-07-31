@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.town.cart.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage;
 import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
@@ -9,7 +10,6 @@ import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMembe
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.privacy.domain.QInterest;
-import com.api.ttoklip.domain.privacy.domain.QProfile;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.global.exception.ApiException;
@@ -36,7 +36,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 )
                 .leftJoin(cart.member, member).fetchJoin()
                 .leftJoin(cart.member.interests, QInterest.interest).fetchJoin()
-                .leftJoin(cart.member.profile, QProfile.profile).fetchJoin()
+                .leftJoin(cart.member.profile, profile).fetchJoin()
                 .fetchOne();
         return Optional.ofNullable(findCart)
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
@@ -58,6 +58,7 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .leftJoin(cart.cartImages, cartImage)
                 .leftJoin(cart.itemUrls, itemUrl)
                 .leftJoin(cart.member, member).fetchJoin()
+                .leftJoin(cart.member.profile, profile).fetchJoin()
                 .where(
                         getCartActivate(),
                         cart.id.eq(cartPostId)
@@ -75,6 +76,8 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .where(
                         matchCartId(cartId)
                 )
+                .leftJoin(cartComment.member, member).fetchJoin()
+                .leftJoin(cartComment.member.profile, profile).fetchJoin()
                 .orderBy(
                         cartComment.parent.id.asc().nullsFirst(),
                         cartComment.createdDate.asc()
@@ -137,6 +140,8 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .where(
                         getCartActivate()
                 )
+                .leftJoin(cart.member, member).fetchJoin()
+                .leftJoin(cart.member.profile, profile).fetchJoin()
                 .orderBy(cart.id.desc())
                 .limit(3)
                 .fetch();

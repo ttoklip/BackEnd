@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.question.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.*;
 import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
@@ -23,6 +24,7 @@ public class QuestionDefaultRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
                 .where(question.category.eq(Category.HOUSEWORK))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -35,6 +37,7 @@ public class QuestionDefaultRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
                 .where(question.category.eq(Category.RECIPE))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -47,6 +50,7 @@ public class QuestionDefaultRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
                 .where(question.category.eq(Category.SAFE_LIVING))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -59,6 +63,7 @@ public class QuestionDefaultRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
                 .where(question.category.eq(Category.WELFARE_POLICY))
                 .limit(10)
                 .orderBy(question.id.desc())

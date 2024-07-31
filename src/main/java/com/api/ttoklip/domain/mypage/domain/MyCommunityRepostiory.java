@@ -1,9 +1,13 @@
 package com.api.ttoklip.domain.mypage.domain;
 
+import static com.api.ttoklip.domain.member.domain.QMember.*;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.*;
 import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
 import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
+import com.api.ttoklip.domain.member.domain.QMember;
+import com.api.ttoklip.domain.privacy.domain.QProfile;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -57,6 +61,8 @@ public class MyCommunityRepostiory {
                 .distinct()
                 .leftJoin(community.communityScraps, communityScrap)
                 .leftJoin(community.communityComments, communityComment)
+                .leftJoin(community.member, member).fetchJoin()
+                .leftJoin(community.member.profile, profile).fetchJoin()
                 .where(communityScrap.member.id.eq(userId).and(community.deleted.eq(false)))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())

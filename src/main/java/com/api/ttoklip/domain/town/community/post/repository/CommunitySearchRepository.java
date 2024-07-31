@@ -1,8 +1,12 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
+import static com.api.ttoklip.domain.member.domain.QMember.*;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.*;
 import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.communityLike;
 import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
+import com.api.ttoklip.domain.member.domain.QMember;
+import com.api.ttoklip.domain.privacy.domain.QProfile;
 import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
@@ -62,6 +66,8 @@ public class CommunitySearchRepository {
                 .leftJoin(community.communityComments, communityComment)
                 .leftJoin(community.communityLikes, communityLike)
                 .leftJoin(community.communityScraps, communityScrap)
+                .leftJoin(community.member, member).fetchJoin()
+                .leftJoin(community.member.profile, profile).fetchJoin()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
