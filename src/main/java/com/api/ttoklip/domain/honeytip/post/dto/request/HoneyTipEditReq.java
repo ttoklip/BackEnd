@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.honeytip.post.dto.request;
 
+import com.api.ttoklip.domain.common.PostRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Builder
 @AllArgsConstructor
-public class HoneyTipEditReq {
+public class HoneyTipEditReq implements PostRequest {
 
     @Schema(type = "string", description = "게시글 제목", example = "게시글 제목 예시")
     @NotEmpty

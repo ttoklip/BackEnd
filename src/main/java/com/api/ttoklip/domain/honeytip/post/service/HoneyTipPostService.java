@@ -3,7 +3,8 @@ package com.api.ttoklip.domain.honeytip.post.service;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWord;
+import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordCreate;
+import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
@@ -49,7 +50,7 @@ public class HoneyTipPostService {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    @CheckBadWord
+    @CheckBadWordCreate
     public Message register(final HoneyTipCreateRequest request) {
 
         // HoneyTip 객체 생성 및 연관 관계 설정
@@ -86,6 +87,7 @@ public class HoneyTipPostService {
 
     /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
+    @CheckBadWordUpdate
     public Message edit(final Long postId, final HoneyTipEditReq request) {
 
         // 기존 게시글 찾기
