@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.honeytip.post.service;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWord;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
@@ -47,8 +48,8 @@ public class HoneyTipPostService {
 
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
-
     @Transactional
+    @CheckBadWord
     public Message register(final HoneyTipCreateRequest request) {
 
         // HoneyTip 객체 생성 및 연관 관계 설정

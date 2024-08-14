@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.community.post.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWord;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
@@ -42,10 +43,8 @@ public class CommunityPostService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
+    @CheckBadWord
     public Message register(final CommunityCreateRequest request) {
-
-        // Community 객체 생성 및 연관 관계 설정
-
         Member currentMember = getCurrentMember();
 
         Community community = Community.of(request, currentMember);
