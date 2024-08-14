@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Builder
 @AllArgsConstructor
-public class HoneyTipCreateRequest {
+public class HoneyTipCreateRequest implements PostCreateRequest {
 
     @Schema(type = "string", description = "게시글 제목", example = "게시글 제목 예시")
     @NotEmpty
