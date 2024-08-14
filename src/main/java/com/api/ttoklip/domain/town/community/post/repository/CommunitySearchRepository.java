@@ -1,12 +1,10 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
-import static com.api.ttoklip.domain.member.domain.QMember.*;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.*;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.communityLike;
 import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
-import com.api.ttoklip.domain.member.domain.QMember;
-import com.api.ttoklip.domain.privacy.domain.QProfile;
 import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.entity.QCommunity;

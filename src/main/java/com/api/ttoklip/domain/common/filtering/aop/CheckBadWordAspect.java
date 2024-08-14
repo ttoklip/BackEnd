@@ -5,18 +5,14 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.global.util.BadWordFilter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Aspect
 @Component
-@RequiredArgsConstructor
 public class CheckBadWordAspect {
 
     @Before(value = "@annotation(checkBadWord)")

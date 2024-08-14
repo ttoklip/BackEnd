@@ -1,13 +1,12 @@
 package com.api.ttoklip.domain.mypage.domain;
 
-import static com.api.ttoklip.domain.member.domain.QMember.*;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
 
-import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;

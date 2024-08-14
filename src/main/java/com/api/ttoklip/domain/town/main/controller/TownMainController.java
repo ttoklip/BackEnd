@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.town.main.controller;
 
-import com.api.ttoklip.domain.mypage.constant.MyPageConstant;
 import com.api.ttoklip.domain.search.response.CartSearchPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;

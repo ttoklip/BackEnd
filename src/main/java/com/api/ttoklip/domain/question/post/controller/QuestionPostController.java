@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.question.post.controller;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
