@@ -173,7 +173,9 @@ public enum ErrorType {
     EMAIL_SENDING_ERROR(INTERNAL_SERVER_ERROR, "EMAIL_5001", "이메일 전송 중 오류가 발생했습니다."),
     EMAIL_FORM_CREATION_ERROR(INTERNAL_SERVER_ERROR, "EMAIL_5002", "이메일 양식 생성 중 오류가 발생했습니다."),
 
-    ;
+
+    // ------------------------------------------ Bad Word ------------------------------------------
+    BAD_WORDS_ERROR(BAD_REQUEST, "BAD_WORD_400", "욕설이 포함되어있습니다.");
 
     private final HttpStatus status;
     private final String errorCode;

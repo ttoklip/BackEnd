@@ -17,4 +17,14 @@ public class ApiExceptionHandler {
         );
         return ResponseEntity.status(errorType.getStatus()).body(response);
     }
+
+    @ExceptionHandler({BadWordException.class})
+    public ResponseEntity<ApiExceptionResponse> handleBadWordException(final BadWordException e) {
+        ApiExceptionResponse response = new ApiExceptionResponse(
+                e.getStatus().value(),
+                e.getErrorCode(),
+                e.getMessage()
+        );
+        return ResponseEntity.status(e.getStatus()).body(response);
+    }
 }
