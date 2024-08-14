@@ -85,6 +85,8 @@ dependencies {
     // jasypt
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
+    implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
+
 }
 
 tasks.named('bootBuildImage') {
