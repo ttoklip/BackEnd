@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.common.filtering.aop;
 
 import com.api.ttoklip.domain.common.PostRequest;
+import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.global.util.BadWordFilter;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -34,4 +36,14 @@ public class CheckBadWordAspect {
         }
 
     }
+
+    @Pointcut("execution(* com.api.ttoklip.domain.common.comment.service.CommentService.register(com.api.ttoklip.domain.common.comment.Comment))")
+    private void commentPointCut() {
+    }
+
+    @Before(value = "commentPointCut() && args(comment)")
+    public void beforeCreateCommentBadWordFiltering(Comment comment) {
+        BadWordFilter.isBadWord(comment.getContent());
+    }
+
 }
