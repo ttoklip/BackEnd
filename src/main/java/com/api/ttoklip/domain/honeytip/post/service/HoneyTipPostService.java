@@ -9,7 +9,7 @@ import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.image.service.HoneyTipImageService;
 import com.api.ttoklip.domain.honeytip.like.service.HoneyTipLikeService;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
+import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
 import com.api.ttoklip.domain.honeytip.post.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
@@ -49,7 +49,7 @@ public class HoneyTipPostService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
-    public Message register(final HoneyTipCreateReq request) {
+    public Message register(final HoneyTipCreateRequest request) {
 
         // HoneyTip 객체 생성 및 연관 관계 설정
         Member currentMember = getCurrentMember();

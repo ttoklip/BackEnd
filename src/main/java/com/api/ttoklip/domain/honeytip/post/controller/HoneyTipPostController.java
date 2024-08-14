@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.honeytip.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.constant.HoneyTipResponseConstant;
-import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateReq;
+import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
 import com.api.ttoklip.domain.honeytip.post.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostService;
@@ -50,7 +50,7 @@ public class HoneyTipPostController {
                                     description = "꿀팁이 생성되었습니다."
                             )))})
     @PostMapping
-    public SuccessResponse<Message> register(final @Validated @ModelAttribute HoneyTipCreateReq request) {
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute HoneyTipCreateRequest request) {
         return new SuccessResponse<>(honeytipPostService.register(request));
     }
 

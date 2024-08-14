@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.honeytip.post.dto.request;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.common.PostCreateRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Builder
 @AllArgsConstructor
-public class HoneyTipCreateReq {
+public class HoneyTipCreateRequest {
 
     @Schema(type = "string", description = "게시글 제목", example = "게시글 제목 예시")
     @NotEmpty
