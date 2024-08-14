@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.common;
 
-public interface PostCreateRequest {
+public interface PostRequest {
     String getTitle();
 
     String getContent();
