@@ -238,14 +238,7 @@ public class CartPostService {
 
         Cart cart = cartRepository.findByIdActivated(cartId);
 
-        List<CartMember> cartMembers = cart.getCartMembers();
-
-        for (CartMember member : cartMembers) {
-            System.out.println("member.getMember().getEmail() = " + member.getMember().getEmail());
-        }
-
         if (cart.getCartMembers().size() < cart.getPartyMax()) {
-            System.out.println("------------------------------------------CartPostService.removeParticipant");
             cart.changeProgress();
         }
 
@@ -254,8 +247,7 @@ public class CartPostService {
 
     public Long countParticipants(final Long cartId) {
         Cart cart = cartRepository.findByIdActivated(cartId);
-        System.out.println("카트카트카트" + cart.getCartMembers().listIterator());
-        return cartRepository.countParticipants(cartId);
+        return cartRepository.countParticipants(cart.getId());
     }
 
     public CartGroupMemberResponse checkParticipants(final Long cartId) {
