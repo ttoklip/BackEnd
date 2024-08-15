@@ -13,9 +13,9 @@ spring:
         time-zone: Asia/Seoul
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: ENC(WFk66f1yW1ScePrjVXtNkD583lPA22lCf8CKSAtjoWJgYPBKvmDweiOoifK559d+2Eynoz1Gy1yZKATTQGW4ww+ggSzJ5CslVQ07NsH8AtyGHAmmpz/L2m052TZprgvy)
-        username: ENC(nDVimcgDVyy1KRjg2ctKjQ==)
-        password: ENC(3SMxxiwN0hQ0QXvt9r24HMf5U+nQk8lc)
+        url: ENC(AHsyxM9A8g8wHiYs1Ao7S5Lrtcuqe6E5VX5dMUTeKyZnDULppD99ZrtY10al3wgruDWWWaKEcify/hBgQ4xxzEpH6fG4Vf2MnuN6IVzMU8X6VLDbW1EI8KjC9cY6gOfl)
+        username: ENC(dEU2P1q9Gh22al1j0nQOGMS4c6TBMnN3)
+        password: ENC(OQXOXZaAaMtwqzKjRQoiAgdVeOe2/GmJ)
         hikari:
             data-source-properties:
                 serverTimezone: Asia/Seoul
