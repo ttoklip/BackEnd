@@ -75,6 +75,7 @@ public class NewsletterController {
     }
 
     // 카테고리별 페이징 조회
+    @Operation(summary = "뉴스레터 카테고리별 페이징 조회", description = "뉴스레터 카테고리별 페이징 조회합니다.")
     @GetMapping
     public SuccessResponse<NewsCategoryPagingResponse> getPagingCategory(
             @Parameter(description = "카테고리. 유효한 값은 HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 중 하나입니다.", required = true, example = "HOUSEWORK")
