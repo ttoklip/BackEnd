@@ -8,7 +8,7 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.mypage.domain.MyCartRepository;
-import com.api.ttoklip.domain.mypage.domain.MyCommunityRepostiory;
+import com.api.ttoklip.domain.mypage.domain.MyCommunityPagingRepository;
 import com.api.ttoklip.domain.mypage.domain.MyHoneyTipRepository;
 import com.api.ttoklip.domain.mypage.domain.MyNewsLetterRepository;
 import com.api.ttoklip.domain.mypage.domain.MyQuestionRepository;
@@ -38,7 +38,7 @@ public class MyPageService {
 
     private final MemberService memberService;
     private final MyQuestionRepository myQuestionRepository;
-    private final MyCommunityRepostiory myCommunityRepostiory;
+    private final MyCommunityPagingRepository myCommunityPagingRepository;
     private final MyHoneyTipRepository myHoneyTipRepository;
     private final MyNewsLetterRepository myNewsLetterRepository;
     private final MyCartRepository myCartRepository;
@@ -92,7 +92,7 @@ public class MyPageService {
     public CommunityPaging scrapCommunity(final Pageable pageable) {
 
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        Page<Community> contentPaging = myCommunityRepostiory.getScrapContain(currentMember.getId(), pageable);
+        Page<Community> contentPaging = myCommunityPagingRepository.getScrapContain(currentMember.getId(), pageable);
         // List<Entity>
         List<Community> contents = contentPaging.getContent();
 
@@ -136,7 +136,7 @@ public class MyPageService {
 
     public CommunityPaging myCommunities(final Pageable pageable) {
         Member currentMember = memberService.findByIdWithProfile(getCurrentMember().getId());
-        Page<Community> contentPaging = myCommunityRepostiory.getContain(currentMember.getId(), pageable);
+        Page<Community> contentPaging = myCommunityPagingRepository.getContain(currentMember.getId(), pageable);
         // List<Entity>
         List<Community> contents = contentPaging.getContent();
 
