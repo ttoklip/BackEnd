@@ -6,8 +6,6 @@ import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.co
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
 import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
-import com.api.ttoklip.domain.member.domain.QMember;
-import com.api.ttoklip.domain.privacy.domain.QProfile;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,17 +21,20 @@ import org.springframework.stereotype.Repository;
 public class MyCommunityRepostiory {
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Page<Community> getContain(final Long userId, final Pageable pageable) {
-        List<Community> content = getSearchPageId(userId, pageable);
-        Long count = countQuery();
+    public Page<Community> getContain(final Long currentMemberId, final Pageable pageable) {
+        List<Community> content = getSearchPageId(currentMemberId, pageable);
+        Long count = countQuery(currentMemberId);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<Community> getSearchPageId(final Long userId, final Pageable pageable) {
+    private List<Community> getSearchPageId(final Long currentMemberId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(community)
                 .distinct()
-                .where(community.member.id.eq(userId).and(community.deleted.eq(false)))
+                .where(
+                        community.member.id.eq(currentMemberId),
+                        community.deleted.isFalse()
+                )
                 .leftJoin(community.communityComments, communityComment)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
@@ -42,16 +43,20 @@ public class MyCommunityRepostiory {
     }
 
 
-    private Long countQuery() {
+    private Long countQuery(final Long currentMemberId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(community)
+                .where(
+                        community.member.id.eq(currentMemberId),
+                        community.deleted.isFalse()
+                )
                 .fetchOne();
     }
 
-    public Page<Community> getScrapContain(final Long userId, final Pageable pageable) {
-        List<Community> content = getSearchScrapPageId(userId, pageable);
-        Long count = countQuery();
+    public Page<Community> getScrapContain(final Long currentMemberId, final Pageable pageable) {
+        List<Community> content = getSearchScrapPageId(currentMemberId, pageable);
+        Long count = countQuery(currentMemberId);
         return new PageImpl<>(content, pageable, count);
     }
 
