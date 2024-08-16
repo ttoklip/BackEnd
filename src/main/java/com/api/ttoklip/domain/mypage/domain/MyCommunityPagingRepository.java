@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class MyCommunityRepostiory {
+public class MyCommunityPagingRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public Page<Community> getContain(final Long currentMemberId, final Pageable pageable) {
