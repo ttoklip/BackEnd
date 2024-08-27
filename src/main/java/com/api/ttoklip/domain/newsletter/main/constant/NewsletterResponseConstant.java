@@ -368,4 +368,16 @@ public class NewsletterResponseConstant {
                 }
             }
             """;
+
+    public static final String DELETE_NEWSLETTER = """
+                {
+                    "time": "2024-08-27T21:28:04.247031",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": {
+                        "message": "Newsletter Type의 1번째 게시글을(를) 삭제했습니다."
+                    }
+                }
+            """;
 }
