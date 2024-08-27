@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.newsletter.post.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
@@ -19,13 +17,16 @@ import com.api.ttoklip.domain.newsletter.scarp.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.url.service.NewsletterUrlService;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +87,21 @@ public class NewsletterPostService {
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- DELETE -------------------------------------------- */
+    @Transactional
+    public Message delete(final Long postId) {
+        Newsletter newsletter = newsletterCommonService.getNewsletter(postId);
+
+        newsletterCommonService.checkEditPermission(newsletter);
+        newsletter.deactivate();
+
+        return Message.deletePostSuccess(Newsletter.class, postId);
+    }
+
+    /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
 
     private void registerUrls(final Newsletter newsletter, final List<String> urls) {
         urls.forEach(url -> urlService.register(newsletter, url));
