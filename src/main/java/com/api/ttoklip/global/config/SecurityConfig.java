@@ -64,6 +64,10 @@ public class SecurityConfig {
                                         HttpMethod.POST, "/api/v1/newsletter/posts"
                                 )
                                 .hasAnyRole(Role.MANAGER.name())
+                                .requestMatchers(
+                                        HttpMethod.DELETE, "/api/v1/newsletter/posts/{postId}"
+                                )
+                                .hasAnyRole(Role.MANAGER.name())
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
         http.exceptionHandling()
