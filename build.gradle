@@ -97,4 +97,5 @@ tasks.named('test') {
 
 bootJar {
     mainClass = 'com.api.ttoklip.TtoklipApplication'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
