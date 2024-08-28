@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven Bundle Plugin 5.1.4
+Build-Jdk-Spec: 19
+Bundle-Description: WebJar for Swagger UI
+Bundle-License: https://github.com/swagger-api/swagger-ui
+Bundle-ManifestVersion: 2
+Bundle-Name: Swagger UI
+Bundle-SymbolicName: org.webjars.swagger-ui
+Bundle-Version: 5.2.0
+Tool: Bnd-5.1.1.202006162103
+
