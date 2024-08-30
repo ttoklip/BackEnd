@@ -93,7 +93,7 @@ public class NewsletterPostService {
     public Message delete(final Long postId) {
         Newsletter newsletter = newsletterCommonService.getNewsletter(postId);
 
-        newsletterCommonService.checkEditAndManagerPermission(newsletter);
+        newsletterCommonService.checkManagerPermission(newsletter);
         newsletter.deactivate();
 
         return Message.deletePostSuccess(Newsletter.class, postId);

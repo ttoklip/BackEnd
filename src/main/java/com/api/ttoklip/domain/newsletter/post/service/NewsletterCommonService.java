@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.newsletter.post.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.global.exception.ApiException;
@@ -40,15 +41,10 @@ public class NewsletterCommonService {
         }
     }
 
-    public void checkEditAndManagerPermission(final Newsletter newsletter) {
-        Long writerId = newsletter.getMember().getId();
+    public void checkManagerPermission(final Newsletter newsletter) {
         Member currentMember = getCurrentMember();
 
-        if (!writerId.equals(currentMember.getId())) {
-            throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);
-        }
-
-        if (!currentMember.getRole().equals("MANAGER")) {
+        if (!currentMember.getRole().equals(Role.MANAGER)) {
             throw new ApiException(ErrorType.UNAUTHORIZED_DELETE_POST);
         }
     }
