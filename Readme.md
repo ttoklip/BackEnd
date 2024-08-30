@@ -10,7 +10,7 @@
 
 ## Architecture
 
-![ttokliparc2.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/ttokliparc2.png)
+![ttokliparc3.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/ttokliparc3.png)
 
 ## Model Diagram
 
