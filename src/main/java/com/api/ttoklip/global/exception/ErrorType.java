@@ -120,6 +120,7 @@ public enum ErrorType {
     UNAUTHORIZED_EDIT_POST(FORBIDDEN, "AUTH_4031", "게시글의 작성자만 수정할 수 있습니다."),
     UNAUTHORIZED_DELETE_COMMENT(FORBIDDEN, "AUTH_4032", "댓글의 작성자만 삭제할 수 있습니다."),
     UNAUTHORIZED_CANCEL_LIKE(FORBIDDEN, "AUTH_4033", "좋아요한 사용자만 본인의 좋아요를 취소할 수 있습니다."),
+    UNAUTHORIZED_DELETE_POST(FORBIDDEN, "AUTH_4034", "이 게시글은 관리자만 삭제할 수 있습니다."),
 
 
     // ------------------------------------------ Privacy ------------------------------------------
