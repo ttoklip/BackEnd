@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import com.api.ttoklip.domain.member.domain.Member;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +37,19 @@ public class NewsletterCommonService {
 
         if (!writerId.equals(currentMemberId)) {
             throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);
+        }
+    }
+
+    public void checkEditAndManagerPermission(final Newsletter newsletter) {
+        Long writerId = newsletter.getMember().getId();
+        Member currentMember = getCurrentMember();
+
+        if (!writerId.equals(currentMember.getId())) {
+            throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);
+        }
+
+        if (!currentMember.getRole().equals("MANAGER")) {
+            throw new ApiException(ErrorType.UNAUTHORIZED_DELETE_POST);
         }
     }
 
