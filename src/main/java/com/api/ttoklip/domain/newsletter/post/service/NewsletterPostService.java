@@ -125,9 +125,6 @@ public class NewsletterPostService {
 
     /* -------------------------------------------- total entity count 끝 -------------------------------------------- */
 
-    public List<Newsletter> getContentWithPageable(final Pageable pageable) {
-        return newsletterRepository.findAll(pageable).getContent();
-    }
 
     /* -------------------------------------------- LIKE -------------------------------------------- */
     @Transactional
@@ -192,6 +189,10 @@ public class NewsletterPostService {
         return newsletters.stream()
                 .map(NewsletterThumbnailResponse::from)
                 .toList();
+    }
+
+    public List<Newsletter> getContentWithPageable() {
+        return newsletterRepository.findRandom4ActiveNewsletters();
     }
 
     /* -------------------------------------------- Newsletter 끝 -------------------------------------------- */

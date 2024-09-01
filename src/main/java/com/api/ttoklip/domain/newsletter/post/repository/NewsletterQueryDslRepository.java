@@ -20,4 +20,6 @@ public interface NewsletterQueryDslRepository {
     Page<Newsletter> getPaging(final Category category, final Pageable pageable);
 
     List<Newsletter> getRecent3();
+
+    List<Newsletter> findRandom4ActiveNewsletters();
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -24,6 +25,7 @@ public class NewsletterScheduler {
 
     // 매일 자정에 실행되는 스케줄링된 작업 (아시아/서울 시간대 기준)
     @Scheduled(cron = "0 1 0 * * *", zone = "Asia/Seoul") // 초, 분, 시, 일, 월, 요일
+    @Transactional
     public void selectRandomNewsletter() {
         long newsletterCount = newsletterPostService.getEntityCount();
         if (newsletterCount == 0) {
@@ -31,24 +33,13 @@ public class NewsletterScheduler {
             return;
         }
 
-        int totalPages = calculateTotalPages(newsletterCount, PAGE_SIZE);
-        int randomPageIndex = generateRandomPageIndex(totalPages);
-        List<Newsletter> randomNewsletters = fetchRandomNewsletters(randomPageIndex, PAGE_SIZE);
+        List<Newsletter> randomNewsletters = fetchRandomNewsletters();
 
         randomNewsletters.forEach(this::saveTodayNewsletter);
     }
 
-    private int calculateTotalPages(final long totalItems, final int pageSize) {
-        return (int) Math.ceil((double) totalItems / pageSize);
-    }
-
-    private int generateRandomPageIndex(final int totalPages) {
-        return ThreadLocalRandom.current().nextInt(totalPages);
-    }
-
-    private List<Newsletter> fetchRandomNewsletters(final int pageIndex, final int pageSize) {
-        Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        return newsletterPostService.getContentWithPageable(pageable);
+    private List<Newsletter> fetchRandomNewsletters() {
+        return newsletterPostService.getContentWithPageable();
     }
 
     private void saveTodayNewsletter(final Newsletter newsletter) {
