@@ -191,7 +191,7 @@ public class NewsletterPostService {
                 .toList();
     }
 
-    public List<Newsletter> getContentWithPageable() {
+    public List<Newsletter> findRandom4ActiveNewsletters() {
         return newsletterRepository.findRandom4ActiveNewsletters();
     }
 

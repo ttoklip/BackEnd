@@ -5,11 +5,8 @@ import com.api.ttoklip.domain.newsletter.post.domain.TodayNewsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +36,7 @@ public class NewsletterScheduler {
     }
 
     private List<Newsletter> fetchRandomNewsletters() {
-        return newsletterPostService.getContentWithPageable();
+        return newsletterPostService.findRandom4ActiveNewsletters();
     }
 
     private void saveTodayNewsletter(final Newsletter newsletter) {
