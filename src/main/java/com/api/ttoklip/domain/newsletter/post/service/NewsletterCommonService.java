@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.newsletter.post.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.global.exception.ApiException;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import com.api.ttoklip.domain.member.domain.Member;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,14 @@ public class NewsletterCommonService {
 
         if (!writerId.equals(currentMemberId)) {
             throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);
+        }
+    }
+
+    public void checkManagerPermission(final Newsletter newsletter) {
+        Member currentMember = getCurrentMember();
+
+        if (!currentMember.getRole().equals(Role.MANAGER)) {
+            throw new ApiException(ErrorType.UNAUTHORIZED_DELETE_POST);
         }
     }
 

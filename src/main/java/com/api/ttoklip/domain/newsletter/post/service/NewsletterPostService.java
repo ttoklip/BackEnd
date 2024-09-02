@@ -87,6 +87,21 @@ public class NewsletterPostService {
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
+
+    /* -------------------------------------------- DELETE -------------------------------------------- */
+    @Transactional
+    public Message delete(final Long postId) {
+        Newsletter newsletter = newsletterCommonService.getNewsletter(postId);
+
+        newsletterCommonService.checkManagerPermission(newsletter);
+        newsletter.deactivate();
+
+        return Message.deletePostSuccess(Newsletter.class, postId);
+    }
+
+    /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
+
+
     private void registerUrls(final Newsletter newsletter, final List<String> urls) {
         urls.forEach(url -> urlService.register(newsletter, url));
     }

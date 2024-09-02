@@ -21,15 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Newsletter Post", description = "뉴스레터 게시판 API입니다.")
 @RequiredArgsConstructor
@@ -174,5 +166,23 @@ public class NewsletterController {
     public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
         Message message = newsletterPostService.cancelScrap(postId);
         return new SuccessResponse<>(message);
+    }
+
+
+    /* DELETE */
+    @Operation(summary = "뉴스레터 게시글 삭제", description = "뉴스레터 ID에 해당하는 게시글을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "뉴스레터 게시글 삭제 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    value = NewsletterResponseConstant.DELETE_NEWSLETTER,
+                                    description = "뉴스레터가 삭제되었습니다."
+                            )))})
+    @DeleteMapping("/{postId}")
+    public SuccessResponse<Message> delete(final @PathVariable Long postId) {
+        return new SuccessResponse<>(newsletterPostService.delete(postId));
     }
 }
