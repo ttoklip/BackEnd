@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.mypage.domain;
 
-import static com.api.ttoklip.domain.member.domain.QMember.*;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.*;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
 import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;

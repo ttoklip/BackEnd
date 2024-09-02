@@ -2,6 +2,8 @@ package com.api.ttoklip.domain.town.cart.post.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordCreate;
+import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
@@ -61,8 +63,8 @@ public class CartPostService {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
+    @CheckBadWordCreate
     public Message register(final CartCreateRequest request) {
-
         Member currentMember = getCurrentMember();
 
         Cart cart = Cart.of(request, currentMember);
@@ -117,6 +119,7 @@ public class CartPostService {
 
     /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
+    @CheckBadWordUpdate
     public Message edit(final Long postId, final CartCreateRequest request) {
 
         Cart cart = findCartByIdActivated(postId);

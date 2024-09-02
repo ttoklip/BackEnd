@@ -4,8 +4,6 @@ import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.util.TimeUtil;
 import java.time.LocalDateTime;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
