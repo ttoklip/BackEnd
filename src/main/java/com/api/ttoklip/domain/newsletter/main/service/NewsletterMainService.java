@@ -6,12 +6,15 @@ import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailRe
 import com.api.ttoklip.domain.newsletter.main.dto.response.RandomTitleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.TodayNewsletter;
-import com.api.ttoklip.domain.newsletter.post.repository.NewsletterDefaultRepository;
-import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepository;
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepositoryImpl;
+import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NewsletterMainService {
 
-    private final NewsletterDefaultRepository newsletterDefaultRepository;
+    private final NewsletterQueryDslRepository newsletterQueryDslRepository;
     private final TodayNewsletterRepository todayNewsletterRepository;
 
     public NewsletterMainResponse getMainData() {
@@ -52,10 +55,10 @@ public class NewsletterMainService {
     }
 
     public CategoryResponses getCategoryData() {
-        List<Newsletter> houseWork = newsletterDefaultRepository.getHouseWork();
-        List<Newsletter> recipe = newsletterDefaultRepository.getRecipe();
-        List<Newsletter> safeLiving = newsletterDefaultRepository.getSafeLiving();
-        List<Newsletter> welfarePolicy = newsletterDefaultRepository.getWelfarePolicy();
+        List<Newsletter> houseWork = newsletterQueryDslRepository.getHouseWorkNewsletter10Desc();
+        List<Newsletter> recipe = newsletterQueryDslRepository.getRecipeNewsletter10Desc();
+        List<Newsletter> safeLiving = newsletterQueryDslRepository.getSafeLivingNewsletter10Desc();
+        List<Newsletter> welfarePolicy = newsletterQueryDslRepository.getWelfarePolicyNewsletter10Desc();
 
         List<NewsletterThumbnailResponse> houseWorkResponse = convertToCategoryResponse(houseWork);
         List<NewsletterThumbnailResponse> recipeResponse = convertToCategoryResponse(recipe);
