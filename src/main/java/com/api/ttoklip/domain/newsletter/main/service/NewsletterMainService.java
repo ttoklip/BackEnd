@@ -13,7 +13,6 @@ import java.time.ZoneId;
 import java.util.List;
 
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepository;
-import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepositoryImpl;
 import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
