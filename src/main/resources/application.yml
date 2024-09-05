@@ -60,13 +60,13 @@ spring:
 cloud:
     aws:
         credentials:
-            accessKey: ENC(SJv3Q6Kya+e0vv90IUu10KEptIU2OPtBRrDngS+2VEk=)
-            secretKey: ENC(PPxIknKNn+UJfvNSV3l4lH84FIio3m9SgReMhSQDgC+IBWz9FiT26HG372CzSxum749+Z9GLIEA=)
+            accessKey: ENC(tEAGvS5YBRWL0RlwLnmSnH0Q/7kuBvAFWjJifE7X0g4=)
+            secretKey: ENC(UhjN+zWEABTQYD120rEdllG9iDrBlw+FxEAVw/rZYHXZOG/kVuoe/6R0SXOy/MTMLUVJH5nbmng=)
         region:
             static: ap-northeast-2
         s3:
-            bucket: ENC(o/ib/PhYeF9khIBN1TIJt1+tTlBEELR0)
-            dirname: ENC(qQBWAF+TGWVncxA4oIdEaxoCC8WOsJyt)
+            bucket: ENC(VuwFn4IywtMsWWJygrda0xphDuHt8ukt)
+            dirname: ENC(Cac+UHpb7aVWVSbCAcZ3WQ==)
 
 jwt:
     secret:
