@@ -13,6 +13,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepository;
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NewsletterMainService {
 
-    private final NewsletterQueryDslRepository newsletterQueryDslRepository;
     private final TodayNewsletterRepository todayNewsletterRepository;
+    private final NewsletterRepository newsletterRepository;
 
     public NewsletterMainResponse getMainData() {
         List<RandomTitleResponse> randomNews = getRandomNews();
@@ -54,10 +55,10 @@ public class NewsletterMainService {
     }
 
     public CategoryResponses getCategoryData() {
-        List<Newsletter> houseWork = newsletterQueryDslRepository.getHouseWorkNewsletter10Desc();
-        List<Newsletter> recipe = newsletterQueryDslRepository.getRecipeNewsletter10Desc();
-        List<Newsletter> safeLiving = newsletterQueryDslRepository.getSafeLivingNewsletter10Desc();
-        List<Newsletter> welfarePolicy = newsletterQueryDslRepository.getWelfarePolicyNewsletter10Desc();
+        List<Newsletter> houseWork = newsletterRepository.getHouseWorkNewsletter10Desc();
+        List<Newsletter> recipe = newsletterRepository.getRecipeNewsletter10Desc();
+        List<Newsletter> safeLiving = newsletterRepository.getSafeLivingNewsletter10Desc();
+        List<Newsletter> welfarePolicy = newsletterRepository.getWelfarePolicyNewsletter10Desc();
 
         List<NewsletterThumbnailResponse> houseWorkResponse = convertToCategoryResponse(houseWork);
         List<NewsletterThumbnailResponse> recipeResponse = convertToCategoryResponse(recipe);

@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipSearchRepository;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepository;
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
@@ -25,7 +26,7 @@ public class SearchService {
 
     private final HoneyTipSearchRepository honeyTipSearchRepository;
     private final CommunitySearchRepository communitySearchRepository;
-    private final NewsletterQueryDslRepository newsletterQueryDslRepository;
+    private final NewsletterRepository newsletterRepository;
 
     public HoneyTipPaging honeyTipSearch(final String keyword, final Pageable pageable, final String sort) {
         Page<HoneyTip> contentPaging = honeyTipSearchRepository.getContain(keyword, pageable, sort);
@@ -48,7 +49,7 @@ public class SearchService {
     }
 
     public NewsletterPaging newsletterPaging(final String keyword, final Pageable pageable, final String sort) {
-        Page<Newsletter> contentPaging = newsletterQueryDslRepository.getContain(keyword, pageable, sort);
+        Page<Newsletter> contentPaging = newsletterRepository.getContain(keyword, pageable, sort);
 
         // List<Entity>
         List<Newsletter> contents = contentPaging.getContent();
