@@ -1,8 +1,9 @@
 logging:
     level:
+        root: WARN
         org:
             springframework:
-                security: DEBUG
+                security: WARN
 
 server:
     tomcat:
