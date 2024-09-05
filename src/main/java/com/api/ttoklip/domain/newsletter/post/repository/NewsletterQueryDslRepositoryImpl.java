@@ -58,6 +58,10 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return newsletter.deleted.isFalse();
     }
 
+    private BooleanExpression getActivatedNewsletterFromComments() {
+        return newsletterComment.newsletter.deleted.isFalse();
+    }
+
     @Override
     public Newsletter findByIdFetchJoin(Long newsletterPostId) {
         Newsletter findNewsletter = jpaQueryFactory
@@ -80,10 +84,10 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return jpaQueryFactory
                 .selectFrom(newsletterComment)
                 .distinct()
-                .leftJoin(newsletter.member, member).fetchJoin()
+                .leftJoin(newsletterComment.member, member).fetchJoin()
                 .where(
                         matchNewsletterId(newsletterId),
-                        getActivatedNewsletter()
+                        getActivatedNewsletterFromComments()
                 )
                 .orderBy(
                         newsletterComment.parent.id.asc().nullsFirst(),
@@ -91,6 +95,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 )
                 .fetch();
     }
+
 
     private BooleanExpression matchNewsletterId(final Long newsletterId) {
         return newsletterComment.newsletter.id.eq(newsletterId);
