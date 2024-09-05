@@ -1,31 +1,40 @@
 package com.api.ttoklip.domain.newsletter.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
 import static com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage.newsletterImage;
-import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletter.newsletter;
+import static com.api.ttoklip.domain.newsletter.like.entity.QNewsletterLike.newsletterLike;
+import static com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap.newsletterScrap;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
+import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository {
 
+    private static final String POPULARITY = "popularity";
+    private static final String LATEST = "latest";
     private final JPAQueryFactory jpaQueryFactory;
+    private final QNewsletter newsletter = QNewsletter.newsletter;
+    private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
 
     @Override
     public Newsletter findByIdActivated(final Long newsletterId) {
@@ -34,7 +43,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .distinct()
                 .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
-                        matchId(newsletterId), getNewsletterActivate()
+                        matchId(newsletterId), getActivatedNewsletter()
                 )
                 .fetchOne();
         return Optional.ofNullable(findNewsletter)
@@ -45,7 +54,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return newsletter.id.eq(newsletterId);
     }
 
-    private BooleanExpression getNewsletterActivate() {
+    private BooleanExpression getActivatedNewsletter() {
         return newsletter.deleted.isFalse();
     }
 
@@ -57,7 +66,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .leftJoin(newsletter.newsletterImages, newsletterImage)
                 .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
-                        getNewsletterActivate(),
+                        getActivatedNewsletter(),
                         newsletter.id.eq(newsletterPostId)
                 )
                 .fetchOne();
@@ -73,7 +82,8 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .distinct()
                 .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
-                        matchNewsletterId(newsletterId)
+                        matchNewsletterId(newsletterId),
+                        getActivatedNewsletter()
                 )
                 .orderBy(
                         newsletterComment.parent.id.asc().nullsFirst(),
@@ -107,7 +117,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .selectFrom(newsletter)
                 .where(
                         matchCategory(category),
-                        getNewsletterActivate()
+                        getActivatedNewsletter()
                 )
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
@@ -125,18 +135,17 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .from(newsletter)
                 .where(
                         matchCategory(category),
-                        getNewsletterActivate()
+                        getActivatedNewsletter()
                 )
                 .fetchOne();
     }
-
 
     @Override
     public List<Newsletter> getRecent3() {
         return jpaQueryFactory
                 .selectFrom(newsletter)
                 .where(
-                        getNewsletterActivate()
+                        getActivatedNewsletter()
                 )
                 .orderBy(newsletter.id.desc())
                 .limit(3)
@@ -174,5 +183,122 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         }
 
         return count;
+    }
+
+    public List<Newsletter> getHouseWorkNewsletter10Desc() {
+        return getNewsletter10Desc(Category.HOUSEWORK);
+    }
+
+    public List<Newsletter> getRecipeNewsletter10Desc() {
+        return getNewsletter10Desc(Category.RECIPE);
+    }
+
+    public List<Newsletter> getSafeLivingNewsletter10Desc() {
+        return getNewsletter10Desc(Category.SAFE_LIVING);
+    }
+
+    public List<Newsletter> getWelfarePolicyNewsletter10Desc() {
+        return getNewsletter10Desc(Category.HOUSEWORK);
+    }
+
+    private List<Newsletter> getNewsletter10Desc(final Category category) {
+        return jpaQueryFactory
+                .selectFrom(newsletter)
+                .distinct()
+                .leftJoin(newsletter.newsletterComments, newsletterComment)
+                .where(
+                        getMatchCateGory(category)
+                        ,
+                        getActivatedNewsletter()
+
+                )
+                .limit(10)
+                .orderBy(newsletter.id.desc())
+                .fetch();
+    }
+
+    private BooleanExpression getMatchCateGory(final Category housework) {
+        return newsletter.category.eq(housework);
+    }
+
+    public Page<Newsletter> getContain(final String keyword, final Pageable pageable, final String sort) {
+        List<Newsletter> content = getSearchPageTitle(keyword, pageable, sort);
+        Long count = countQuery(keyword);
+        return new PageImpl<>(content, pageable, count);
+    }
+
+    private List<Newsletter> getSearchPageTitle(final String keyword, final Pageable pageable, final String sort) {
+        JPAQuery<Newsletter> query = defaultQuery(keyword, pageable);
+
+        if (sort.equals(POPULARITY)) {
+            return sortPopularity(query);
+        }
+
+        if (sort.equals(LATEST)) {
+            return sortLatest(query);
+        }
+
+        throw new ApiException(ErrorType.INVALID_SORT_TYPE);
+    }
+
+    private JPAQuery<Newsletter> defaultQuery(final String keyword, final Pageable pageable) {
+        return jpaQueryFactory
+                .selectFrom(newsletter)
+                .distinct()
+                .where(
+                        containTitle(keyword)
+                )
+                .leftJoin(newsletter.newsletterComments, newsletterComment)
+                .leftJoin(newsletter.newsletterLikes, newsletterLike)
+                .leftJoin(newsletter.newsletterScraps, newsletterScrap)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset());
+    }
+
+    private BooleanExpression containTitle(final String keyword) {
+        if (StringUtils.hasText(keyword)) {
+            return newsletter.title.contains(keyword);
+        }
+        return null;
+    }
+
+    private List<Newsletter> sortPopularity(final JPAQuery<Newsletter> query) {
+        return query
+                .groupBy(newsletter.id)
+                .orderBy(
+                        getLikeSize().add(
+                                getCommentSize()
+                        ).add(
+                                getScrapSize()
+                        ).desc()
+                ).fetch();
+    }
+
+    private NumberExpression<Integer> getLikeSize() {
+        return newsletter.newsletterLikes.size();
+    }
+
+    private NumberExpression<Integer> getCommentSize() {
+        return newsletter.newsletterComments.size();
+    }
+
+    private NumberExpression<Integer> getScrapSize() {
+        return newsletter.newsletterScraps.size();
+    }
+
+    private Long countQuery(final String keyword) {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(newsletter)
+                .where(
+                        containTitle(keyword)
+                )
+                .fetchOne();
+    }
+
+    private List<Newsletter> sortLatest(final JPAQuery<Newsletter> query) {
+        return query
+                .orderBy(newsletter.id.desc())
+                .fetch();
     }
 }
