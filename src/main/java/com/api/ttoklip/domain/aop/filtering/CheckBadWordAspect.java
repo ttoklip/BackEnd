@@ -1,9 +1,9 @@
-package com.api.ttoklip.domain.common.filtering.aop;
+package com.api.ttoklip.domain.aop.filtering;
 
 import com.api.ttoklip.domain.common.PostRequest;
 import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordCreate;
-import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordUpdate;
+import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordCreate;
+import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.global.util.BadWordFilter;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
