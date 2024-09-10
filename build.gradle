@@ -76,6 +76,9 @@ dependencies {
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // redisson
+    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.36.0'
+
     // FCM
     implementation 'com.google.firebase:firebase-admin:9.2.0'
 
