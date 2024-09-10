@@ -6,15 +6,12 @@ import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailRe
 import com.api.ttoklip.domain.newsletter.main.dto.response.RandomTitleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.TodayNewsletter;
-
+import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
+import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-
-import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepository;
-import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
-import com.api.ttoklip.domain.newsletter.post.repository.TodayNewsletterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

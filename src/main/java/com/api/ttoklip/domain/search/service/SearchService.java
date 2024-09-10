@@ -3,7 +3,6 @@ package com.api.ttoklip.domain.search.service;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipSearchRepository;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.post.repository.NewsletterQueryDslRepository;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;

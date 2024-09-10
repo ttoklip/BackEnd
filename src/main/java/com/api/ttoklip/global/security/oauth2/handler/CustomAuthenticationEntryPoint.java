@@ -16,8 +16,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        if (authException.getCause() instanceof ApiException) {
-            ApiException apiException = (ApiException) authException.getCause();
+        if (authException.getCause() instanceof ApiException apiException) {
             ErrorType errorType = apiException.getErrorType();
             setResponse(response, errorType);
             return;
