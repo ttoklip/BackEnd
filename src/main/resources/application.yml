@@ -10,6 +10,10 @@ server:
         uri-encoding: UTF-8
 
 spring:
+    config:
+        activate:
+            on-profile: prod
+
     jackson:
         time-zone: Asia/Seoul
     datasource:
