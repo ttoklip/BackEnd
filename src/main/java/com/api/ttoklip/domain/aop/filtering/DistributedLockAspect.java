@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,11 @@ public class DistributedLockAspect {
     private static final String LOCAL_SIGNUP_KEY_PREFIX = "local_signup:";
     private final RedissonClient redissonClient;
 
-    @Around("execution(* com.api.ttoklip.global.security.auth.controller.AuthController.signup(..))")
+    @Pointcut("execution(* com.api.ttoklip.global.security.auth.controller.AuthController.signup(..))")
+    private void localSignupMethodPointcut() {
+    }
+
+    @Around("localSignupMethodPointcut()")
     public Object lockSignupMethod(ProceedingJoinPoint joinPoint) throws Throwable {
         String lockKey = generateLockKey(joinPoint.getArgs());
 
