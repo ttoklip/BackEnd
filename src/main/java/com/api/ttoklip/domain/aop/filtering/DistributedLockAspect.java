@@ -3,7 +3,9 @@ package com.api.ttoklip.domain.aop.filtering;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
+import com.api.ttoklip.global.security.oauth2.userInfo.OAuth2UserInfo;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +24,18 @@ import org.springframework.stereotype.Component;
 public class DistributedLockAspect {
 
     private static final String LOCAL_SIGNUP_KEY_PREFIX = "local_signup:";
+    private static final String OAUTH_SIGNUP_KEY_PREFIX = "oauth_signup:";
     private final RedissonClient redissonClient;
 
     @Pointcut("execution(* com.api.ttoklip.global.security.auth.controller.AuthController.signup(..))")
     private void localSignupMethodPointcut() {
     }
 
-    @Around("localSignupMethodPointcut()")
+    @Pointcut("execution(* com.api.ttoklip.global.security.oauth2.service.OAuthService.registerNewMember(..))")
+    private void oauthSignupMethodPointcut() {
+    }
+
+    @Around("localSignupMethodPointcut() || oauthSignupMethodPointcut()")
     public Object lockSignupMethod(ProceedingJoinPoint joinPoint) throws Throwable {
         String lockKey = generateLockKey(joinPoint.getArgs());
 
@@ -56,11 +63,25 @@ public class DistributedLockAspect {
 
     private String generateLockKey(Object[] args) {
         return Arrays.stream(args)
-                .filter(arg -> arg instanceof AuthRequest)
-                .map(arg -> ((AuthRequest) arg).getEmail())
+                .map(arg -> {
+                    if (arg instanceof AuthRequest) {
+                        return getLockKey(((AuthRequest) arg).getEmail(), LOCAL_SIGNUP_KEY_PREFIX);
+                    }
+                    if (arg instanceof OAuth2UserInfo) {
+                        return getLockKey(((OAuth2UserInfo) arg).getEmail(), OAUTH_SIGNUP_KEY_PREFIX);
+                    }
+                    return null;
+                })
+                .filter(Objects::nonNull)
                 .findFirst()
-                .map(email -> LOCAL_SIGNUP_KEY_PREFIX + email)
-                .orElseThrow(() -> new ApiException(ErrorType.INVALID_MAIL_TYPE));
+                .orElseThrow(() -> new ApiException(ErrorType.INVALID_METHOD));
+    }
+
+    private String getLockKey(String email, String prefix) {
+        if (email == null) {
+            throw new ApiException(ErrorType.INVALID_MAIL_TYPE);
+        }
+        return prefix + email;
     }
 
     private void releaseLockIfHeld(RLock lock, boolean lockAcquired) {
