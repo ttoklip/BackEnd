@@ -48,14 +48,14 @@ public class SignupDistributedLockAspect {
 
             if (!lockAcquired) {
                 log.warn("flag 2-1. Lock is already held for key: {}", lockKey);
-                throw new ApiException(ErrorType.DUPLICATED_LOCAL_SIGNUP_REQUEST);
+                throw new ApiException(ErrorType.DUPLICATED_SIGNUP_REQUEST);
             }
 
             log.info("flag 2. Lock acquired successfully for key: {}", lockKey);
             return joinPoint.proceed();
         } catch (InterruptedException | IllegalMonitorStateException e) {
             log.error("flag 2-2. Failed to acquire lock due to interruption: {}", e.getMessage(), e);
-            throw new ApiException(ErrorType.DUPLICATED_LOCAL_SIGNUP_REQUEST);
+            throw new ApiException(ErrorType.DUPLICATED_SIGNUP_REQUEST);
         } finally {
             releaseLockIfHeld(lock, lockAcquired);
         }

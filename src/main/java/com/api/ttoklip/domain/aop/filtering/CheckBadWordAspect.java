@@ -7,7 +7,6 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.global.util.BadWordFilter;
 import java.util.Arrays;
-import java.util.Objects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -46,26 +45,33 @@ public class CheckBadWordAspect {
     }
 
     // 1. Local 회원가입
-    // 2. Local 닉네임 중복 검사
-    // 3. Oauth 닉네임 중복 검사
-    @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.register(..)) || " +
-            "execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.check*Nickname(..))")
-    private void nicknameMethodsPointCut() {
+    @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.register(..))")
+    private void registrationMethodPointCut() {
     }
 
-    @Before("nicknameMethodsPointCut()")
-    public void beforeNicknameBadWordFiltering(JoinPoint joinPoint) {
-        Arrays.stream(joinPoint.getArgs())
-                .map(arg -> {
-                    if (arg instanceof PrivacyCreateRequest) {
-                        return ((PrivacyCreateRequest) arg).getNickname();
-                    }
-                    if (arg instanceof String) {
-                        return (String) arg;
-                    }
-                    return null;
-                })
-                .filter(Objects::nonNull)
+    // 회원가입 관련 어드바이스
+    @Before("registrationMethodPointCut()")
+    public void beforeRegistrationBadWordFiltering(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        Arrays.stream(args)
+                .filter(arg -> arg instanceof PrivacyCreateRequest)
+                .map(arg -> ((PrivacyCreateRequest) arg).getNickname())
+                .findFirst()
+                .ifPresent(BadWordFilter::isBadWord);
+    }
+
+    // 2. Local 닉네임 중복 검사
+    // 3. Oauth 닉네임 중복 검사
+    @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.check*Nickname(..))")
+    private void nicknameDuplicationCheckPointCut() {
+    }
+
+    @Before("nicknameDuplicationCheckPointCut()")
+    public void beforeNicknameDuplicationCheckBadWordFiltering(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        Arrays.stream(args)
+                .filter(arg -> arg instanceof String)
+                .map(arg -> (String) arg)
                 .findFirst()
                 .ifPresent(BadWordFilter::isBadWord);
     }
