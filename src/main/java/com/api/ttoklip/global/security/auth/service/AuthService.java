@@ -95,7 +95,7 @@ public class AuthService {
         boolean isExist = memberRepository.existsByEmail(email);
 
         if (isExist) {
-            throw new ApiException(ErrorType.ALREADY_EXISTS_JOINID);
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOIN_ID);
         }
     }
 

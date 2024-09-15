@@ -2,12 +2,12 @@ package com.api.ttoklip.domain.town.community.post.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
-import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordCreate;
-import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordUpdate;
+import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordCreate;
+import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
+import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;

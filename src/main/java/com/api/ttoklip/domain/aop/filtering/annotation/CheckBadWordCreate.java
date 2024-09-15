@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.filtering.aop.annotation;
+package com.api.ttoklip.domain.aop.filtering.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

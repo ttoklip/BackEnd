@@ -5,11 +5,14 @@ import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 
 @Slf4j
 @EnableAsync
@@ -40,6 +43,11 @@ public class AsyncConfig implements AsyncConfigurer {
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return new CustomAsyncExceptionHandler();
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor() {
+        return new DelegatingSecurityContextAsyncTaskExecutor(new ThreadPoolTaskExecutor());
     }
 
     public static class CustomAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {

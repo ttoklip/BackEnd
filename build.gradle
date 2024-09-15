@@ -76,6 +76,12 @@ dependencies {
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // redisson
+//    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.36.0'
+
+    // https://mvnrepository.com/artifact/org.redisson/redisson-spring-boot-starter
+    implementation 'org.redisson:redisson-spring-boot-starter:3.23.2'
+
     // FCM
     implementation 'com.google.firebase:firebase-admin:9.2.0'
 
@@ -87,6 +93,14 @@ dependencies {
 
     implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
 
+    testImplementation 'com.h2database:h2'
+
+    // JUnit 5 의존성
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+
+    testImplementation "org.testcontainers:testcontainers:1.19.0"
+    testImplementation "org.testcontainers:junit-jupiter:1.19.0"
 }
 
 tasks.named('bootBuildImage') {

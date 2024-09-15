@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.notification.aop;
+package com.api.ttoklip.domain.aop.notification;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.notification.event.CommentCreatedEvent;

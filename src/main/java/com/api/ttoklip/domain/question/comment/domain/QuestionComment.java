@@ -32,7 +32,7 @@ public class QuestionComment extends Comment {
     private Question question;
 
     @OneToMany(mappedBy = "questionComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentLike> commentLikes = new ArrayList<>();
+    private final List<CommentLike> commentLikes = new ArrayList<>();
 
 
     @Builder

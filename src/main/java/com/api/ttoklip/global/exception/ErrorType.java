@@ -127,7 +127,7 @@ public enum ErrorType {
     INVALID_CATEGORIES_SIZE(BAD_REQUEST, "Privacy_4041", "회원가입시 카테고리는 최대 3개까지 선택가능합니다."),
     ALREADY_EXISTS_NICKNAME(BAD_REQUEST, "Privacy_4042", "이미 사용중인 닉네임입니다."),
     LOCATION_NOT_FOUND(BAD_REQUEST, "Privacy_4043", "위도와 경고는 필수입니다."),
-    ALREADY_EXISTS_JOINID(BAD_REQUEST, "Privacy_4044", "이미 사용중인 아이디(이메일)입니다."),
+    ALREADY_EXISTS_JOIN_ID(BAD_REQUEST, "Privacy_4044", "이미 사용중인 아이디(이메일)입니다."),
 
 
     // ------------------------------------------ Query ------------------------------------------
@@ -175,7 +175,17 @@ public enum ErrorType {
 
 
     // ------------------------------------------ Bad Word ------------------------------------------
-    BAD_WORDS_ERROR(BAD_REQUEST, "BAD_WORD_400", "욕설이 포함되어있습니다.");
+    BAD_WORDS_ERROR(BAD_REQUEST, "BAD_WORD_400", "욕설이 포함되어있습니다."),
+
+
+    // ------------------------------------------ Duplicated request error ------------------------------------------
+    DUPLICATED_SIGNUP_REQUEST(BAD_REQUEST, "DUPLICATED_4001", "중복된 회원가입 요청입니다."),
+
+    INVALID_METHOD(INTERNAL_SERVER_ERROR, "AOP_5001", "메서드 파라미터 추출 실패"),
+    INVALID_EMAIL_KEY_TYPE(INTERNAL_SERVER_ERROR, "AOP_5002", "분산락에 적용할 Unique Email 이 null"),
+    DUPLICATED_CREATE_BOARD_REQUEST(BAD_REQUEST, "DUPLICATED_4002", "중복된 게시글 작성입니다."),
+
+    INVALID_HASH_LENGTH_TYPE(INTERNAL_SERVER_ERROR, "HASH_5001", "잘못된 Hash 길이 요청");
 
     private final HttpStatus status;
     private final String errorCode;

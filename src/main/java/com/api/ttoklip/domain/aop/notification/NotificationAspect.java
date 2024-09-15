@@ -1,6 +1,6 @@
-package com.api.ttoklip.domain.notification.aop;
+package com.api.ttoklip.domain.aop.notification;
 
-import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
+import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
 import com.api.ttoklip.domain.notification.event.PostETCEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,11 +2,11 @@ package com.api.ttoklip.domain.honeytip.like.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
 import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.like.repository.HoneyTipLikeRepository;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
-import com.api.ttoklip.domain.notification.aop.annotation.SendNotification;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

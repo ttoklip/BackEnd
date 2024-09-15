@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.question.post.service;
 
+import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.common.filtering.aop.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;

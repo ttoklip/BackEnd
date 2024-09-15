@@ -11,6 +11,7 @@ import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.co
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
 
 import com.api.ttoklip.domain.common.comment.Comment;
+import com.api.ttoklip.domain.common.comment.QComment;
 import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
@@ -31,13 +32,16 @@ public class NotificationCommentRepository {
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
 
     public Comment findParentCommentFetchJoin(final Long commentId) {
+        QComment childComment = comment;
+        QComment parentComment = comment.parent;
+
         Comment findComment = queryFactory
-                .selectFrom(comment)
-                .leftJoin(comment.parent, comment).fetchJoin()
-                .leftJoin(comment.member, member).fetchJoin()
+                .selectFrom(childComment)
+                .leftJoin(parentComment, childComment).fetchJoin()
+                .leftJoin(childComment.member, member).fetchJoin()
                 .where(
-                        comment.id.eq(commentId),
-                        comment.deleted.isFalse()
+                        childComment.id.eq(commentId),
+                        childComment.deleted.isFalse()
                 )
                 .distinct()
                 .fetchOne();

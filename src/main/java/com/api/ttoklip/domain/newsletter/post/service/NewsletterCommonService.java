@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.newsletter.post.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import com.api.ttoklip.domain.member.domain.Member;
 
 @Service
 @RequiredArgsConstructor
