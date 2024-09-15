@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DistributedLockAspect {
+public class SignupDistributedLockAspect {
 
     private static final String LOCAL_SIGNUP_KEY_PREFIX = "local_signup:";
     private static final String OAUTH_SIGNUP_KEY_PREFIX = "oauth_signup:";
