@@ -179,13 +179,13 @@ public enum ErrorType {
 
 
     // ------------------------------------------ Duplicated request error ------------------------------------------
-    DUPLICATED_SIGNUP_REQUEST(BAD_REQUEST, "EMAIL_4001", "중복된 회원가입 요청입니다."),
+    DUPLICATED_SIGNUP_REQUEST(BAD_REQUEST, "DUPLICATED_4001", "중복된 회원가입 요청입니다."),
 
     INVALID_METHOD(INTERNAL_SERVER_ERROR, "AOP_5001", "메서드 파라미터 추출 실패"),
-
+    INVALID_EMAIL_KEY_TYPE(INTERNAL_SERVER_ERROR, "AOP_5002", "분산락에 적용할 Unique Email 이 null"),
     DUPLICATED_CREATE_BOARD_REQUEST(BAD_REQUEST, "DUPLICATED_4002", "중복된 게시글 작성입니다."),
 
-    ;
+    INVALID_HASH_LENGTH_TYPE(INTERNAL_SERVER_ERROR, "HASH_5001", "잘못된 Hash 길이 요청");
 
     private final HttpStatus status;
     private final String errorCode;
