@@ -181,7 +181,7 @@ public enum ErrorType {
     // ------------------------------------------ Duplicated request error ------------------------------------------
     DUPLICATED_LOCAL_SIGNUP_REQUEST(BAD_REQUEST, "EMAIL_4001", "중복된 회원가입 요청입니다."),
 
-    ;
+    INVALID_METHOD(INTERNAL_SERVER_ERROR, "AOP_5001", "메서드 파라미터 추출 실패");
 
     private final HttpStatus status;
     private final String errorCode;

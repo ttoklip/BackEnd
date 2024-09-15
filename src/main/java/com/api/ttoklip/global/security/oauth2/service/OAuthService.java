@@ -65,7 +65,7 @@ public class OAuthService {
                 .build();
     }
 
-    private Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
+    public Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
         log.info("OAuthService.registerNewMember");
         log.info("userInfo.getName() = " + userInfo.getName());
 
