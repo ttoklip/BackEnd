@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.domain.common.PostRequest;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
+import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
 import com.api.ttoklip.global.util.BadWordFilter;
 import java.util.Arrays;
 import org.aspectj.lang.JoinPoint;
@@ -48,13 +49,27 @@ public class CheckBadWordAspect {
     }
 
     // 1. Local 회원가입
-    @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.register(..))")
-    private void registrationMethodPointCut() {
+    @Pointcut("execution(* com.api.ttoklip.global.security.auth.controller.AuthController.signup(..))")
+    private void registerLocalMethodPointCut() {
     }
 
-    // 회원가입 관련 어드바이스
-    @Before("registrationMethodPointCut()")
-    public void beforeRegistrationBadWordFiltering(JoinPoint joinPoint) {
+    @Before("registerLocalMethodPointCut()")
+    public void beforeLocalRegisterBadWordFiltering(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        Arrays.stream(args)
+                .filter(arg -> arg instanceof AuthRequest)
+                .map(arg -> ((AuthRequest) arg).getNickname())
+                .findFirst()
+                .ifPresent(BadWordFilter::isBadWord);
+    }
+
+    // 2. Oauth 회원가입
+    @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.register(..))")
+    private void registerOauthMethodPointCut() {
+    }
+
+    @Before("registerOauthMethodPointCut()")
+    public void beforeOauthRegisterBadWordFiltering(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         Arrays.stream(args)
                 .filter(arg -> arg instanceof PrivacyCreateRequest)
@@ -63,8 +78,8 @@ public class CheckBadWordAspect {
                 .ifPresent(BadWordFilter::isBadWord);
     }
 
-    // 2. Local 닉네임 중복 검사
-    // 3. Oauth 닉네임 중복 검사
+    // 3. Local 닉네임 중복 검사
+    // 4. Oauth 닉네임 중복 검사
     @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.check*Nickname(..))")
     private void nicknameDuplicationCheckPointCut() {
     }
