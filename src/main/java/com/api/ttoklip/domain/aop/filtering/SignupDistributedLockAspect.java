@@ -3,7 +3,8 @@ package com.api.ttoklip.domain.aop.filtering;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
-import com.api.ttoklip.global.security.oauth2.userInfo.OAuth2UserInfo;
+import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginRequest;
+import com.api.ttoklip.global.util.TokenHasher;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +23,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE) // 욕설 검증 AOP 보다 먼저 동작
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE) // 욕설 검증 AOP 보다 먼저 동작
 public class SignupDistributedLockAspect {
 
     private static final String LOCAL_SIGNUP_KEY_PREFIX = "local_signup:";
@@ -34,7 +35,7 @@ public class SignupDistributedLockAspect {
     private void localSignupMethodPointcut() {
     }
 
-    @Pointcut("execution(* com.api.ttoklip.global.security.oauth2.service.OAuthService.registerNewMember(..))")
+    @Pointcut("execution(* com.api.ttoklip.global.security.oauth2.controller.OAuthController.login(..))")
     private void oauthSignupMethodPointcut() {
     }
 
@@ -70,8 +71,10 @@ public class SignupDistributedLockAspect {
                     if (arg instanceof AuthRequest) {
                         return getLockKey(((AuthRequest) arg).getEmail(), LOCAL_SIGNUP_KEY_PREFIX);
                     }
-                    if (arg instanceof OAuth2UserInfo) {
-                        return getLockKey(((OAuth2UserInfo) arg).getEmail(), OAUTH_SIGNUP_KEY_PREFIX);
+                    if (arg instanceof OAuthLoginRequest) {
+                        // OAuth2UserInfo에서 AccessToken을 가져와 20글자로 줄이고 암호화
+                        String encryptedToken = encryptToken(((OAuthLoginRequest) arg).getAccessToken());
+                        return getLockKey(encryptedToken, OAUTH_SIGNUP_KEY_PREFIX);
                     }
                     return null;
                 })
@@ -80,12 +83,20 @@ public class SignupDistributedLockAspect {
                 .orElseThrow(() -> new ApiException(ErrorType.INVALID_METHOD));
     }
 
-    private String getLockKey(String email, String prefix) {
-        if (email == null) {
-            throw new ApiException(ErrorType.INVALID_MAIL_TYPE);
+    private String getLockKey(String uniqueKey, String prefix) {
+        if (uniqueKey == null) {
+            throw new ApiException(ErrorType.INVALID_UNIQUE_KEY_TYPE);
         }
-        return prefix + email;
+        return prefix + uniqueKey;
     }
+
+    private String encryptToken(String token) {
+        // SHA-256 해시 적용하여 20글자로 자르기
+        String hashedToken = TokenHasher.hashToken(token, 20);
+        log.info("encryptToken() hashedToken = {}", hashedToken);
+        return hashedToken;
+    }
+
 
     private void releaseLockIfHeld(RLock lock, boolean lockAcquired) {
         if (lockAcquired && lock.isHeldByCurrentThread()) {
