@@ -15,11 +15,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Slf4j
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE) // 욕설 검증 AOP 보다 먼저 동작
 @RequiredArgsConstructor
 public class BoardDistributedLockAspect {
 

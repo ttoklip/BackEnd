@@ -11,10 +11,13 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE + 1) // 분산락 AOP 다음 우선순위로 설정
 public class CheckBadWordAspect {
 
     @Before(value = "@annotation(checkBadWord)")
