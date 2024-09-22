@@ -2,10 +2,13 @@ package com.api.ttoklip.domain.town.cart.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
+import static com.api.ttoklip.domain.town.LocationCriteriaFilter.getLocationFilterByTownCriteria;
 import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,9 +29,11 @@ public class CartSearchRepository {
                                  final Long startMoney,
                                  final Long lastMoney,
                                  final Long startParty,
-                                 final Long lastParty) {
-        List<Cart> content = getSearchCart(pageable, startMoney, lastMoney, startParty, lastParty);
-        Long count = countQuery();
+                                 final Long lastParty,
+                                 final TownCriteria townCriteria
+    ) {
+        List<Cart> content = getSearchCart(pageable, startMoney, lastMoney, startParty, lastParty, townCriteria);
+        Long count = countQuery(startMoney, lastMoney, startParty, lastParty, townCriteria);
         return new PageImpl<>(content, pageable, count);
     }
 
@@ -36,7 +41,10 @@ public class CartSearchRepository {
                                      final Long startMoney,
                                      final Long lastMoney,
                                      final Long startParty,
-                                     final Long lastParty) {
+                                     final Long lastParty,
+                                     final TownCriteria townCriteria) {
+        String writerStreet = getCurrentMember().getStreet();
+
         return jpaQueryFactory
                 .selectFrom(cart)
                 .distinct()
@@ -45,7 +53,9 @@ public class CartSearchRepository {
                 .leftJoin(cart.member, member).fetchJoin()
                 .leftJoin(cart.member.profile, profile).fetchJoin()
                 .where(
-                        cart.totalPrice.between(startMoney, lastMoney).and(cart.partyMax.between(startParty, lastParty))
+                        cart.totalPrice.between(startMoney, lastMoney),
+                        cart.partyMax.between(startParty, lastParty),
+                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
                 )
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
@@ -53,10 +63,22 @@ public class CartSearchRepository {
                 .fetch();
     }
 
-    private Long countQuery() {
+    private Long countQuery(
+            final Long startMoney,
+            final Long lastMoney,
+            final Long startParty,
+            final Long lastParty,
+            final TownCriteria townCriteria
+    ) {
+        String writerStreet = getCurrentMember().getStreet();
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(cart)
+                .where(
+                        cart.totalPrice.between(startMoney, lastMoney),
+                        cart.partyMax.between(startParty, lastParty),
+                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
+                )
                 .fetchOne();
     }
 }

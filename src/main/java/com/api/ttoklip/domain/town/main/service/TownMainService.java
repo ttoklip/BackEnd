@@ -53,14 +53,19 @@ public class TownMainService {
         return TownCriteria.findTownCriteriaByValue(criteria);
     }
 
-    public CartSearchPaging getCarts(final Pageable pageable,
-                                     final Long startMoney,
-                                     final Long lastMoney,
-                                     final Long startParty,
-                                     final Long lastParty) {
+    public CartSearchPaging getCarts(
+            final Pageable pageable,
+            final Long startMoney,
+            final Long lastMoney,
+            final Long startParty,
+            final Long lastParty,
+            final String criteria
+    ) {
+        TownCriteria townCriteria = TownCriteria.findTownCriteriaByValue(criteria);
 
-        Page<Cart> contentPaging = cartSearchRepository.getContain(pageable, startMoney, lastMoney, startParty,
-                lastParty);
+        Page<Cart> contentPaging = cartSearchRepository.getContain(
+                pageable, startMoney, lastMoney, startParty, lastParty, townCriteria
+        );
 
         // List<Entity>
         List<Cart> contents = contentPaging.getContent();
