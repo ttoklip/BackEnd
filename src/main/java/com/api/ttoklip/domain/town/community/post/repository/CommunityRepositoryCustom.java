@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.town.community.post.repository;
 
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import java.util.List;
@@ -16,5 +17,5 @@ public interface CommunityRepositoryCustom {
 
     List<Community> getRecent3();
 
-    Page<Community> getPaging(Pageable pageable);
+    Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable);
 }

@@ -6,6 +6,7 @@ import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.search.response.CartSearchPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
@@ -27,14 +28,13 @@ public class TownMainService {
     private final CommunityPostService communityPostService;
     private final CartPostService cartPostService;
 
-    public CommunityPaging getCommunities(final Pageable pageable) {
+    public CommunityPaging getCommunities(final String criteria, final Pageable pageable) {
+        TownCriteria townCriteria = validCriteria(criteria);
 
-        Page<Community> contentPaging = communityPostService.getPaging(pageable);
+        Page<Community> contentPaging = communityPostService.getPaging(townCriteria, pageable);
 
-        // List<Entity>
         List<Community> contents = contentPaging.getContent();
 
-        // Entity -> SingleResponse 반복
         List<CommunitySingleResponse> communitySingleData = contents.stream()
                 .map(CommunitySingleResponse::communityFrom)
                 .toList();
@@ -47,6 +47,10 @@ public class TownMainService {
                 .totalPage(contentPaging.getTotalPages())
                 .build();
 
+    }
+
+    private TownCriteria validCriteria(final String criteria) {
+        return TownCriteria.findTownCriteriaByValue(criteria);
     }
 
     public CartSearchPaging getCarts(final Pageable pageable,
