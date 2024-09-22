@@ -30,6 +30,8 @@ import com.api.ttoklip.global.success.Message;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -276,5 +278,15 @@ public class CartPostService {
     }
     /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
 
+    public Page<Cart> getCartPaging(
+            final Pageable pageable,
+            final Long startMoney,
+            final Long lastMoney,
+            final Long startParty,
+            final Long lastParty,
+            final TownCriteria townCriteria
+    ) {
+        return cartRepository.getCartPaging(pageable, startMoney, lastMoney, startParty, lastParty, townCriteria);
+    }
 
 }

@@ -4,6 +4,8 @@ import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CartRepositoryCustom {
 
@@ -23,4 +25,13 @@ public interface CartRepositoryCustom {
     Long countParticipants(Long cartId);
 
     List<Cart> findRecent3(final TownCriteria townCriteria);
+
+    Page<Cart> getCartPaging(
+            final Pageable pageable,
+            final Long startMoney,
+            final Long lastMoney,
+            final Long startParty,
+            final Long lastParty,
+            final TownCriteria townCriteria
+    );
 }

@@ -8,7 +8,6 @@ import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunityRecent3Response;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TownMainService {
 
-    private final CartSearchRepository cartSearchRepository;
     private final CommunityPostService communityPostService;
     private final CartPostService cartPostService;
 
@@ -63,7 +61,7 @@ public class TownMainService {
     ) {
         TownCriteria townCriteria = TownCriteria.findTownCriteriaByValue(criteria);
 
-        Page<Cart> contentPaging = cartSearchRepository.getContain(
+        Page<Cart> contentPaging = cartPostService.getCartPaging(
                 pageable, startMoney, lastMoney, startParty, lastParty, townCriteria
         );
 
