@@ -9,6 +9,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
@@ -29,6 +30,8 @@ import com.api.ttoklip.global.success.Message;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -107,8 +110,8 @@ public class CartPostService {
         return cartSingleResponse;
     }
 
-    public List<UserCartSingleResponse> getRecent3() {
-        List<Cart> carts = cartRepository.findRecent3();
+    public List<UserCartSingleResponse> getRecent3(final TownCriteria townCriteria) {
+        List<Cart> carts = cartRepository.findRecent3(townCriteria);
         return carts.stream()
                 .map(UserCartSingleResponse::cartFrom)
                 .toList();
@@ -275,5 +278,15 @@ public class CartPostService {
     }
     /* -------------------------------------------- PARTICIPANT 끝 -------------------------------------------- */
 
+    public Page<Cart> getCartPaging(
+            final Pageable pageable,
+            final Long startMoney,
+            final Long lastMoney,
+            final Long startParty,
+            final Long lastParty,
+            final TownCriteria townCriteria
+    ) {
+        return cartRepository.getCartPaging(pageable, startMoney, lastMoney, startParty, lastParty, townCriteria);
+    }
 
 }

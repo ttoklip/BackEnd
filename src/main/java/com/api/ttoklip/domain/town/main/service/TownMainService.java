@@ -8,7 +8,6 @@ import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunityRecent3Response;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TownMainService {
 
-    private final CartSearchRepository cartSearchRepository;
     private final CommunityPostService communityPostService;
     private final CartPostService cartPostService;
 
@@ -53,14 +51,19 @@ public class TownMainService {
         return TownCriteria.findTownCriteriaByValue(criteria);
     }
 
-    public CartSearchPaging getCarts(final Pageable pageable,
-                                     final Long startMoney,
-                                     final Long lastMoney,
-                                     final Long startParty,
-                                     final Long lastParty) {
+    public CartSearchPaging getCarts(
+            final Pageable pageable,
+            final Long startMoney,
+            final Long lastMoney,
+            final Long startParty,
+            final Long lastParty,
+            final String criteria
+    ) {
+        TownCriteria townCriteria = TownCriteria.findTownCriteriaByValue(criteria);
 
-        Page<Cart> contentPaging = cartSearchRepository.getContain(pageable, startMoney, lastMoney, startParty,
-                lastParty);
+        Page<Cart> contentPaging = cartPostService.getCartPaging(
+                pageable, startMoney, lastMoney, startParty, lastParty, townCriteria
+        );
 
         // List<Entity>
         List<Cart> contents = contentPaging.getContent();
@@ -77,11 +80,11 @@ public class TownMainService {
                 .totalElements(contentPaging.getTotalElements())
                 .totalPage(contentPaging.getTotalPages())
                 .build();
-
     }
 
-    public CartMainResponse getRecent3() {
-        List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3();
+    public CartMainResponse getRecent3(final String criteria) {
+        TownCriteria townCriteria = validCriteria(criteria);
+        List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3(townCriteria);
         List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3();
         String street = getCurrentMember().getStreet();
 

@@ -45,8 +45,11 @@ public class TownMainController {
                                     description = "우리동네 메인 페이지입니다."
                             )))})
     @GetMapping
-    public SuccessResponse<CartMainResponse> getCarts() {
-        CartMainResponse cartMainResponse = townMainService.getRecent3();
+    public SuccessResponse<CartMainResponse> getCarts(
+            @Parameter(description = "페이지 번호 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
+            @RequestParam(required = false, defaultValue = "CITY") final String criteria
+    ) {
+        CartMainResponse cartMainResponse = townMainService.getRecent3(criteria);
         return new SuccessResponse<>(cartMainResponse);
     }
 
@@ -96,10 +99,15 @@ public class TownMainController {
             @Parameter(description = "시작인원", example = "1")
             @RequestParam(required = false, defaultValue = "1") final Long startParty,
             @Parameter(description = "마지막인원", example = "5000")
-            @RequestParam(required = false, defaultValue = "500000") final Long lastParty) {
+            @RequestParam(required = false, defaultValue = "500000") final Long lastParty,
+            @Parameter(description = "페이지 번호 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
+            @RequestParam(required = false, defaultValue = "CITY") final String criteria
+    ) {
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(townMainService.getCarts(pageable, startMoney, lastMoney, startParty, lastParty));
+        return new SuccessResponse<>(
+                townMainService.getCarts(pageable, startMoney, lastMoney, startParty, lastParty, criteria)
+        );
     }
 
 }
