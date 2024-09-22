@@ -10,6 +10,7 @@ import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailRe
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
 import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
 import com.api.ttoklip.domain.todolist.domain.TodayToDoListRepository;
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class HomeService {
 
+    private static final String SEOUL = "서울특별시";
     private final HoneyTipPostService honeyTipPostService;
     private final NewsletterPostService newsletterPostService;
     private final TodayToDoListRepository todayToDoListRepository;
@@ -34,7 +36,9 @@ public class HomeService {
         TodayToDoList todayToDoList = todayToDoListRepository.findTodayToDoListsByMemberId(
                 getCurrentMember().getId());
 
-        List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3();
+        List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY);
+
+        String street = getCurrentMember().getStreet();
 
         return HomeResponse.builder()
                 .currentMemberNickname(getCurrentMember().getNickname())
@@ -43,6 +47,7 @@ public class HomeService {
                 .honeyTips(honeyTipRecent3)
                 .newsLetters(newsletterRecent3)
                 .carts(cartRecent3)
+                .writerLiveInSeoul(!street.startsWith(SEOUL))
                 .build();
     }
 }

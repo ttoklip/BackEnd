@@ -9,6 +9,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.image.service.CartImageService;
 import com.api.ttoklip.domain.town.cart.itemUrl.service.ItemUrlService;
@@ -107,8 +108,8 @@ public class CartPostService {
         return cartSingleResponse;
     }
 
-    public List<UserCartSingleResponse> getRecent3() {
-        List<Cart> carts = cartRepository.findRecent3();
+    public List<UserCartSingleResponse> getRecent3(final TownCriteria townCriteria) {
+        List<Cart> carts = cartRepository.findRecent3(townCriteria);
         return carts.stream()
                 .map(UserCartSingleResponse::cartFrom)
                 .toList();

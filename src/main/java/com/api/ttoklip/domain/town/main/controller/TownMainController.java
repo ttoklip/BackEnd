@@ -45,8 +45,11 @@ public class TownMainController {
                                     description = "우리동네 메인 페이지입니다."
                             )))})
     @GetMapping
-    public SuccessResponse<CartMainResponse> getCarts() {
-        CartMainResponse cartMainResponse = townMainService.getRecent3();
+    public SuccessResponse<CartMainResponse> getCarts(
+            @Parameter(description = "페이지 번호 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
+            @RequestParam(required = false, defaultValue = "CITY") final String criteria
+    ) {
+        CartMainResponse cartMainResponse = townMainService.getRecent3(criteria);
         return new SuccessResponse<>(cartMainResponse);
     }
 

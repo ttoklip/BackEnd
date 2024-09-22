@@ -77,11 +77,11 @@ public class TownMainService {
                 .totalElements(contentPaging.getTotalElements())
                 .totalPage(contentPaging.getTotalPages())
                 .build();
-
     }
 
-    public CartMainResponse getRecent3() {
-        List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3();
+    public CartMainResponse getRecent3(final String criteria) {
+        TownCriteria townCriteria = validCriteria(criteria);
+        List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3(townCriteria);
         List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3();
         String street = getCurrentMember().getStreet();
 

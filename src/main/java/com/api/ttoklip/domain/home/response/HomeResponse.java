@@ -19,4 +19,5 @@ public class HomeResponse {
     private List<TitleResponse> honeyTips;
     private List<NewsletterThumbnailResponse> newsLetters;
     private List<UserCartSingleResponse> carts;
+    private boolean writerLiveInSeoul;
 }

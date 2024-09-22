@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.cart.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
+import static com.api.ttoklip.domain.town.LocationCriteriaFilter.getLocationFilterByTownCriteria;
 import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage;
 import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
@@ -10,6 +11,7 @@ import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMembe
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.privacy.domain.QInterest;
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.global.exception.ApiException;
@@ -134,11 +136,13 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     }
 
     @Override
-    public List<Cart> findRecent3() {
+    public List<Cart> findRecent3(final TownCriteria townCriteria) {
+        String writerStreet = getCurrentMember().getStreet();
         return jpaQueryFactory
                 .selectFrom(cart)
                 .where(
-                        getCartActivate()
+                        getCartActivate(),
+                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
                 )
                 .leftJoin(cart.member, member).fetchJoin()
                 .leftJoin(cart.member.profile, profile).fetchJoin()
