@@ -60,6 +60,8 @@ public enum ErrorType {
 
     // ------------------------------------------ Community ------------------------------------------
     COMMUNITY_NOT_FOUND(NOT_FOUND, "Community_4040", "소통해요를 찾을 수 없습니다."),
+    INTERNAL_STREET_TYPE(INTERNAL_SERVER_ERROR, "STREET_5001", "TownCriteria에서 이미 필터링했지만, repository에서 잘못된 값을 받았습니다."),
+    INVALID_STREET_TYPE(BAD_REQUEST, "STREET_4001", "서울특별시 외의 지역은 아직 개발중입니다."),
 
 
     // ------------------------------------------ Comment ------------------------------------------
@@ -185,7 +187,8 @@ public enum ErrorType {
     INVALID_EMAIL_KEY_TYPE(INTERNAL_SERVER_ERROR, "AOP_5002", "분산락에 적용할 Unique Email 이 null"),
     DUPLICATED_CREATE_BOARD_REQUEST(BAD_REQUEST, "DUPLICATED_4002", "중복된 게시글 작성입니다."),
 
-    INVALID_HASH_LENGTH_TYPE(INTERNAL_SERVER_ERROR, "HASH_5001", "잘못된 Hash 길이 요청");
+    INVALID_HASH_LENGTH_TYPE(INTERNAL_SERVER_ERROR, "HASH_5001", "잘못된 Hash 길이 요청"),
+    ;
 
     private final HttpStatus status;
     private final String errorCode;

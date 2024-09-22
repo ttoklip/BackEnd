@@ -64,10 +64,13 @@ public class TownMainController {
                             )))})
     @GetMapping("/community")
     public SuccessResponse<CommunityPaging> getCommunities(
+            @Parameter(description = "페이지 번호 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
+            @RequestParam(required = false, defaultValue = "CITY") final String criteria,
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            @RequestParam(required = false, defaultValue = "0") final int page) {
+            @RequestParam(required = false, defaultValue = "0") final int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(townMainService.getCommunities(pageable));
+        return new SuccessResponse<>(townMainService.getCommunities(criteria, pageable));
     }
 
     /* Cart Paging */

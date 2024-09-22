@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
 import com.api.ttoklip.domain.town.community.image.service.CommunityImageService;
 import com.api.ttoklip.domain.town.community.like.service.CommunityLikeService;
@@ -202,8 +203,8 @@ public class CommunityPostService {
 
 
     /* -------------------------------------------- Community 페이징 -------------------------------------------- */
-    public Page<Community> getPaging(final Pageable pageable) {
-        return communityRepository.getPaging(pageable);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
+        return communityRepository.getPaging(townCriteria, pageable);
     }
     /* -------------------------------------------- Community 끝 -------------------------------------------- */
 }
