@@ -15,7 +15,6 @@ public class HomeResponse {
 
     private String currentMemberNickname;
     private String street;
-    private String todayToDoList;
     private List<TitleResponse> honeyTips;
     private List<NewsletterThumbnailResponse> newsLetters;
     private List<UserCartSingleResponse> carts;

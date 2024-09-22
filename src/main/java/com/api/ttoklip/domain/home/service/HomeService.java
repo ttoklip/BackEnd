@@ -8,8 +8,6 @@ import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.post.service.NewsletterPostService;
-import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
-import com.api.ttoklip.domain.todolist.domain.TodayToDoListRepository;
 import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import java.util.List;
@@ -23,18 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class HomeService {
 
     private static final String SEOUL = "서울특별시";
+    private final CartPostService cartPostService;
     private final HoneyTipPostService honeyTipPostService;
     private final NewsletterPostService newsletterPostService;
-    private final TodayToDoListRepository todayToDoListRepository;
-    private final CartPostService cartPostService;
 
     @Transactional
     public HomeResponse home() {
         List<TitleResponse> honeyTipRecent3 = honeyTipPostService.getRecent3();
         List<NewsletterThumbnailResponse> newsletterRecent3 = newsletterPostService.getRecent3();
-
-        TodayToDoList todayToDoList = todayToDoListRepository.findTodayToDoListsByMemberId(
-                getCurrentMember().getId());
 
         List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY);
 
@@ -42,7 +36,6 @@ public class HomeService {
 
         return HomeResponse.builder()
                 .currentMemberNickname(getCurrentMember().getNickname())
-                .todayToDoList(todayToDoList.getToDoList().getDescription())
                 .street(getCurrentMember().getStreet())
                 .honeyTips(honeyTipRecent3)
                 .newsLetters(newsletterRecent3)
