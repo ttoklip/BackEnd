@@ -26,7 +26,6 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
-    private static final String SEOUL = "서울특별시";
     private static final String SPLIT_CRITERIA = " ";
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -113,9 +112,6 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
     private List<Community> getPageContent(final TownCriteria townCriteria, final Pageable pageable) {
         String writerStreet = getCurrentMember().getStreet();
-        if (!writerStreet.startsWith(SEOUL)) {
-            throw new ApiException(ErrorType.INVALID_STREET_TYPE);
-        }
 
         return jpaQueryFactory
                 .selectFrom(community)
