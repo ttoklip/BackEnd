@@ -201,9 +201,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return getNewsletter10Desc(Category.SAFE_LIVING);
     }
 
-    public List<Newsletter> getWelfarePolicyNewsletter10Desc() {
-        return getNewsletter10Desc(Category.HOUSEWORK);
-    }
+    public List<Newsletter> getWelfarePolicyNewsletter10Desc() { return getNewsletter10Desc(Category.WELFARE_POLICY); }
 
     private List<Newsletter> getNewsletter10Desc(final Category category) {
         return jpaQueryFactory
