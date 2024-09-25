@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class HomeService {
 
-    private static final String SEOUL = "서울특별시";
     private final CartPostService cartPostService;
     private final HoneyTipPostService honeyTipPostService;
     private final NewsletterPostService newsletterPostService;
@@ -32,15 +31,12 @@ public class HomeService {
 
         List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY);
 
-        String street = getCurrentMember().getStreet();
-
         return HomeResponse.builder()
                 .currentMemberNickname(getCurrentMember().getNickname())
                 .street(getCurrentMember().getStreet())
                 .honeyTips(honeyTipRecent3)
                 .newsLetters(newsletterRecent3)
                 .carts(cartRecent3)
-                .writerLiveInSeoul(!street.startsWith(SEOUL))
                 .build();
     }
 }
