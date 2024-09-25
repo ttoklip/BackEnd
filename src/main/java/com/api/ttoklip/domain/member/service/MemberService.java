@@ -4,6 +4,7 @@ import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_BY_TOKE
 import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_DB;
 
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.dto.response.MemberStreetResponse;
 import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.repository.MemberOAuthRepository;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
@@ -25,6 +26,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberOAuthRepository memberOAuthRepository;
+
+    private static final String SEOUL = "서울특별시";
 
     public Member findById(final Long memberId) {
         return memberRepository.findById(memberId)
@@ -79,5 +82,10 @@ public class MemberService {
         if (profile == null) {
             throw new ApiException(ErrorType.Profile_NOT_FOUND);
         }
+    }
+
+    public MemberStreetResponse getMemberStreet(final Member member) {
+        Member findMember = findById(member.getId());
+        return MemberStreetResponse.of(findMember.getStreet(), !findMember.getStreet().startsWith(SEOUL));
     }
 }
