@@ -4,11 +4,10 @@ import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipSearchRepository;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
-import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
-import com.api.ttoklip.domain.search.response.HoneyTipPaging;
-import com.api.ttoklip.domain.search.response.NewsletterPaging;
-import com.api.ttoklip.domain.search.response.SingleResponse;
+import com.api.ttoklip.domain.search.response.*;
+import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
+import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunitySearchRepository;
 import java.util.List;
@@ -26,6 +25,7 @@ public class SearchService {
     private final HoneyTipSearchRepository honeyTipSearchRepository;
     private final CommunitySearchRepository communitySearchRepository;
     private final NewsletterRepository newsletterRepository;
+    private final CartSearchRepository cartSearchRepository;
 
     public HoneyTipPaging honeyTipSearch(final String keyword, final Pageable pageable, final String sort) {
         Page<HoneyTip> contentPaging = honeyTipSearchRepository.getContain(keyword, pageable, sort);
@@ -80,6 +80,26 @@ public class SearchService {
 
         return CommunityPaging.builder()
                 .communities(communitySingleData)
+                .isFirst(contentPaging.isFirst())
+                .isLast(contentPaging.isLast())
+                .totalElements(contentPaging.getTotalElements())
+                .totalPage(contentPaging.getTotalPages())
+                .build();
+    }
+
+    public CartPaging cartPaging(final String keyword, final Pageable pageable, final String sort) {
+        Page<Cart> contentPaging = cartSearchRepository.getContain(keyword, pageable, sort);
+
+        // List<Entity>
+        List<Cart> contents = contentPaging.getContent();
+
+        // Entity -> SingleResponse 반복
+        List<CartSearchResponse> cartSearchData = contents.stream()
+                .map(CartSearchResponse::from)
+                .toList();
+
+        return CartSearchPaging.builder()
+                .carts(cartSearchData)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())
