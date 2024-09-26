@@ -82,11 +82,15 @@ public class CommunitySearchRepository {
     }
 
     private List<Community> sortPopularity(final JPAQuery<Community> query) {
-        // 댓글 수에 따라 인기 점수 계산
+        // 댓글, 좋아요, 스크랩 수에 따라 인기 점수 계산
         return query
                 .groupBy(community.id)
                 .orderBy(
-                        getCommentSize().desc()
+                        getLikeSize().add(
+                                getCommentSize()
+                        ).add(
+                                getScrapSize()
+                        ).desc()
                 ).fetch();
     }
 

@@ -83,7 +83,7 @@ public class CartSearchRepository {
     }
 
     private List<Cart> sortPopularity(final JPAQuery<Cart> query) {
-        // 댓글, 좋아요, 스크랩 수에 따라 인기 점수 계산
+        // 댓글, 사람 수에 따라 인기 점수 계산
         return query
                 .groupBy(cart.id)
                 .orderBy(
