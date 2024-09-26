@@ -6,7 +6,6 @@ import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.search.response.*;
-import com.api.ttoklip.domain.search.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
