@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.cart.post.dto.response;
+package com.api.ttoklip.domain.search.response;
 
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import java.util.List;

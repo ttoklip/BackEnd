@@ -2,20 +2,22 @@ package com.api.ttoklip.domain.search.service;
 
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipSearchRepository;
+import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
 import com.api.ttoklip.domain.search.response.*;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
+import com.api.ttoklip.domain.search.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunitySearchRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -94,12 +96,12 @@ public class SearchService {
         List<Cart> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
-        List<CartSearchResponse> cartSearchData = contents.stream()
-                .map(CartSearchResponse::from)
+        List<UserCartSingleResponse> cartSingleData = contents.stream()
+                .map(UserCartSingleResponse::from)
                 .toList();
 
-        return CartSearchPaging.builder()
-                .carts(cartSearchData)
+        return CartPaging.builder()
+                .carts(cartSingleData)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
                 .totalElements(contentPaging.getTotalElements())

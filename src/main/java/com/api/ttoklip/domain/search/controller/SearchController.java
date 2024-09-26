@@ -1,11 +1,11 @@
 package com.api.ttoklip.domain.search.controller;
 
 import com.api.ttoklip.domain.search.constant.SearchResponseConstant;
+import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.search.service.SearchService;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

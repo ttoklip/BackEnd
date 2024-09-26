@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.main.controller;
 
-import com.api.ttoklip.domain.search.response.CartSearchPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
+import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.domain.town.main.service.TownMainService;
@@ -89,7 +89,7 @@ public class TownMainController {
                                     description = "함께해요 글 목록을 불러왔습니다."
                             )))})
     @GetMapping("/cart")
-    public SuccessResponse<CartSearchPaging> getCarts(
+    public SuccessResponse<CartPaging> getCarts(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page,
             @Parameter(description = "시작가격", example = "30000")

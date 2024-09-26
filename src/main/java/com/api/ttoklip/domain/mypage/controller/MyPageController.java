@@ -9,7 +9,7 @@ import com.api.ttoklip.domain.privacy.service.ProfileService;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.search.response.NewsletterPaging;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartPaging;
+import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
