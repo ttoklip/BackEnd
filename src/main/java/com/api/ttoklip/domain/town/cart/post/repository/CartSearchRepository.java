@@ -29,12 +29,12 @@ public class CartSearchRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public Page<Cart> getContain(final String keyword, final Pageable pageable, final String sort) {
-        List<Cart> content = getSearchPageTitle(keyword, pageable, sort);
+        List<Cart> content = getSearchPageTitleOrContent(keyword, pageable, sort);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<Cart> getSearchPageTitle(final String keyword, final Pageable pageable, final String sort) {
+    private List<Cart> getSearchPageTitleOrContent(final String keyword, final Pageable pageable, final String sort) {
         JPAQuery<Cart> query = defaultQuery(keyword, pageable);
 
         if (sort.equals("popularity")) {
@@ -53,7 +53,7 @@ public class CartSearchRepository {
                 .selectFrom(cart)
                 .distinct()
                 .where(
-                        containTitle(keyword),
+                        containTitle(keyword).or(containContent(keyword)),
                         getCartActivate()
                 )
                 .leftJoin(cart.cartComments, cartComment)
@@ -71,6 +71,13 @@ public class CartSearchRepository {
     private BooleanExpression containTitle(final String keyword) {
         if (StringUtils.hasText(keyword)) {
             return cart.title.contains(keyword);
+        }
+        return null;
+    }
+
+    private BooleanExpression containContent(final String keyword) {
+        if (StringUtils.hasText(keyword)) {
+            return cart.content.contains(keyword);
         }
         return null;
     }
@@ -105,7 +112,7 @@ public class CartSearchRepository {
                 .select(Wildcard.count)
                 .from(cart)
                 .where(
-                        containTitle(keyword),
+                        containTitle(keyword).or(containContent(keyword)),
                         getCartActivate()
                 )
                 .fetchOne();
