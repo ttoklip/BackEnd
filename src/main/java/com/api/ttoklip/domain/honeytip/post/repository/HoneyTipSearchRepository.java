@@ -31,12 +31,13 @@ public class HoneyTipSearchRepository {
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
 
     public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
-        List<HoneyTip> content = getSearchPageTitle(keyword, pageable, sort);
+        List<HoneyTip> content = getSearchPageTitleOrContent(keyword, pageable, sort);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<HoneyTip> getSearchPageTitle(final String keyword, final Pageable pageable, final String sort) {
+    private List<HoneyTip> getSearchPageTitleOrContent(final String keyword, final Pageable pageable,
+                                                       final String sort) {
         JPAQuery<HoneyTip> query = defaultQuery(keyword, pageable);
 
         if (sort.equals("popularity")) {
@@ -55,7 +56,7 @@ public class HoneyTipSearchRepository {
                 .selectFrom(honeyTip)
                 .distinct()
                 .where(
-                        containTitle(keyword),
+                        containTitle(keyword).or(containContent(keyword)),
                         getHoneyTipActivate()
                 )
                 .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
@@ -68,6 +69,13 @@ public class HoneyTipSearchRepository {
     private BooleanExpression containTitle(final String keyword) {
         if (StringUtils.hasText(keyword)) {
             return honeyTip.title.contains(keyword);
+        }
+        return null;
+    }
+
+    private BooleanExpression containContent(final String keyword) {
+        if (StringUtils.hasText(keyword)) {
+            return honeyTip.content.contains(keyword);
         }
         return null;
     }
@@ -112,7 +120,7 @@ public class HoneyTipSearchRepository {
                 .select(Wildcard.count)
                 .from(honeyTip)
                 .where(
-                        containTitle(keyword)
+                        containTitle(keyword).or(containContent(keyword))
                 )
                 .fetchOne();
     }
