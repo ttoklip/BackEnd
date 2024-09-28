@@ -201,7 +201,9 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return getNewsletter10Desc(Category.SAFE_LIVING);
     }
 
-    public List<Newsletter> getWelfarePolicyNewsletter10Desc() { return getNewsletter10Desc(Category.WELFARE_POLICY); }
+    public List<Newsletter> getWelfarePolicyNewsletter10Desc() {
+        return getNewsletter10Desc(Category.WELFARE_POLICY);
+    }
 
     private List<Newsletter> getNewsletter10Desc(final Category category) {
         return jpaQueryFactory
@@ -224,12 +226,13 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     }
 
     public Page<Newsletter> getContain(final String keyword, final Pageable pageable, final String sort) {
-        List<Newsletter> content = getSearchPageTitle(keyword, pageable, sort);
+        List<Newsletter> content = getSearchPageTitleOrContent(keyword, pageable, sort);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<Newsletter> getSearchPageTitle(final String keyword, final Pageable pageable, final String sort) {
+    private List<Newsletter> getSearchPageTitleOrContent(final String keyword, final Pageable pageable,
+                                                         final String sort) {
         JPAQuery<Newsletter> query = defaultQuery(keyword, pageable);
 
         if (sort.equals(POPULARITY)) {
@@ -248,7 +251,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .selectFrom(newsletter)
                 .distinct()
                 .where(
-                        containTitle(keyword)
+                        containTitle(keyword).or(containContent(keyword))
                 )
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .leftJoin(newsletter.newsletterLikes, newsletterLike)
@@ -260,6 +263,13 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     private BooleanExpression containTitle(final String keyword) {
         if (StringUtils.hasText(keyword)) {
             return newsletter.title.contains(keyword);
+        }
+        return null;
+    }
+
+    private BooleanExpression containContent(final String keyword) {
+        if (StringUtils.hasText(keyword)) {
+            return newsletter.content.contains(keyword);
         }
         return null;
     }
@@ -293,7 +303,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .select(Wildcard.count)
                 .from(newsletter)
                 .where(
-                        containTitle(keyword)
+                        containTitle(keyword).or(containContent(keyword))
                 )
                 .fetchOne();
     }
