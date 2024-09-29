@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.search.controller;
 
 import com.api.ttoklip.domain.search.constant.SearchResponseConstant;
+import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.search.response.NewsletterPaging;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Search", description = "꿀팁공유해요, 뉴스레터, 우리동네(소통해요) 검색 API입니다.")
+@Tag(name = "Search", description = "꿀팁공유해요, 뉴스레터, 우리동네(함께해요, 소통해요) 검색 API입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/search")
@@ -84,9 +85,9 @@ public class SearchController {
         return new SuccessResponse<>(newsletterPaging);
     }
 
-    @Operation(summary = "검색 기능 중 우리동네(소통해요) api", description = "우리동네 게시판에 검색합니다.")
+    @Operation(summary = "검색 기능 중 우리동네(소통해요) api", description = "소통해요 게시판에 검색합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "우리동네 검색 성공",
+            @ApiResponse(responseCode = "200", description = "소통해요 검색 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SuccessResponse.class),
@@ -94,7 +95,7 @@ public class SearchController {
                                     name = "SuccessResponse",
                                     description = "우리동네(소통해요)에 검색했습니다."
                             )))})
-    @GetMapping("/our-town")
+    @GetMapping("/community")
     public SuccessResponse<CommunityPaging> searchCommunity(
             @Parameter(description = "포함될 우리동네(소통해요)의 키워드", required = true, example = "오늘")
             @RequestParam final String title,
@@ -107,5 +108,30 @@ public class SearchController {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         CommunityPaging communityPaging = searchService.communityPaging(title, pageable, sort);
         return new SuccessResponse<>(communityPaging);
+    }
+
+    @Operation(summary = "검색 기능 중 우리동네(함께해요) api", description = "함께해요 게시판에 검색합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "함께해요 검색 성공",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SuccessResponse.class),
+                            examples = @ExampleObject(
+                                    name = "SuccessResponse",
+                                    description = "우리동네(함께해요)에 검색했습니다."
+                            )))})
+    @GetMapping("/cart")
+    public SuccessResponse<CartPaging> searchCart(
+            @Parameter(description = "포함될 우리동네(함께해요)의 키워드", required = true, example = "구매")
+            @RequestParam final String title,
+
+            @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
+            @RequestParam final String sort,
+
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        CartPaging cartPaging = searchService.cartPaging(title, pageable, sort);
+        return new SuccessResponse<>(cartPaging);
     }
 }

@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.mypage.dto.response;
+package com.api.ttoklip.domain.search.response;
 
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserCartSingleResponse {
+public class CartSingleResponse {
     private Long id;
     private String title;
     private String location;
@@ -23,9 +23,9 @@ public class UserCartSingleResponse {
     private int currentPrice;
     private TradeStatus tradeStatus;
 
-    public static UserCartSingleResponse cartFrom(final Cart cart) {
+    public static CartSingleResponse from(final Cart cart) {
         int currentPrice = (int) (cart.getTotalPrice() / cart.getPartyMax() * cart.getCartMembers().size());
-        return UserCartSingleResponse.builder()
+        return CartSingleResponse.builder()
                 .id(cart.getId())
                 .title(cart.getTitle())
                 .location(cart.getLocation())
@@ -40,20 +40,4 @@ public class UserCartSingleResponse {
                 .build();
     }
 
-    public static UserCartSingleResponse from(final Cart cart) {
-        int currentPrice = (int) (cart.getTotalPrice() / cart.getPartyMax() * cart.getCartMembers().size());
-        return UserCartSingleResponse.builder()
-                .id(cart.getId())
-                .title(cart.getTitle())
-                .location(cart.getLocation())
-                .totalPrice(cart.getTotalPrice())
-                .partyMax(cart.getPartyMax())
-                .partyCnt(cart.getCartMembers().size())
-                .currentPrice(currentPrice)
-                .writer(cart.getMember().getNickname())
-                .writerProfileImageUrl(cart.getMember().getProfile().getProfileImgUrl())
-                .commentCount(cart.getCartComments().size())
-                .tradeStatus(cart.getStatus())
-                .build();
-    }
 }

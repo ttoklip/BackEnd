@@ -1,23 +1,24 @@
 package com.api.ttoklip.domain.town.main.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
-import com.api.ttoklip.domain.search.response.CartSearchPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
 import com.api.ttoklip.domain.town.TownCriteria;
+import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;
 import com.api.ttoklip.domain.town.community.post.dto.response.CommunityRecent3Response;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,7 @@ public class TownMainService {
         return TownCriteria.findTownCriteriaByValue(criteria);
     }
 
-    public CartSearchPaging getCarts(
+    public CartPaging getCarts(
             final Pageable pageable,
             final Long startMoney,
             final Long lastMoney,
@@ -73,7 +74,7 @@ public class TownMainService {
                 .map(UserCartSingleResponse::cartFrom)
                 .toList();
 
-        return CartSearchPaging.builder()
+        return CartPaging.builder()
                 .carts(cartSingleData)
                 .isFirst(contentPaging.isFirst())
                 .isLast(contentPaging.isLast())
