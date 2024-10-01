@@ -21,11 +21,15 @@ public class TownAspect {
 
     private static final String SEOUL = "서울특별시";
 
-    @Pointcut("execution(* com.api.ttoklip.domain.town..*Controller.*(..))")
-    private void townPointcut() {
-    }
+    /**
+     * 2024.10.01 서울특별시 한정 -> 전국으로 확대
+     */
 
-    @Before("townPointcut()")
+//    @Pointcut("execution(* com.api.ttoklip.domain.town..*Controller.*(..))")
+//    private void townPointcut() {
+//    }
+//
+//    @Before("townPointcut()")
     public void filterWriterStreetSeoul() {
         Member currentMember = getCurrentMember();
         if (!currentMember.getStreet().startsWith(SEOUL)) {
