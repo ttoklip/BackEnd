@@ -5,18 +5,22 @@ import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipSearchRepository;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.repository.NewsletterRepository;
-import com.api.ttoklip.domain.search.response.*;
+import com.api.ttoklip.domain.search.response.CartPaging;
+import com.api.ttoklip.domain.search.response.CommunityPaging;
+import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
+import com.api.ttoklip.domain.search.response.HoneyTipPaging;
+import com.api.ttoklip.domain.search.response.NewsletterPaging;
+import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.cart.post.repository.CartSearchRepository;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.repository.CommunitySearchRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
