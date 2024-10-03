@@ -27,8 +27,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberOAuthRepository memberOAuthRepository;
 
-    private static final String SEOUL = "서울특별시";
-
     public Member findById(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_DB));
@@ -86,6 +84,6 @@ public class MemberService {
 
     public MemberStreetResponse getMemberStreet(final Member member) {
         Member findMember = findById(member.getId());
-        return MemberStreetResponse.of(findMember.getStreet(), !findMember.getStreet().startsWith(SEOUL));
+        return MemberStreetResponse.of(findMember.getStreet());
     }
 }
