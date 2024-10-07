@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.newsletter.controller;
 
 import com.api.ttoklip.domain.newsletter.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterMainResponse;
-import com.api.ttoklip.domain.newsletter.service.NewsletterMainService;
+import com.api.ttoklip.domain.newsletter.facade.NewsletterMainFacade;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/newsletters/posts")
 public class NewsletterMainController {
 
-    private final NewsletterMainService newsletterMainService;
+    private final NewsletterMainFacade newsletterMainFacade;
 
     // 메인 화면 조회
     @Operation(summary = "뉴스레터 메인화면 조회", description = "뉴스레터 메인 화면을 조회합니다.")
@@ -39,7 +39,7 @@ public class NewsletterMainController {
                             )))})
     @GetMapping
     public SuccessResponse<NewsletterMainResponse> category() {
-        return new SuccessResponse<>(newsletterMainService.getMainData());
+        return new SuccessResponse<>(newsletterMainFacade.getMainData());
     }
 
 }

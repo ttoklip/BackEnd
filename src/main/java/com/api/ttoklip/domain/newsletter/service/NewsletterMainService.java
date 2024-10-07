@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.newsletter.service;
 
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterCategoryResponses;
-import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterMainResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.RandomTitleResponse;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
@@ -14,6 +13,7 @@ import java.time.ZoneId;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,30 +21,25 @@ public class NewsletterMainService {
 
     private final TodayNewsletterRepository todayNewsletterRepository;
     private final NewsletterRepository newsletterRepository;
+    private static final String ZONE_ID_OF_SEOUL = "Asia/Seoul";
 
-    public NewsletterMainResponse getMainData() {
-        List<RandomTitleResponse> randomNews = getRandomNews();
-        NewsletterCategoryResponses categoryData = getCategoryData();
-        return NewsletterMainResponse.of(randomNews, categoryData);
-    }
-
-    private List<RandomTitleResponse> getRandomNews() {
+    public List<RandomTitleResponse> getRandomNews() {
         LocalDate today = getDayOfSeoul();
         LocalDateTime startOfDay = getSeoulStartOfDay(today);
         LocalDateTime endOfDay = getSeoulEndOfDay(today);
-        List<TodayNewsletter> todayNewsletters =
-                todayNewsletterRepository.findByCreatedDateBetween(startOfDay, endOfDay);
+        List<TodayNewsletter> todayNewsletters = todayNewsletterRepository.findByCreatedDateBetween(startOfDay,
+                endOfDay);
         return todayNewsletters.stream()
                 .map(RandomTitleResponse::from)
                 .toList();
     }
 
     private LocalDate getDayOfSeoul() {
-        return LocalDate.now(ZoneId.of("Asia/Seoul"));
+        return LocalDate.now(ZoneId.of(ZONE_ID_OF_SEOUL));
     }
 
     private LocalDateTime getSeoulStartOfDay(final LocalDate today) {
-        return today.atStartOfDay(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+        return today.atStartOfDay(ZoneId.of(ZONE_ID_OF_SEOUL)).toLocalDateTime();
     }
 
     private LocalDateTime getSeoulEndOfDay(final LocalDate today) {

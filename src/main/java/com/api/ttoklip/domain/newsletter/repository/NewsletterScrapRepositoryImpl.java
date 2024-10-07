@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.newsletter.repository;
 
-import static com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap.newsletterScrap;
-
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterScrap;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class NewsletterScrapRepositoryImpl implements NewsletterScrapRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final QNewsletterScrap newsletterScrap = QNewsletterScrap.newsletterScrap;
 
     @Override
     public Long countNewsletterScrapsByNewsletterId(final Long newsletterId) {

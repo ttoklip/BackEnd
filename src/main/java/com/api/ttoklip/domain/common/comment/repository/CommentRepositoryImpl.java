@@ -1,14 +1,12 @@
 package com.api.ttoklip.domain.common.comment.repository;
 
-import static com.api.ttoklip.domain.common.comment.QComment.comment;
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-
 import com.api.ttoklip.domain.common.comment.Comment;
+import com.api.ttoklip.domain.common.comment.QComment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.member.domain.QMember;
-import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -24,6 +22,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
+    private final QComment comment = QComment.comment;
     private final QMember member = QMember.member;
 
     @Override
