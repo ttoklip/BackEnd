@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.honeytip.comment.controller;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.comment.constant.HoneyTipResponseConstant;
-import com.api.ttoklip.domain.honeytip.comment.service.HoneyTipCommentService;
+import com.api.ttoklip.domain.honeytip.comment.service.HoneyTipCommentFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class HoneyTipCommentController {
 
-    private final HoneyTipCommentService honeyTipCommentService;
+    private final HoneyTipCommentFacade honeyTipCommentFacade;
 
     /* CREATE */
     @Operation(summary = "새로운 댓글 생성", description = "지정된 게시글에 댓글을 등록합니다.")
@@ -45,7 +45,7 @@ public class HoneyTipCommentController {
     @PostMapping("/{postId}")
     public SuccessResponse<Message> register(final @PathVariable Long postId,
                                              final @RequestBody CommentCreateRequest request) {
-        Message message = honeyTipCommentService.register(postId, request);
+        Message message = honeyTipCommentFacade.register(postId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -64,7 +64,7 @@ public class HoneyTipCommentController {
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = honeyTipCommentService.report(commentId, request);
+        Message message = honeyTipCommentFacade.report(commentId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -82,7 +82,7 @@ public class HoneyTipCommentController {
                             )))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = honeyTipCommentService.delete(commentId);
+        Message message = honeyTipCommentFacade.delete(commentId);
         return new SuccessResponse<>(message);
     }
 }

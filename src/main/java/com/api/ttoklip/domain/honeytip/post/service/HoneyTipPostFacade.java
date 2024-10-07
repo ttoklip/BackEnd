@@ -258,12 +258,6 @@ public class HoneyTipPostFacade {
         return Message.scrapPostCancel(HoneyTip.class, postId);
     }
 
-    public List<TitleResponse> getRecent3() {
-        List<HoneyTip> recent3HoneyTip = honeyTipPostService.findRecent3();
-        return recent3HoneyTip.stream()
-                .map(TitleResponse::honeyTipFrom)
-                .toList();
-    }
     /* -------------------------------------------- 스크랩 추가 & 취소 끝 -------------------------------------------- */
 
 }
