@@ -7,7 +7,7 @@ import com.api.ttoklip.domain.common.report.repository.ReportRepository;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.community.post.entity.Community;

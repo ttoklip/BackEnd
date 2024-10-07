@@ -5,7 +5,7 @@ import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterCommen
 import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletter.newsletter;
 import static com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap.newsletterScrap;
 
-import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

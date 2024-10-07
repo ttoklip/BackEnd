@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.notification.service;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.newsletter.comment.domain.NewsletterComment;
+import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;

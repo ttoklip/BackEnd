@@ -15,7 +15,7 @@ import com.api.ttoklip.domain.mypage.domain.MyQuestionRepository;
 import com.api.ttoklip.domain.mypage.dto.response.QuestionPaging;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.mypage.dto.response.UserSingleResponse;
-import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
