@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.home.controller;
 
 import com.api.ttoklip.domain.home.constant.HomeConstant;
 import com.api.ttoklip.domain.home.response.HomeResponse;
-import com.api.ttoklip.domain.home.service.HomeService;
+import com.api.ttoklip.domain.home.service.HomeFacade;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/home")
 public class HomeController {
 
-    private final HomeService homeService;
+    private final HomeFacade homeFacade;
 
     @Operation(summary = "홈 화면", description = "뉴스레터, 꿀팁공유해요, 함께해요 최신 3개, 오늘의 ToDoList 조회")
     @ApiResponses(value = {
@@ -37,7 +37,7 @@ public class HomeController {
                             )))})
     @GetMapping
     public SuccessResponse<HomeResponse> home() {
-        HomeResponse homeResponse = homeService.home();
+        HomeResponse homeResponse = homeFacade.home();
         return new SuccessResponse<>(homeResponse);
     }
 }
