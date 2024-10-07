@@ -7,15 +7,15 @@ import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipCommentService;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipImageService;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipLikeService;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipEditReq;
 import com.api.ttoklip.domain.honeytip.controller.dto.response.HoneyTipSingleResponse;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.editor.HoneyTipPostEditor;
+import com.api.ttoklip.domain.honeytip.service.HoneyTipCommentService;
+import com.api.ttoklip.domain.honeytip.service.HoneyTipImageService;
+import com.api.ttoklip.domain.honeytip.service.HoneyTipLikeService;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipUrlService;
@@ -28,11 +28,11 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class HoneyTipPostFacade {
