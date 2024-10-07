@@ -10,7 +10,6 @@ import static com.api.ttoklip.domain.honeytip.url.domain.QHoneyTipUrl.honeyTipUr
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -38,7 +37,8 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 .distinct()
                 .leftJoin(honeyTip.member, member).fetchJoin()
                 .where(
-                        matchId(honeyTipId), getHoneyTipActivate()
+                        getHoneyTipActivate(),
+                        matchId(honeyTipId)
                 )
                 .fetchOne();
         return Optional.ofNullable(findHoneyTip)
@@ -54,7 +54,7 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     }
 
     @Override
-    public HoneyTip findByIdFetchJoin(final Long honeyTipPostId) {
+    public HoneyTip findHoneyTipWithDetails(final Long honeyTipId) {
         HoneyTip findHoneyTip = jpaQueryFactory
                 .selectFrom(honeyTip)
                 .distinct()
@@ -63,32 +63,12 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                 .leftJoin(honeyTip.member, member).fetchJoin()
                 .where(
                         getHoneyTipActivate(),
-                        honeyTip.id.eq(honeyTipPostId)
+                        matchId(honeyTipId)
                 )
                 .fetchOne();
 
         return Optional.ofNullable(findHoneyTip)
                 .orElseThrow(() -> new ApiException(ErrorType.HONEY_TIP_NOT_FOUND));
-    }
-
-    @Override
-    public List<HoneyTipComment> findActiveCommentsByHoneyTipId(final Long honeyTipId) {
-        return jpaQueryFactory
-                .selectFrom(honeyTipComment)
-                .distinct()
-                .leftJoin(honeyTipComment.member, member).fetchJoin()
-                .where(
-                        matchHoneyTipId(honeyTipId)
-                )
-                .orderBy(
-                        honeyTipComment.parent.id.asc().nullsFirst(),
-                        honeyTipComment.createdDate.asc()
-                )
-                .fetch();
-    }
-
-    private BooleanExpression matchHoneyTipId(final Long honeyTipId) {
-        return honeyTipComment.honeyTip.id.eq(honeyTipId);
     }
 
     @Override
@@ -143,12 +123,12 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     }
 
     @Override
-    public List<HoneyTip> getHouseWork() {
+    public List<HoneyTip> findHouseworkTips() {
         JPAQuery<HoneyTip> query = defaultQuery();
 
         return query
                 .where(
-                        honeyTip.category.eq(Category.HOUSEWORK),
+                        matchCategory(Category.HOUSEWORK),
                         getHoneyTipActivate()
                 )
                 .fetch();
@@ -166,42 +146,42 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
     }
 
     @Override
-    public List<HoneyTip> getRecipe() {
+    public List<HoneyTip> findRecipeTips() {
         JPAQuery<HoneyTip> query = defaultQuery();
 
         return query
                 .where(
-                        honeyTip.category.eq(Category.RECIPE),
-                        getHoneyTipActivate()
+                        getHoneyTipActivate(),
+                        matchCategory(Category.RECIPE)
                 )
                 .fetch();
     }
 
     @Override
-    public List<HoneyTip> getSafeLiving() {
+    public List<HoneyTip> findSafeLivingTips() {
         JPAQuery<HoneyTip> query = defaultQuery();
 
         return query
                 .where(
-                        honeyTip.category.eq(Category.SAFE_LIVING),
-                        getHoneyTipActivate()
+                        getHoneyTipActivate(),
+                        matchCategory(Category.SAFE_LIVING)
                 )
                 .fetch();
     }
 
     @Override
-    public List<HoneyTip> getWelfarePolicy() {
+    public List<HoneyTip> findWelfarePolicyTips() {
         JPAQuery<HoneyTip> query = defaultQuery();
         return query
                 .where(
-                        honeyTip.category.eq(Category.WELFARE_POLICY),
-                        getHoneyTipActivate()
+                        getHoneyTipActivate(),
+                        matchCategory(Category.WELFARE_POLICY)
                 )
                 .fetch();
     }
 
     @Override
-    public List<HoneyTip> getTop5() {
+    public List<HoneyTip> getPopularityTop5() {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
                 .distinct()

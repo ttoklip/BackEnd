@@ -10,21 +10,19 @@ import org.springframework.data.domain.Pageable;
 public interface HoneyTipRepositoryCustom {
     HoneyTip findByIdActivated(final Long honeyTipId);
 
-    HoneyTip findByIdFetchJoin(final Long postId);
-
-    List<HoneyTipComment> findActiveCommentsByHoneyTipId(final Long postId);
+    HoneyTip findHoneyTipWithDetails(final Long postId);
 
     Page<HoneyTip> matchCategoryPaging(Category category, Pageable pageable);
 
     List<HoneyTip> findRecent3();
 
-    List<HoneyTip> getHouseWork();
+    List<HoneyTip> findHouseworkTips();
 
-    List<HoneyTip> getRecipe();
+    List<HoneyTip> findRecipeTips();
 
-    List<HoneyTip> getSafeLiving();
+    List<HoneyTip> findSafeLivingTips();
 
-    List<HoneyTip> getWelfarePolicy();
+    List<HoneyTip> findWelfarePolicyTips();
 
-    List<HoneyTip> getTop5();
+    List<HoneyTip> getPopularityTop5();
 }
