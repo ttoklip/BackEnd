@@ -5,7 +5,9 @@ import com.api.ttoklip.domain.newsletter.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsCategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateReq;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterSingleResponse;
-import com.api.ttoklip.domain.newsletter.service.NewsletterPostService;
+import com.api.ttoklip.domain.newsletter.facade.NewsletterLikeFacade;
+import com.api.ttoklip.domain.newsletter.facade.NewsletterPostFacade;
+import com.api.ttoklip.domain.newsletter.facade.NewsletterScrapFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +40,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class NewsletterController {
 
     private final static int PAGE_SIZE = 10; // 페이지 당 데이터 수
-    private final NewsletterPostService newsletterPostService;
+    private final NewsletterPostFacade newsletterPostFacade;
+    private final NewsletterScrapFacade newsletterScrapFacade;
+    private final NewsletterLikeFacade newsletterLikeFacade;
 
     /* CREATE */
     @Operation(summary = "새로운 뉴스레터 생성", description = "form/data로 새로운 뉴스레터 게시글을 생성합니다.")
@@ -54,7 +58,7 @@ public class NewsletterController {
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Message> register(final @Validated @ModelAttribute NewsletterCreateReq request) {
-        return new SuccessResponse<>(newsletterPostService.register(request));
+        return new SuccessResponse<>(newsletterPostFacade.register(request));
     }
 
     /* READ */
@@ -71,7 +75,7 @@ public class NewsletterController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<NewsletterSingleResponse> getSinglePost(final @PathVariable Long postId) {
-        return new SuccessResponse<>(newsletterPostService.getSinglePost(postId));
+        return new SuccessResponse<>(newsletterPostFacade.getSinglePost(postId));
     }
 
     // 카테고리별 페이징 조회
@@ -84,7 +88,7 @@ public class NewsletterController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(newsletterPostService.getPagingCategory(category, pageable));
+        return new SuccessResponse<>(newsletterPostFacade.getPagingCategory(category, pageable));
     }
 
     /* REPORT */
@@ -102,7 +106,7 @@ public class NewsletterController {
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = newsletterPostService.report(postId, request);
+        Message message = newsletterPostFacade.report(postId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -120,7 +124,7 @@ public class NewsletterController {
                             )))})
     @PostMapping("/like/{postId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
-        Message message = newsletterPostService.registerLike(postId);
+        Message message = newsletterLikeFacade.register(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -137,7 +141,7 @@ public class NewsletterController {
                             )))})
     @DeleteMapping("/like/{postId}")
     public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
-        Message message = newsletterPostService.cancelLike(postId);
+        Message message = newsletterLikeFacade.cancel(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -155,7 +159,7 @@ public class NewsletterController {
                             )))})
     @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
-        Message message = newsletterPostService.registerScrap(postId);
+        Message message = newsletterScrapFacade.registerScrap(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -172,7 +176,7 @@ public class NewsletterController {
                             )))})
     @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
-        Message message = newsletterPostService.cancelScrap(postId);
+        Message message = newsletterScrapFacade.cancelScrap(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -191,6 +195,6 @@ public class NewsletterController {
                             )))})
     @DeleteMapping("/{postId}")
     public SuccessResponse<Message> delete(final @PathVariable Long postId) {
-        return new SuccessResponse<>(newsletterPostService.delete(postId));
+        return new SuccessResponse<>(newsletterPostFacade.delete(postId));
     }
 }

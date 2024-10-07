@@ -17,28 +17,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class NewsletterLikeService {
 
     private final NewsletterLikeRepository newsletterLikeRepository;
-    private final NewsletterCommonService newsletterCommonService;
+
+    public boolean isNewsletterExists(final Long newsletterId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return newsletterLikeRepository.existsByNewsletterIdAndMemberId(newsletterId, currentMemberId);
+    }
 
     // 좋아요 생성
-    public void registerLike(final Long newsletterId) {
-        Long currentMemberId = getCurrentMember().getId();
-
-        boolean exists = newsletterLikeRepository.existsByNewsletterIdAndMemberId(newsletterId, currentMemberId);
-
-        if (exists) {
-            return; // 이미 좋아요가 존재하면 스크랩을 생성하지 않고 return
-        }
-
-        Newsletter findNewsletter = newsletterCommonService.getNewsletter(newsletterId);
-        NewsletterLike newsletterLike = NewsletterLike.from(findNewsletter);
+    public void registerLike(final Newsletter newsletter) {
+        NewsletterLike newsletterLike = NewsletterLike.from(newsletter);
         newsletterLikeRepository.save(newsletterLike);
     }
 
     // 좋아요 취소
-    public void cancelLike(final Long newsletterId) {
+    public void cancelLike(final Newsletter newsletter) {
         // NewsletterId (게시글 ID)
-        Newsletter findNewsletter = newsletterCommonService.getNewsletter(newsletterId);
-        Long findNewsletterId = findNewsletter.getId();
+        Long findNewsletterId = newsletter.getId();
         Long currentMemberId = getCurrentMember().getId();
 
         NewsletterLike newsletterLike = newsletterLikeRepository.findByNewsletterIdAndMemberId(findNewsletterId,
@@ -54,8 +48,4 @@ public class NewsletterLikeService {
         return newsletterLikeRepository.countNewsletterLikesByNewsletterId(newsletterId);
     }
 
-    public boolean existsByNewsletterIdAndMemberId(final Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return newsletterLikeRepository.existsByNewsletterIdAndMemberId(postId, currentMemberId);
-    }
 }

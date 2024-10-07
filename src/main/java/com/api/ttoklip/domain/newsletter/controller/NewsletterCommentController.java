@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.newsletter.controller;
 
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.newsletter.service.NewsletterCommentService;
+import com.api.ttoklip.domain.newsletter.facade.NewsletterCommentFacade;
 import com.api.ttoklip.domain.newsletter.constant.NewsletterResponseConstant;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NewsletterCommentController {
 
-    private final NewsletterCommentService newsletterCommentService;
+    private final NewsletterCommentFacade newsletterCommentFacade;
 
     /* CREATE */
     @Operation(summary = "새로운 댓글 생성", description = "지정된 게시글에 댓글을 등록합니다.")
@@ -45,7 +45,7 @@ public class NewsletterCommentController {
     @PostMapping("/{postId}")
     public SuccessResponse<Message> register(final @PathVariable Long postId,
                                              final @RequestBody CommentCreateRequest request) {
-        Message message = newsletterCommentService.register(postId, request);
+        Message message = newsletterCommentFacade.register(postId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -64,7 +64,7 @@ public class NewsletterCommentController {
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = newsletterCommentService.report(commentId, request);
+        Message message = newsletterCommentFacade.report(commentId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -83,7 +83,7 @@ public class NewsletterCommentController {
                             )))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = newsletterCommentService.delete(commentId);
+        Message message = newsletterCommentFacade.delete(commentId);
         return new SuccessResponse<>(message);
     }
 

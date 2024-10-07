@@ -6,7 +6,6 @@ import static com.api.ttoklip.domain.newsletter.like.entity.QNewsletterLike.news
 import static com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap.newsletterScrap;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
@@ -57,10 +56,6 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         return newsletter.deleted.isFalse();
     }
 
-    private BooleanExpression getActivatedNewsletterFromComments() {
-        return newsletterComment.newsletter.deleted.isFalse();
-    }
-
     @Override
     public Newsletter findByIdFetchJoin(Long newsletterPostId) {
         Newsletter findNewsletter = jpaQueryFactory
@@ -78,27 +73,6 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
     }
 
-    @Override
-    public List<NewsletterComment> findActiveCommentsByNewsletterId(Long newsletterId) {
-        return jpaQueryFactory
-                .selectFrom(newsletterComment)
-                .distinct()
-                .leftJoin(newsletterComment.member, member).fetchJoin()
-                .where(
-                        matchNewsletterId(newsletterId),
-                        getActivatedNewsletterFromComments()
-                )
-                .orderBy(
-                        newsletterComment.parent.id.asc().nullsFirst(),
-                        newsletterComment.createdDate.asc()
-                )
-                .fetch();
-    }
-
-
-    private BooleanExpression matchNewsletterId(final Long newsletterId) {
-        return newsletterComment.newsletter.id.eq(newsletterId);
-    }
 
     @Override
     public Long findNewsletterCount() {

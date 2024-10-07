@@ -13,8 +13,6 @@ public interface NewsletterQueryDslRepository {
 
     Newsletter findByIdFetchJoin(final Long postId);
 
-    List<NewsletterComment> findActiveCommentsByNewsletterId(final Long postId);
-
     Long findNewsletterCount();
 
     Page<Newsletter> getPaging(final Category category, final Pageable pageable);

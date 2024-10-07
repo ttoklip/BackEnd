@@ -17,25 +17,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class NewsletterScrapService {
 
     private final NewsletterScrapRepository newsletterScrapRepository;
-    private final NewsletterCommonService newsletterCommonService;
+
+    public boolean isNewsletterExists(final Long newsletterId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return newsletterScrapRepository.existsByNewsletterIdAndMemberId(newsletterId, currentMemberId);
+    }
 
     // 스크랩 생성
-    public void registerScrap(final Long newsletterId) {
-        Long currentMemberId = getCurrentMember().getId();
-        boolean exists = newsletterScrapRepository.existsByNewsletterIdAndMemberId(newsletterId, currentMemberId);
-        if (exists) {
-            return; // 이미 스크랩이 존재하면 스크랩을 생성하지 않고 return
-        }
-        Newsletter findNewsletter = newsletterCommonService.getNewsletter(newsletterId);
-        NewsletterScrap newsletterScrap = NewsletterScrap.from(findNewsletter);
+    public void register(final Newsletter newsletter) {
+        NewsletterScrap newsletterScrap = NewsletterScrap.from(newsletter);
         newsletterScrapRepository.save(newsletterScrap);
     }
 
     // 스크랩 취소
-    public void cancelScrap(final Long newsletterId) {
+    public void cancelScrap(final Newsletter newsletter) {
         // NewsletterId (게시글 ID)
-        Newsletter findNewsletter = newsletterCommonService.getNewsletter(newsletterId);
-        Long findNewsletterId = findNewsletter.getId();
+        Long findNewsletterId = newsletter.getId();
         Long currentMemberId = getCurrentMember().getId();
 
         NewsletterScrap newsletterScrap = newsletterScrapRepository.findByNewsletterIdAndMemberId(findNewsletterId,
@@ -49,10 +46,5 @@ public class NewsletterScrapService {
 
     public Long countNewsletterScraps(final Long newsletterId) {
         return newsletterScrapRepository.countNewsletterScrapsByNewsletterId(newsletterId);
-    }
-
-    public boolean existsByNewsletterIdAndMemberId(final Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return newsletterScrapRepository.existsByNewsletterIdAndMemberId(postId, currentMemberId);
     }
 }

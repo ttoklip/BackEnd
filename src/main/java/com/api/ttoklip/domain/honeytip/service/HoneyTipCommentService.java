@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.honeytip.service;
 
-import com.api.ttoklip.domain.common.comment.repository.HoneyTipCommentRepository;
+import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class HoneyTipCommentService {
 
-    private final HoneyTipCommentRepository honeyTipCommentRepository;
+    private final CommentRepository commentRepository;
 
     public List<HoneyTipComment> findCommentsByHoneyTipId(final Long postId) {
-        return honeyTipCommentRepository.findCommentsByHoneyTipId(postId);
+        return commentRepository.findCommentsByHoneyTipId(postId);
     }
 }
