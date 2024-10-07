@@ -18,27 +18,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class HoneyTipScrapService {
 
     private final HoneyTipScrapRepository honeyTipScrapRepository;
-    private final HoneyTipPostService honeyTipPostService;
+
+    public boolean isHoneyTipScrapExists(final Long honeyTipId) {
+        Long currentMemberId = getCurrentMember().getId();
+        return honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
+    }
 
     // 스크랩 생성
     @SendNotification
-    public void register(final Long honeyTipId) {
-        Long currentMemberId = getCurrentMember().getId();
-        boolean exists = honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
-        if (exists) {
-            return; // 이미 스크랩이 존재하면 좋아요를 생성하지 않고 return
-        }
-
-        HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(honeyTipId);
-        HoneyTipScrap honeyTipScrap = HoneyTipScrap.from(findHoneyTip);
+    public void register(final HoneyTip honeyTip) {
+        HoneyTipScrap honeyTipScrap = HoneyTipScrap.from(honeyTip);
         honeyTipScrapRepository.save(honeyTipScrap);
     }
 
     // 스크랩 취소
-    public void cancelScrap(final Long honeyTipId) {
+    public void cancelScrap(final HoneyTip honeyTip) {
         // HoneyTipId (게시글 ID)
-        HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(honeyTipId);
-        Long findHoneyTipId = findHoneyTip.getId();
+        Long findHoneyTipId = honeyTip.getId();
         Long currentMemberId = getCurrentMember().getId();
 
         HoneyTipScrap honeyTipScrap = honeyTipScrapRepository.findByHoneyTipIdAndMemberId(findHoneyTipId,
@@ -52,10 +48,5 @@ public class HoneyTipScrapService {
 
     public Long countHoneyTipScraps(final Long honeyTipId) {
         return honeyTipScrapRepository.countHoneyTipScrapsByHoneyTipId(honeyTipId);
-    }
-
-    public boolean existsByHoneyTipIdAndMemberId(final Long honeyTipId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
     }
 }

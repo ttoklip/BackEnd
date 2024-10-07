@@ -167,8 +167,8 @@ public class HoneyTipPostFacade {
         int scrapCount = honeyTipScrapService.countHoneyTipScraps(postId).intValue();
 
         // 현재 사용자가 좋아요를 눌렀는지 확인
-        boolean likedByCurrentUser = honeyTipLikeService.existsByHoneyTipIdAndMemberId(postId);
-        boolean scrapedByCurrentUser = honeyTipScrapService.existsByHoneyTipIdAndMemberId(postId);
+        boolean likedByCurrentUser = honeyTipLikeService.isHoneyTipLikeExists(postId);
+        boolean scrapedByCurrentUser = honeyTipScrapService.isHoneyTipScrapExists(postId);
 
         HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
                 activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
@@ -209,22 +209,6 @@ public class HoneyTipPostFacade {
     /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
 
 
-    /* -------------------------------------------- 좋아요 추가 & 취소 -------------------------------------------- */
-    @Transactional
-    public Message registerLike(final Long postId) {
-        honeyTipLikeService.register(postId);
-        return Message.likePostSuccess(HoneyTip.class, postId);
-    }
-
-    @Transactional
-    public Message cancelLike(final Long postId) {
-        honeyTipLikeService.cancel(postId);
-        return Message.likePostCancel(HoneyTip.class, postId);
-    }
-
-    /* -------------------------------------------- 좋아요 추가 & 취소 끝 -------------------------------------------- */
-
-
     /* -------------------------------------------- 카테고리별 페이징 -------------------------------------------- */
     public CategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
         Page<HoneyTip> questions = honeyTipPostService.matchCategoryPaging(category, pageable);
@@ -244,21 +228,4 @@ public class HoneyTipPostFacade {
     }
 
     /* -------------------------------------------- 카테고리별 페이징 끝 -------------------------------------------- */
-
-
-    /* -------------------------------------------- 스크랩 추가 & 취소 -------------------------------------------- */
-    @Transactional
-    public Message registerScrap(Long postId) {
-        honeyTipScrapService.register(postId);
-        return Message.scrapPostSuccess(HoneyTip.class, postId);
-    }
-
-    @Transactional
-    public Message cancelScrap(Long postId) {
-        honeyTipScrapService.cancelScrap(postId);
-        return Message.scrapPostCancel(HoneyTip.class, postId);
-    }
-
-    /* -------------------------------------------- 스크랩 추가 & 취소 끝 -------------------------------------------- */
-
 }

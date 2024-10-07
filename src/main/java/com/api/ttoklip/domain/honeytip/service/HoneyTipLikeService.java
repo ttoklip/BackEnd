@@ -18,31 +18,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class HoneyTipLikeService {
 
     private final HoneyTipLikeRepository honeyTipLikeRepository;
-    private final HoneyTipPostService honeyTipPostService;
-
-    // 좋아요 생성
-    @SendNotification
-    public void register(final Long honeyTipId) {
-        boolean exists = isHoneyTipLikeExists(honeyTipId);
-        if (exists) {
-            return; // 이미 좋아요가 존재하면 좋아요를 생성하지 않고 return
-        }
-
-        HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(honeyTipId);
-        HoneyTipLike honeyTipLike = HoneyTipLike.from(findHoneyTip);
-        honeyTipLikeRepository.save(honeyTipLike);
-    }
 
     public boolean isHoneyTipLikeExists(final Long honeyTipId) {
         Long currentMemberId = getCurrentMember().getId();
         return honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
     }
 
+    // 좋아요 생성
+    @SendNotification
+    public void register(final HoneyTip honeyTip) {
+        HoneyTipLike honeyTipLike = HoneyTipLike.from(honeyTip);
+        honeyTipLikeRepository.save(honeyTipLike);
+    }
+
     // 좋아요 취소
-    public void cancel(final Long honeyTipId) {
-        // HoneyTipId (게시글 ID)
-        HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(honeyTipId);
-        Long findHoneyTipId = findHoneyTip.getId();
+    public void cancel(final HoneyTip honeyTip) {
+        Long findHoneyTipId = honeyTip.getId();
         Long currentMemberId = getCurrentMember().getId();
 
         HoneyTipLike honeyTipLike = honeyTipLikeRepository.findByHoneyTipIdAndMemberId(findHoneyTipId, currentMemberId)
@@ -55,10 +46,5 @@ public class HoneyTipLikeService {
 
     public Long countHoneyTipLikes(final Long honeyTipId) {
         return honeyTipLikeRepository.countHoneyTipLikesByHoneyTipId(honeyTipId);
-    }
-
-    public boolean existsByHoneyTipIdAndMemberId(final Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(postId, currentMemberId);
     }
 }

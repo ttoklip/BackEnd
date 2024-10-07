@@ -5,7 +5,9 @@ import com.api.ttoklip.domain.honeytip.constant.HoneyTipResponseConstant;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipEditReq;
 import com.api.ttoklip.domain.honeytip.controller.dto.response.HoneyTipSingleResponse;
+import com.api.ttoklip.domain.honeytip.facade.HoneyTipLikeFacade;
 import com.api.ttoklip.domain.honeytip.facade.HoneyTipPostFacade;
+import com.api.ttoklip.domain.honeytip.facade.HoneyTipScrapFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,6 +37,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class HoneyTipPostController {
 
     private final HoneyTipPostFacade honeytipPostFacade;
+    private final HoneyTipLikeFacade honeyTipLikeFacade;
+    private final HoneyTipScrapFacade honeyTipScrapFacade;
 
     /* CREATE */
     @Operation(summary = "새로운 꿀팁 생성", description = "form/data로 새로운 꿀팁 게시글을 생성합니다.")
@@ -123,7 +127,7 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping("/like/{postId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
-        Message message = honeytipPostFacade.registerLike(postId);
+        Message message = honeyTipLikeFacade.registerLike(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -140,7 +144,7 @@ public class HoneyTipPostController {
                             )))})
     @DeleteMapping("/like/{postId}")
     public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
-        Message message = honeytipPostFacade.cancelLike(postId);
+        Message message = honeyTipLikeFacade.cancelLike(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -158,7 +162,7 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
-        Message message = honeytipPostFacade.registerScrap(postId);
+        Message message = honeyTipScrapFacade.registerScrap(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -175,7 +179,7 @@ public class HoneyTipPostController {
                             )))})
     @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancleScrap(final @PathVariable Long postId) {
-        Message message = honeytipPostFacade.cancelScrap(postId);
+        Message message = honeyTipScrapFacade.cancelScrap(postId);
         return new SuccessResponse<>(message);
     }
 
