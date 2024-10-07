@@ -27,12 +27,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
 @Entity
+@Getter
+@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HoneyTip extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -105,13 +106,5 @@ public class HoneyTip extends BaseEntity {
 
     private void deactivateHoneyTipImages() {
         honeyTipImageList.forEach(BaseEntity::deactivate);
-    }
-
-    public long getLikesCount() {
-        return honeyTipLikes.size();
-    }
-
-    public long getScrapsCount() {
-        return honeyTipScraps.size();
     }
 }

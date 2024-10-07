@@ -17,10 +17,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 public class HoneyTipImage extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)

@@ -15,8 +15,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue(value = "HoneyTip")
 public class HoneyTipComment extends Comment {
@@ -25,7 +25,7 @@ public class HoneyTipComment extends Comment {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     private HoneyTipComment(String content, Comment parent, HoneyTip honeyTip, Member member) {
         super(content, parent, member); // Comment 클래스의 생성자 호출
         this.honeyTip = honeyTip;
