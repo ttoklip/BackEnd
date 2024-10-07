@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class NewsletterScrap extends BaseTimeEntity {

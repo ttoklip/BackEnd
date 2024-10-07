@@ -15,8 +15,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue(value = "Newsletter")
 public class NewsletterComment extends Comment {
@@ -25,7 +25,7 @@ public class NewsletterComment extends Comment {
     @JoinColumn(name = "newsletter_id")
     private Newsletter newsletter;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     public NewsletterComment(String content, Comment parent, Newsletter newsletter, Member member) {
         super(content, parent, member);
         this.newsletter = newsletter;

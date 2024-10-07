@@ -25,12 +25,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
 @Entity
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Newsletter extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -82,11 +83,4 @@ public class Newsletter extends BaseEntity {
                 .build();
     }
 
-    public long getScrapsCount() {
-        return newsletterScraps.size();
-    }
-
-    public long getLikesCount() {
-        return newsletterLikes.size();
-    }
 }
