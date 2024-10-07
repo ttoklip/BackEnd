@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.main.dto.response;
 
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.util.TimeUtil;
 import java.time.LocalDateTime;

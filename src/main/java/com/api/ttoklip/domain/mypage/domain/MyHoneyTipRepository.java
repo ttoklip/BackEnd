@@ -7,7 +7,7 @@ import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyT
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

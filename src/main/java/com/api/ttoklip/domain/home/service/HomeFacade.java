@@ -3,9 +3,8 @@ package com.api.ttoklip.domain.home.service;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.home.response.HomeResponse;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostFacade;
-import com.api.ttoklip.domain.honeytip.post.service.HoneyTipPostService;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;

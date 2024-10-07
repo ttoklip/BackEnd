@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.common.comment.repository;
 import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 
-import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.notification.service;
 
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
 import com.api.ttoklip.domain.notification.dto.response.NotificationServerResponse;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class NotificationPostTargetFinder {
 
-    private final HoneyTipCommonService honeyTipCommonService;
+    private final HoneyTipPostService honeyTipPostService;
     private final CommunityCommonService communityCommonService;
     private final CartPostService cartPostService;
     private final QuestionCommentService questionCommentService;
@@ -31,7 +31,7 @@ public class NotificationPostTargetFinder {
 
         // 꿀팁공유해요 작성자 반환
         if (request.equals(NotiCategory.HONEY_TIP_SCRAP) || request.equals(NotiCategory.HONEY_TIP_LIKE)) {
-            HoneyTip honeytip = honeyTipCommonService.getHoneytip(targetIndex);
+            HoneyTip honeytip = honeyTipPostService.getHoneytip(targetIndex);
             Long writerId = honeytip.getMember().getId();
 
             NotificationServerResponse response = NotificationServerResponse.of(writerId, honeytip.getId());

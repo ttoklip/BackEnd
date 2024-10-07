@@ -12,7 +12,7 @@ import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.commu
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.QComment;
-import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
