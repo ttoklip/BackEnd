@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.newsletter.controller;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.newsletter.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsCategoryPagingResponse;
-import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateReq;
+import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateRequest;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.facade.NewsletterLikeFacade;
 import com.api.ttoklip.domain.newsletter.facade.NewsletterPostFacade;
@@ -57,7 +57,7 @@ public class NewsletterController {
                                     description = "뉴스레터가 생성되었습니다."
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Message> register(final @Validated @ModelAttribute NewsletterCreateReq request) {
+    public SuccessResponse<Message> register(final @Validated @ModelAttribute NewsletterCreateRequest request) {
         return new SuccessResponse<>(newsletterPostFacade.register(request));
     }
 

@@ -1,14 +1,14 @@
 package com.api.ttoklip.domain.newsletter.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.newsletter.image.domain.QNewsletterImage.newsletterImage;
-import static com.api.ttoklip.domain.newsletter.like.entity.QNewsletterLike.newsletterLike;
-import static com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap.newsletterScrap;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.post.domain.QNewsletter;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletter;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterImage;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterLike;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterScrap;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -26,12 +26,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
-public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepository {
+public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCustom {
 
     private static final String POPULARITY = "popularity";
     private static final String LATEST = "latest";
     private final JPAQueryFactory jpaQueryFactory;
     private final QNewsletter newsletter = QNewsletter.newsletter;
+    private final QNewsletterImage newsletterImage = QNewsletterImage.newsletterImage;
+    private final QNewsletterLike newsletterLike = QNewsletterLike.newsletterLike;
+    private final QNewsletterScrap newsletterScrap = QNewsletterScrap.newsletterScrap;
+
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
 
     @Override
@@ -41,7 +45,8 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .distinct()
                 .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
-                        matchId(newsletterId), getActivatedNewsletter()
+                        getActivatedNewsletter(),
+                        matchId(newsletterId)
                 )
                 .fetchOne();
         return Optional.ofNullable(findNewsletter)
@@ -57,7 +62,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     }
 
     @Override
-    public Newsletter findByIdFetchJoin(Long newsletterPostId) {
+    public Newsletter findByIdFetchJoin(final Long newsletterPostId) {
         Newsletter findNewsletter = jpaQueryFactory
                 .selectFrom(newsletter)
                 .distinct()
@@ -65,7 +70,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .leftJoin(newsletter.member, member).fetchJoin()
                 .where(
                         getActivatedNewsletter(),
-                        newsletter.id.eq(newsletterPostId)
+                        matchId(newsletterPostId)
                 )
                 .fetchOne();
 
@@ -73,13 +78,11 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
     }
 
-
     @Override
     public Long findNewsletterCount() {
-        QNewsletter qNewsletter = QNewsletter.newsletter;
         return jpaQueryFactory
                 .select(Wildcard.count)
-                .from(qNewsletter)
+                .from(newsletter)
                 .fetchOne();
     }
 
@@ -112,8 +115,8 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .select(Wildcard.count)
                 .from(newsletter)
                 .where(
-                        matchCategory(category),
-                        getActivatedNewsletter()
+                        getActivatedNewsletter(),
+                        matchCategory(category)
                 )
                 .fetchOne();
     }
@@ -143,7 +146,7 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
         // 랜덤한 인덱스에서 시작하여 4개의 결과 가져오기
         return jpaQueryFactory.selectFrom(newsletter)
                 .where(
-                        newsletter.deleted.isFalse()
+                        getActivatedNewsletter()
                 )
                 .offset(randomIndex)
                 .limit(4)
@@ -153,7 +156,9 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
     private long getNewsletterCount() {
         Long count = jpaQueryFactory.select(Wildcard.count)
                 .from(newsletter)
-                .where(newsletter.deleted.isFalse())
+                .where(
+                        getActivatedNewsletter()
+                )
                 .fetchOne();
 
         if (count == null) {
@@ -185,18 +190,12 @@ public class NewsletterQueryDslRepositoryImpl implements NewsletterQueryDslRepos
                 .distinct()
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .where(
-                        getMatchCateGory(category)
-                        ,
-                        getActivatedNewsletter()
-
+                        getActivatedNewsletter(),
+                        matchCategory(category)
                 )
                 .limit(10)
                 .orderBy(newsletter.id.desc())
                 .fetch();
-    }
-
-    private BooleanExpression getMatchCateGory(final Category housework) {
-        return newsletter.category.eq(housework);
     }
 
     public Page<Newsletter> getContain(final String keyword, final Pageable pageable, final String sort) {

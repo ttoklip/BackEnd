@@ -1,13 +1,12 @@
 package com.api.ttoklip.domain.newsletter.repository;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface NewsletterQueryDslRepository {
+public interface NewsletterRepositoryCustom {
 
     Newsletter findByIdActivated(final Long newsletterId);
 

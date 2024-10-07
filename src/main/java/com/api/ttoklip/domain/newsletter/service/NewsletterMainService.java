@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.newsletter.service;
 
-import com.api.ttoklip.domain.newsletter.controller.dto.response.CategoryResponses;
+import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterCategoryResponses;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterMainResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterThumbnailResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.RandomTitleResponse;
@@ -24,7 +24,7 @@ public class NewsletterMainService {
 
     public NewsletterMainResponse getMainData() {
         List<RandomTitleResponse> randomNews = getRandomNews();
-        CategoryResponses categoryData = getCategoryData();
+        NewsletterCategoryResponses categoryData = getCategoryData();
         return NewsletterMainResponse.of(randomNews, categoryData);
     }
 
@@ -35,7 +35,7 @@ public class NewsletterMainService {
         List<TodayNewsletter> todayNewsletters =
                 todayNewsletterRepository.findByCreatedDateBetween(startOfDay, endOfDay);
         return todayNewsletters.stream()
-                .map(RandomTitleResponse::of)
+                .map(RandomTitleResponse::from)
                 .toList();
     }
 
@@ -51,7 +51,7 @@ public class NewsletterMainService {
         return today.atTime(23, 59, 59).atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime();
     }
 
-    public CategoryResponses getCategoryData() {
+    public NewsletterCategoryResponses getCategoryData() {
         List<Newsletter> houseWork = newsletterRepository.getHouseWorkNewsletter10Desc();
         List<Newsletter> recipe = newsletterRepository.getRecipeNewsletter10Desc();
         List<Newsletter> safeLiving = newsletterRepository.getSafeLivingNewsletter10Desc();
@@ -62,7 +62,7 @@ public class NewsletterMainService {
         List<NewsletterThumbnailResponse> safeLivingResponse = convertToCategoryResponse(safeLiving);
         List<NewsletterThumbnailResponse> welfarePolicyResponse = convertToCategoryResponse(welfarePolicy);
 
-        return CategoryResponses.of(houseWorkResponse, recipeResponse, safeLivingResponse, welfarePolicyResponse);
+        return NewsletterCategoryResponses.of(houseWorkResponse, recipeResponse, safeLivingResponse, welfarePolicyResponse);
     }
 
     public List<NewsletterThumbnailResponse> convertToCategoryResponse(List<Newsletter> newsletters) {

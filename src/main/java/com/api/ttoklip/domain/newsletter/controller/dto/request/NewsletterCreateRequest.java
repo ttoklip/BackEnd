@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Builder
 @AllArgsConstructor
-public class NewsletterCreateReq {
+public class NewsletterCreateRequest {
 
     @Schema(type = "string", description = "게시글 제목", example = "게시글 제목 예시")
     @NotEmpty

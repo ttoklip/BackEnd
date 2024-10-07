@@ -7,7 +7,7 @@ import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
-import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateReq;
+import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateRequest;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsCategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterThumbnailResponse;
@@ -49,7 +49,7 @@ public class NewsletterPostFacade {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Message register(final NewsletterCreateReq request) {
+    public Message register(final NewsletterCreateRequest request) {
         Member currentMember = getCurrentMember();
         String mainImageUrl = registerMainImage(request);
 
@@ -69,7 +69,7 @@ public class NewsletterPostFacade {
         return Message.registerPostSuccess(Newsletter.class, newsletter.getId());
     }
 
-    private String registerMainImage(final NewsletterCreateReq request) {
+    private String registerMainImage(final NewsletterCreateRequest request) {
         MultipartFile mainImage = request.getMainImage();
         return uploadImage(mainImage);
     }

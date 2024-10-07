@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.newsletter.domain;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateReq;
+import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -72,7 +72,7 @@ public class Newsletter extends BaseEntity {
     @OneToMany(mappedBy = "newsletter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsletterScrap> newsletterScraps = new ArrayList<>();
 
-    public static Newsletter of(final NewsletterCreateReq req, final String mainImageUrl, final Member member) {
+    public static Newsletter of(final NewsletterCreateRequest req, final String mainImageUrl, final Member member) {
         return Newsletter.builder()
                 .title(req.getTitle())
                 .content(req.getContent())

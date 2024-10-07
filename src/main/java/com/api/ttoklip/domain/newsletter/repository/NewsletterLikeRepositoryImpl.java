@@ -6,7 +6,6 @@ import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-
 @RequiredArgsConstructor
 public class NewsletterLikeRepositoryImpl implements NewsletterLikeRepositoryCustom {
 
