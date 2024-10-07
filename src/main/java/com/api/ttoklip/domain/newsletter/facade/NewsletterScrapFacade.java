@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.newsletter.facade;
 
+import com.api.ttoklip.domain.common.ActionFacade;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.service.NewsletterPostService;
 import com.api.ttoklip.domain.newsletter.service.NewsletterScrapService;
@@ -10,13 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class NewsletterScrapFacade {
+public class NewsletterScrapFacade implements ActionFacade {
 
     private final NewsletterScrapService newsletterScrapService;
     private final NewsletterPostService newsletterPostService;
 
+    @Override
     @Transactional
-    public Message registerScrap(Long postId) {
+    public Message register(final Long postId) {
         boolean exists = newsletterScrapService.isNewsletterExists(postId);
         if (!exists) {
             Newsletter newsletter = newsletterPostService.getNewsletter(postId);
@@ -26,8 +28,9 @@ public class NewsletterScrapFacade {
         return Message.scrapPostSuccess(Newsletter.class, postId);
     }
 
+    @Override
     @Transactional
-    public Message cancelScrap(Long postId) {
+    public Message cancel(final Long postId) {
         Newsletter newsletter = newsletterPostService.getNewsletter(postId);
         newsletterScrapService.cancelScrap(newsletter);
         return Message.scrapPostCancel(Newsletter.class, postId);

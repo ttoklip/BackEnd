@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.newsletter.facade;
 
+import com.api.ttoklip.domain.common.ActionFacade;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.service.NewsletterLikeService;
 import com.api.ttoklip.domain.newsletter.service.NewsletterPostService;
@@ -10,11 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class NewsletterLikeFacade {
+public class NewsletterLikeFacade implements ActionFacade {
 
     private final NewsletterLikeService newsletterLikeService;
     private final NewsletterPostService newsletterPostService;
 
+    @Override
     @Transactional
     public Message register(final Long postId) {
         boolean exists = newsletterLikeService.isNewsletterExists(postId);
@@ -26,6 +28,7 @@ public class NewsletterLikeFacade {
         return Message.scrapPostSuccess(Newsletter.class, postId);
     }
 
+    @Override
     @Transactional
     public Message cancel(final Long postId) {
         Newsletter newsletter = newsletterPostService.getNewsletter(postId);
