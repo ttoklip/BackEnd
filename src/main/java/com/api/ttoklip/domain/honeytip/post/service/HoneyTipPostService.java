@@ -15,7 +15,6 @@ import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.post.dto.request.HoneyTipEditReq;
 import com.api.ttoklip.domain.honeytip.post.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.post.editor.HoneyTipPostEditor;
-import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipDefaultRepository;
 import com.api.ttoklip.domain.honeytip.post.repository.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.scrap.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.honeytip.url.service.HoneyTipUrlService;
@@ -38,7 +37,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class HoneyTipPostService {
 
     private final HoneyTipRepository honeytipRepository;
-    private final HoneyTipDefaultRepository honeyTipDefaultRepository;
     private final ReportService reportService;
 
     private final HoneyTipUrlService honeyTipUrlService;
@@ -184,10 +182,10 @@ public class HoneyTipPostService {
 
     /* -------------------------------------------- 카토고리별 MAIN READ -------------------------------------------- */
     public CategoryResponses getDefaultCategoryRead() {
-        List<HoneyTip> houseWorkQuestions = honeyTipDefaultRepository.getHouseWork();
-        List<HoneyTip> recipeQuestions = honeyTipDefaultRepository.getRecipe();
-        List<HoneyTip> safeLivingQuestions = honeyTipDefaultRepository.getSafeLiving();
-        List<HoneyTip> welfarePolicyQuestions = honeyTipDefaultRepository.getWelfarePolicy();
+        List<HoneyTip> houseWorkQuestions = honeytipRepository.getHouseWork();
+        List<HoneyTip> recipeQuestions = honeytipRepository.getRecipe();
+        List<HoneyTip> safeLivingQuestions = honeytipRepository.getSafeLiving();
+        List<HoneyTip> welfarePolicyQuestions = honeytipRepository.getWelfarePolicy();
 
         return CategoryResponses.builder()
                 .housework(convertToTitleResponses(houseWorkQuestions))
@@ -204,7 +202,7 @@ public class HoneyTipPostService {
     }
 
     public List<TitleResponse> getTop5() {
-        List<HoneyTip> top5HoneyTips = honeyTipDefaultRepository.getTop5();
+        List<HoneyTip> top5HoneyTips = honeytipRepository.getTop5();
         return top5HoneyTips.stream()
                 .map(TitleResponse::honeyTipFrom)
                 .toList();

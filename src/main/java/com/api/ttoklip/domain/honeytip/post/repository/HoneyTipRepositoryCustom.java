@@ -17,4 +17,14 @@ public interface HoneyTipRepositoryCustom {
     Page<HoneyTip> matchCategoryPaging(Category category, Pageable pageable);
 
     List<HoneyTip> findRecent3();
+
+    List<HoneyTip> getHouseWork();
+
+    List<HoneyTip> getRecipe();
+
+    List<HoneyTip> getSafeLiving();
+
+    List<HoneyTip> getWelfarePolicy();
+
+    List<HoneyTip> getTop5();
 }
