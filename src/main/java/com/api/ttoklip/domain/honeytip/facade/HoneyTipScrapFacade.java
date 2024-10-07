@@ -1,5 +1,6 @@
 package com.api.ttoklip.domain.honeytip.facade;
 
+import com.api.ttoklip.domain.common.ActionFacade;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipScrapService;
@@ -10,13 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class HoneyTipScrapFacade {
+public class HoneyTipScrapFacade implements ActionFacade {
 
     private final HoneyTipScrapService honeyTipScrapService;
     private final HoneyTipPostService honeyTipPostService;
 
+    @Override
     @Transactional
-    public Message registerScrap(Long postId) {
+    public Message register(final Long postId) {
         boolean exists = honeyTipScrapService.isHoneyTipScrapExists(postId);
         // 스크랩이 존재하지 않을 때만 생성
         if (!exists) {
@@ -26,8 +28,9 @@ public class HoneyTipScrapFacade {
         return Message.scrapPostSuccess(HoneyTip.class, postId);
     }
 
+    @Override
     @Transactional
-    public Message cancelScrap(Long postId) {
+    public Message cancel(final Long postId) {
         HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
         honeyTipScrapService.cancelScrap(findHoneyTip);
         return Message.scrapPostCancel(HoneyTip.class, postId);
