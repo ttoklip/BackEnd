@@ -14,7 +14,7 @@ public class HoneyTipCommentService {
 
     private final HoneyTipCommentRepository honeyTipCommentRepository;
 
-    public List<HoneyTipComment> findCommentsByHoneyTipId(final Long honeyTipPostId) {
-        return honeyTipCommentRepository.findCommentsByHoneyTipId(honeyTipPostId);
+    public List<HoneyTipComment> findCommentsByHoneyTipId(final Long postId) {
+        return honeyTipCommentRepository.findCommentsByHoneyTipId(postId);
     }
 }

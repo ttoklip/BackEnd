@@ -19,9 +19,9 @@ public class HoneyTipLikeService {
 
     private final HoneyTipLikeRepository honeyTipLikeRepository;
 
-    public boolean isHoneyTipLikeExists(final Long honeyTipId) {
+    public boolean isHoneyTipLikeExists(final Long postId) {
         Long currentMemberId = getCurrentMember().getId();
-        return honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
+        return honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(postId, currentMemberId);
     }
 
     // 좋아요 생성
@@ -44,7 +44,7 @@ public class HoneyTipLikeService {
         honeyTipLikeRepository.deleteById(honeyTipLike.getId());
     }
 
-    public Long countHoneyTipLikes(final Long honeyTipId) {
-        return honeyTipLikeRepository.countHoneyTipLikesByHoneyTipId(honeyTipId);
+    public Long countHoneyTipLikes(final Long postId) {
+        return honeyTipLikeRepository.countHoneyTipLikesByHoneyTipId(postId);
     }
 }

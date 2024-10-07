@@ -109,8 +109,7 @@ public class HoneyTipPostController {
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = honeytipPostFacade.report(postId, request);
-        return new SuccessResponse<>(message);
+        return new SuccessResponse<>(honeytipPostFacade.report(postId, request));
     }
 
     /* LIKE */
@@ -127,8 +126,7 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping("/like/{postId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
-        Message message = honeyTipLikeFacade.registerLike(postId);
-        return new SuccessResponse<>(message);
+        return new SuccessResponse<>(honeyTipLikeFacade.register(postId));
     }
 
     @Operation(summary = "꿀팁공유해요 도움이되었어요 취소", description = "꿀팁 ID에 해당하는 게시글을 도움이되었어요를 취소합니다.")
@@ -144,8 +142,7 @@ public class HoneyTipPostController {
                             )))})
     @DeleteMapping("/like/{postId}")
     public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
-        Message message = honeyTipLikeFacade.cancelLike(postId);
-        return new SuccessResponse<>(message);
+        return new SuccessResponse<>(honeyTipLikeFacade.cancel(postId));
     }
 
     /* SCRAP */
@@ -162,8 +159,7 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
-        Message message = honeyTipScrapFacade.registerScrap(postId);
-        return new SuccessResponse<>(message);
+        return new SuccessResponse<>(honeyTipScrapFacade.register(postId));
     }
 
     @Operation(summary = "꿀팁공유해요 스크랩 취소", description = "꿀팁 ID에 해당하는 게시글에 스크랩을 취소합니다.")
@@ -178,9 +174,8 @@ public class HoneyTipPostController {
                                     description = "꿀팁의 스크랩을 취소했습니다."
                             )))})
     @DeleteMapping("/scrap/{postId}")
-    public SuccessResponse<Message> cancleScrap(final @PathVariable Long postId) {
-        Message message = honeyTipScrapFacade.cancelScrap(postId);
-        return new SuccessResponse<>(message);
+    public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
+        return new SuccessResponse<>(honeyTipScrapFacade.cancel(postId));
     }
 
     /* READ */

@@ -41,7 +41,4 @@ public class HoneyTipUrl extends BaseEntity {
                 .build();
     }
 
-    public void updateHoneyTip(HoneyTip honeyTip) {
-        this.honeyTip = honeyTip;
-    }
 }

@@ -12,11 +12,11 @@ public class HoneyTipLikeRepositoryImpl implements HoneyTipLikeRepositoryCustom 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Long countHoneyTipLikesByHoneyTipId(final Long honeyTipId) {
+    public Long countHoneyTipLikesByHoneyTipId(final Long postId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(honeyTipLike)
-                .where(honeyTipLike.honeyTip.id.eq(honeyTipId))
+                .where(honeyTipLike.honeyTip.id.eq(postId))
                 .fetchOne();
     }
 

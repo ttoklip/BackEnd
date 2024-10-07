@@ -19,9 +19,9 @@ public class HoneyTipScrapService {
 
     private final HoneyTipScrapRepository honeyTipScrapRepository;
 
-    public boolean isHoneyTipScrapExists(final Long honeyTipId) {
+    public boolean isHoneyTipScrapExists(final Long postId) {
         Long currentMemberId = getCurrentMember().getId();
-        return honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(honeyTipId, currentMemberId);
+        return honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(postId, currentMemberId);
     }
 
     // 스크랩 생성
@@ -46,7 +46,7 @@ public class HoneyTipScrapService {
         honeyTipScrapRepository.deleteById(honeyTipScrap.getId());
     }
 
-    public Long countHoneyTipScraps(final Long honeyTipId) {
-        return honeyTipScrapRepository.countHoneyTipScrapsByHoneyTipId(honeyTipId);
+    public Long countHoneyTipScraps(final Long postId) {
+        return honeyTipScrapRepository.countHoneyTipScrapsByHoneyTipId(postId);
     }
 }
