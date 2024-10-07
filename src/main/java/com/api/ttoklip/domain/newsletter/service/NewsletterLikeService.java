@@ -2,9 +2,9 @@ package com.api.ttoklip.domain.newsletter.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterLike;
 import com.api.ttoklip.domain.newsletter.repository.NewsletterLikeRepository;
-import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

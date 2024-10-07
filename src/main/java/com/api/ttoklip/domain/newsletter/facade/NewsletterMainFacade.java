@@ -4,10 +4,9 @@ import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterCateg
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterMainResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.RandomTitleResponse;
 import com.api.ttoklip.domain.newsletter.service.NewsletterMainService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

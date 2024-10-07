@@ -6,7 +6,6 @@ import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

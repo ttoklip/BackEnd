@@ -17,11 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NewsletterMainService {
 
+    private static final String ZONE_ID_OF_SEOUL = "Asia/Seoul";
     private final TodayNewsletterRepository todayNewsletterRepository;
     private final NewsletterRepository newsletterRepository;
-    private static final String ZONE_ID_OF_SEOUL = "Asia/Seoul";
 
     public List<RandomTitleResponse> getRandomNews() {
         LocalDate today = getDayOfSeoul();
@@ -57,7 +58,8 @@ public class NewsletterMainService {
         List<NewsletterThumbnailResponse> safeLivingResponse = convertToCategoryResponse(safeLiving);
         List<NewsletterThumbnailResponse> welfarePolicyResponse = convertToCategoryResponse(welfarePolicy);
 
-        return NewsletterCategoryResponses.of(houseWorkResponse, recipeResponse, safeLivingResponse, welfarePolicyResponse);
+        return NewsletterCategoryResponses.of(houseWorkResponse, recipeResponse, safeLivingResponse,
+                welfarePolicyResponse);
     }
 
     public List<NewsletterThumbnailResponse> convertToCategoryResponse(List<Newsletter> newsletters) {

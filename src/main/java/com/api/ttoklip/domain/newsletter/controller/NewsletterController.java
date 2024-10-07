@@ -2,8 +2,8 @@ package com.api.ttoklip.domain.newsletter.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.newsletter.constant.NewsletterResponseConstant;
-import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsCategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateRequest;
+import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsCategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterSingleResponse;
 import com.api.ttoklip.domain.newsletter.facade.NewsletterLikeFacade;
 import com.api.ttoklip.domain.newsletter.facade.NewsletterPostFacade;
@@ -159,7 +159,7 @@ public class NewsletterController {
                             )))})
     @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
-        Message message = newsletterScrapFacade.registerScrap(postId);
+        Message message = newsletterScrapFacade.register(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -176,7 +176,7 @@ public class NewsletterController {
                             )))})
     @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
-        Message message = newsletterScrapFacade.cancelScrap(postId);
+        Message message = newsletterScrapFacade.cancel(postId);
         return new SuccessResponse<>(message);
     }
 

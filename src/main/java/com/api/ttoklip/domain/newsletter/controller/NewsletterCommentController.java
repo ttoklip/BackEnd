@@ -2,8 +2,8 @@ package com.api.ttoklip.domain.newsletter.controller;
 
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.newsletter.facade.NewsletterCommentFacade;
 import com.api.ttoklip.domain.newsletter.constant.NewsletterResponseConstant;
+import com.api.ttoklip.domain.newsletter.facade.NewsletterCommentFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
