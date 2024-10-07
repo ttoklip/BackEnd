@@ -1,11 +1,9 @@
 package com.api.ttoklip.domain.honeytip.repository.image;
 
-
-import static com.api.ttoklip.domain.honeytip.image.domain.QHoneyTipImage.honeyTipImage;
-import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipImage;
+import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -17,6 +15,10 @@ import lombok.RequiredArgsConstructor;
 public class HoneyTipImageRepositoryImpl implements HoneyTipImageRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+
+    private final QHoneyTipImage honeyTipImage = QHoneyTipImage.honeyTipImage;
+    private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
+    private final QMember member = QMember.member;
 
     @Override
     public void allImageOwner(List<Long> imageIds, Long memberId) {

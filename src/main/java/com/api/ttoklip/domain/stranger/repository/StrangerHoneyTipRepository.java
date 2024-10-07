@@ -1,9 +1,8 @@
 package com.api.ttoklip.domain.stranger.repository;
 
-import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
-import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
-
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -18,6 +17,9 @@ import org.springframework.stereotype.Repository;
 public class StrangerHoneyTipRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
+    private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
 
     public Page<HoneyTip> getContain(final Long targetId, final Pageable pageable) {
         List<HoneyTip> content = getSearchPageId(targetId, pageable);

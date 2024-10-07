@@ -1,12 +1,11 @@
 package com.api.ttoklip.domain.honeytip.repository.scrap;
 
 
-import static com.api.ttoklip.domain.honeytip.like.domain.QHoneyTipLike.honeyTipLike;
-import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
-
-import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipLike;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipScrap;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -27,7 +26,10 @@ import org.springframework.util.StringUtils;
 public class HoneyTipSearchRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
     private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
+    private final QHoneyTipLike honeyTipLike = QHoneyTipLike.honeyTipLike;
+    private final QHoneyTipScrap honeyTipScrap = QHoneyTipScrap.honeyTipScrap;
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
 
     public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {

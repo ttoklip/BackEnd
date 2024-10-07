@@ -1,22 +1,20 @@
 package com.api.ttoklip.domain.notification.repository;
 
-import static com.api.ttoklip.domain.common.comment.QComment.comment;
-import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
-import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
-import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
-import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
-import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
-import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
-
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.QComment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
+import com.api.ttoklip.domain.member.domain.QMember;
+import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.post.domain.QQuestion;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
+import com.api.ttoklip.domain.town.cart.comment.QCartComment;
+import com.api.ttoklip.domain.town.cart.post.entity.QCart;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
+import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
+import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,7 +27,18 @@ import org.springframework.stereotype.Repository;
 public class NotificationCommentRepository {
 
     private final JPAQueryFactory queryFactory;
+
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
+    private final QQuestionComment questionComment = QQuestionComment.questionComment;
+    private final QCommunityComment communityComment = QCommunityComment.communityComment;
+    private final QCartComment cartComment = QCartComment.cartComment;
+    private final QComment comment = QComment.comment;
+
+    private final QCommunity community = QCommunity.community;
+    private final QQuestion question = QQuestion.question;
+    private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
+    private final QCart cart = QCart.cart;
+    private final QMember member = QMember.member;
 
     public Comment findParentCommentFetchJoin(final Long commentId) {
         QComment childComment = comment;
