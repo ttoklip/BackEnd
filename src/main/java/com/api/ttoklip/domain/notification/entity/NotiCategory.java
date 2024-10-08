@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.notification.entity;
 
 import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.global.exception.ApiException;
