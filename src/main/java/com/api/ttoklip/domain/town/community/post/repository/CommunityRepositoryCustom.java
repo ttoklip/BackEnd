@@ -15,7 +15,7 @@ public interface CommunityRepositoryCustom {
 
     List<CommunityComment> findActiveCommentsByCommunityId(final Long postId);
 
-    List<Community> getRecent3();
+    List<Community> getRecent3(final TownCriteria townCriteria);
 
     Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable);
 }

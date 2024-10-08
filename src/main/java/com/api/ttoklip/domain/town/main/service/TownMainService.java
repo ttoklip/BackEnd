@@ -85,7 +85,7 @@ public class TownMainService {
     public CartMainResponse getRecent3(final String criteria) {
         TownCriteria townCriteria = validCriteria(criteria);
         List<UserCartSingleResponse> cartRecent3 = cartPostService.getRecent3(townCriteria);
-        List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3();
+        List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3(townCriteria);
         String street = getCurrentMember().getStreet();
 
         return CartMainResponse.builder()
