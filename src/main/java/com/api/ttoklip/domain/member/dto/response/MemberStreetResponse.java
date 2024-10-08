@@ -4,6 +4,8 @@ public record MemberStreetResponse(
         String street
 ) {
     public static MemberStreetResponse of(String street) {
-        return new MemberStreetResponse(street);
+        String filterStreet = street.replace("경기도", "").trim();
+
+        return new MemberStreetResponse(filterStreet);
     }
 }
