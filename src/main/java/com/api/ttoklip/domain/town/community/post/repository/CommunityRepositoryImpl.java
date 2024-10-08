@@ -86,12 +86,15 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     }
 
     @Override
-    public List<Community> getRecent3() {
+    public List<Community> getRecent3(final TownCriteria townCriteria) {
+        String writerStreet = getCurrentMember().getStreet();
+
         return jpaQueryFactory
                 .selectFrom(community)
                 .distinct()
                 .where(
-                        getCommunityActivate()
+                        getCommunityActivate(),
+                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
                 )
                 .leftJoin(community.member, member).fetchJoin()
                 .orderBy(community.id.desc())

@@ -192,8 +192,8 @@ public class CommunityPostService {
         return Message.scrapPostCancel(Community.class, postId);
     }
 
-    public List<CommunityRecent3Response> getRecent3() {
-        List<Community> communities = communityRepository.getRecent3();
+    public List<CommunityRecent3Response> getRecent3(final TownCriteria townCriteria) {
+        List<Community> communities = communityRepository.getRecent3(townCriteria);
         return communities.stream()
                 .map(CommunityRecent3Response::of)
                 .toList();
