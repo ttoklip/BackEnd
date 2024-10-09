@@ -101,6 +101,11 @@ dependencies {
 
     testImplementation "org.testcontainers:testcontainers:1.19.0"
     testImplementation "org.testcontainers:junit-jupiter:1.19.0"
+
+    testImplementation 'org.mockito:mockito-core:5.0.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.0.0'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+
 }
 
 tasks.named('bootBuildImage') {
