@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.notification.service;
 
 import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.honeytip.comment.domain.HoneyTipComment;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.notification.dto.response.NotificationServerResponse;
 import com.api.ttoklip.domain.notification.repository.NotificationCommentRepository;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
