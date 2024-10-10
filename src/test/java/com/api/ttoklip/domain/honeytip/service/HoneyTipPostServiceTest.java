@@ -129,7 +129,20 @@ class HoneyTipPostServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("HoneyTip url, image가 존재하는 글을 FetchJoin 조회했을 때 함께 조회해온다.")
     void findHoneyTipWithDetails() {
+        // given
+        Long honeyTipId = 3200L; // SQL에서 삽입된 HoneyTip의 ID
+
+        // when
+        HoneyTip honeyTipWithDetails = honeyTipPostService.findHoneyTipWithDetails(honeyTipId);
+
+        // then
+        assertThat(honeyTipWithDetails).isNotNull();
+        assertThat(honeyTipWithDetails.getHoneyTipImageList()).isNotEmpty();
+        assertThat(honeyTipWithDetails.getHoneyTipUrlList()).isNotEmpty();
+        assertThat(honeyTipWithDetails.getMember()).isNotNull();
     }
 
     @Test
