@@ -49,3 +49,47 @@ INSERT INTO honey_tip_url (
       (3401, 'https://example.com', 3200, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
       (3402, 'https://another-example.com', 3200, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
+-- 7. RECIPE 카테고리 데이터 삽입
+INSERT INTO honey_tip (
+    id, title, content, category, member_id, deleted, created_by, last_modified_by, created_date, last_modified_date
+) VALUES
+      (4001, '요리 팁 1', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4002, '요리 팁 2', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4003, '요리 팁 3', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4004, '요리 팁 4', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4005, '요리 팁 5', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4006, '요리 팁 6', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4007, '요리 팁 7', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4008, '요리 팁 8', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4009, '요리 팁 9', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (4010, '요리 팁 10', '요리할 때 유용한 팁입니다.', 'RECIPE', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 8. SAFE_LIVING 카테고리 데이터 삽입
+INSERT INTO honey_tip (
+    id, title, content, category, member_id, deleted, created_by, last_modified_by, created_date, last_modified_date
+) VALUES
+      (5001, '안전 생활 팁 1', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5002, '안전 생활 팁 2', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5003, '안전 생활 팁 3', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5004, '안전 생활 팁 4', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5005, '안전 생활 팁 5', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5006, '안전 생활 팁 6', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5007, '안전 생활 팁 7', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+       (5008, '안전 생활 팁 8', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5009, '안전 생활 팁 9', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (5010, '안전 생활 팁 10', '안전하게 생활할 수 있는 팁입니다.', 'SAFE_LIVING', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 9. WELFARE_POLICY 카테고리 데이터 삽입
+INSERT INTO honey_tip (
+    id, title, content, category, member_id, deleted, created_by, last_modified_by, created_date, last_modified_date
+) VALUES
+      (6001, '복지 정책 팁 1', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6002, '복지 정책 팁 2', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6003, '복지 정책 팁 3', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6004, '복지 정책 팁 4', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6005, '복지 정책 팁 5', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6006, '복지 정책 팁 6', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6007, '복지 정책 팁 7', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6008, '복지 정책 팁 8', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6009, '복지 정책 팁 9', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      (6010, '복지 정책 팁 10', '복지 정책 관련 팁입니다.', 'WELFARE_POLICY', 3001, false, '테스트유저', '테스트유저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

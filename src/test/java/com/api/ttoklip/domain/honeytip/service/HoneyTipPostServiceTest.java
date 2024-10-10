@@ -147,19 +147,71 @@ class HoneyTipPostServiceTest {
 
     @Test
     void findHouseworkTips() {
+        // given: SQL 파일에서 이미 HOUSEWORK 카테고리의 데이터가 10개 삽입됨
+
+        // when
+        List<HoneyTip> houseworkTips = honeyTipPostService.findHouseworkTips();
+
+        // then
+        assertThat(houseworkTips).isNotNull();
+        assertThat(houseworkTips).hasSize(10); // 10개의 결과가 반환되는지 확인
+        assertThat(houseworkTips).allMatch(
+                tip -> tip.getCategory() == Category.HOUSEWORK); // 모든 항목의 카테고리가 HOUSEWORK인지 확인
+        assertThat(houseworkTips).extracting("title")
+                .containsExactly("세부 정보 테스트", "청소 팁 10", "청소 팁 9", "청소 팁 8", "청소 팁 7", "청소 팁 6", "청소 팁 5", "청소 팁 4",
+                        "청소 팁 3", "청소 팁 2");
     }
 
     @Test
     void findRecipeTips() {
+        // given: SQL 파일에서 이미 RECIPE 카테고리의 데이터가 10개 삽입됨
+
+        // when
+        List<HoneyTip> recipeTips = honeyTipPostService.findRecipeTips();
+
+        // then
+        assertThat(recipeTips).isNotNull();
+        assertThat(recipeTips).hasSize(10); // 10개의 결과가 반환되는지 확인
+        assertThat(recipeTips).allMatch(tip -> tip.getCategory() == Category.RECIPE); // 모든 항목의 카테고리가 RECIPE인지 확인
+        assertThat(recipeTips).extracting("title")
+                .containsExactly("요리 팁 10", "요리 팁 9", "요리 팁 8", "요리 팁 7", "요리 팁 6", "요리 팁 5", "요리 팁 4", "요리 팁 3",
+                        "요리 팁 2", "요리 팁 1");
     }
 
     @Test
     void findSafeLivingTips() {
+        // given: SQL 파일에서 이미 SAFE_LIVING 카테고리의 데이터가 10개 삽입됨
+
+        // when
+        List<HoneyTip> safeLivingTips = honeyTipPostService.findSafeLivingTips();
+
+        // then
+        assertThat(safeLivingTips).isNotNull();
+        assertThat(safeLivingTips).hasSize(10); // 10개의 결과가 반환되는지 확인
+        assertThat(safeLivingTips).allMatch(
+                tip -> tip.getCategory() == Category.SAFE_LIVING); // 모든 항목의 카테고리가 SAFE_LIVING인지 확인
+        assertThat(safeLivingTips).extracting("title")
+                .containsExactly("안전 생활 팁 10", "안전 생활 팁 9", "안전 생활 팁 8", "안전 생활 팁 7", "안전 생활 팁 6", "안전 생활 팁 5",
+                        "안전 생활 팁 4", "안전 생활 팁 3", "안전 생활 팁 2", "안전 생활 팁 1");
     }
 
     @Test
     void findWelfarePolicyTips() {
+        // given: SQL 파일에서 이미 WELFARE_POLICY 카테고리의 데이터가 10개 삽입됨
+
+        // when
+        List<HoneyTip> welfarePolicyTips = honeyTipPostService.findWelfarePolicyTips();
+
+        // then
+        assertThat(welfarePolicyTips).isNotNull();
+        assertThat(welfarePolicyTips).hasSize(10); // 10개의 결과가 반환되는지 확인
+        assertThat(welfarePolicyTips).allMatch(
+                tip -> tip.getCategory() == Category.WELFARE_POLICY); // 모든 항목의 카테고리가 WELFARE_POLICY인지 확인
+        assertThat(welfarePolicyTips).extracting("title")
+                .containsExactly("복지 정책 팁 10", "복지 정책 팁 9", "복지 정책 팁 8", "복지 정책 팁 7", "복지 정책 팁 6", "복지 정책 팁 5",
+                        "복지 정책 팁 4", "복지 정책 팁 3", "복지 정책 팁 2", "복지 정책 팁 1");
     }
+
 
     @Test
     void getPopularityTop5() {
@@ -170,6 +222,26 @@ class HoneyTipPostServiceTest {
     }
 
     @Test
+    @DisplayName("WELFARE_POLICY 카테고리의 HoneyTip을 페이지네이션하여 조회한다.")
     void matchCategoryPaging() {
+        // given: 페이지 요청을 설정합니다 (첫 번째 페이지, 페이지당 5개)
+        Pageable pageRequest = PageRequest.of(0, 5);
+
+        // when: WELFARE_POLICY 카테고리로 페이지네이션하여 조회합니다
+        Page<HoneyTip> honeyTips = honeyTipPostService.matchCategoryPaging(Category.WELFARE_POLICY, pageRequest);
+
+        // then: 반환된 페이지가 비어있지 않고, 총 5개의 항목이 반환되는지 확인합니다
+        assertThat(honeyTips).isNotNull();
+        assertThat(honeyTips.getContent()).hasSize(5); // 페이지 크기와 맞는지 확인
+        assertThat(honeyTips.getTotalElements()).isEqualTo(10); // 전체 요소가 10개인지 확인 (SQL 스크립트 기준)
+        assertThat(honeyTips.getContent()).allMatch(
+                tip -> tip.getCategory() == Category.WELFARE_POLICY); // 모든 항목이 WELFARE_POLICY 카테고리인지 확인
+
+        // 최근순으로 반환된 타이틀들을 순서대로 확인
+        assertThat(honeyTips.getContent())
+                .extracting("title")
+                .containsExactly("복지 정책 팁 10", "복지 정책 팁 9", "복지 정책 팁 8", "복지 정책 팁 7", "복지 정책 팁 6");
     }
+
+
 }
