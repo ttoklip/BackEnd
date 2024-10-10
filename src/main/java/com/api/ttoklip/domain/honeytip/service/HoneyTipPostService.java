@@ -33,9 +33,8 @@ public class HoneyTipPostService {
         return s3FileUploader.uploadMultipartFiles(uploadImages);
     }
 
-    public void checkEditPermission(final HoneyTip honeyTip) {
+    public void checkEditPermission(final HoneyTip honeyTip, final Long currentMemberId) {
         Long writerId = honeyTip.getMember().getId();
-        Long currentMemberId = getCurrentMember().getId();
 
         if (!writerId.equals(currentMemberId)) {
             throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);

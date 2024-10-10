@@ -84,11 +84,11 @@ public class HoneyTipPostFacade {
     /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
     @CheckBadWordUpdate
-    public Message edit(final Long postId, final HoneyTipEditReq request) {
+    public Message edit(final Long postId, final HoneyTipEditReq request, final Long currentMemberId) {
 
         // 기존 게시글 찾기
         HoneyTip honeyTip = honeyTipPostService.getHoneytip(postId);
-        honeyTipPostService.checkEditPermission(honeyTip);
+        honeyTipPostService.checkEditPermission(honeyTip, currentMemberId);
 
         // title, content 수정
         HoneyTipPostEditor postEditor = getPostEditor(request, honeyTip);
@@ -134,10 +134,10 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
-    public Message delete(final Long postId) {
+    public Message delete(final Long postId, final Long currentMemberId) {
         HoneyTip honeyTip = honeyTipPostService.getHoneytip(postId);
 
-        honeyTipPostService.checkEditPermission(honeyTip);
+        honeyTipPostService.checkEditPermission(honeyTip, currentMemberId);
         honeyTip.deactivate();
 
         return Message.deletePostSuccess(HoneyTip.class, postId);

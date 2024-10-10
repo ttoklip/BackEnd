@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.honeytip.controller;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.constant.HoneyTipResponseConstant;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
@@ -73,7 +75,8 @@ public class HoneyTipPostController {
     @PatchMapping("/{postId}")
     public SuccessResponse<Message> edit(final @PathVariable Long postId,
                                          final @ModelAttribute HoneyTipEditReq request) {
-        return new SuccessResponse<>(honeytipPostFacade.edit(postId, request));
+        Long currentMemberId = getCurrentMember().getId();
+        return new SuccessResponse<>(honeytipPostFacade.edit(postId, request, currentMemberId));
     }
 
 
@@ -91,7 +94,8 @@ public class HoneyTipPostController {
                             )))})
     @DeleteMapping("/{postId}")
     public SuccessResponse<Message> delete(final @PathVariable Long postId) {
-        return new SuccessResponse<>(honeytipPostFacade.delete(postId));
+        Long currentMemberId = getCurrentMember().getId();
+        return new SuccessResponse<>(honeytipPostFacade.delete(postId, currentMemberId));
     }
 
     /* REPORT */
