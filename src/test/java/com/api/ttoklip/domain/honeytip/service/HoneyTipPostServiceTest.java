@@ -60,7 +60,39 @@ class HoneyTipPostServiceTest {
     }
 
     @Test
-    void checkEditPermission() {
+    void uploadImages() {
+    }
+
+    @Test
+    @DisplayName("작성자가 아니면 수정하거나 삭제할 권한이 없다.")
+    void checkEditPermissionForbidden() {
+        // given
+        Long honeyTipId = 900L; // SQL에서 삽입된 HoneyTip의 ID
+        Long anotherMemberId = 1002L; // SQL에서 삽입된 다른 멤버의 ID
+        HoneyTip honeytip = honeyTipPostService.getHoneytip(honeyTipId);
+
+        assertThatThrownBy(
+                () -> honeyTipPostService.checkEditPermission(honeytip, anotherMemberId)
+        )
+                .isInstanceOf(ApiException.class)
+                .satisfies(ex -> {
+                    ApiException apiException = (ApiException) ex;
+                    assertThat(apiException.getErrorType()).isEqualTo(ErrorType.UNAUTHORIZED_EDIT_POST);
+                });
+    }
+
+    @Test
+    @DisplayName("작성자가 맞으면 수정하거나 삭제할 수 있다.")
+    void checkEditPermissionSuccess() {
+        // given
+        Long honeyTipId = 900L;
+        Long authorId = 3001L;
+        HoneyTip honeytip = honeyTipPostService.getHoneytip(honeyTipId);
+
+        // when & then
+        honeyTipPostService.checkEditPermission(honeytip, authorId);
+        // 예외가 발생하지 않으면 테스트 성공
+        assertThat(honeytip.getMember().getId()).isEqualTo(authorId);
     }
 
     @Test
