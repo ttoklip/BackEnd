@@ -4,19 +4,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
 import com.api.ttoklip.global.config.QuerydslConfig;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @ActiveProfiles("test")
@@ -96,7 +102,30 @@ class HoneyTipPostServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("HoneyTip 게시글을 저장한다.")
     void saveHoneyTipPost() {
+        // given
+        HoneyTipCreateRequest request = HoneyTipCreateRequest.builder()
+                .title("꿀팁공유해요 제목 테스트ABCDSFGMLMLMLML")
+                .content("내용")
+                .category(Category.RECIPE.name())
+                .build();
+
+        HoneyTip honeyTip = HoneyTip.of(request, null);
+        System.out.println("falg0 honeyTip.getId() = " + honeyTip.getId());
+
+        // when
+        honeyTipPostService.saveHoneyTipPost(honeyTip);
+        System.out.println("falg1 honeyTip.getId() = " + honeyTip.getId());
+
+        // then
+        HoneyTip savedHoneyTip = honeyTipRepository.findById(honeyTip.getId()).orElse(null);
+        System.out.println("falg2 honeyTip.getId() = " + honeyTip.getId());
+        assertThat(savedHoneyTip).isNotNull();
+        assertThat(savedHoneyTip.getTitle()).isEqualTo(request.getTitle());
+        assertThat(savedHoneyTip.getContent()).isEqualTo(request.getContent());
+        assertThat(savedHoneyTip.getCategory()).isEqualTo(Category.RECIPE);
     }
 
     @Test
