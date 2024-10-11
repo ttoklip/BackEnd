@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.honeytip.domain;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.Column;
@@ -38,9 +36,9 @@ public class HoneyTipScrap extends BaseTimeEntity {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-    public static HoneyTipScrap from(final HoneyTip honeyTip) {
+    public static HoneyTipScrap of(final HoneyTip honeyTip, final Member currentMember) {
         return HoneyTipScrap.builder()
-                .member(getCurrentMember())
+                .member(currentMember)
                 .honeyTip(honeyTip)
                 .build();
     }

@@ -19,8 +19,7 @@ public class HoneyTipLikeService {
 
     private final HoneyTipLikeRepository honeyTipLikeRepository;
 
-    public boolean isHoneyTipLikeExists(final Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
+    public boolean isHoneyTipLikeExists(final Long postId, final Long currentMemberId) {
         return honeyTipLikeRepository.existsByHoneyTipIdAndMemberId(postId, currentMemberId);
     }
 

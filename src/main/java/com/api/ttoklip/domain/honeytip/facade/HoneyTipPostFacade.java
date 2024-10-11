@@ -159,16 +159,15 @@ public class HoneyTipPostFacade {
 
 
     /* -------------------------------------------- 단건 READ -------------------------------------------- */
-    public HoneyTipSingleResponse getSinglePost(final Long postId) {
+    public HoneyTipSingleResponse getSinglePost(final Long postId, final Long currentMemberId) {
         HoneyTip honeyTipWithImgAndUrl = honeyTipPostService.findHoneyTipWithDetails(postId);
         List<HoneyTipComment> activeComments = honeyTipCommentService.findCommentsByHoneyTipId(postId);
 
         int likeCount = honeyTipLikeService.countHoneyTipLikes(postId).intValue();
         int scrapCount = honeyTipScrapService.countHoneyTipScraps(postId).intValue();
 
-        // 현재 사용자가 좋아요를 눌렀는지 확인
-        boolean likedByCurrentUser = honeyTipLikeService.isHoneyTipLikeExists(postId);
-        boolean scrapedByCurrentUser = honeyTipScrapService.isHoneyTipScrapExists(postId);
+        boolean likedByCurrentUser = honeyTipLikeService.isHoneyTipLikeExists(postId, currentMemberId);
+        boolean scrapedByCurrentUser = honeyTipScrapService.isHoneyTipScrapExists(postId, currentMemberId);
 
         HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
                 activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
