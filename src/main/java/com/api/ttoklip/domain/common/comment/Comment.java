@@ -26,10 +26,6 @@ import lombok.NoArgsConstructor;
 @DiscriminatorColumn
 public class Comment extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Lob
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
