@@ -1,15 +1,9 @@
 package com.api.ttoklip.domain.honeytip.domain;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.member.domain.Member;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
@@ -33,9 +27,9 @@ public class HoneyTipLike extends BaseTimeEntity {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-    public static HoneyTipLike from(final HoneyTip honeyTip) {
+    public static HoneyTipLike of(final HoneyTip honeyTip, final Member member) {
         return HoneyTipLike.builder()
-                .member(getCurrentMember())
+                .member(member)
                 .honeyTip(honeyTip)
                 .build();
     }

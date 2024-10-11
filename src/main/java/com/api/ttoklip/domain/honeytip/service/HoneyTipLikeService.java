@@ -1,11 +1,10 @@
 package com.api.ttoklip.domain.honeytip.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.repository.like.HoneyTipLikeRepository;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +24,15 @@ public class HoneyTipLikeService {
 
     // 좋아요 생성
     @SendNotification
-    public void register(final HoneyTip honeyTip) {
-        HoneyTipLike honeyTipLike = HoneyTipLike.from(honeyTip);
+    public void register(final HoneyTip honeyTip, final Member member) {
+        HoneyTipLike honeyTipLike = HoneyTipLike.of(honeyTip, member);
         honeyTipLikeRepository.save(honeyTipLike);
     }
 
     // 좋아요 취소
-    public void cancel(final HoneyTip honeyTip) {
+    public void cancel(final HoneyTip honeyTip, final Long memberId) {
         Long findHoneyTipId = honeyTip.getId();
-        Long currentMemberId = getCurrentMember().getId();
-
-        HoneyTipLike honeyTipLike = honeyTipLikeRepository.findByHoneyTipIdAndMemberId(findHoneyTipId, currentMemberId)
+        HoneyTipLike honeyTipLike = honeyTipLikeRepository.findByHoneyTipIdAndMemberId(findHoneyTipId, memberId)
                 .orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
 
         // 자격 검증: 이 단계에서는 findByHoneyTipIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.
