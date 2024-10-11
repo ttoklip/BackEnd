@@ -59,7 +59,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .leftJoin(honeyTipComment.member, member).fetchJoin()
                 .where(
                         matchHoneyTipId(honeyTipId)
-//                        ,getActivatedHoneyTipFromComments()
                 )
                 .orderBy(
                         honeyTipComment.parent.id.asc().nullsFirst(),
@@ -72,20 +71,15 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         return honeyTipComment.honeyTip.id.eq(honeyTipId);
     }
 
-    private BooleanExpression getActivatedHoneyTipFromComments() {
-        // todo 아래가 되어야하는 거 아닌가..? 추후 테스트하기
-        // honeyTipComment.deleted.isFalse()
-        return honeyTipComment.honeyTip.deleted.isFalse();
-    }
-
     public List<NewsletterComment> findCommentsByNewsletterId(Long newsletterId) {
         return jpaQueryFactory
                 .selectFrom(newsletterComment)
                 .distinct()
                 .leftJoin(newsletterComment.member, member).fetchJoin()
                 .where(
-                        matchNewsletterId(newsletterId),
-                        getActivatedNewsletterFromComments()
+                        matchNewsletterId(newsletterId)
+                    // 댓글은 삭제되어도 "삭제된 댓글입니다" 로 보여야하기 떄문에 데이터는 보여주도록 설정
+                    // getActivatedNewsletterFromComments()
                 )
                 .orderBy(
                         newsletterComment.parent.id.asc().nullsFirst(),
@@ -97,11 +91,11 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     private BooleanExpression matchNewsletterId(final Long newsletterId) {
         return newsletterComment.newsletter.id.eq(newsletterId);
     }
-
-    private BooleanExpression getActivatedNewsletterFromComments() {
-        // todo 아래가 되어야하는 거 아닌가..? 추후 테스트하기
-        // newsletterComment.deleted.isFalse()
-        return newsletterComment.newsletter.deleted.isFalse();
-    }
+//
+//    private BooleanExpression getActivatedNewsletterFromComments() {
+//        // todo 아래가 되어야하는 거 아닌가..? 추후 테스트하기
+//        // newsletterComment.deleted.isFalse()
+//        return newsletterComment.newsletter.deleted.isFalse();
+//    }
 
 }
