@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.honeytip.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -212,13 +214,31 @@ class HoneyTipPostServiceTest {
                         "복지 정책 팁 4", "복지 정책 팁 3", "복지 정책 팁 2", "복지 정책 팁 1");
     }
 
-
     @Test
     void getPopularityTop5() {
+        // Act: getPopularityTop5 메서드를 호출하여 결과를 가져옴
+        List<HoneyTip> popularityTop5 = honeyTipPostService.getPopularityTop5();
+
+        // Assert: 결과가 5개의 요소를 포함하고 있는지 검증
+        assertThat(popularityTop5).hasSize(5);
+
+        assertThat(popularityTop5.get(0).getId()).isEqualTo(6010L);
+        // 필요한 다른 조건들에 대해서도 추가적으로 검증 가능
     }
 
     @Test
     void findRecent3() {
+        // When: 최근 3개의 HoneyTip을 조회합니다.
+        List<HoneyTip> recent3 = honeyTipPostService.findRecent3();
+
+        // Then: 전체 데이터에서 가장 최신 3개를 id 기준으로 내림차순 정렬하여 비교합니다.
+        List<HoneyTip> all = honeyTipRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+
+        // 최근 3개의 HoneyTip이 올바르게 반환되었는지 검증합니다.
+        assertEquals(3, recent3.size());
+        assertEquals(all.get(0).getId(), recent3.get(0).getId());
+        assertEquals(all.get(1).getId(), recent3.get(1).getId());
+        assertEquals(all.get(2).getId(), recent3.get(2).getId());
     }
 
     @Test
