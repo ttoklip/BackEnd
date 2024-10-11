@@ -1,8 +1,9 @@
+DELETE FROM honey_tip_scrap;
 DELETE FROM honey_tip_url;
 DELETE FROM honey_tip_image;
 DELETE FROM comment;
 DELETE FROM honey_tip;
-DELETE FROM MEMBER;
+DELETE FROM member;
 
 -- Member 생성 (필수적인 경우 추가)
 INSERT INTO member (id, origin_name, email, password, provider, nickname, street, independent_year, independent_month, fcm_token, role, deleted, created_by, last_modified_by, created_date, last_modified_date)
