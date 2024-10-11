@@ -205,7 +205,8 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepositoryCustom {
                         getLikeSize()
                                 .add(getCommentSize())
                                 .add(getScrapSize())
-                                .desc()
+                                .desc(),
+                        honeyTip.createdDate.desc()
                 )
                 .limit(5)
                 .fetch();
