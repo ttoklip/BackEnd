@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Import(QuerydslConfig.class)
 @TestPropertySource(properties = "JASYPT_ENCRYPTOR_PASSWORD=dummy")
-@Sql("/sql/honeytip-reposiotry-test-data.sql")
+@Sql("/sql/honeytip-postservice-test-data.sql")
 class HoneyTipPostServiceTest {
 
     @Autowired
