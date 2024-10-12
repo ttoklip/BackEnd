@@ -1,9 +1,10 @@
 -- 1. 데이터 초기화
+DELETE FROM honey_tip_like;
 DELETE FROM honey_tip_url;
 DELETE FROM honey_tip_image;
 DELETE FROM comment;
 DELETE FROM honey_tip;
-DELETE FROM MEMBER;
+DELETE FROM member;
 
 -- 2. Member 테이블에 데이터 삽입
 INSERT INTO member (
