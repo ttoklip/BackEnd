@@ -110,7 +110,7 @@ public class HoneyTipPostFacade {
         // 이미지 삭제
         List<Long> deleteImageIds = request.getDeleteImageIds();
         if (deleteImageIds != null && !deleteImageIds.isEmpty()) {
-            deleteImages(deleteImageIds);
+            deleteImages(deleteImageIds, currentMemberId);
         }
 
         return Message.editPostSuccess(HoneyTip.class, honeyTip.getId());
@@ -125,8 +125,8 @@ public class HoneyTipPostFacade {
         return honeyTipPostEditor;
     }
 
-    private void deleteImages(final List<Long> deleteImageIds) {
-        honeyTipImageService.deleteImages(deleteImageIds);
+    private void deleteImages(final List<Long> deleteImageIds, final Long currentMemberId) {
+        honeyTipImageService.deleteImages(deleteImageIds, currentMemberId);
     }
 
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */

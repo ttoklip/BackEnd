@@ -25,9 +25,9 @@ public class HoneyTipImageService {
     }
 
     @Transactional
-    public void deleteImages(final List<Long> imageIds) {
+    public void deleteImages(final List<Long> imageIds, final Long currentMemberId) {
         validImagesExists(imageIds);
-        honeyTipImageRepository.allImageOwner(imageIds, getCurrentMember().getId());
+        honeyTipImageRepository.allImageOwner(imageIds, currentMemberId);
         honeyTipImageRepository.deleteByImageIds(imageIds);
     }
 
