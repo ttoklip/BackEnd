@@ -4,6 +4,8 @@ public record MemberStreetResponse(
         String street
 ) {
     public static MemberStreetResponse of(String street) {
-        return new MemberStreetResponse(street);
+        String trimmedStreet = street.trim();
+
+        return new MemberStreetResponse(trimmedStreet);
     }
 }
