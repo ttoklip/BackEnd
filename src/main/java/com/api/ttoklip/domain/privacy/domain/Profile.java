@@ -43,9 +43,13 @@ public class Profile extends BaseEntity {
                 .build();
     }
 
-    public void changeProfile(String profileImgUrl) {
+    public void changeProfile(final String profileImgUrl) {
         this.profileImgUrl = profileImgUrl;
     }
 
+    // 연관관계 편의 메서드
+    public void linkToMember(final Member member) {
+        this.member = member;
+    }
 
 }
