@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.home.response;
 
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
-import com.api.ttoklip.domain.newsletter.main.dto.response.NewsletterThumbnailResponse;
+import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterThumbnailResponse;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
