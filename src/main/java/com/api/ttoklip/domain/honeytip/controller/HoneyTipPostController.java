@@ -56,7 +56,8 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping
     public SuccessResponse<Message> register(final @Validated @ModelAttribute HoneyTipCreateRequest request) {
-        return new SuccessResponse<>(honeytipPostFacade.register(request));
+        Long currentMemberId = getCurrentMember().getId();
+        return new SuccessResponse<>(honeytipPostFacade.register(request, currentMemberId));
     }
 
 

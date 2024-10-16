@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.honeytip.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;

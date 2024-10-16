@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.honeytip.facade;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.domain.common.Category;
@@ -23,6 +21,7 @@ import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -47,11 +46,13 @@ public class HoneyTipPostFacade {
 
     private final ReportService reportService;
 
+    private final MemberService memberService;
+
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     @CheckBadWordCreate
-    public Message register(final HoneyTipCreateRequest request) {
-        Member currentMember = getCurrentMember();
+    public Message register(final HoneyTipCreateRequest request, final Long currentMemberId) {
+        Member currentMember = memberService.findById(currentMemberId);
         HoneyTip honeytip = HoneyTip.of(request, currentMember);
         honeyTipPostService.saveHoneyTipPost(honeytip);
 
