@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HoneyTipImage extends BaseEntity {
@@ -39,5 +39,9 @@ public class HoneyTipImage extends BaseEntity {
                 .honeyTip(honeyTip)
                 .url(url)
                 .build();
+    }
+
+    public void linkToHoneyTip(HoneyTip honeyTip) {
+        this.honeyTip = honeyTip;
     }
 }

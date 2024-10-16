@@ -40,4 +40,8 @@ public class HoneyTipUrl extends BaseEntity {
                 .honeyTip(honeyTip)
                 .build();
     }
+
+    public void linkToHoneyTip(final HoneyTip honeyTip) {
+        this.honeyTip = honeyTip;
+    }
 }
