@@ -2,12 +2,17 @@ package member.fixture;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.privacy.domain.Profile;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class MemberFixture {
 
     public static Member 일반_회원_생성() {
-        return Member.builder()
+        Profile profile = Profile.builder()
+                .profileImgUrl("https://default-image-url.com/default.png")
+                .build();
+
+        Member member = Member.builder()
                 .originName("origin")
                 .email("normal@test.com")
                 .provider("local")
@@ -19,6 +24,10 @@ public class MemberFixture {
                 .role(Role.CLIENT)
                 .password("password#123")
                 .build();
+
+        member.linkProfile(profile);
+
+        return member;
     }
 
     public static Member 관리자_계정_생성() {

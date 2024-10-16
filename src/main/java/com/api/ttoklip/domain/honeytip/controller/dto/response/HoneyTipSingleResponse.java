@@ -104,7 +104,7 @@ public class HoneyTipSingleResponse {
     }
 
     private static List<ImageResponse> getImageResponses(final HoneyTip honeyTip) {
-        List<HoneyTipImage> honeyTipImageList = honeyTip.getHoneyTipImageList();
+        List<HoneyTipImage> honeyTipImageList = honeyTip.getHoneyTipImages();
         return honeyTipImageList
                 .stream()
                 .map(ImageResponse::honeyTipFrom)
@@ -119,7 +119,7 @@ public class HoneyTipSingleResponse {
     }
 
     private static List<UrlResponse> getUrlResponses(final HoneyTip honeyTip) {
-        List<HoneyTipUrl> honeyTipUrls = honeyTip.getHoneyTipUrlList();
+        List<HoneyTipUrl> honeyTipUrls = honeyTip.getHoneyTipUrls();
         return honeyTipUrls
                 .stream()
                 .map(UrlResponse::honeyTipUrlFrom)
