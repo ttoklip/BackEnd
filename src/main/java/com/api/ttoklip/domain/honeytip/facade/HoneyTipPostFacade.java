@@ -149,9 +149,10 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
-    public Message report(final Long postId, final ReportCreateRequest request) {
+    public Message report(final Long postId, final ReportCreateRequest request, final Long currentMemberId) {
         HoneyTip honeytip = honeyTipPostService.getHoneytip(postId);
-        reportService.reportHoneyTip(request, honeytip);
+        Member currentMember = memberService.findById(currentMemberId);
+        reportService.reportHoneyTip(request, honeytip, currentMember);
 
         return Message.reportPostSuccess(HoneyTip.class, postId);
     }

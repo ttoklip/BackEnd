@@ -32,8 +32,8 @@ public class ReportService {
 
 
     @Transactional
-    public void reportHoneyTip(final ReportCreateRequest request, final HoneyTip honeyTip) {
-        Report report = Report.honeyTipOf(request, honeyTip);
+    public void reportHoneyTip(final ReportCreateRequest request, final HoneyTip honeyTip, final Member currentMember) {
+        Report report = Report.honeyTipOf(request, honeyTip, currentMember);
         reportRepository.save(report);
     }
 

@@ -114,7 +114,8 @@ public class HoneyTipPostController {
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
-        return new SuccessResponse<>(honeytipPostFacade.report(postId, request));
+        Long currentMemberId = getCurrentMember().getId();
+        return new SuccessResponse<>(honeytipPostFacade.report(postId, request, currentMemberId));
     }
 
     /* LIKE */
