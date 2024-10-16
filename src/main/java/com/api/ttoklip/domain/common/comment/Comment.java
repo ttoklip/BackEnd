@@ -7,12 +7,16 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +26,11 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn
 public class Comment extends BaseEntity {
+
+    @Id
+    @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Lob
     @Column(name = "content", columnDefinition = "LONGTEXT")
@@ -39,6 +48,14 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.parent = parent;
         this.member = member;
+    }
+
+    @Builder(builderMethodName = "testBuilder")
+    protected Comment(final Long id, final String content, final Member member, final Comment parent) {
+        this.id = id;
+        this.content = content;
+        this.member = member;
+        this.parent = parent;
     }
 
     public CommentEditor.CommentEditorBuilder toEditor() {

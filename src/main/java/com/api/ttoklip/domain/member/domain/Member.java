@@ -50,6 +50,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Member extends BaseEntity {
 
+    @Id
+    @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String originName;
 
     @Email

@@ -23,7 +23,7 @@ public class HoneyTipComment extends Comment {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-    @Builder(access = AccessLevel.PRIVATE)
+    @Builder
     private HoneyTipComment(String content, Comment parent, HoneyTip honeyTip, Member member) {
         super(content, parent, member); // Comment 클래스의 생성자 호출
         this.honeyTip = honeyTip;

@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.question.image.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.question.post.domain.Question;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class QuestionImage extends BaseEntity {
+
+    @Id
+    @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String url;
 
