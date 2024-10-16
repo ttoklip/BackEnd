@@ -11,33 +11,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipEditReq;
 import com.api.ttoklip.domain.honeytip.controller.dto.response.HoneyTipSingleResponse;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.facade.HoneyTipPostFacade;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipCommentService;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipImageService;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipLikeService;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipScrapService;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipUrlService;
-import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import honeytip.fixture.HoneyTipFixture;
 import java.util.Arrays;
 import java.util.List;
 import member.fixture.MemberFixture;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.web.multipart.MultipartFile;
 import report.fixture.ReportFixture;
 
@@ -48,42 +36,10 @@ import report.fixture.ReportFixture;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class HoneyTipPostFacadeTest {
+public class HoneyTipPostFacadeTest extends HoneyTipPostFacadeTestHelper {
 
     @InjectMocks
     private HoneyTipPostFacade honeyTipPostFacade;
-
-    @Mock
-    private MemberService memberService;
-
-    @Mock
-    private HoneyTipPostService honeyTipPostService;
-
-    @Mock
-    private HoneyTipUrlService honeyTipUrlService;
-
-    @Mock
-    private HoneyTipImageService honeyTipImageService;
-
-    @Mock
-    private ReportService reportService;
-
-    @Mock
-    private S3FileUploader s3FileUploader;
-
-    @Mock
-    private HoneyTipCommentService honeyTipCommentService;
-
-    @Mock
-    private HoneyTipLikeService honeyTipLikeService;
-
-    @Mock
-    private HoneyTipScrapService honeyTipScrapService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     /* -------------------------------------------- CREATE METHOD CALL TEST -------------------------------------------- */
 
