@@ -65,6 +65,7 @@ public class FakeHoneyTipPostRepository implements HoneyTipRepository {
         return honeyTipRepository.values().stream()
                 .filter(honeyTip -> honeyTip.getCategory() == Category.HOUSEWORK && !honeyTip.isDeleted())
                 .sorted((h1, h2) -> h2.getId().compareTo(h1.getId())) // 최신순 정렬
+                .limit(10)
                 .collect(Collectors.toList());
     }
 
@@ -73,6 +74,7 @@ public class FakeHoneyTipPostRepository implements HoneyTipRepository {
         return honeyTipRepository.values().stream()
                 .filter(honeyTip -> honeyTip.getCategory() == Category.RECIPE && !honeyTip.isDeleted())
                 .sorted((h1, h2) -> h2.getId().compareTo(h1.getId())) // 최신순 정렬
+                .limit(10)
                 .collect(Collectors.toList());
     }
 
@@ -81,6 +83,7 @@ public class FakeHoneyTipPostRepository implements HoneyTipRepository {
         return honeyTipRepository.values().stream()
                 .filter(honeyTip -> honeyTip.getCategory() == Category.SAFE_LIVING && !honeyTip.isDeleted())
                 .sorted((h1, h2) -> h2.getId().compareTo(h1.getId())) // 최신순 정렬
+                .limit(10)
                 .collect(Collectors.toList());
     }
 
@@ -89,6 +92,7 @@ public class FakeHoneyTipPostRepository implements HoneyTipRepository {
         return honeyTipRepository.values().stream()
                 .filter(honeyTip -> honeyTip.getCategory() == Category.WELFARE_POLICY && !honeyTip.isDeleted())
                 .sorted((h1, h2) -> h2.getId().compareTo(h1.getId())) // 최신순 정렬
+                .limit(10)
                 .collect(Collectors.toList());
     }
 

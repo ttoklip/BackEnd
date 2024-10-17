@@ -37,23 +37,30 @@ public class HoneyTipFixture {
     }
 
     public static HoneyTip 본인_허니팁_사진_URL_포함하여_생성(final Member member) {
-        HoneyTip honeyTip = HoneyTip.builder()
+        HoneyTip defaultHoneyTip = HoneyTip.builder()
                 .title("지정된 멤버 허니팁 제목")
                 .content("지정된 멤버 허니팁 내용")
                 .category(Category.SAFE_LIVING)
                 .member(member)
                 .build();
 
-        honeyTip.addImage(HoneyTipImage.of(honeyTip, "https://existing-image1.com"));
-        honeyTip.addImage(HoneyTipImage.of(honeyTip, "https://existing-image2.com"));
 
-        honeyTip.addUrl(HoneyTipUrl.of(honeyTip, "https://existing-url1.com"));
-        honeyTip.addUrl(HoneyTipUrl.of(honeyTip, "https://existing-url2.com"));
+        HoneyTipImage honeyTipImage1 = HoneyTipImage.of(defaultHoneyTip, "https://existing-image1.com");
+        HoneyTipImage honeyTipImage2 = HoneyTipImage.of(defaultHoneyTip, "https://existing-image2.com");
+        List<HoneyTipImage> images = List.of(honeyTipImage1, honeyTipImage2);
 
-        System.out.println("-------------------- HONEY TIP FIXTURE -------------------");
-        System.out.println("honeyTip = " + honeyTip);
-        System.out.println("-------------------- HONEY TIP FIXTURE -------------------");
-        return honeyTip;
+        HoneyTipUrl honeyTipUrl1 = HoneyTipUrl.of(defaultHoneyTip, "https://existing-url1.com");
+        HoneyTipUrl honeyTipUrl2 = HoneyTipUrl.of(defaultHoneyTip, "https://existing-url2.com");
+        List<HoneyTipUrl> urls = List.of(honeyTipUrl1, honeyTipUrl2);
+
+        return HoneyTip.builder()
+                .title(defaultHoneyTip.getTitle())
+                .content(defaultHoneyTip.getContent())
+                .category(defaultHoneyTip.getCategory())
+                .member(defaultHoneyTip.getMember())
+                .honeyTipImages(images)
+                .honeyTipUrls(urls)
+                .build();
     }
 
     public static HoneyTipCreateRequest URL_X_사진_X_단순_꿀팁_게시글_요청_픽스처() {
@@ -96,6 +103,21 @@ public class HoneyTipFixture {
         return honeyTips;
     }
 
+    // 카테고리별로 10개씩 허니팁을 생성하는 메서드
+    private static List<HoneyTip> 카테고리별_허니팁_N개사이즈_리스트_생성(Category category, Member member, int n) {
+        List<HoneyTip> honeyTips = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            honeyTips.add(HoneyTip.builder()
+                    .title(category + " 허니팁 제목 " + i)
+                    .content(category + " 허니팁 내용 " + i)
+                    .category(category)
+                    .member(member)
+                    .build());
+        }
+        System.out.println("honeyTips = " + honeyTips);
+        return honeyTips;
+    }
+
     // 각 카테고리별 허니팁 리스트 생성
     public static List<HoneyTip> 허니팁_집안일_크기가_10인_리스트_생성() {
         Member member = 일반_회원_생성1();
@@ -115,5 +137,25 @@ public class HoneyTipFixture {
     public static List<HoneyTip> 허니팁_복지정책_크기가_10인_리스트_생성() {
         Member member = 일반_회원_생성1();
         return 카테고리별_허니팁_리스트_생성(Category.WELFARE_POLICY, member);
+    }
+
+    public static List<HoneyTip> 허니팁_복지정책_크기가_N인_리스트_생성(final int n) {
+        Member member = 일반_회원_생성1();
+        return 카테고리별_허니팁_N개사이즈_리스트_생성(Category.WELFARE_POLICY, member, n);
+    }
+
+    public static List<HoneyTip> 허니팁_안전생활_크기가_N인_리스트_생성(final int n) {
+        Member member = 일반_회원_생성1();
+        return 카테고리별_허니팁_N개사이즈_리스트_생성(Category.SAFE_LIVING, member, n);
+    }
+
+    public static List<HoneyTip> 허니팁_레시피_크기가_N인_리스트_생성(final int n) {
+        Member member = 일반_회원_생성1();
+        return 카테고리별_허니팁_N개사이즈_리스트_생성(Category.RECIPE, member, n);
+    }
+
+    public static List<HoneyTip> 허니팁_집안일_크기가_N인_리스트_생성(final int n) {
+        Member member = 일반_회원_생성1();
+        return 카테고리별_허니팁_N개사이즈_리스트_생성(Category.HOUSEWORK, member, n);
     }
 }

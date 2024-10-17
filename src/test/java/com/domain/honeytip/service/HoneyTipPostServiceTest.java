@@ -12,11 +12,14 @@ import com.api.ttoklip.global.exception.ErrorType;
 import com.domain.honeytip.repository.FakeHoneyTipPostRepository;
 import honeytip.fixture.HoneyTipFixture;
 import java.util.List;
+import java.util.Random;
 import member.fixture.MemberFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -109,7 +112,8 @@ public class HoneyTipPostServiceTest {
     @Test
     void 집안일_카테고리_허니팁에서_최근10개를_조회한다() {
         // Given
-        List<HoneyTip> houseworkTips = HoneyTipFixture.허니팁_집안일_크기가_10인_리스트_생성();
+        int n = getRandomN();
+        List<HoneyTip> houseworkTips = HoneyTipFixture.허니팁_집안일_크기가_N인_리스트_생성(n);
         houseworkTips.forEach(honeyTipPostService::saveHoneyTipPost);
 
         // When
@@ -126,7 +130,8 @@ public class HoneyTipPostServiceTest {
     @Test
     void 레시피_카테고리_허니팁에서_최근10개를_조회한다() {
         // Given
-        List<HoneyTip> recipeTips = HoneyTipFixture.허니팁_레시피_크기가_10인_리스트_생성();
+        int n = getRandomN();
+        List<HoneyTip> recipeTips = HoneyTipFixture.허니팁_레시피_크기가_N인_리스트_생성(n);
         recipeTips.forEach(honeyTipPostService::saveHoneyTipPost);  // 각각의 허니팁을 저장
 
         // When
@@ -143,7 +148,8 @@ public class HoneyTipPostServiceTest {
     @Test
     void 안전생활_카테고리_허니팁에서_최근10개를_조회한다() {
         // Given
-        List<HoneyTip> safeLivingTips = HoneyTipFixture.허니팁_안전생활_크기가_10인_리스트_생성();
+        int n = getRandomN();
+        List<HoneyTip> safeLivingTips = HoneyTipFixture.허니팁_안전생활_크기가_N인_리스트_생성(n);
         safeLivingTips.forEach(honeyTipPostService::saveHoneyTipPost);
 
         // When
@@ -160,7 +166,8 @@ public class HoneyTipPostServiceTest {
     @Test
     void 복지정책_카테고리_허니팁에서_최근10개를_조회한다() {
         // Given
-        List<HoneyTip> welfarePolicyTips = HoneyTipFixture.허니팁_복지정책_크기가_10인_리스트_생성();
+        int n = getRandomN();
+        List<HoneyTip> welfarePolicyTips = HoneyTipFixture.허니팁_복지정책_크기가_N인_리스트_생성(n);
         welfarePolicyTips.forEach(honeyTipPostService::saveHoneyTipPost);
 
         // When
@@ -173,5 +180,56 @@ public class HoneyTipPostServiceTest {
             softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.WELFARE_POLICY);
         });
     }
+
+    @Test
+    void 카테고리별_페이징처리하여_복지정책_조회한다() {
+        // Given
+        int n = getRandomN();
+        List<HoneyTip> welfarePolicyTips = HoneyTipFixture.허니팁_복지정책_크기가_N인_리스트_생성(n);
+        welfarePolicyTips.forEach(honeyTipPostService::saveHoneyTipPost);
+
+        int pageSize = 10;
+        PageRequest pageable = PageRequest.of(0, pageSize);
+
+        // When
+        Page<HoneyTip> result = honeyTipPostService.matchCategoryPaging(Category.WELFARE_POLICY, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result.getContent()).hasSize(Math.min(pageSize, n));
+            softly.assertThat(result.getTotalElements()).isEqualTo(n);
+            softly.assertThat(result.getTotalPages()).isEqualTo((n + pageSize - 1) / pageSize);
+            softly.assertThat(result.isFirst()).isTrue();
+            softly.assertThat(result.isLast()).isEqualTo(n <= pageSize);
+            softly.assertThat(result.getContent().get(0).getCategory()).isEqualTo(Category.WELFARE_POLICY);
+        });
+    }
+
+    @Test
+    void 가장_최근에_작성된_허니팁_3개를_조회한다() {
+        // Given
+        int n = getRandomN();
+        List<HoneyTip> honeyTips = HoneyTipFixture.허니팁_복지정책_크기가_N인_리스트_생성(n);
+        honeyTips.forEach(honeyTipPostService::saveHoneyTipPost);
+
+        // When
+        List<HoneyTip> result = honeyTipPostService.findRecent3();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).hasSize(3);
+            // createDate 로 비교해야하지만, JpaAduting때문에 수동설정 할 수 없으므로 불가피하게 id로 비교
+            softly.assertThat(result.get(0).getId()).isGreaterThan(result.get(1).getId());
+            softly.assertThat(result.get(1).getId()).isGreaterThan(result.get(2).getId());
+        });
+
+    }
+
+    private int getRandomN() {
+        Random random = new Random();
+        return random.nextInt(Short.MAX_VALUE / 10);
+    }
+
 
 }
