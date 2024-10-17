@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.notification.service;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.notification.dto.response.NotificationFrontResponse;
 import com.api.ttoklip.domain.notification.dto.response.NotificationFrontResponses;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
@@ -16,6 +17,7 @@ import com.api.ttoklip.global.exception.ErrorType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final NotificationRepositoryImpl notificationRepositoryImpl;
+    private final MemberService memberService;
 
     @Transactional
     public void register(final NotiCategory notiCategory, final Member member, final Long targetClassId,
@@ -64,15 +67,19 @@ public class NotificationService {
         throw new ApiException(ErrorType._BAD_CATEGORY_NOTIFICATION_TYPE);
     }
 
+    public NotificationFrontResponses findNotification(final Long currentMemberId, final Pageable pageRequest) {
+        Member currentMember = memberService.findById(currentMemberId);
 
-    public NotificationFrontResponses findNotificationByCategory(final String value) {
-        NotiCategory category = NotiCategory.getNotificationByCategory(value);
-        List<Notification> top5RecentNotifications = notificationRepositoryImpl.findTop5RecentNotifications(category);
+        List<Notification> top5RecentNotifications = notificationRepositoryImpl.findTop5RecentNotifications(
+                currentMember.getId(), pageRequest
+        );
 
         List<NotificationFrontResponse> responses = top5RecentNotifications.stream()
-                .map(noti -> NotificationFrontResponse.of(noti.getId(), noti.getTargetIndex(), noti.getTargetType(),
-                        noti.getTitle(),
-                        noti.getText(), noti.isStatus())).toList();
+                .map(noti -> NotificationFrontResponse.of(
+                                noti.getId(), noti.getTargetIndex(), noti.getTargetType(),
+                                noti.getTitle(), noti.getText(), noti.isStatus()
+                        )
+                ).toList();
 
         return NotificationFrontResponses.from(responses);
     }

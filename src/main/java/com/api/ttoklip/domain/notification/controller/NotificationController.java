@@ -9,8 +9,11 @@ import com.api.ttoklip.domain.notification.service.NotificationService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,11 +41,14 @@ public class NotificationController {
 
     @GetMapping("/my-notification")
     public SuccessResponse<NotificationFrontResponses> getNotification(
-            @RequestParam final String notificationCategory
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+            @RequestParam(required = false, defaultValue = "0") final int page,
+            @Parameter(description = "페이지당 개수 (기본값 5)", example = "0")
+            @RequestParam(required = false, defaultValue = "5") final int size
     ) {
-        return new SuccessResponse<>(
-                notificationService.findNotificationByCategory(notificationCategory)
-        );
+        Long currentMemberId = getCurrentMember().getId();
+        Pageable pageRequest = PageRequest.of(page, size);
+        return new SuccessResponse<>(notificationService.findNotification(currentMemberId, pageRequest));
     }
 
 }
