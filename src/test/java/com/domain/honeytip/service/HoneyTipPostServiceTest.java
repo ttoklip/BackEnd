@@ -1,8 +1,8 @@
 package com.domain.honeytip.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
@@ -11,6 +11,7 @@ import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.domain.honeytip.repository.FakeHoneyTipPostRepository;
 import honeytip.fixture.HoneyTipFixture;
+import java.util.List;
 import member.fixture.MemberFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -104,4 +105,73 @@ public class HoneyTipPostServiceTest {
                     .containsExactlyInAnyOrder("https://existing-image1.com", "https://existing-image2.com");
         });
     }
+
+    @Test
+    void 집안일_카테고리_허니팁에서_최근10개를_조회한다() {
+        // Given
+        List<HoneyTip> houseworkTips = HoneyTipFixture.허니팁_집안일_크기가_10인_리스트_생성();
+        houseworkTips.forEach(honeyTipPostService::saveHoneyTipPost);
+
+        // When
+        List<HoneyTip> result = honeyTipPostService.findHouseworkTips();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result).hasSize(10);  // 10개의 집안일 꿀팁이 조회됨을 확인
+            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.HOUSEWORK);  // 카테고리가 올바른지 확인
+        });
+    }
+
+    @Test
+    void 레시피_카테고리_허니팁에서_최근10개를_조회한다() {
+        // Given
+        List<HoneyTip> recipeTips = HoneyTipFixture.허니팁_레시피_크기가_10인_리스트_생성();
+        recipeTips.forEach(honeyTipPostService::saveHoneyTipPost);  // 각각의 허니팁을 저장
+
+        // When
+        List<HoneyTip> result = honeyTipPostService.findRecipeTips();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result).hasSize(10);  // 10개의 레시피 꿀팁이 조회됨을 확인
+            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.RECIPE);  // 카테고리가 올바른지 확인
+        });
+    }
+
+    @Test
+    void 안전생활_카테고리_허니팁에서_최근10개를_조회한다() {
+        // Given
+        List<HoneyTip> safeLivingTips = HoneyTipFixture.허니팁_안전생활_크기가_10인_리스트_생성();
+        safeLivingTips.forEach(honeyTipPostService::saveHoneyTipPost);
+
+        // When
+        List<HoneyTip> result = honeyTipPostService.findSafeLivingTips();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result).hasSize(10);
+            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.SAFE_LIVING);
+        });
+    }
+
+    @Test
+    void 복지정책_카테고리_허니팁에서_최근10개를_조회한다() {
+        // Given
+        List<HoneyTip> welfarePolicyTips = HoneyTipFixture.허니팁_복지정책_크기가_10인_리스트_생성();
+        welfarePolicyTips.forEach(honeyTipPostService::saveHoneyTipPost);
+
+        // When
+        List<HoneyTip> result = honeyTipPostService.findWelfarePolicyTips();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result).hasSize(10);
+            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.WELFARE_POLICY);
+        });
+    }
+
 }
