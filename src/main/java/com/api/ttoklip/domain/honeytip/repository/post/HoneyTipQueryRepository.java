@@ -67,8 +67,8 @@ public class HoneyTipQueryRepository {
         HoneyTip findHoneyTip = jpaQueryFactory
                 .selectFrom(honeyTip)
                 .distinct()
-                .leftJoin(honeyTip.honeyTipImageList, honeyTipImage)
-                .leftJoin(honeyTip.honeyTipUrlList, honeyTipUrl)
+                .leftJoin(honeyTip.honeyTipImages, honeyTipImage)
+                .leftJoin(honeyTip.honeyTipUrls, honeyTipUrl)
                 .leftJoin(honeyTip.member, member).fetchJoin()
                 .where(
                         getHoneyTipActivate(),

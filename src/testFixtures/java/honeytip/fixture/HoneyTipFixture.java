@@ -8,6 +8,7 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipUrl;
 import com.api.ttoklip.domain.member.domain.Member;
+import java.util.ArrayList;
 import java.util.List;
 import member.fixture.MemberFixture;
 
@@ -78,4 +79,38 @@ public class HoneyTipFixture {
                 .build();
     }
 
+    // 카테고리별로 10개씩 허니팁을 생성하는 메서드
+    private static List<HoneyTip> 카테고리별_허니팁_리스트_생성(Category category, Member member) {
+        List<HoneyTip> honeyTips = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            honeyTips.add(HoneyTip.builder()
+                    .title(category + " 허니팁 제목 " + i)
+                    .content(category + " 허니팁 내용 " + i)
+                    .category(category)
+                    .member(member)
+                    .build());
+        }
+        return honeyTips;
+    }
+
+    // 각 카테고리별 허니팁 리스트 생성
+    public static List<HoneyTip> 허니팁_집안일_크기가_10인_리스트_생성() {
+        Member member = 일반_회원_생성();
+        return 카테고리별_허니팁_리스트_생성(Category.HOUSEWORK, member);
+    }
+
+    public static List<HoneyTip> 허니팁_레시피_크기가_10인_리스트_생성() {
+        Member member = 일반_회원_생성();
+        return 카테고리별_허니팁_리스트_생성(Category.RECIPE, member);
+    }
+
+    public static List<HoneyTip> 허니팁_안전생활_크기가_10인_리스트_생성() {
+        Member member = 일반_회원_생성();
+        return 카테고리별_허니팁_리스트_생성(Category.SAFE_LIVING, member);
+    }
+
+    public static List<HoneyTip> 허니팁_복지정책_크기가_10인_리스트_생성() {
+        Member member = 일반_회원_생성();
+        return 카테고리별_허니팁_리스트_생성(Category.WELFARE_POLICY, member);
+    }
 }

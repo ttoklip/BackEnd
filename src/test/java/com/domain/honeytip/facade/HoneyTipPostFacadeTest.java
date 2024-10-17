@@ -10,6 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipEditReq;
@@ -17,6 +18,8 @@ import com.api.ttoklip.domain.honeytip.controller.dto.response.HoneyTipSingleRes
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.facade.HoneyTipPostFacade;
+import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
+import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.global.success.Message;
 import honeytip.fixture.HoneyTipFixture;
 import java.util.Arrays;
@@ -26,6 +29,9 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 import report.fixture.ReportFixture;
 
@@ -136,6 +142,29 @@ public class HoneyTipPostFacadeTest extends HoneyTipPostFacadeTestHelper {
         // URL 리스트의 크기만큼 register 메서드 호출 횟수 검증
         int urlCount = request.getUrl() != null ? request.getUrl().size() : 0;
         verify(honeyTipUrlService, times(urlCount)).register(any(), any());
+    }
+
+    private HoneyTipCreateRequest 사진_URL_둘다_있는_게시글_요청_픽스처() {
+        List<MultipartFile> 이미지_리스트 = List.of(mock(MultipartFile.class), mock(MultipartFile.class));
+        List<String> urls = List.of("https://example.com1", "https://example.com2");
+        return HoneyTipCreateRequest.builder()
+                .title("사진과 URL이 모두 포함된 허니팁")
+                .content("이 게시글은 사진과 URL을 포함합니다.")
+                .category("WELFARE_POLICY")
+                .url(urls)
+                .images(이미지_리스트)
+                .build();
+    }
+
+    private HoneyTipCreateRequest 사진_포함된_게시글_요청_픽스처() {
+        List<MultipartFile> 이미지_리스트 = List.of(mock(MultipartFile.class), mock(MultipartFile.class));
+        return HoneyTipCreateRequest.builder()
+                .title("사진과 URL이 모두 포함된 허니팁")
+                .content("이 게시글은 사진과 URL을 포함합니다.")
+                .category("WELFARE_POLICY")
+                .url(null)
+                .images(이미지_리스트)
+                .build();
     }
 
     /* -------------------------------------------- CREATE METHOD CALL TEST END -------------------------------------------- */
@@ -289,26 +318,113 @@ public class HoneyTipPostFacadeTest extends HoneyTipPostFacadeTestHelper {
     /* -------------------------------------------- 단건 READ 메서드 테스트 끝 -------------------------------------------- */
 
 
-    private HoneyTipCreateRequest 사진_URL_둘다_있는_게시글_요청_픽스처() {
-        List<MultipartFile> 이미지_리스트 = List.of(mock(MultipartFile.class), mock(MultipartFile.class));
-        List<String> urls = List.of("https://example.com1", "https://example.com2");
-        return HoneyTipCreateRequest.builder()
-                .title("사진과 URL이 모두 포함된 허니팁")
-                .content("이 게시글은 사진과 URL을 포함합니다.")
-                .category("WELFARE_POLICY")
-                .url(urls)
-                .images(이미지_리스트)
-                .build();
+    /* -------------------------------------------- 카테고리별 10개씩 메인 조회 메서드 테스트 -------------------------------------------- */
+    @Test
+    void 허니팁_카테고리별_메인_조회_메서드_호출_성공() {
+        // Given
+        List<HoneyTip> houseworkTips = HoneyTipFixture.허니팁_집안일_크기가_10인_리스트_생성();
+        List<HoneyTip> recipeTips = HoneyTipFixture.허니팁_레시피_크기가_10인_리스트_생성();
+        List<HoneyTip> safeLivingTips = HoneyTipFixture.허니팁_안전생활_크기가_10인_리스트_생성();
+        List<HoneyTip> welfarePolicyTips = HoneyTipFixture.허니팁_복지정책_크기가_10인_리스트_생성();
+
+        when(honeyTipPostService.findHouseworkTips()).thenReturn(houseworkTips);
+        when(honeyTipPostService.findRecipeTips()).thenReturn(recipeTips);
+        when(honeyTipPostService.findSafeLivingTips()).thenReturn(safeLivingTips);
+        when(honeyTipPostService.findWelfarePolicyTips()).thenReturn(welfarePolicyTips);
+
+        // When
+        CategoryResponses response = honeyTipPostFacade.getDefaultCategoryRead();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.getHousework()).hasSize(houseworkTips.size());
+            softly.assertThat(response.getCooking()).hasSize(recipeTips.size());
+            softly.assertThat(response.getSafeLiving()).hasSize(safeLivingTips.size());
+            softly.assertThat(response.getWelfarePolicy()).hasSize(welfarePolicyTips.size());
+        });
+
+        verify(honeyTipPostService, times(1)).findHouseworkTips();
+        verify(honeyTipPostService, times(1)).findRecipeTips();
+        verify(honeyTipPostService, times(1)).findSafeLivingTips();
+        verify(honeyTipPostService, times(1)).findWelfarePolicyTips();
     }
 
-    private HoneyTipCreateRequest 사진_포함된_게시글_요청_픽스처() {
-        List<MultipartFile> 이미지_리스트 = List.of(mock(MultipartFile.class), mock(MultipartFile.class));
-        return HoneyTipCreateRequest.builder()
-                .title("사진과 URL이 모두 포함된 허니팁")
-                .content("이 게시글은 사진과 URL을 포함합니다.")
-                .category("WELFARE_POLICY")
-                .url(null)
-                .images(이미지_리스트)
-                .build();
+    /* -------------------------------------------- 카테고리별 10개씩 메인 조회 메서드 테스트 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- 카테고리별 페이징 조회 메서드 테스트 -------------------------------------------- */
+    @Test
+    void 허니팁_카테고리별_페이징_요청_메서드_호출_성공_레시피() {
+        // Given
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<HoneyTip> 레시피_허니팁_리스트 = HoneyTipFixture.허니팁_레시피_크기가_10인_리스트_생성();
+        Page<HoneyTip> page = new PageImpl<>(레시피_허니팁_리스트, pageable, 레시피_허니팁_리스트.size());
+
+        when(honeyTipPostService.matchCategoryPaging(Category.RECIPE, pageable)).thenReturn(page);
+
+        // When
+        CategoryPagingResponse response = honeyTipPostFacade.matchCategoryPaging(Category.RECIPE, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.category()).isEqualTo(Category.RECIPE);
+            softly.assertThat(response.data()).hasSize(10);
+            softly.assertThat(response.totalElements()).isEqualTo(10);
+            softly.assertThat(response.totalPage()).isEqualTo(1);
+            softly.assertThat(response.isFirst()).isTrue();
+            softly.assertThat(response.isLast()).isTrue();
+        });
     }
+
+    @Test
+    void 허니팁_카테고리별_페이징_요청_메서드_호출_성공_안전생활() {
+        // Given
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<HoneyTip> 안전생활_허니팁_리스트 = HoneyTipFixture.허니팁_안전생활_크기가_10인_리스트_생성();
+        Page<HoneyTip> page = new PageImpl<>(안전생활_허니팁_리스트, pageable, 안전생활_허니팁_리스트.size());
+
+        when(honeyTipPostService.matchCategoryPaging(Category.SAFE_LIVING, pageable)).thenReturn(page);
+
+        // When
+        CategoryPagingResponse response = honeyTipPostFacade.matchCategoryPaging(Category.SAFE_LIVING, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.category()).isEqualTo(Category.SAFE_LIVING);
+            softly.assertThat(response.data()).hasSize(10);
+            softly.assertThat(response.totalElements()).isEqualTo(10);
+            softly.assertThat(response.totalPage()).isEqualTo(1);
+            softly.assertThat(response.isFirst()).isTrue();
+            softly.assertThat(response.isLast()).isTrue();
+        });
+    }
+
+    @Test
+    void 허니팁_카테고리별_페이징_요청_메서드_호출_성공_복지정책() {
+        // Given
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<HoneyTip> 복지정책_허니팁_리스트 = HoneyTipFixture.허니팁_복지정책_크기가_10인_리스트_생성();
+        Page<HoneyTip> page = new PageImpl<>(복지정책_허니팁_리스트, pageable, 복지정책_허니팁_리스트.size());
+
+        when(honeyTipPostService.matchCategoryPaging(Category.WELFARE_POLICY, pageable)).thenReturn(page);
+
+        // When
+        CategoryPagingResponse response = honeyTipPostFacade.matchCategoryPaging(Category.WELFARE_POLICY, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.category()).isEqualTo(Category.WELFARE_POLICY);
+            softly.assertThat(response.data()).hasSize(10);
+            softly.assertThat(response.totalElements()).isEqualTo(10);
+            softly.assertThat(response.totalPage()).isEqualTo(1);
+            softly.assertThat(response.isFirst()).isTrue();
+            softly.assertThat(response.isLast()).isTrue();
+        });
+    }
+
+    /* -------------------------------------------- 카테고리별 페이징 조회 메서드 테스트 끝 -------------------------------------------- */
 }
