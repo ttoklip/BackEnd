@@ -4,7 +4,7 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.repository.ReportRepository;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;

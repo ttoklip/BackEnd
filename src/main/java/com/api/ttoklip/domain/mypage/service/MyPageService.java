@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.mypage.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.service.MemberService;
