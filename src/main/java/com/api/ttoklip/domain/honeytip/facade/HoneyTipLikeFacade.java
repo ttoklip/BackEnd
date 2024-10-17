@@ -23,8 +23,6 @@ public class HoneyTipLikeFacade implements ActionFacade {
     @Transactional
     public Message register(final Long postId, final Long currentMemberId) {
         boolean exists = honeyTipLikeService.isHoneyTipLikeExists(postId, currentMemberId);
-
-
         // 좋아요가 존재하지 않을 때만 생성
         if (!exists) {
             HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
