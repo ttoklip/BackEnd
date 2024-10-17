@@ -5,7 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.api.ttoklip.domain.honeytip.facade.HoneyTipLikeFacade;
+import com.api.ttoklip.domain.honeytip.facade.HoneyTipScrapFacade;
 import com.api.ttoklip.global.success.Message;
 import honeytip.fixture.HoneyTipFixture;
 import member.fixture.MemberFixture;
@@ -16,66 +16,66 @@ import org.mockito.InjectMocks;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class HoneyTipLikeFacadeTest extends HoneyTipFacadeTestHelper {
+public class HoneyTipScrapFacadeTest extends HoneyTipFacadeTestHelper {
 
     @InjectMocks
-    private HoneyTipLikeFacade honeyTipLikeFacade;
+    private HoneyTipScrapFacade honeyTipScrapFacade;
 
-    /* -------------------------------------------- LIKE REGISTER TEST -------------------------------------------- */
+    /* -------------------------------------------- SCRAP REGISTER TEST -------------------------------------------- */
     @Test
-    void 허니팁_좋아요_등록_메서드_호출_성공() {
+    void 허니팁_스크랩_등록_성공() {
         // Given
         var member = MemberFixture.일반_회원_생성();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
         Long postId = honeyTip.getId();
         Long memberId = member.getId();
 
-        // 좋아요가 존재하지 않는 경우 Mock 설정
-        when(honeyTipLikeService.isHoneyTipLikeExists(postId, memberId)).thenReturn(false);
+        // 스크랩이 존재하지 않는 경우 Mock 설정
+        when(honeyTipScrapService.isHoneyTipScrapExists(postId, memberId)).thenReturn(false);
         when(honeyTipPostService.getHoneytip(postId)).thenReturn(honeyTip);
         when(memberService.findById(memberId)).thenReturn(member);
 
         // When
-        Message result = honeyTipLikeFacade.register(postId, memberId);
+        Message result = honeyTipScrapFacade.register(postId, memberId);
 
         // Then
         assertSoftly(softly -> {
             softly.assertThat(result).isNotNull();
-            softly.assertThat(result.getMessage()).contains("좋아요");
+            softly.assertThat(result.getMessage()).contains("스크랩");
             softly.assertThat(result.getMessage()).contains("생성");
         });
 
-        verify(honeyTipLikeService, times(1)).register(honeyTip, member);
+        verify(honeyTipScrapService, times(1)).register(honeyTip, member);
         verify(honeyTipPostService, times(1)).getHoneytip(postId);
         verify(memberService, times(1)).findById(memberId);
     }
 
     @Test
-    void 이미_존재하는_좋아요는_등록하지_않는_메서드_호출_성공() {
+    void 이미_존재하는_스크랩은_등록하지_않음() {
         // Given
         var member = MemberFixture.일반_회원_생성();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
         Long postId = honeyTip.getId();
         Long memberId = member.getId();
 
-        // 이미 좋아요가 존재하는 경우 Mock 설정
-        when(honeyTipLikeService.isHoneyTipLikeExists(postId, memberId)).thenReturn(true);
+        // 이미 스크랩이 존재하는 경우 Mock 설정
+        when(honeyTipScrapService.isHoneyTipScrapExists(postId, memberId)).thenReturn(true);
 
         // When
-        Message result = honeyTipLikeFacade.register(postId, memberId);
+        Message result = honeyTipScrapFacade.register(postId, memberId);
 
         // Then
         assertSoftly(softly -> {
             softly.assertThat(result).isNotNull();
-            softly.assertThat(result.getMessage()).contains("좋아요");
+            softly.assertThat(result.getMessage()).contains("스크랩");
         });
 
-        verify(honeyTipLikeService, times(0)).register(honeyTip, member); // 좋아요 등록 메서드는 호출되지 않음
+        verify(honeyTipScrapService, times(0)).register(honeyTip, member); // 스크랩 등록 메서드는 호출되지 않음
     }
 
-    /* -------------------------------------------- LIKE CANCEL TEST -------------------------------------------- */
+    /* -------------------------------------------- SCRAP CANCEL TEST -------------------------------------------- */
     @Test
-    void 허니팁_좋아요_취소_메서드_호출_성공() {
+    void 허니팁_스크랩_취소_성공() {
         // Given
         var member = MemberFixture.일반_회원_생성();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
@@ -85,16 +85,16 @@ public class HoneyTipLikeFacadeTest extends HoneyTipFacadeTestHelper {
         when(honeyTipPostService.getHoneytip(postId)).thenReturn(honeyTip);
 
         // When
-        Message result = honeyTipLikeFacade.cancel(postId, memberId);
+        Message result = honeyTipScrapFacade.cancel(postId, memberId);
 
         // Then
         assertSoftly(softly -> {
             softly.assertThat(result).isNotNull();
-            softly.assertThat(result.getMessage()).contains("좋아요");
+            softly.assertThat(result.getMessage()).contains("스크랩");
             softly.assertThat(result.getMessage()).contains("삭제");
         });
 
-        verify(honeyTipLikeService, times(1)).cancel(honeyTip, memberId);
+        verify(honeyTipScrapService, times(1)).cancelScrap(honeyTip, memberId);
         verify(honeyTipPostService, times(1)).getHoneytip(postId);
     }
 }

@@ -12,7 +12,7 @@ import com.api.ttoklip.global.s3.S3FileUploader;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public abstract class HoneyTipPostFacadeTestHelper {
+public abstract class HoneyTipFacadeTestHelper {
 
     @Mock
     protected MemberService memberService;
@@ -42,7 +42,7 @@ public abstract class HoneyTipPostFacadeTestHelper {
     protected HoneyTipScrapService honeyTipScrapService;
 
     // 헬퍼 생성자에서 목 객체를 초기화
-    public HoneyTipPostFacadeTestHelper() {
+    public HoneyTipFacadeTestHelper() {
         MockitoAnnotations.openMocks(this);
     }
 }

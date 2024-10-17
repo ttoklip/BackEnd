@@ -1,4 +1,4 @@
-package com.domain.honeytip.facade;
+package com.domain.honeytip.repository;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.repository.CommentRepository;

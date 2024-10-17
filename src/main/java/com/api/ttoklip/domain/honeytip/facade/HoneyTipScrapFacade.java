@@ -22,11 +22,11 @@ public class HoneyTipScrapFacade implements ActionFacade {
     @Override
     @Transactional
     public Message register(final Long postId, final Long currentMemberId) {
-        Member currentMember = memberService.findById(currentMemberId);
-        boolean exists = honeyTipScrapService.isHoneyTipScrapExists(postId, currentMember.getId());
+        boolean exists = honeyTipScrapService.isHoneyTipScrapExists(postId, currentMemberId);
         // 스크랩이 존재하지 않을 때만 생성
         if (!exists) {
             HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
+            Member currentMember = memberService.findById(currentMemberId);
             honeyTipScrapService.register(findHoneyTip, currentMember);
         }
         return Message.scrapPostSuccess(HoneyTip.class, postId);

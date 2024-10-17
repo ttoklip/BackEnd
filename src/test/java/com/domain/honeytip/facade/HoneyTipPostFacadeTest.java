@@ -42,7 +42,7 @@ import report.fixture.ReportFixture;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class HoneyTipPostFacadeTest extends HoneyTipPostFacadeTestHelper {
+public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
 
     @InjectMocks
     private HoneyTipPostFacade honeyTipPostFacade;
