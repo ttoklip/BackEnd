@@ -47,9 +47,4 @@ public class Profile extends BaseEntity {
         this.profileImgUrl = profileImgUrl;
     }
 
-    // 연관관계 편의 메서드
-    public void linkToMember(final Member member) {
-        this.member = member;
-    }
-
 }

@@ -41,7 +41,4 @@ public class HoneyTipImage extends BaseEntity {
                 .build();
     }
 
-    public void linkToHoneyTip(HoneyTip honeyTip) {
-        this.honeyTip = honeyTip;
-    }
 }

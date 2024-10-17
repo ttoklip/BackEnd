@@ -109,16 +109,4 @@ public class HoneyTip extends BaseEntity {
         honeyTipImages.forEach(BaseEntity::deactivate);
     }
 
-    // 연관관계 편의 메서드
-    public void addImage(HoneyTipImage image) {
-        image.linkToHoneyTip(this);
-        this.honeyTipImages.add(image);
-    }
-
-    // 연관관계 편의 메서드
-    public void addUrl(HoneyTipUrl url) {
-        url.linkToHoneyTip(this);
-        this.honeyTipUrls.add(url);
-    }
-
 }
