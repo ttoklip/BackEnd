@@ -25,5 +25,5 @@ public interface HoneyTipRepository {
 
     List<HoneyTip> getPopularityTop5();
 
-    void save(HoneyTip honeyTip);
+    HoneyTip save(HoneyTip honeyTip);
 }

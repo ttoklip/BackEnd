@@ -16,8 +16,8 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepository {
     private final HoneyTipQueryRepository honeyTipQueryRepository;
 
     @Override
-    public void save(final HoneyTip honeyTip) {
-        honeyTipJpaRepository.save(honeyTip);
+    public HoneyTip save(final HoneyTip honeyTip) {
+        return honeyTipJpaRepository.save(honeyTip);
     }
 
     @Override

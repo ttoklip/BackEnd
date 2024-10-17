@@ -1,6 +1,6 @@
 package honeytip.fixture;
 
-import static member.fixture.MemberFixture.일반_회원_생성;
+import static member.fixture.MemberFixture.일반_회원_생성1;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
@@ -17,7 +17,7 @@ public class HoneyTipFixture {
 
     // 기본적인 허니팁 생성 (작성자 포함)
     public static HoneyTip 타인_허니팁_생성() {
-        Member member = MemberFixture.일반_회원_생성();
+        Member member = MemberFixture.일반_회원_생성1();
         return HoneyTip.builder()
                 .title("기본 허니팁 제목")
                 .content("기본 허니팁 내용")
@@ -50,6 +50,9 @@ public class HoneyTipFixture {
         honeyTip.addUrl(HoneyTipUrl.of(honeyTip, "https://existing-url1.com"));
         honeyTip.addUrl(HoneyTipUrl.of(honeyTip, "https://existing-url2.com"));
 
+        System.out.println("-------------------- HONEY TIP FIXTURE -------------------");
+        System.out.println("honeyTip = " + honeyTip);
+        System.out.println("-------------------- HONEY TIP FIXTURE -------------------");
         return honeyTip;
     }
 
@@ -95,22 +98,22 @@ public class HoneyTipFixture {
 
     // 각 카테고리별 허니팁 리스트 생성
     public static List<HoneyTip> 허니팁_집안일_크기가_10인_리스트_생성() {
-        Member member = 일반_회원_생성();
+        Member member = 일반_회원_생성1();
         return 카테고리별_허니팁_리스트_생성(Category.HOUSEWORK, member);
     }
 
     public static List<HoneyTip> 허니팁_레시피_크기가_10인_리스트_생성() {
-        Member member = 일반_회원_생성();
+        Member member = 일반_회원_생성1();
         return 카테고리별_허니팁_리스트_생성(Category.RECIPE, member);
     }
 
     public static List<HoneyTip> 허니팁_안전생활_크기가_10인_리스트_생성() {
-        Member member = 일반_회원_생성();
+        Member member = 일반_회원_생성1();
         return 카테고리별_허니팁_리스트_생성(Category.SAFE_LIVING, member);
     }
 
     public static List<HoneyTip> 허니팁_복지정책_크기가_10인_리스트_생성() {
-        Member member = 일반_회원_생성();
+        Member member = 일반_회원_생성1();
         return 카테고리별_허니팁_리스트_생성(Category.WELFARE_POLICY, member);
     }
 }

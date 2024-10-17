@@ -1,6 +1,6 @@
 package comment.fixture;
 
-import static member.fixture.MemberFixture.일반_회원_생성;
+import static member.fixture.MemberFixture.일반_회원_생성1;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
@@ -26,14 +26,14 @@ public class CommentFixture {
 
     // 부모 댓글이 있는 대댓글 생성
     public static HoneyTipComment 꿀팁_대댓글_생성(HoneyTipComment parentComment) {
-        Member member = 일반_회원_생성();
+        Member member = 일반_회원_생성1();
         HoneyTip honeyTip = parentComment.getHoneyTip();
         return HoneyTipComment.withParentOf(대댓글_생성_요청(parentComment), parentComment, honeyTip, member);
     }
 
     // 최상위 댓글 생성
     public static HoneyTipComment 꿀팁_최상위_댓글_생성() {
-        Member member = 일반_회원_생성();
+        Member member = 일반_회원_생성1();
         HoneyTip honeyTip = HoneyTipFixture.타인_허니팁_생성();
         return HoneyTipComment.orphanageOf(최상위_댓글_생성_요청(), honeyTip, member);
     }

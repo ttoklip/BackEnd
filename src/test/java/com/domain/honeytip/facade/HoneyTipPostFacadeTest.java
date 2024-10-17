@@ -53,7 +53,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     void 허니팁_게시글_생성_사진만_포함_메서드_호출_성공() {
         // Given
         HoneyTipCreateRequest request = 사진_포함된_게시글_요청_픽스처();
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         when(memberService.findById(member.getId())).thenReturn(member);
 
         // S3 업로드 결과를 모킹하여 가짜 URL 리스트 반환
@@ -79,7 +79,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     void 허니팁_게시글_생성_URL만_포함된_메서드_호출_성공() {
         // Given
         HoneyTipCreateRequest request = URL_있음_게시글_요청_픽스처();
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         when(memberService.findById(member.getId())).thenReturn(member);
 
         // When
@@ -101,7 +101,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     void 허니팁_게시글_생성_사진과_URL_모두_없음_메서드_호출_성공() {
         // Given
         HoneyTipCreateRequest request = URL_X_사진_X_단순_꿀팁_게시글_요청_픽스처();
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         when(memberService.findById(member.getId())).thenReturn(member);
 
         // When
@@ -119,7 +119,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     void 허니팁_게시글_생성_사진과_URL_모두_있음_메서드_호출_성공() {
         // Given
         HoneyTipCreateRequest request = 사진_URL_둘다_있는_게시글_요청_픽스처();
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         when(memberService.findById(member.getId())).thenReturn(member);
 
         // S3 업로드 결과를 모킹하여 가짜 URL 리스트 반환
@@ -174,7 +174,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     @Test
     void 허니팁_수정_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         HoneyTip honeyTip = HoneyTipFixture.본인_허니팁_사진_URL_포함하여_생성(member);
         HoneyTipEditReq editRequest = 허니팁_수정_요청_픽스처();
 
@@ -222,7 +222,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     @Test
     void 허니팁_삭제_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         HoneyTip honeyTip = HoneyTipFixture.본인_허니팁_사진_URL_포함하여_생성(member);
 
         when(honeyTipPostService.getHoneytip(honeyTip.getId())).thenReturn(honeyTip);
@@ -253,7 +253,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     @Test
     void 허니팁_게시글_신고_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         HoneyTip honeyTip = HoneyTipFixture.타인_허니팁_생성();
         ReportCreateRequest request = ReportFixture.신고_요청_픽스처();
 
@@ -280,7 +280,7 @@ public class HoneyTipPostFacadeTest extends HoneyTipFacadeTestHelper {
     @Test
     void 허니팁_게시글_단건_조회_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         HoneyTip honeyTip = HoneyTipFixture.본인_허니팁_사진_URL_포함하여_생성(member);
         List<HoneyTipComment> comments = List.of(); // 댓글 리스트는 빈 리스트로 설정
 

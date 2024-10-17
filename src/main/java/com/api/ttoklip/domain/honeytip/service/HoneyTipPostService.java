@@ -40,8 +40,8 @@ public class HoneyTipPostService {
     }
 
     @Transactional
-    public void saveHoneyTipPost(final HoneyTip honeyTip) {
-        honeytipRepository.save(honeyTip);
+    public HoneyTip saveHoneyTipPost(final HoneyTip honeyTip) {
+        return honeytipRepository.save(honeyTip);
     }
 
     public HoneyTip findHoneyTipWithDetails(final Long postId) {

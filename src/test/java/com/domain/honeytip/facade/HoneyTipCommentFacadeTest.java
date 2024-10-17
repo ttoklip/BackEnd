@@ -35,7 +35,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
     @Test
     void 최상위_댓글_등록_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
         Long postId = honeyTip.getId();
         Long memberId = member.getId();
@@ -61,7 +61,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
     @Test
     void 대댓글_등록_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성();
+        var member = MemberFixture.일반_회원_생성1();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
         Long postId = honeyTip.getId();
         Long memberId = member.getId();
