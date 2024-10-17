@@ -59,7 +59,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
     }
 
     @Test
-    void 대댓글_등록_성공() {
+    void 대댓글_등록_메서드_호출_성공() {
         // Given
         var member = MemberFixture.일반_회원_생성();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
@@ -91,7 +91,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
 
     /* -------------------------------------------- COMMENT DELETE TEST -------------------------------------------- */
     @Test
-    void 댓글_삭제_성공() {
+    void 댓글_삭제_메서드_호출_성공() {
         // Given
         Long commentId = 100L;
 
@@ -112,7 +112,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
 
     /* -------------------------------------------- COMMENT REPORT TEST -------------------------------------------- */
     @Test
-    void 댓글_신고_성공() {
+    void 댓글_신고_메서드_호출_성공() {
         // Given
         Long commentId = 100L;
         var comment = CommentFixture.꿀팁_최상위_댓글_생성();

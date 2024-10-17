@@ -23,7 +23,7 @@ public class HoneyTipScrapFacadeTest extends HoneyTipFacadeTestHelper {
 
     /* -------------------------------------------- SCRAP REGISTER TEST -------------------------------------------- */
     @Test
-    void 허니팁_스크랩_등록_성공() {
+    void 허니팁_스크랩_등록_메서드_호출_성공() {
         // Given
         var member = MemberFixture.일반_회원_생성();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
@@ -51,7 +51,7 @@ public class HoneyTipScrapFacadeTest extends HoneyTipFacadeTestHelper {
     }
 
     @Test
-    void 이미_존재하는_스크랩은_등록하지_않음() {
+    void 이미_존재하는_스크랩은_등록하지_않는_메서드_호출() {
         // Given
         var member = MemberFixture.일반_회원_생성();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
@@ -75,7 +75,7 @@ public class HoneyTipScrapFacadeTest extends HoneyTipFacadeTestHelper {
 
     /* -------------------------------------------- SCRAP CANCEL TEST -------------------------------------------- */
     @Test
-    void 허니팁_스크랩_취소_성공() {
+    void 허니팁_스크랩_취소_메서드_호출_성공() {
         // Given
         var member = MemberFixture.일반_회원_생성();
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
