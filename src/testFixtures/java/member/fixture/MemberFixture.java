@@ -3,6 +3,7 @@ package member.fixture;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.Role;
 import com.api.ttoklip.domain.privacy.domain.Profile;
+import java.util.List;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class MemberFixture {
@@ -53,6 +54,82 @@ public class MemberFixture {
         member.linkProfile(profile);
 
         return member;
+    }
+
+    public static Member 일반_회원_생성3() {
+        Profile profile = Profile.builder()
+                .profileImgUrl("https://default-image-url.com/default.png")
+                .build();
+
+        Member member = Member.builder()
+                .id(125423L)
+                .originName("origin3")
+                .email("normal3@test.com")
+                .provider("local3")
+                .nickname("일반 회원3")
+                .fcmToken("fcmToken12345")
+                .independentMonth(3)
+                .independentYear(1)
+                .street("서울시 용산구")
+                .role(Role.CLIENT)
+                .password("password#1234")
+                .build();
+
+        member.linkProfile(profile);
+
+        return member;
+    }
+
+    public static Member 일반_회원_생성4() {
+        Profile profile = Profile.builder()
+                .profileImgUrl("https://default-image-url.com/default.png")
+                .build();
+
+        Member member = Member.builder()
+                .id(123417689L)
+                .originName("origin4")
+                .email("normal4@test.com")
+                .provider("local4")
+                .nickname("일반 회원4")
+                .fcmToken("fcmToken12345")
+                .independentMonth(3)
+                .independentYear(1)
+                .street("서울시 서대문구")
+                .role(Role.CLIENT)
+                .password("password#1234")
+                .build();
+
+        member.linkProfile(profile);
+
+        return member;
+    }
+
+    public static Member 일반_회원_생성5() {
+        Profile profile = Profile.builder()
+                .profileImgUrl("https://default-image-url.com/default.png")
+                .build();
+
+        Member member = Member.builder()
+                .id(12341234L)
+                .originName("origin5")
+                .email("normal5@test.com")
+                .provider("local5")
+                .nickname("일반 회원5")
+                .fcmToken("fcmToken12345")
+                .independentMonth(3)
+                .independentYear(1)
+                .street("서울시 성동구")
+                .role(Role.CLIENT)
+                .password("password#1234")
+                .build();
+
+        member.linkProfile(profile);
+
+        return member;
+    }
+
+    public static List<Member> 회원_5명_생성() {
+        return List.of(일반_회원_생성1(), 일반_회원_생성2(), 일반_회원_생성3(), 일반_회원_생성4(), 일반_회원_생성5());
     }
 
     public static Member 관리자_계정_생성() {

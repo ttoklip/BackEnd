@@ -5,11 +5,16 @@ import static member.fixture.MemberFixture.일반_회원_생성1;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipLike;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipUrl;
 import com.api.ttoklip.domain.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 import member.fixture.MemberFixture;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -158,4 +163,60 @@ public class HoneyTipFixture {
         Member member = 일반_회원_생성1();
         return 카테고리별_허니팁_N개사이즈_리스트_생성(Category.HOUSEWORK, member, n);
     }
+
+    public static List<HoneyTip> 랜덤_카테고리와_랜덤_개수의_댓글_좋아요_스크랩_포함한_허니팁_생성(List<Member> members) {
+        Random random = new Random();
+        List<HoneyTip> honeyTips = new ArrayList<>();
+        Category[] categories = Category.values();
+
+        for (int i = 0; i < 10; i++) {
+            Category category = categories[i % categories.length];
+
+            Member randomMember = members.get(random.nextInt(members.size()));
+
+            HoneyTip honeyTip = HoneyTip.builder()
+                    .title("허니팁 제목 " + i)
+                    .content("허니팁 내용 " + i)
+                    .category(category)
+                    .member(randomMember)
+                    .build();
+
+            // 댓글, 좋아요, 스크랩 개수를 무작위로 생성
+            List<HoneyTipComment> comments = IntStream.range(0, random.nextInt(10))
+                    .mapToObj(j -> HoneyTipComment.builder()
+                            .member(members.get(random.nextInt(members.size())))
+                            .content("댓글 내용 " + j)
+                            .honeyTip(honeyTip)
+                            .build())
+                    .toList();
+
+            List<HoneyTipLike> likes = IntStream.range(0, random.nextInt(10))
+                    .mapToObj(j -> HoneyTipLike.builder()
+                            .member(members.get(random.nextInt(members.size())))
+                            .honeyTip(honeyTip)
+                            .build())
+                    .toList();
+
+            List<HoneyTipScrap> scraps = IntStream.range(0, random.nextInt(10))
+                    .mapToObj(j -> HoneyTipScrap.builder()
+                            .member(members.get(random.nextInt(members.size())))
+                            .honeyTip(honeyTip)
+                            .build())
+                    .toList();
+
+            HoneyTip result = HoneyTip.builder()
+                    .title(honeyTip.getTitle())
+                    .content(honeyTip.getContent())
+                    .category(honeyTip.getCategory())
+                    .member(honeyTip.getMember())
+                    .honeyTipComments(comments)
+                    .honeyTipLikes(likes)
+                    .honeyTipScraps(scraps)
+                    .build();
+
+            honeyTips.add(result);
+        }
+        return honeyTips;
+    }
+
 }

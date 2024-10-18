@@ -226,6 +226,38 @@ public class HoneyTipPostServiceTest {
 
     }
 
+    @Test
+    void 인기순으로_5개를_조회한다() {
+        // given: 5명의 회원과 10개의 랜덤 허니팁 생성
+        List<Member> members = MemberFixture.회원_5명_생성();
+        List<HoneyTip> honeyTips = HoneyTipFixture.랜덤_카테고리와_랜덤_개수의_댓글_좋아요_스크랩_포함한_허니팁_생성(members);
+        honeyTips.forEach(honeyTipRepository::save);
+
+        // when
+        List<HoneyTip> top5HoneyTips = honeyTipPostService.getPopularityTop5();
+
+        // then
+        assertSoftly(softly -> {
+            // 조회된 허니팁이 5개인지 확인
+            softly.assertThat(top5HoneyTips.size()).isEqualTo(5);
+
+            // 각 허니팁의 점수를 내림차순으로 확인
+            for (int i = 0; i < top5HoneyTips.size() - 1; i++) {
+                int currentScore = calculatePopularityScore(top5HoneyTips.get(i));
+                int nextScore = calculatePopularityScore(top5HoneyTips.get(i + 1));
+                softly.assertThat(currentScore)
+                        .as("허니팁 %d의 점수는 다음 허니팁 %d의 점수보다 크거나 같아야 합니다", i, i + 1)
+                        .isGreaterThanOrEqualTo(nextScore);
+            }
+        });
+    }
+
+    private int calculatePopularityScore(HoneyTip honeyTip) {
+        return honeyTip.getHoneyTipComments().size()
+                + honeyTip.getHoneyTipLikes().size()
+                + honeyTip.getHoneyTipScraps().size();
+    }
+
     private int getRandomN() {
         Random random = new Random();
         return random.nextInt(Short.MAX_VALUE / 10);

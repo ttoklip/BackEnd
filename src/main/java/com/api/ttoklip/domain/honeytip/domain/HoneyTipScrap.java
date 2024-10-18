@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HoneyTipScrap extends BaseTimeEntity {
@@ -36,9 +36,9 @@ public class HoneyTipScrap extends BaseTimeEntity {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-    public static HoneyTipScrap of(final HoneyTip honeyTip, final Member currentMember) {
+    public static HoneyTipScrap of(final HoneyTip honeyTip, final Member member) {
         return HoneyTipScrap.builder()
-                .member(currentMember)
+                .member(member)
                 .honeyTip(honeyTip)
                 .build();
     }

@@ -22,7 +22,6 @@ public class HoneyTipPostService {
     private final S3FileUploader s3FileUploader;
     private final HoneyTipRepository honeytipRepository;
 
-    /* -------------------------------------------- COMMON -------------------------------------------- */
     public HoneyTip getHoneytip(final Long postId) {
         return honeytipRepository.findByIdActivated(postId);
     }
@@ -75,7 +74,5 @@ public class HoneyTipPostService {
     public Page<HoneyTip> matchCategoryPaging(final Category category, final Pageable pageable) {
         return honeytipRepository.matchCategoryPaging(category, pageable);
     }
-
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
 }
