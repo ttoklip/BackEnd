@@ -24,6 +24,7 @@ public class HoneyTipFixture {
     public static HoneyTip 타인_허니팁_생성() {
         Member member = MemberFixture.일반_회원_생성1();
         return HoneyTip.builder()
+                .id(1L)
                 .title("기본 허니팁 제목")
                 .content("기본 허니팁 내용")
                 .category(Category.HOUSEWORK)

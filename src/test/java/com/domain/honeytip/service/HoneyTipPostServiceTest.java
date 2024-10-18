@@ -47,13 +47,31 @@ public class HoneyTipPostServiceTest {
         // Then
         HoneyTip savedHoneyTip = honeyTipRepository.findByIdActivated(saveHoneyTip.getId());
         assertSoftly(softly -> {
-            softly.assertThat(savedHoneyTip).isNotNull();  // 저장된 객체가 null이 아님을 확인
-            softly.assertThat(savedHoneyTip.getId()).isNotNull();  // 저장된 객체가 null이 아님을 확인
-            softly.assertThat(savedHoneyTip.getTitle()).isEqualTo("지정된 멤버 허니팁 제목");  // 제목이 일치하는지 확인
-            softly.assertThat(savedHoneyTip.getContent()).isEqualTo("지정된 멤버 허니팁 내용");  // 내용이 일치하는지 확인
+            softly.assertThat(savedHoneyTip).isNotNull();
+            softly.assertThat(savedHoneyTip.getId()).isNotNull();
+            softly.assertThat(savedHoneyTip.getTitle()).isEqualTo("지정된 멤버 허니팁 제목");
+            softly.assertThat(savedHoneyTip.getContent()).isEqualTo("지정된 멤버 허니팁 내용");
         });
 
     }
+
+    @Test
+    void 허니팁_단건_조회한다() {
+        // given
+        HoneyTip honeyTip = HoneyTipFixture.타인_허니팁_생성();
+        honeyTipRepository.save(honeyTip);
+
+        // when
+        HoneyTip foundHoneyTip = honeyTipPostService.getHoneytip(honeyTip.getId());
+
+        // then
+        assertSoftly(softly -> {
+            softly.assertThat(foundHoneyTip.getTitle()).isEqualTo(honeyTip.getTitle());
+            softly.assertThat(foundHoneyTip.getContent()).isEqualTo(honeyTip.getContent());
+            softly.assertThat(foundHoneyTip.getCategory()).isEqualTo(honeyTip.getCategory());
+        });
+    }
+
 
     @Test
     void 존재하지_않는_허니팁_조회시_NOT_FOUND_ERROR_발생한다() {
@@ -76,8 +94,8 @@ public class HoneyTipPostServiceTest {
 
         // When & Then
         assertSoftly(softly -> softly.assertThatThrownBy(() -> honeyTipPostService.checkEditPermission(honeyTip, reader.getId()))
-                .isInstanceOf(ApiException.class)  // 예외 발생 여부 확인
-                .hasMessageContaining(ErrorType.UNAUTHORIZED_EDIT_POST.getMessage()));  // 예외 메시지 검증
+                .isInstanceOf(ApiException.class)
+                .hasMessageContaining(ErrorType.UNAUTHORIZED_EDIT_POST.getMessage()));
     }
 
     @Test
@@ -122,8 +140,8 @@ public class HoneyTipPostServiceTest {
         // Then
         assertSoftly(softly -> {
             softly.assertThat(result).isNotNull();
-            softly.assertThat(result).hasSize(10);  // 10개의 집안일 꿀팁이 조회됨을 확인
-            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.HOUSEWORK);  // 카테고리가 올바른지 확인
+            softly.assertThat(result).hasSize(10);
+            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.HOUSEWORK);
         });
     }
 
@@ -140,8 +158,8 @@ public class HoneyTipPostServiceTest {
         // Then
         assertSoftly(softly -> {
             softly.assertThat(result).isNotNull();
-            softly.assertThat(result).hasSize(10);  // 10개의 레시피 꿀팁이 조회됨을 확인
-            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.RECIPE);  // 카테고리가 올바른지 확인
+            softly.assertThat(result).hasSize(10);
+            softly.assertThat(result.get(0).getCategory()).isEqualTo(Category.RECIPE);
         });
     }
 
