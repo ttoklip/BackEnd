@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface HoneyTipImageRepository {
 
-    void save(HoneyTipImage honeyTipImage);
+    HoneyTipImage save(HoneyTipImage honeyTipImage);
 
     boolean existsByHoneyTipIdAndUrl(Long honeyTipId, String url);
 

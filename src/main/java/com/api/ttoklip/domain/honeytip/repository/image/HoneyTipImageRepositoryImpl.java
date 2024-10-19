@@ -13,8 +13,8 @@ public class HoneyTipImageRepositoryImpl implements HoneyTipImageRepository{
     private final HoneyTipImageQueryRepository honeyTipImageQueryRepository;
 
     @Override
-    public void save(final HoneyTipImage honeyTipImage) {
-        honeyTipImageJpaRepository.save(honeyTipImage);
+    public HoneyTipImage save(final HoneyTipImage honeyTipImage) {
+        return honeyTipImageJpaRepository.save(honeyTipImage);
     }
 
     @Override
