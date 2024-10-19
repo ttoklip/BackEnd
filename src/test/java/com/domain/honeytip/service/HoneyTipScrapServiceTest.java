@@ -1,6 +1,7 @@
 package com.domain.honeytip.service;
 
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.repository.scrap.HoneyTipScrapRepository;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.exception.ApiException;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class HoneyTipScrapServiceTest {
 
     private HoneyTipScrapService honeyTipScrapService;
-    private FakeHoneyTipScrapRepository honeyTipScrapRepository;
+    private HoneyTipScrapRepository honeyTipScrapRepository;
 
     @BeforeEach
     void setUp() {
