@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.newsletter.controller;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.newsletter.constant.NewsletterResponseConstant;
 import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateRequest;
@@ -37,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/newsletter/posts")
-public class NewsletterController {
+public class NewsletterPostController {
 
     private final static int PAGE_SIZE = 10; // 페이지 당 데이터 수
     private final NewsletterPostFacade newsletterPostFacade;
@@ -124,7 +126,8 @@ public class NewsletterController {
                             )))})
     @PostMapping("/like/{postId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
-        Message message = newsletterLikeFacade.register(postId);
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = newsletterLikeFacade.register(postId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -141,7 +144,8 @@ public class NewsletterController {
                             )))})
     @DeleteMapping("/like/{postId}")
     public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
-        Message message = newsletterLikeFacade.cancel(postId);
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = newsletterLikeFacade.cancel(postId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -159,7 +163,8 @@ public class NewsletterController {
                             )))})
     @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
-        Message message = newsletterScrapFacade.register(postId);
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = newsletterScrapFacade.register(postId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -176,7 +181,8 @@ public class NewsletterController {
                             )))})
     @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
-        Message message = newsletterScrapFacade.cancel(postId);
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = newsletterScrapFacade.cancel(postId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

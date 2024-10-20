@@ -1,10 +1,8 @@
 package com.api.ttoklip.domain.honeytip.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.repository.image.HoneyTipImageRepository;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.List;
@@ -25,9 +23,9 @@ public class HoneyTipImageService {
     }
 
     @Transactional
-    public void deleteImages(final List<Long> imageIds) {
+    public void deleteImages(final List<Long> imageIds, final Long currentMemberId) {
         validImagesExists(imageIds);
-        honeyTipImageRepository.allImageOwner(imageIds, getCurrentMember().getId());
+        honeyTipImageRepository.verifyMemberIsImageOwner(imageIds, currentMemberId);
         honeyTipImageRepository.deleteByImageIds(imageIds);
     }
 

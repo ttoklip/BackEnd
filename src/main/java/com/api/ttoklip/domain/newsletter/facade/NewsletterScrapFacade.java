@@ -18,7 +18,7 @@ public class NewsletterScrapFacade implements ActionFacade {
 
     @Override
     @Transactional
-    public Message register(final Long postId) {
+    public Message register(final Long postId, final Long currentMemberId) {
         boolean exists = newsletterScrapService.isNewsletterExists(postId);
         if (!exists) {
             Newsletter newsletter = newsletterPostService.getNewsletter(postId);
@@ -30,7 +30,7 @@ public class NewsletterScrapFacade implements ActionFacade {
 
     @Override
     @Transactional
-    public Message cancel(final Long postId) {
+    public Message cancel(final Long postId, final Long currentMemberId) {
         Newsletter newsletter = newsletterPostService.getNewsletter(postId);
         newsletterScrapService.cancelScrap(newsletter);
         return Message.scrapPostCancel(Newsletter.class, postId);

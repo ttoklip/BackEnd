@@ -1,5 +1,7 @@
 package com.api.ttoklip.domain.honeytip.controller;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.honeytip.constant.HoneyTipResponseConstant;
@@ -45,7 +47,8 @@ public class HoneyTipCommentController {
     @PostMapping("/{postId}")
     public SuccessResponse<Message> register(final @PathVariable Long postId,
                                              final @RequestBody CommentCreateRequest request) {
-        Message message = honeyTipCommentFacade.register(postId, request);
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = honeyTipCommentFacade.register(postId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

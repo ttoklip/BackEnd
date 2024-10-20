@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.privacy.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ import lombok.ToString;
 public class Profile extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -41,9 +43,8 @@ public class Profile extends BaseEntity {
                 .build();
     }
 
-    public void changeProfile(String profileImgUrl) {
+    public void changeProfile(final String profileImgUrl) {
         this.profileImgUrl = profileImgUrl;
     }
-
 
 }

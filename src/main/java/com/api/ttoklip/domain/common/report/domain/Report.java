@@ -36,6 +36,7 @@ import lombok.NoArgsConstructor;
 public class Report extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -128,12 +129,13 @@ public class Report extends BaseEntity {
                 .build();
     }
 
-    public static Report honeyTipOf(final ReportCreateRequest request, final HoneyTip honeyTip) {
+    public static Report honeyTipOf(final ReportCreateRequest request, final HoneyTip honeyTip,
+                                    final Member currentMember) {
         return Report.builder()
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .honeyTip(honeyTip)
-                .reporter(getCurrentMember())
+                .reporter(currentMember)
                 .reportedMember(honeyTip.getMember())
                 .build();
     }

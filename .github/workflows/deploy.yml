@@ -31,6 +31,9 @@ jobs:
                   java-version: '17'
                   distribution: 'temurin'
 
+            - name: Run Tests with Gradle
+              run: ./gradlew test
+
             - name: Build with Gradle
               run: ./gradlew bootJar
 

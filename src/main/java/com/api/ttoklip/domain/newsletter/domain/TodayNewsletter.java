@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.newsletter.domain;
 
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 public class TodayNewsletter extends BaseTimeEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

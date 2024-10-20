@@ -29,12 +29,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HoneyTip extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -55,11 +56,11 @@ public class HoneyTip extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HoneyTipImage> honeyTipImageList = new ArrayList<>();
+    private List<HoneyTipImage> honeyTipImages = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HoneyTipUrl> honeyTipUrlList = new ArrayList<>();
+    private List<HoneyTipUrl> honeyTipUrls = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "honeyTip", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -101,10 +102,11 @@ public class HoneyTip extends BaseEntity {
     }
 
     private void deactivateHoneyTipUrls() {
-        honeyTipUrlList.forEach(BaseEntity::deactivate);
+        honeyTipUrls.forEach(BaseEntity::deactivate);
     }
 
     private void deactivateHoneyTipImages() {
-        honeyTipImageList.forEach(BaseEntity::deactivate);
+        honeyTipImages.forEach(BaseEntity::deactivate);
     }
+
 }

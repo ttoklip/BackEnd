@@ -51,6 +51,7 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -181,5 +182,9 @@ public class Member extends BaseEntity {
 
     public void updateFcmToken(final String fcmToken) {
         this.fcmToken = fcmToken;
+    }
+
+    public void linkProfile(final Profile profile) {
+        this.profile = profile;
     }
 }

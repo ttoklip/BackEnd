@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.honeytip.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
@@ -24,7 +22,6 @@ public class HoneyTipPostService {
     private final S3FileUploader s3FileUploader;
     private final HoneyTipRepository honeytipRepository;
 
-    /* -------------------------------------------- COMMON -------------------------------------------- */
     public HoneyTip getHoneytip(final Long postId) {
         return honeytipRepository.findByIdActivated(postId);
     }
@@ -33,9 +30,8 @@ public class HoneyTipPostService {
         return s3FileUploader.uploadMultipartFiles(uploadImages);
     }
 
-    public void checkEditPermission(final HoneyTip honeyTip) {
+    public void checkEditPermission(final HoneyTip honeyTip, final Long currentMemberId) {
         Long writerId = honeyTip.getMember().getId();
-        Long currentMemberId = getCurrentMember().getId();
 
         if (!writerId.equals(currentMemberId)) {
             throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);
@@ -43,8 +39,8 @@ public class HoneyTipPostService {
     }
 
     @Transactional
-    public void saveHoneyTipPost(final HoneyTip honeyTip) {
-        honeytipRepository.save(honeyTip);
+    public HoneyTip saveHoneyTipPost(final HoneyTip honeyTip) {
+        return honeytipRepository.save(honeyTip);
     }
 
     public HoneyTip findHoneyTipWithDetails(final Long postId) {
@@ -78,7 +74,5 @@ public class HoneyTipPostService {
     public Page<HoneyTip> matchCategoryPaging(final Category category, final Pageable pageable) {
         return honeytipRepository.matchCategoryPaging(category, pageable);
     }
-
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
 }

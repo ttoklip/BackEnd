@@ -1,11 +1,10 @@
 package com.api.ttoklip.domain.honeytip.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipScrap;
 import com.api.ttoklip.domain.honeytip.repository.scrap.HoneyTipScrapRepository;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -19,24 +18,21 @@ public class HoneyTipScrapService {
 
     private final HoneyTipScrapRepository honeyTipScrapRepository;
 
-    public boolean isHoneyTipScrapExists(final Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
+    public boolean isHoneyTipScrapExists(final Long postId, final Long currentMemberId) {
         return honeyTipScrapRepository.existsByHoneyTipIdAndMemberId(postId, currentMemberId);
     }
 
     // 스크랩 생성
     @SendNotification
-    public void register(final HoneyTip honeyTip) {
-        HoneyTipScrap honeyTipScrap = HoneyTipScrap.from(honeyTip);
+    public void register(final HoneyTip honeyTip, final Member currentMember) {
+        HoneyTipScrap honeyTipScrap = HoneyTipScrap.of(honeyTip, currentMember);
         honeyTipScrapRepository.save(honeyTipScrap);
     }
 
     // 스크랩 취소
-    public void cancelScrap(final HoneyTip honeyTip) {
+    public void cancelScrap(final HoneyTip honeyTip, final Long currentMemberId) {
         // HoneyTipId (게시글 ID)
         Long findHoneyTipId = honeyTip.getId();
-        Long currentMemberId = getCurrentMember().getId();
-
         HoneyTipScrap honeyTipScrap = honeyTipScrapRepository.findByHoneyTipIdAndMemberId(findHoneyTipId,
                         currentMemberId)
                 .orElseThrow(() -> new ApiException(ErrorType.SCRAP_NOT_FOUND));

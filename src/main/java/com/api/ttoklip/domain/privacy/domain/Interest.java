@@ -3,6 +3,7 @@ package com.api.ttoklip.domain.privacy.domain;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 public class Interest extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

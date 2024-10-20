@@ -17,14 +17,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HoneyTipUrl extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -40,4 +40,5 @@ public class HoneyTipUrl extends BaseEntity {
                 .honeyTip(honeyTip)
                 .build();
     }
+
 }

@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.honeytip.domain;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.Column;
@@ -20,14 +18,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HoneyTipLike extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,9 +36,9 @@ public class HoneyTipLike extends BaseTimeEntity {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-    public static HoneyTipLike from(final HoneyTip honeyTip) {
+    public static HoneyTipLike of(final HoneyTip honeyTip, final Member member) {
         return HoneyTipLike.builder()
-                .member(getCurrentMember())
+                .member(member)
                 .honeyTip(honeyTip)
                 .build();
     }

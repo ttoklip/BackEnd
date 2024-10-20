@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.honeytip.facade;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.domain.common.Category;
@@ -23,6 +21,7 @@ import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -47,11 +46,13 @@ public class HoneyTipPostFacade {
 
     private final ReportService reportService;
 
+    private final MemberService memberService;
+
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     @CheckBadWordCreate
-    public Message register(final HoneyTipCreateRequest request) {
-        Member currentMember = getCurrentMember();
+    public Message register(final HoneyTipCreateRequest request, final Long currentMemberId) {
+        Member currentMember = memberService.findById(currentMemberId);
         HoneyTip honeytip = HoneyTip.of(request, currentMember);
         honeyTipPostService.saveHoneyTipPost(honeytip);
 
@@ -84,11 +85,11 @@ public class HoneyTipPostFacade {
     /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
     @CheckBadWordUpdate
-    public Message edit(final Long postId, final HoneyTipEditReq request) {
+    public Message edit(final Long postId, final HoneyTipEditReq request, final Long currentMemberId) {
 
         // 기존 게시글 찾기
         HoneyTip honeyTip = honeyTipPostService.getHoneytip(postId);
-        honeyTipPostService.checkEditPermission(honeyTip);
+        honeyTipPostService.checkEditPermission(honeyTip, currentMemberId);
 
         // title, content 수정
         HoneyTipPostEditor postEditor = getPostEditor(request, honeyTip);
@@ -110,7 +111,7 @@ public class HoneyTipPostFacade {
         // 이미지 삭제
         List<Long> deleteImageIds = request.getDeleteImageIds();
         if (deleteImageIds != null && !deleteImageIds.isEmpty()) {
-            deleteImages(deleteImageIds);
+            deleteImages(deleteImageIds, currentMemberId);
         }
 
         return Message.editPostSuccess(HoneyTip.class, honeyTip.getId());
@@ -125,8 +126,8 @@ public class HoneyTipPostFacade {
         return honeyTipPostEditor;
     }
 
-    private void deleteImages(final List<Long> deleteImageIds) {
-        honeyTipImageService.deleteImages(deleteImageIds);
+    private void deleteImages(final List<Long> deleteImageIds, final Long currentMemberId) {
+        honeyTipImageService.deleteImages(deleteImageIds, currentMemberId);
     }
 
     /* -------------------------------------------- EDIT 끝 -------------------------------------------- */
@@ -134,10 +135,10 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
-    public Message delete(final Long postId) {
+    public Message delete(final Long postId, final Long currentMemberId) {
         HoneyTip honeyTip = honeyTipPostService.getHoneytip(postId);
 
-        honeyTipPostService.checkEditPermission(honeyTip);
+        honeyTipPostService.checkEditPermission(honeyTip, currentMemberId);
         honeyTip.deactivate();
 
         return Message.deletePostSuccess(HoneyTip.class, postId);
@@ -148,9 +149,10 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
-    public Message report(final Long postId, final ReportCreateRequest request) {
+    public Message report(final Long postId, final ReportCreateRequest request, final Long currentMemberId) {
         HoneyTip honeytip = honeyTipPostService.getHoneytip(postId);
-        reportService.reportHoneyTip(request, honeytip);
+        Member currentMember = memberService.findById(currentMemberId);
+        reportService.reportHoneyTip(request, honeytip, currentMember);
 
         return Message.reportPostSuccess(HoneyTip.class, postId);
     }
@@ -159,16 +161,15 @@ public class HoneyTipPostFacade {
 
 
     /* -------------------------------------------- 단건 READ -------------------------------------------- */
-    public HoneyTipSingleResponse getSinglePost(final Long postId) {
+    public HoneyTipSingleResponse getSinglePost(final Long postId, final Long currentMemberId) {
         HoneyTip honeyTipWithImgAndUrl = honeyTipPostService.findHoneyTipWithDetails(postId);
         List<HoneyTipComment> activeComments = honeyTipCommentService.findCommentsByHoneyTipId(postId);
 
         int likeCount = honeyTipLikeService.countHoneyTipLikes(postId).intValue();
         int scrapCount = honeyTipScrapService.countHoneyTipScraps(postId).intValue();
 
-        // 현재 사용자가 좋아요를 눌렀는지 확인
-        boolean likedByCurrentUser = honeyTipLikeService.isHoneyTipLikeExists(postId);
-        boolean scrapedByCurrentUser = honeyTipScrapService.isHoneyTipScrapExists(postId);
+        boolean likedByCurrentUser = honeyTipLikeService.isHoneyTipLikeExists(postId, currentMemberId);
+        boolean scrapedByCurrentUser = honeyTipScrapService.isHoneyTipScrapExists(postId, currentMemberId);
 
         HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
                 activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
