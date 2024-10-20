@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class HoneyTipImageRepositoryImpl implements HoneyTipImageRepository{
+public class HoneyTipImageRepositoryImpl implements HoneyTipImageRepository {
 
     private final HoneyTipImageJpaRepository honeyTipImageJpaRepository;
     private final HoneyTipImageQueryRepository honeyTipImageQueryRepository;

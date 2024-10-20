@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.honeytip.service;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.repository.image.HoneyTipImageRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;

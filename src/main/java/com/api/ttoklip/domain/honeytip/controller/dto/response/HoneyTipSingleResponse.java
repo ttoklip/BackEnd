@@ -2,9 +2,9 @@ package com.api.ttoklip.domain.honeytip.controller.dto.response;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipUrl;
 import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
 import com.api.ttoklip.global.util.TimeUtil;
