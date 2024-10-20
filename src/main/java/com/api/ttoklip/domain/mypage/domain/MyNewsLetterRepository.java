@@ -1,11 +1,9 @@
 package com.api.ttoklip.domain.mypage.domain;
 
-
-import static com.api.ttoklip.domain.newsletter.comment.domain.QNewsletterComment.newsletterComment;
-import static com.api.ttoklip.domain.newsletter.post.domain.QNewsletter.newsletter;
-import static com.api.ttoklip.domain.newsletter.scarp.entity.QNewsletterScrap.newsletterScrap;
-
-import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletter;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;
+import com.api.ttoklip.domain.newsletter.domain.QNewsletterScrap;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -19,6 +17,10 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class MyNewsLetterRepository {
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QNewsletter newsletter = QNewsletter.newsletter;
+    private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
+    private final QNewsletterScrap newsletterScrap = QNewsletterScrap.newsletterScrap;
 
     public Page<Newsletter> getScrapContain(final Long userId, final Pageable pageable) {
         List<Newsletter> content = getSearchScrapPageId(userId, pageable);
