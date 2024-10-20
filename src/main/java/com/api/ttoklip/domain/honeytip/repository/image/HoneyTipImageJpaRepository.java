@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HoneyTipImageJpaRepository extends JpaRepository<HoneyTipImage, Long> {
 
-    boolean existsByHoneyTipIdAndUrl(final Long honeyTipId, final String url);
+    boolean existsByHoneyTipIdAndUrl(Long honeyTipId, String url);
 }

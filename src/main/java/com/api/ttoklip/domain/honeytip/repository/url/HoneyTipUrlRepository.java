@@ -6,7 +6,7 @@ import java.util.List;
 public interface HoneyTipUrlRepository {
 
     List<HoneyTipUrl> findByHoneyTipId(Long honeyTipId);
-    void deleteAllByIds(final List<Long> ids);
+    void deleteAllByIds(List<Long> ids);
 
     void save(HoneyTipUrl honeyTipUrl);
 

@@ -8,7 +8,7 @@ public interface HoneyTipScrapRepository {
 
     boolean existsByHoneyTipIdAndMemberId(Long honeyTipId, Long memberId);
 
-    Long countHoneyTipScrapsByHoneyTipId(final Long postId);
+    Long countHoneyTipScrapsByHoneyTipId(Long postId);
 
     void deleteById(Long id);
 

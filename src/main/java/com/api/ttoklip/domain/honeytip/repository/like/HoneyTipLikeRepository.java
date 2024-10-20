@@ -9,7 +9,7 @@ public interface HoneyTipLikeRepository {
 
     boolean existsByHoneyTipIdAndMemberId(Long honeyTipId, Long memberId);
 
-    Long countHoneyTipLikesByHoneyTipId(final Long postId);
+    Long countHoneyTipLikesByHoneyTipId(Long postId);
 
     void save(HoneyTipLike honeyTipLike);
 

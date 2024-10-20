@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface HoneyTipRepository {
-    HoneyTip findByIdActivated(final Long honeyTipId);
+    HoneyTip findByIdActivated(Long honeyTipId);
 
-    HoneyTip findHoneyTipWithDetails(final Long postId);
+    HoneyTip findHoneyTipWithDetails(Long postId);
 
     Page<HoneyTip> matchCategoryPaging(Category category, Pageable pageable);
 
