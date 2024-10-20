@@ -2,8 +2,6 @@ package com.domain.honeytip.repository;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipUrl;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -116,9 +114,9 @@ public class FakeHoneyTipPostRepository implements HoneyTipRepository {
 
     @Override
     public HoneyTip save(final HoneyTip honeyTip) {
-        honeyTipId++;  // HoneyTip ID 증가
+        honeyTipId++;
         HoneyTip savedHoneyTip = HoneyTip.builder()
-                .id(honeyTipId)  // 자동으로 증가된 ID 설정
+                .id(honeyTipId)
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
                 .category(honeyTip.getCategory())

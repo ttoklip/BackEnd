@@ -6,8 +6,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.api.ttoklip.domain.common.comment.service.CommentService;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.facade.HoneyTipCommentFacade;
+import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.success.Message;
 import comment.fixture.CommentFixture;
 import honeytip.fixture.HoneyTipFixture;
@@ -65,7 +67,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
         var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
         Long postId = honeyTip.getId();
         Long memberId = member.getId();
-        var parentComment = CommentFixture.꿀팁_최상위_댓글_생성();
+        var parentComment = CommentFixture.꿀팁_최상위_댓글_생성(honeyTip);
 
         var request = CommentFixture.대댓글_생성_요청(parentComment);
 
@@ -115,7 +117,10 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
     void 댓글_신고_메서드_호출_성공() {
         // Given
         Long commentId = 100L;
-        var comment = CommentFixture.꿀팁_최상위_댓글_생성();
+
+        Member member = MemberFixture.일반_회원_생성1();
+        HoneyTip honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
+        var comment = CommentFixture.꿀팁_최상위_댓글_생성(honeyTip);
         var reportRequest = ReportFixture.신고_요청_픽스처();
 
         when(commentService.findComment(commentId)).thenReturn(comment);
