@@ -19,4 +19,12 @@ public interface QuestionRepositoryCustom {
     List<QuestionComment> findActiveCommentsByQuestionId(final Long questionId);
 
     Page<Question> matchCategoryPaging(final Category category, final Pageable pageable);
+
+    List<Question> getHouseWork();
+
+    List<Question> getRecipe();
+
+    List<Question> getSafeLiving();
+
+    List<Question> getWelfarePolicy();
 }

@@ -141,4 +141,56 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 끝 ------------------------------------
 
+    public List<Question> getHouseWork() {
+        return jpaQueryFactory
+                .selectFrom(question)
+                .distinct()
+                .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
+                .where(question.category.eq(Category.HOUSEWORK))
+                .limit(10)
+                .orderBy(question.id.desc())
+                .fetch();
+    }
+
+    public List<Question> getRecipe() {
+        return jpaQueryFactory
+                .selectFrom(question)
+                .distinct()
+                .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
+                .where(question.category.eq(Category.RECIPE))
+                .limit(10)
+                .orderBy(question.id.desc())
+                .fetch();
+    }
+
+    public List<Question> getSafeLiving() {
+        return jpaQueryFactory
+                .selectFrom(question)
+                .distinct()
+                .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
+                .where(question.category.eq(Category.SAFE_LIVING))
+                .limit(10)
+                .orderBy(question.id.desc())
+                .fetch();
+    }
+
+    public List<Question> getWelfarePolicy() {
+        return jpaQueryFactory
+                .selectFrom(question)
+                .distinct()
+                .leftJoin(question.questionComments, questionComment)
+                .leftJoin(question.member, member).fetchJoin()
+                .leftJoin(question.member.profile, profile).fetchJoin()
+                .where(question.category.eq(Category.WELFARE_POLICY))
+                .limit(10)
+                .orderBy(question.id.desc())
+                .fetch();
+    }
+
 }

@@ -13,7 +13,6 @@ import com.api.ttoklip.domain.question.image.service.QuestionImageService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
-import com.api.ttoklip.domain.question.post.repository.QuestionDefaultRepository;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
@@ -31,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class QuestionPostService {
 
     private final QuestionRepository questionRepository;
-    private final QuestionDefaultRepository questionDefaultRepository;
     private final QuestionImageService questionImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
@@ -92,10 +90,10 @@ public class QuestionPostService {
     /* -------------------------------------------- 카토고리별 MAIN READ -------------------------------------------- */
 
     public CategoryResponses getDefaultCategoryRead() {
-        List<Question> houseWorkQuestions = questionDefaultRepository.getHouseWork();
-        List<Question> recipeQuestions = questionDefaultRepository.getRecipe();
-        List<Question> safeLivingQuestions = questionDefaultRepository.getSafeLiving();
-        List<Question> welfarePolicyQuestions = questionDefaultRepository.getWelfarePolicy();
+        List<Question> houseWorkQuestions = questionRepository.getHouseWork();
+        List<Question> recipeQuestions = questionRepository.getRecipe();
+        List<Question> safeLivingQuestions = questionRepository.getSafeLiving();
+        List<Question> welfarePolicyQuestions = questionRepository.getWelfarePolicy();
 
         return CategoryResponses.builder()
                 .housework(convertToTitleResponses(houseWorkQuestions))
