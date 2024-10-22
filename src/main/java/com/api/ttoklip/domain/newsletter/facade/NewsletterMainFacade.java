@@ -7,9 +7,11 @@ import com.api.ttoklip.domain.newsletter.service.NewsletterMainService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NewsletterMainFacade {
 
     private final NewsletterMainService newsletterMainService;
