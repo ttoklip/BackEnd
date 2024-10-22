@@ -18,4 +18,9 @@ public class TodayNewsletterRepositoryImpl implements TodayNewsletterRepository 
 
         return jpaRepository.findByCreatedDateBetween(startOfDay, endOfDay);
     }
+
+    @Override
+    public TodayNewsletter save(final TodayNewsletter todayNewsletter) {
+        return jpaRepository.saveAndFlush(todayNewsletter);
+    }
 }

@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.newsletter.service;
 
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterUrl;
-import com.api.ttoklip.domain.newsletter.repository.NewsletterUrlRepository;
+import com.api.ttoklip.domain.newsletter.repository.url.NewsletterUrlRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
