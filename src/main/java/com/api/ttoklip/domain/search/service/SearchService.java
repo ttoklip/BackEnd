@@ -4,7 +4,7 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.scrap.HoneyTipSearchRepository;
 import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.repository.NewsletterRepository;
+import com.api.ttoklip.domain.newsletter.repository.post.NewsletterRepository;
 import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.CommunitySingleResponse;

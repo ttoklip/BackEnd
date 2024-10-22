@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.newsletter.repository;
+package com.api.ttoklip.domain.newsletter.repository.post;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
@@ -6,15 +6,15 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface NewsletterRepositoryCustom {
+public interface NewsletterRepository {
 
-    Newsletter findByIdActivated(final Long newsletterId);
+    Newsletter findByIdActivated(Long newsletterId);
 
-    Newsletter findByIdFetchJoin(final Long postId);
+    Newsletter findByIdFetchJoin(Long postId);
 
     Long findNewsletterCount();
 
-    Page<Newsletter> getPaging(final Category category, final Pageable pageable);
+    Page<Newsletter> getPaging(Category category, Pageable pageable);
 
     List<Newsletter> getRecent3();
 
@@ -28,5 +28,7 @@ public interface NewsletterRepositoryCustom {
 
     List<Newsletter> findRandom4ActiveNewsletters();
 
-    Page<Newsletter> getContain(final String keyword, final Pageable pageable, final String sort);
+    Page<Newsletter> getContain(String keyword, Pageable pageable, String sort);
+
+    Newsletter save(Newsletter newsletter);
 }

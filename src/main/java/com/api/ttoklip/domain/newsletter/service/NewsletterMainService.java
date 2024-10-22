@@ -5,8 +5,8 @@ import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterThumb
 import com.api.ttoklip.domain.newsletter.controller.dto.response.RandomTitleResponse;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.TodayNewsletter;
-import com.api.ttoklip.domain.newsletter.repository.NewsletterRepository;
 import com.api.ttoklip.domain.newsletter.repository.TodayNewsletterRepository;
+import com.api.ttoklip.domain.newsletter.repository.post.NewsletterRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
