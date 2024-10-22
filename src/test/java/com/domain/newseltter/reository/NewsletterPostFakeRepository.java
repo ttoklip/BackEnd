@@ -1,7 +1,8 @@
-package com.api.ttoklip.domain.newsletter.repository.post;
+package com.domain.newseltter.reository;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.repository.post.NewsletterRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class NewsletterFakeRepository implements NewsletterRepository {
+public class NewsletterPostFakeRepository implements NewsletterRepository {
 
     private final Map<Long, Newsletter> memoryRepository = new HashMap<>();
     private Long idCounter = 1L;
@@ -51,7 +52,7 @@ public class NewsletterFakeRepository implements NewsletterRepository {
     public List<Newsletter> getRecent3() {
         return memoryRepository.values().stream()
                 .filter(newsletter -> !newsletter.isDeleted())
-                .sorted(Comparator.comparingLong(Newsletter::getId).reversed()) // 최신순 정렬
+                .sorted(Comparator.comparingLong(Newsletter::getId).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
     }
@@ -83,7 +84,7 @@ public class NewsletterFakeRepository implements NewsletterRepository {
                 .collect(Collectors.toList());
 
         if (activeNewsletters.size() < 4) {
-            throw new ApiException(ErrorType.NEWSLETTER_NOT_FOUND); // 최소 4개의 뉴스레터가 없으면 예외 발생
+            throw new ApiException(ErrorType.NEWSLETTER_NOT_FOUND);
         }
 
         Collections.shuffle(activeNewsletters);
@@ -119,7 +120,6 @@ public class NewsletterFakeRepository implements NewsletterRepository {
 
     @Override
     public Newsletter save(Newsletter newsletter) {
-        idCounter++;
         Newsletter savedNewsletter = Newsletter.builder()
                 .id(idCounter)
                 .title(newsletter.getTitle())
@@ -135,6 +135,8 @@ public class NewsletterFakeRepository implements NewsletterRepository {
                 .build();
 
         memoryRepository.put(savedNewsletter.getId(), savedNewsletter);
+
+        idCounter++;
         return savedNewsletter;
     }
 
