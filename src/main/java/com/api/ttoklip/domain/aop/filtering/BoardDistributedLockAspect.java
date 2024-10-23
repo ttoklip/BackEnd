@@ -29,7 +29,7 @@ public class BoardDistributedLockAspect {
     private static final String POST_LOCK_KEY_PREFIX = "Post:";
     private final RedissonClient redissonClient;
 
-    @Pointcut("execution(* com.api.ttoklip.domain.question.post.controller.QuestionPostController.register(..))")
+    @Pointcut("execution(* com.api.ttoklip.domain.question.controller.QuestionPostController.register(..))")
     private void questionRegisterMethodPointcut() {
     }
 

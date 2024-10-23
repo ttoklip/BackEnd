@@ -1,18 +1,19 @@
 package com.api.ttoklip.domain.mypage.domain;
 
 
-import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
-import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
-
-import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.question.domain.Question;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static com.api.ttoklip.domain.question.domain.QQuestion.question;
+import static com.api.ttoklip.domain.question.domain.QQuestionComment.questionComment;
 
 @Repository
 @RequiredArgsConstructor
