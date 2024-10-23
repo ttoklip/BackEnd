@@ -13,7 +13,6 @@ import com.api.ttoklip.domain.question.image.service.QuestionImageService;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
-import com.api.ttoklip.domain.question.post.service.QuestionCommonService;
 import com.api.ttoklip.domain.question.post.service.QuestionPostService;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
@@ -32,22 +31,10 @@ import java.util.List;
 public class QuestionPostFacade {
 
     private final QuestionPostService questionPostService;
-    private final QuestionCommonService questionCommonService;
     private final QuestionImageService questionImageService;
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
     private final QuestionCommentService questionCommentService;
-
-    /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Question getQuestion(final Long postId) {
-        return questionCommonService.getQuestion(postId);
-    }
-
-    public void checkEditPermission(final Question question) {
-        questionCommonService.checkEditPermission(question);
-    }
-
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
@@ -131,7 +118,7 @@ public class QuestionPostFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
     public Message report(final Long postId, final ReportCreateRequest request) {
-        Question question = questionCommonService.getQuestion(postId);
+        Question question = questionPostService.getQuestion(postId);
         reportService.reportQuestion(request, question);
 
         return Message.reportPostSuccess(Question.class, postId);
