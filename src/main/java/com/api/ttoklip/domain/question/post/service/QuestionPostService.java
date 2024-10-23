@@ -1,23 +1,21 @@
 package com.api.ttoklip.domain.question.post.service;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
-
-import java.util.List;
-
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Service
 @RequiredArgsConstructor

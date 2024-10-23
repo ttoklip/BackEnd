@@ -5,7 +5,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.like.repository.CommentLikeRepository;
-import com.api.ttoklip.domain.question.post.service.QuestionCommonService;
+import com.api.ttoklip.domain.question.post.service.QuestionPostService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentLikeService {
 
     private final CommentLikeRepository commentLikeRepository;
-    private final QuestionCommonService questionCommonService;
+    private final QuestionPostService questionPostService;
 
 
     // 좋아요 생성
@@ -29,7 +29,7 @@ public class CommentLikeService {
             return; // 이미 스크랩이 존재하면 좋아요를 생성하지 않고 return
         }
 
-        QuestionComment findQuestionComment = questionCommonService.getQuestionComment(commentId);
+        QuestionComment findQuestionComment = questionPostService.getQuestionComment(commentId);
 
         CommentLike commentLike = CommentLike.from(findQuestionComment);
         commentLikeRepository.save(commentLike);
@@ -39,7 +39,7 @@ public class CommentLikeService {
     @Transactional
     public void cancelLike(final Long commentId) {
         // commentId (댓글 ID)
-        QuestionComment findQuestionComment = questionCommonService.getQuestionComment(commentId);
+        QuestionComment findQuestionComment = questionPostService.getQuestionComment(commentId);
         Long findQuestionCommentId = findQuestionComment.getId();
         Long currentMemberId = getCurrentMember().getId();
 

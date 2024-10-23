@@ -2,9 +2,9 @@ package com.api.ttoklip.domain.question.post.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
+import com.api.ttoklip.domain.question.facade.QuestionPostFacade;
 import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
-import com.api.ttoklip.domain.question.post.service.QuestionPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class QuestionPostController {
 
-    private final QuestionPostService questionPostService;
+    private final QuestionPostFacade questionPostFacade;
 
     /* CREATE */
     @Operation(summary = "새로운 질문 생성", description = "form/data로 새로운 질문을 생성합니다.")
@@ -48,7 +48,7 @@ public class QuestionPostController {
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Message> register(final @Validated @ModelAttribute QuestionCreateRequest request) {
-        Message message = questionPostService.register(request);
+        Message message = questionPostFacade.register(request);
         return new SuccessResponse<>(message);
     }
 
@@ -67,7 +67,7 @@ public class QuestionPostController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<QuestionSingleResponse> getSinglePost(final @PathVariable Long postId) {
-        QuestionSingleResponse response = questionPostService.getSinglePost(postId);
+        QuestionSingleResponse response = questionPostFacade.getSinglePost(postId);
         return new SuccessResponse<>(response);
     }
 
@@ -87,7 +87,7 @@ public class QuestionPostController {
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = questionPostService.report(postId, request);
+        Message message = questionPostFacade.report(postId, request);
         return new SuccessResponse<>(message);
     }
 }
