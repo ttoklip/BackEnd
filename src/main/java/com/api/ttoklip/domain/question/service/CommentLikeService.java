@@ -4,7 +4,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.common.comment.CommentLike;
-import com.api.ttoklip.domain.question.repository.CommentLikeRepository;
+import com.api.ttoklip.domain.question.repository.commentLike.CommentLikeRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +48,7 @@ public class CommentLikeService {
 
         // 자격 검증: 이 단계에서는 findByQuestionCommentIdAndMemberId 결과가 존재하므로, 현재 사용자가 좋아요를 누른 것입니다.
         // 별도의 자격 검증 로직이 필요 없으며, 바로 삭제를 진행할 수 있습니다.
-        commentLikeRepository.deleteById(commentLike.getId());
+        commentLikeRepository.deletedById(commentLike.getId());
     }
 
     public boolean existsByQuestionCommentIdAndMemberId(final Long commentId) {

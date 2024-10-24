@@ -3,20 +3,21 @@ package com.api.ttoklip.domain.question.service;
 import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
+import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.question.controller.dto.response.QuestionCommentResponse;
-import com.api.ttoklip.domain.question.controller.dto.response.QuestionSingleResponse;
-import com.api.ttoklip.domain.question.domain.QuestionComment;
-import com.api.ttoklip.domain.question.repository.QuestionCommentRepositoryImpl;
 import com.api.ttoklip.domain.question.domain.Question;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
+import com.api.ttoklip.domain.question.repository.commentLike.CommentLikeRepository;
 import com.api.ttoklip.global.success.Message;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +27,14 @@ public class QuestionCommentService {
     private final CommentService commentService;
     private final ReportService reportService;
     private final CommentLikeService commentLikeService;
-    private final QuestionCommentRepositoryImpl questionCommentRepositoryImpl;
+    private final CommentLikeRepository commentLikeRepository;
     private final QuestionPostService questionPostService;
+    private final CommentRepository commentRepository;
 
     /* -------------------------------------------- READ -------------------------------------------- */
 
     public QuestionComment findQuestionComment(final Long commentId) {
-        return questionCommentRepositoryImpl.findByCommentIdFetchJoin(commentId);
+        return commentLikeRepository.findByCommentIdFetchJoin(commentId);
     }
 
     /* -------------------------------------------- READ 끝 -------------------------------------------- */
@@ -130,7 +132,7 @@ public class QuestionCommentService {
     /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
 
     public List<QuestionCommentResponse> getCommentResponse(final Question question) {
-        List<QuestionComment> questionComments = questionCommentRepositoryImpl.findQuestionCommentsByQuestionId(
+        List<QuestionComment> questionComments = commentRepository.findCommentsByQuestionId(
                 question.getId());
 
         return questionComments.stream()

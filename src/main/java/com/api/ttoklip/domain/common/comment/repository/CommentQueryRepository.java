@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;
+import com.api.ttoklip.domain.question.domain.QQuestionComment;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -16,6 +18,8 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import static com.api.ttoklip.domain.question.domain.QQuestionComment.questionComment;
+
 @Repository
 @RequiredArgsConstructor
 public class CommentQueryRepository {
@@ -24,6 +28,7 @@ public class CommentQueryRepository {
 
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
+    private final QQuestionComment questionComment = QQuestionComment.questionComment;
     private final QComment comment = QComment.comment;
     private final QMember member = QMember.member;
 
@@ -90,6 +95,27 @@ public class CommentQueryRepository {
 
     private BooleanExpression matchNewsletterId(final Long newsletterId) {
         return newsletterComment.newsletter.id.eq(newsletterId);
+    }
+
+    public List<QuestionComment> findCommentsByQuestionId(Long questionId) {
+        return jpaQueryFactory
+                .selectFrom(questionComment)
+                .distinct()
+                .leftJoin(questionComment.member, member).fetchJoin()
+                .where(
+                        matchQuestionId(questionId)
+                        // 댓글은 삭제되어도 "삭제된 댓글입니다" 로 보여야하기 떄문에 데이터는 보여주도록 설정
+                        // getActivatedNewsletterFromComments()
+                )
+                .orderBy(
+                        questionComment.parent.id.asc().nullsFirst(),
+                        questionComment.createdDate.asc()
+                )
+                .fetch();
+    }
+
+    private BooleanExpression matchQuestionId(final Long questionId) {
+        return questionComment.question.id.eq(questionId);
     }
 
 }

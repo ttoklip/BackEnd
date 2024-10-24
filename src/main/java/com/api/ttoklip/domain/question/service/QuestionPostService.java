@@ -5,7 +5,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.domain.question.repository.QuestionRepository;
+import com.api.ttoklip.domain.question.repository.post.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;

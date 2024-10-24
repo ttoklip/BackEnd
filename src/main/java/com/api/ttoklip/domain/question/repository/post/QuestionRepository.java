@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.question.repository;
+package com.api.ttoklip.domain.question.repository.post;
 
 
 import com.api.ttoklip.domain.common.Category;

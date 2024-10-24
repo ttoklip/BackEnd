@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.question.service;
 
 import com.api.ttoklip.domain.question.domain.QuestionImage;
-import com.api.ttoklip.domain.question.repository.QuestionImageRepository;
+import com.api.ttoklip.domain.question.repository.image.QuestionImageRepository;
 import com.api.ttoklip.domain.question.domain.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

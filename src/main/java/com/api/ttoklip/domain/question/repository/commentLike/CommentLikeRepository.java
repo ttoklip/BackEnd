@@ -1,14 +1,16 @@
-package com.api.ttoklip.domain.question.repository;
+package com.api.ttoklip.domain.question.repository.commentLike;
 
 import com.api.ttoklip.domain.common.comment.CommentLike;
+
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-
-public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> {
+public interface CommentLikeRepository {
 
     Optional<CommentLike> findByQuestionCommentIdAndMemberId(Long commentId, Long memberId);
 
     boolean existsByQuestionCommentIdAndMemberId(Long commentId, Long memberId);
 
+    void save(CommentLike commentLike);
+
+    void deletedById(Long id);
 }
