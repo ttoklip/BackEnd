@@ -18,8 +18,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import static com.api.ttoklip.domain.question.domain.QQuestionComment.questionComment;
-
 @Repository
 @RequiredArgsConstructor
 public class CommentQueryRepository {
@@ -118,4 +116,17 @@ public class CommentQueryRepository {
         return questionComment.question.id.eq(questionId);
     }
 
+    public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
+        QuestionComment findQuestionComment = jpaQueryFactory
+                .selectFrom(questionComment)
+                .where(
+                        questionComment.id.eq(commentId),
+                        questionComment.deleted.isFalse()
+                )
+                .leftJoin(questionComment.member, member).fetchJoin()
+                .fetchOne();
+
+        return Optional.ofNullable(findQuestionComment)
+                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
+    }
 }

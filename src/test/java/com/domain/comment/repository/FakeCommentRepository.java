@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Comparator;
@@ -61,6 +62,13 @@ public class FakeCommentRepository implements CommentRepository {
     }
 
     @Override
+    public List<QuestionComment> findQuestionCommentsByQuestionId(final Long questionId) {
+        // 추후 구현
+
+        return List.of();
+    }
+
+    @Override
     public void save(final Comment comment) {
         id++;
         Comment saveComment = Comment.testBuilder()
@@ -71,5 +79,12 @@ public class FakeCommentRepository implements CommentRepository {
                 .build();
 
         commentMap.put(id, saveComment);
+    }
+
+    @Override
+    public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
+        // 추후 구현
+
+        return null;
     }
 }

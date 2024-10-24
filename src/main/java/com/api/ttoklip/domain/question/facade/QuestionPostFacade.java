@@ -7,23 +7,24 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
+import com.api.ttoklip.domain.question.controller.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.controller.dto.response.QuestionCommentResponse;
+import com.api.ttoklip.domain.question.controller.dto.response.QuestionSingleResponse;
+import com.api.ttoklip.domain.question.domain.Question;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
+import com.api.ttoklip.domain.question.service.QuestionCommentLikeService;
 import com.api.ttoklip.domain.question.service.QuestionCommentService;
 import com.api.ttoklip.domain.question.service.QuestionImageService;
-import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.domain.question.controller.dto.request.QuestionCreateRequest;
-import com.api.ttoklip.domain.question.controller.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.service.QuestionPostService;
 import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -35,6 +36,7 @@ public class QuestionPostFacade {
     private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
     private final QuestionCommentService questionCommentService;
+    private final QuestionCommentLikeService questionCommentLikeService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
@@ -59,15 +61,23 @@ public class QuestionPostFacade {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
     /* -------------------------------------------- 단건 READ -------------------------------------------- */
-    public QuestionSingleResponse getSinglePost(final Long postId) {
+    public QuestionSingleResponse getSinglePost(final Long postId, final Long currentMemberId) {
         Question questionWithImg = questionPostService.findByIdFetchJoin(postId);
+        List<QuestionComment> questionComments = questionCommentService.findQuestionCommentsByQuestionId(
+                questionWithImg.getId());
+        List<QuestionCommentResponse> commentResponses = toCommentResponsesWithLikeStatus(questionComments,
+                currentMemberId);
+        return QuestionSingleResponse.of(questionWithImg, commentResponses);
+    }
 
-        // 현재 사용자가 좋아요를 눌렀는지 확인
-        List<QuestionCommentResponse> commentResponses = questionCommentService.getCommentResponse(questionWithImg);
-
-        QuestionSingleResponse questionSingleResponse = QuestionSingleResponse.of(questionWithImg,
-                commentResponses);
-        return questionSingleResponse;
+    private List<QuestionCommentResponse> toCommentResponsesWithLikeStatus(List<QuestionComment> questionComments,
+                                                                           Long currentMemberId) {
+        return questionComments.stream()
+                .map(questionComment -> {
+                    boolean likedByCurrentUser = questionCommentLikeService.existsByQuestionCommentIdAndMemberId(
+                            questionComment.getId(), currentMemberId);
+                    return QuestionCommentResponse.from(questionComment, likedByCurrentUser);
+                }).toList();
     }
 
     /* -------------------------------------------- 단건 READ 끝-------------------------------------------- */

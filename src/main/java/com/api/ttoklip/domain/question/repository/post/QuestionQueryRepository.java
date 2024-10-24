@@ -1,6 +1,9 @@
 package com.api.ttoklip.domain.question.repository.post;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.question.domain.QQuestion;
+import com.api.ttoklip.domain.question.domain.QQuestionComment;
+import com.api.ttoklip.domain.question.domain.QQuestionImage;
 import com.api.ttoklip.domain.question.domain.Question;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.global.exception.ApiException;
@@ -19,15 +22,16 @@ import java.util.Optional;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
-import static com.api.ttoklip.domain.question.domain.QQuestion.question;
-import static com.api.ttoklip.domain.question.domain.QQuestionComment.questionComment;
-import static com.api.ttoklip.domain.question.domain.QQuestionImage.questionImage;
 
 @Repository
 @RequiredArgsConstructor
 public class QuestionQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QQuestionComment questionComment = QQuestionComment.questionComment;
+    private final QQuestion question = QQuestion.question;
+    private final QQuestionImage questionImage = QQuestionImage.questionImage;
 
     public QuestionComment findByCommentIdActivated(final Long commentId) {
         QuestionComment findQuestionComment = jpaQueryFactory

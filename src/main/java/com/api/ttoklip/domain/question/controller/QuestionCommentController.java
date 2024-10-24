@@ -3,9 +3,10 @@ package com.api.ttoklip.domain.question.controller;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.question.constant.QuestionResponseConstant;
-import com.api.ttoklip.domain.question.service.QuestionCommentService;
+import com.api.ttoklip.domain.question.facade.QuestionCommnetFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.ttoklip.global.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class QuestionCommentController {
 
-    private final QuestionCommentService questionCommentService;
+    private final QuestionCommnetFacade questionCommnetFacade;
 
     /* CREATE */
     @Operation(summary = "새로운 댓글 생성", description = "지정된 게시글에 댓글을 등록합니다.")
@@ -45,7 +46,7 @@ public class QuestionCommentController {
     @PostMapping("/{postId}")
     public SuccessResponse<Message> register(final @PathVariable Long postId,
                                              final @RequestBody CommentCreateRequest request) {
-        Message message = questionCommentService.register(postId, request);
+        Message message = questionCommnetFacade.register(postId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -64,7 +65,7 @@ public class QuestionCommentController {
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = questionCommentService.report(commentId, request);
+        Message message = questionCommnetFacade.report(commentId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -84,7 +85,7 @@ public class QuestionCommentController {
 //    @PatchMapping("/{commentId}")
 //    public SuccessResponse<Message> edit(final @PathVariable Long commentId,
 //                                         final @RequestBody CommentEditRequest request) {
-//        Message message = questionCommentService.edit(commentId, request);
+//        Message message = questionCommnetFacade.edit(commentId, request);
 //        return new SuccessResponse<>(message);
 //    }
 
@@ -103,7 +104,7 @@ public class QuestionCommentController {
                             )))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = questionCommentService.delete(commentId);
+        Message message = questionCommnetFacade.delete(commentId);
         return new SuccessResponse<>(message);
     }
 
@@ -121,7 +122,8 @@ public class QuestionCommentController {
                             )))})
     @PostMapping("/like/{commentId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long commentId) {
-        Message message = questionCommentService.registerLike(commentId);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = questionCommnetFacade.registerLike(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -138,7 +140,8 @@ public class QuestionCommentController {
                             )))})
     @DeleteMapping("/like/{commentId}")
     public SuccessResponse<Message> cancleLike(final @PathVariable Long commentId) {
-        Message message = questionCommentService.cancleLike(commentId);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = questionCommnetFacade.cancleLike(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

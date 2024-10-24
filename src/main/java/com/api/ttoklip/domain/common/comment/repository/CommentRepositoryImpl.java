@@ -38,12 +38,17 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public List<QuestionComment> findCommentsByQuestionId(final Long questionId) {
+    public List<QuestionComment> findQuestionCommentsByQuestionId(final Long questionId) {
         return commentQueryRepository.findCommentsByQuestionId(questionId);
     }
 
     @Override
     public void save(final Comment comment) {
         commentJpaRepository.save(comment);
+    }
+
+    @Override
+    public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
+        return commentQueryRepository.findQuestionCommentWithWriterByCommentId(commentId);
     }
 }

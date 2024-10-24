@@ -7,6 +7,7 @@ import com.api.ttoklip.domain.question.controller.dto.request.QuestionCreateRequ
 import com.api.ttoklip.domain.question.controller.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.ttoklip.global.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -67,7 +68,8 @@ public class QuestionPostController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<QuestionSingleResponse> getSinglePost(final @PathVariable Long postId) {
-        QuestionSingleResponse response = questionPostFacade.getSinglePost(postId);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        QuestionSingleResponse response = questionPostFacade.getSinglePost(postId, currentMemberId);
         return new SuccessResponse<>(response);
     }
 

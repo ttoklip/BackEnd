@@ -42,9 +42,9 @@ public class CommentLike extends BaseTimeEntity {
 //    @Schema(description = "현재 사용자의 해당 댓글 좋아요 여부")
 //    private boolean likedByCurrentUser;
 
-    public static CommentLike from(final QuestionComment questionComment) {
+    public static CommentLike from(final Member member, final QuestionComment questionComment) {
         return CommentLike.builder()
-                .member(getCurrentMember())
+                .member(member)
                 .questionComment(questionComment)
                 .build();
     }
