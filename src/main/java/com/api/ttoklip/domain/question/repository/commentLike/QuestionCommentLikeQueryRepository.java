@@ -11,7 +11,7 @@ import static com.api.ttoklip.domain.common.comment.QCommentLike.commentLike;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentLikeQueryRepository {
+public class QuestionCommentLikeQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 

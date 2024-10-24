@@ -8,28 +8,29 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentLikeRepositoryImpl implements CommentLikeRepository {
+public class QuestionCommentLikeRepositoryImpl implements QuestionCommentLikeRepository {
 
-    private final CommentLikeQueryRepository commentLikeQueryRepository;
-    private final CommentLikeJpaRepository commentLikeJpaRepository;
+    private final QuestionCommentLikeQueryRepository questionCommentLikeQueryRepository;
+    private final QuestionCommentLikeJpaRepository questionCommentLikeJpaRepository;
 
     @Override
     public Optional<CommentLike> findByQuestionCommentIdAndMemberId(Long commentId, Long memberId) {
-        return commentLikeQueryRepository.findByQuestionCommentIdAndMemberId(commentId, memberId);
+        return questionCommentLikeQueryRepository.findByQuestionCommentIdAndMemberId(commentId, memberId);
     }
 
     @Override
     public boolean existsByQuestionCommentIdAndMemberId(Long commentId, Long memberId) {
-        return commentLikeQueryRepository.existsByQuestionCommentIdAndMemberId(commentId, memberId);
+        return questionCommentLikeQueryRepository.existsByQuestionCommentIdAndMemberId(commentId, memberId);
     }
 
     @Override
     public void save(final CommentLike commentLike) {
-        commentLikeJpaRepository.save(commentLike);
+        questionCommentLikeJpaRepository.save(commentLike);
     }
 
     @Override
     public void deletedById(final Long id) {
-        commentLikeJpaRepository.deleteById(id);
+        questionCommentLikeJpaRepository.deleteById(id);
     }
+
 }

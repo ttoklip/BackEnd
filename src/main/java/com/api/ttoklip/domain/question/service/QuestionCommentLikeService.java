@@ -1,11 +1,9 @@
 package com.api.ttoklip.domain.question.service;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.ttoklip.domain.common.comment.CommentLike;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
-import com.api.ttoklip.domain.question.repository.commentLike.CommentLikeRepository;
+import com.api.ttoklip.domain.question.repository.commentLike.QuestionCommentLikeRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class QuestionCommentLikeService {
 
-    private final CommentLikeRepository commentLikeRepository;
+    private final QuestionCommentLikeRepository questionCommentLikeRepository;
 
     // 좋아요 생성
     @Transactional
@@ -29,18 +27,18 @@ public class QuestionCommentLikeService {
         }
 
         CommentLike commentLike = CommentLike.from(currentMember, questionComment);
-        commentLikeRepository.save(commentLike);
+        questionCommentLikeRepository.save(commentLike);
     }
 
     public boolean existsByQuestionCommentIdAndMemberId(final Long commentId, final Long currentMemberId) {
-        return commentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
+        return questionCommentLikeRepository.existsByQuestionCommentIdAndMemberId(commentId, currentMemberId);
     }
 
     // 좋아요 취소
     @Transactional
     public void cancelLike(final QuestionComment findQuestionComment, final Member currentMember) {
-        CommentLike commentLike = commentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionComment.getId(),
+        CommentLike commentLike = questionCommentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionComment.getId(),
                 currentMember.getId()).orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
-        commentLikeRepository.deletedById(commentLike.getId());
+        questionCommentLikeRepository.deletedById(commentLike.getId());
     }
 }

@@ -4,5 +4,5 @@ import com.api.ttoklip.domain.common.comment.CommentLike;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommentLikeJpaRepository extends JpaRepository<CommentLike, Long> {
+public interface QuestionCommentLikeJpaRepository extends JpaRepository<CommentLike, Long> {
 }
