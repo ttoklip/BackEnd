@@ -53,12 +53,12 @@ public class Question extends BaseEntity {
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
-    public static Question from(final QuestionCreateRequest request) {
+    public static Question of(final QuestionCreateRequest request, final Member member) {
         return Question.builder()
                 .category(request.getCategory())
                 .content(request.getContent())
                 .title(request.getTitle())
-                .member(getCurrentMember())
+                .member(member)
                 .build();
     }
 

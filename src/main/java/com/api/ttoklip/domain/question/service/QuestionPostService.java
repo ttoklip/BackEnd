@@ -39,9 +39,8 @@ public class QuestionPostService {
         return s3FileUploader.uploadMultipartFiles(uploadImages);
     }
 
-    public void checkEditPermission(final Question question) {
+    public void checkEditPermission(final Question question, final Long currentMemberId) {
         Long writerId = question.getMember().getId();
-        Long currentMemberId = getCurrentMember().getId();
 
         if (!writerId.equals(currentMemberId)) {
             throw new ApiException(ErrorType.UNAUTHORIZED_EDIT_POST);

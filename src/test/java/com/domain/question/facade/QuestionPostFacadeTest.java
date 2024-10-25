@@ -1,9 +1,95 @@
 package com.domain.question.facade;
 
+import com.api.ttoklip.domain.question.controller.dto.request.QuestionCreateRequest;
+import com.api.ttoklip.domain.question.facade.QuestionPostFacade;
+import com.api.ttoklip.global.success.Message;
+import member.fixture.MemberFixture;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class QuestionPostFacadeTest {
+public class QuestionPostFacadeTest extends QuestionFacadeTestHelper {
+
+    @InjectMocks
+    private QuestionPostFacade questionPostFacade;
+
+    /* -------------------------------------------- CREATE METHOD CALL TEST -------------------------------------------- */
+
+    @Test
+    void 질문_게시글_생성_사진_포함_메서드_호출_성공() {
+        // Given
+        QuestionCreateRequest request = 사진_포함된_게시글_요청_픽스처();
+        var member = MemberFixture.일반_회원_생성1();
+        when(memberService.findById(member.getId())).thenReturn(member);
+
+        // S3 업로드 결과를 모킹하여 가짜 URL 리스트 반환
+        List<String> fakeUrls = Arrays.asList("http://fake-url1.com", "http://fake-url2.com");
+        when(questionPostService.uploadImages(any())).thenReturn(fakeUrls);
+
+        // When
+        Message result = questionPostFacade.register(request, member.getId());
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result.getMessage()).contains("Question", "생성");
+        });
+
+        // 이미지 리스트의 크기만큼 register 메서드 호출 횟수 검증
+        int imageCount = fakeUrls.size();
+        verify(questionImageService, times(imageCount)).register(any(), any());
+        verify(questionPostService, times(1)).saveQuestion(any());
+    }
+
+    @Test
+    void 질문_게시글_생성_사진_포함_안됨_메서드_호출_성공() {
+        // Given
+        QuestionCreateRequest request = 사진_없는_게시글_요청_픽스처();
+        var member = MemberFixture.일반_회원_생성1();
+        when(memberService.findById(member.getId())).thenReturn(member);
+
+        // When
+        Message result = questionPostFacade.register(request, member.getId());
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result.getMessage()).contains("Question", "생성");
+        });
+
+        verify(questionPostService, times(1)).saveQuestion(any());
+    }
+
+    private QuestionCreateRequest 사진_포함된_게시글_요청_픽스처() {
+        List<MultipartFile> 이미지_리스트 = List.of(mock(MultipartFile.class), mock(MultipartFile.class));
+        return QuestionCreateRequest.builder()
+                .title("사진이 포함된 질문")
+                .content("이 질문은 사진을 포함합니다.")
+                .category("HOUSEWORK")
+                .images(이미지_리스트)
+                .build();
+    }
+
+    private QuestionCreateRequest 사진_없는_게시글_요청_픽스처() {
+        return QuestionCreateRequest.builder()
+                .title("사진 없는 질문")
+                .content("이 질문은 사진을 포함하지 않습니다.")
+                .category("HOUSEWORK")
+                .images(null)
+                .build();
+    }
+
+    /* -------------------------------------------- CREATE METHOD CALL TEST END -------------------------------------------- */
+
 }

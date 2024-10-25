@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 
 @Tag(name = "Question Post", description = "꿀팁공유해요 게시판 API입니다.")
 @RestController
@@ -49,8 +51,8 @@ public class QuestionPostController {
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Message> register(final @Validated @ModelAttribute QuestionCreateRequest request) {
-        Message message = questionPostFacade.register(request);
-        return new SuccessResponse<>(message);
+        Long currentMemberId = getCurrentMember().getId();
+        return new SuccessResponse<>(questionPostFacade.register(request, currentMemberId));
     }
 
 
