@@ -1,5 +1,6 @@
 package com.domain.question.facade;
 
+import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.question.service.QuestionCommentLikeService;
 import com.api.ttoklip.domain.question.service.QuestionCommentService;
@@ -19,6 +20,9 @@ public abstract class QuestionFacadeTestHelper {
 
     @Mock
     protected QuestionImageService questionImageService;
+
+    @Mock
+    protected ReportService reportService;
 
     @Mock
     protected S3FileUploader s3FileUploader;

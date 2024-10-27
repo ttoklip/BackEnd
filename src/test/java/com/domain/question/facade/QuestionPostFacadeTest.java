@@ -1,5 +1,6 @@
 package com.domain.question.facade;
 
+import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.question.controller.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.controller.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.domain.Question;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.web.multipart.MultipartFile;
 import question.fixture.QuestionFixture;
+import report.fixture.ReportFixture;
 
 import java.util.Arrays;
 import java.util.List;
@@ -95,6 +97,31 @@ public class QuestionPostFacadeTest extends QuestionFacadeTestHelper {
     }
 
     /* -------------------------------------------- CREATE METHOD CALL TEST END -------------------------------------------- */
+
+
+    /* -------------------------------------------- REPORT METHOD CALL TEST -------------------------------------------- */
+    @Test
+    void 질문_게시글_신고_메서드_호출_성공() {
+        // Given
+        Question question = QuestionFixture.타인_질문_생성();
+        ReportCreateRequest request = ReportFixture.신고_요청_픽스처();
+
+        when(questionPostService.getQuestion(question.getId())).thenReturn(question);
+
+        // When
+        Message result = questionPostFacade.report(question.getId(), request);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(result).isNotNull();
+            softly.assertThat(result.getMessage()).contains("Question", "신고");
+        });
+
+        verify(questionPostService, times(1)).getQuestion(question.getId());
+        verify(reportService, times(1)).reportQuestion(request, question);
+    }
+
+    /* -------------------------------------------- REPORT METHOD CALL TEST END -------------------------------------------- */
 
 
     /* -------------------------------------------- 단건 READ 메서드 테스트 -------------------------------------------- */
