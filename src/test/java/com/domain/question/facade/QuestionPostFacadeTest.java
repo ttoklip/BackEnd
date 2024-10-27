@@ -1,6 +1,9 @@
 package com.domain.question.facade;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
+import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.question.controller.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.controller.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.domain.Question;
@@ -11,6 +14,9 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 import question.fixture.QuestionFixture;
 import report.fixture.ReportFixture;
@@ -18,8 +24,8 @@ import report.fixture.ReportFixture;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -146,5 +152,67 @@ public class QuestionPostFacadeTest extends QuestionFacadeTestHelper {
     }
 
     /* -------------------------------------------- 단건 READ 메서드 테스트 끝 -------------------------------------------- */
+
+
+    /* -------------------------------------------- 카테고리별 메인 조회 메서드 테스트 -------------------------------------------- */
+    @Test
+    void 질문_카테고리별_메인_조회_메서드_호출_성공() {
+        // Given
+        List<Question> houseworkQuestions = QuestionFixture.질문_집안일_리스트_생성();
+        List<Question> recipeQuestions = QuestionFixture.질문_레시피_리스트_생성();
+        List<Question> safeLivingQuestions = QuestionFixture.질문_안전생활_리스트_생성();
+        List<Question> welfarePolicyQuestions = QuestionFixture.질문_복지정책_리스트_생성();
+
+        when(questionPostService.getHouseWork()).thenReturn(houseworkQuestions);
+        when(questionPostService.getRecipe()).thenReturn(recipeQuestions);
+        when(questionPostService.getSafeLiving()).thenReturn(safeLivingQuestions);
+        when(questionPostService.getWelfarePolicy()).thenReturn(welfarePolicyQuestions);
+
+        // When
+        CategoryResponses response = questionPostFacade.getDefaultCategoryRead();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.getHousework()).hasSize(houseworkQuestions.size());
+            softly.assertThat(response.getCooking()).hasSize(recipeQuestions.size());
+            softly.assertThat(response.getSafeLiving()).hasSize(safeLivingQuestions.size());
+            softly.assertThat(response.getWelfarePolicy()).hasSize(welfarePolicyQuestions.size());
+        });
+
+        verify(questionPostService, times(1)).getHouseWork();
+        verify(questionPostService, times(1)).getRecipe();
+        verify(questionPostService, times(1)).getSafeLiving();
+        verify(questionPostService, times(1)).getWelfarePolicy();
+    }
+
+    /* -------------------------------------------- 카테고리별 메인 조회 메서드 테스트 끝 -------------------------------------------- */
+
+    /* -------------------------------------------- 카테고리별 페이징 조회 메서드 테스트 -------------------------------------------- */
+    @Test
+    void 질문_카테고리별_페이징_요청_메서드_호출_성공_집안일() {
+        // Given
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<Question> 집안일_질문_리스트 = QuestionFixture.질문_집안일_리스트_생성();
+        Page<Question> page = new PageImpl<>(집안일_질문_리스트, pageable, 집안일_질문_리스트.size());
+
+        when(questionPostService.matchCategoryPaging(Category.HOUSEWORK, pageable)).thenReturn(page);
+
+        // When
+        CategoryPagingResponse response = questionPostFacade.matchCategoryPaging(Category.HOUSEWORK, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.category()).isEqualTo(Category.HOUSEWORK);
+            softly.assertThat(response.data()).hasSize(집안일_질문_리스트.size());
+            softly.assertThat(response.totalElements()).isEqualTo(집안일_질문_리스트.size());
+            softly.assertThat(response.totalPage()).isEqualTo(1);
+            softly.assertThat(response.isFirst()).isTrue();
+            softly.assertThat(response.isLast()).isTrue();
+        });
+    }
+
+    /* -------------------------------------------- 카테고리별 페이징 조회 메서드 테스트 끝 -------------------------------------------- */
 
 }
