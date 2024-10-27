@@ -7,6 +7,7 @@ import member.fixture.MemberFixture;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class QuestionFixture {
@@ -33,57 +34,49 @@ public class QuestionFixture {
                 .build();
     }
 
-    // 질문 리스트 생성 메서드들 추가
-    public static List<Question> 질문_집안일_리스트_생성() {
+    // 카테고리별 질문 리스트 생성 메서드들 수정
+    public static List<Question> 질문_집안일_크기가_N인_리스트_생성(int n) {
+        return 질문_크기가_N인_리스트_생성(n, Category.HOUSEWORK);
+    }
+
+    public static List<Question> 질문_레시피_크기가_N인_리스트_생성(int n) {
+        return 질문_크기가_N인_리스트_생성(n, Category.RECIPE);
+    }
+
+    public static List<Question> 질문_안전생활_크기가_N인_리스트_생성(int n) {
+        return 질문_크기가_N인_리스트_생성(n, Category.SAFE_LIVING);
+    }
+
+    public static List<Question> 질문_복지정책_크기가_N인_리스트_생성(int n) {
+        return 질문_크기가_N인_리스트_생성(n, Category.WELFARE_POLICY);
+    }
+
+    // 랜덤한 크기의 질문 리스트를 생성하는 메서드 추가
+    public static List<Question> 질문_랜덤_크기_리스트_생성(int n) {
+        Category[] categories = Category.values();
         List<Question> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < n; i++) {
+            Category randomCategory = categories[new Random().nextInt(categories.length)];
             list.add(Question.builder()
-                    .id((long) i)
-                    .title("집안일 질문 제목 " + i)
-                    .content("집안일 질문 내용 " + i)
-                    .category(Category.HOUSEWORK)
+                    .id((long) i + 1)
+                    .title("랜덤 질문 제목 " + i)
+                    .content("랜덤 질문 내용 " + i)
+                    .category(randomCategory)
                     .member(MemberFixture.일반_회원_생성1())
                     .build());
         }
         return list;
     }
 
-    public static List<Question> 질문_레시피_리스트_생성() {
+    // 공통 메서드: 특정 카테고리와 크기로 질문 리스트 생성
+    private static List<Question> 질문_크기가_N인_리스트_생성(int n, Category category) {
         List<Question> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < n; i++) {
             list.add(Question.builder()
-                    .id((long) i)
-                    .title("레시피 질문 제목 " + i)
-                    .content("레시피 질문 내용 " + i)
-                    .category(Category.RECIPE)
-                    .member(MemberFixture.일반_회원_생성1())
-                    .build());
-        }
-        return list;
-    }
-
-    public static List<Question> 질문_안전생활_리스트_생성() {
-        List<Question> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add(Question.builder()
-                    .id((long) i)
-                    .title("안전생활 질문 제목 " + i)
-                    .content("안전생활 질문 내용 " + i)
-                    .category(Category.SAFE_LIVING)
-                    .member(MemberFixture.일반_회원_생성1())
-                    .build());
-        }
-        return list;
-    }
-
-    public static List<Question> 질문_복지정책_리스트_생성() {
-        List<Question> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add(Question.builder()
-                    .id((long) i)
-                    .title("복지정책 질문 제목 " + i)
-                    .content("복지정책 질문 내용 " + i)
-                    .category(Category.WELFARE_POLICY)
+                    .id((long) i + 1)
+                    .title(category.name() + " 질문 제목 " + i)
+                    .content(category.name() + " 질문 내용 " + i)
+                    .category(category)
                     .member(MemberFixture.일반_회원_생성1())
                     .build());
         }

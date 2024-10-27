@@ -16,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

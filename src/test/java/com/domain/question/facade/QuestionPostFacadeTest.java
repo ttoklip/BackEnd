@@ -158,10 +158,11 @@ public class QuestionPostFacadeTest extends QuestionFacadeTestHelper {
     @Test
     void 질문_카테고리별_메인_조회_메서드_호출_성공() {
         // Given
-        List<Question> houseworkQuestions = QuestionFixture.질문_집안일_리스트_생성();
-        List<Question> recipeQuestions = QuestionFixture.질문_레시피_리스트_생성();
-        List<Question> safeLivingQuestions = QuestionFixture.질문_안전생활_리스트_생성();
-        List<Question> welfarePolicyQuestions = QuestionFixture.질문_복지정책_리스트_생성();
+        int N = 10;
+        List<Question> houseworkQuestions = QuestionFixture.질문_집안일_크기가_N인_리스트_생성(N);
+        List<Question> recipeQuestions = QuestionFixture.질문_레시피_크기가_N인_리스트_생성(N);
+        List<Question> safeLivingQuestions = QuestionFixture.질문_안전생활_크기가_N인_리스트_생성(N);
+        List<Question> welfarePolicyQuestions = QuestionFixture.질문_복지정책_크기가_N인_리스트_생성(N);
 
         when(questionPostService.getHouseWork()).thenReturn(houseworkQuestions);
         when(questionPostService.getRecipe()).thenReturn(recipeQuestions);
@@ -188,12 +189,14 @@ public class QuestionPostFacadeTest extends QuestionFacadeTestHelper {
 
     /* -------------------------------------------- 카테고리별 메인 조회 메서드 테스트 끝 -------------------------------------------- */
 
+
     /* -------------------------------------------- 카테고리별 페이징 조회 메서드 테스트 -------------------------------------------- */
     @Test
     void 질문_카테고리별_페이징_요청_메서드_호출_성공_집안일() {
         // Given
+        int N = 10;
         PageRequest pageable = PageRequest.of(0, 10);
-        List<Question> 집안일_질문_리스트 = QuestionFixture.질문_집안일_리스트_생성();
+        List<Question> 집안일_질문_리스트 = QuestionFixture.질문_집안일_크기가_N인_리스트_생성(N);
         Page<Question> page = new PageImpl<>(집안일_질문_리스트, pageable, 집안일_질문_리스트.size());
 
         when(questionPostService.matchCategoryPaging(Category.HOUSEWORK, pageable)).thenReturn(page);
@@ -207,6 +210,81 @@ public class QuestionPostFacadeTest extends QuestionFacadeTestHelper {
             softly.assertThat(response.category()).isEqualTo(Category.HOUSEWORK);
             softly.assertThat(response.data()).hasSize(집안일_질문_리스트.size());
             softly.assertThat(response.totalElements()).isEqualTo(집안일_질문_리스트.size());
+            softly.assertThat(response.totalPage()).isEqualTo(1);
+            softly.assertThat(response.isFirst()).isTrue();
+            softly.assertThat(response.isLast()).isTrue();
+        });
+    }
+
+    @Test
+    void 질문_카테고리별_페이징_요청_메서드_호출_성공_레시피() {
+        // Given
+        int N = 10;
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<Question> 레시피_질문_리스트 = QuestionFixture.질문_레시피_크기가_N인_리스트_생성(N);
+        Page<Question> page = new PageImpl<>(레시피_질문_리스트, pageable, 레시피_질문_리스트.size());
+
+        when(questionPostService.matchCategoryPaging(Category.RECIPE, pageable)).thenReturn(page);
+
+        // When
+        CategoryPagingResponse response = questionPostFacade.matchCategoryPaging(Category.RECIPE, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.category()).isEqualTo(Category.RECIPE);
+            softly.assertThat(response.data()).hasSize(레시피_질문_리스트.size());
+            softly.assertThat(response.totalElements()).isEqualTo(레시피_질문_리스트.size());
+            softly.assertThat(response.totalPage()).isEqualTo(1);
+            softly.assertThat(response.isFirst()).isTrue();
+            softly.assertThat(response.isLast()).isTrue();
+        });
+    }
+
+    @Test
+    void 질문_카테고리별_페이징_요청_메서드_호출_성공_안전생활() {
+        // Given
+        int N = 10;
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<Question> 안전생활_질문_리스트 = QuestionFixture.질문_안전생활_크기가_N인_리스트_생성(N);
+        Page<Question> page = new PageImpl<>(안전생활_질문_리스트, pageable, 안전생활_질문_리스트.size());
+
+        when(questionPostService.matchCategoryPaging(Category.SAFE_LIVING, pageable)).thenReturn(page);
+
+        // When
+        CategoryPagingResponse response = questionPostFacade.matchCategoryPaging(Category.SAFE_LIVING, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.category()).isEqualTo(Category.SAFE_LIVING);
+            softly.assertThat(response.data()).hasSize(안전생활_질문_리스트.size());
+            softly.assertThat(response.totalElements()).isEqualTo(안전생활_질문_리스트.size());
+            softly.assertThat(response.totalPage()).isEqualTo(1);
+            softly.assertThat(response.isFirst()).isTrue();
+            softly.assertThat(response.isLast()).isTrue();
+        });
+    }
+
+    @Test
+    void 질문_카테고리별_페이징_요청_메서드_호출_성공_복지정책() {
+        // Given
+        int N = 10;
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<Question> 복지정책_질문_리스트 = QuestionFixture.질문_복지정책_크기가_N인_리스트_생성(N);
+        Page<Question> page = new PageImpl<>(복지정책_질문_리스트, pageable, 복지정책_질문_리스트.size());
+
+        when(questionPostService.matchCategoryPaging(Category.WELFARE_POLICY, pageable)).thenReturn(page);
+
+        // When
+        CategoryPagingResponse response = questionPostFacade.matchCategoryPaging(Category.WELFARE_POLICY, pageable);
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response).isNotNull();
+            softly.assertThat(response.category()).isEqualTo(Category.WELFARE_POLICY);
+            softly.assertThat(response.data()).hasSize(복지정책_질문_리스트.size());
+            softly.assertThat(response.totalElements()).isEqualTo(복지정책_질문_리스트.size());
             softly.assertThat(response.totalPage()).isEqualTo(1);
             softly.assertThat(response.isFirst()).isTrue();
             softly.assertThat(response.isLast()).isTrue();
