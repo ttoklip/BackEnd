@@ -13,15 +13,16 @@ import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.question.service.QuestionCommentLikeService;
 import com.api.ttoklip.domain.question.service.QuestionPostService;
 import com.api.ttoklip.global.success.Message;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class QuestionCommnetFacade {
+public class QuestionCommentFacade {
 
     private final ReportService reportService;
     private final MemberService memberService;
@@ -32,36 +33,38 @@ public class QuestionCommnetFacade {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
-    public Message register(final Long postId, final CommentCreateRequest request) {
+    public Message register(final Long postId, final CommentCreateRequest request, final Long currentMemberId) {
         Question findQuestion = questionPostService.getQuestion(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
         Optional<Comment> parentCommentOptional = commentService.findParentComment(parentCommentId);
+        Member currentMember = memberService.findById(currentMemberId);
 
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            Long newCommentId = registerCommentWithParent(request, findQuestion, parentComment);
+            Long newCommentId = registerCommentWithParent(request, findQuestion, parentComment, currentMember);
             return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        Long newCommentId = registerCommentOrphanage(request, findQuestion);
+        Long newCommentId = registerCommentOrphanage(request, findQuestion, currentMember);
         return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
     }
 
     // 대댓글 생성
     private Long registerCommentWithParent(final CommentCreateRequest request, final Question findQuestion,
-                                           final Comment parentComment) {
-        QuestionComment newQuestionComment = QuestionComment.withParentOf(request, parentComment, findQuestion);
+                                           final Comment parentComment, final Member member) {
+        QuestionComment newQuestionComment = QuestionComment.withParentOf(request, parentComment, findQuestion, member);
         commentService.register(newQuestionComment);
         return newQuestionComment.getId();
     }
 
     // 최상위 댓글 생성
-    private Long registerCommentOrphanage(final CommentCreateRequest request, final Question findQuestion) {
-        QuestionComment newQuestionComment = QuestionComment.orphanageOf(request, findQuestion);
+    private Long registerCommentOrphanage(final CommentCreateRequest request, final Question findQuestion,
+                                          final Member member) {
+        QuestionComment newQuestionComment = QuestionComment.orphanageOf(request, findQuestion, member);
         commentService.register(newQuestionComment);
         return newQuestionComment.getId();
     }

@@ -63,10 +63,16 @@ public class FakeCommentRepository implements CommentRepository {
 
     @Override
     public List<QuestionComment> findQuestionCommentsByQuestionId(final Long questionId) {
-        // 추후 구현
-
-        return List.of();
+        return commentMap.values().stream()
+                .filter(comment -> comment instanceof QuestionComment)
+                .map(comment -> (QuestionComment) comment)
+                .filter(comment -> comment.getQuestion().getId().equals(questionId) && isActivated(comment))
+                .sorted(Comparator.comparing(
+                                (QuestionComment c) -> c.getParent() != null ? c.getParent().getId() : null)
+                        .thenComparing(QuestionComment::getCreatedDate))
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public void save(final Comment comment) {
@@ -83,8 +89,10 @@ public class FakeCommentRepository implements CommentRepository {
 
     @Override
     public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
-        // 추후 구현
-
-        return null;
+        return Optional.ofNullable(commentMap.get(commentId))
+                .filter(comment -> comment instanceof QuestionComment)
+                .map(comment -> (QuestionComment) comment)
+                .filter(this::isActivated)
+                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
     }
 }

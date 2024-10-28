@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.question.domain.Question;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class CommentFixture {
@@ -29,7 +31,7 @@ public class CommentFixture {
         return HoneyTipComment.withParentOf(대댓글_생성_요청(parentComment), parentComment, honeyTip, member);
     }
 
-    // 최상위 댓글 생성
+    // 꿀팁 최상위 댓글 생성
     public static HoneyTipComment 꿀팁_최상위_댓글_생성(HoneyTip honeyTip) {
         Member member = 일반_회원_생성1();
         return HoneyTipComment.orphanageOf(최상위_댓글_생성_요청(), honeyTip, member);
@@ -39,4 +41,12 @@ public class CommentFixture {
     private static CommentCreateRequest 댓글_생성_요청() {
         return new CommentCreateRequest("허니팁 댓글 내용", null);
     }
+
+    // 질문 최상위 댓글 생성
+    public static QuestionComment 질문_최상위_댓글_생성(Question question) {
+        Member member = 일반_회원_생성1();
+        return QuestionComment.orphanageOf(최상위_댓글_생성_요청(), question, member);
+    }
+
+
 }
