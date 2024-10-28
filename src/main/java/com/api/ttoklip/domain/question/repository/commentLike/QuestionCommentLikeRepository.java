@@ -12,5 +12,5 @@ public interface QuestionCommentLikeRepository {
 
     void save(CommentLike commentLike);
 
-    void deletedById(Long id);
+    void deleteById(Long id);
 }

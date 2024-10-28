@@ -2,6 +2,7 @@ package comment.fixture;
 
 import static member.fixture.MemberFixture.일반_회원_생성1;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
@@ -9,6 +10,7 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.domain.Question;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
+import member.fixture.MemberFixture;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class CommentFixture {
@@ -47,6 +49,5 @@ public class CommentFixture {
         Member member = 일반_회원_생성1();
         return QuestionComment.orphanageOf(최상위_댓글_생성_요청(), question, member);
     }
-
 
 }

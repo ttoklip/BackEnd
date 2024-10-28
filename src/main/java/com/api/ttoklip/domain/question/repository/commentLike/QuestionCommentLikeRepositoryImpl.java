@@ -29,7 +29,7 @@ public class QuestionCommentLikeRepositoryImpl implements QuestionCommentLikeRep
     }
 
     @Override
-    public void deletedById(final Long id) {
+    public void deleteById(final Long id) {
         questionCommentLikeJpaRepository.deleteById(id);
     }
 

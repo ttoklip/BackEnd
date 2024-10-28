@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.question.facade;
 
-import com.api.ttoklip.domain.aop.notification.annotation.SendNotification;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.comment.service.CommentService;
@@ -10,7 +9,6 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.question.domain.Question;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
-import com.api.ttoklip.domain.question.service.QuestionCommentLikeService;
 import com.api.ttoklip.domain.question.service.QuestionPostService;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,6 @@ public class QuestionCommentFacade {
     private final MemberService memberService;
     private final CommentService commentService;
     private final QuestionPostService questionPostService;
-    private final QuestionCommentLikeService questionCommentLikeService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
@@ -91,26 +88,6 @@ public class QuestionCommentFacade {
     }
 
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */
-
-    /* -------------------------------------------- LIKE -------------------------------------------- */
-    @Transactional
-    @SendNotification
-    public Message registerLike(final Long commentId, final Long currentMemberId) {
-        QuestionComment findQuestionComment = questionPostService.getQuestionComment(commentId);
-        Member currentMember = memberService.findById(currentMemberId);
-        questionCommentLikeService.registerLike(findQuestionComment, currentMember);
-        return Message.likePostSuccess(Question.class, commentId);
-    }
-
-    @Transactional
-    public Message cancleLike(final Long commentId, final Long currentMemberId) {
-        QuestionComment findQuestionComment = questionPostService.getQuestionComment(commentId);
-        Member currentMember = memberService.findById(currentMemberId);
-        questionCommentLikeService.cancelLike(findQuestionComment, currentMember);
-        return Message.likePostCancel(Question.class, commentId);
-    }
-
-    /* -------------------------------------------- LIKE 끝 -------------------------------------------- */
 
 }
 

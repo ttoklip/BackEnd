@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.question.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.question.facade.QuestionCommentFacade;
+import com.api.ttoklip.domain.question.facade.QuestionCommentLikeFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import com.api.ttoklip.global.util.SecurityUtil;
@@ -32,6 +33,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 public class QuestionCommentController {
 
     private final QuestionCommentFacade questionCommentFacade;
+    private final QuestionCommentLikeFacade questionCommentLikeFacade;
 
     /* CREATE */
     @Operation(summary = "새로운 댓글 생성", description = "지정된 게시글에 댓글을 등록합니다.")
@@ -126,7 +128,7 @@ public class QuestionCommentController {
     @PostMapping("/like/{commentId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long commentId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = questionCommentFacade.registerLike(commentId, currentMemberId);
+        Message message = questionCommentLikeFacade.registerLike(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -144,7 +146,7 @@ public class QuestionCommentController {
     @DeleteMapping("/like/{commentId}")
     public SuccessResponse<Message> cancleLike(final @PathVariable Long commentId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = questionCommentFacade.cancleLike(commentId, currentMemberId);
+        Message message = questionCommentLikeFacade.cancelLike(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
