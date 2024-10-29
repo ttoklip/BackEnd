@@ -2,11 +2,11 @@ package com.api.ttoklip.domain.town.cart.controller;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.town.cart.constant.CartResponseConstant;
-import com.api.ttoklip.domain.town.cart.post.dto.request.CartCreateRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.request.UpdateStatusRequest;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartGroupMemberResponse;
-import com.api.ttoklip.domain.town.cart.post.dto.response.CartSingleResponse;
-import com.api.ttoklip.domain.town.cart.post.entity.TradeStatus;
+import com.api.ttoklip.domain.town.cart.controller.dto.request.CartCreateRequest;
+import com.api.ttoklip.domain.town.cart.controller.dto.request.UpdateStatusRequest;
+import com.api.ttoklip.domain.town.cart.controller.dto.response.CartGroupMemberResponse;
+import com.api.ttoklip.domain.town.cart.controller.dto.response.CartSingleResponse;
+import com.api.ttoklip.domain.town.cart.domain.TradeStatus;
 import com.api.ttoklip.domain.town.cart.service.CartPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;

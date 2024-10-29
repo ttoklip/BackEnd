@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.town.community.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
-import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
+import static com.api.ttoklip.domain.town.community.domain.QCommunity.community;
+import static com.api.ttoklip.domain.town.community.domain.QCommunityImage.communityImage;
 
 import com.api.ttoklip.domain.town.community.domain.CommunityImage;
 import com.api.ttoklip.global.exception.ApiException;

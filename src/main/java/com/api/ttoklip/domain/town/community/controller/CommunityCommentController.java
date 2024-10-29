@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.town.community.controller;
 
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
+import com.api.ttoklip.domain.town.community.facade.CommunityCommentFacade;
 import com.api.ttoklip.domain.town.community.service.CommunityCommentService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -20,13 +21,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 @Tag(name = "Town", description = "우리동네 - 소통해요 댓글 API 입니다.")
 @RestController
 @RequestMapping("api/v1/town/comms/comment")
 @RequiredArgsConstructor
 public class CommunityCommentController {
 
-    private final CommunityCommentService communityCommentService;
+    private final CommunityCommentFacade communityCommentFacade;
 
     // 소통해요(community) 댓글
 
@@ -41,7 +44,8 @@ public class CommunityCommentController {
     @PostMapping("/{postId}")
     public SuccessResponse<Message> register(final @PathVariable Long postId,
                                              final @RequestBody CommentCreateRequest request) {
-        Message message = communityCommentService.register(postId, request);
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = communityCommentFacade.register(postId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -56,7 +60,7 @@ public class CommunityCommentController {
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = communityCommentService.report(commentId, request);
+        Message message = communityCommentFacade.report(commentId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -84,7 +88,7 @@ public class CommunityCommentController {
                     ))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = communityCommentService.delete(commentId);
+        Message message = communityCommentFacade.delete(commentId);
         return new SuccessResponse<>(message);
     }
 }

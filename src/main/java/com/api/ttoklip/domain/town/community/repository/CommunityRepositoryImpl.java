@@ -2,14 +2,14 @@ package com.api.ttoklip.domain.town.community.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
-import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
-import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
+import static com.api.ttoklip.domain.town.community.domain.QCommunityComment.communityComment;
+import static com.api.ttoklip.domain.town.community.domain.QCommunityImage.communityImage;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import com.api.ttoklip.domain.town.community.domain.Community;
-import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
+import com.api.ttoklip.domain.town.community.domain.QCommunity;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;

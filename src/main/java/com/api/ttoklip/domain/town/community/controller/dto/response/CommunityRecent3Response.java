@@ -20,7 +20,7 @@ public class CommunityRecent3Response {
     @Schema(description = "소통해요 주소", example = "소통해요 주소 예시")
     private String street;
 
-    public static CommunityRecent3Response of(final Community community) {
+    public static CommunityRecent3Response from(final Community community) {
         return CommunityRecent3Response.builder()
                 .communityId(community.getId())
                 .title(community.getTitle())

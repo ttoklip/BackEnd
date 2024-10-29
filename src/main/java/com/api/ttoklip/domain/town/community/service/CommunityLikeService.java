@@ -53,8 +53,7 @@ public class CommunityLikeService {
         return communityLikeRepository.countCommunityLikesByCommunityId(communityId);
     }
 
-    public boolean existsByCommunityIdAndMemberId(final Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
+    public boolean existsByCommunityIdAndMemberId(final Long postId, final Long currentMemberId) {
         return communityLikeRepository.existsByCommunityIdAndMemberId(postId, currentMemberId);
     }
 

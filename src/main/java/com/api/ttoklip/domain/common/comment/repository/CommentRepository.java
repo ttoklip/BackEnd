@@ -3,6 +3,8 @@ package com.api.ttoklip.domain.common.comment.repository;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +18,11 @@ public interface CommentRepository {
 
     List<NewsletterComment> findCommentsByNewsletterId(Long newsletterId);
 
+    List<CommunityComment> findCommentsByCommunityId(Long communityId);
+
     void save(Comment comment);
+
+//    void report(Comment comment);
+
+//    void delete(Comment comment);
 }

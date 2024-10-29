@@ -53,8 +53,7 @@ public class CommunityScrapService {
         return communityScrapRepository.countCommunityScrapsByCommunityId(communityId);
     }
 
-    public boolean existsByCommunityIdAndMemberId(final Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
+    public boolean existsByCommunityIdAndMemberId(final Long postId, final Long currentMemberId) {
         return communityScrapRepository.existsByCommunityIdAndMemberId(postId, currentMemberId);
     }
 

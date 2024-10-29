@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
+import com.api.ttoklip.domain.town.community.domain.QCommunityComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -24,6 +26,7 @@ public class CommentQueryRepository {
 
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
+    private final QCommunityComment communityComment = QCommunityComment.communityComment;
     private final QComment comment = QComment.comment;
     private final QMember member = QMember.member;
 
@@ -90,6 +93,25 @@ public class CommentQueryRepository {
 
     private BooleanExpression matchNewsletterId(final Long newsletterId) {
         return newsletterComment.newsletter.id.eq(newsletterId);
+    }
+
+    public List<CommunityComment> findCommentsByCommunityId(Long communityId) {
+        return jpaQueryFactory
+                .selectFrom(communityComment)
+                .distinct()
+                .leftJoin(communityComment.member, member).fetchJoin()
+                .where(
+                        matchCommunityId(communityId)
+                )
+                .orderBy(
+                        communityComment.parent.id.asc().nullsFirst(),
+                        communityComment.createdDate.asc()
+                )
+                .fetch();
+    }
+
+    private BooleanExpression matchCommunityId(final Long communityId) {
+        return communityComment.community.id.eq(communityId);
     }
 
 }

@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.town.community.constant.CommunityResponseConstant;
 import com.api.ttoklip.domain.town.community.controller.dto.request.CommunityCreateRequest;
 import com.api.ttoklip.domain.town.community.controller.dto.request.CommunityEditReq;
 import com.api.ttoklip.domain.town.community.controller.dto.response.CommunitySingleResponse;
+import com.api.ttoklip.domain.town.community.facade.CommunityPostFacade;
 import com.api.ttoklip.domain.town.community.service.CommunityPostService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -28,15 +29,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 @Tag(name = "Community", description = "우리동네 - 소통해요 API 입니다.")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/town/comms")
 public class CommunityPostController {
 
-    private final CommunityPostService communityPostService;
-
-    // 소통해요 - community
+    private final CommunityPostFacade communityPostFacade;
 
     /* CREATE */
     @Operation(summary = "소통해요 게시글 생성",
@@ -52,8 +53,8 @@ public class CommunityPostController {
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Message> register(final @Validated @ModelAttribute CommunityCreateRequest request) {
-        Message message = communityPostService.register(request);
-        return new SuccessResponse<>(message);
+        Long currentMemberId = getCurrentMember().getId();
+        return new SuccessResponse<>(communityPostFacade.register(request, currentMemberId));
     }
 
     /* READ */
@@ -70,7 +71,8 @@ public class CommunityPostController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<CommunitySingleResponse> getSinglePost(final @PathVariable Long postId) {
-        CommunitySingleResponse response = communityPostService.getSinglePost(postId);
+        Long currentMemberId = getCurrentMember().getId();
+        CommunitySingleResponse response = communityPostFacade.getSinglePost(postId, currentMemberId);
         return new SuccessResponse<>(response);
     }
 
@@ -89,7 +91,7 @@ public class CommunityPostController {
     @PatchMapping("/{postId}")
     public SuccessResponse<Message> edit(final @PathVariable Long postId,
                                          final @Validated @ModelAttribute CommunityEditReq request) {
-        return new SuccessResponse<>(communityPostService.edit(postId, request));
+        return new SuccessResponse<>(communityPostFacade.edit(postId, request));
     }
 
     /* DELETE */
@@ -106,7 +108,7 @@ public class CommunityPostController {
                             )))})
     @DeleteMapping("/{postId}")
     public SuccessResponse<Message> delete(final @PathVariable Long postId) {
-        return new SuccessResponse<>(communityPostService.delete(postId));
+        return new SuccessResponse<>(communityPostFacade.delete(postId));
     }
 
     /* REPORT */
@@ -124,7 +126,7 @@ public class CommunityPostController {
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = communityPostService.report(postId, request);
+        Message message = communityPostFacade.report(postId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -142,7 +144,7 @@ public class CommunityPostController {
                             )))})
     @PostMapping("/like/{postId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
-        Message message = communityPostService.registerLike(postId);
+        Message message = communityPostFacade.registerLike(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -159,7 +161,7 @@ public class CommunityPostController {
                             )))})
     @DeleteMapping("/like/{postId}")
     public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
-        Message message = communityPostService.cancelLike(postId);
+        Message message = communityPostFacade.cancelLike(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -177,7 +179,7 @@ public class CommunityPostController {
                             )))})
     @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
-        Message message = communityPostService.registerScrap(postId);
+        Message message = communityPostFacade.registerScrap(postId);
         return new SuccessResponse<>(message);
     }
 
@@ -194,7 +196,7 @@ public class CommunityPostController {
                             )))})
     @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
-        Message message = communityPostService.cancelScrap(postId);
+        Message message = communityPostFacade.cancelScrap(postId);
         return new SuccessResponse<>(message);
     }
 }
