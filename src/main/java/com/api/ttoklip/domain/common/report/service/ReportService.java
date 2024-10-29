@@ -10,7 +10,7 @@ import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

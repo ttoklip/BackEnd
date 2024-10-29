@@ -12,7 +12,7 @@ import com.api.ttoklip.domain.question.post.domain.QQuestion;
 import com.api.ttoklip.domain.town.cart.domain.CartComment;
 import com.api.ttoklip.domain.town.cart.comment.QCartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.QCart;
-import com.api.ttoklip.domain.town.community.comment.CommunityComment;
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
 import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
 import com.api.ttoklip.global.exception.ApiException;

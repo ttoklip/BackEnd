@@ -6,7 +6,7 @@ import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.co
 import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
 import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

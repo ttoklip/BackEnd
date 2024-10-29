@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.search.response;
 
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

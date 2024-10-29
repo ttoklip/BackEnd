@@ -37,7 +37,7 @@ public class BoardDistributedLockAspect {
     private void honeyTipRegisterMethodPointcut() {
     }
 
-    @Pointcut("execution(* com.api.ttoklip.domain.town.community.post.controller.CommunityPostController.register(..))")
+    @Pointcut("execution(* com.api.ttoklip.domain.town.community.controller.CommunityPostController.register(..))")
     private void communityRegisterMethodPointcut() {
     }
 

@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.notification.dto.response.NotificationServerRespon
 import com.api.ttoklip.domain.notification.repository.NotificationCommentRepository;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.domain.CartComment;
-import com.api.ttoklip.domain.town.community.comment.CommunityComment;
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

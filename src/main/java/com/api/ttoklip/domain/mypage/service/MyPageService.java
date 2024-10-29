@@ -24,7 +24,7 @@ import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -11,7 +11,7 @@ import com.api.ttoklip.domain.notification.entity.Notification;
 import com.api.ttoklip.domain.notification.repository.NotificationRepository;
 import com.api.ttoklip.domain.notification.repository.NotificationRepositoryImpl;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.List;

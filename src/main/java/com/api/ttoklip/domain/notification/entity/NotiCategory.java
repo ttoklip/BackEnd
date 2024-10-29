@@ -3,7 +3,7 @@ package com.api.ttoklip.domain.notification.entity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.Getter;
