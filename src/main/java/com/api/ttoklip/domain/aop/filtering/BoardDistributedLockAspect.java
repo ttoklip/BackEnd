@@ -41,7 +41,7 @@ public class BoardDistributedLockAspect {
     private void communityRegisterMethodPointcut() {
     }
 
-    @Pointcut("execution(* com.api.ttoklip.domain.town.cart.post.controller.CartPostController.register(..))")
+    @Pointcut("execution(* com.api.ttoklip.domain.town.cart.controller.CartCommentController.CartPostController.register(..))")
     private void cartRegisterMethodPointcut() {
     }
 

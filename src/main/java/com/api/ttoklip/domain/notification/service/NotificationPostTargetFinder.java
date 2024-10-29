@@ -6,8 +6,8 @@ import com.api.ttoklip.domain.notification.dto.response.NotificationServerRespon
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.comment.service.QuestionCommentService;
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.cart.service.CartPostService;
 import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
 import java.util.Optional;

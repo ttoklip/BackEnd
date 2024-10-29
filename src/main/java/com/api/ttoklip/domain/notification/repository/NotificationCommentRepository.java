@@ -9,7 +9,7 @@ import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.QQuestion;
-import com.api.ttoklip.domain.town.cart.comment.CartComment;
+import com.api.ttoklip.domain.town.cart.domain.CartComment;
 import com.api.ttoklip.domain.town.cart.comment.QCartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.QCart;
 import com.api.ttoklip.domain.town.community.comment.CommunityComment;
