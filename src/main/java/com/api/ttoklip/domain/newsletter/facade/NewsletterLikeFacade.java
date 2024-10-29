@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NewsletterLikeFacade implements ActionFacade {
 
     private final NewsletterLikeService newsletterLikeService;

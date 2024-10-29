@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.newsletter.repository;
+package com.api.ttoklip.domain.newsletter.repository.post;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 
@@ -23,10 +23,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+@Repository
 @RequiredArgsConstructor
-public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCustom {
+public class NewsletterQueryRepository {
 
     private static final String POPULARITY = "popularity";
     private static final String LATEST = "latest";
@@ -38,7 +40,7 @@ public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCusto
 
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
 
-    @Override
+
     public Newsletter findByIdActivated(final Long newsletterId) {
         Newsletter findNewsletter = jpaQueryFactory
                 .selectFrom(newsletter)
@@ -61,7 +63,7 @@ public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCusto
         return newsletter.deleted.isFalse();
     }
 
-    @Override
+
     public Newsletter findByIdFetchJoin(final Long newsletterPostId) {
         Newsletter findNewsletter = jpaQueryFactory
                 .selectFrom(newsletter)
@@ -78,7 +80,7 @@ public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCusto
                 .orElseThrow(() -> new ApiException(ErrorType.NEWSLETTER_NOT_FOUND));
     }
 
-    @Override
+
     public Long findNewsletterCount() {
         return jpaQueryFactory
                 .select(Wildcard.count)
@@ -86,7 +88,7 @@ public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCusto
                 .fetchOne();
     }
 
-    @Override
+
     public Page<Newsletter> getPaging(final Category category, final Pageable pageable) {
         List<Newsletter> pageContent = getPageContent(category, pageable);
         Long count = countQuery(category);
@@ -121,7 +123,7 @@ public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCusto
                 .fetchOne();
     }
 
-    @Override
+
     public List<Newsletter> getRecent3() {
         return jpaQueryFactory
                 .selectFrom(newsletter)
@@ -133,7 +135,7 @@ public class NewsletterRepositoryCustomImpl implements NewsletterRepositoryCusto
                 .fetch();
     }
 
-    @Override
+
     public List<Newsletter> findRandom4ActiveNewsletters() {
         long count = getNewsletterCount();
 
