@@ -7,7 +7,7 @@ import com.api.ttoklip.domain.town.cart.controller.dto.request.UpdateStatusReque
 import com.api.ttoklip.domain.town.cart.controller.dto.response.CartGroupMemberResponse;
 import com.api.ttoklip.domain.town.cart.controller.dto.response.CartSingleResponse;
 import com.api.ttoklip.domain.town.cart.domain.TradeStatus;
-import com.api.ttoklip.domain.town.cart.service.CartPostService;
+import com.api.ttoklip.domain.town.cart.facade.CartPostFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,15 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Cart", description = "우리동네 - 함께해요 API 입니다.")
 @RequiredArgsConstructor
@@ -36,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/town/carts")
 public class CartPostController {
 
-    private final CartPostService cartPostService;
+    private final CartPostFacade cartPostFacade;
 
     // 함께해요 - cart
 
@@ -55,7 +47,7 @@ public class CartPostController {
                             )))})
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Message> register(final @Validated @ModelAttribute CartCreateRequest request) {
-        Message message = cartPostService.register(request);
+        Message message = cartPostFacade.register(request);
         return new SuccessResponse<>(message);
     }
 
@@ -73,7 +65,7 @@ public class CartPostController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<CartSingleResponse> getSinglePost(final @PathVariable Long postId) {
-        CartSingleResponse response = cartPostService.getSinglePost(postId);
+        CartSingleResponse response = cartPostFacade.getSinglePost(postId);
         return new SuccessResponse<>(response);
     }
 
@@ -92,7 +84,7 @@ public class CartPostController {
     @PatchMapping("/{postId}")
     public SuccessResponse<Message> edit(final @PathVariable Long postId,
                                          final @Validated @ModelAttribute CartCreateRequest request) {
-        return new SuccessResponse<>(cartPostService.edit(postId, request));
+        return new SuccessResponse<>(cartPostFacade.edit(postId, request));
     }
 
     /* REPORT */
@@ -110,7 +102,7 @@ public class CartPostController {
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = cartPostService.report(postId, request);
+        Message message = cartPostFacade.report(postId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -128,7 +120,7 @@ public class CartPostController {
     @PatchMapping("/{postId}/status")
     public SuccessResponse<Message> updateStatus(final @PathVariable Long postId,
                                                  final @RequestBody UpdateStatusRequest request) {
-        Message message = cartPostService.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
+        Message message = cartPostFacade.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
         return new SuccessResponse<>(message);
     }
 
@@ -145,7 +137,7 @@ public class CartPostController {
                             )))})
     @PostMapping("/participants/{cartId}")
     public SuccessResponse<Message> addParticipant(final @PathVariable Long cartId) {
-        Message message = cartPostService.addParticipant(cartId);
+        Message message = cartPostFacade.addParticipant(cartId);
         return new SuccessResponse<>(message);
     }
 
@@ -162,7 +154,7 @@ public class CartPostController {
                             )))})
     @DeleteMapping("/participants/{cartId}")
     public SuccessResponse<Message> removeParticipant(final @PathVariable Long cartId) {
-        Message message = cartPostService.removeParticipant(cartId);
+        Message message = cartPostFacade.removeParticipant(cartId);
         return new SuccessResponse<>(message);
     }
 
@@ -179,7 +171,7 @@ public class CartPostController {
                             )))})
     @GetMapping("/participants/count/{cartId}")
     public SuccessResponse<Long> countParticipants(final @PathVariable Long cartId) {
-        Long count = cartPostService.countParticipants(cartId);
+        Long count = cartPostFacade.countParticipants(cartId);
         return new SuccessResponse<>(count);
     }
 
@@ -195,9 +187,9 @@ public class CartPostController {
                             )))})
     @GetMapping("/participants/members/{cartId}")
     public SuccessResponse<CartGroupMemberResponse> checkParticipants(final @PathVariable Long cartId) {
-        CartGroupMemberResponse cartGroupMemberResponse = cartPostService.checkParticipants(cartId);
+        CartGroupMemberResponse cartGroupMemberResponse = cartPostFacade.checkParticipants(cartId);
         return new SuccessResponse<>(cartGroupMemberResponse);
-//        Long count = cartPostService.countParticipants(cartId);
+//        Long count = cartPostFacade.countParticipants(cartId);
 //        return new SuccessResponse<>(count);
     }
 

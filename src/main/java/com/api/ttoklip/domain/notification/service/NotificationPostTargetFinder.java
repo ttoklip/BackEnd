@@ -47,7 +47,7 @@ public class NotificationPostTargetFinder {
         }
 
         if (request.equals(NotiCategory.OUR_TOWN_TOGETHER)) {
-            Cart cart = cartPostService.findCartByIdActivated(targetIndex);
+            Cart cart = cartPostService.findByIdActivated(targetIndex);
             Long writerId = cart.getMember().getId();
 
             NotificationServerResponse response = NotificationServerResponse.of(writerId, cart.getId());

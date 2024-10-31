@@ -40,6 +40,7 @@ public class CommunityPostService {
 //        return communityRepository.getRecent3(townCriteria);
 //    }
 
+    //Todo Service가 분리되어있는게 맞는지
     public List<CommunityRecent3Response> getRecent3(final TownCriteria townCriteria) {
         List<Community> communities = communityRepository.getRecent3(townCriteria);
         return communities.stream()

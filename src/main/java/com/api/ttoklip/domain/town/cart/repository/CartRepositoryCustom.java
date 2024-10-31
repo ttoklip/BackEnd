@@ -34,4 +34,5 @@ public interface CartRepositoryCustom {
             final Long lastParty,
             final TownCriteria townCriteria
     );
+
 }

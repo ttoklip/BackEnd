@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.town.cart.controller;
 
 import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.town.cart.service.CartCommentService;
+import com.api.ttoklip.domain.town.cart.facade.CartCommentFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CartCommentController {
 
-    private final CartCommentService cartCommentService;
+    private final CartCommentFacade cartCommentFacade;
 
     // 함께해요(cart) 댓글
 
@@ -36,7 +36,7 @@ public class CartCommentController {
     @PostMapping("/{postId}")
     public SuccessResponse<Message> register(final @PathVariable Long postId,
                                              final @RequestBody CommentCreateRequest request) {
-        Message message = cartCommentService.register(postId, request);
+        Message message = cartCommentFacade.register(postId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -51,7 +51,7 @@ public class CartCommentController {
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
                                            final @RequestBody ReportCreateRequest request) {
-        Message message = cartCommentService.report(commentId, request);
+        Message message = cartCommentFacade.report(commentId, request);
         return new SuccessResponse<>(message);
     }
 
@@ -65,7 +65,7 @@ public class CartCommentController {
 //    @PatchMapping("/{commentId}")
 //    public SuccessResponse<Long> edit(final @PathVariable Long commentId,
 //                                      final @RequestBody CommentEditRequest request) {
-//        cartCommentService.edit(commentId, request);
+//        cartCommentFacade.edit(commentId, request);
 //        return new SuccessResponse<>(commentId);
 //    }
 
@@ -79,7 +79,7 @@ public class CartCommentController {
                     ))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = cartCommentService.delete(commentId);
+        Message message = cartCommentFacade.delete(commentId);
         return new SuccessResponse<>(message);
     }
 }
