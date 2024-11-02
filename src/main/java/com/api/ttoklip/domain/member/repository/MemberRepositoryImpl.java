@@ -1,38 +1,54 @@
 package com.api.ttoklip.domain.member.repository;
 
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.QMember;
-import com.api.ttoklip.domain.member.domain.QProfileLike;
-import com.api.ttoklip.domain.privacy.domain.QInterest;
-import com.api.ttoklip.domain.privacy.domain.QProfile;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
-public class MemberRepositoryImpl implements MemberRepositoryCustom {
+public class MemberRepositoryImpl implements MemberRepository{
 
-    private final JPAQueryFactory jpaQueryFactory;
+    private final MemberJpaRepository jpaRepository;
+    private final MemberQueryRepository queryDSLRepository;
+
+    @Override
+    public Optional<Member> findById(final Long memberId) {
+        return jpaRepository.findById(memberId);
+    }
+
+    @Override
+    public Optional<Member> findByEmail(final String email) {
+        return jpaRepository.findByEmail(email);
+    }
+
+    @Override
+    public boolean existsByNickname(final String nickname) {
+        return jpaRepository.existsByNickname(nickname);
+    }
+
+    @Override
+    public boolean existsByEmail(final String email) {
+        return jpaRepository.existsByEmail(email);
+    }
 
     @Override
     public Member getTargetMemberProfile(final Long targetMemberId) {
-        QMember member = QMember.member;
-        QProfileLike profileLike = QProfileLike.profileLike;
-        QProfile profile = QProfile.profile;
-        QInterest interest = QInterest.interest;
+        return queryDSLRepository.getTargetMemberProfile(targetMemberId);
+    }
 
-        Member findMember = jpaQueryFactory
-                .select(member)
-                .from(member)
-                .leftJoin(member.profileLikesFrom, profileLike).fetchJoin()
-                .leftJoin(member.profile, profile).fetchJoin()
-                .leftJoin(member.interests, interest)
-                .where(member.id.eq(targetMemberId))
-                .fetchOne();
+    @Override
+    public Member findByIdWithProfile(final Long memberId) {
+        return queryDSLRepository.findByIdWithProfile(memberId);
+    }
 
-        return Optional.ofNullable(findMember)
-                .orElseThrow(() -> new ApiException(ErrorType._USER_NOT_FOUND_DB));
+    @Override
+    public Member findByNickNameWithProfile(final String nickName) {
+        return queryDSLRepository.findByNickNameWithProfile(nickName);
+    }
+
+    @Override
+    public void save(final Member member) {
+        jpaRepository.save(member);
     }
 }

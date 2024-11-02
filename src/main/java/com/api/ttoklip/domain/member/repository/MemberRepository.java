@@ -2,18 +2,22 @@ package com.api.ttoklip.domain.member.repository;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
-//    Optional<Member> findByNaverEmail(String email);
-//    Optional<Member> findByKakaoId(Long kakaoId);
+public interface MemberRepository {
 
     Optional<Member> findByEmail(String email);
-
-//    Optional<Member> findByJoinId(String joinId);
 
     boolean existsByNickname(String nickname);
 
     boolean existsByEmail(String email);
 
+    Member getTargetMemberProfile(Long targetMemberId);
+
+    Optional<Member> findById(Long memberId);
+
+    Member findByIdWithProfile(Long memberId);
+
+    Member findByNickNameWithProfile(String nickName);
+
+    void save(Member member);
 }
