@@ -1,7 +1,10 @@
-package com.api.ttoklip.domain.todolist.domain;
+package com.api.ttoklip.domain.todolist.infrastructure;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.todolist.domain.QTodayToDoList;
+import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
+import com.api.ttoklip.domain.todolist.domain.vo.ToDoList;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
@@ -9,14 +12,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
-public class TodayToDoListRepositoryImpl implements TodayToRoListCustomRepository {
+public class TodayToDoListQueryRepository {
 
     private final JPAQueryFactory queryFactory;
     private final EntityManager entityManager;
 
-    @Override
     public TodayToDoList findTodayToDoListsByMemberId(final Long memberId) {
         QTodayToDoList todayToDoList = QTodayToDoList.todayToDoList;
 
