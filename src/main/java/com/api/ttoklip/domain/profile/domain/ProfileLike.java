@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.profile;
+package com.api.ttoklip.domain.profile.domain;
 
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.member.domain.Member;

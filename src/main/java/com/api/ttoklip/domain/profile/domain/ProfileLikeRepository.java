@@ -1,6 +1,9 @@
-package com.api.ttoklip.domain.profile;
+package com.api.ttoklip.domain.profile.domain;
 
-public interface ProfileLikeRepositoryCustom {
+public interface ProfileLikeRepository {
+    void save(ProfileLike profileLike);
+
+    void deleteById(Long id);
 
     boolean isExists(Long fromMemberId, Long targetMemberId);
 

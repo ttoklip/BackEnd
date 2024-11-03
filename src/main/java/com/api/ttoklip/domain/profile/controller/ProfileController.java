@@ -1,6 +1,8 @@
-package com.api.ttoklip.domain.profile;
+package com.api.ttoklip.domain.profile.controller;
 
 import com.api.ttoklip.domain.member.service.MemberService;
+import com.api.ttoklip.domain.profile.ProfileLikeService;
+import com.api.ttoklip.domain.profile.TargetMemberProfile;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
