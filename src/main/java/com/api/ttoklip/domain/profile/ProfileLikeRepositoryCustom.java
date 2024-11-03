@@ -1,6 +1,4 @@
-package com.api.ttoklip.domain.member.repository;
-
-import com.api.ttoklip.domain.member.domain.ProfileLike;
+package com.api.ttoklip.domain.profile;
 
 public interface ProfileLikeRepositoryCustom {
 

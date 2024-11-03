@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.member.dto.response;
+package com.api.ttoklip.domain.profile;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.privacy.dto.InterestResponse;

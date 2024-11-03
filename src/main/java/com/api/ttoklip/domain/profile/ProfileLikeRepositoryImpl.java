@@ -1,8 +1,7 @@
-package com.api.ttoklip.domain.member.repository;
+package com.api.ttoklip.domain.profile;
 
 import static com.api.ttoklip.domain.member.domain.QProfileLike.profileLike;
 
-import com.api.ttoklip.domain.member.domain.ProfileLike;
 import com.api.ttoklip.domain.member.domain.QProfileLike;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
