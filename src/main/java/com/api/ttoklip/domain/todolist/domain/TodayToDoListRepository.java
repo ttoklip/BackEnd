@@ -1,6 +1,9 @@
 package com.api.ttoklip.domain.todolist.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface TodayToDoListRepository extends JpaRepository<TodayToDoList, Long>, TodayToRoListCustomRepository {
+public interface TodayToDoListRepository {
+    void saveAll(List<TodayToDoList> todayToDoLists);
+
+    TodayToDoList findTodayToDoListsByMemberId(Long memberId);
 }
