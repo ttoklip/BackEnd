@@ -1,7 +1,7 @@
 package member.fixture;
 
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import java.util.List;
 

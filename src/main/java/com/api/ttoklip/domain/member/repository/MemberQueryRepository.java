@@ -2,9 +2,9 @@ package com.api.ttoklip.domain.member.repository;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.QMember;
-import com.api.ttoklip.domain.member.domain.QProfileLike;
 import com.api.ttoklip.domain.privacy.domain.QInterest;
 import com.api.ttoklip.domain.privacy.domain.QProfile;
+import com.api.ttoklip.domain.profile.QProfileLike;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.jpa.impl.JPAQueryFactory;

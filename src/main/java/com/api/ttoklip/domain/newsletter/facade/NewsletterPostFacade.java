@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateRequest;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsCategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterSingleResponse;

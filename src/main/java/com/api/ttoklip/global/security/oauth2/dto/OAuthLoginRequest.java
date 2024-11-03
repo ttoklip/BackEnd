@@ -1,5 +1,6 @@
 package com.api.ttoklip.global.security.oauth2.dto;
 
+import com.api.ttoklip.domain.member.domain.vo.Provider;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +16,8 @@ public class OAuthLoginRequest {
 
     @Schema(type = "string", description = "provider", example = "kakao or naver or local")
     private String provider;
+
+    public Provider getProvider() {
+        return Provider.from(provider);
+    }
 }
