@@ -1,10 +1,9 @@
-package com.api.ttoklip.domain.member.service;
+package com.api.ttoklip.domain.profile;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.ProfileLike;
-import com.api.ttoklip.domain.member.repository.ProfileLikeRepository;
+import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;

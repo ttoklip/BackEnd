@@ -2,7 +2,8 @@ package com.api.ttoklip.global.security.auth.service;
 
 import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Provider;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Interest;
@@ -37,7 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class AuthService {
 
-    private static final String PROVIDER_LOCAL = "local";
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
@@ -81,7 +81,7 @@ public class AuthService {
                 .originName(originName)
                 .nickname(nickname)
                 .role(Role.CLIENT)
-                .provider(PROVIDER_LOCAL)
+                .provider(Provider.LOCAL)
                 .independentYear(independentYear)
                 .independentMonth(independentMonth)
                 .street(street)

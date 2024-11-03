@@ -1,6 +1,7 @@
-package com.api.ttoklip.domain.member.domain;
+package com.api.ttoklip.domain.profile;
 
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
+import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

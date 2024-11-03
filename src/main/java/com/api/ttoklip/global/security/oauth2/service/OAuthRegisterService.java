@@ -1,7 +1,8 @@
 package com.api.ttoklip.global.security.oauth2.service;
 
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Provider;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Profile;
 import com.api.ttoklip.domain.privacy.service.ProfileService;
@@ -21,7 +22,7 @@ public class OAuthRegisterService {
     private final ProfileService profileService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
+    public Member registerNewMember(final OAuth2UserInfo userInfo, final Provider provider) {
         log.info("OAuthService.registerNewMember");
         log.info("userInfo.getName() = {}", userInfo.getName());
 

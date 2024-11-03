@@ -1,9 +1,5 @@
-package com.api.ttoklip.domain.member.repository;
+package com.api.ttoklip.domain.profile;
 
-import static com.api.ttoklip.domain.member.domain.QProfileLike.profileLike;
-
-import com.api.ttoklip.domain.member.domain.ProfileLike;
-import com.api.ttoklip.domain.member.domain.QProfileLike;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -15,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class ProfileLikeRepositoryImpl implements ProfileLikeRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final QProfileLike profileLike = QProfileLike.profileLike;
 
     @Override
     public boolean isExists(final Long fromMemberId, final Long targetMemberId) {
