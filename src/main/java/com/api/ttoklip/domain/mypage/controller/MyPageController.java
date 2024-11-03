@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.mypage.controller;
 
-import com.api.ttoklip.domain.profile.TargetMemberProfile;
+import com.api.ttoklip.domain.profile.controller.response.TargetMemberProfile;
 import com.api.ttoklip.domain.mypage.constant.MyPageConstant;
 import com.api.ttoklip.domain.mypage.dto.response.QuestionPaging;
 import com.api.ttoklip.domain.mypage.service.MyPageService;
