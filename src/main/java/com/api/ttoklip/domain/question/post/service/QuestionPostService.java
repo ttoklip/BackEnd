@@ -15,8 +15,8 @@ import com.api.ttoklip.domain.question.post.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.post.dto.response.QuestionSingleResponse;
 import com.api.ttoklip.domain.question.post.repository.QuestionDefaultRepository;
 import com.api.ttoklip.domain.question.post.repository.QuestionRepository;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.upload.Uploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,7 +33,7 @@ public class QuestionPostService {
     private final QuestionRepository questionRepository;
     private final QuestionDefaultRepository questionDefaultRepository;
     private final QuestionImageService questionImageService;
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final ReportService reportService;
     private final QuestionCommonService questionCommonService;
     private final QuestionCommentService questionCommentService;
@@ -68,7 +68,7 @@ public class QuestionPostService {
     }
 
     private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {
-        return s3FileUploader.uploadMultipartFiles(multipartFiles);
+        return uploader.uploadMultipartFiles(multipartFiles);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */

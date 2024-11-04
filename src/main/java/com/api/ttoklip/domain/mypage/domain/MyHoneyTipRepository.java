@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.honeytip.domain.QHoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.honeytip.domain.QHoneyTipScrap;
 import com.api.ttoklip.domain.member.domain.QMember;
-import com.api.ttoklip.domain.privacy.domain.QProfile;
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

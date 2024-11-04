@@ -1,11 +1,11 @@
 package com.api.ttoklip.domain.question.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 public class QuestionDefaultRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QProfile profile = QProfile.profile;
 
     public List<Question> getHouseWork() {
         return jpaQueryFactory

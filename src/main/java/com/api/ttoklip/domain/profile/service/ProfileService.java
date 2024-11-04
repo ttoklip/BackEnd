@@ -8,14 +8,14 @@ import com.api.ttoklip.domain.member.editor.MemberEditor;
 import com.api.ttoklip.domain.member.editor.MemberEditor.MemberEditorBuilder;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Interest;
-import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.repository.InterestRepository;
+import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.profile.domain.ProfileRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.upload.Uploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final InterestRepository interestRepository;
     private final MemberService memberService;
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
 
     // 회원가입시 자동으로 프로필 이미지 기입
     @Transactional
@@ -97,7 +97,7 @@ public class ProfileService {
         // 프로필 이미지 URL 변경
         MultipartFile profileImage = request.getProfileImage();
         if (profileImage != null && !profileImage.isEmpty()) {
-            String uploadUrl = s3FileUploader.uploadMultipartFile(profileImage);
+            String uploadUrl = uploader.uploadMultipartFile(profileImage);
             currentMember.getProfile().changeProfile(uploadUrl);
         }
     }

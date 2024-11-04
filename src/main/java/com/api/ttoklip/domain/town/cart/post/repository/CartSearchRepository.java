@@ -1,11 +1,11 @@
 package com.api.ttoklip.domain.town.cart.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
 import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
 
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -25,6 +25,8 @@ import org.springframework.util.StringUtils;
 @Repository
 @RequiredArgsConstructor
 public class CartSearchRepository {
+
+    private final QProfile profile = QProfile.profile;
 
     private final JPAQueryFactory jpaQueryFactory;
 

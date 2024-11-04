@@ -25,8 +25,8 @@ import com.api.ttoklip.domain.town.cart.post.repository.CartMemberRepository;
 import com.api.ttoklip.domain.town.cart.post.repository.CartRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.upload.Uploader;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class CartPostService {
 
     private final CartRepository cartRepository;
     private final CartImageService cartImageService;
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final ReportService reportService;
     private final ItemUrlService itemUrlService;
     private final CartMemberService cartMemberService;
@@ -57,7 +57,7 @@ public class CartPostService {
     }
 
     private List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
+        return uploader.uploadMultipartFiles(uploadImages);
     }
 
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
@@ -94,7 +94,7 @@ public class CartPostService {
     }
 
     private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {
-        return s3FileUploader.uploadMultipartFiles(multipartFiles);
+        return uploader.uploadMultipartFiles(multipartFiles);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */

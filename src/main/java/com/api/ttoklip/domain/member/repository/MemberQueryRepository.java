@@ -3,8 +3,8 @@ package com.api.ttoklip.domain.member.repository;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.privacy.domain.QInterest;
-import com.api.ttoklip.domain.privacy.domain.QProfile;
-import com.api.ttoklip.domain.profile.QProfileLike;
+import com.api.ttoklip.domain.profile.domain.QProfile;
+import com.api.ttoklip.domain.profile.domain.QProfileLike;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,6 +17,9 @@ import org.springframework.stereotype.Repository;
 public class MemberQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QProfile profile = QProfile.profile;
+    private final QProfileLike profileLike = QProfileLike.profileLike;
 
     public Member getTargetMemberProfile(final Long targetMemberId) {
         QMember member = QMember.member;
