@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.privacy.domain;
+package com.api.ttoklip.domain.profile.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;

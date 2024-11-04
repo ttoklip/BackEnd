@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.privacy.service;
+package com.api.ttoklip.domain.profile.service;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
@@ -8,10 +8,10 @@ import com.api.ttoklip.domain.member.editor.MemberEditor;
 import com.api.ttoklip.domain.member.editor.MemberEditor.MemberEditorBuilder;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Interest;
-import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.domain.privacy.repository.InterestRepository;
-import com.api.ttoklip.domain.privacy.repository.ProfileRepository;
+import com.api.ttoklip.domain.profile.domain.ProfileRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;

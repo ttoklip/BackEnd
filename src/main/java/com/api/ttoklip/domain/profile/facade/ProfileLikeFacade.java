@@ -1,23 +1,26 @@
-package com.api.ttoklip.domain.profile;
+package com.api.ttoklip.domain.profile.facade;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
+import com.api.ttoklip.domain.profile.controller.response.TargetMemberProfile;
+import com.api.ttoklip.domain.profile.domain.ProfileLike;
+import com.api.ttoklip.domain.profile.service.ProfileLikeService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.success.Message;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ProfileLikeService {
+public class ProfileLikeFacade {
 
-    private final ProfileLikeRepository profileLikeRepository;
     private final MemberService memberService;
+    private final ProfileLikeService profileLikeService;
 
     @Transactional
     public Message registerProfileLike(final Long targetMemberId) {
@@ -26,13 +29,13 @@ public class ProfileLikeService {
 
         Member targetMember = memberService.findById(targetMemberId);
 
-        boolean isExists = profileLikeRepository.isExists(currentMember.getId(), targetMemberId);
+        boolean isExists = profileLikeService.isExists(currentMember.getId(), targetMemberId);
         if (isExists) {
             return Message.registerProfileLike(targetMemberId);
         }
 
         ProfileLike profileLike = ProfileLike.of(currentMember, targetMember);
-        profileLikeRepository.save(profileLike);
+        profileLikeService.save(profileLike);
 
         return Message.registerProfileLike(targetMemberId);
     }
@@ -44,11 +47,11 @@ public class ProfileLikeService {
 
         Member targetMember = memberService.findById(targetMemberId);
 
-        ProfileLike profileLike = profileLikeRepository.findByFromMemberIdAndTargetMemberId(
+        ProfileLike profileLike = profileLikeService.findByFromMemberIdAndTargetMemberId(
                 currentMember.getId(), targetMember.getId()
         );
 
-        profileLikeRepository.deleteById(profileLike.getId());
+        profileLikeService.deleteById(profileLike.getId());
         return Message.registerProfileLike(targetMemberId);
     }
 
@@ -58,4 +61,7 @@ public class ProfileLikeService {
         }
     }
 
+    public TargetMemberProfile getTargetMemberProfile(final Long targetMemberId) {
+        return memberService.getTargetMemberProfile(targetMemberId);
+    }
 }

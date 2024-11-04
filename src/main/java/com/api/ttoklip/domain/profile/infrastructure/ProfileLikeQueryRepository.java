@@ -1,19 +1,22 @@
-package com.api.ttoklip.domain.profile;
+package com.api.ttoklip.domain.profile.infrastructure;
 
+import com.api.ttoklip.domain.profile.domain.ProfileLike;
+import com.api.ttoklip.domain.profile.QProfileLike;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
-public class ProfileLikeRepositoryImpl implements ProfileLikeRepositoryCustom {
+public class ProfileLikeQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
     private final QProfileLike profileLike = QProfileLike.profileLike;
 
-    @Override
     public boolean isExists(final Long fromMemberId, final Long targetMemberId) {
         Long count = jpaQueryFactory
                 .select(Wildcard.count)
@@ -27,7 +30,6 @@ public class ProfileLikeRepositoryImpl implements ProfileLikeRepositoryCustom {
         return count > 0;
     }
 
-    @Override
     public ProfileLike findByFromMemberIdAndTargetMemberId(final Long fromMemberId, final Long targetMemberId) {
         ProfileLike profileLike = jpaQueryFactory
                 .selectFrom(QProfileLike.profileLike)
@@ -41,7 +43,6 @@ public class ProfileLikeRepositoryImpl implements ProfileLikeRepositoryCustom {
                 .orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
     }
 
-    @Override
     public Long countProfileLikesByMemberId(final Long targetMemberId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
