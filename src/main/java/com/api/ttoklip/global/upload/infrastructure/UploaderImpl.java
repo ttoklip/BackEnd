@@ -1,5 +1,6 @@
-package com.api.ttoklip.global.upload;
+package com.api.ttoklip.global.upload.infrastructure;
 
+import com.api.ttoklip.global.upload.Uploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

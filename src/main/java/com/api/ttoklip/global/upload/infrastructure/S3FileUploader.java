@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.upload;
+package com.api.ttoklip.global.upload.infrastructure;
 
 import static com.api.ttoklip.global.exception.ErrorType.EXCEEDING_FILE_COUNT;
 import static com.api.ttoklip.global.exception.ErrorType.S3_CONNECT;
