@@ -1,10 +1,10 @@
 package com.api.ttoklip.domain.question.comment.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -19,6 +19,8 @@ import org.springframework.stereotype.Repository;
 public class QuestionCommentRepositoryImpl {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QProfile profile = QProfile.profile;
 
     public QuestionComment findByCommentIdFetchJoin(final Long commentId) {
         QuestionComment findQuestionComment = jpaQueryFactory

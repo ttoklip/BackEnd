@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.profile.infrastructure;
 
 import com.api.ttoklip.domain.profile.domain.ProfileLike;
-import com.api.ttoklip.domain.profile.QProfileLike;
+import com.api.ttoklip.domain.profile.domain.QProfileLike;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.Wildcard;

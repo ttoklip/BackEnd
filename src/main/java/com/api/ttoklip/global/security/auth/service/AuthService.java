@@ -7,21 +7,21 @@ import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.privacy.domain.Interest;
-import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.privacy.repository.InterestRepository;
+import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.profile.service.ProfileService;
 import com.api.ttoklip.domain.term.domain.Term;
 import com.api.ttoklip.domain.term.domain.TermAgreement;
 import com.api.ttoklip.domain.term.service.TermService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
 import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
 import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
 import com.api.ttoklip.global.security.auth.dto.response.TermSignUpResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.upload.Uploader;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -33,8 +33,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
 @Slf4j
+@Service
 @AllArgsConstructor
 public class AuthService {
 
@@ -44,7 +44,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final InterestRepository interestRepository;
     private final ProfileService profileService;
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final TermService termService;
 
     @Transactional
@@ -52,7 +52,7 @@ public class AuthService {
         Member newMember = registerMember(authRequest);
 
         MultipartFile profileImage = authRequest.getProfileImage();
-        String profileImgUrl = s3FileUploader.uploadMultipartFile(profileImage);
+        String profileImgUrl = uploader.uploadMultipartFile(profileImage);
         registerProfile(newMember, profileImgUrl);
 
         registerInterest(authRequest.getCategories(), newMember);

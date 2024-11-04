@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.s3;
+package com.api.ttoklip.global.upload;
 
 import static com.api.ttoklip.global.exception.ErrorType.EXCEEDING_FILE_COUNT;
 import static com.api.ttoklip.global.exception.ErrorType.S3_CONNECT;
@@ -18,13 +18,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
-@Service
+@RequiredArgsConstructor
 public class S3FileUploader {
 
     private final AmazonS3 amazonS3Client;
@@ -61,7 +59,6 @@ public class S3FileUploader {
     }
 
     private void validFileNumber(final int size) {
-        // ToDo 임시 값, 몇개로 정할지 프론트와 협의
         if (size > 10) {
             throw new ApiException(EXCEEDING_FILE_COUNT);
         }

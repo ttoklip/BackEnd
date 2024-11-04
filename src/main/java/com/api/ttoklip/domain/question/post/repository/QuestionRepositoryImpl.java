@@ -1,12 +1,12 @@
 package com.api.ttoklip.domain.question.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.question.comment.domain.QQuestionComment.questionComment;
 import static com.api.ttoklip.domain.question.image.domain.QQuestionImage.questionImage;
 import static com.api.ttoklip.domain.question.post.domain.QQuestion.question;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.Question;
 import com.api.ttoklip.global.exception.ApiException;
@@ -25,6 +25,8 @@ import org.springframework.data.domain.Pageable;
 public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QProfile profile = QProfile.profile;
 
     @Override
     public QuestionComment findByCommentIdActivated(final Long commentId) {

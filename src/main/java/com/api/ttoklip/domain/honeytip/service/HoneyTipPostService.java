@@ -5,7 +5,7 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.upload.Uploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional(readOnly = true)
 public class HoneyTipPostService {
 
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final HoneyTipRepository honeytipRepository;
 
     public HoneyTip getHoneytip(final Long postId) {
@@ -27,7 +27,7 @@ public class HoneyTipPostService {
     }
 
     public List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
+        return uploader.uploadMultipartFiles(uploadImages);
     }
 
     public void checkEditPermission(final HoneyTip honeyTip, final Long currentMemberId) {

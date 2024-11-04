@@ -8,7 +8,7 @@ import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipScrapService;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipUrlService;
 import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.upload.S3FileUploader;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
