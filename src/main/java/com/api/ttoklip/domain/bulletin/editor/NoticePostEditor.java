@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 @Getter
 @RequiredArgsConstructor
 public class NoticePostEditor {
+
     private final String title;
     private final String content;
 
