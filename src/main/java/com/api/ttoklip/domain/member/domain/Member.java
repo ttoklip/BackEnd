@@ -15,7 +15,7 @@ import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterScrap;
 import com.api.ttoklip.domain.notification.entity.Notification;
 import com.api.ttoklip.domain.privacy.domain.Interest;
-import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.profile.domain.ProfileLike;
 import com.api.ttoklip.domain.question.like.entity.CommentLike;
 import com.api.ttoklip.domain.question.post.domain.Question;

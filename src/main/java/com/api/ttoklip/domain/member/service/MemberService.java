@@ -7,7 +7,7 @@ import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.dto.response.MemberStreetResponse;
 import com.api.ttoklip.domain.profile.controller.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
-import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.privacy.dto.InterestResponse;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
