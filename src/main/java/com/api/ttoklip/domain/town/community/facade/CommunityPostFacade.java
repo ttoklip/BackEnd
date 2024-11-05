@@ -16,10 +16,10 @@ import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import com.api.ttoklip.domain.town.community.editor.CommunityPostEditor;
 import com.api.ttoklip.domain.town.community.service.*;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.upload.Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +42,7 @@ public class CommunityPostFacade {
     private final ReportService reportService;
     private final CommunityLikeService communityLikeService;
     private final CommunityScrapService communityScrapService;
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final CommunityCommentService communityCommentService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
@@ -64,7 +64,7 @@ public class CommunityPostFacade {
 
     private void registerImages(final Community community, final List<MultipartFile> uploadImages) {
         // S3에 이미지 업로드 후 URL 목록을 가져온다.
-        List<String> uploadUrls = s3FileUploader.uploadMultipartFiles(uploadImages);
+        List<String> uploadUrls = uploader.uploadMultipartFiles(uploadImages);
         uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
     }
 

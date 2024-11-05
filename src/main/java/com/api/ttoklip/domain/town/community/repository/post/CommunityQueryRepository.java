@@ -1,11 +1,8 @@
 package com.api.ttoklip.domain.town.community.repository.post;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.community.domain.QCommunityComment.communityComment;
 import static com.api.ttoklip.domain.town.community.domain.QCommunityImage.communityImage;
-import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
-import static com.api.ttoklip.domain.town.community.image.entity.QCommunityImage.communityImage;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.profile.domain.QProfile;

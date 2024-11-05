@@ -1,13 +1,14 @@
 package com.api.ttoklip.domain.town.cart.repository.post;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
-import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage;
-import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
-import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
-import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.ttoklip.domain.privacy.domain.QInterest;
+import com.api.ttoklip.domain.profile.domain.QProfile;
+import com.api.ttoklip.domain.town.TownCriteria;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.cart.domain.CartComment;
+import com.api.ttoklip.domain.town.cart.domain.QCartImage;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -26,7 +27,6 @@ import static com.api.ttoklip.domain.town.cart.domain.QCart.cart;
 import static com.api.ttoklip.domain.town.cart.domain.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.domain.QCartMember.cartMember;
 import static com.api.ttoklip.domain.town.cart.domain.QItemUrl.itemUrl;
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 @Repository
 @RequiredArgsConstructor
@@ -36,8 +36,8 @@ public class CartQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     private final QProfile profile = QProfile.profile;
+    private final QCartImage cartImage = QCartImage.cartImage;
 
-    @Override
     public Cart findByIdActivated(final Long cartId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)

@@ -1,13 +1,13 @@
 package com.api.ttoklip.domain.town.community.repository.scrap;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.communityLike;
-import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
 import com.api.ttoklip.domain.profile.domain.QProfile;
-import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
-import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
+import com.api.ttoklip.domain.town.community.domain.Community;
+import com.api.ttoklip.domain.town.community.domain.QCommunity;
+import com.api.ttoklip.domain.town.community.domain.QCommunityComment;
+import com.api.ttoklip.domain.town.community.domain.QCommunityLike;
+import com.api.ttoklip.domain.town.community.domain.QCommunityScrap;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -34,6 +34,10 @@ public class CommunitySearchRepository {
     private final QCommunity community = QCommunity.community;
 
     private final QCommunityComment communityComment = QCommunityComment.communityComment;
+
+    private final QCommunityLike communityLike = QCommunityLike.communityLike;
+
+    private final QCommunityScrap communityScrap = QCommunityScrap.communityScrap;
 
     public Page<Community> getContain(final String keyword, final Pageable pageable, final String sort) {
         List<Community> content = getSearchPageTitle(keyword, pageable, sort);

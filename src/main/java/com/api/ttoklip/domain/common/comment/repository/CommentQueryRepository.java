@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.member.domain.QMember;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;
+import com.api.ttoklip.domain.question.domain.QQuestionComment;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import com.api.ttoklip.domain.town.community.domain.QCommunityComment;
 import com.api.ttoklip.global.exception.ApiException;
@@ -27,6 +29,8 @@ public class CommentQueryRepository {
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
     private final QCommunityComment communityComment = QCommunityComment.communityComment;
+    private final QQuestionComment questionComment = QQuestionComment.questionComment;
+
     private final QComment comment = QComment.comment;
     private final QMember member = QMember.member;
 
@@ -114,4 +118,33 @@ public class CommentQueryRepository {
         return communityComment.community.id.eq(communityId);
     }
 
+    public List<QuestionComment> findCommentsByQuestionId(final Long questionId) {
+        return jpaQueryFactory
+                .selectFrom(questionComment)
+                .distinct()
+                .leftJoin(questionComment.member, member).fetchJoin()
+                .where(
+                        matchQuestionId(questionId)
+                )
+                .orderBy(
+                        questionComment.parent.id.asc().nullsFirst(),
+                        questionComment.createdDate.asc()
+                )
+                .fetch();
+    }
+
+    private BooleanExpression matchQuestionId(final Long questionId) {
+        return questionComment.question.id.eq(questionId);
+    }
+
+    public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
+        return jpaQueryFactory
+                .selectFrom(questionComment)
+                .distinct()
+                .leftJoin(questionComment.member, member).fetchJoin()
+                .where(
+                        questionComment.id.eq(commentId)
+                )
+                .fetchOne();
+    }
 }
