@@ -17,6 +17,10 @@ public class QuestionCommentLikeService {
 
     private final QuestionCommentLikeRepository questionCommentLikeRepository;
 
+    public boolean isCommentLikeExists(final Long questionCommentId, final Long currentMemberId) {
+        return questionCommentLikeRepository.existsByQuestionCommentIdAndMemberId(questionCommentId, currentMemberId);
+    }
+
     // 좋아요 생성
     @Transactional
     public void registerLike(final QuestionComment questionComment, final Member currentMember) {
@@ -36,9 +40,10 @@ public class QuestionCommentLikeService {
 
     // 좋아요 취소
     @Transactional
-    public void cancelLike(final QuestionComment findQuestionComment, final Member currentMember) {
-        CommentLike commentLike = questionCommentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionComment.getId(),
-                currentMember.getId()).orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
-        questionCommentLikeRepository.deletedById(commentLike.getId());
+    public void cancelLike(final QuestionComment findQuestionComment, final Long memberId) {
+        Long findQuestionCommentId = findQuestionComment.getId();
+        CommentLike commentLike = questionCommentLikeRepository.findByQuestionCommentIdAndMemberId(findQuestionCommentId, memberId)
+                .orElseThrow(() -> new ApiException(ErrorType.LIKE_NOT_FOUND));
+        questionCommentLikeRepository.deleteById(commentLike.getId());
     }
 }

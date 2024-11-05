@@ -41,21 +41,22 @@ public class QuestionComment extends Comment {
     }
 
     public static QuestionComment withParentOf(final CommentCreateRequest request, final Comment parent,
-                                               final Question question) {
+                                               final Question question, final Member member) {
         return QuestionComment.builder()
                 .content(request.getComment())
                 .parent(parent)
                 .question(question)
-                .member(getCurrentMember())
+                .member(member)
                 .build();
     }
 
-    public static QuestionComment orphanageOf(final CommentCreateRequest request, final Question question) {
+    public static QuestionComment orphanageOf(final CommentCreateRequest request, final Question question,
+                                              final Member member) {
         return QuestionComment.builder()
                 .content(request.getComment())
                 .parent(null)
                 .question(question)
-                .member(getCurrentMember())
+                .member(member)
                 .build();
     }
 }

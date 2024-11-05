@@ -7,6 +7,8 @@ import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
+import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.question.controller.dto.request.QuestionCreateRequest;
 import com.api.ttoklip.domain.question.controller.dto.response.QuestionCommentResponse;
 import com.api.ttoklip.domain.question.controller.dto.response.QuestionSingleResponse;
@@ -33,16 +35,17 @@ public class QuestionPostFacade {
 
     private final QuestionPostService questionPostService;
     private final QuestionImageService questionImageService;
-    private final S3FileUploader s3FileUploader;
     private final ReportService reportService;
     private final QuestionCommentService questionCommentService;
     private final QuestionCommentLikeService questionCommentLikeService;
+    private final MemberService memberService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     @CheckBadWordCreate
-    public Message register(final QuestionCreateRequest request) {
-        Question question = Question.from(request);
+    public Message register(final QuestionCreateRequest request,final Long currentMemberId) {
+        Member currentMember = memberService.findById(currentMemberId);
+        Question question = Question.of(request, currentMember);
         questionPostService.saveQuestion(question);
 
         List<MultipartFile> uploadImages = request.getImages();
@@ -54,7 +57,7 @@ public class QuestionPostFacade {
     }
 
     private void registerImages(final Question question, final List<MultipartFile> multipartFiles) {
-        List<String> uploadUrls = s3FileUploader.uploadMultipartFiles(multipartFiles);
+        List<String> uploadUrls = questionPostService.uploadImages(multipartFiles);
         uploadUrls.forEach(uploadUrl -> questionImageService.register(question, uploadUrl));
     }
 
