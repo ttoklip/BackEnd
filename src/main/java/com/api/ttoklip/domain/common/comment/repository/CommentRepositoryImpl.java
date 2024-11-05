@@ -5,6 +5,8 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import java.util.List;
 import java.util.Optional;
+
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +38,17 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
+    public List<QuestionComment> findQuestionCommentsByQuestionId(final Long questionId) {
+        return commentQueryRepository.findCommentsByQuestionId(questionId);
+    }
+
+    @Override
     public void save(final Comment comment) {
         commentJpaRepository.save(comment);
+    }
+
+    @Override
+    public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
+        return commentQueryRepository.findQuestionCommentWithWriterByCommentId(commentId);
     }
 }

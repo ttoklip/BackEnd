@@ -2,6 +2,7 @@ package com.api.ttoklip.domain.member.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
+import com.api.ttoklip.domain.common.comment.CommentLike;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipLike;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
@@ -17,8 +18,7 @@ import com.api.ttoklip.domain.notification.entity.Notification;
 import com.api.ttoklip.domain.privacy.domain.Interest;
 import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.profile.domain.ProfileLike;
-import com.api.ttoklip.domain.question.like.entity.CommentLike;
-import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.question.domain.Question;
 import com.api.ttoklip.domain.term.domain.TermAgreement;
 import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
