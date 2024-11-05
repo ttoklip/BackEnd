@@ -3,8 +3,9 @@ package com.api.ttoklip.domain.town.community.service;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.town.community.domain.CommunityLike;
-import com.api.ttoklip.domain.town.community.repository.CommunityLikeRepository;
+import com.api.ttoklip.domain.town.community.repository.like.CommunityLikeJpaRepository;
 import com.api.ttoklip.domain.town.community.domain.Community;
+import com.api.ttoklip.domain.town.community.repository.like.CommunityLikeRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

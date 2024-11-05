@@ -1,17 +1,19 @@
-package com.api.ttoklip.domain.town.community.repository;
+package com.api.ttoklip.domain.town.community.repository.like;
 
-import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.communityLike;
 
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+import static com.api.ttoklip.domain.town.community.domain.QCommunityLike.communityLike;
+
+@Repository
 @RequiredArgsConstructor
-public class CommunityLikeRepositoryImpl implements CommunityLikeRepositoryCustom {
+public class CommunityLikeQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    @Override
     public Long countCommunityLikesByCommunityId(final Long communityId) {
         return jpaQueryFactory
                 .select(Wildcard.count)

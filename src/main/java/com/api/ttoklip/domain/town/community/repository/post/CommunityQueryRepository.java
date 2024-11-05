@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.community.repository;
+package com.api.ttoklip.domain.town.community.repository.post;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
@@ -21,15 +21,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
-public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
+public class CommunityQueryRepository {
 
     private static final String SPLIT_CRITERIA = " ";
     private final JPAQueryFactory jpaQueryFactory;
     private final QCommunity community = QCommunity.community;
 
-    @Override
     public Community findByIdActivated(final Long communityId) {
         Community findCommunity = jpaQueryFactory
                 .selectFrom(community)
@@ -51,7 +52,6 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         return community.deleted.isFalse();
     }
 
-    @Override
     public Community findByIdFetchJoin(final Long communityPostId) {
         Community findCommunity = jpaQueryFactory
                 .selectFrom(community)
@@ -69,7 +69,6 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_NOT_FOUND));
     }
 
-    @Override
     public List<CommunityComment> findActiveCommentsByCommunityId(final Long communityId) {
         return jpaQueryFactory
                 .selectFrom(communityComment)
@@ -85,7 +84,6 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .fetch();
     }
 
-    @Override
     public List<Community> getRecent3(final TownCriteria townCriteria) {
         String writerStreet = getCurrentMember().getStreet();
 
@@ -106,7 +104,6 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         return communityComment.community.id.eq(communityId);
     }
 
-    @Override
     public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
         List<Community> pageContent = getPageContent(townCriteria, pageable);
         Long count = countQuery(townCriteria);

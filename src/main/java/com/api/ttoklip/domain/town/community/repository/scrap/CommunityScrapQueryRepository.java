@@ -1,17 +1,19 @@
-package com.api.ttoklip.domain.town.community.repository;
+package com.api.ttoklip.domain.town.community.repository.scrap;
 
-import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+import static com.api.ttoklip.domain.town.community.domain.QCommunityScrap.communityScrap;
+
+@Repository
 @RequiredArgsConstructor
-public class CommunityScrapRepositoryImpl implements CommunityScrapRepositoryCustom {
+public class CommunityScrapQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    @Override
     public Long countCommunityScrapsByCommunityId(final Long communityId) {
         return jpaQueryFactory
                 .select(Wildcard.count)

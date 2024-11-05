@@ -4,7 +4,8 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.town.community.domain.Community;
 import com.api.ttoklip.domain.town.community.domain.CommunityScrap;
-import com.api.ttoklip.domain.town.community.repository.CommunityScrapRepository;
+import com.api.ttoklip.domain.town.community.repository.scrap.CommunityScrapJpaRepository;
+import com.api.ttoklip.domain.town.community.repository.scrap.CommunityScrapRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

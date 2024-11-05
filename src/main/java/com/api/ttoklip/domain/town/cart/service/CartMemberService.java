@@ -2,14 +2,13 @@ package com.api.ttoklip.domain.town.cart.service;
 
 import com.api.ttoklip.domain.town.cart.domain.Cart;
 import com.api.ttoklip.domain.town.cart.domain.CartMember;
-import com.api.ttoklip.domain.town.cart.repository.CartMemberRepository;
+import com.api.ttoklip.domain.town.cart.repository.cartMember.CartMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -24,16 +23,12 @@ public class CartMemberService {
         cartMemberRepository.save(newCartMember);
     }
 
-    public void delete(CartMember cartMember) {
-        cartMemberRepository.delete(cartMember);
+    public void delete(Long cartMemberId) {
+        cartMemberRepository.deleteById(cartMemberId);
     }
 
     public List<CartMember> findByCartId(Long cartId) {
         return cartMemberRepository.findByCartId(cartId);
-    }
-
-    public boolean existsCartMemberByMemberIdAndCartId(Long currentMemberId, Long cartId) {
-        return cartMemberRepository.existsCartMemberByMemberIdAndCartId(currentMemberId, cartId);
     }
 
     public Optional<CartMember> findByMemberIdAndCartId(Long currentMemberId, Long cartId) {

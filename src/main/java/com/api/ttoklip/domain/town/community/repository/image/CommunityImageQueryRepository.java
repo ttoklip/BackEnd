@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.community.repository;
+package com.api.ttoklip.domain.town.community.repository.image;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.town.community.domain.QCommunity.community;
@@ -11,13 +11,16 @@ import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
+@Repository
 @RequiredArgsConstructor
-public class CommunityImageRepositoryImpl implements CommunityImageRepositoryCustom {
+public class CommunityImageQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    @Override
     public void allImageOwner(List<Long> imageIds, Long memberId) {
         List<CommunityImage> communityImages = queryFactory
                 .select(communityImage)
@@ -36,7 +39,6 @@ public class CommunityImageRepositoryImpl implements CommunityImageRepositoryCus
         }
     }
 
-    @Override
     public boolean doAllImageIdsExist(List<Long> imageIds) {
         Long count = queryFactory
                 .select(Wildcard.count)
@@ -47,7 +49,6 @@ public class CommunityImageRepositoryImpl implements CommunityImageRepositoryCus
         return count != null && count == imageIds.size();
     }
 
-    @Override
     public void deleteByImageIds(List<Long> imageIds) {
         queryFactory
                 .delete(communityImage)

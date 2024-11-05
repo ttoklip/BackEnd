@@ -3,7 +3,8 @@ package com.api.ttoklip.domain.town.community.service;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.town.community.domain.Community;
-import com.api.ttoklip.domain.town.community.repository.CommunityRepository;
+import com.api.ttoklip.domain.town.community.repository.post.CommunityJpaRepository;
+import com.api.ttoklip.domain.town.community.repository.post.CommunityRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.api.ttoklip.global.s3.S3FileUploader;

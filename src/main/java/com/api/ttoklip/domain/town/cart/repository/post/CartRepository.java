@@ -1,13 +1,15 @@
-package com.api.ttoklip.domain.town.cart.repository;
+package com.api.ttoklip.domain.town.cart.repository.post;
 
 import com.api.ttoklip.domain.town.TownCriteria;
-import com.api.ttoklip.domain.town.cart.domain.CartComment;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
-import java.util.List;
+import com.api.ttoklip.domain.town.cart.domain.CartComment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface CartRepositoryCustom {
+import java.util.List;
+
+public interface CartRepository {
+    Cart save(Cart cart);
 
     Cart findByIdActivated(final Long cartId);
 
@@ -34,5 +36,4 @@ public interface CartRepositoryCustom {
             final Long lastParty,
             final TownCriteria townCriteria
     );
-
 }

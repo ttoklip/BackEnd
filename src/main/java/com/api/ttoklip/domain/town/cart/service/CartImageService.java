@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.town.cart.service;
 
 import com.api.ttoklip.domain.town.cart.domain.CartImage;
-import com.api.ttoklip.domain.town.cart.repository.CartImageRepository;
+import com.api.ttoklip.domain.town.cart.repository.image.CartImageRepository;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

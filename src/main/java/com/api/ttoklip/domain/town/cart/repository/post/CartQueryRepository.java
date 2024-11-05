@@ -1,38 +1,39 @@
-package com.api.ttoklip.domain.town.cart.repository;
-
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
-import static com.api.ttoklip.domain.town.cart.domain.QCart.cart;
-import static com.api.ttoklip.domain.town.cart.domain.QCartComment.cartComment;
-import static com.api.ttoklip.domain.town.cart.domain.QCartImage.cartImage;
-import static com.api.ttoklip.domain.town.cart.domain.QCartMember.cartMember;
-import static com.api.ttoklip.domain.town.cart.domain.QItemUrl.itemUrl;
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+package com.api.ttoklip.domain.town.cart.repository.post;
 
 import com.api.ttoklip.domain.privacy.domain.QInterest;
 import com.api.ttoklip.domain.town.TownCriteria;
-import com.api.ttoklip.domain.town.cart.domain.CartComment;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.cart.domain.CartComment;
+import com.api.ttoklip.domain.town.cart.domain.QCartImage;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
 
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
+import static com.api.ttoklip.domain.town.cart.domain.QCart.cart;
+import static com.api.ttoklip.domain.town.cart.domain.QCartComment.cartComment;
+import static com.api.ttoklip.domain.town.cart.domain.QCartMember.cartMember;
+import static com.api.ttoklip.domain.town.cart.domain.QItemUrl.itemUrl;
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
+@Repository
 @RequiredArgsConstructor
-public class CartRepositoryImpl implements CartRepositoryCustom {
+public class CartQueryRepository {
 
     private static final String SPLIT_CRITERIA = " ";
     private final JPAQueryFactory jpaQueryFactory;
 
-    @Override
     public Cart findByIdActivated(final Long cartId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
@@ -55,12 +56,11 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
         return cart.deleted.isFalse();
     }
 
-    @Override
     public Cart findByIdFetchJoin(final Long cartPostId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
                 .distinct()
-                .leftJoin(cart.cartImages, cartImage)
+                .leftJoin(cart.cartImages, QCartImage.cartImage)
                 .leftJoin(cart.itemUrls, itemUrl)
                 .leftJoin(cart.member, member).fetchJoin()
                 .leftJoin(cart.member.profile, profile).fetchJoin()
@@ -74,7 +74,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
     }
 
-    @Override
     public List<CartComment> findActiveCommentsByCartId(final Long cartId) {
         return jpaQueryFactory
                 .selectFrom(cartComment)
@@ -95,7 +94,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     }
 
     // 참여자 추가
-    @Override
     public Cart addParticipant(final Long cartId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)
@@ -115,7 +113,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     }
 
     // 참여 취소
-    @Override
     public Cart removeParticipant(final Long cartId) {
         jpaQueryFactory
                 .delete(cartMember)
@@ -129,7 +126,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
     }
 
     // 참여자 수 확인
-    @Override
     public Long countParticipants(Long cartId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
@@ -138,7 +134,6 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
                 .fetchOne();
     }
 
-    @Override
     public List<Cart> findRecent3(final TownCriteria townCriteria) {
         String writerStreet = getCurrentMember().getStreet();
         return jpaQueryFactory

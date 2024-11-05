@@ -3,8 +3,8 @@ package com.api.ttoklip.domain.town.community.service;
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.town.community.domain.CommunityImage;
-import com.api.ttoklip.domain.town.community.repository.CommunityImageRepository;
 import com.api.ttoklip.domain.town.community.domain.Community;
+import com.api.ttoklip.domain.town.community.repository.image.CommunityImageRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.List;

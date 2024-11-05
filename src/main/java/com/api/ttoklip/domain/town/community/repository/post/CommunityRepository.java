@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.community.repository;
+package com.api.ttoklip.domain.town.community.repository.post;
 
 import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.community.domain.CommunityComment;
@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface CommunityRepositoryCustom {
+public interface CommunityRepository {
 
     Community findByIdActivated(final Long communityId);
 
@@ -18,4 +18,6 @@ public interface CommunityRepositoryCustom {
     List<Community> getRecent3(final TownCriteria townCriteria);
 
     Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable);
+
+    Community save(Community community);
 }

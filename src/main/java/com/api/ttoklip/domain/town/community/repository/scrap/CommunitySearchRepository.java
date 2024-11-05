@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.town.community.repository;
+package com.api.ttoklip.domain.town.community.repository.scrap;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;

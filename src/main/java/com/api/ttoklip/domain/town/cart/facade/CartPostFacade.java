@@ -228,7 +228,7 @@ public class CartPostFacade {
         }
         // 이미 참가하기 눌렀을 때
         Long currentMemberId = getCurrentMember().getId();
-        if (cartMemberService.existsCartMemberByMemberIdAndCartId(currentMemberId, cartId)) {
+        if (cartMemberService.existsByMemberIdAndCartId(currentMemberId, cartId)) {
             throw new ApiException(ErrorType.ALREADY_PARTICIPATED);
         }
         cartMemberService.register(cart);
@@ -247,7 +247,7 @@ public class CartPostFacade {
         CartMember cartMember = cartMemberService.findByMemberIdAndCartId(currentMemberId, cartId)
                 .orElseThrow(() -> new ApiException(ErrorType.NOT_PARTICIPATED));
 
-        cartMemberService.delete(cartMember);
+        cartMemberService.delete(cartMember.getId());
         em.flush();//db와 application동기화
         em.clear();//db와 application동기화
 
