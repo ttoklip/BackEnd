@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipUrl;
-import com.api.ttoklip.domain.question.image.dto.response.ImageResponse;
+import com.api.ttoklip.domain.main.dto.response.ImageResponse;
 import com.api.ttoklip.global.util.TimeUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;

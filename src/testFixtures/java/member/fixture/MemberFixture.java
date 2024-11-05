@@ -1,8 +1,9 @@
 package member.fixture;
 
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
-import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.member.domain.vo.Provider;
+import com.api.ttoklip.domain.member.domain.vo.Role;
+import com.api.ttoklip.domain.profile.domain.Profile;
 import java.util.List;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -17,7 +18,7 @@ public class MemberFixture {
                 .id(897354L)
                 .originName("origin")
                 .email("normal@test.com")
-                .provider("local")
+                .provider(Provider.LOCAL)
                 .nickname("일반 회원")
                 .fcmToken("fcmToken123")
                 .independentMonth(5)
@@ -41,7 +42,7 @@ public class MemberFixture {
                 .id(12341234L)
                 .originName("origin2")
                 .email("normal2@test.com")
-                .provider("local2")
+                .provider(Provider.KAKAO)
                 .nickname("일반 회원2")
                 .fcmToken("fcmToken1234")
                 .independentMonth(3)
@@ -65,7 +66,7 @@ public class MemberFixture {
                 .id(125423L)
                 .originName("origin3")
                 .email("normal3@test.com")
-                .provider("local3")
+                .provider(Provider.NAVER)
                 .nickname("일반 회원3")
                 .fcmToken("fcmToken12345")
                 .independentMonth(3)
@@ -89,7 +90,7 @@ public class MemberFixture {
                 .id(123417689L)
                 .originName("origin4")
                 .email("normal4@test.com")
-                .provider("local4")
+                .provider(Provider.LOCAL)
                 .nickname("일반 회원4")
                 .fcmToken("fcmToken12345")
                 .independentMonth(3)
@@ -113,7 +114,7 @@ public class MemberFixture {
                 .id(12341234L)
                 .originName("origin5")
                 .email("normal5@test.com")
-                .provider("local5")
+                .provider(Provider.NAVER)
                 .nickname("일반 회원5")
                 .fcmToken("fcmToken12345")
                 .independentMonth(3)
@@ -136,7 +137,7 @@ public class MemberFixture {
         return Member.builder()
                 .originName("adminOrigin")
                 .email("admin@test.com")
-                .provider("local")
+                .provider(Provider.KAKAO)
                 .nickname("관리자 계정")
                 .fcmToken("fcmToken456")
                 .independentMonth(3)

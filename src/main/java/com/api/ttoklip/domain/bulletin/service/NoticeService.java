@@ -1,16 +1,13 @@
 package com.api.ttoklip.domain.bulletin.service;
 
 import com.api.ttoklip.domain.bulletin.domain.Notice;
-import com.api.ttoklip.domain.bulletin.domain.NoticePagingRepository;
 import com.api.ttoklip.domain.bulletin.domain.NoticeRepository;
-import com.api.ttoklip.domain.bulletin.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.bulletin.dto.request.NoticeEditRequest;
-import com.api.ttoklip.domain.bulletin.dto.response.NoticePaging;
-import com.api.ttoklip.domain.bulletin.dto.response.NoticeResponse;
-import com.api.ttoklip.domain.bulletin.dto.response.NoticeSingleResponse;
 import com.api.ttoklip.domain.bulletin.editor.NoticePostEditor;
-import com.api.ttoklip.global.success.Message;
-import java.util.List;
+import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.domain.vo.Role;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,82 +20,45 @@ import org.springframework.transaction.annotation.Transactional;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final NoticePagingRepository noticePagingRepository;
 
-    /* -------------------------------------------- COMMON -------------------------------------------- */
-    public Notice findNoticeById(final Long noticeId) {
+    public Notice findById(final Long noticeId) {
         return noticeRepository.findByIdActivated(noticeId);
     }
-    /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
 
+    public Page<Notice> getContain(final Pageable pageable) {
+        return noticeRepository.getContain(pageable);
+    }
 
-    /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    public Message register(final NoticeCreateRequest request) {
-
-        Notice notice = Notice.of(request);
-        noticeRepository.save(notice);
-        Long noticeId = notice.getId();
-        return Message.registerPostSuccess(Notice.class, noticeId);
-    }
-
-    /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
-    public NoticeResponse getSingleNotice(final Long noticeId) {//하나 조회
-        Notice notice = findNoticeById(noticeId);
-        NoticeResponse noticeResponse = NoticeResponse.of(notice);//
-        return noticeResponse;
-    }
-
-    public NoticePaging getNoticeList(final Pageable pageable) {//전체 조회
-        Page<Notice> contentPaging = noticePagingRepository.getContain(pageable);
-        List<Notice> contents = contentPaging.getContent();
-        List<NoticeSingleResponse> noticeSingleData = contents.stream()
-                .map(NoticeSingleResponse::noticeFrom)
-                .toList();
-        //추후 구현 02.08
-        //return noticeDefaultRepository.findAll();
-        return NoticePaging.builder()
-                .notices(noticeSingleData)
-                .isFirst(contentPaging.isFirst())
-                .isLast(contentPaging.isLast())
-                .totalElements(contentPaging.getTotalElements())
-                .totalPage(contentPaging.getTotalPages())
-                .build();
-    }
-
-    /* -------------------------------------------- DELETE  -------------------------------------------- */
-    @Transactional
-    public Message deleteNotice(final Long noticeId) {//소프트삭제 구현
-        Notice notice = findNoticeById(noticeId);
+    public void deleteById(final Long noticeId) {
+        Notice notice = findById(noticeId);
         notice.deactivate();
-        return Message.deletePostSuccess(Notice.class, noticeId);
     }
-    /* -------------------------------------------- DELETE 끝   -------------------------------------------- */
 
-    /* -------------------------------------------- EDIT  -------------------------------------------- */
     @Transactional
-    public Message edit(final Long noticeId, final NoticeEditRequest request) {
-
-        // 기존 게시글 찾기
-        Notice notice = findNoticeById(noticeId);
-
-        // ToDO Validate currentMember
-
-        // title, content 수정
+    public void edit(final Long noticeId, final NoticeEditRequest request, final Member member) {
+        Notice notice = findById(noticeId);
+        validManager(member);
         NoticePostEditor noticePostEditor = getPostEditor(request, notice);
         notice.edit(noticePostEditor);
+    }
 
-        return Message.editPostSuccess(Notice.class, notice.getId());//message후에 추가
+    private void validManager(final Member member) {
+        Role memberRole = member.getRole();
+        if (!memberRole.equals(Role.MANAGER)) {
+            throw new ApiException(ErrorType.UNAUTHORIZED_DELETE_POST);
+        }
     }
 
     private NoticePostEditor getPostEditor(final NoticeEditRequest request, final Notice notice) {
-        NoticePostEditor.NoticePostEditorBuilder editorBuilder = notice.toEditor();
-        NoticePostEditor noticePostEditor = editorBuilder
+        return notice.toEditor()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .build();
-        return noticePostEditor;
     }
 
-    /* -------------------------------------------- EDIT  -------------------------------------------- */
+    @Transactional
+    public Notice save(final Notice notice) {
+        return noticeRepository.save(notice);
+    }
 }

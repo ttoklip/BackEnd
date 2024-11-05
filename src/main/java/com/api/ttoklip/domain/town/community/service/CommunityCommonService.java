@@ -7,7 +7,7 @@ import com.api.ttoklip.domain.town.community.repository.post.CommunityJpaReposit
 import com.api.ttoklip.domain.town.community.repository.post.CommunityRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.upload.Uploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional(readOnly = true)
 public class CommunityCommonService {
 
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final CommunityRepository communityRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
@@ -28,7 +28,7 @@ public class CommunityCommonService {
     }
 
     public List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
+        return uploader.uploadMultipartFiles(uploadImages);
     }
 
     public void checkEditPermission(final Community community) {

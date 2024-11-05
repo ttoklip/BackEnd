@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NewsletterCommentFacade {
 
     private final ReportService reportService;

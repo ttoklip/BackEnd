@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.main.controller;
 
-import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
+import com.api.ttoklip.domain.question.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CommonDefaultResponse;
 import com.api.ttoklip.domain.main.service.CommonService;

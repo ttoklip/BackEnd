@@ -1,13 +1,13 @@
 package com.api.ttoklip.domain.town.community.repository.scrap;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
-import static com.api.ttoklip.domain.town.community.domain.QCommunityLike.communityLike;
-import static com.api.ttoklip.domain.town.community.domain.QCommunityScrap.communityScrap;
+import static com.api.ttoklip.domain.town.community.like.entity.QCommunityLike.communityLike;
+import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 
-import com.api.ttoklip.domain.town.community.domain.Community;
-import com.api.ttoklip.domain.town.community.domain.QCommunity;
-import com.api.ttoklip.domain.town.community.domain.QCommunityComment;
+import com.api.ttoklip.domain.profile.domain.QProfile;
+import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -28,6 +28,8 @@ import org.springframework.util.StringUtils;
 public class CommunitySearchRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QProfile profile = QProfile.profile;
 
     private final QCommunity community = QCommunity.community;
 

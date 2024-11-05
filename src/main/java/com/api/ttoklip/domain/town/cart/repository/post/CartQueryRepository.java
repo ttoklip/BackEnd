@@ -1,10 +1,13 @@
 package com.api.ttoklip.domain.town.cart.repository.post;
 
-import com.api.ttoklip.domain.privacy.domain.QInterest;
-import com.api.ttoklip.domain.town.TownCriteria;
-import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.cart.domain.CartComment;
-import com.api.ttoklip.domain.town.cart.domain.QCartImage;
+import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
+import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage;
+import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
+import static com.api.ttoklip.domain.town.cart.post.entity.QCart.cart;
+import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMember;
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,8 +22,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.cart.domain.QCart.cart;
 import static com.api.ttoklip.domain.town.cart.domain.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.domain.QCartMember.cartMember;
@@ -34,6 +35,9 @@ public class CartQueryRepository {
     private static final String SPLIT_CRITERIA = " ";
     private final JPAQueryFactory jpaQueryFactory;
 
+    private final QProfile profile = QProfile.profile;
+
+    @Override
     public Cart findByIdActivated(final Long cartId) {
         Cart findCart = jpaQueryFactory
                 .selectFrom(cart)

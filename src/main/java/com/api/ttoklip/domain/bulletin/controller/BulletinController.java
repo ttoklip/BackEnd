@@ -1,11 +1,13 @@
 package com.api.ttoklip.domain.bulletin.controller;
 
+import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
+
 import com.api.ttoklip.domain.bulletin.constant.NotiConstant;
 import com.api.ttoklip.domain.bulletin.dto.request.NoticeCreateRequest;
 import com.api.ttoklip.domain.bulletin.dto.request.NoticeEditRequest;
 import com.api.ttoklip.domain.bulletin.dto.response.NoticePaging;
 import com.api.ttoklip.domain.bulletin.dto.response.NoticeResponse;
-import com.api.ttoklip.domain.bulletin.service.NoticeService;
+import com.api.ttoklip.domain.bulletin.facade.NoticeFacade;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BulletinController {
 
     private final static int PAGE_SIZE = 10; // 페이지 당 데이터 수
-    private final NoticeService noticeService;
+    private final NoticeFacade noticeFacade;
 
     @Operation(summary = "모든 공지사항 불러오기", description = "공지사항 목록을 가져옵니다")
     @ApiResponses(value = {
@@ -56,7 +58,7 @@ public class BulletinController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NoticePaging noticePaging = noticeService.getNoticeList(pageable);
+        NoticePaging noticePaging = noticeFacade.getNoticeList(pageable);
         return new SuccessResponse<>(noticePaging);
     }
 
@@ -73,7 +75,7 @@ public class BulletinController {
                             )))})
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SuccessResponse<Message> register(final @Validated @RequestBody NoticeCreateRequest request) {
-        Message message = noticeService.register(request);
+        Message message = noticeFacade.register(request);
         return new SuccessResponse<>(message);
     }
 
@@ -90,7 +92,7 @@ public class BulletinController {
                             )))})
     @GetMapping("/{noticeId}")
     public SuccessResponse<NoticeResponse> getSingleNotice(final @PathVariable Long noticeId) {
-        NoticeResponse response = noticeService.getSingleNotice(noticeId);
+        NoticeResponse response = noticeFacade.getSingleNotice(noticeId);
         return new SuccessResponse<>(response);
     }
 
@@ -107,7 +109,7 @@ public class BulletinController {
                             )))})
     @DeleteMapping("/{noticeId}")
     public SuccessResponse<Message> deleteNotice(final @PathVariable Long noticeId) {
-        Message message = noticeService.deleteNotice(noticeId);
+        Message message = noticeFacade.delete(noticeId);
         return new SuccessResponse<>(message);
     }
 
@@ -125,7 +127,8 @@ public class BulletinController {
     @PatchMapping("/{noticeId}")
     public SuccessResponse<Message> edit(final @PathVariable Long noticeId,
                                          final @RequestBody NoticeEditRequest request) {
-        Message message = noticeService.edit(noticeId, request);
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = noticeFacade.edit(noticeId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 }

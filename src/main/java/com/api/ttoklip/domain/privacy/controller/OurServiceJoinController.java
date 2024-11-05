@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.privacy.controller;
 
 import com.api.ttoklip.domain.privacy.constant.PrivacyConstant;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
-import com.api.ttoklip.domain.privacy.service.ProfileService;
+import com.api.ttoklip.domain.profile.service.ProfileService;
 import com.api.ttoklip.global.success.Message;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;

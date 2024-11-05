@@ -4,7 +4,7 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.notification.dto.response.NotificationServerResponse;
 import com.api.ttoklip.domain.notification.repository.NotificationCommentRepository;
-import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.town.cart.domain.CartComment;
 import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import java.util.Optional;

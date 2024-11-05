@@ -4,6 +4,7 @@ import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Comparator;
@@ -61,6 +62,19 @@ public class FakeCommentRepository implements CommentRepository {
     }
 
     @Override
+    public List<QuestionComment> findQuestionCommentsByQuestionId(final Long questionId) {
+        return commentMap.values().stream()
+                .filter(comment -> comment instanceof QuestionComment)
+                .map(comment -> (QuestionComment) comment)
+                .filter(comment -> comment.getQuestion().getId().equals(questionId) && isActivated(comment))
+                .sorted(Comparator.comparing(
+                                (QuestionComment c) -> c.getParent() != null ? c.getParent().getId() : null)
+                        .thenComparing(QuestionComment::getCreatedDate))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
     public void save(final Comment comment) {
         id++;
         Comment saveComment = Comment.testBuilder()
@@ -71,5 +85,14 @@ public class FakeCommentRepository implements CommentRepository {
                 .build();
 
         commentMap.put(id, saveComment);
+    }
+
+    @Override
+    public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
+        return Optional.ofNullable(commentMap.get(commentId))
+                .filter(comment -> comment instanceof QuestionComment)
+                .map(comment -> (QuestionComment) comment)
+                .filter(this::isActivated)
+                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
     }
 }

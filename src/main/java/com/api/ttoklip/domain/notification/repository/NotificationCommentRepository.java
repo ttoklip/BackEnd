@@ -6,6 +6,15 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.honeytip.domain.QHoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
 import com.api.ttoklip.domain.member.domain.QMember;
+import com.api.ttoklip.domain.question.domain.QQuestion;
+import com.api.ttoklip.domain.question.domain.QQuestionComment;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
+import com.api.ttoklip.domain.town.cart.comment.CartComment;
+import com.api.ttoklip.domain.town.cart.comment.QCartComment;
+import com.api.ttoklip.domain.town.cart.post.entity.QCart;
+import com.api.ttoklip.domain.town.community.comment.CommunityComment;
+import com.api.ttoklip.domain.town.community.comment.QCommunityComment;
+import com.api.ttoklip.domain.town.community.post.entity.QCommunity;
 import com.api.ttoklip.domain.question.comment.domain.QQuestionComment;
 import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
 import com.api.ttoklip.domain.question.post.domain.QQuestion;
@@ -18,9 +27,10 @@ import com.api.ttoklip.domain.town.community.domain.QCommunityComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

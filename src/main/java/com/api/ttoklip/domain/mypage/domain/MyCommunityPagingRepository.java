@@ -1,11 +1,16 @@
 package com.api.ttoklip.domain.mypage.domain;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
+import static com.api.ttoklip.domain.town.community.comment.QCommunityComment.communityComment;
+import static com.api.ttoklip.domain.town.community.post.entity.QCommunity.community;
+import static com.api.ttoklip.domain.town.community.scrap.entity.QCommunityScrap.communityScrap;
 import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.community.domain.QCommunity.community;
 import static com.api.ttoklip.domain.town.community.domain.QCommunityComment.communityComment;
 import static com.api.ttoklip.domain.town.community.domain.QCommunityScrap.communityScrap;
 
+import com.api.ttoklip.domain.profile.domain.QProfile;
+import com.api.ttoklip.domain.town.community.post.entity.Community;
 import com.api.ttoklip.domain.town.community.domain.Community;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,7 +24,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class MyCommunityPagingRepository {
+
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QProfile profile = QProfile.profile;
 
     public Page<Community> getContain(final Long currentMemberId, final Pageable pageable) {
         List<Community> content = getSearchPageId(currentMemberId, pageable);

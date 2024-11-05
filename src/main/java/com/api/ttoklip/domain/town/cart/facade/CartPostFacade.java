@@ -20,9 +20,10 @@ import com.api.ttoklip.domain.town.cart.editor.CartPostEditor;
 import com.api.ttoklip.domain.town.cart.service.*;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.upload.Uploader;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
@@ -40,7 +40,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 public class CartPostFacade {
 
     private final CartPostService cartPostService;
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final ItemUrlService itemUrlService;
     private final CartImageService cartImageService;
     private final ReportService reportService;
@@ -50,7 +50,7 @@ public class CartPostFacade {
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
     private List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
+        return uploader.uploadMultipartFiles(uploadImages);
     }
 
     /* -------------------------------------------- COMMON 끝 -------------------------------------------- */
@@ -87,7 +87,7 @@ public class CartPostFacade {
     }
 
     private List<String> getImageUrls(final List<MultipartFile> multipartFiles) {
-        return s3FileUploader.uploadMultipartFiles(multipartFiles);
+        return uploader.uploadMultipartFiles(multipartFiles);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */

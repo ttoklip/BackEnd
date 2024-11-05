@@ -18,11 +18,9 @@ public interface CommentRepository {
 
     List<NewsletterComment> findCommentsByNewsletterId(Long newsletterId);
 
-    List<CommunityComment> findCommentsByCommunityId(Long communityId);
+    List<QuestionComment> findQuestionCommentsByQuestionId(Long questionId);
 
     void save(Comment comment);
 
-//    void report(Comment comment);
-
-//    void delete(Comment comment);
+    QuestionComment findQuestionCommentWithWriterByCommentId(Long commentId);
 }

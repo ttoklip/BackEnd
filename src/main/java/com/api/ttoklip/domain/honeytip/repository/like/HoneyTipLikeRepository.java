@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.honeytip.repository.like;
 
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipLike;
+
 import java.util.Optional;
 
 public interface HoneyTipLikeRepository {

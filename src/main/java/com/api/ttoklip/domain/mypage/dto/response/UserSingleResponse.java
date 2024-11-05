@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.mypage.dto.response;
 
 import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.question.domain.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
