@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,4 +24,6 @@ public interface CommentRepository {
     void save(Comment comment);
 
     QuestionComment findQuestionCommentWithWriterByCommentId(Long commentId);
+
+    List<CommunityComment> findCommentsByCommunityId(Long postId);
 }

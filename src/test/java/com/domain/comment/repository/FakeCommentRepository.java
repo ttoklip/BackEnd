@@ -5,6 +5,7 @@ import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Comparator;
@@ -94,5 +95,17 @@ public class FakeCommentRepository implements CommentRepository {
                 .map(comment -> (QuestionComment) comment)
                 .filter(this::isActivated)
                 .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
+    }
+
+    @Override
+    public List<CommunityComment> findCommentsByCommunityId(final Long commentid) {
+        return commentMap.values().stream()
+                .filter(comment -> comment instanceof CommunityComment)
+                .map(comment -> (CommunityComment) comment)
+                .filter(comment -> comment.getCommunity().getId().equals(commentid) && isActivated(comment))
+                .sorted(Comparator.comparing(
+                                (CommunityComment c) -> c.getParent() != null ? c.getParent().getId() : null)
+                        .thenComparing(CommunityComment::getCreatedDate))
+                .collect(Collectors.toList());
     }
 }

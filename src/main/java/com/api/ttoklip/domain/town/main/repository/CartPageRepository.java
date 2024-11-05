@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.town.main.repository;
 
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

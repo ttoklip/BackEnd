@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.town.main.controller;
 
 import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;
+import com.api.ttoklip.domain.town.community.controller.dto.response.CartMainResponse;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.domain.town.main.service.TownMainService;
 import com.api.ttoklip.global.success.SuccessResponse;

@@ -6,10 +6,10 @@ import com.api.ttoklip.domain.notification.dto.response.NotificationServerRespon
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.question.service.QuestionCommentService;
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
-import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.cart.service.CartPostService;
+import com.api.ttoklip.domain.town.community.domain.Community;
+import com.api.ttoklip.domain.town.community.service.CommunityCommonService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class NotificationPostTargetFinder {
         }
 
         if (request.equals(NotiCategory.OUR_TOWN_TOGETHER)) {
-            Cart cart = cartPostService.findCartByIdActivated(targetIndex);
+            Cart cart = cartPostService.findByIdActivated(targetIndex);
             Long writerId = cart.getMember().getId();
 
             NotificationServerResponse response = NotificationServerResponse.of(writerId, cart.getId());

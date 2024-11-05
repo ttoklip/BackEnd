@@ -5,7 +5,7 @@ import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
-import com.api.ttoklip.domain.town.cart.comment.CartComment;
+import com.api.ttoklip.domain.town.cart.domain.CartComment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

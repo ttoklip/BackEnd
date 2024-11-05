@@ -6,6 +6,8 @@ import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
 import java.util.List;
 import java.util.Optional;
 
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
+
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -35,6 +37,11 @@ public class CommentRepositoryImpl implements CommentRepository {
     @Override
     public List<NewsletterComment> findCommentsByNewsletterId(final Long newsletterId) {
         return commentQueryRepository.findCommentsByNewsletterId(newsletterId);
+    }
+
+    @Override
+    public List<CommunityComment> findCommentsByCommunityId(final Long communityId) {
+        return commentQueryRepository.findCommentsByCommunityId(communityId);
     }
 
     @Override
