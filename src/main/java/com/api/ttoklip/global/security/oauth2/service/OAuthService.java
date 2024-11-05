@@ -1,6 +1,7 @@
 package com.api.ttoklip.global.security.oauth2.service;
 
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.member.domain.vo.Provider;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
 import com.api.ttoklip.global.security.oauth2.dto.OAuthLoginRequest;
@@ -22,10 +23,10 @@ public class OAuthService {
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
 
     public OAuthLoginResponse authenticate(final OAuthLoginRequest request) {
-        String provider = request.getProvider();
+        Provider provider = request.getProvider();
         String accessToken = request.getAccessToken();
 
-        OAuth2UserInfo userInfo = oAuth2UserInfoFactory.getUserInfo(provider, accessToken);
+        OAuth2UserInfo userInfo = oAuth2UserInfoFactory.getUserInfo(provider.getType(), accessToken);
         String email = userInfo.getEmail();
 
         Optional<Member> memberOptional = memberService.findByEmailOptional(email);

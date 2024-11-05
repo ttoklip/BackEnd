@@ -1,6 +1,7 @@
 package com.api.ttoklip.domain.question.repository.post;
 
 import com.api.ttoklip.domain.common.Category;
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.api.ttoklip.domain.question.domain.QQuestion;
 import com.api.ttoklip.domain.question.domain.QQuestionComment;
 import com.api.ttoklip.domain.question.domain.QQuestionImage;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
+import static com.api.ttoklip.domain.profile.domain.QProfile.profile;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class QuestionQueryRepository {
     private final QQuestionComment questionComment = QQuestionComment.questionComment;
     private final QQuestion question = QQuestion.question;
     private final QQuestionImage questionImage = QQuestionImage.questionImage;
+    private final QProfile profile = QProfile.profile;
 
     public QuestionComment findByCommentIdActivated(final Long commentId) {
         QuestionComment findQuestionComment = jpaQueryFactory
@@ -79,7 +81,7 @@ public class QuestionQueryRepository {
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.questionImages, questionImage)
                 .leftJoin(question.member, member).fetchJoin()
-                .leftJoin(question.member.profile, profile).fetchJoin()
+                .leftJoin(profile, profile).fetchJoin()
                 .where(question.id.eq(questionPostId))
                 .fetchOne();
 
@@ -149,7 +151,7 @@ public class QuestionQueryRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
-                .leftJoin(question.member.profile, profile).fetchJoin()
+                .leftJoin(profile, profile).fetchJoin()
                 .where(question.category.eq(Category.HOUSEWORK))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -162,7 +164,7 @@ public class QuestionQueryRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
-                .leftJoin(question.member.profile, profile).fetchJoin()
+                .leftJoin(profile, profile).fetchJoin()
                 .where(question.category.eq(Category.RECIPE))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -175,7 +177,7 @@ public class QuestionQueryRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
-                .leftJoin(question.member.profile, profile).fetchJoin()
+                .leftJoin(profile, profile).fetchJoin()
                 .where(question.category.eq(Category.SAFE_LIVING))
                 .limit(10)
                 .orderBy(question.id.desc())
@@ -188,7 +190,7 @@ public class QuestionQueryRepository {
                 .distinct()
                 .leftJoin(question.questionComments, questionComment)
                 .leftJoin(question.member, member).fetchJoin()
-                .leftJoin(question.member.profile, profile).fetchJoin()
+                .leftJoin(profile, profile).fetchJoin()
                 .where(question.category.eq(Category.WELFARE_POLICY))
                 .limit(10)
                 .orderBy(question.id.desc())

@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.newsletter.controller.dto.request.NewsletterCreateRequest;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsCategoryPagingResponse;
 import com.api.ttoklip.domain.newsletter.controller.dto.response.NewsletterSingleResponse;
@@ -21,8 +21,8 @@ import com.api.ttoklip.domain.newsletter.service.NewsletterScrapService;
 import com.api.ttoklip.domain.newsletter.service.NewsletterUrlService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.upload.Uploader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,7 +45,7 @@ public class NewsletterPostFacade {
     private final NewsletterLikeService likeService;
 
     private final ReportService reportService;
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
@@ -75,7 +75,7 @@ public class NewsletterPostFacade {
     }
 
     private String uploadImage(final MultipartFile uploadImage) {
-        return s3FileUploader.uploadMultipartFile(uploadImage);
+        return uploader.uploadMultipartFile(uploadImage);
     }
 
     private void registerImages(final Newsletter newsletter, final List<MultipartFile> uploadImages) {
@@ -84,7 +84,7 @@ public class NewsletterPostFacade {
     }
 
     private List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
+        return uploader.uploadMultipartFiles(uploadImages);
     }
 
     private void registerUrls(final Newsletter newsletter, final List<String> urls) {

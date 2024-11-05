@@ -4,7 +4,7 @@ import static com.api.ttoklip.global.exception.ErrorType._JWT_EXPIRED;
 import static com.api.ttoklip.global.exception.ErrorType._JWT_PARSING_ERROR;
 
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.global.exception.ApiException;
 import io.jsonwebtoken.Claims;

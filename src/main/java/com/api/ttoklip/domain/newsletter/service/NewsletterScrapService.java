@@ -4,7 +4,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterScrap;
-import com.api.ttoklip.domain.newsletter.repository.NewsletterScrapRepository;
+import com.api.ttoklip.domain.newsletter.repository.scrap.NewsletterScrapRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import lombok.RequiredArgsConstructor;

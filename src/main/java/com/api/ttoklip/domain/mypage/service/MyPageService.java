@@ -5,7 +5,7 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
+import com.api.ttoklip.domain.profile.controller.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.mypage.domain.MyCartRepository;
 import com.api.ttoklip.domain.mypage.domain.MyCommunityPagingRepository;

@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.question.service.QuestionCommentLikeService;
 import com.api.ttoklip.domain.question.service.QuestionCommentService;
 import com.api.ttoklip.domain.question.service.QuestionImageService;
 import com.api.ttoklip.domain.question.service.QuestionPostService;
-import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.upload.Uploader;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -25,7 +25,7 @@ public abstract class QuestionFacadeTestHelper {
     protected ReportService reportService;
 
     @Mock
-    protected S3FileUploader s3FileUploader;
+    protected Uploader uploader;
 
     @Mock
     protected QuestionCommentService questionCommentService;

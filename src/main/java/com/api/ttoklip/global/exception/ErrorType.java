@@ -99,6 +99,7 @@ public enum ErrorType {
     NAVER_NOTFOUND_EMAIL(INTERNAL_SERVER_ERROR, "OAUTH_5005", "Naver로부터 email을 받을 수 없습니다."),
     NAVER_NOTFOUND_PROFILE_IMAGE_URL(INTERNAL_SERVER_ERROR, "OAUTH_5006", "Naver로부터 profile image url을 받을 수 없습니다."),
     NAVER_TOKEN_INVALID(UNAUTHORIZED, "OAUTH_4011", "Naver 제공자에 요청하였지만, Token이 잘못되었거나 만료되었습니다."),
+    INVALD_PROVIDER_TYPE(BAD_REQUEST, "OAUTH_4001", "잘못된 Provider 입니다."),
 
 
     // ------------------------------------------ USER ------------------------------------------

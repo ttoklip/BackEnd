@@ -18,7 +18,6 @@ import com.api.ttoklip.domain.question.service.QuestionCommentLikeService;
 import com.api.ttoklip.domain.question.service.QuestionCommentService;
 import com.api.ttoklip.domain.question.service.QuestionImageService;
 import com.api.ttoklip.domain.question.service.QuestionPostService;
-import com.api.ttoklip.global.s3.S3FileUploader;
 import com.api.ttoklip.global.success.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

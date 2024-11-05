@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class HoneyTipScrapFacade implements ActionFacade {
 
     private final HoneyTipScrapService honeyTipScrapService;

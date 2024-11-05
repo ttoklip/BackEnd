@@ -2,7 +2,7 @@ package com.api.ttoklip.global.config;
 
 //import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
 
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
 import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;

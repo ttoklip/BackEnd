@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.newsletter.controller;
 
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.TodayNewsletter;
-import com.api.ttoklip.domain.newsletter.repository.TodayNewsletterRepository;
+import com.api.ttoklip.domain.newsletter.repository.today.TodayNewsletterRepository;
 import com.api.ttoklip.domain.newsletter.service.NewsletterPostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

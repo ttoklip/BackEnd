@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.question.repository.post.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.s3.S3FileUploader;
+import com.api.ttoklip.global.upload.Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class QuestionPostService {
 
-    private final S3FileUploader s3FileUploader;
+    private final Uploader uploader;
     private final QuestionRepository questionRepository;
 
     /* -------------------------------------------- COMMON -------------------------------------------- */
@@ -34,7 +34,7 @@ public class QuestionPostService {
     }
 
     public List<String> uploadImages(final List<MultipartFile> uploadImages) {
-        return s3FileUploader.uploadMultipartFiles(uploadImages);
+        return uploader.uploadMultipartFiles(uploadImages);
     }
 
     public void checkEditPermission(final Question question, final Long currentMemberId) {

@@ -1,7 +1,6 @@
 package com.api.ttoklip.domain.town.cart.post.repository;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
 import static com.api.ttoklip.domain.town.cart.comment.QCartComment.cartComment;
 import static com.api.ttoklip.domain.town.cart.image.entity.QCartImage.cartImage;
 import static com.api.ttoklip.domain.town.cart.itemUrl.entity.QItemUrl.itemUrl;
@@ -10,6 +9,7 @@ import static com.api.ttoklip.domain.town.cart.post.entity.QCartMember.cartMembe
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.ttoklip.domain.privacy.domain.QInterest;
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.api.ttoklip.domain.town.TownCriteria;
 import com.api.ttoklip.domain.town.cart.comment.CartComment;
 import com.api.ttoklip.domain.town.cart.post.entity.Cart;
@@ -31,6 +31,8 @@ public class CartRepositoryImpl implements CartRepositoryCustom {
 
     private static final String SPLIT_CRITERIA = " ";
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QProfile profile = QProfile.profile;
 
     @Override
     public Cart findByIdActivated(final Long cartId) {
