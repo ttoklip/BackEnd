@@ -40,3 +40,13 @@ out/
 
 /src/main/generated/
 
+**/.gitattributes
+
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+
+# 최상위 루트 기준으로 모든 모듈 내의 특정 파일을 무시
+**/gradlew
+**/gradlew.bat
+**/gradle/wrapper/gradle-wrapper.jar
+**/gradle/wrapper/gradle-wrapper.properties
