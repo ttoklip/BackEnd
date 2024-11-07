@@ -1,5 +1,8 @@
 package com.common.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ApiException extends RuntimeException {
 
     private final ErrorType errorType;
@@ -9,7 +12,4 @@ public class ApiException extends RuntimeException {
         this.errorType = errorType;
     }
 
-    public ErrorType getErrorType() {
-        return errorType;
-    }
 }

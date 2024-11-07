@@ -1,5 +1,8 @@
-package com.api.ttoklip.global.exception;
+package com.api.global.exception;
 
+import com.common.exception.ApiException;
+import com.common.exception.BadWordException;
+import com.common.exception.ErrorType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,7 +14,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiExceptionResponse> handleApiException(final ApiException e) {
         ErrorType errorType = e.getErrorType();
         ApiExceptionResponse response = new ApiExceptionResponse(
-                errorType.getStatus().value(),
+                errorType.getStatus(),
                 errorType.getErrorCode(),
                 errorType.getMessage()
         );
@@ -21,7 +24,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler({BadWordException.class})
     public ResponseEntity<ApiExceptionResponse> handleBadWordException(final BadWordException e) {
         ApiExceptionResponse response = new ApiExceptionResponse(
-                e.getStatus().value(),
+                e.getStatus(),
                 e.getErrorCode(),
                 e.getMessage()
         );
