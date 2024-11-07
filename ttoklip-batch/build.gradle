@@ -6,6 +6,7 @@ dependencies {
     implementation project(':ttoklip-common')
     implementation project(':ttoklip-infrastructure')
     implementation project(':ttoklip-domain')
+    implementation project(':ttoklip-persistence')
 
 }
 

@@ -1,0 +1,18 @@
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    implementation project(':ttoklip-common')
+    implementation project(':ttoklip-infrastructure')
+    implementation project(':ttoklip-domain')
+
+    // MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+}
