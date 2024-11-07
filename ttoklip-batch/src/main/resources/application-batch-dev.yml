@@ -1,0 +1,5 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import: "classpath:application-domain-dev.yml"

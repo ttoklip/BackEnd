@@ -1,7 +1,0 @@
-jasypt:
-  encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD}
-
-jwt:
-  expiration-period-hours: 720
-  secret-key: ENC(KR2DiPWemDkz0qiwysKkyKTzfAZ3xn+xfQGcfw0g/zsHsE+b+rjTIOCOt2W490X8ZqvybLfmzvHn1wx6EhmBbFbJ9TDYGbWsElOu3nNvJ49Gtnl2l/uwU4oScdbH1A/OsLIfISr+d2G3CpRpTyJmyAvzG1mVLkDEhTH6YBEJ1x2hfI+iBUQm9A==)

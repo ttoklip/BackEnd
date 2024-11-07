@@ -2,6 +2,7 @@ spring:
   config:
     activate:
       on-profile: dev
+    import: "classpath:application-infra.yml"
 
   jackson:
     time-zone: Asia/Seoul
