@@ -61,4 +61,8 @@ public class AuthRequest {
     }
 
     private MultipartFile profileImage;
+
+    public String getStreet() {
+        return street.trim();
+    }
 }
