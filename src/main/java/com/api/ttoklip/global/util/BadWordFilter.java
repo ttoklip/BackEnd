@@ -12,7 +12,7 @@ public class BadWordFilter {
         BadWordFiltering filtering = new BadWordFiltering();
 
         List<String> badWords = Arrays.stream(words)
-                .map(word -> word.replaceAll("[^\\p{IsAlphabetic}\\p{IsWhite_Space}]", ""))
+                .map(word -> word.replaceAll("[^\\p{IsAlphabetic}\\s]", ""))
                 .filter(filtering::blankCheck)
                 .toList();
 
