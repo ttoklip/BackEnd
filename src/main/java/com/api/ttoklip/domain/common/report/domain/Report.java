@@ -5,12 +5,12 @@ import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.question.post.domain.Question;
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.newsletter.domain.Newsletter;
+import com.api.ttoklip.domain.question.domain.Question;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -36,6 +36,7 @@ import lombok.NoArgsConstructor;
 public class Report extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -128,12 +129,13 @@ public class Report extends BaseEntity {
                 .build();
     }
 
-    public static Report honeyTipOf(final ReportCreateRequest request, final HoneyTip honeyTip) {
+    public static Report honeyTipOf(final ReportCreateRequest request, final HoneyTip honeyTip,
+                                    final Member currentMember) {
         return Report.builder()
                 .content(request.getContent())
                 .reportType(request.getReportType())
                 .honeyTip(honeyTip)
-                .reporter(getCurrentMember())
+                .reporter(currentMember)
                 .reportedMember(honeyTip.getMember())
                 .build();
     }

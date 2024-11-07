@@ -1,15 +1,15 @@
 package com.api.ttoklip.domain.notification.service;
 
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.post.service.HoneyTipCommonService;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
 import com.api.ttoklip.domain.notification.dto.response.NotificationServerResponse;
 import com.api.ttoklip.domain.notification.entity.NotiCategory;
-import com.api.ttoklip.domain.question.comment.domain.QuestionComment;
-import com.api.ttoklip.domain.question.comment.service.QuestionCommentService;
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
-import com.api.ttoklip.domain.town.community.post.service.CommunityCommonService;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
+import com.api.ttoklip.domain.question.service.QuestionCommentService;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.cart.service.CartPostService;
+import com.api.ttoklip.domain.town.community.domain.Community;
+import com.api.ttoklip.domain.town.community.service.CommunityCommonService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class NotificationPostTargetFinder {
 
-    private final HoneyTipCommonService honeyTipCommonService;
+    private final HoneyTipPostService honeyTipPostService;
     private final CommunityCommonService communityCommonService;
     private final CartPostService cartPostService;
     private final QuestionCommentService questionCommentService;
@@ -31,7 +31,7 @@ public class NotificationPostTargetFinder {
 
         // 꿀팁공유해요 작성자 반환
         if (request.equals(NotiCategory.HONEY_TIP_SCRAP) || request.equals(NotiCategory.HONEY_TIP_LIKE)) {
-            HoneyTip honeytip = honeyTipCommonService.getHoneytip(targetIndex);
+            HoneyTip honeytip = honeyTipPostService.getHoneytip(targetIndex);
             Long writerId = honeytip.getMember().getId();
 
             NotificationServerResponse response = NotificationServerResponse.of(writerId, honeytip.getId());
@@ -47,7 +47,7 @@ public class NotificationPostTargetFinder {
         }
 
         if (request.equals(NotiCategory.OUR_TOWN_TOGETHER)) {
-            Cart cart = cartPostService.findCartByIdActivated(targetIndex);
+            Cart cart = cartPostService.findByIdActivated(targetIndex);
             Long writerId = cart.getMember().getId();
 
             NotificationServerResponse response = NotificationServerResponse.of(writerId, cart.getId());

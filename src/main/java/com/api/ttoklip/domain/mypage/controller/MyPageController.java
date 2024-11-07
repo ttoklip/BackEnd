@@ -1,11 +1,11 @@
 package com.api.ttoklip.domain.mypage.controller;
 
-import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
+import com.api.ttoklip.domain.profile.controller.response.TargetMemberProfile;
 import com.api.ttoklip.domain.mypage.constant.MyPageConstant;
 import com.api.ttoklip.domain.mypage.dto.response.QuestionPaging;
 import com.api.ttoklip.domain.mypage.service.MyPageService;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
-import com.api.ttoklip.domain.privacy.service.ProfileService;
+import com.api.ttoklip.domain.profile.service.ProfileService;
 import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;

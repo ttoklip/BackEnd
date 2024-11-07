@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.notification.service;
 
 import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.service.MemberService;
 import com.api.ttoklip.domain.notification.dto.response.NotificationFrontResponse;
@@ -10,8 +10,8 @@ import com.api.ttoklip.domain.notification.entity.NotiCategory;
 import com.api.ttoklip.domain.notification.entity.Notification;
 import com.api.ttoklip.domain.notification.repository.NotificationRepository;
 import com.api.ttoklip.domain.notification.repository.NotificationRepositoryImpl;
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.community.domain.Community;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.List;

@@ -5,10 +5,9 @@ import static com.api.ttoklip.global.exception.ErrorType._USER_NOT_FOUND_DB;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.dto.response.MemberStreetResponse;
-import com.api.ttoklip.domain.member.dto.response.TargetMemberProfile;
-import com.api.ttoklip.domain.member.repository.MemberOAuthRepository;
+import com.api.ttoklip.domain.profile.controller.response.TargetMemberProfile;
 import com.api.ttoklip.domain.member.repository.MemberRepository;
-import com.api.ttoklip.domain.privacy.domain.Profile;
+import com.api.ttoklip.domain.profile.domain.Profile;
 import com.api.ttoklip.domain.privacy.dto.InterestResponse;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
@@ -25,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final MemberOAuthRepository memberOAuthRepository;
 
     public Member findById(final Long memberId) {
         return memberRepository.findById(memberId)
@@ -33,11 +31,11 @@ public class MemberService {
     }
 
     public Member findByIdWithProfile(final Long memberId) {
-        return memberOAuthRepository.findByIdWithProfile(memberId);
+        return memberRepository.findByIdWithProfile(memberId);
     }
 
     public Member findByNickNameWithProfile(final String nickName) {
-        return memberOAuthRepository.findByNickNameWithProfile(nickName);//02.17
+        return memberRepository.findByNickNameWithProfile(nickName);
     }
 
     public boolean isExistsNickname(final String nickname) {

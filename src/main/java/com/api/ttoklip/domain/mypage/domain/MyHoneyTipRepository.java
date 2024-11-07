@@ -1,13 +1,12 @@
 package com.api.ttoklip.domain.mypage.domain;
 
 
-import static com.api.ttoklip.domain.honeytip.comment.domain.QHoneyTipComment.honeyTipComment;
-import static com.api.ttoklip.domain.honeytip.post.domain.QHoneyTip.honeyTip;
-import static com.api.ttoklip.domain.honeytip.scrap.domain.QHoneyTipScrap.honeyTipScrap;
-import static com.api.ttoklip.domain.member.domain.QMember.member;
-import static com.api.ttoklip.domain.privacy.domain.QProfile.profile;
-
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
+import com.api.ttoklip.domain.honeytip.domain.QHoneyTipScrap;
+import com.api.ttoklip.domain.member.domain.QMember;
+import com.api.ttoklip.domain.profile.domain.QProfile;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -22,6 +21,12 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class MyHoneyTipRepository {
     private final JPAQueryFactory jpaQueryFactory;
+
+    private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
+    private final QHoneyTipScrap honeyTipScrap = QHoneyTipScrap.honeyTipScrap;
+    private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
+    private final QMember member = QMember.member;
+    private final QProfile profile = QProfile.profile;
 
     public Page<HoneyTip> getContain(final Long userId, final Pageable pageable) {
         List<HoneyTip> content = getSearchPageId(userId, pageable);

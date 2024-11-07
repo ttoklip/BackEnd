@@ -2,27 +2,30 @@ package com.api.ttoklip.domain.member.domain;
 
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.comment.Comment;
+import com.api.ttoklip.domain.common.comment.CommentLike;
 import com.api.ttoklip.domain.common.report.domain.Report;
-import com.api.ttoklip.domain.honeytip.like.domain.HoneyTipLike;
-import com.api.ttoklip.domain.honeytip.post.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.scrap.domain.HoneyTipScrap;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipLike;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipScrap;
+import com.api.ttoklip.domain.member.domain.vo.Provider;
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.domain.member.editor.MemberEditor;
 import com.api.ttoklip.domain.member.editor.MemberEditor.MemberEditorBuilder;
-import com.api.ttoklip.domain.newsletter.like.entity.NewsletterLike;
-import com.api.ttoklip.domain.newsletter.post.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.scarp.entity.NewsletterScrap;
+import com.api.ttoklip.domain.newsletter.domain.NewsletterLike;
+import com.api.ttoklip.domain.newsletter.domain.Newsletter;
+import com.api.ttoklip.domain.newsletter.domain.NewsletterScrap;
 import com.api.ttoklip.domain.notification.entity.Notification;
 import com.api.ttoklip.domain.privacy.domain.Interest;
-import com.api.ttoklip.domain.privacy.domain.Profile;
-import com.api.ttoklip.domain.question.like.entity.CommentLike;
-import com.api.ttoklip.domain.question.post.domain.Question;
+import com.api.ttoklip.domain.profile.domain.Profile;
+import com.api.ttoklip.domain.profile.domain.ProfileLike;
+import com.api.ttoklip.domain.question.domain.Question;
 import com.api.ttoklip.domain.term.domain.TermAgreement;
 import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
-import com.api.ttoklip.domain.town.cart.post.entity.Cart;
-import com.api.ttoklip.domain.town.cart.post.entity.CartMember;
-import com.api.ttoklip.domain.town.community.like.entity.CommunityLike;
-import com.api.ttoklip.domain.town.community.post.entity.Community;
-import com.api.ttoklip.domain.town.community.scrap.entity.CommunityScrap;
+import com.api.ttoklip.domain.town.cart.domain.Cart;
+import com.api.ttoklip.domain.town.cart.domain.CartMember;
+import com.api.ttoklip.domain.town.community.domain.CommunityLike;
+import com.api.ttoklip.domain.town.community.domain.Community;
+import com.api.ttoklip.domain.town.community.domain.CommunityScrap;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,6 +54,7 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -59,11 +63,11 @@ public class Member extends BaseEntity {
     @Email
     private String email;
     private String password;
-    private String provider;        // 카카오, 네이버, origin
-    private String nickname;        // 닉네임
-    private String street;          // 주소
-    private int independentYear;    // 독립 경력 년
-    private int independentMonth;   // 독립 경력 월
+    private Provider provider;
+    private String nickname;
+    private String street;
+    private int independentYear;
+    private int independentMonth;
 
     @Column(name = "fcm_token", columnDefinition = "LONGTEXT")
     private String fcmToken;
@@ -181,5 +185,9 @@ public class Member extends BaseEntity {
 
     public void updateFcmToken(final String fcmToken) {
         this.fcmToken = fcmToken;
+    }
+
+    public void linkProfile(final Profile profile) {
+        this.profile = profile;
     }
 }

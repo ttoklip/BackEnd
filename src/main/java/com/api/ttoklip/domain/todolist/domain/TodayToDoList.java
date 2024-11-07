@@ -2,6 +2,8 @@ package com.api.ttoklip.domain.todolist.domain;
 
 import com.api.ttoklip.domain.common.base.BaseTimeEntity;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.todolist.domain.vo.ToDoList;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,6 +27,7 @@ import lombok.NoArgsConstructor;
 public class TodayToDoList extends BaseTimeEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
