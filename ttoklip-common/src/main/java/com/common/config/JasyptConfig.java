@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.config;
+package com.common.config;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.jasypt.encryption.StringEncryptor;
