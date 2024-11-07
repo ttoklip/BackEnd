@@ -1,10 +1,7 @@
-package com.api.ttoklip.global.config;
+package com.api.global.config;
 
-//import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
-
-import com.api.ttoklip.domain.member.domain.vo.Role;
-import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
-import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
+import com.api.global.jwt.JwtAuthenticationFilter;
+import com.api.global.security.OAuthAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +25,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     //    private final TokenErrorHandler tokenErrorHandler;
-    private final CustomAuthenticationEntryPoint entryPoint;
+    private final OAuthAuthenticationEntryPoint entryPoint;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -64,12 +61,7 @@ public class SecurityConfig {
                                         HttpMethod.POST, "/api/v1/newsletter/posts"
                                 )
                                 .hasAnyRole(Role.MANAGER.name())
-//                                .requestMatchers(
-//                                        HttpMethod.DELETE, "/api/v1/newsletter/posts/{postId}"
-//                                )
-//                                .hasAnyRole(Role.MANAGER.name())
                                 .anyRequest().authenticated());
-//        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
         http.exceptionHandling()
                 .authenticationEntryPoint(entryPoint);
 

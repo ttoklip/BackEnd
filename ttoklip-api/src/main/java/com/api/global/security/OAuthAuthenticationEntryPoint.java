@@ -1,7 +1,7 @@
-package com.api.ttoklip.global.security.oauth2.handler;
+package com.api.global.security;
 
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class OAuthAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -30,7 +30,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     private void setResponse(HttpServletResponse response, ErrorType errorType) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
 
-        int status = errorType.getStatus().value(); // Spring 5 이상에서는 HttpStatus enum을 사용하여 상태 코드를 가져옵니다.
+        int status = errorType.getStatus();
         response.setStatus(status);
 
         response.getWriter().println(

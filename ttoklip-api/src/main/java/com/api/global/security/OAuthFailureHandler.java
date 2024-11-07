@@ -1,7 +1,7 @@
-package com.api.ttoklip.global.security.oauth2.handler;
+package com.api.global.security;
 
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
