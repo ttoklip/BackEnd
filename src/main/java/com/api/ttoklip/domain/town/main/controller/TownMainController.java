@@ -1,11 +1,8 @@
 package com.api.ttoklip.domain.town.main.controller;
 
-import com.api.ttoklip.domain.mypage.main.constant.MyPageConstant;
-import com.api.ttoklip.domain.search.response.CartSearchPaging;
+import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.town.cart.post.service.CartPostService;
-import com.api.ttoklip.domain.town.community.post.dto.response.CartMainResponse;
-import com.api.ttoklip.domain.town.community.post.service.CommunityPostService;
+import com.api.ttoklip.domain.town.community.controller.dto.response.CartMainResponse;
 import com.api.ttoklip.domain.town.main.constant.TownResponseConstant;
 import com.api.ttoklip.domain.town.main.service.TownMainService;
 import com.api.ttoklip.global.success.SuccessResponse;
@@ -35,21 +32,24 @@ public class TownMainController {
 
     private final TownMainService townMainService;
 
-    /* Cart Paging */
-    @Operation(summary = "함께해요 더보기", description = "함께해요 글 목록 불러오기")
+    /* Town Paging */
+    @Operation(summary = "우리동네 메인", description = "함께해요, 소통해요 최신글 3개씩 불러오기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "함께해요 불러오기 성공",
+            @ApiResponse(responseCode = "200", description = "우리동네 불러오기 성공",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = SuccessResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
-                                    value = MyPageConstant.scrapHoneyTipsResponse,
-                                    description = "함께해요 메인 페이지입니다."
+                                    value = TownResponseConstant.getRecent3,
+                                    description = "우리동네 메인 페이지입니다."
                             )))})
     @GetMapping
-    public SuccessResponse<CartMainResponse> getCarts() {
-        CartMainResponse cartMainResponse = townMainService.getRecent3();
+    public SuccessResponse<CartMainResponse> getCarts(
+            @Parameter(description = "페이지 번호 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
+            @RequestParam(required = false, defaultValue = "CITY") final String criteria
+    ) {
+        CartMainResponse cartMainResponse = townMainService.getRecent3(criteria);
         return new SuccessResponse<>(cartMainResponse);
     }
 
@@ -67,10 +67,13 @@ public class TownMainController {
                             )))})
     @GetMapping("/community")
     public SuccessResponse<CommunityPaging> getCommunities(
+            @Parameter(description = "페이지 번호 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
+            @RequestParam(required = false, defaultValue = "CITY") final String criteria,
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            @RequestParam(required = false, defaultValue = "0") final int page) {
+            @RequestParam(required = false, defaultValue = "0") final int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(townMainService.getCommunities(pageable));
+        return new SuccessResponse<>(townMainService.getCommunities(criteria, pageable));
     }
 
     /* Cart Paging */
@@ -86,7 +89,7 @@ public class TownMainController {
                                     description = "함께해요 글 목록을 불러왔습니다."
                             )))})
     @GetMapping("/cart")
-    public SuccessResponse<CartSearchPaging> getCarts(
+    public SuccessResponse<CartPaging> getCarts(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page,
             @Parameter(description = "시작가격", example = "30000")
@@ -96,10 +99,15 @@ public class TownMainController {
             @Parameter(description = "시작인원", example = "1")
             @RequestParam(required = false, defaultValue = "1") final Long startParty,
             @Parameter(description = "마지막인원", example = "5000")
-            @RequestParam(required = false, defaultValue = "500000") final Long lastParty) {
+            @RequestParam(required = false, defaultValue = "500000") final Long lastParty,
+            @Parameter(description = "페이지 번호 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
+            @RequestParam(required = false, defaultValue = "CITY") final String criteria
+    ) {
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(townMainService.getCarts(pageable, startMoney, lastMoney, startParty, lastParty));
+        return new SuccessResponse<>(
+                townMainService.getCarts(pageable, startMoney, lastMoney, startParty, lastParty, criteria)
+        );
     }
 
 }

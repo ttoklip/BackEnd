@@ -60,16 +60,16 @@ public class CommunityResponseConstant {
             """;
 
     public static final String deleteCommunity = """
-        {
-            "time": "2024-01-30T12:00:00.000Z",
-            "status": 200,
-            "code": "200",
-            "message": "요청에 성공하였습니다.",
-            "result": {
-                "communityId": 3
+            {
+                "time": "2024-01-30T12:00:00.000Z",
+                "status": 200,
+                "code": "200",
+                "message": "요청에 성공하였습니다.",
+                "result": {
+                    "communityId": 3
+                }
             }
-        }
-        """;
+            """;
 
     public static final String REGISTER_LIKE = """
             {

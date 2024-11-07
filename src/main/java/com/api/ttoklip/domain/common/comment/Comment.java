@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,11 +28,12 @@ import lombok.NoArgsConstructor;
 public class Comment extends BaseEntity {
 
     @Id
+    @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
-    @Column(name = "content", columnDefinition="LONGTEXT")
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,6 +48,14 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.parent = parent;
         this.member = member;
+    }
+
+    @Builder(builderMethodName = "testBuilder")
+    protected Comment(final Long id, final String content, final Member member, final Comment parent) {
+        this.id = id;
+        this.content = content;
+        this.member = member;
+        this.parent = parent;
     }
 
     public CommentEditor.CommentEditorBuilder toEditor() {

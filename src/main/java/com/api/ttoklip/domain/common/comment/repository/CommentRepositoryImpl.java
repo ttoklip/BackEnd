@@ -1,50 +1,61 @@
 package com.api.ttoklip.domain.common.comment.repository;
 
-import static com.api.ttoklip.domain.common.comment.QComment.comment;
-
 import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
+import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
+import java.util.List;
 import java.util.Optional;
+
+import com.api.ttoklip.domain.town.community.domain.CommunityComment;
+
+import com.api.ttoklip.domain.question.domain.QuestionComment;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
-public class CommentRepositoryImpl implements CommentRepositoryCustom {
+public class CommentRepositoryImpl implements CommentRepository {
 
-    private final JPAQueryFactory jpaQueryFactory;
+    private final CommentJpaRepository commentJpaRepository;
+    private final CommentQueryRepository commentQueryRepository;
 
     @Override
     public Comment findByIdActivated(final Long commentId) {
-        Comment findComment = jpaQueryFactory
-                .selectFrom(comment)
-                .distinct()
-                .where(
-                        matchId(commentId), getCommentActivate()
-                )
-                .fetchOne();
-        return Optional.ofNullable(findComment)
-                .orElseThrow(() -> new ApiException(ErrorType.COMMENT_NOT_FOUND));
+        return commentQueryRepository.findByIdActivated(commentId);
     }
 
     @Override
     public Optional<Comment> findByIdActivatedOptional(final Long commentId) {
-        Comment findComment = jpaQueryFactory
-                .selectFrom(comment)
-                .distinct()
-                .where(
-                        matchId(commentId), getCommentActivate()
-                )
-                .fetchOne();
-        return Optional.ofNullable(findComment);
+        return commentQueryRepository.findByIdActivatedOptional(commentId);
     }
 
-    private BooleanExpression matchId(final Long commentId) {
-        return comment.id.eq(commentId);
+    @Override
+    public List<HoneyTipComment> findCommentsByHoneyTipId(final Long honeyTipId) {
+        return commentQueryRepository.findCommentsByHoneyTipId(honeyTipId);
     }
 
-    private BooleanExpression getCommentActivate() {
-        return comment.deleted.isFalse();
+    @Override
+    public List<NewsletterComment> findCommentsByNewsletterId(final Long newsletterId) {
+        return commentQueryRepository.findCommentsByNewsletterId(newsletterId);
+    }
+
+    @Override
+    public List<CommunityComment> findCommentsByCommunityId(final Long communityId) {
+        return commentQueryRepository.findCommentsByCommunityId(communityId);
+    }
+
+    @Override
+    public List<QuestionComment> findQuestionCommentsByQuestionId(final Long questionId) {
+        return commentQueryRepository.findCommentsByQuestionId(questionId);
+    }
+
+    @Override
+    public void save(final Comment comment) {
+        commentJpaRepository.save(comment);
+    }
+
+    @Override
+    public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
+        return commentQueryRepository.findQuestionCommentWithWriterByCommentId(commentId);
     }
 }

@@ -119,5 +119,23 @@ public class CartResponseConstant {
                     }
                 }
             """;
+    public static final String CHECK_PARTICIPANTS = """
+                {
+                    "time": "2024-02-03T21:26:49.885416",
+                    "status": 200,
+                    "code": "200",
+                    "message": "요청에 성공하였습니다.",
+                    "result": [
+                          {
+                              "nickname": "Example 1",
+                              "profileImgUrl": "Example Url 1"
+                          },
+                          {
+                              "nickname": "Example2",
+                              "profileImgUrl": "Example Url 2"
+                          }
+                    ]
+                }
+            """;
 
 }

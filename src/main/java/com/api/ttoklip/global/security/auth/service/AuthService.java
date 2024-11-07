@@ -1,81 +1,181 @@
 package com.api.ttoklip.global.security.auth.service;
 
+import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.domain.Role;
+import com.api.ttoklip.domain.member.domain.vo.Provider;
+import com.api.ttoklip.domain.member.domain.vo.Role;
+import com.api.ttoklip.domain.member.repository.MemberRepository;
 import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.domain.privacy.domain.Profile;
-import com.api.ttoklip.domain.privacy.service.ProfileService;
-import com.api.ttoklip.global.security.auth.dto.LoginRequest;
-import com.api.ttoklip.global.security.auth.dto.LoginResponse;
+import com.api.ttoklip.domain.privacy.domain.Interest;
+import com.api.ttoklip.domain.privacy.repository.InterestRepository;
+import com.api.ttoklip.domain.profile.domain.Profile;
+import com.api.ttoklip.domain.profile.service.ProfileService;
+import com.api.ttoklip.domain.term.domain.Term;
+import com.api.ttoklip.domain.term.domain.TermAgreement;
+import com.api.ttoklip.domain.term.service.TermService;
+import com.api.ttoklip.global.exception.ApiException;
+import com.api.ttoklip.global.exception.ErrorType;
+import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
+import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
+import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
+import com.api.ttoklip.global.security.auth.dto.response.TermSignUpResponse;
 import com.api.ttoklip.global.security.jwt.JwtProvider;
-import com.api.ttoklip.global.security.auth.userInfo.OAuth2UserInfo;
+import com.api.ttoklip.global.success.Message;
+import com.api.ttoklip.global.upload.Uploader;
+import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthService {
 
+    private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberService memberService;
-    private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
     private final JwtProvider jwtProvider;
+    private final InterestRepository interestRepository;
     private final ProfileService profileService;
+    private final Uploader uploader;
+    private final TermService termService;
 
-    public LoginResponse authenticate(final LoginRequest request) {
-        String provider = request.getProvider();
-        String accessToken = request.getAccessToken();
+    @Transactional
+    public Message signup(final AuthRequest authRequest) {
+        Member newMember = registerMember(authRequest);
 
-        OAuth2UserInfo userInfo = oAuth2UserInfoFactory.getUserInfo(provider, accessToken);
-        String email = userInfo.getEmail();
+        MultipartFile profileImage = authRequest.getProfileImage();
+        String profileImgUrl = uploader.uploadMultipartFile(profileImage);
+        registerProfile(newMember, profileImgUrl);
 
-        Optional<Member> memberOptional = memberService.findByEmailOptional(email);
-        if (memberOptional.isPresent()) {
-            // 이미 우리 회원일 때
-            Member member = memberOptional.get();
-            return alreadyOurUser(member);
-        }
+        registerInterest(authRequest.getCategories(), newMember);
+        registerTermAgreements(authRequest, newMember);
 
-        // 회원가입
-        Member member = registerNewMember(userInfo, provider);
-        return getLoginResponse(member, true);
+        return Message.registerUser();
     }
 
-    private LoginResponse alreadyOurUser(final Member member) {
-        String nickname = member.getNickname();
-        if (nickname == null) {
-            // 회원가입은 했지만 개인정보(프로필 사진, 닉네임, 독립 경력)을 입력하지 않았을 때 로그인처리, FirstLogin true 처리하여 개인정보 유도
-            return getLoginResponse(member, true);
-        }
-        // 로그인
-        return getLoginResponse(member, false);
+    private Member registerMember(final AuthRequest authRequest) {
+        String email = authRequest.getEmail();
+        validateEmail(email);
+
+        String password = authRequest.getPassword();
+        String registerPassword = bCryptPasswordEncoder.encode(password);
+        String originName = authRequest.getOriginName();
+        String nickname = authRequest.getNickname();
+        int independentYear = authRequest.getIndependentYear();
+        int independentMonth = authRequest.getIndependentMonth();
+        String street = authRequest.getStreet();
+
+        log.info("---------------------" + registerPassword);
+
+        Member newMember = Member.builder()
+                .email(email)
+                .password(registerPassword)
+                .originName(originName)
+                .nickname(nickname)
+                .role(Role.CLIENT)
+                .provider(Provider.LOCAL)
+                .independentYear(independentYear)
+                .independentMonth(independentMonth)
+                .street(street)
+                .build();
+
+        memberRepository.save(newMember);
+        return newMember;
     }
 
-    private LoginResponse getLoginResponse(final Member member, final boolean ifFirstLogin) {
+    private void validateEmail(final String email) {
+        boolean isExist = memberRepository.existsByEmail(email);
+
+        if (isExist) {
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOIN_ID);
+        }
+    }
+
+    private void registerProfile(final Member newMember, final String profileImgUrl) {
+        Profile profile = Profile.of(newMember, profileImgUrl);
+        profileService.register(profile);
+    }
+
+    @Transactional
+    public Message duplicate(final String email) {
+        validateEmail(email);
+        return Message.validId();
+    }
+
+    public AuthLoginResponse login(final AuthLoginRequest authLoginRequest) {
+        Member loginMember = authenticate(authLoginRequest);
+        String jwtToken = jwtProvider.generateJwtToken(loginMember.getEmail());
+
+        boolean existsNickname = memberService.isExistsNickname(loginMember.getNickname());
+        if (existsNickname) {
+            return getLoginResponse(jwtToken, false);
+        }
+
+        return getLoginResponse(jwtToken, true);
+    }
+
+    private Member authenticate(AuthLoginRequest authLoginRequest) {
+        String email = authLoginRequest.getEmail();
+        String password = authLoginRequest.getPassword();
+
+        Member findMember = memberService.findByEmail(email);
+
+        if (!bCryptPasswordEncoder.matches(password, findMember.getPassword())) {
+            throw new ApiException(ErrorType.AUTH_INVALID_PASSWORD);
+        }
+
+        return findMember;
+    }
+
+    private AuthLoginResponse getLoginResponse(final String jwtToken, final boolean ifFirstLogin) {
         // Server JWT Token
-        String jwtToken = jwtProvider.generateJwtToken(member.getEmail());
-        return LoginResponse.builder()
+        return AuthLoginResponse.builder()
                 .jwtToken(jwtToken)
                 .ifFirstLogin(ifFirstLogin)
                 .build();
     }
 
-    private Member registerNewMember(final OAuth2UserInfo userInfo, final String provider) {
-        log.info("AuthService.registerNewMember");
-        log.info("userInfo.getName() = " + userInfo.getName());
-        Member newMember = Member.builder()
-                .email(userInfo.getEmail())
-                .originName(userInfo.getName())
-                .provider(provider)
-                .role(Role.CLIENT)
-                .build();
-        memberService.register(newMember);
+    private void registerInterest(final List<Category> categories, final Member currentMember) {
+        List<Interest> interests = categories
+                .stream()
+                .map(category -> Interest.of(currentMember, category))
+                .toList();
 
-        Profile profile = Profile.of(newMember, userInfo.getProfile());
-        profileService.register(profile);
-
-        return newMember;
+        interestRepository.saveAll(interests);
     }
+
+    private void registerTermAgreements(final AuthRequest request, final Member newMember) {
+        List<TermAgreement> termAgreements = Stream.of(
+                createTermAgreement(request.isAgreeTermsOfService(), newMember, termService::getAgreeTermsOfService),
+                createTermAgreement(request.isAgreePrivacyPolicy(), newMember, termService::getAgreePrivacyPolicy),
+                createTermAgreement(request.isAgreeLocationService(), newMember, termService::getAgreeLocationService)
+        ).flatMap(Optional::stream).toList();
+
+        termService.saveTermAgreementRepository(termAgreements);
+//        termService.saveTermAgreementRepository(termAgreements, newMember);
+    }
+
+    private Optional<TermAgreement> createTermAgreement(boolean isAgreed, Member member, Supplier<Term> termSupplier) {
+        if (isAgreed) {
+            Term term = termSupplier.get();
+            return Optional.of(
+                    TermAgreement.of(member, term)
+            );
+        }
+        return Optional.empty();
+    }
+
+    public TermSignUpResponse getTermWhenSignUp() {
+        return termService.getTermWhenSignUp();
+    }
+
 }
+

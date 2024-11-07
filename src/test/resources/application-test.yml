@@ -1,0 +1,68 @@
+spring:
+    main:
+        allow-bean-definition-overriding: true
+
+    config:
+        activate:
+            on-profile: test
+
+    datasource:
+        url: jdbc:h2:mem:testdb;MODE=MySQL
+        driver-class-name: org.h2.Driver
+        username: sa
+        password:
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL8Dialect
+                default_batch_fetch_size: 500
+
+
+    data:
+        redis:
+            host: 127.0.0.1
+            port: 6379
+
+    mail:
+        host: smtp.test.com
+        port: 1025
+        sender-email: test@example.com
+        password: dummy
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    connectiontimeout: 5000
+                    timeout: 5000
+                    writetimeout: 5000
+                    starttls:
+                        enable: true
+                        required: true
+
+jasypt:
+    encryptor:
+        password: dummy
+
+cloud:
+    aws:
+        credentials:
+            accessKey: dummyAccessKey
+            secretKey: dummySecretKey
+        region:
+            static: ap-northeast-2
+        s3:
+            bucket: dummyBucket
+            dirname: dummyDirName
+
+google:
+    firebase:
+        fcm:
+            resource:
+                path: dummyPath
+
+jwt:
+    secret:
+        key: dummySecretKeyForTest

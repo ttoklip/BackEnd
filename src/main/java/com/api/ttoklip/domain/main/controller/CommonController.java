@@ -1,8 +1,8 @@
 package com.api.ttoklip.domain.main.controller;
 
-import com.api.ttoklip.domain.main.constant.QuestionResponseConstant;
-import com.api.ttoklip.domain.main.dto.response.CommonDefaultResponse;
+import com.api.ttoklip.domain.question.constant.QuestionResponseConstant;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
+import com.api.ttoklip.domain.main.dto.response.CommonDefaultResponse;
 import com.api.ttoklip.domain.main.service.CommonService;
 import com.api.ttoklip.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +56,7 @@ public class CommonController {
             @RequestParam final String category,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            @RequestParam(required = false, defaultValue = "0") final int page){
+            @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         CategoryPagingResponse categoryPaging = commonService.questionCategoryPaging(category, pageable);
         return new SuccessResponse<>(categoryPaging);
@@ -70,7 +70,7 @@ public class CommonController {
             @RequestParam final String category,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            @RequestParam(required = false, defaultValue = "0") final int page){
+            @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         CategoryPagingResponse categoryPaging = commonService.honeyTipCategoryPaging(category, pageable);
         return new SuccessResponse<>(categoryPaging);

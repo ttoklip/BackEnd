@@ -1,0 +1,88 @@
+logging:
+    level:
+        root: WARN
+        org:
+            springframework:
+                security: WARN
+
+server:
+    tomcat:
+        uri-encoding: UTF-8
+
+spring:
+    config:
+        activate:
+            on-profile: prod
+
+    jackson:
+        time-zone: Asia/Seoul
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: ENC(AHsyxM9A8g8wHiYs1Ao7S5Lrtcuqe6E5VX5dMUTeKyZnDULppD99ZrtY10al3wgruDWWWaKEcify/hBgQ4xxzEpH6fG4Vf2MnuN6IVzMU8X6VLDbW1EI8KjC9cY6gOfl)
+        username: ENC(dEU2P1q9Gh22al1j0nQOGMS4c6TBMnN3)
+        password: ENC(OQXOXZaAaMtwqzKjRQoiAgdVeOe2/GmJ)
+        hikari:
+            data-source-properties:
+                serverTimezone: Asia/Seoul
+
+    servlet:
+        multipart:
+            max-file-size: 20MB
+
+    jpa:
+        hibernate:
+            ddl-auto: none
+        properties:
+            hibernate:
+                dialect: ENC(wvHQPgB402IXW85HHlu4kOAwZWKIrG37GCmHPa2CIoo0vMefVWzmRa1rEHNwzMWH)
+                default_batch_fetch_size: ENC(vlfxBKZ6fXmAzqpH/OcG6A==)
+
+
+
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        sender-email: ENC(XY41e1DCUH9AsqGoXILdUTLQRIFNRRmG4YjJRNwOzBQOiP+2tkUFSg==)
+        password: ENC(2gk/TTxPHgwJb1UuomrSKXxtToyzjO+Yo4qa9YGsjPQ=)
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    connectiontimeout: 5000
+                    timeout: 5000
+                    writetimeout: 5000
+                    starttls:
+                        enable: true
+                        required: true
+
+    #            auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30?
+
+    data:
+        redis:
+            host: ENC(1xiKDNpnqSNdYDm2jh+IBCc/qdE8rDG1s3cw34Aah8N23+oojr+oSlYjRxeH1pobQthJcPfUbJ5+udWBbH0HGF3njvj5ygD3)
+            port: 6379
+
+cloud:
+    aws:
+        credentials:
+            accessKey: ENC(tEAGvS5YBRWL0RlwLnmSnH0Q/7kuBvAFWjJifE7X0g4=)
+            secretKey: ENC(UhjN+zWEABTQYD120rEdllG9iDrBlw+FxEAVw/rZYHXZOG/kVuoe/6R0SXOy/MTMLUVJH5nbmng=)
+        region:
+            static: ap-northeast-2
+        s3:
+            bucket: ENC(VuwFn4IywtMsWWJygrda0xphDuHt8ukt)
+            dirname: ENC(Cac+UHpb7aVWVSbCAcZ3WQ==)
+
+jwt:
+    secret:
+        key: ENC(KR2DiPWemDkz0qiwysKkyKTzfAZ3xn+xfQGcfw0g/zsHsE+b+rjTIOCOt2W490X8ZqvybLfmzvHn1wx6EhmBbFbJ9TDYGbWsElOu3nNvJ49Gtnl2l/uwU4oScdbH1A/OsLIfISr+d2G3CpRpTyJmyAvzG1mVLkDEhTH6YBEJ1x2hfI+iBUQm9A==)
+
+google:
+    firebase:
+        fcm:
+            resource:
+                path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
+
+jasypt:
+    encryptor:
+        password: ${JASYPT_ENCRYPTOR_PASSWORD}

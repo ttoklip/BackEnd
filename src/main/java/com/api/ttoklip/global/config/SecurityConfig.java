@@ -1,16 +1,20 @@
 package com.api.ttoklip.global.config;
 
 //import com.api.ttoklip.global.security.auth.handler.TokenErrorHandler;
-import com.api.ttoklip.global.security.auth.handler.CustomAuthenticationEntryPoint;
+
+import com.api.ttoklip.domain.member.domain.vo.Role;
 import com.api.ttoklip.global.security.jwt.JwtAuthenticationFilter;
+import com.api.ttoklip.global.security.oauth2.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -23,8 +27,13 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-//    private final TokenErrorHandler tokenErrorHandler;
+    //    private final TokenErrorHandler tokenErrorHandler;
     private final CustomAuthenticationEntryPoint entryPoint;
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,11 +48,26 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/favicon.ico"
                                         , "/health"
-                                        ,"/swagger-ui/**"
-                                        ,"/v3/api-docs/**"
-                                        ,"/api/v1/auth"
-                                        ,"/error"
+                                        , "/swagger-ui/**"
+                                        , "/v3/api-docs/**"
+                                        , "/api/v1/auth/**"
+                                        , "/api/v1/oauth"
+                                        , "/error"
+                                        , "/api/v1/email/**"
+                                        , "/api/v1/privacy/local/check-nickname"
                                 ).permitAll()
+                                .requestMatchers(
+                                        "/api/v1/admin/**"
+                                )
+                                .hasAnyRole(Role.MANAGER.name())
+                                .requestMatchers(
+                                        HttpMethod.POST, "/api/v1/newsletter/posts"
+                                )
+                                .hasAnyRole(Role.MANAGER.name())
+//                                .requestMatchers(
+//                                        HttpMethod.DELETE, "/api/v1/newsletter/posts/{postId}"
+//                                )
+//                                .hasAnyRole(Role.MANAGER.name())
                                 .anyRequest().authenticated());
 //        http.exceptionHandling(e -> e.accessDeniedHandler(tokenErrorHandler));
         http.exceptionHandling()
