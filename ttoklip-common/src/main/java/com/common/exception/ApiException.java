@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.exception;
+package com.common.exception;
 
 public class ApiException extends RuntimeException {
 

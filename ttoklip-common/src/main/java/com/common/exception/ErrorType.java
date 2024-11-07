@@ -1,17 +1,14 @@
-package com.api.ttoklip.global.exception;
+package com.common.exception;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static com.common.exception.HttpStatusCode.BAD_REQUEST;
+import static com.common.exception.HttpStatusCode.FORBIDDEN;
+import static com.common.exception.HttpStatusCode.INTERNAL_SERVER_ERROR;
+import static com.common.exception.HttpStatusCode.NOT_FOUND;
+import static com.common.exception.HttpStatusCode.UNAUTHORIZED;
 
 import lombok.Getter;
-import lombok.ToString;
-import org.springframework.http.HttpStatus;
 
 @Getter
-@ToString
 public enum ErrorType {
 
     /**
@@ -83,8 +80,9 @@ public enum ErrorType {
     // ---------------------------------------- JWT TOKEN ----------------------------------------
     _JWT_PARSING_ERROR(BAD_REQUEST, "JWT_4001", "JWT Token이 올바르지 않습니다."),
     _JWT_EXPIRED(UNAUTHORIZED, "JWT_4010", "Jwt Token의 유효 기간이 만료되었습니다."),
-    _JWT_NOT_FOUND(UNAUTHORIZED, "JWT_4010", "Jwt Token을 포함하셔야합니다."),
-    _LOGIN_FAIL(FORBIDDEN, "LOGIN_4031", "로그인을 실패했습니다."),
+    _JWT_NOT_FOUND(UNAUTHORIZED, "JWT_4011", "Jwt Token을 포함하셔야합니다."),
+    _JWT_SIGNATURE_INVALID(UNAUTHORIZED, "JWT_4012", "Jwt Token의 서명이 잘못되었습니다."),
+    _JWT_UNSUPPORTED(BAD_REQUEST, "JWT_4002", "지원하지 않는 Jwt Token 형식입니다."),
 
 
     // ------------------------------------------ OAuth ------------------------------------------
@@ -191,25 +189,13 @@ public enum ErrorType {
     INVALID_HASH_LENGTH_TYPE(INTERNAL_SERVER_ERROR, "HASH_5001", "잘못된 Hash 길이 요청"),
     ;
 
-    private final HttpStatus status;
+    private final int status;
     private final String errorCode;
     private final String message;
 
-    ErrorType(final HttpStatus status, final String errorCode, final String message) {
+    ErrorType(final int status, final String errorCode, final String message) {
         this.status = status;
         this.errorCode = errorCode;
         this.message = message;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }
