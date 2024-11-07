@@ -41,4 +41,8 @@ public class PrivacyCreateRequest {
         }
     }
 
+    public String getStreet() {
+        return street.trim();
+    }
+
 }
