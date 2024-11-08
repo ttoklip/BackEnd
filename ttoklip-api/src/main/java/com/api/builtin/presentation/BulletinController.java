@@ -1,15 +1,13 @@
-package com.api.ttoklip.domain.bulletin.controller;
+package com.api.builtin.presentation;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
-import com.api.ttoklip.domain.bulletin.constant.NotiConstant;
-import com.api.ttoklip.domain.bulletin.dto.request.NoticeCreateRequest;
-import com.api.ttoklip.domain.bulletin.dto.request.NoticeEditRequest;
-import com.api.ttoklip.domain.bulletin.dto.response.NoticePaging;
-import com.api.ttoklip.domain.bulletin.dto.response.NoticeResponse;
-import com.api.ttoklip.domain.bulletin.facade.NoticeFacade;
-import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.builtin.application.NoticeFacade;
+import com.api.global.success.Message;
+import com.api.global.success.SuccessResponse;
+import com.api.global.util.SecurityUtil;
+import com.domain.bulletin.domain.NoticeCreate;
+import com.domain.bulletin.domain.NoticeEdit;
+import com.domain.bulletin.domain.NoticeResponse;
+import com.domain.bulletin.domain.NoticeResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,8 +17,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,13 +49,12 @@ public class BulletinController {
                                     value = NotiConstant.noticeResponse,
                                     description = "공지사항이 조회되었습니다"
                             )))})
-    @GetMapping()
-    public SuccessResponse<NoticePaging> getNoticeList(
+    @GetMapping
+    public SuccessResponse<NoticeResponses> getNoticeList(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NoticePaging noticePaging = noticeFacade.getNoticeList(pageable);
-        return new SuccessResponse<>(noticePaging);
+        NoticeResponses noticeResponses = noticeFacade.getNoticeList(page, PAGE_SIZE);
+        return new SuccessResponse<>(noticeResponses);
     }
 
     @Operation(summary = "공지사항 생성", description = "공지사항을 만듭니다")
@@ -74,7 +69,7 @@ public class BulletinController {
                                     description = "공지사항이 생성되었습니다"
                             )))})
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessResponse<Message> register(final @Validated @RequestBody NoticeCreateRequest request) {
+    public SuccessResponse<Message> register(final @Validated @RequestBody NoticeCreate request) {
         Message message = noticeFacade.register(request);
         return new SuccessResponse<>(message);
     }
@@ -92,8 +87,8 @@ public class BulletinController {
                             )))})
     @GetMapping("/{noticeId}")
     public SuccessResponse<NoticeResponse> getSingleNotice(final @PathVariable Long noticeId) {
-        NoticeResponse response = noticeFacade.getSingleNotice(noticeId);
-        return new SuccessResponse<>(response);
+        NoticeResponse singleNotice = noticeFacade.getSingleNotice(noticeId);
+        return new SuccessResponse<>(singleNotice);
     }
 
     @Operation(summary = "공지사항 삭제", description = "공지사항 ID에 해당하는 공지사항을 삭제합니다.")
@@ -126,8 +121,8 @@ public class BulletinController {
                             )))})
     @PatchMapping("/{noticeId}")
     public SuccessResponse<Message> edit(final @PathVariable Long noticeId,
-                                         final @RequestBody NoticeEditRequest request) {
-        Long currentMemberId = getCurrentMember().getId();
+                                         final @RequestBody NoticeEdit request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = noticeFacade.edit(noticeId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
