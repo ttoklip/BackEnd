@@ -1,10 +1,9 @@
-package com.api.ttoklip.domain.bulletin.domain.infrastructure;
+package com.domain.bulletin.infrastructure;
 
-import com.api.ttoklip.domain.bulletin.domain.Notice;
-import com.api.ttoklip.domain.bulletin.domain.NoticeRepository;
+import com.domain.bulletin.domain.Notice;
+import com.domain.bulletin.domain.NoticeRepository;
+import com.domain.bulletin.domain.NoticeResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,8 +24,8 @@ public class NoticeRepositoryImpl implements NoticeRepository {
     }
 
     @Override
-    public Page<Notice> getContain(final Pageable pageable) {
-        return queryDSLRepository.getContain(pageable);
+    public NoticeResponses getContain(final int pageNumber, final int pageSize) {
+        return queryDSLRepository.getContain(pageNumber, pageSize);
     }
 
 }

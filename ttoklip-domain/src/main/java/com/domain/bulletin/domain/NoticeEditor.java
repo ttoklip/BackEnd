@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.bulletin.editor;
+package com.domain.bulletin.domain;
 
 
 import lombok.Getter;
@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 
 @Getter
 @RequiredArgsConstructor
-public class NoticePostEditor {
+public class NoticeEditor {
 
     private final String title;
     private final String content;
@@ -37,8 +37,8 @@ public class NoticePostEditor {
             return this;
         }
 
-        public NoticePostEditor build() {
-            return new NoticePostEditor(title, content);
+        public NoticeEditor build() {
+            return new NoticeEditor(title, content);
         }
     }
 

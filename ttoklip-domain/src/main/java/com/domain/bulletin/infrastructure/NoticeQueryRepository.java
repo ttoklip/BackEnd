@@ -1,19 +1,16 @@
-package com.api.ttoklip.domain.bulletin.domain.infrastructure;
+package com.domain.bulletin.infrastructure;
 
 
-import com.api.ttoklip.domain.bulletin.domain.Notice;
-import com.api.ttoklip.domain.bulletin.domain.QNotice;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.bulletin.domain.Notice;
+import com.domain.bulletin.domain.NoticeResponses;
+import com.domain.bulletin.domain.QNotice;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Repository;
 public class NoticeQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
     private final QNotice notice = QNotice.notice;
 
     public Notice findByIdActivated(final Long noticeId) {
@@ -42,27 +40,32 @@ public class NoticeQueryRepository {
         return notice.deleted.isFalse();
     }
 
-    public Page<Notice> getContain(final Pageable pageable) {
-        List<Notice> notices = getPageContent(pageable);
-        Long count = countQuery();
-        return new PageImpl<>(notices, pageable, count);
+    public NoticeResponses getContain(final int pageNumber, final int pageSize) {
+        List<Notice> notices = getPageContent(pageNumber, pageSize);
+        boolean isLastPage = isLastPage(pageNumber, pageSize);
+        return NoticeResponses.from(notices, isLastPage);
     }
 
-    private List<Notice> getPageContent(final Pageable pageable) {
+    private List<Notice> getPageContent(final int pageNumber, final int pageSize) {
         return jpaQueryFactory
                 .selectFrom(notice)
                 .where(notice.deleted.eq(false))
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
+                .limit(pageSize)
+                .offset((long) pageNumber * pageSize)
                 .orderBy(notice.id.desc())
                 .fetch();
     }
 
-    private Long countQuery() {
+    public boolean isLastPage(final int pageNumber, final int pageSize) {
+        long nextOffset = (long) (pageNumber + 1) * pageSize;
         return jpaQueryFactory
-                .select(Wildcard.count)
+                .selectOne() // 다음 페이지 데이터 존재 여부만 확인
                 .from(notice)
-                .fetchOne();
+                .where(notice.deleted.eq(false))
+                .offset(nextOffset)
+                .limit(1)
+                .fetchOne() == null; // 다음 페이지가 없으면 true 반환
     }
+
 
 }

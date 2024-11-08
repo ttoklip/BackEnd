@@ -1,9 +1,9 @@
-package com.api.ttoklip.domain.bulletin.domain;
+package com.domain.bulletin.domain;
 
-import com.api.ttoklip.domain.bulletin.dto.request.NoticeCreateRequest;
-import com.api.ttoklip.domain.bulletin.editor.NoticePostEditor;
-import com.api.ttoklip.domain.bulletin.editor.NoticePostEditor.NoticePostEditorBuilder;
-import com.api.ttoklip.domain.common.base.BaseEntity;
+import com.domain.bulletin.domain.NoticeCreate;
+import com.domain.bulletin.domain.NoticeEditor;
+import com.domain.common.base.BaseEntity;
+import com.domain.bulletin.domain.NoticeEditor.NoticePostEditorBuilder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,21 +36,21 @@ public class Notice extends BaseEntity {
     private String content;
 
 
-    public static Notice of(final NoticeCreateRequest request) {
+    public static Notice of(final NoticeCreate request) {
         return Notice.builder()
-                .content(request.getContent())
-                .title(request.getTitle())
+                .content(request.content())
+                .title(request.title())
                 .build();
 
     }
 
     public NoticePostEditorBuilder toEditor() {
-        return NoticePostEditor.builder()
+        return NoticeEditor.builder()
                 .title(title)
                 .content(content);
     }
 
-    public void edit(final NoticePostEditor editor) {
+    public void edit(final NoticeEditor editor) {
         this.title = editor.getTitle();
         this.content = editor.getContent();
     }
