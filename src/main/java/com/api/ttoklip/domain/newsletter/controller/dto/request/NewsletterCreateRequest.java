@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.newsletter.controller.dto.request;
 
-import com.api.ttoklip.domain.common.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

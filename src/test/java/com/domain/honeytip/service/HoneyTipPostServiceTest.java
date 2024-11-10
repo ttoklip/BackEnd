@@ -2,7 +2,6 @@ package com.domain.honeytip.service;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;

@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.question.repository.post;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.question.domain.Question;
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.domain.question.service;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.domain.Question;
 import com.api.ttoklip.domain.question.repository.post.QuestionRepository;

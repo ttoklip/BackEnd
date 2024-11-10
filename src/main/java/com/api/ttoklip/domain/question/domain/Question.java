@@ -1,8 +1,5 @@
 package com.api.ttoklip.domain.question.domain;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.common.report.domain.Report;
 import com.api.ttoklip.domain.member.domain.Member;

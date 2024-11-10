@@ -2,7 +2,6 @@ package com.api.ttoklip.domain.newsletter.repository.post;
 
 import static com.api.ttoklip.domain.member.domain.QMember.member;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.QNewsletter;
 import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;

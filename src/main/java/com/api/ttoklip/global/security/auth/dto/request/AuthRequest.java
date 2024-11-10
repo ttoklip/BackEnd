@@ -1,6 +1,5 @@
 package com.api.ttoklip.global.security.auth.dto.request;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import io.swagger.v3.oas.annotations.media.Schema;

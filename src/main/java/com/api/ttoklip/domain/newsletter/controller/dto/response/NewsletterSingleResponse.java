@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.newsletter.controller.dto.response;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.comment.dto.response.CommentResponse;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;

@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.aop.filtering;
 
-import com.api.ttoklip.domain.common.PostRequest;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;

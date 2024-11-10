@@ -2,6 +2,7 @@ package com.api.global.util;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
+import com.domain.member.domain.Member;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

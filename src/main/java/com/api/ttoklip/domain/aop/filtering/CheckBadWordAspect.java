@@ -2,7 +2,6 @@ package com.api.ttoklip.domain.aop.filtering;
 
 import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
-import com.api.ttoklip.domain.common.PostRequest;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
 import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;

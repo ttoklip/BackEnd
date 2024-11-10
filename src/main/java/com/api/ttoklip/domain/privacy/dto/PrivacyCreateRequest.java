@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.privacy.dto;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import jakarta.validation.constraints.Max;

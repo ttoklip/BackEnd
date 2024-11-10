@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.privacy.domain;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.common.base.BaseEntity;
 import com.api.ttoklip.domain.member.domain.Member;
 import jakarta.persistence.Column;

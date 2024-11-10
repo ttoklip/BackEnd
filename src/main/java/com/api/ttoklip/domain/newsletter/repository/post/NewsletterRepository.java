@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.newsletter.repository.post;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import java.util.List;
 import org.springframework.data.domain.Page;

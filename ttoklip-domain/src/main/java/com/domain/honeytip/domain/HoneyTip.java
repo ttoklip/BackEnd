@@ -4,6 +4,7 @@ import com.domain.common.base.BaseEntity;
 import com.domain.common.vo.Category;
 import com.domain.honeytip.domain.HoneyTipEditor.HoneyTipEditorBuilder;
 import com.domain.honeytip.domain.request.HoneyTipCreate;
+import com.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

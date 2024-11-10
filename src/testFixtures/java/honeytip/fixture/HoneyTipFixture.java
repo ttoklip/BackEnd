@@ -2,7 +2,6 @@ package honeytip.fixture;
 
 import static member.fixture.MemberFixture.일반_회원_생성1;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.controller.dto.request.HoneyTipCreateRequest;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;

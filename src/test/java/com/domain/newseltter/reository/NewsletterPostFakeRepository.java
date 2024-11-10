@@ -1,6 +1,5 @@
 package com.domain.newseltter.reository;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.repository.post.NewsletterRepository;
 import com.api.ttoklip.global.exception.ApiException;

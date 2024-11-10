@@ -1,6 +1,5 @@
 package question.fixture;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.domain.Question;
 import member.fixture.MemberFixture;

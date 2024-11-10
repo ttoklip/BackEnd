@@ -1,6 +1,5 @@
 package com.api.ttoklip.global.security.auth.service;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.member.domain.vo.Provider;
 import com.api.ttoklip.domain.member.domain.vo.Role;

@@ -1,7 +1,5 @@
 package com.api.ttoklip.domain.question.controller.dto.request;
 
-import com.api.ttoklip.domain.common.Category;
-import com.api.ttoklip.domain.common.PostRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

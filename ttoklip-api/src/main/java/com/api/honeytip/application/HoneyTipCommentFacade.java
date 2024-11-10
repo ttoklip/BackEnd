@@ -1,16 +1,9 @@
 package com.api.honeytip.application;
 
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.common.comment.dto.request.CommentCreateRequest;
-import com.api.ttoklip.domain.common.comment.service.CommentService;
-import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.common.report.service.ReportService;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipPostService;
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.global.success.Message;
+import com.api.global.success.Message;
+import com.domain.honeytip.application.HoneyTipPostService;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.honeytip.domain.HoneyTipComment;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

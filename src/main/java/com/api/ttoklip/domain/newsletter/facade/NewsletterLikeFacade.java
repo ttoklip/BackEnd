@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.newsletter.facade;
 
-import com.api.ttoklip.domain.common.ActionFacade;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.service.NewsletterLikeService;
 import com.api.ttoklip.domain.newsletter.service.NewsletterPostService;

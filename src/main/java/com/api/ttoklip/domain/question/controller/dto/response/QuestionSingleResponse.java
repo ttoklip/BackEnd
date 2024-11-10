@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.question.controller.dto.response;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.question.domain.QuestionImage;
 import com.api.ttoklip.domain.main.dto.response.ImageResponse;
 import com.api.ttoklip.domain.question.domain.Question;

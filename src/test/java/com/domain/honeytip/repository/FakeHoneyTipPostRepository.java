@@ -1,6 +1,5 @@
 package com.domain.honeytip.repository;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
 import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
 import com.api.ttoklip.global.exception.ApiException;

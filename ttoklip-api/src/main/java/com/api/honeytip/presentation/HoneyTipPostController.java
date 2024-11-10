@@ -7,6 +7,8 @@ import com.api.global.success.SuccessResponse;
 import com.api.honeytip.application.HoneyTipLikeFacade;
 import com.api.honeytip.application.HoneyTipPostFacade;
 import com.api.honeytip.application.HoneyTipScrapFacade;
+import com.api.honeytip.presentation.request.HoneyTipWebCreate;
+import com.api.honeytip.presentation.request.HoneyTipWebEdit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;

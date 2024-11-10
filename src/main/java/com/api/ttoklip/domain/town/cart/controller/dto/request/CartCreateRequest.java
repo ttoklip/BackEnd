@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.town.cart.controller.dto.request;
 
-import com.api.ttoklip.domain.common.PostRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.newsletter.service;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.repository.post.NewsletterRepository;
 import java.util.List;
