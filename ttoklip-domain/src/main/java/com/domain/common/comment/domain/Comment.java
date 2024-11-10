@@ -1,8 +1,7 @@
-package com.api.ttoklip.domain.common.comment;
+package com.domain.common.comment.domain;
 
-import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
-import com.api.ttoklip.domain.member.domain.Member;
+import com.domain.common.base.BaseEntity;
+import com.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;

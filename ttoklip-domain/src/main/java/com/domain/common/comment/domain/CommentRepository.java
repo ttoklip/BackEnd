@@ -1,11 +1,7 @@
-package com.api.ttoklip.domain.common.comment.repository;
+package com.domain.common.comment.domain;
 
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
-import com.api.ttoklip.domain.question.domain.QuestionComment;
 
-import com.api.ttoklip.domain.town.community.domain.CommunityComment;
+import com.domain.honeytip.domain.HoneyTipComment;
 import java.util.List;
 import java.util.Optional;
 

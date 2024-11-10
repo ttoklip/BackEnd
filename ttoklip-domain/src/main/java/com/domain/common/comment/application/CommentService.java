@@ -1,14 +1,12 @@
-package com.api.ttoklip.domain.common.comment.service;
+package com.domain.common.comment.application;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.common.comment.dto.request.CommentEditRequest;
-import com.api.ttoklip.domain.common.comment.editor.CommentEditor;
-import com.api.ttoklip.domain.common.comment.editor.CommentEditor.CommentEditorBuilder;
-import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.common.comment.domain.Comment;
+import com.domain.common.comment.domain.CommentEditor;
+import com.domain.common.comment.domain.CommentEditor.CommentEditorBuilder;
+import com.domain.common.comment.domain.CommentRepository;
+import com.domain.common.comment.dto.request.CommentEditRequest;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

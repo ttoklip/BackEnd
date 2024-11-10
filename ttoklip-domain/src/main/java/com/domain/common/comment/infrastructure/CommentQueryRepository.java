@@ -1,18 +1,10 @@
-package com.api.ttoklip.domain.common.comment.repository;
+package com.domain.common.comment.infrastructure;
 
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.common.comment.QComment;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.honeytip.domain.QHoneyTipComment;
-import com.api.ttoklip.domain.member.domain.QMember;
-import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
-import com.api.ttoklip.domain.newsletter.domain.QNewsletterComment;
-import com.api.ttoklip.domain.question.domain.QQuestionComment;
-import com.api.ttoklip.domain.question.domain.QuestionComment;
-import com.api.ttoklip.domain.town.community.domain.CommunityComment;
-import com.api.ttoklip.domain.town.community.domain.QCommunityComment;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.common.comment.domain.Comment;
+import com.domain.honeytip.domain.HoneyTipComment;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

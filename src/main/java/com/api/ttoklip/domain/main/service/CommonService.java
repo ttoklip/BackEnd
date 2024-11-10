@@ -1,6 +1,5 @@
 package com.api.ttoklip.domain.main.service;
 
-import com.api.ttoklip.domain.common.Category;
 import com.api.ttoklip.domain.honeytip.facade.HoneyTipPostFacade;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;
 import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
