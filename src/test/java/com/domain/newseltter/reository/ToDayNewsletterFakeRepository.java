@@ -1,7 +1,7 @@
 package com.domain.newseltter.reository;
 
 import com.api.ttoklip.domain.newsletter.domain.TodayNewsletter;
-import com.api.ttoklip.domain.newsletter.repository.today.TodayNewsletterRepository;
+import com.api.ttoklip.domain.newsletter.repository.domain.TodayNewsletterRepository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;

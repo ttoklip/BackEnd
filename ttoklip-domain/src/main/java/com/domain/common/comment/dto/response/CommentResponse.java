@@ -1,9 +1,8 @@
 package com.domain.common.comment.dto.response;
 
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.global.util.TimeUtil;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.domain.common.comment.domain.Comment;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,28 +13,21 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentResponse {
 
-    @Schema(description = "댓글 ID", example = "101")
     private Long commentId;
 
-    @Schema(description = "댓글 내용", example = "댓글 내용 예시")
     private String commentContent;
 
-    @Schema(description = "부모 댓글 ID (대댓글의 경우)", example = "1")
     private Long parentId;
 
-    @Schema(description = "댓글 작성자", example = "댓글 작성자 예시")
     private String writer;
 
-    @Schema(description = "댓글 작성자 프로필 사진 url", example = "작성자 프로필 사진 예시")
     private String writerProfileImageUrl;
 
-    @Schema(description = "댓글 작성 시간", example = "2024-01-11 11:00:00")
     private String writtenTime;
-
 
     public static CommentResponse from(final Comment questionComment) {
         LocalDateTime createdDate = questionComment.getCreatedDate();
-        String formatCreatedDate = TimeUtil.formatCreatedDate(createdDate);
+        String formatCreatedDate = formatCreatedDate(createdDate);
 
         if (questionComment.getParent() == null) {
             return getCommentResponse(questionComment, null, formatCreatedDate);
@@ -55,5 +47,15 @@ public class CommentResponse {
                 .writerProfileImageUrl(questionComment.getMember().getProfile().getProfileImgUrl())
                 .writtenTime(formatCreatedDate)
                 .build();
+    }
+
+    private static final String DATE_NONE = "날짜 없음";
+
+    private static String formatCreatedDate(final LocalDateTime localDateTime) {
+        if (localDateTime == null) {
+            return DATE_NONE;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");
+        return localDateTime.format(formatter);
     }
 }

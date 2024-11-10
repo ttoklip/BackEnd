@@ -1,14 +1,14 @@
 package com.api.honeytip.presentation;
 
-import static com.api.global.util.SecurityUtil.getCurrentMember;
-
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
+import com.api.global.util.SecurityUtil;
 import com.api.honeytip.application.HoneyTipLikeFacade;
 import com.api.honeytip.application.HoneyTipPostFacade;
 import com.api.honeytip.application.HoneyTipScrapFacade;
 import com.api.honeytip.presentation.request.HoneyTipWebCreate;
 import com.api.honeytip.presentation.request.HoneyTipWebEdit;
+import com.api.honeytip.presentation.response.HoneyTipSingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -53,8 +53,9 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping
     public SuccessResponse<Message> register(final @Validated @ModelAttribute HoneyTipWebCreate request) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeytipPostFacade.register(request, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeytipPostFacade.register(request, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
 
@@ -73,8 +74,9 @@ public class HoneyTipPostController {
     @PatchMapping("/{postId}")
     public SuccessResponse<Message> edit(final @PathVariable Long postId,
                                          final @ModelAttribute HoneyTipWebEdit request) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeytipPostFacade.edit(postId, request, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeytipPostFacade.edit(postId, request, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
 
@@ -92,8 +94,9 @@ public class HoneyTipPostController {
                             )))})
     @DeleteMapping("/{postId}")
     public SuccessResponse<Message> delete(final @PathVariable Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeytipPostFacade.delete(postId, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeytipPostFacade.delete(postId, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
     /* REPORT */
@@ -111,8 +114,9 @@ public class HoneyTipPostController {
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
                                            final @RequestBody ReportCreateRequest request) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeytipPostFacade.report(postId, request, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeytipPostFacade.report(postId, request, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
     /* LIKE */
@@ -129,8 +133,9 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping("/like/{postId}")
     public SuccessResponse<Message> registerLike(final @PathVariable Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeyTipLikeFacade.register(postId, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeyTipLikeFacade.register(postId, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
     @Operation(summary = "꿀팁공유해요 도움이되었어요 취소", description = "꿀팁 ID에 해당하는 게시글을 도움이되었어요를 취소합니다.")
@@ -146,8 +151,9 @@ public class HoneyTipPostController {
                             )))})
     @DeleteMapping("/like/{postId}")
     public SuccessResponse<Message> cancelLike(final @PathVariable Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeyTipLikeFacade.cancel(postId, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeyTipLikeFacade.cancel(postId, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
     /* SCRAP */
@@ -164,8 +170,9 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping("/scrap/{postId}")
     public SuccessResponse<Message> registerScrap(final @PathVariable Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeyTipScrapFacade.register(postId, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeyTipScrapFacade.register(postId, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
     @Operation(summary = "꿀팁공유해요 스크랩 취소", description = "꿀팁 ID에 해당하는 게시글에 스크랩을 취소합니다.")
@@ -181,8 +188,9 @@ public class HoneyTipPostController {
                             )))})
     @DeleteMapping("/scrap/{postId}")
     public SuccessResponse<Message> cancelScrap(final @PathVariable Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
-        return new SuccessResponse<>(honeyTipScrapFacade.cancel(postId, currentMemberId));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeyTipScrapFacade.cancel(postId, currentMemberId);
+        return new SuccessResponse<>(message);
     }
 
     /* READ */
@@ -199,7 +207,7 @@ public class HoneyTipPostController {
                             )))})
     @GetMapping("/{postId}")
     public SuccessResponse<HoneyTipSingleResponse> getSinglePost(final @PathVariable Long postId) {
-        Long currentMemberId = getCurrentMember().getId();
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         HoneyTipSingleResponse response = honeytipPostFacade.getSinglePost(postId, currentMemberId);
         return new SuccessResponse<>(response);
     }

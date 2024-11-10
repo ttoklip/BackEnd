@@ -3,6 +3,7 @@ package com.domain.common.comment.infrastructure;
 import com.domain.common.comment.domain.Comment;
 import com.domain.common.comment.domain.CommentRepository;
 import com.domain.honeytip.domain.HoneyTipComment;
+import com.domain.newsletter.domain.NewsletterComment;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

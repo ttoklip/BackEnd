@@ -6,7 +6,7 @@ import com.domain.common.comment.domain.Comment;
 import com.domain.common.comment.domain.CommentEditor;
 import com.domain.common.comment.domain.CommentEditor.CommentEditorBuilder;
 import com.domain.common.comment.domain.CommentRepository;
-import com.domain.common.comment.dto.request.CommentEditRequest;
+import com.domain.common.comment.domain.CommentEdit;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,7 @@ public class CommentService {
 
     /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
-    public void edit(final Long commentId, final CommentEditRequest request) {
+    public void edit(final Long commentId, final CommentEdit request) {
 
         Comment comment = findComment(commentId);
         // ToDo 작성자가 맞는지 검증 필요
@@ -55,7 +55,7 @@ public class CommentService {
         return commentRepository.findByIdActivated(commentId);
     }
 
-    private CommentEditor getCommentEditor(final CommentEditRequest request, final Comment comment) {
+    private CommentEditor getCommentEditor(final CommentEdit request, final Comment comment) {
         CommentEditorBuilder editorBuilder = comment.toEditor();
         CommentEditor commentEditor = editorBuilder
                 .comment(request.getComment())

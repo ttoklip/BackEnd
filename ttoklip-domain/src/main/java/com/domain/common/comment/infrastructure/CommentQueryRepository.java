@@ -5,6 +5,7 @@ import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.comment.domain.Comment;
 import com.domain.honeytip.domain.HoneyTipComment;
+import com.domain.newsletter.domain.NewsletterComment;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

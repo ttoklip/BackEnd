@@ -1,7 +1,7 @@
 package com.domain.newseltter.reository;
 
 import com.api.ttoklip.domain.newsletter.domain.NewsletterLike;
-import com.api.ttoklip.domain.newsletter.repository.like.NewsletterLikeRepository;
+import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterLikeRepository;
 import java.util.HashMap;
 import java.util.Optional;
 

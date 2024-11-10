@@ -1,7 +1,7 @@
 package com.domain.newseltter.reository;
 
 import com.api.ttoklip.domain.newsletter.domain.NewsletterUrl;
-import com.api.ttoklip.domain.newsletter.repository.url.NewsletterUrlRepository;
+import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterUrlRepository;
 import java.util.HashMap;
 
 public class NewsletterUrlFakeRepository implements NewsletterUrlRepository {

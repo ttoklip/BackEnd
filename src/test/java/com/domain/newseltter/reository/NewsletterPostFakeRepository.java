@@ -1,7 +1,7 @@
 package com.domain.newseltter.reository;
 
 import com.api.ttoklip.domain.newsletter.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.repository.post.NewsletterRepository;
+import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import org.springframework.data.domain.Page;
