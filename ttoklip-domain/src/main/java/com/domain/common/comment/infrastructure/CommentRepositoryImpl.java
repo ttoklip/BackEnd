@@ -1,14 +1,10 @@
-package com.api.ttoklip.domain.common.comment.repository;
+package com.domain.common.comment.infrastructure;
 
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.newsletter.domain.NewsletterComment;
+import com.domain.common.comment.domain.Comment;
+import com.domain.common.comment.domain.CommentRepository;
+import com.domain.honeytip.domain.HoneyTipComment;
 import java.util.List;
 import java.util.Optional;
-
-import com.api.ttoklip.domain.town.community.domain.CommunityComment;
-
-import com.api.ttoklip.domain.question.domain.QuestionComment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

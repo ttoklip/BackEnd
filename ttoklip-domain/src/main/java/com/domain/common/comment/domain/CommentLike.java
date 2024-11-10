@@ -1,10 +1,7 @@
-package com.api.ttoklip.domain.common.comment;
+package com.domain.common.comment.domain;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
-import com.api.ttoklip.domain.common.base.BaseTimeEntity;
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.question.domain.QuestionComment;
+import com.domain.common.base.BaseTimeEntity;
+import com.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

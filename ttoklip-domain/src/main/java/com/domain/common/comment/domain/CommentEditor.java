@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.comment.editor;
+package com.domain.common.comment.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

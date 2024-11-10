@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.comment.dto.request;
+package com.domain.common.comment.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

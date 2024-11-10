@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.common.comment.dto.response;
+package com.domain.common.comment.dto.response;
 
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.global.util.TimeUtil;
