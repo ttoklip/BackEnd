@@ -5,7 +5,6 @@ dependencies {
     implementation project(':ttoklip-common')
     implementation project(':ttoklip-infrastructure')
     implementation project(':ttoklip-domain')
-    implementation project(':ttoklip-persistence')
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'

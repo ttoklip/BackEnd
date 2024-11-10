@@ -1,4 +1,4 @@
-package com.persistence.config;
+package com.domain.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
         "com.common",
         "com.infrastructure",
         "com.domain",
-        "com.persistence"
 })
 public class ComponentScanConfig {
 }
