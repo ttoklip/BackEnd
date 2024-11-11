@@ -62,8 +62,8 @@ public class NewsletterRepositoryImpl implements NewsletterRepository {
     }
 
     @Override
-    public List<Newsletter> findRandom4ActiveNewsletters() {
-        return queryDslRepository.findRandom4ActiveNewsletters();
+    public List<Newsletter> findRandomActiveNewsletters(final int pageSize) {
+        return queryDslRepository.findRandomActiveNewsletters(pageSize);
     }
 
     @Override

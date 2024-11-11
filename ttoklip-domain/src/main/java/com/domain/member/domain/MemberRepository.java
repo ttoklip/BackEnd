@@ -1,5 +1,6 @@
 package com.domain.member.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository {
@@ -19,4 +20,8 @@ public interface MemberRepository {
     Member findByNickNameWithProfile(String nickName);
 
     void save(Member member);
+
+    List<Member> findAll();
+
+    void saveAll(List<Member> members);
 }

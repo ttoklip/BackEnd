@@ -1,8 +1,8 @@
 package com.batch.newsletter;
 
 import com.domain.newsletter.application.NewsletterPostService;
+import com.domain.newsletter.application.TodayNewsletterService;
 import com.domain.newsletter.domain.Newsletter;
-import com.domain.newsletter.domain.TodayNewsletter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +17,9 @@ public class NewsletterScheduler {
 
     private final static int PAGE_SIZE = 4; // 한 번에 가져올 뉴스레터의 개수
     private final NewsletterPostService newsletterPostService;
-    private final TodayNewsletterRepository todayNewsletterRepository;
+    private final TodayNewsletterService todayNewsletterService;
 
-    // 매일 자정에 실행되는 스케줄링된 작업 (아시아/서울 시간대 기준)
-    @Scheduled(cron = "1 0 0 * * *", zone = "Asia/Seoul") // 초, 분, 시, 일, 월, 요일
+    @Scheduled(cron = "1 0 0 * * *", zone = "Asia/Seoul")
     @Transactional
     public void selectRandomNewsletter() {
         long newsletterCount = newsletterPostService.getEntityCount();
@@ -29,18 +28,8 @@ public class NewsletterScheduler {
             return;
         }
 
-        List<Newsletter> randomNewsletters = fetchRandomNewsletters();
-
-        randomNewsletters.forEach(this::saveTodayNewsletter);
-    }
-
-    private List<Newsletter> fetchRandomNewsletters() {
-        return newsletterPostService.findRandom4ActiveNewsletters();
-    }
-
-    private void saveTodayNewsletter(final Newsletter newsletter) {
-        TodayNewsletter todayNewsletter = TodayNewsletter.from(newsletter);
-        todayNewsletterRepository.save(todayNewsletter);
+        List<Newsletter> randomNewsletters = newsletterPostService.findRandomActiveNewsletters(PAGE_SIZE);
+        randomNewsletters.forEach(todayNewsletterService::save);
     }
 
 }

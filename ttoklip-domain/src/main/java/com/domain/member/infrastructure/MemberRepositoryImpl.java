@@ -2,6 +2,7 @@ package com.domain.member.infrastructure;
 
 import com.domain.member.domain.Member;
 import com.domain.member.domain.MemberRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -51,5 +52,15 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public void save(final Member member) {
         jpaRepository.save(member);
+    }
+
+    @Override
+    public List<Member> findAll() {
+        return jpaRepository.findAll();
+    }
+
+    @Override
+    public void saveAll(final List<Member> members) {
+        jpaRepository.saveAll(members);
     }
 }

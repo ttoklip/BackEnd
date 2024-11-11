@@ -38,8 +38,8 @@ public class NewsletterPostService {
         return newsletterRepository.getPaging(category, pageable);
     }
 
-    public List<Newsletter> findRandom4ActiveNewsletters() {
-        return newsletterRepository.findRandom4ActiveNewsletters();
+    public List<Newsletter> findRandomActiveNewsletters(final int pageSize) {
+        return newsletterRepository.findRandomActiveNewsletters(pageSize);
     }
 
     public List<Newsletter> getRecent3() {

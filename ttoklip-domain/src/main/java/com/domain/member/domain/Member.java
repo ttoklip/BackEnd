@@ -176,4 +176,13 @@ public class Member extends BaseEntity {
     public void linkProfile(final Profile profile) {
         this.profile = profile;
     }
+
+    // 월을 증가시키는 메서드
+    public void incrementMonth() {
+        this.independentMonth++;
+        if (this.independentMonth > 12) {
+            this.independentMonth = 1;
+            this.independentYear = (this.independentYear + 1) % 100; // 연도가 99를 넘어가면 0으로 초기화
+        }
+    }
 }

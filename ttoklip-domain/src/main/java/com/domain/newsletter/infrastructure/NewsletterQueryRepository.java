@@ -126,13 +126,13 @@ public class NewsletterQueryRepository {
     }
 
 
-    public List<Newsletter> findRandom4ActiveNewsletters() {
+    public List<Newsletter> findRandomActiveNewsletters(final int pageSize) {
         long count = getNewsletterCount();
 
         // 전체 개수 내에서 랜덤한 인덱스 생성
         // 랜덤 인덱스의 최대값을 조정하여 초과하지 않도록 설정
         // 최소값을 0으로 설정하여 인덱스가 음수가 되지 않도록 함
-        int maxIndex = (int) Math.max(0, count - 4);
+        int maxIndex = (int) Math.max(0, count - pageSize);
         int randomIndex = new Random().nextInt(maxIndex + 1);
 
         // 랜덤한 인덱스에서 시작하여 4개의 결과 가져오기
@@ -141,7 +141,7 @@ public class NewsletterQueryRepository {
                         getActivatedNewsletter()
                 )
                 .offset(randomIndex)
-                .limit(4)
+                .limit(pageSize)
                 .fetch();
     }
 

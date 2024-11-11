@@ -82,4 +82,16 @@ public class MemberService {
         Member findMember = findById(member.getId());
         return MemberStreetResponse.of(findMember.getStreet());
     }
+
+    @Transactional
+    public void updateMemberIndependenceDates() {
+        List<Member> members = memberRepository.findAll()
+                .stream()
+                .peek(Member::incrementMonth)
+                .toList();
+
+        memberRepository.saveAll(members);
+    }
+
+
 }

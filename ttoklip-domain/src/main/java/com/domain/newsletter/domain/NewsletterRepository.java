@@ -25,7 +25,7 @@ public interface NewsletterRepository {
 
     List<Newsletter> getWelfarePolicyNewsletter10Desc();
 
-    List<Newsletter> findRandom4ActiveNewsletters();
+    List<Newsletter> findRandomActiveNewsletters(final int pageSize);
 
     Page<Newsletter> getContain(String keyword, Pageable pageable, String sort);
 
