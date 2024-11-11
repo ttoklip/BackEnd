@@ -1,8 +1,8 @@
-package com.api.ttoklip.domain.todolist.domain;
+package com.domain.todolist.domain;
 
-import com.api.ttoklip.domain.common.base.BaseTimeEntity;
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.todolist.domain.vo.ToDoList;
+import com.domain.common.base.BaseTimeEntity;
+import com.domain.member.domain.Member;
+import com.domain.todolist.domain.vo.ToDoList;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

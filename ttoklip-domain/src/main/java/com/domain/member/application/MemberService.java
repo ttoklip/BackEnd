@@ -93,5 +93,7 @@ public class MemberService {
         memberRepository.saveAll(members);
     }
 
-
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
 }

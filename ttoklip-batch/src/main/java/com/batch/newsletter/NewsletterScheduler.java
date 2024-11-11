@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NewsletterScheduler {
 
-    private final static int PAGE_SIZE = 4; // 한 번에 가져올 뉴스레터의 개수
+    private final static int PAGE_SIZE = 4;
     private final NewsletterPostService newsletterPostService;
     private final TodayNewsletterService todayNewsletterService;
 
-    @Scheduled(cron = "1 0 0 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "11 0 0 * * *", zone = "Asia/Seoul")
     @Transactional
     public void selectRandomNewsletter() {
         long newsletterCount = newsletterPostService.getEntityCount();

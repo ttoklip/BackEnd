@@ -1,6 +1,6 @@
-package com.api.ttoklip.domain.todolist.infrastructure;
+package com.domain.todolist.infrastructure;
 
-import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
+import com.domain.todolist.domain.TodayToDoList;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TodayToDoListJpaRepository extends JpaRepository<TodayToDoList, Long> {

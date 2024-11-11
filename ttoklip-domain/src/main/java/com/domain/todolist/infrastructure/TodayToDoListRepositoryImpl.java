@@ -1,7 +1,7 @@
-package com.api.ttoklip.domain.todolist.infrastructure;
+package com.domain.todolist.infrastructure;
 
-import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
-import com.api.ttoklip.domain.todolist.domain.TodayToDoListRepository;
+import com.domain.todolist.domain.TodayToDoList;
+import com.domain.todolist.domain.TodayToDoListRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,6 @@ public class TodayToDoListRepositoryImpl implements TodayToDoListRepository {
 
     private final TodayToDoListJpaRepository jpaRepository;
     private final TodayToDoListQueryRepository queryDSLRepository;
-
 
     @Override
     public void saveAll(final List<TodayToDoList> todayToDoLists) {

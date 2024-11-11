@@ -13,7 +13,7 @@ public class MemberScheduler {
     private final MemberService memberService;
 
     @Transactional
-    @Scheduled(cron = "5 0 0 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "1 0 0 * * *", zone = "Asia/Seoul")
     public void updateMemberIndependenceDate() {
         memberService.updateMemberIndependenceDates();
     }

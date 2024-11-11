@@ -1,10 +1,7 @@
-package com.api.ttoklip.domain.todolist.infrastructure;
+package com.domain.todolist.infrastructure;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
-import com.api.ttoklip.domain.todolist.domain.QTodayToDoList;
-import com.api.ttoklip.domain.todolist.domain.TodayToDoList;
-import com.api.ttoklip.domain.todolist.domain.vo.ToDoList;
+import com.domain.todolist.domain.TodayToDoList;
+import com.domain.todolist.domain.vo.ToDoList;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
@@ -42,6 +39,7 @@ public class TodayToDoListQueryRepository {
         return toDoLists.get(0);
     }
 
+    // ToDo 추후 사용처에서 회원 찾아서 넘기도록 수정
     private TodayToDoList generateToDoList() {
         ToDoList randomToDoList = ToDoList.getRandomToDoList();
         TodayToDoList newTodayToDoList = TodayToDoList.of(getCurrentMember(), randomToDoList);

@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.todolist.domain;
+package com.domain.todolist.domain;
 
 import java.util.List;
 
