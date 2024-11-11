@@ -2,9 +2,16 @@ package com.domain.member.domain;
 
 import com.domain.common.base.BaseEntity;
 import com.domain.honeytip.domain.HoneyTip;
+import com.domain.honeytip.domain.HoneyTipLike;
+import com.domain.honeytip.domain.HoneyTipScrap;
+import com.domain.interest.domain.Interest;
 import com.domain.member.domain.MemberEditor.MemberEditorBuilder;
 import com.domain.member.domain.vo.Provider;
 import com.domain.member.domain.vo.Role;
+import com.domain.newsletter.domain.Newsletter;
+import com.domain.newsletter.domain.NewsletterLike;
+import com.domain.newsletter.domain.NewsletterScrap;
+import com.domain.profile.domain.Profile;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -63,7 +63,7 @@ public class CheckBadWordAspect {
     }
 
     // 2. Oauth 회원가입
-    @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.register(..))")
+    @Pointcut("execution(* com.api.profile.presentation.OurServiceJoinController.register(..))")
     private void registerOauthMethodPointCut() {
     }
 
@@ -79,7 +79,7 @@ public class CheckBadWordAspect {
 
     // 3. Local 닉네임 중복 검사
     // 4. Oauth 닉네임 중복 검사
-    @Pointcut("execution(* com.api.ttoklip.domain.privacy.controller.OurServiceJoinController.check*Nickname(..))")
+    @Pointcut("execution(* com.api.profile.presentation.OurServiceJoinController.check*Nickname(..))")
     private void nicknameDuplicationCheckPointCut() {
     }
 
