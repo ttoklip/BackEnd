@@ -39,7 +39,7 @@ public class QuestionPostFacade {
     @Transactional
     @CheckBadWordCreate
     public Message register(final QuestionWebCreate request, final Long memberId) {
-        Member member = memberService.findById(memberId);
+        Member member = memberService.getById(memberId);
 
         QuestionCreate create = QuestionCreate.of(request.getTitle(), request.getContent(), request.getCategory(), member);
         Question question = Question.from(create);

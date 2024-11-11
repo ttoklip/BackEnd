@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.term.editor;
+package com.domain.term.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -28,7 +28,7 @@ public class QuestionCommentLikeFacade {
         boolean exists = questionCommentLikeService.isCommentLikeExists(commentId, currentMemberId);
         if (!exists) {
             QuestionComment findQuestionComment = questionPostService.getQuestionComment(commentId);
-            Member currentMember = memberService.findById(currentMemberId);
+            Member currentMember = memberService.getById(currentMemberId);
             questionCommentLikeService.registerLike(findQuestionComment, currentMember);
         }
         return Message.likePostSuccess(QuestionComment.class, commentId);

@@ -26,7 +26,7 @@ public class NewsletterScrapFacade implements ActionFacade {
         boolean exists = newsletterScrapService.isNewsletterExists(postId, memberId);
         if (!exists) {
             Newsletter newsletter = newsletterPostService.getNewsletter(postId);
-            Member member = memberService.findById(memberId);
+            Member member = memberService.getById(memberId);
             newsletterScrapService.register(newsletter, member);
         }
 

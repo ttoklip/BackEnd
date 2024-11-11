@@ -51,7 +51,7 @@ public class NewsletterPostFacade {
     public Message register(final NewsletterWebCreate request, final Long currentMemberId) {
         String mainImageUrl = uploadImage(request.getMainImage());
 
-        Member currentMember = memberService.findById(currentMemberId);
+        Member currentMember = memberService.getById(currentMemberId);
 
         NewsletterCreate create = NewsletterCreate.builder()
                 .title(request.getTitle())
@@ -98,7 +98,7 @@ public class NewsletterPostFacade {
     @Transactional
     public Message delete(final Long postId, final Long currentMemberId) {
         Newsletter newsletter = postService.getNewsletter(postId);
-        Member currentMember = memberService.findById(currentMemberId);
+        Member currentMember = memberService.getById(currentMemberId);
         checkManagerPermission(currentMember);
         newsletter.deactivate();
         return Message.deletePostSuccess(Newsletter.class, postId);
@@ -106,7 +106,7 @@ public class NewsletterPostFacade {
 
     private void checkManagerPermission(final Member currentMember) {
         if (!currentMember.getRole().equals(Role.MANAGER)) {
-            throw new ApiException(ErrorType.UNAUTHORIZED_DELETE_POST);
+            throw new ApiException(ErrorType.UNAUTHORIZED_ADMIN_DELETE_POST);
         }
     }
 

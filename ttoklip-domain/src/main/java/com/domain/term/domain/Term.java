@@ -1,8 +1,6 @@
-package com.api.ttoklip.domain.term.domain;
+package com.domain.term.domain;
 
-import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
-import com.api.ttoklip.domain.term.editor.TermEditor;
+import com.domain.common.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,12 +32,11 @@ public class Term extends BaseEntity {
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
-    public static Term from(final TermCreateRequest request) {
+    public static Term from(final TermCreate create) {
         return Term.builder()
-                .content(request.getContent())
-                .title(request.getTitle())
+                .content(create.content())
+                .title(create.title())
                 .build();
-
     }
 
     public TermEditor.TermEditorBuilder toEditor() {

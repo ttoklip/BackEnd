@@ -1,30 +1,13 @@
-package com.api.ttoklip.domain.term.dto.response;
+package com.api.term.presentation;
 
-
-import com.api.ttoklip.domain.term.domain.Term;
-import com.api.ttoklip.global.util.TimeUtil;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.api.global.util.TimeUtil;
+import com.domain.term.domain.Term;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
 
-@Getter
-@Builder
-@AllArgsConstructor
-public class TermAdminResponse {
-    @Schema(description = "약관 ID")
-    private Long termId;
-
-    @Schema(description = "약관 제목")
-    private String title;
-
-    @Schema(description = "약관 내용")
-    private String content;
-
-    @Schema(description = "약관 작성일자")
-    private String createdAt;
-
+@Builder(access = AccessLevel.PRIVATE)
+public record TermAdminResponse(Long termId, String title, String content, String createdAt) {
     public static TermAdminResponse of(final Term term) {
 
         String formattedCreatedDate = getFormattedCreatedDate(term);

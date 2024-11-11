@@ -1,4 +1,4 @@
-package com.domain.common.comment.dto.response;
+package com.domain.common.comment.application;
 
 import com.domain.common.comment.domain.Comment;
 import java.time.LocalDateTime;

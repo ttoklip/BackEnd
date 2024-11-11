@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.term.dto.request;
+package com.api.term.presentation;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class TermEditRequest {
+public class TermWebCreate {
     @Schema(description = "공지사항 제목", example = "공지사항 제목 예시")
     @NotEmpty
     @Size(max = 500)
@@ -16,6 +16,5 @@ public class TermEditRequest {
 
     @Schema(description = "공지사항 내용", example = "공지사항 내용 예시")
     @NotEmpty
-    @Size(max = 5000)
     public String content;
 }

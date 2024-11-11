@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.term.constant;
+package com.api.term.presentation;
 
 public class TermConstant {
     public static final String termsAndPolicyListResponse = """

@@ -34,7 +34,7 @@ public class QuestionCommentFacade {
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
         Optional<Comment> parentCommentOptional = commentService.findParentComment(parentCommentId);
-        Member currentMember = memberService.findById(currentMemberId);
+        Member currentMember = memberService.getById(currentMemberId);
 
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {

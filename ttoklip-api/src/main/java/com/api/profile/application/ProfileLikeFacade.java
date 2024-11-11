@@ -25,14 +25,14 @@ public class ProfileLikeFacade {
     public Message registerProfileLike(final Long targetMemberId, final Long memberId) {
         validLikeMyself(targetMemberId, memberId);
 
-        Member targetMember = memberService.findById(targetMemberId);
+        Member targetMember = memberService.getById(targetMemberId);
 
         boolean isExists = profileLikeService.isExists(memberId, targetMemberId);
         if (isExists) {
             return Message.registerProfileLike(targetMemberId);
         }
 
-        Member member = memberService.findById(memberId);
+        Member member = memberService.getById(memberId);
         ProfileLike profileLike = ProfileLike.of(member, targetMember);
         profileLikeService.save(profileLike);
 
@@ -43,7 +43,7 @@ public class ProfileLikeFacade {
     public Message cancelProfileLike(final Long targetMemberId, final Long memberId) {
         validLikeMyself(targetMemberId, memberId);
 
-        Member targetMember = memberService.findById(targetMemberId);
+        Member targetMember = memberService.getById(targetMemberId);
 
         ProfileLike profileLike = profileLikeService.findByFromMemberIdAndTargetMemberId(
                 memberId, targetMember.getId()

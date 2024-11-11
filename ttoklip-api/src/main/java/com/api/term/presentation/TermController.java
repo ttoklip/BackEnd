@@ -1,14 +1,12 @@
-package com.api.ttoklip.domain.term.controller;
+package com.api.term.presentation;
 
 
-import com.api.ttoklip.domain.term.constant.TermConstant;
-import com.api.ttoklip.domain.term.dto.request.TermCreateRequest;
-import com.api.ttoklip.domain.term.dto.request.TermEditRequest;
-import com.api.ttoklip.domain.term.dto.response.TermAdminResponse;
-import com.api.ttoklip.domain.term.dto.response.TermPaging;
-import com.api.ttoklip.domain.term.service.TermService;
-import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.global.success.Message;
+import com.api.global.success.SuccessResponse;
+import com.api.global.util.SecurityUtil;
+import com.api.term.application.TermFacade;
+import com.domain.term.domain.TermCreate;
+import com.domain.term.response.TermResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/admin/term")
 public class TermController {
     private final static int PAGE_SIZE = 10;
-    private final TermService termService;
+    private final TermFacade termFacade;
 
     @Operation(summary = "이용약관 불러오기", description = "이용약관을 조회합니다")
     @ApiResponses(value = {
@@ -51,12 +49,9 @@ public class TermController {
                                     description = "이용약관을 조회했습니다"
                             )))})
     @GetMapping
-    public SuccessResponse<TermPaging> getTermList(
-            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            @RequestParam(required = false, defaultValue = "0") final int page) {
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        TermPaging termPaging = termService.getTermList(pageable);
-        return new SuccessResponse<>(termPaging);
+    public SuccessResponse<TermResponses> getTermList() {
+        TermResponses termResponses = termFacade.getTermList();
+        return new SuccessResponse<>(termResponses);
     }
 
     @Operation(summary = "이용약관 하나 불러오기", description = "이용약관을 하나 조회합니다")
@@ -72,7 +67,7 @@ public class TermController {
                             )))})
     @GetMapping("/{termId}")
     public SuccessResponse<TermAdminResponse> getSingleTerm(final @PathVariable Long termId) {
-        return new SuccessResponse<>(termService.getSingleTerm(termId));
+        return new SuccessResponse<>(termFacade.getSingleTerm(termId));
     }
 
     @Operation(summary = "이용약관 수정하기", description = "이용약관을 수정합니다")
@@ -87,8 +82,9 @@ public class TermController {
                                     description = "이용약관을 수정했습니다"
                             )))})
     @PatchMapping("/{termId}")
-    public SuccessResponse<Message> edit(final @PathVariable Long termId, final @RequestBody TermEditRequest request) {
-        Message message = termService.edit(termId, request);
+    public SuccessResponse<Message> edit(final @PathVariable Long termId, final @RequestBody TermCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = termFacade.edit(termId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -104,8 +100,8 @@ public class TermController {
                                     description = "이용약관을 생성했습니다"
                             )))})
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessResponse<Message> register(final @Validated @RequestBody TermCreateRequest request) {
-        Message message = termService.register(request);
+    public SuccessResponse<Message> register(final @Validated @RequestBody TermCreate request) {
+        Message message = termFacade.register(request);
         return new SuccessResponse<>(message);
     }
 

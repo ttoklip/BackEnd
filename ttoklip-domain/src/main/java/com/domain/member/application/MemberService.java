@@ -24,7 +24,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Member findById(final Long memberId) {
+    public Member getById(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_DB));
     }
@@ -58,7 +58,7 @@ public class MemberService {
 
     @Transactional
     public void updateMemberFCMToken(final Member member, final String fcmToken) {
-        Member currentMember = findById(member.getId());
+        Member currentMember = getById(member.getId());
         currentMember.updateFcmToken(fcmToken);
     }
 
@@ -79,7 +79,7 @@ public class MemberService {
     }
 
     public MemberStreetResponse getMemberStreet(final Member member) {
-        Member findMember = findById(member.getId());
+        Member findMember = getById(member.getId());
         return MemberStreetResponse.of(findMember.getStreet());
     }
 

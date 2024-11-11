@@ -26,7 +26,7 @@ public class NewsletterLikeFacade implements ActionFacade {
         boolean exists = newsletterLikeService.isNewsletterExists(postId, memberId);
         if (!exists) {
             Newsletter newsletter = newsletterPostService.getNewsletter(postId);
-            Member member = memberService.findById(memberId);
+            Member member = memberService.getById(memberId);
             newsletterLikeService.registerLike(newsletter, member);
         }
 

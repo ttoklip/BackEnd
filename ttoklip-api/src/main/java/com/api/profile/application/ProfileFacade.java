@@ -77,7 +77,7 @@ public class ProfileFacade {
     @Transactional
     public Message edit(final ProfileWebCreate create, final Long memberId) {
         validate(create);
-        Member member = memberService.findById(memberId);
+        Member member = memberService.getById(memberId);
         registerPersonalInfoAndInterests(create, member);
         return Message.insertPrivacy();
     }

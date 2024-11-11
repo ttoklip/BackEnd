@@ -15,7 +15,7 @@ public class MemberFacade {
     private final MemberService memberService;
 
     public MemberStreetResponse getMemberStreet(final Long currentMemberId) {
-        Member currentMember = memberService.findById(currentMemberId);
+        Member currentMember = memberService.getById(currentMemberId);
         return memberService.getMemberStreet(currentMember);
     }
 }

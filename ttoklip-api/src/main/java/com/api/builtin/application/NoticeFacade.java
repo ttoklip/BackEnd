@@ -55,7 +55,7 @@ public class NoticeFacade {
     private void validManager(final Member member) {
         Role memberRole = member.getRole();
         if (!memberRole.equals(Role.MANAGER)) {
-            throw new ApiException(ErrorType.UNAUTHORIZED_DELETE_POST);
+            throw new ApiException(ErrorType.UNAUTHORIZED_ADMIN_DELETE_POST);
         }
     }
 }

@@ -1,7 +1,7 @@
-package com.api.ttoklip.domain.term.domain;
+package com.domain.term.domain;
 
-import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.member.domain.Member;
+import com.domain.common.base.BaseEntity;
+import com.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TermAgreement extends BaseEntity {

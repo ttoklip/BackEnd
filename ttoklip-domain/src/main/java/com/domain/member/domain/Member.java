@@ -13,6 +13,7 @@ import com.domain.newsletter.domain.Newsletter;
 import com.domain.newsletter.domain.NewsletterLike;
 import com.domain.newsletter.domain.NewsletterScrap;
 import com.domain.profile.domain.Profile;
+import com.domain.term.domain.TermAgreement;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
