@@ -1,6 +1,7 @@
 package com.domain.member.domain;
 
 import com.domain.common.base.BaseEntity;
+import com.domain.common.comment.domain.CommentLike;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipLike;
 import com.domain.honeytip.domain.HoneyTipScrap;

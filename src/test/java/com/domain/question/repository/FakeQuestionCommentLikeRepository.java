@@ -1,7 +1,7 @@
 package com.domain.question.repository;
 
 import com.api.ttoklip.domain.common.comment.CommentLike;
-import com.api.ttoklip.domain.question.repository.commentLike.QuestionCommentLikeRepository;
+import com.api.ttoklip.domain.question.domain.QuestionCommentLikeRepository;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

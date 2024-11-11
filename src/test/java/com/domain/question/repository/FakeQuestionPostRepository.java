@@ -2,7 +2,7 @@ package com.domain.question.repository;
 
 import com.api.ttoklip.domain.question.domain.QuestionComment;
 import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.domain.question.repository.post.QuestionRepository;
+import com.api.ttoklip.domain.question.domain.QuestionRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import java.util.Collections;

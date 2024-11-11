@@ -110,8 +110,8 @@ public class HoneyTipSingleResponse {
                 .toList();
     }
 
-    private static List<CommentResponse> getCommentResponses(final List<HoneyTipComment> questionComments) {
-        return questionComments
+    private static List<CommentResponse> getCommentResponses(final List<HoneyTipComment> comments) {
+        return comments
                 .stream()
                 .map(CommentResponse::from)
                 .toList();

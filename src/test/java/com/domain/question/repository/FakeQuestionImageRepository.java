@@ -1,7 +1,7 @@
 package com.domain.question.repository;
 
 import com.api.ttoklip.domain.question.domain.QuestionImage;
-import com.api.ttoklip.domain.question.repository.image.QuestionImageRepository;
+import com.api.ttoklip.domain.question.domain.QuestionImageRepository;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 

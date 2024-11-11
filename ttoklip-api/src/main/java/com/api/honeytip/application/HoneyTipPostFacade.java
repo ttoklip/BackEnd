@@ -50,7 +50,7 @@ public class HoneyTipPostFacade {
     public Message register(final HoneyTipWebCreate request, final Long currentMemberId) {
         Member currentMember = memberService.findById(currentMemberId);
 
-        HoneyTipCreate honeyTipCreate = HoneyTipCreate.of(request.getTitle(), request.getContent(), request.getCategory());
+        HoneyTipCreate honeyTipCreate = HoneyTipCreate.of(request.title(), request.content(), request.getCategory());
 
         HoneyTip honeytip = HoneyTip.of(honeyTipCreate, currentMember);
         honeyTipPostService.saveHoneyTipPost(honeytip);
@@ -90,7 +90,7 @@ public class HoneyTipPostFacade {
         HoneyTip honeyTip = honeyTipPostService.getHoneytip(postId);
         honeyTipPostService.checkEditPermission(honeyTip, currentMemberId);
 
-        HoneyTipEdit honeyTipEdit = HoneyTipEdit.of(request.getTitle(), request.getContent());
+        HoneyTipEdit honeyTipEdit = HoneyTipEdit.of(request.title(), request.content());
         // title, content 수정
         HoneyTipEditor postEditor = getPostEditor(honeyTipEdit, honeyTip);
         honeyTip.edit(postEditor);
@@ -120,8 +120,8 @@ public class HoneyTipPostFacade {
     private HoneyTipEditor getPostEditor(final HoneyTipEdit request, final HoneyTip honeyTip) {
         HoneyTipEditor.HoneyTipEditorBuilder editorBuilder = honeyTip.toEditor();
         return editorBuilder
-                .title(request.getTitle())
-                .content(request.getContent())
+                .title(request.title())
+                .content(request.content())
                 .build();
     }
 

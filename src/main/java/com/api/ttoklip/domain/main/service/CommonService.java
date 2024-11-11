@@ -6,7 +6,7 @@ import com.api.ttoklip.domain.main.dto.response.CategoryResponses;
 import com.api.ttoklip.domain.main.dto.response.CommonDefaultResponse;
 import com.api.ttoklip.domain.main.dto.response.TitleResponse;
 import com.api.ttoklip.domain.question.facade.QuestionPostFacade;
-import com.api.ttoklip.domain.question.service.QuestionPostService;
+import com.api.ttoklip.domain.question.application.QuestionPostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

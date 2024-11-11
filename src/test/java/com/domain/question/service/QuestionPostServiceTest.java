@@ -2,8 +2,8 @@ package com.domain.question.service;
 
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.domain.question.repository.post.QuestionRepository;
-import com.api.ttoklip.domain.question.service.QuestionPostService;
+import com.api.ttoklip.domain.question.domain.QuestionRepository;
+import com.api.ttoklip.domain.question.application.QuestionPostService;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
 import com.domain.question.repository.FakeQuestionPostRepository;

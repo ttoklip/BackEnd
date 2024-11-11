@@ -3,6 +3,7 @@ package com.domain.common.comment.domain;
 
 import com.domain.honeytip.domain.HoneyTipComment;
 import com.domain.newsletter.domain.NewsletterComment;
+import com.domain.question.domain.QuestionComment;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,8 +1,6 @@
-package com.domain.common.comment.domain;
+package com.domain.question.domain;
 
-import com.domain.common.base.BaseTimeEntity;
-import com.domain.member.domain.Member;
-import com.domain.question.domain.QuestionComment;
+import com.domain.common.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,34 +15,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
+@Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CommentLike extends BaseTimeEntity {
+public class QuestionImage extends BaseEntity {
 
     @Id
     @Column(name = "id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id")
-    private QuestionComment questionComment;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
-//    @Schema(description = "현재 사용자의 해당 댓글 좋아요 여부")
-//    private boolean likedByCurrentUser;
-
-    public static CommentLike from(final Member member, final QuestionComment questionComment) {
-        return CommentLike.builder()
-                .member(member)
-                .questionComment(questionComment)
+    public static QuestionImage of(final Question question, final String url) {
+        return QuestionImage.builder()
+                .url(url)
+                .question(question)
                 .build();
     }
-
 }

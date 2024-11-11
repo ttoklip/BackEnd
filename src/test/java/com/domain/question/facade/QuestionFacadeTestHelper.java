@@ -2,10 +2,10 @@ package com.domain.question.facade;
 
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.domain.question.service.QuestionCommentLikeService;
-import com.api.ttoklip.domain.question.service.QuestionCommentService;
-import com.api.ttoklip.domain.question.service.QuestionImageService;
-import com.api.ttoklip.domain.question.service.QuestionPostService;
+import com.api.ttoklip.domain.question.application.QuestionCommentLikeService;
+import com.api.ttoklip.domain.question.application.QuestionCommentService;
+import com.api.ttoklip.domain.question.application.QuestionImageService;
+import com.api.ttoklip.domain.question.application.QuestionPostService;
 import com.api.ttoklip.global.upload.Uploader;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

@@ -25,26 +25,26 @@ public class CommentResponse {
 
     private String writtenTime;
 
-    public static CommentResponse from(final Comment questionComment) {
-        LocalDateTime createdDate = questionComment.getCreatedDate();
+    public static CommentResponse from(final Comment comment) {
+        LocalDateTime createdDate = comment.getCreatedDate();
         String formatCreatedDate = formatCreatedDate(createdDate);
 
-        if (questionComment.getParent() == null) {
-            return getCommentResponse(questionComment, null, formatCreatedDate);
+        if (comment.getParent() == null) {
+            return getCommentResponse(comment, null, formatCreatedDate);
         }
 
-        return getCommentResponse(questionComment, questionComment.getParent().getId(), formatCreatedDate);
+        return getCommentResponse(comment, comment.getParent().getId(), formatCreatedDate);
     }
 
-    private static CommentResponse getCommentResponse(final Comment questionComment, final Long parentCommentId,
+    private static CommentResponse getCommentResponse(final Comment comment, final Long parentCommentId,
                                                       final String formatCreatedDate) {
-        String nickname = questionComment.getMember().getNickname();
+        String nickname = comment.getMember().getNickname();
         return CommentResponse.builder()
-                .commentId(questionComment.getId())
-                .commentContent(questionComment.getContent())
+                .commentId(comment.getId())
+                .commentContent(comment.getContent())
                 .parentId(parentCommentId)
                 .writer(nickname)
-                .writerProfileImageUrl(questionComment.getMember().getProfile().getProfileImgUrl())
+                .writerProfileImageUrl(comment.getMember().getProfile().getProfileImgUrl())
                 .writtenTime(formatCreatedDate)
                 .build();
     }
