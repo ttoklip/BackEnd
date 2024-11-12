@@ -1,7 +1,7 @@
 package com.api.ttoklip.domain.search.response;
 
 import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.cart.domain.TradeStatus;
+import com.api.ttoklip.domain.town.cart.domain.vo.TradeStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

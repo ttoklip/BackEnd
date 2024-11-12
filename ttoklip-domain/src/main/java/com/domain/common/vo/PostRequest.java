@@ -1,7 +1,7 @@
 package com.domain.common.vo;
 
 public interface PostRequest {
-    String title();
+    String getTitle();
 
-    String content();
+    String getContent();
 }
