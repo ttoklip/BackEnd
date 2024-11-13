@@ -60,7 +60,7 @@ public class AuthFacade {
                 request.nickname(),
                 request.independentYear(), request.independentMonth(), request.street(), request.agreeTermsOfService(),
                 request.agreePrivacyPolicy(), request.agreeLocationService(), request.getCategories());
-        return memberService.registerMember(create);
+        return memberService.registerLocalMember(create);
     }
 
     private void registerProfile(final MultipartFile profileImage, final Member newMember) {

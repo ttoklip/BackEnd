@@ -10,6 +10,7 @@ import com.domain.member.domain.LocalMemberCreate;
 import com.domain.member.domain.Member;
 import com.domain.member.domain.MemberRepository;
 import com.domain.interest.application.response.InterestResponse;
+import com.domain.member.domain.userInfo.OAuth2UserInfo;
 import com.domain.member.domain.vo.Provider;
 import com.domain.member.domain.vo.Role;
 import com.domain.profile.application.response.TargetMemberProfile;
@@ -101,7 +102,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member registerMember(final LocalMemberCreate create) {
+    public Member registerLocalMember(final LocalMemberCreate create) {
         String email = create.email();
         validateEmail(email);
         String password = create.password();
@@ -133,5 +134,17 @@ public class MemberService {
         if (isExist) {
             throw new ApiException(ErrorType.ALREADY_EXISTS_JOIN_ID);
         }
+    }
+
+    public Member registerOAuthMember(final OAuth2UserInfo userInfo, final Provider provider, final String encodedPassword) {
+        Member newMember = Member.builder()
+                .email(userInfo.getEmail())
+                .originName(userInfo.getName())
+                .provider(provider)
+                .role(Role.CLIENT)
+                .password(encodedPassword)
+                .build();
+        memberRepository.save(newMember);
+        return newMember;
     }
 }

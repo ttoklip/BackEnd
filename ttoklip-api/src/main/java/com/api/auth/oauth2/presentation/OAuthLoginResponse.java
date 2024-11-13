@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.security.oauth2.dto;
+package com.api.auth.oauth2.presentation;
 
 import lombok.Builder;
 

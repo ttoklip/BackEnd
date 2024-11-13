@@ -1,4 +1,4 @@
-package com.api.auth.oauth2.application.userInfo;
+package com.domain.member.domain.userInfo;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
