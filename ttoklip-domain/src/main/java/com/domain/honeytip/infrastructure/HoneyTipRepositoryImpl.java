@@ -27,6 +27,11 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepository {
     }
 
     @Override
+    public Page<HoneyTip> findHoneyTipsByTargetId(final Long targetId, final Pageable pageable) {
+        return queryDSLRepository.findHoneyTipsByTargetId(targetId, pageable);
+    }
+
+    @Override
     public HoneyTip findByIdActivated(final Long honeyTipId) {
         return queryDSLRepository.findByIdActivated(honeyTipId);
     }

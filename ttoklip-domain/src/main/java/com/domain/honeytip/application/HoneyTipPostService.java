@@ -94,4 +94,8 @@ public class HoneyTipPostService {
     public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
         return honeytipRepository.getContain(keyword, pageable, sort);
     }
+
+    public Page<HoneyTip> findHoneyTipsByTargetId(final Long targetId, final Pageable pageable) {
+        return honeytipRepository.findHoneyTipsByTargetId(targetId, pageable);
+    }
 }

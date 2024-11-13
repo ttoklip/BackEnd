@@ -27,4 +27,6 @@ public interface HoneyTipRepository {
     HoneyTip save(HoneyTip honeyTip);
 
     Page<HoneyTip> getContain(String keyword, Pageable pageable, String sort);
+
+    Page<HoneyTip> findHoneyTipsByTargetId(Long targetId, Pageable pageable);
 }

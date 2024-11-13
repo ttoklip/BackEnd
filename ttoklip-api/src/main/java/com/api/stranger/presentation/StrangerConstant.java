@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.stranger.constant;
+package com.api.stranger.presentation;
 
 public class StrangerConstant {
     public static final String strangerResponse = """

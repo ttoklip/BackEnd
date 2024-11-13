@@ -1,13 +1,13 @@
-package com.api.ttoklip.domain.stranger.service;
+package com.api.stranger.application;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.member.service.MemberService;
-import com.api.ttoklip.domain.search.controller.response.HoneyTipPaging;
-import com.api.ttoklip.domain.search.controller.response.SingleResponse;
-import com.api.ttoklip.domain.stranger.dto.response.StrangerResponse;
-import com.api.ttoklip.domain.stranger.repository.StrangerHoneyTipRepository;
-import com.api.ttoklip.global.success.Message;
+import com.api.global.success.Message;
+import com.api.search.presentation.response.HoneyTipPaging;
+import com.api.search.presentation.response.SingleResponse;
+import com.api.stranger.presentation.StrangerResponse;
+import com.domain.honeytip.application.HoneyTipPostService;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,23 +16,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class StrangerService {
+public class StrangerFacade {
     private final MemberService memberService;
-    private final StrangerHoneyTipRepository strangerHoneyTipRepository;
+    private final HoneyTipPostService honeyTipPostService;
 
     public StrangerResponse getStrangerProfile(final String nickname) {
         Member stranger = memberService.findByNickNameWithProfile(nickname);
-        StrangerResponse strangerResponse = StrangerResponse.of(stranger);
-        return strangerResponse;
+        return StrangerResponse.of(stranger);
     }
 
     public HoneyTipPaging strangerHoneyTip(final Pageable pageable, final Long targetId) {
-        Member stranger = memberService.findByIdWithProfile(targetId);
-        Page<HoneyTip> contentPaging = strangerHoneyTipRepository.getContain(targetId, pageable);
-        // List<Entity>
+        Page<HoneyTip> contentPaging = honeyTipPostService.findHoneyTipsByTargetId(targetId, pageable);
         List<HoneyTip> contents = contentPaging.getContent();
-
-        // Entity -> SingleResponse 반복
         List<SingleResponse> honeyTipSingleData = contents.stream()
                 .map(SingleResponse::honeyTipFrom)
                 .toList();

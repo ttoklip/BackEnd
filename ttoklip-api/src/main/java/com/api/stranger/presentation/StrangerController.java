@@ -1,11 +1,8 @@
-package com.api.ttoklip.domain.stranger.controller;
+package com.api.stranger.presentation;
 
-import com.api.ttoklip.domain.search.controller.response.HoneyTipPaging;
-import com.api.ttoklip.domain.stranger.constant.StrangerConstant;
-import com.api.ttoklip.domain.stranger.dto.response.StrangerResponse;
-import com.api.ttoklip.domain.stranger.service.StrangerService;
-import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.global.success.SuccessResponse;
+import com.api.search.presentation.response.HoneyTipPaging;
+import com.api.stranger.application.StrangerFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/stranger")
 public class StrangerController {
     private final static int PAGE_SIZE = 10;
-    private final StrangerService strangerService;
+    private final StrangerFacade strangerService;
 
     @Operation(summary = "타인 정보 불러오기", description = "타인의 기본 정보인 닉네임,동네,레벨,충족도를 가져옵니다")
     @ApiResponses(value = {
@@ -67,23 +64,23 @@ public class StrangerController {
         return new SuccessResponse<>(strangerService.strangerHoneyTip(pageable, userId));
     }
 
-    @Operation(summary = "타인이 참여한 거래 목록", description = "타인이 참여한 거래 목록 불러오기")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "참여한 거래 목록 조회 성공",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
-                            examples = @ExampleObject(
-                                    name = "SuccessResponse",
-                                    value = StrangerConstant.participatedDealsResponse,
-                                    description = "타인이 참여한 거래를 조회했습니다"
-                            )))})
-    @GetMapping("/participate-deals/{userId}")
-    public SuccessResponse<Message> participateDeals(
-            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            @RequestParam(required = false, defaultValue = "0") final int page,
-            @PathVariable final Long userId) {
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(strangerService.participateDeals(pageable, userId));
-    }
+//    @Operation(summary = "타인이 참여한 거래 목록", description = "타인이 참여한 거래 목록 불러오기")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "참여한 거래 목록 조회 성공",
+//                    content = @Content(
+//                            mediaType = "application/json",
+//                            schema = @Schema(implementation = SuccessResponse.class),
+//                            examples = @ExampleObject(
+//                                    name = "SuccessResponse",
+//                                    value = StrangerConstant.participatedDealsResponse,
+//                                    description = "타인이 참여한 거래를 조회했습니다"
+//                            )))})
+//    @GetMapping("/participate-deals/{userId}")
+//    public SuccessResponse<Message> participateDeals(
+//            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
+//            @RequestParam(required = false, defaultValue = "0") final int page,
+//            @PathVariable final Long userId) {
+//        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+//        return new SuccessResponse<>(strangerService.participateDeals(pageable, userId));
+//    }
 }

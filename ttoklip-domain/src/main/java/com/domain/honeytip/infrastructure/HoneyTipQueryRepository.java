@@ -219,7 +219,7 @@ public class HoneyTipQueryRepository {
 
     public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
         List<HoneyTip> content = getSearchPageTitleOrContent(keyword, pageable, sort);
-        Long count = countQuery(keyword);
+        Long count = containCountQuery(keyword);
         return new PageImpl<>(content, pageable, count);
     }
 
@@ -302,7 +302,7 @@ public class HoneyTipQueryRepository {
                 .fetch();
     }
 
-    private Long countQuery(final String keyword) {
+    private Long containCountQuery(final String keyword) {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(honeyTip)
@@ -312,4 +312,29 @@ public class HoneyTipQueryRepository {
                 .fetchOne();
     }
 
+    public Page<HoneyTip> findHoneyTipsByTargetId(final Long targetId, final Pageable pageable) {
+        List<HoneyTip> content = getSearchPageId(targetId, pageable);
+        Long count = writerCountQuery();
+        return new PageImpl<>(content, pageable, count);
+    }
+
+    private List<HoneyTip> getSearchPageId(final Long targetId, final Pageable pageable) {
+        return jpaQueryFactory
+                .selectFrom(honeyTip)
+                .distinct()
+                .where(honeyTip.member.id.eq(targetId).and(honeyTip.deleted.eq(false)))
+                .leftJoin(honeyTip.honeyTipComments, honeyTipComment)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .orderBy(honeyTip.id.desc())
+                .fetch();
+    }
+
+    private Long writerCountQuery() {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(honeyTip)
+                .where(honeyTip.member.id.eq(targetId).and(honeyTip.deleted.eq(false)))
+                .fetchOne();
+    }
 }
