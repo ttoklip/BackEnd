@@ -1,12 +1,12 @@
-package com.api.ttoklip.domain.search.controller;
+package com.api.search.presentation;
 
-import com.api.ttoklip.domain.search.constant.SearchResponseConstant;
-import com.api.ttoklip.domain.search.response.CartPaging;
-import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.response.HoneyTipPaging;
-import com.api.ttoklip.domain.search.response.NewsletterPaging;
-import com.api.ttoklip.domain.search.service.SearchService;
-import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.cart.presentation.dto.response.CartPaging;
+import com.api.community.presentation.dto.response.CommunityPaging;
+import com.api.global.success.SuccessResponse;
+import com.api.search.application.SearchFacade;
+import com.api.search.presentation.response.HoneyTipPaging;
+import com.api.search.presentation.response.NewsletterPaging;
+import com.api.search.presentation.response.SearchResponseConstant;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchController {
 
     private final static int PAGE_SIZE = 10; // 페이지 당 데이터 수
-    private final SearchService searchService;
+    private final SearchFacade searchFacade;
 
     @Operation(summary = "검색 기능 중 꿀팁 공유해요 api", description = "꿀팁 공유해요 게시판에 검색합니다.")
     @ApiResponses(value = {
@@ -55,7 +55,7 @@ public class SearchController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        HoneyTipPaging honeyTipPaging = searchService.honeyTipSearch(title, pageable, sort);
+        HoneyTipPaging honeyTipPaging = searchFacade.honeyTipSearch(title, pageable, sort);
         return new SuccessResponse<>(honeyTipPaging);
     }
 
@@ -81,7 +81,7 @@ public class SearchController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NewsletterPaging newsletterPaging = searchService.newsletterPaging(title, pageable, sort);
+        NewsletterPaging newsletterPaging = searchFacade.newsletterPaging(title, pageable, sort);
         return new SuccessResponse<>(newsletterPaging);
     }
 
@@ -106,7 +106,7 @@ public class SearchController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        CommunityPaging communityPaging = searchService.communityPaging(title, pageable, sort);
+        CommunityPaging communityPaging = searchFacade.communityPaging(title, pageable, sort);
         return new SuccessResponse<>(communityPaging);
     }
 
@@ -131,7 +131,7 @@ public class SearchController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        CartPaging cartPaging = searchService.cartPaging(title, pageable, sort);
+        CartPaging cartPaging = searchFacade.cartPaging(title, pageable, sort);
         return new SuccessResponse<>(cartPaging);
     }
 }

@@ -3,14 +3,11 @@ package com.api.honeytip.application;
 import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
-import com.domain.common.vo.CategoryPagingResponse;
-import com.domain.common.vo.TitleResponse;
 import com.api.honeytip.presentation.request.HoneyTipWebCreate;
 import com.api.honeytip.presentation.request.HoneyTipWebEdit;
 import com.api.honeytip.presentation.response.HoneyTipSingleResponse;
-import com.domain.common.report.domain.ReportCreate;
 import com.domain.common.report.application.ReportService;
-import com.domain.common.vo.Category;
+import com.domain.common.report.domain.ReportCreate;
 import com.domain.honeytip.application.HoneyTipCommentService;
 import com.domain.honeytip.application.HoneyTipImageService;
 import com.domain.honeytip.application.HoneyTipLikeService;
@@ -24,14 +21,11 @@ import com.domain.honeytip.domain.request.HoneyTipCreate;
 import com.domain.honeytip.domain.request.HoneyTipEdit;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

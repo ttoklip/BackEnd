@@ -34,4 +34,6 @@ public interface CartRepository {
             final Long lastParty,
             final TownCriteria townCriteria
     );
+
+    Page<Cart> getContain(String keyword, Pageable pageable, String sort);
 }

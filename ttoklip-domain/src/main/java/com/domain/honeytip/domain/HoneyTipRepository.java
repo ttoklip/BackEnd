@@ -25,4 +25,6 @@ public interface HoneyTipRepository {
     List<HoneyTip> getPopularityTop5();
 
     HoneyTip save(HoneyTip honeyTip);
+
+    Page<HoneyTip> getContain(String keyword, Pageable pageable, String sort);
 }

@@ -61,4 +61,7 @@ public class CartPostService {
                 .toList();
     }
 
+    public Page<Cart> getContain(final String keyword, final Pageable pageable, final String sort) {
+        return cartRepository.getContain(keyword, pageable, sort);
+    }
 }

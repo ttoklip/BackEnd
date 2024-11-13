@@ -67,4 +67,8 @@ public class CommunityPostService {
         checkEditPermission(community, memberId);
         community.deactivate();
     }
+
+    public Page<Community> getContain(final String keyword, final Pageable pageable, final String sort) {
+        return communityRepository.getContain(keyword, pageable, sort);
+    }
 }

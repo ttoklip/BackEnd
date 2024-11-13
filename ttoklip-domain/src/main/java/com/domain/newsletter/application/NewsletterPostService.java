@@ -45,4 +45,8 @@ public class NewsletterPostService {
     public List<Newsletter> getRecent3() {
         return newsletterRepository.getRecent3();
     }
+
+    public Page<Newsletter> getContain(final String keyword, final Pageable pageable, final String sort) {
+        return newsletterRepository.getContain(keyword, pageable, sort);
+    }
 }

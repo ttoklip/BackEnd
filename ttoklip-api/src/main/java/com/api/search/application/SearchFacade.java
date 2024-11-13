@@ -1,20 +1,20 @@
-package com.api.ttoklip.domain.search.service;
+package com.api.search.application;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.repository.scrap.HoneyTipSearchRepository;
-import com.api.ttoklip.domain.mypage.dto.response.UserCartSingleResponse;
-import com.api.ttoklip.domain.newsletter.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterRepository;
-import com.api.ttoklip.domain.search.response.CartPaging;
-import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.response.TownCommunityResponse;
-import com.api.ttoklip.domain.search.response.HoneyTipPaging;
-import com.api.ttoklip.domain.search.response.NewsletterPaging;
-import com.api.ttoklip.domain.search.response.SingleResponse;
-import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.cart.repository.post.CartSearchRepository;
-import com.api.ttoklip.domain.town.community.domain.Community;
-import com.api.ttoklip.domain.town.community.infrastructure.CommunitySearchRepository;
+import com.api.cart.presentation.dto.response.CartPaging;
+import com.api.community.presentation.dto.response.CommunityPaging;
+import com.api.search.presentation.response.HoneyTipPaging;
+import com.api.search.presentation.response.NewsletterPaging;
+import com.api.search.presentation.response.SingleResponse;
+import com.api.town.application.TownCommunityResponse;
+import com.domain.cart.application.CartPostService;
+import com.domain.cart.application.CartRecent3Response;
+import com.domain.cart.domain.Cart;
+import com.domain.community.application.CommunityPostService;
+import com.domain.community.domain.Community;
+import com.domain.honeytip.application.HoneyTipPostService;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.newsletter.application.NewsletterPostService;
+import com.domain.newsletter.domain.Newsletter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,20 +25,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class SearchService {
+public class SearchFacade {
 
-    private final HoneyTipSearchRepository honeyTipSearchRepository;
-    private final CommunitySearchRepository communitySearchRepository;
-    private final NewsletterRepository newsletterRepository;
-    private final CartSearchRepository cartSearchRepository;
+    private final HoneyTipPostService honeyTipPostService;
+    private final CommunityPostService communityPostService;
+    private final CartPostService cartPostService;
+    private final NewsletterPostService newsletterPostService;
 
     public HoneyTipPaging honeyTipSearch(final String keyword, final Pageable pageable, final String sort) {
-        Page<HoneyTip> contentPaging = honeyTipSearchRepository.getContain(keyword, pageable, sort);
-
-        // List<Entity>
+        Page<HoneyTip> contentPaging = honeyTipPostService.getContain(keyword, pageable, sort);
         List<HoneyTip> contents = contentPaging.getContent();
-
-        // Entity -> SingleResponse 반복
         List<SingleResponse> honeyTipSingleData = contents.stream()
                 .map(SingleResponse::honeyTipFrom)
                 .toList();
@@ -53,12 +49,8 @@ public class SearchService {
     }
 
     public NewsletterPaging newsletterPaging(final String keyword, final Pageable pageable, final String sort) {
-        Page<Newsletter> contentPaging = newsletterRepository.getContain(keyword, pageable, sort);
-
-        // List<Entity>
+        Page<Newsletter> contentPaging = newsletterPostService.getContain(keyword, pageable, sort);
         List<Newsletter> contents = contentPaging.getContent();
-
-        // Entity -> SingleResponse 반복
         List<SingleResponse> newsletterSingleData = contents.stream()
                 .map(SingleResponse::newsletterFrom)
                 .toList();
@@ -73,12 +65,8 @@ public class SearchService {
     }
 
     public CommunityPaging communityPaging(final String keyword, final Pageable pageable, final String sort) {
-        Page<Community> contentPaging = communitySearchRepository.getContain(keyword, pageable, sort);
-
-        // List<Entity>
+        Page<Community> contentPaging = communityPostService.getContain(keyword, pageable, sort);
         List<Community> contents = contentPaging.getContent();
-
-        // Entity -> SingleResponse 반복
         List<TownCommunityResponse> communitySingleData = contents.stream()
                 .map(TownCommunityResponse::from)
                 .toList();
@@ -93,14 +81,10 @@ public class SearchService {
     }
 
     public CartPaging cartPaging(final String keyword, final Pageable pageable, final String sort) {
-        Page<Cart> contentPaging = cartSearchRepository.getContain(keyword, pageable, sort);
-
-        // List<Entity>
+        Page<Cart> contentPaging = cartPostService.getContain(keyword, pageable, sort);
         List<Cart> contents = contentPaging.getContent();
-
-        // Entity -> SingleResponse 반복
-        List<UserCartSingleResponse> cartSingleData = contents.stream()
-                .map(UserCartSingleResponse::from)
+        List<CartRecent3Response> cartSingleData = contents.stream()
+                .map(CartRecent3Response::from)
                 .toList();
 
         return CartPaging.builder()

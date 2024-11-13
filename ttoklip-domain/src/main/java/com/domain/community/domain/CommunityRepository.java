@@ -18,4 +18,6 @@ public interface CommunityRepository {
     Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable);
 
     Community save(Community community);
+
+    Page<Community> getContain(final String keyword, final Pageable pageable, final String sort);
 }

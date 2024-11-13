@@ -67,4 +67,9 @@ public class CartRepositoryImpl implements CartRepository {
                                     final TownCriteria townCriteria) {
         return queryRepository.getCartPaging(pageable, startMoney, lastMoney, startParty, lastParty, townCriteria);
     }
+
+    @Override
+    public Page<Cart> getContain(final String keyword, final Pageable pageable, final String sort) {
+        return queryRepository.getContain(keyword, pageable, sort);
+    }
 }

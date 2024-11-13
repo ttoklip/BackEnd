@@ -90,4 +90,8 @@ public class HoneyTipPostService {
                 .map(TitleResponse::honeyTipFrom)
                 .toList();
     }
+
+    public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
+        return honeytipRepository.getContain(keyword, pageable, sort);
+    }
 }

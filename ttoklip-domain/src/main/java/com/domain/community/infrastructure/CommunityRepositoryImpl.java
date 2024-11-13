@@ -14,36 +14,42 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class CommunityRepositoryImpl implements CommunityRepository {
 
-    private final CommunityQueryRepository queryRepository;
     private final CommunityJpaRepository jpaRepository;
+    private final CommunityQueryRepository queryDSLRepository;
 
     @Override
     public Community findByIdActivated(final Long communityId) {
-        return queryRepository.findByIdActivated(communityId);
+        return queryDSLRepository.findByIdActivated(communityId);
     }
 
     @Override
     public Community findByIdFetchJoin(final Long postId) {
-        return queryRepository.findByIdFetchJoin(postId);
+        return queryDSLRepository.findByIdFetchJoin(postId);
     }
 
     @Override
     public List<CommunityComment> findActiveCommentsByCommunityId(final Long postId) {
-        return queryRepository.findActiveCommentsByCommunityId(postId);
+        return queryDSLRepository.findActiveCommentsByCommunityId(postId);
     }
 
     @Override
     public List<Community> getRecent3(final TownCriteria townCriteria) {
-        return queryRepository.getRecent3(townCriteria);
+        return queryDSLRepository.getRecent3(townCriteria);
     }
 
     @Override
     public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
-        return queryRepository.getPaging(townCriteria, pageable);
+        return queryDSLRepository.getPaging(townCriteria, pageable);
     }
 
     @Override
     public Community save(final Community community) {
         return jpaRepository.save(community);
     }
+
+    @Override
+    public Page<Community> getContain(final String keyword, final Pageable pageable, final String sort) {
+        return queryDSLRepository.getContain(keyword, pageable, sort);
+    }
+
 }

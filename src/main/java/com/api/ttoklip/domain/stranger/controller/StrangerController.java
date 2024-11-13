@@ -1,6 +1,6 @@
 package com.api.ttoklip.domain.stranger.controller;
 
-import com.api.ttoklip.domain.search.response.HoneyTipPaging;
+import com.api.ttoklip.domain.search.controller.response.HoneyTipPaging;
 import com.api.ttoklip.domain.stranger.constant.StrangerConstant;
 import com.api.ttoklip.domain.stranger.dto.response.StrangerResponse;
 import com.api.ttoklip.domain.stranger.service.StrangerService;

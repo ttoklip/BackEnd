@@ -1,26 +1,15 @@
-package com.api.ttoklip.domain.search.response;
+package com.api.search.presentation.response;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.newsletter.domain.Newsletter;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import com.domain.common.vo.Category;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.newsletter.domain.Newsletter;
 import lombok.Builder;
-import lombok.Getter;
 
-@Getter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SingleResponse {
-
-    private Long id;
-    private Category category;
-    private String title;
-    private String content;
-    private String writer;
-    private String writerProfileImageUrl;
-    private int likeCount;
-    private int scrapCount;
-    private int commentCount;
+public record SingleResponse(
+        Long id, Category category, String title, String content, String writer,
+        String writerProfileImageUrl, int likeCount, int scrapCount, int commentCount
+) {
 
     public static SingleResponse honeyTipFrom(final HoneyTip honeyTip) {
         return SingleResponse.builder()
