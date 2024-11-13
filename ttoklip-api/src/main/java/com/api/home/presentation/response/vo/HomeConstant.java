@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.home.constant;
+package com.api.home.presentation.response.vo;
 
 public class HomeConstant {
     public static final String HOME_RESPONSE = """

@@ -3,6 +3,9 @@ package com.domain.question.application;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
+import com.domain.common.vo.CategoryPagingResponse;
+import com.domain.common.vo.TitleResponse;
+import com.domain.common.vo.CategoryResponses;
 import com.domain.question.domain.Question;
 import com.domain.question.domain.QuestionComment;
 import com.domain.question.domain.QuestionRepository;
@@ -63,28 +66,46 @@ public class QuestionPostService {
 
 
     /* -------------------------------------------- 카토고리별 MAIN READ -------------------------------------------- */
-    public List<Question> getHouseWork() {
-        return questionRepository.getHouseWork();
+
+    public CategoryResponses getDefaultCategoryRead() {
+        List<Question> houseWorkQuestions = questionRepository.getHouseWork();
+        List<Question> recipeQuestions = questionRepository.getRecipe();
+        List<Question> safeLivingQuestions = questionRepository.getSafeLiving();
+        List<Question> welfarePolicyQuestions = questionRepository.getWelfarePolicy();
+
+        return CategoryResponses.builder()
+                .housework(convertToTitleResponses(houseWorkQuestions))
+                .cooking(convertToTitleResponses(recipeQuestions))
+                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+                .build();
     }
 
-    public List<Question> getRecipe() {
-        return questionRepository.getRecipe();
+    private List<TitleResponse> convertToTitleResponses(final List<Question> questions) {
+        return questions.stream()
+                .map(TitleResponse::questionOf)
+                .toList();
     }
 
-    public List<Question> getSafeLiving() {
-        return questionRepository.getSafeLiving();
-    }
-
-    public List<Question> getWelfarePolicy() {
-        return questionRepository.getWelfarePolicy();
-    }
     /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
 
 
     // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 ------------------------------------
 
-    public Page<Question> matchCategoryPaging(final Category category, final Pageable pageable) {
-        return questionRepository.matchCategoryPaging(category, pageable);
+    public CategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
+        Page<Question> questions = questionRepository.matchCategoryPaging(category, pageable);
+        List<TitleResponse> data = questions.stream()
+                .map(TitleResponse::questionOf)
+                .toList();
+
+        return CategoryPagingResponse.builder()
+                .data(data)
+                .category(category)
+                .totalPage(questions.getTotalPages())
+                .totalElements(questions.getTotalElements())
+                .isLast(questions.isLast())
+                .isFirst(questions.isFirst())
+                .build();
     }
     // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 끝 ------------------------------------
 }

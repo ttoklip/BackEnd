@@ -1,8 +1,7 @@
-package com.api.ttoklip.domain.main.dto.response;
+package com.domain.common.vo;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
-import com.api.ttoklip.domain.question.domain.QuestionImage;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.domain.honeytip.domain.HoneyTipImage;
+import com.domain.question.domain.QuestionImage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,21 +12,19 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageResponse {
 
-    @Schema(description = "포스트 이미지 id")
     private Long imageId;
 
-    @Schema(description = "포스트 이미지 url")
     private String imageUrl;
 
     public static ImageResponse questionFrom(final QuestionImage image) {
-        return ImageResponse.builder()
+        return builder()
                 .imageId(image.getId())
                 .imageUrl(image.getUrl())
                 .build();
     }
 
     public static ImageResponse honeyTipFrom(final HoneyTipImage image) {
-        return ImageResponse.builder()
+        return builder()
                 .imageId(image.getId())
                 .imageUrl(image.getUrl())
                 .build();

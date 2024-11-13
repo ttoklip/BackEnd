@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.main.dto.response;
+package com.domain.common.vo;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

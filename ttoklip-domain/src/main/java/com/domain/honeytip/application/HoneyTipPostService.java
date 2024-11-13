@@ -3,6 +3,9 @@ package com.domain.honeytip.application;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
+import com.domain.common.vo.CategoryPagingResponse;
+import com.domain.common.vo.CategoryResponses;
+import com.domain.common.vo.TitleResponse;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipRepository;
 import java.util.List;
@@ -40,32 +43,51 @@ public class HoneyTipPostService {
         return honeytipRepository.findHoneyTipWithDetails(postId);
     }
 
-    public List<HoneyTip> findHouseworkTips() {
-        return honeytipRepository.findHouseworkTips();
-    }
-
-    public List<HoneyTip> findRecipeTips() {
-        return honeytipRepository.findRecipeTips();
-    }
-
-    public List<HoneyTip> findSafeLivingTips() {
-        return honeytipRepository.findSafeLivingTips();
-    }
-
-    public List<HoneyTip> findWelfarePolicyTips() {
-        return honeytipRepository.findWelfarePolicyTips();
-    }
-
-    public List<HoneyTip> getPopularityTop5() {
-        return honeytipRepository.getPopularityTop5();
-    }
-
     public List<HoneyTip> findRecent3() {
         return honeytipRepository.findRecent3();
     }
 
-    public Page<HoneyTip> matchCategoryPaging(final Category category, final Pageable pageable) {
-        return honeytipRepository.matchCategoryPaging(category, pageable);
+    public CategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
+        Page<HoneyTip> honeyTips = honeytipRepository.matchCategoryPaging(category, pageable);
+        List<TitleResponse> data = honeyTips.stream()
+                .map(TitleResponse::honeyTipFrom)
+                .toList();
+
+        return CategoryPagingResponse.builder()
+                .data(data)
+                .category(category)
+                .totalPage(honeyTips.getTotalPages())
+                .totalElements(honeyTips.getTotalElements())
+                .isLast(honeyTips.isLast())
+                .isFirst(honeyTips.isFirst())
+                .build();
     }
 
+
+    public CategoryResponses getDefaultCategoryRead() {
+        List<HoneyTip> houseWorkQuestions = honeytipRepository.findHouseworkTips();
+        List<HoneyTip> recipeQuestions = honeytipRepository.findRecipeTips();
+        List<HoneyTip> safeLivingQuestions = honeytipRepository.findSafeLivingTips();
+        List<HoneyTip> welfarePolicyQuestions = honeytipRepository.findWelfarePolicyTips();
+
+        return CategoryResponses.builder()
+                .housework(convertToTitleResponses(houseWorkQuestions))
+                .cooking(convertToTitleResponses(recipeQuestions))
+                .safeLiving(convertToTitleResponses(safeLivingQuestions))
+                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
+                .build();
+    }
+
+    private List<TitleResponse> convertToTitleResponses(final List<HoneyTip> honeyTips) {
+        return honeyTips.stream()
+                .map(TitleResponse::honeyTipFrom)
+                .toList();
+    }
+
+    public List<TitleResponse> getPopularityTop5() {
+        List<HoneyTip> top5HoneyTips = honeytipRepository.getPopularityTop5();
+        return top5HoneyTips.stream()
+                .map(TitleResponse::honeyTipFrom)
+                .toList();
+    }
 }

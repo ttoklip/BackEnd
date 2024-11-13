@@ -3,6 +3,8 @@ package com.api.honeytip.application;
 import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
+import com.domain.common.vo.CategoryPagingResponse;
+import com.domain.common.vo.TitleResponse;
 import com.api.honeytip.presentation.request.HoneyTipWebCreate;
 import com.api.honeytip.presentation.request.HoneyTipWebEdit;
 import com.api.honeytip.presentation.response.HoneyTipSingleResponse;
@@ -180,55 +182,4 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
 
-
-    /* -------------------------------------------- 카토고리별 MAIN READ -------------------------------------------- */
-    public CategoryResponses getDefaultCategoryRead() {
-        List<HoneyTip> houseWorkQuestions = honeyTipPostService.findHouseworkTips();
-        List<HoneyTip> recipeQuestions = honeyTipPostService.findRecipeTips();
-        List<HoneyTip> safeLivingQuestions = honeyTipPostService.findSafeLivingTips();
-        List<HoneyTip> welfarePolicyQuestions = honeyTipPostService.findWelfarePolicyTips();
-
-        return CategoryResponses.builder()
-                .housework(convertToTitleResponses(houseWorkQuestions))
-                .cooking(convertToTitleResponses(recipeQuestions))
-                .safeLiving(convertToTitleResponses(safeLivingQuestions))
-                .welfarePolicy(convertToTitleResponses(welfarePolicyQuestions))
-                .build();
-    }
-
-    private List<TitleResponse> convertToTitleResponses(final List<HoneyTip> honeyTips) {
-        return honeyTips.stream()
-                .map(TitleResponse::honeyTipFrom)
-                .toList();
-    }
-
-    public List<TitleResponse> getPopularityTop5() {
-        List<HoneyTip> top5HoneyTips = honeyTipPostService.getPopularityTop5();
-        return top5HoneyTips.stream()
-                .map(TitleResponse::honeyTipFrom)
-                .toList();
-    }
-
-    /* -------------------------------------------- 카토고리별 MAIN READ 끝 -------------------------------------------- */
-
-
-    /* -------------------------------------------- 카테고리별 페이징 -------------------------------------------- */
-    public CategoryPagingResponse matchCategoryPaging(final Category category, final Pageable pageable) {
-        Page<HoneyTip> questions = honeyTipPostService.matchCategoryPaging(category, pageable);
-
-        List<TitleResponse> data = questions.stream()
-                .map(TitleResponse::honeyTipFrom)
-                .toList();
-
-        return CategoryPagingResponse.builder()
-                .data(data)
-                .category(category)
-                .totalPage(questions.getTotalPages())
-                .totalElements(questions.getTotalElements())
-                .isLast(questions.isLast())
-                .isFirst(questions.isFirst())
-                .build();
-    }
-
-    /* -------------------------------------------- 카테고리별 페이징 끝 -------------------------------------------- */
 }

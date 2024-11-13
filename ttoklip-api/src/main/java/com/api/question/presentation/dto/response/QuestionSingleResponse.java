@@ -1,6 +1,7 @@
 package com.api.question.presentation.dto.response;
 
 import com.api.global.util.TimeUtil;
+import com.domain.common.vo.ImageResponse;
 import com.domain.common.vo.Category;
 import com.domain.question.domain.Question;
 import com.domain.question.domain.QuestionImage;

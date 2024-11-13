@@ -1,9 +1,9 @@
-package com.api.ttoklip.domain.main.dto.response;
+package com.domain.common.vo;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.global.util.TimeUtil;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.question.domain.Question;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class TitleResponse {
         int commentCount = question.getQuestionComments().size();
         String writer = question.getMember().getNickname();
 
-        return TitleResponse.builder()
+        return builder()
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
@@ -47,7 +47,7 @@ public class TitleResponse {
         int scrapCount = honeyTip.getHoneyTipScraps().size();
         String writer = honeyTip.getMember().getNickname();
 
-        return TitleResponse.builder()
+        return builder()
                 .id(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
@@ -61,6 +61,11 @@ public class TitleResponse {
     }
 
     private static String getFormattedCreatedDate(final LocalDateTime localDateTime) {
-        return TimeUtil.formatCreatedDate(localDateTime);
+        if (localDateTime == null) {
+
+            return DATE_NONE;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");
+        return localDateTime.format(formatter);
     }
 }
