@@ -19,7 +19,7 @@ import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.question.domain.Question;
 import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
+import com.api.ttoklip.domain.search.response.TownCommunityResponse;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.search.response.SingleResponse;
@@ -97,8 +97,8 @@ public class MyPageService {
         List<Community> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
-        List<CommunitySingleResponse> communitySingleData = contents.stream()
-                .map(CommunitySingleResponse::from)
+        List<TownCommunityResponse> communitySingleData = contents.stream()
+                .map(TownCommunityResponse::from)
                 .toList();
 
         return CommunityPaging.builder()
@@ -141,8 +141,8 @@ public class MyPageService {
         List<Community> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
-        List<CommunitySingleResponse> communitySingleData = contents.stream()
-                .map(CommunitySingleResponse::from)
+        List<TownCommunityResponse> communitySingleData = contents.stream()
+                .map(TownCommunityResponse::from)
                 .toList();
 
         return CommunityPaging.builder()

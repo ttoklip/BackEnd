@@ -1,6 +1,7 @@
 package com.domain.common.comment.domain;
 
 
+import com.domain.community.domain.CommunityComment;
 import com.domain.honeytip.domain.HoneyTipComment;
 import com.domain.newsletter.domain.NewsletterComment;
 import com.domain.question.domain.QuestionComment;

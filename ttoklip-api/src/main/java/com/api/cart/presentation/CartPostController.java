@@ -4,7 +4,7 @@ import com.api.cart.application.CartPostFacade;
 import com.api.cart.presentation.dto.request.CartWebCreate;
 import com.api.cart.presentation.dto.request.UpdateStatusRequest;
 import com.api.cart.presentation.dto.response.CartGroupMemberResponse;
-import com.api.cart.presentation.dto.response.CartSingleResponse;
+import com.api.cart.presentation.dto.response.CartResponse;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -57,16 +57,16 @@ public class CartPostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "함께해요 게시글 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CartSingleResponse.class),
+                            schema = @Schema(implementation = CartResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = CartResponseConstant.readSingleCart,
                                     description = "함께해요 게시글이 조회되었습니다."
                             )))})
     @GetMapping("/{postId}")
-    public SuccessResponse<CartSingleResponse> getSinglePost(final @PathVariable Long postId) {
+    public SuccessResponse<CartResponse> getSinglePost(final @PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        CartSingleResponse response = cartPostFacade.getSinglePost(postId, currentMemberId);
+        CartResponse response = cartPostFacade.getSinglePost(postId, currentMemberId);
         return new SuccessResponse<>(response);
     }
 

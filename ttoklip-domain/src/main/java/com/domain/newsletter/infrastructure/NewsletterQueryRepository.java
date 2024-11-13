@@ -1,5 +1,8 @@
 package com.domain.newsletter.infrastructure;
 
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.common.vo.Category;
 import com.domain.newsletter.domain.Newsletter;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;

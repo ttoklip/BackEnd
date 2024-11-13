@@ -3,7 +3,7 @@ package com.api.cart.application;
 import com.api.cart.presentation.dto.request.CartWebCreate;
 import com.api.cart.presentation.dto.response.CartGroupMemberResponse;
 import com.api.cart.presentation.dto.response.CartMemberResponse;
-import com.api.cart.presentation.dto.response.CartSingleResponse;
+import com.api.cart.presentation.dto.response.CartResponse;
 import com.api.common.ReportCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
@@ -13,6 +13,7 @@ import com.domain.cart.application.CartCommentService;
 import com.domain.cart.application.CartImageService;
 import com.domain.cart.application.CartMemberService;
 import com.domain.cart.application.CartPostService;
+import com.domain.cart.application.CartRecent3Response;
 import com.domain.cart.application.ItemUrlService;
 import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartComment;
@@ -82,17 +83,17 @@ public class CartPostFacade {
 
     /* -------------------------------------------- READ -------------------------------------------- */
 
-    public CartSingleResponse getSinglePost(final Long postId, final Long memberId) {
+    public CartResponse getSinglePost(final Long postId, final Long memberId) {
         Cart cartWithImg = cartPostService.findByIdFetchJoin(postId);
         List<CartComment> activeComments = cartCommentService.findActiveCommentsByCartId(postId);
         boolean isAlreadyJoin = cartMemberService.existsByMemberIdAndCartId(memberId, cartWithImg.getId());
-        return CartSingleResponse.of(cartWithImg, activeComments, isAlreadyJoin);
+        return CartResponse.of(cartWithImg, activeComments, isAlreadyJoin);
     }
 
-    public List<UserCartSingleResponse> getRecent3(final TownCriteria townCriteria) {
+    public List<CartRecent3Response> getRecent3(final TownCriteria townCriteria) {
         List<Cart> carts = cartPostService.findRecent3(townCriteria);
         return carts.stream()
-                .map(UserCartSingleResponse::cartFrom)
+                .map(CartRecent3Response::from)
                 .toList();
     }
 

@@ -54,10 +54,10 @@ public class CartPostService {
                 townCriteria);
     }
 
-    public List<UserCartSingleResponse> getRecent3(TownCriteria townCriteria) {
+    public List<CartRecent3Response> getRecent3(TownCriteria townCriteria) {
         List<Cart> carts = cartRepository.findRecent3(townCriteria);
         return carts.stream()
-                .map(UserCartSingleResponse::from)
+                .map(CartRecent3Response::from)
                 .toList();
     }
 

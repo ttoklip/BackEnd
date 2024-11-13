@@ -7,14 +7,14 @@ import com.api.ttoklip.domain.newsletter.domain.Newsletter;
 import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterRepository;
 import com.api.ttoklip.domain.search.response.CartPaging;
 import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.response.CommunitySingleResponse;
+import com.api.ttoklip.domain.search.response.TownCommunityResponse;
 import com.api.ttoklip.domain.search.response.HoneyTipPaging;
 import com.api.ttoklip.domain.search.response.NewsletterPaging;
 import com.api.ttoklip.domain.search.response.SingleResponse;
 import com.api.ttoklip.domain.town.cart.domain.Cart;
 import com.api.ttoklip.domain.town.cart.repository.post.CartSearchRepository;
 import com.api.ttoklip.domain.town.community.domain.Community;
-import com.api.ttoklip.domain.town.community.repository.scrap.CommunitySearchRepository;
+import com.api.ttoklip.domain.town.community.infrastructure.CommunitySearchRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -79,8 +79,8 @@ public class SearchService {
         List<Community> contents = contentPaging.getContent();
 
         // Entity -> SingleResponse 반복
-        List<CommunitySingleResponse> communitySingleData = contents.stream()
-                .map(CommunitySingleResponse::from)
+        List<TownCommunityResponse> communitySingleData = contents.stream()
+                .map(TownCommunityResponse::from)
                 .toList();
 
         return CommunityPaging.builder()
