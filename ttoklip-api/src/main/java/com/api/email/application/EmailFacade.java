@@ -1,9 +1,9 @@
-package com.api.ttoklip.domain.email.service;
+package com.api.email.application;
 
-import com.api.ttoklip.domain.email.dto.request.EmailVerifyRequest;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.util.RedisUtil;
+import com.api.email.presentation.EmailVerifyRequest;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.infrastructure.util.RedisUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -12,7 +12,6 @@ import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,9 +21,9 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EmailService {
+public class EmailFacade {
 
-    private final JavaMailSender javaMailSender;
+    private final Sender sender;
     private final RedisUtil redisUtil;
     private final SpringTemplateEngine templateEngine;
 
@@ -52,10 +51,8 @@ public class EmailService {
     // 이메일 폼 생성
     private MimeMessage createEmailForm(String email) {
         String authCode = createCode();
-
-        MimeMessage message;
         try {
-            message = javaMailSender.createMimeMessage();
+            MimeMessage message = sender.createMimeMessage();
             message.addRecipients(MimeMessage.RecipientType.TO, email);
             message.setSubject("안녕하세요. 똑립 인증 번호입니다.");
             message.setFrom(new InternetAddress(senderEmail, "똑립"));
@@ -68,7 +65,6 @@ public class EmailService {
             throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
         }
 
-        // Redis 에 해당 인증코드 인증 시간 설정
         setRedisData(email, authCode);
 
         return message;
@@ -91,7 +87,6 @@ public class EmailService {
             validEmailHasText(toEmail);
             validRedisHasEmail(toEmail);
 
-            // 이메일 폼 생성
             createEmail(toEmail);
         } catch (Exception e) {
             log.error("Exception in sendEmail: {}", e.getMessage(), e);
@@ -121,17 +116,16 @@ public class EmailService {
     private void sendEmail(final MimeMessage emailForm) {
         try {
             // 이메일 발송
-            javaMailSender.send(emailForm);
+            sender.send(emailForm);
         } catch (Exception e) {
             log.error("Failed to send email: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
         }
     }
 
-    // 코드 검증
     public void verifyEmailCode(EmailVerifyRequest request) {
-        validEmailHasText(request.getEmail());
-        validCode(request.getEmail(), request.getVerifyCode());
+        validEmailHasText(request.email());
+        validCode(request.email(), request.verifyCode());
     }
 
     private void validEmailHasText(String email) {
@@ -160,4 +154,5 @@ public class EmailService {
             throw new ApiException(ErrorType.INVALID_MAIL_CODE);
         }
     }
+
 }

@@ -1,10 +1,8 @@
-package com.api.ttoklip.domain.email.controller;
+package com.api.email.presentation;
 
-import com.api.ttoklip.domain.email.dto.request.EmailSendRequest;
-import com.api.ttoklip.domain.email.dto.request.EmailVerifyRequest;
-import com.api.ttoklip.domain.email.service.EmailService;
-import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.email.application.EmailFacade;
+import com.api.global.success.Message;
+import com.api.global.success.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class EmailController {
 
-    private final EmailService emailService;
+    private final EmailFacade emailFacade;
 
     /* --------------------------------- send authentication code --------------------------------- */
     @Operation(summary = "인증코드 메일 발송", description = "인증코드를 메일로 발송합니다.")
@@ -31,9 +29,9 @@ public class EmailController {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/send")
-    public SuccessResponse<Message> mailSend(@RequestBody EmailSendRequest request) {
+    public SuccessResponse<Message> mailSend(final @RequestBody EmailSendRequest request) {
         log.info("EmailController.mailSend()");
-        emailService.sendEmail(request.getEmail());
+        emailFacade.sendEmail(request.email());
         return new SuccessResponse<>(Message.sendEmail());
     }
 
@@ -43,9 +41,9 @@ public class EmailController {
             @ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/verify")
-    public SuccessResponse<Message> verify(@RequestBody EmailVerifyRequest request) {
+    public SuccessResponse<Message> verify(final @RequestBody EmailVerifyRequest request) {
         log.info("EmailController.verify()");
-        emailService.verifyEmailCode(request);
+        emailFacade.verifyEmailCode(request);
         return new SuccessResponse<>(Message.verifyCodeSuccess());
     }
 }

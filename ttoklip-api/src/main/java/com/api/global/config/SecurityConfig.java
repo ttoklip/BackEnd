@@ -2,6 +2,7 @@ package com.api.global.config;
 
 import com.api.global.jwt.JwtAuthenticationFilter;
 import com.api.global.security.OAuthAuthenticationEntryPoint;
+import com.domain.member.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

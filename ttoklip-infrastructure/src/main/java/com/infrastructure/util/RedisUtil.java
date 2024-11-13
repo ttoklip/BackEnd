@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.util;
+package com.infrastructure.util;
 
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
