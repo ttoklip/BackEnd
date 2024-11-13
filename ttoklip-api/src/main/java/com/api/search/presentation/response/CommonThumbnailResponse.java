@@ -6,13 +6,13 @@ import com.domain.newsletter.domain.Newsletter;
 import lombok.Builder;
 
 @Builder
-public record SingleResponse(
+public record CommonThumbnailResponse(
         Long id, Category category, String title, String content, String writer,
         String writerProfileImageUrl, int likeCount, int scrapCount, int commentCount
 ) {
 
-    public static SingleResponse honeyTipFrom(final HoneyTip honeyTip) {
-        return SingleResponse.builder()
+    public static CommonThumbnailResponse honeyTipFrom(final HoneyTip honeyTip) {
+        return CommonThumbnailResponse.builder()
                 .id(honeyTip.getId())
                 .title(honeyTip.getTitle())
                 .content(honeyTip.getContent())
@@ -25,8 +25,8 @@ public record SingleResponse(
                 .build();
     }
 
-    public static SingleResponse newsletterFrom(final Newsletter newsletter) {
-        return SingleResponse.builder()
+    public static CommonThumbnailResponse newsletterFrom(final Newsletter newsletter) {
+        return CommonThumbnailResponse.builder()
                 .id(newsletter.getId())
                 .title(newsletter.getTitle())
                 .content(newsletter.getContent())

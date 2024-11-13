@@ -107,5 +107,9 @@ public class QuestionPostService {
                 .isFirst(questions.isFirst())
                 .build();
     }
+
+    public Page<Question> getMatchWriterPaging(final Long memberId, final Pageable pageable) {
+        return questionRepository.matchWriterPaging(memberId, pageable);
+    }
     // ------------------------------------ 메인 페이지 꿀팁공유해요 카테고리별 페이징 조회 끝 ------------------------------------
 }

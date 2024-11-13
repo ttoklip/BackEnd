@@ -6,11 +6,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record CartRecent3Response(
+public record CartThumbnailResponse(
         Long id, String title, String location, Long totalPrice, Long partyMax, String writer,
         String writerProfileImageUrl, int partyCnt, int commentCount, int currentPrice, TradeStatus tradeStatus) {
 
-    public static CartRecent3Response from(final Cart cart) {
+    public static CartThumbnailResponse from(final Cart cart) {
         int currentPrice = (int) (cart.getTotalPrice() / cart.getPartyMax() * cart.getCartMembers().size());
         return builder()
                 .id(cart.getId())

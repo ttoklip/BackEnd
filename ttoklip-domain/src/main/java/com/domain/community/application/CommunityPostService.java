@@ -7,6 +7,7 @@ import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityEdit;
 import com.domain.community.domain.CommunityEditor;
 import com.domain.community.domain.CommunityRepository;
+import com.domain.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -70,5 +71,9 @@ public class CommunityPostService {
 
     public Page<Community> getContain(final String keyword, final Pageable pageable, final String sort) {
         return communityRepository.getContain(keyword, pageable, sort);
+    }
+
+    public Page<Community> getMatchWriterPaging(final Long memberId, final Pageable pageable) {
+        return communityRepository.getMatchWriterPaging(memberId, pageable);
     }
 }

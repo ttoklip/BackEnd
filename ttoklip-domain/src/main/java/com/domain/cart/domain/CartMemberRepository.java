@@ -2,6 +2,8 @@ package com.domain.cart.domain;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CartMemberRepository {
 
@@ -14,4 +16,6 @@ public interface CartMemberRepository {
     CartMember save(CartMember cartMember);
 
     void deleteById(Long cartMemberId);
+
+    Page<Cart> findParticipatingCartsByUserId(Long userId, Pageable pageable);
 }

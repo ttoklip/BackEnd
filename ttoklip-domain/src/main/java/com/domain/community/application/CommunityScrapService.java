@@ -7,6 +7,8 @@ import com.domain.community.domain.CommunityScrap;
 import com.domain.community.domain.CommunityScrapRepository;
 import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,4 +48,7 @@ public class CommunityScrapService {
         return communityScrapRepository.existsByCommunityIdAndMemberId(postId, currentMemberId);
     }
 
+    public Page<Community> getScrapPaging(final Long memberId, final Pageable pageable) {
+        return communityScrapRepository.getScrapPaging(memberId, pageable);
+    }
 }

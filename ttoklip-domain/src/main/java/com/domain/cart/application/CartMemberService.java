@@ -5,6 +5,8 @@ import com.domain.cart.domain.CartMember;
 import com.domain.cart.domain.CartMemberRepository;
 import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class CartMemberService {
         cartMemberRepository.save(newCartMember);
     }
 
+    @Transactional
     public void delete(Long cartMemberId) {
         cartMemberRepository.deleteById(cartMemberId);
     }
@@ -38,5 +41,9 @@ public class CartMemberService {
 
     public boolean existsByMemberIdAndCartId(Long memberId, Long cartId) {
         return cartMemberRepository.existsByMemberIdAndCartId(memberId, cartId);
+    }
+
+    public Page<Cart> findParticipatingCartsByUserId(final Long userId, final Pageable pageable) {
+        return cartMemberRepository.findParticipatingCartsByUserId(userId, pageable);
     }
 }

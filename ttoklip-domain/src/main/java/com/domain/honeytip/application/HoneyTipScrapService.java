@@ -6,6 +6,8 @@ import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipScrap;
 import com.domain.honeytip.domain.HoneyTipScrapRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,5 +44,9 @@ public class HoneyTipScrapService {
 
     public Long countHoneyTipScraps(final Long postId) {
         return honeyTipScrapRepository.countHoneyTipScrapsByHoneyTipId(postId);
+    }
+
+    public Page<HoneyTip> getScrapPaging(final Long userId, final Pageable pageable) {
+        return honeyTipScrapRepository.getSc
     }
 }

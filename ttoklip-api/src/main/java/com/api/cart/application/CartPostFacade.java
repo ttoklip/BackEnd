@@ -13,7 +13,7 @@ import com.domain.cart.application.CartCommentService;
 import com.domain.cart.application.CartImageService;
 import com.domain.cart.application.CartMemberService;
 import com.domain.cart.application.CartPostService;
-import com.domain.cart.application.CartRecent3Response;
+import com.domain.cart.application.CartThumbnailResponse;
 import com.domain.cart.application.ItemUrlService;
 import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartComment;
@@ -92,10 +92,10 @@ public class CartPostFacade {
         return CartResponse.of(cartWithImg, activeComments, isAlreadyJoin);
     }
 
-    public List<CartRecent3Response> getRecent3(final TownCriteria townCriteria) {
+    public List<CartThumbnailResponse> getRecent3(final TownCriteria townCriteria) {
         List<Cart> carts = cartPostService.findRecent3(townCriteria);
         return carts.stream()
-                .map(CartRecent3Response::from)
+                .map(CartThumbnailResponse::from)
                 .toList();
     }
 

@@ -1,9 +1,12 @@
 package com.domain.cart.infrastructure;
 
+import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartMember;
 import com.domain.cart.domain.CartMemberRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,8 +16,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CartMemberRepositoryImpl implements CartMemberRepository {
 
-    private final CartMemberJpaRepository jpaRepository;
     private final EntityManager em;
+    private final CartMemberJpaRepository jpaRepository;
+    private final CartMemberQueryRepository queryRepository;
 
     @Override
     public boolean existsByMemberIdAndCartId(final Long memberId, final Long cartId) {
@@ -41,5 +45,10 @@ public class CartMemberRepositoryImpl implements CartMemberRepository {
         jpaRepository.deleteById(CartMemberId);
         em.flush();
         em.clear();
+    }
+
+    @Override
+    public Page<Cart> findParticipatingCartsByUserId(final Long userId, final Pageable pageable) {
+        return queryRepository.findParticipatingCartsByUserId(userId, pageable);
     }
 }

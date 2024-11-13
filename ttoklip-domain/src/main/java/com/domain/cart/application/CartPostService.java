@@ -54,14 +54,14 @@ public class CartPostService {
                 townCriteria);
     }
 
-    public List<CartRecent3Response> getRecent3(TownCriteria townCriteria) {
+    public List<CartThumbnailResponse> getRecent3(TownCriteria townCriteria) {
         List<Cart> carts = cartRepository.findRecent3(townCriteria);
         return carts.stream()
-                .map(CartRecent3Response::from)
+                .map(CartThumbnailResponse::from)
                 .toList();
     }
 
     public Page<Cart> getContain(final String keyword, final Pageable pageable, final String sort) {
-        return cartRepository.getContain(keyword, pageable, sort);
+        return cartRepository.searchPaging(keyword, pageable, sort);
     }
 }

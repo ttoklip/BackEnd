@@ -1,17 +1,18 @@
-package com.api.ttoklip.domain.mypage.controller;
+package com.api.mypage.presentation;
 
-import com.api.ttoklip.domain.profile.controller.response.TargetMemberProfile;
-import com.api.ttoklip.domain.mypage.constant.MyPageConstant;
-import com.api.ttoklip.domain.mypage.dto.response.QuestionPaging;
-import com.api.ttoklip.domain.mypage.service.MyPageService;
-import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
-import com.api.ttoklip.domain.profile.service.ProfileService;
-import com.api.ttoklip.domain.search.response.CartPaging;
-import com.api.ttoklip.domain.search.response.CommunityPaging;
-import com.api.ttoklip.domain.search.controller.response.HoneyTipPaging;
-import com.api.ttoklip.domain.search.controller.response.NewsletterPaging;
-import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.cart.presentation.dto.response.CartPaging;
+import com.api.community.presentation.dto.response.CommunityPaging;
+import com.api.global.success.Message;
+import com.api.global.success.SuccessResponse;
+import com.api.global.util.SecurityUtil;
+import com.api.mypage.application.MyPageFacade;
+import com.api.profile.application.ProfileFacade;
+import com.api.profile.presentation.ProfileWebCreate;
+import com.api.question.presentation.dto.response.QuestionPaging;
+import com.api.search.presentation.response.HoneyTipPaging;
+import com.api.search.presentation.response.NewsletterPaging;
+import com.domain.profile.application.ProfileService;
+import com.domain.profile.application.response.TargetMemberProfile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,13 +41,14 @@ public class MyPageController {
 
     private final static int PAGE_SIZE = 10;
 
-    private final MyPageService myPageService;
-    private final ProfileService profileService;
+    private final MyPageFacade myPageFacade;
+    private final ProfileFacade profileFacade;
 
     @Operation(summary = "마이페이지 정보 불러오기")
     @GetMapping
     public SuccessResponse<TargetMemberProfile> getMyProfile() {
-        return new SuccessResponse<>(myPageService.getMyProfile());
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.getMyProfile(currentMemberId));
     }
 
     @Operation(summary = "개인정보 수정", description = "프로필 사진, 똑립 전용 닉네임, 자취 경력 수정")
@@ -61,8 +63,9 @@ public class MyPageController {
                                     description = "개인정보를 수정했습니다."
                             )))})
     @PatchMapping("/edit")
-    public SuccessResponse<Message> edit(@ModelAttribute @Validated final PrivacyCreateRequest request) {
-        Message message = profileService.edit(request);
+    public SuccessResponse<Message> edit(@ModelAttribute @Validated final ProfileWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = profileFacade.edit(request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 
@@ -82,7 +85,8 @@ public class MyPageController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.scrapHoneyTips(pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.scrapHoneyTips(currentMemberId, pageable));
     }
 
     @Operation(summary = "스크랩한 뉴스레터 목록", description = "스크랩한 뉴스레터 목록 불러오기")
@@ -101,7 +105,8 @@ public class MyPageController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.scrapNewsletters(pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.scrapNewsletters(currentMemberId, pageable));
     }
 
     @Operation(summary = "스크랩한 소통해요 목록", description = "스크랩한 소통해요 목록 불러오기")
@@ -120,7 +125,8 @@ public class MyPageController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.scrapCommunity(pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.scrapCommunity(currentMemberId, pageable));
     }
 
     @Operation(summary = "내가 작성한 꿀팁 목록", description = "내가 작성한 꿀팁 목록 불러오기")
@@ -139,7 +145,8 @@ public class MyPageController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.myHoneyTips(pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.myHoneyTips(currentMemberId, pageable));
     }
 
     @Operation(summary = "내가 작성한 질문해요 목록", description = "내가 작성한 질문해요 목록 불러오기")
@@ -158,7 +165,8 @@ public class MyPageController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.myQuestions(pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.myQuestions(currentMemberId, pageable));
     }
 
     @Operation(summary = "내가 작성한 소통해요 목록", description = "내가 작성한 소통해요 목록 불러오기")
@@ -177,7 +185,8 @@ public class MyPageController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.myCommunities(pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.myCommunities(currentMemberId, pageable));
     }
 
     @Operation(summary = "내가 참여한 거래 목록", description = "내가 참여한 거래 목록 불러오기")
@@ -196,7 +205,8 @@ public class MyPageController {
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(myPageService.participateDeals(pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(myPageFacade.participateDeals(currentMemberId, pageable));
     }
 
 }

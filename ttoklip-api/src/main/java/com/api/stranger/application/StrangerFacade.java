@@ -2,7 +2,7 @@ package com.api.stranger.application;
 
 import com.api.global.success.Message;
 import com.api.search.presentation.response.HoneyTipPaging;
-import com.api.search.presentation.response.SingleResponse;
+import com.api.search.presentation.response.CommonThumbnailResponse;
 import com.api.stranger.presentation.StrangerResponse;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.domain.HoneyTip;
@@ -26,10 +26,10 @@ public class StrangerFacade {
     }
 
     public HoneyTipPaging strangerHoneyTip(final Pageable pageable, final Long targetId) {
-        Page<HoneyTip> contentPaging = honeyTipPostService.findHoneyTipsByTargetId(targetId, pageable);
+        Page<HoneyTip> contentPaging = honeyTipPostService.matchWriterPaging(targetId, pageable);
         List<HoneyTip> contents = contentPaging.getContent();
-        List<SingleResponse> honeyTipSingleData = contents.stream()
-                .map(SingleResponse::honeyTipFrom)
+        List<CommonThumbnailResponse> honeyTipSingleData = contents.stream()
+                .map(CommonThumbnailResponse::honeyTipFrom)
                 .toList();
 
         return HoneyTipPaging.builder()

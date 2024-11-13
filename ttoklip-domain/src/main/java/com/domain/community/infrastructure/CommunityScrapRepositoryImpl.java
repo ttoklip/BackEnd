@@ -1,9 +1,15 @@
 package com.domain.community.infrastructure;
 
+import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityScrap;
 import com.domain.community.domain.CommunityScrapRepository;
+import com.querydsl.core.types.dsl.Wildcard;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -37,4 +43,11 @@ public class CommunityScrapRepositoryImpl implements CommunityScrapRepository {
     public Long countCommunityScrapsByCommunityId(final Long communityId) {
         return queryRepository.countCommunityScrapsByCommunityId(communityId);
     }
+
+    @Override
+    public Page<Community> getScrapPaging(final Long memberId, final Pageable pageable) {
+        return queryRepository.getScrapPaging(memberId, pageable);
+    }
+
+
 }

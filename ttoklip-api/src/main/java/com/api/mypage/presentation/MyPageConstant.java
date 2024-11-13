@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.mypage.constant;
+package com.api.mypage.presentation;
 
 public class MyPageConstant {
     public static final String scrapHoneyTipsResponse = """

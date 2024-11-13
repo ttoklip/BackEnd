@@ -2,7 +2,7 @@ package com.api.town.application;
 
 import com.api.cart.presentation.dto.response.CartPaging;
 import com.api.community.presentation.dto.response.CommunityPaging;
-import com.domain.cart.application.CartRecent3Response;
+import com.domain.cart.application.CartThumbnailResponse;
 import com.domain.community.application.CommunityRecent3Response;
 import com.domain.cart.application.CartPostService;
 import com.domain.cart.domain.Cart;
@@ -31,8 +31,8 @@ public class TownFacade {
 
         List<Community> contents = contentPaging.getContent();
 
-        List<TownCommunityResponse> communitySingleData = contents.stream()
-                .map(TownCommunityResponse::from)
+        List<TownThumbnailResponse> communitySingleData = contents.stream()
+                .map(TownThumbnailResponse::from)
                 .toList();
 
         return CommunityPaging.builder()
@@ -64,8 +64,8 @@ public class TownFacade {
         );
 
         List<Cart> contents = contentPaging.getContent();
-        List<CartRecent3Response> cartSingleData = contents.stream()
-                .map(CartRecent3Response::from)
+        List<CartThumbnailResponse> cartSingleData = contents.stream()
+                .map(CartThumbnailResponse::from)
                 .toList();
 
         return CartPaging.builder()
@@ -79,7 +79,7 @@ public class TownFacade {
 
     public TownMainResponse getRecent3(final String criteria, final Long currentMemberId) {
         TownCriteria townCriteria = validCriteria(criteria);
-        List<CartRecent3Response> cartRecent3 = cartPostService.getRecent3(townCriteria);
+        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(townCriteria);
         List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3(townCriteria);
         String street = memberService.getById(currentMemberId).getStreet();
 

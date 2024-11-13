@@ -1,6 +1,7 @@
-package com.api.ttoklip.domain.mypage.dto.response;
+package com.api.question.presentation.dto.response.vo;
 
-import com.api.ttoklip.domain.question.domain.Question;
+import com.domain.common.vo.Category;
+import com.domain.question.domain.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class UserSingleResponse {
+public class QuestionThumbnailResponse {
     private Long id;
     private Category category;
     private String title;
@@ -17,8 +18,8 @@ public class UserSingleResponse {
     private String writerProfileImageUrl;
     private int commentCount;
 
-    public static UserSingleResponse questionFrom(final Question question) {
-        return UserSingleResponse.builder()
+    public static QuestionThumbnailResponse from(final Question question) {
+        return builder()
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())

@@ -4,10 +4,10 @@ import com.api.cart.presentation.dto.response.CartPaging;
 import com.api.community.presentation.dto.response.CommunityPaging;
 import com.api.search.presentation.response.HoneyTipPaging;
 import com.api.search.presentation.response.NewsletterPaging;
-import com.api.search.presentation.response.SingleResponse;
-import com.api.town.application.TownCommunityResponse;
+import com.api.search.presentation.response.CommonThumbnailResponse;
+import com.api.town.application.TownThumbnailResponse;
 import com.domain.cart.application.CartPostService;
-import com.domain.cart.application.CartRecent3Response;
+import com.domain.cart.application.CartThumbnailResponse;
 import com.domain.cart.domain.Cart;
 import com.domain.community.application.CommunityPostService;
 import com.domain.community.domain.Community;
@@ -35,8 +35,8 @@ public class SearchFacade {
     public HoneyTipPaging honeyTipSearch(final String keyword, final Pageable pageable, final String sort) {
         Page<HoneyTip> contentPaging = honeyTipPostService.getContain(keyword, pageable, sort);
         List<HoneyTip> contents = contentPaging.getContent();
-        List<SingleResponse> honeyTipSingleData = contents.stream()
-                .map(SingleResponse::honeyTipFrom)
+        List<CommonThumbnailResponse> honeyTipSingleData = contents.stream()
+                .map(CommonThumbnailResponse::honeyTipFrom)
                 .toList();
 
         return HoneyTipPaging.builder()
@@ -51,8 +51,8 @@ public class SearchFacade {
     public NewsletterPaging newsletterPaging(final String keyword, final Pageable pageable, final String sort) {
         Page<Newsletter> contentPaging = newsletterPostService.getContain(keyword, pageable, sort);
         List<Newsletter> contents = contentPaging.getContent();
-        List<SingleResponse> newsletterSingleData = contents.stream()
-                .map(SingleResponse::newsletterFrom)
+        List<CommonThumbnailResponse> newsletterSingleData = contents.stream()
+                .map(CommonThumbnailResponse::newsletterFrom)
                 .toList();
 
         return NewsletterPaging.builder()
@@ -67,8 +67,8 @@ public class SearchFacade {
     public CommunityPaging communityPaging(final String keyword, final Pageable pageable, final String sort) {
         Page<Community> contentPaging = communityPostService.getContain(keyword, pageable, sort);
         List<Community> contents = contentPaging.getContent();
-        List<TownCommunityResponse> communitySingleData = contents.stream()
-                .map(TownCommunityResponse::from)
+        List<TownThumbnailResponse> communitySingleData = contents.stream()
+                .map(TownThumbnailResponse::from)
                 .toList();
 
         return CommunityPaging.builder()
@@ -83,8 +83,8 @@ public class SearchFacade {
     public CartPaging cartPaging(final String keyword, final Pageable pageable, final String sort) {
         Page<Cart> contentPaging = cartPostService.getContain(keyword, pageable, sort);
         List<Cart> contents = contentPaging.getContent();
-        List<CartRecent3Response> cartSingleData = contents.stream()
-                .map(CartRecent3Response::from)
+        List<CartThumbnailResponse> cartSingleData = contents.stream()
+                .map(CartThumbnailResponse::from)
                 .toList();
 
         return CartPaging.builder()

@@ -1,6 +1,8 @@
 package com.domain.honeytip.domain;
 
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface HoneyTipScrapRepository {
     Optional<HoneyTipScrap> findByHoneyTipIdAndMemberId(Long honeyTipId, Long memberId);
@@ -12,4 +14,6 @@ public interface HoneyTipScrapRepository {
     void deleteById(Long id);
 
     void save(HoneyTipScrap honeyTipScrap);
+
+    Page<HoneyTip> getScrapPaging(Long userId, Pageable pageable);
 }

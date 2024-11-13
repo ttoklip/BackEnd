@@ -7,15 +7,15 @@ import org.springframework.data.domain.Pageable;
 
 public interface QuestionRepository {
 
-    Question findByIdActivated(final Long questionId);
+    Question findByIdActivated(Long questionId);
 
-    QuestionComment findByCommentIdActivated(final Long commentId);
+    QuestionComment findByCommentIdActivated(Long commentId);
 
-    Question findByIdFetchJoin(final Long questionPostId);
+    Question findByIdFetchJoin(Long questionPostId);
 
-    List<QuestionComment> findActiveCommentsByQuestionId(final Long questionId);
+    List<QuestionComment> findActiveCommentsByQuestionId(Long questionId);
 
-    Page<Question> matchCategoryPaging(final Category category, final Pageable pageable);
+    Page<Question> matchCategoryPaging(Category category, Pageable pageable);
 
     List<Question> getHouseWork();
 
@@ -26,4 +26,6 @@ public interface QuestionRepository {
     List<Question> getWelfarePolicy();
 
     Question save(Question question);
+
+    Page<Question> matchWriterPaging(Long memberId, Pageable pageable);
 }

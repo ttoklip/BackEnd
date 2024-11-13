@@ -5,7 +5,7 @@ import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.question.application.QuestionPostFacade;
 import com.api.question.presentation.dto.request.QuestionWebCreate;
-import com.api.question.presentation.dto.response.QuestionSingleResponse;
+import com.api.question.presentation.dto.response.QuestionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -65,9 +65,9 @@ public class QuestionPostController {
                                     description = "질문이 조회되었습니다."
                             )))})
     @GetMapping("/{postId}")
-    public SuccessResponse<QuestionSingleResponse> getSinglePost(final @PathVariable Long postId) {
+    public SuccessResponse<QuestionResponse> getSinglePost(final @PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        QuestionSingleResponse response = questionPostFacade.getSinglePost(postId, currentMemberId);
+        QuestionResponse response = questionPostFacade.getSinglePost(postId, currentMemberId);
         return new SuccessResponse<>(response);
     }
 

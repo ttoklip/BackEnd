@@ -66,4 +66,9 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     public Question save(final Question question) {
         return questionJpaRepository.save(question);
     }
+
+    @Override
+    public Page<Question> matchWriterPaging(final Long memberId, final Pageable pageable) {
+        return questionQueryRepository.matchWriterPaging(memberId, pageable);
+    }
 }

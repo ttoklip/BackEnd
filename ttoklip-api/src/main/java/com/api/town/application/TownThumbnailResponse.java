@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TownCommunityResponse {
+public class TownThumbnailResponse {
 
     private Long id;
     private String title;
@@ -20,7 +20,7 @@ public class TownCommunityResponse {
     private int likeCount;
     private int scrapCount;
 
-    public static TownCommunityResponse from(final Community community) {
+    public static TownThumbnailResponse from(final Community community) {
         return builder()
                 .id(community.getId())
                 .title(community.getTitle())

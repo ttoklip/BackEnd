@@ -52,4 +52,8 @@ public class CommunityRepositoryImpl implements CommunityRepository {
         return queryDSLRepository.getContain(keyword, pageable, sort);
     }
 
+    @Override
+    public Page<Community> getMatchWriterPaging(final Long memberId, final Pageable pageable) {
+        return queryDSLRepository.getMatchWriterPaging(memberId, pageable);
+    }
 }

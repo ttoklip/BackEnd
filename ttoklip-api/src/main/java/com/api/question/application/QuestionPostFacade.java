@@ -4,8 +4,8 @@ import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.question.presentation.dto.request.QuestionWebCreate;
-import com.api.question.presentation.dto.response.QuestionCommentResponse;
-import com.api.question.presentation.dto.response.QuestionSingleResponse;
+import com.api.question.presentation.dto.response.vo.QuestionCommentResponse;
+import com.api.question.presentation.dto.response.QuestionResponse;
 import com.domain.common.report.application.ReportService;
 import com.domain.common.report.domain.ReportCreate;
 import com.domain.member.application.MemberService;
@@ -61,13 +61,13 @@ public class QuestionPostFacade {
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
 
     /* -------------------------------------------- 단건 READ -------------------------------------------- */
-    public QuestionSingleResponse getSinglePost(final Long postId, final Long currentMemberId) {
+    public QuestionResponse getSinglePost(final Long postId, final Long currentMemberId) {
         Question questionWithImg = questionPostService.findByIdFetchJoin(postId);
         List<QuestionComment> questionComments = questionCommentService.findQuestionCommentsByQuestionId(
                 questionWithImg.getId());
         List<QuestionCommentResponse> commentResponses = toCommentResponsesWithLikeStatus(questionComments,
                 currentMemberId);
-        return QuestionSingleResponse.of(questionWithImg, commentResponses);
+        return QuestionResponse.of(questionWithImg, commentResponses);
     }
 
     private List<QuestionCommentResponse> toCommentResponsesWithLikeStatus(List<QuestionComment> questionComments,

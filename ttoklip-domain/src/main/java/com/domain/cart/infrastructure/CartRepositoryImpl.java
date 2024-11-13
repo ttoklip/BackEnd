@@ -4,12 +4,11 @@ import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartComment;
 import com.domain.cart.domain.CartRepository;
 import com.domain.common.vo.TownCriteria;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -69,7 +68,7 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public Page<Cart> getContain(final String keyword, final Pageable pageable, final String sort) {
-        return queryRepository.getContain(keyword, pageable, sort);
+    public Page<Cart> searchPaging(final String keyword, final Pageable pageable, final String sort) {
+        return queryRepository.searchPaging(keyword, pageable, sort);
     }
 }

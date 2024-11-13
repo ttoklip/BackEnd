@@ -1,9 +1,12 @@
 package com.domain.newsletter.infrastructure;
 
+import com.domain.newsletter.domain.Newsletter;
 import com.domain.newsletter.domain.NewsletterScrap;
 import com.domain.newsletter.domain.NewsletterScrapRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -36,5 +39,10 @@ public class NewsletterScrapRepositoryImpl implements NewsletterScrapRepository 
     @Override
     public void deleteById(final Long postId) {
         jpaScrapRepository.deleteById(postId);
+    }
+
+    @Override
+    public Page<Newsletter> getScrapPaging(final Long memberId, final Pageable pageable) {
+        return queryRepository.getScrapPaging(memberId, pageable);
     }
 }

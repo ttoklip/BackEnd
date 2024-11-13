@@ -282,4 +282,36 @@ public class CommunityQueryRepository {
                 .fetchOne();
     }
 
+    public Page<Community> getMatchWriterPaging(final Long memberId, final Pageable pageable) {
+        List<Community> content = matchWriter(memberId, pageable);
+        Long count = matchWriterCount(memberId);
+        return new PageImpl<>(content, pageable, count);
+    }
+
+    private List<Community> matchWriter(final Long memberId, final Pageable pageable) {
+        return jpaQueryFactory
+                .selectFrom(community)
+                .distinct()
+                .where(
+                        community.member.id.eq(memberId),
+                        community.deleted.isFalse()
+                )
+                .leftJoin(community.communityComments, communityComment)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .orderBy(community.id.desc())
+                .fetch();
+    }
+
+
+    private Long matchWriterCount(final Long currentMemberId) {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(community)
+                .where(
+                        community.member.id.eq(currentMemberId),
+                        community.deleted.isFalse()
+                )
+                .fetchOne();
+    }
 }

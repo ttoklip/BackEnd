@@ -1,6 +1,7 @@
 package com.api.question.presentation.dto.response;
 
 import com.api.global.util.TimeUtil;
+import com.api.question.presentation.dto.response.vo.QuestionCommentResponse;
 import com.domain.common.vo.ImageResponse;
 import com.domain.common.vo.Category;
 import com.domain.question.domain.Question;
@@ -16,7 +17,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class QuestionSingleResponse {
+public class QuestionResponse {
 
     @Schema(description = "질문 ID", example = "1")
     private Long questionId;
@@ -48,8 +49,8 @@ public class QuestionSingleResponse {
     @Schema(description = "질문에 대한 댓글 목록")
     private List<QuestionCommentResponse> questionCommentResponses;
 
-    public static QuestionSingleResponse of(final Question question,
-                                            final List<QuestionCommentResponse> commentResponses) {
+    public static QuestionResponse of(final Question question,
+                                      final List<QuestionCommentResponse> commentResponses) {
         // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(question);
 
@@ -60,7 +61,7 @@ public class QuestionSingleResponse {
 
         int commentCount = question.getQuestionComments().size();
 
-        return QuestionSingleResponse.builder()
+        return QuestionResponse.builder()
                 .questionId(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())

@@ -1,6 +1,8 @@
 package com.domain.community.domain;
 
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CommunityScrapRepository {
     
@@ -13,4 +15,6 @@ public interface CommunityScrapRepository {
     void deleteById(Long id);
 
     Long countCommunityScrapsByCommunityId(Long communityId);
+
+    Page<Community> getScrapPaging(Long memberId, Pageable pageable);
 }

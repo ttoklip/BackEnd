@@ -54,7 +54,7 @@ public class AsyncConfig implements AsyncConfigurer {
 
         @Override
         public void handleUncaughtException(Throwable ex, Method method, Object... params) {
-            // 비동기 메소드에서 발생한 예외를 로그에 남깁니다.
+            // 비동기 메소드에서 발생한 예외
             log.error("Unexpected exception occurred in async method: " + method.getName(), ex);
             for (Object param : params) {
                 log.error("Parameter value - " + param);

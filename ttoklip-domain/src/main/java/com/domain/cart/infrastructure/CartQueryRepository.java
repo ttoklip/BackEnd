@@ -257,7 +257,7 @@ public class CartQueryRepository {
         return null;
     }
 
-    public Page<Cart> getContain(final String keyword, final Pageable pageable, final String sort) {
+    public Page<Cart> searchPaging(final String keyword, final Pageable pageable, final String sort) {
         List<Cart> content = getSearchPageTitleOrContent(keyword, pageable, sort);
         Long count = countQuery(keyword);
         return new PageImpl<>(content, pageable, count);
@@ -346,4 +346,5 @@ public class CartQueryRepository {
                 )
                 .fetchOne();
     }
+
 }

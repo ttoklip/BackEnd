@@ -3,7 +3,7 @@ package com.api.home.application;
 import com.api.home.presentation.response.HomeCategoryAndTopQuestionsResponse;
 import com.api.home.presentation.response.HomeMainResponse;
 import com.domain.cart.application.CartPostService;
-import com.domain.cart.application.CartRecent3Response;
+import com.domain.cart.application.CartThumbnailResponse;
 import com.domain.common.vo.Category;
 import com.domain.common.vo.CategoryPagingResponse;
 import com.domain.common.vo.CategoryResponses;
@@ -37,7 +37,7 @@ public class HomeFacade {
     public HomeMainResponse home(final Long currentMemberId) {
         List<TitleResponse> honeyTipRecent3 = getHoneyTipRecent3();
         List<NewsletterThumbnailResponse> newsletterRecent3 = getNewsletterThumbnailRecent3();
-        List<CartRecent3Response> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY);
+        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY);
 
         Member member = memberService.getById(currentMemberId);
         return HomeMainResponse.builder()

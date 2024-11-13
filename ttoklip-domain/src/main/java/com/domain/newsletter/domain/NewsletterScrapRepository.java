@@ -1,6 +1,8 @@
 package com.domain.newsletter.domain;
 
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface NewsletterScrapRepository {
 
@@ -13,4 +15,6 @@ public interface NewsletterScrapRepository {
     NewsletterScrap save(NewsletterScrap newsletterScrap);
 
     void deleteById(Long postId);
+
+    Page<Newsletter> getScrapPaging(Long memberId, Pageable pageable);
 }

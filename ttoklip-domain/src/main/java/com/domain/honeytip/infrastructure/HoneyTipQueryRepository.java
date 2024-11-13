@@ -312,13 +312,13 @@ public class HoneyTipQueryRepository {
                 .fetchOne();
     }
 
-    public Page<HoneyTip> findHoneyTipsByTargetId(final Long targetId, final Pageable pageable) {
-        List<HoneyTip> content = getSearchPageId(targetId, pageable);
+    public Page<HoneyTip> matchWriterPaging(final Long targetId, final Pageable pageable) {
+        List<HoneyTip> content = getUserWrite(targetId, pageable);
         Long count = writerCountQuery();
         return new PageImpl<>(content, pageable, count);
     }
 
-    private List<HoneyTip> getSearchPageId(final Long targetId, final Pageable pageable) {
+    private List<HoneyTip> getUserWrite(final Long targetId, final Pageable pageable) {
         return jpaQueryFactory
                 .selectFrom(honeyTip)
                 .distinct()

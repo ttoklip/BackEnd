@@ -20,4 +20,6 @@ public interface CommunityRepository {
     Community save(Community community);
 
     Page<Community> getContain(final String keyword, final Pageable pageable, final String sort);
+
+    Page<Community> getMatchWriterPaging(Long memberId, Pageable pageable);
 }

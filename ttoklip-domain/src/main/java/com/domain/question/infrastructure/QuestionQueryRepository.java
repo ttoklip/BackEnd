@@ -190,4 +190,31 @@ public class QuestionQueryRepository {
                 .fetch();
     }
 
+    public Page<Question> matchWriterPaging(final Long userId, final Pageable pageable) {
+        List<Question> content = matchWriter(userId, pageable);
+        Long count = writerCount();
+        return new PageImpl<>(content, pageable, count);
+    }
+
+    private List<Question> matchWriter(final Long userId, final Pageable pageable) {
+        return jpaQueryFactory
+                .selectFrom(question)
+                .distinct()
+                .leftJoin(question.questionComments, questionComment)
+                .where(
+                        question.member.id.eq(userId),
+                        question.deleted.eq(false)
+                )
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .orderBy(question.id.desc())
+                .fetch();
+    }
+
+    private Long writerCount() {
+        return jpaQueryFactory
+                .select(Wildcard.count)
+                .from(question)
+                .fetchOne();
+    }
 }

@@ -7,6 +7,8 @@ import com.domain.newsletter.domain.Newsletter;
 import com.domain.newsletter.domain.NewsletterScrap;
 import com.domain.newsletter.domain.NewsletterScrapRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +23,12 @@ public class NewsletterScrapService {
         return newsletterScrapRepository.existsByNewsletterIdAndMemberId(newsletterId, memberId);
     }
 
-    // 스크랩 생성
     public void register(final Newsletter newsletter, final Member member) {
         NewsletterScrap newsletterScrap = NewsletterScrap.of(newsletter, member);
         newsletterScrapRepository.save(newsletterScrap);
     }
 
-    // 스크랩 취소
     public void cancelScrap(final Newsletter newsletter, final Long currentMemberId) {
-        // NewsletterId (게시글 ID)
         Long findNewsletterId = newsletter.getId();
 
         NewsletterScrap newsletterScrap = newsletterScrapRepository.findByNewsletterIdAndMemberId(findNewsletterId,
@@ -43,5 +42,9 @@ public class NewsletterScrapService {
 
     public Long countNewsletterScraps(final Long newsletterId) {
         return newsletterScrapRepository.countNewsletterScrapsByNewsletterId(newsletterId);
+    }
+
+    public Page<Newsletter> getScrapPaging(final Long memberId, final Pageable pageable) {
+        return newsletterScrapRepository.getScrapPaging(memberId, pageable);
     }
 }

@@ -1,39 +1,38 @@
 package com.domain.cart.domain;
 
 import com.domain.common.vo.TownCriteria;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface CartRepository {
     Cart save(Cart cart);
 
-    Cart findByIdActivated(final Long cartId);
+    Cart findByIdActivated(Long cartId);
 
-    Cart findByIdFetchJoin(final Long postId);
+    Cart findByIdFetchJoin(Long postId);
 
-    List<CartComment> findActiveCommentsByCartId(final Long postId);
+    List<CartComment> findActiveCommentsByCartId(Long postId);
 
     // 참여자 추가
-    Cart addParticipant(final Long cartId);
+    Cart addParticipant(Long cartId);
 
     // 참여 취소
-    Cart removeParticipant(final Long cartId);
+    Cart removeParticipant(Long cartId);
 
     // 참여자 수 확인
     Long countParticipants(Long cartId);
 
-    List<Cart> findRecent3(final TownCriteria townCriteria);
+    List<Cart> findRecent3(TownCriteria townCriteria);
 
     Page<Cart> getCartPaging(
-            final Pageable pageable,
-            final Long startMoney,
-            final Long lastMoney,
-            final Long startParty,
-            final Long lastParty,
-            final TownCriteria townCriteria
+            Pageable pageable,
+            Long startMoney,
+            Long lastMoney,
+            Long startParty,
+            Long lastParty,
+            TownCriteria townCriteria
     );
 
-    Page<Cart> getContain(String keyword, Pageable pageable, String sort);
+    Page<Cart> searchPaging(String keyword, Pageable pageable, String sort);
 }

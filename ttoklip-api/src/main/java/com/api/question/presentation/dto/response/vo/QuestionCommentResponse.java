@@ -1,4 +1,4 @@
-package com.api.question.presentation.dto.response;
+package com.api.question.presentation.dto.response.vo;
 
 import com.api.global.util.TimeUtil;
 import com.domain.question.domain.QuestionComment;
