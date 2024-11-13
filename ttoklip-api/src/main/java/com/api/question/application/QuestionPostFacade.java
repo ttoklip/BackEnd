@@ -1,10 +1,13 @@
 package com.api.question.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.question.presentation.dto.request.QuestionWebCreate;
 import com.api.question.presentation.dto.response.QuestionCommentResponse;
 import com.api.question.presentation.dto.response.QuestionSingleResponse;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.common.report.application.ReportService;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import com.domain.question.application.QuestionCommentLikeService;
@@ -126,10 +129,11 @@ public class QuestionPostFacade {
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
-    public Message report(final Long postId, final ReportCreateRequest request) {
+    public Message report(final Long postId, final ReportWebCreate request, final Long reporterId) {
         Question question = questionPostService.getQuestion(postId);
-        reportService.reportQuestion(request, question);
-
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportQuestion(create, question, reporter);
         return Message.reportPostSuccess(Question.class, postId);
     }
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */

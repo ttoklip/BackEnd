@@ -1,7 +1,14 @@
 package com.domain.member.domain;
 
+import com.domain.cart.domain.Cart;
+import com.domain.cart.domain.CartMember;
 import com.domain.common.base.BaseEntity;
+import com.domain.common.comment.domain.Comment;
 import com.domain.common.comment.domain.CommentLike;
+import com.domain.common.report.domain.Report;
+import com.domain.community.domain.Community;
+import com.domain.community.domain.CommunityLike;
+import com.domain.community.domain.CommunityScrap;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipLike;
 import com.domain.honeytip.domain.HoneyTipScrap;
@@ -13,7 +20,10 @@ import com.domain.newsletter.domain.Newsletter;
 import com.domain.newsletter.domain.NewsletterLike;
 import com.domain.newsletter.domain.NewsletterScrap;
 import com.domain.profile.domain.Profile;
+import com.domain.profile.domain.ProfileLike;
+import com.domain.question.domain.Question;
 import com.domain.term.domain.TermAgreement;
+import com.domain.todolist.domain.TodayToDoList;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

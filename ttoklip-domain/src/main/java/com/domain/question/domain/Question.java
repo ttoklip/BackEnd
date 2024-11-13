@@ -1,6 +1,7 @@
 package com.domain.question.domain;
 
 import com.domain.common.base.BaseEntity;
+import com.domain.common.report.domain.Report;
 import com.domain.common.vo.Category;
 import com.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;

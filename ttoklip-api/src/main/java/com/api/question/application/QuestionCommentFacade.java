@@ -1,9 +1,13 @@
 package com.api.question.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.domain.common.comment.application.CommentService;
 import com.domain.common.comment.domain.Comment;
 import com.domain.common.comment.domain.CommentCreate;
+import com.domain.common.report.application.ReportService;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.honeytip.domain.HoneyTipComment;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import com.domain.question.application.QuestionPostService;
@@ -69,11 +73,12 @@ public class QuestionCommentFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long commentId, final ReportCreateRequest request) {
+    public Message report(final Long commentId, final ReportWebCreate request, final Long reporterId) {
         Comment comment = commentService.findComment(commentId);
-        reportService.reportComment(request, comment);
-
-        return Message.reportCommentSuccess(QuestionComment.class, commentId);
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportComment(create, comment, reporter);
+        return Message.reportCommentSuccess(HoneyTipComment.class, commentId);
     }
 
     /* -------------------------------------------- REPORT 끝 -------------------------------------------- */

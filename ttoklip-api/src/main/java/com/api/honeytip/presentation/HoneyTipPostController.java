@@ -1,5 +1,6 @@
 package com.api.honeytip.presentation;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -113,7 +114,7 @@ public class HoneyTipPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                           final @RequestBody ReportCreateRequest request) {
+                                           final @RequestBody ReportWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = honeytipPostFacade.report(postId, request, currentMemberId);
         return new SuccessResponse<>(message);

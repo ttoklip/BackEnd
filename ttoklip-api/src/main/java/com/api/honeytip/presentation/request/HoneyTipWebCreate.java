@@ -29,9 +29,10 @@ public class HoneyTipWebCreate implements PostRequest {
 
     public List<MultipartFile> images;
 
-
     public Category getCategory() {
         // 문자열을 enum으로 변환
         return Category.findCategoryByValue(category);
     }
+
+    public List<String> url;
 }

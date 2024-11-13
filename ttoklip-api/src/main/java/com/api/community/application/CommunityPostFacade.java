@@ -1,10 +1,13 @@
 package com.api.community.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.community.presentation.dto.request.CommunityWebCreate;
 import com.api.community.presentation.dto.request.CommunityWebEdit;
 import com.api.community.presentation.dto.response.CommunityResponse;
 import com.api.global.success.Message;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.common.report.application.ReportService;
 import com.domain.common.vo.TownCriteria;
 import com.domain.community.application.CommunityCommentService;
 import com.domain.community.application.CommunityImageService;
@@ -126,10 +129,11 @@ public class CommunityPostFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long postId, final ReportCreateRequest request) {
+    public Message report(final Long postId, final ReportWebCreate request, final Long reporterId) {
         Community community = communityPostService.getCommunity(postId);
-        reportService.reportCommunity(request, community);
-
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportCommunity(create, community, reporter);
         return Message.reportPostSuccess(Community.class, postId);
     }
 

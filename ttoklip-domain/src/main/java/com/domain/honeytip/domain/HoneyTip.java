@@ -75,8 +75,8 @@ public class HoneyTip extends BaseEntity {
 
     public static HoneyTip of(final HoneyTipCreate create, final Member member) {
         return HoneyTip.builder()
-                .title(create.title())
-                .content(create.content())
+                .title(create.getTitle())
+                .content(create.getContent())
                 .member(member)
                 .category(create.getCategory())
                 .build();

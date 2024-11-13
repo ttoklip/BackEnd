@@ -1,7 +1,7 @@
-package com.api.ttoklip.domain.common.report.domain;
+package com.domain.common.report.domain;
 
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ReportType {
 
-    FISHING_DUPLICATE_SPAM("낚시/ 중복 / 도배성 게시물"),
+    FISHING_DUPLICATE_SPAM("낚시 / 중복 / 도배성 게시물"),
     COMMERCIAL_ADVERTISING("상업적 광고 / 홍보 글"),
     INAPPROPRIATE_CONTENT("선정적 / 불쾌함이 느껴지는 부적절한 글"),
     ABUSE("비방 / 욕설/ 혐오 표현이 사용된 글"),

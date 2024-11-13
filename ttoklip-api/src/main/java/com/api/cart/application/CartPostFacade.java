@@ -4,7 +4,7 @@ import com.api.cart.presentation.dto.request.CartWebCreate;
 import com.api.cart.presentation.dto.response.CartGroupMemberResponse;
 import com.api.cart.presentation.dto.response.CartMemberResponse;
 import com.api.cart.presentation.dto.response.CartResponse;
-import com.api.common.ReportCreate;
+import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
 import com.common.exception.ApiException;
@@ -21,6 +21,8 @@ import com.domain.cart.domain.CartCreate;
 import com.domain.cart.domain.CartMember;
 import com.domain.cart.domain.CartPostEditor;
 import com.domain.cart.domain.vo.TradeStatus;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.common.report.application.ReportService;
 import com.domain.common.vo.TownCriteria;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
@@ -166,10 +168,11 @@ public class CartPostFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long postId, final ReportCreate create) {
+    public Message report(final Long postId, final ReportWebCreate request, final Long reporterId) {
         Cart cart = cartPostService.findByIdActivated(postId);
-        reportService.reportCart(create, cart);
-
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportCart(create, cart, reporter);
         return Message.reportPostSuccess(Cart.class, postId);
     }
 
@@ -214,7 +217,9 @@ public class CartPostFacade {
         if (cartMemberService.existsByMemberIdAndCartId(memberId, cartId)) {
             throw new ApiException(ErrorType.ALREADY_PARTICIPATED);
         }
-        cartMemberService.register(cart);
+
+        Member member = memberService.getById(memberId);
+        cartMemberService.register(cart, member);
         if (cart.getCartMembers().size() == cart.getPartyMax()) {
             cart.changeComplete();
         }

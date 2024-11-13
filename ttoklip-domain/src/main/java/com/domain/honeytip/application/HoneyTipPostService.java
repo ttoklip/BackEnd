@@ -2,6 +2,7 @@ package com.domain.honeytip.application;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
+import com.domain.common.vo.Category;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipRepository;
 import java.util.List;
@@ -31,7 +32,7 @@ public class HoneyTipPostService {
     }
 
     @Transactional
-    public HoneyTip saveHoneyTipPost(final HoneyTip honeyTip) {
+    public HoneyTip save(final HoneyTip honeyTip) {
         return honeytipRepository.save(honeyTip);
     }
 

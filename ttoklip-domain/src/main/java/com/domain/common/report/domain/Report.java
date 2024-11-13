@@ -1,16 +1,13 @@
-package com.api.ttoklip.domain.common.report.domain;
+package com.domain.common.report.domain;
 
-import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
-
-import com.api.ttoklip.domain.common.base.BaseEntity;
-import com.api.ttoklip.domain.common.comment.Comment;
-import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.newsletter.domain.Newsletter;
-import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.domain.town.cart.domain.Cart;
-import com.api.ttoklip.domain.town.community.domain.Community;
+import com.domain.cart.domain.Cart;
+import com.domain.common.base.BaseEntity;
+import com.domain.common.comment.domain.Comment;
+import com.domain.community.domain.Community;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.member.domain.Member;
+import com.domain.newsletter.domain.Newsletter;
+import com.domain.question.domain.Question;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -75,77 +72,75 @@ public class Report extends BaseEntity {
     @JoinColumn(name = "honey_tip_id")
     private HoneyTip honeyTip;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
-    public static Report memberOf(final ReportCreateRequest request, final Member reportedMember) {
+    public static Report memberOf(final ReportCreate request, final Member reportedMember, final Member reporter) {
         return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
-                .reporter(getCurrentMember())
+                .content(request.content())
+                .reportType(request.reportType())
+                .reporter(reporter)
                 .reportedMember(reportedMember)
                 .build();
     }
 
-    public static Report questionOf(final ReportCreateRequest request, final Question question) {
+    public static Report questionOf(final ReportCreate request, final Question question, final Member reporter) {
         return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
+                .content(request.content())
+                .reportType(request.reportType())
                 .question(question)
-                .reporter(getCurrentMember())
+                .reporter(reporter)
                 .reportedMember(question.getMember())
                 .build();
     }
 
-    public static Report newsletterOf(final ReportCreateRequest request, final Newsletter newsletter) {
+    public static Report newsletterOf(final ReportCreate request, final Newsletter newsletter, final Member reporter) {
         return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
+                .content(request.content())
+                .reportType(request.reportType())
                 .newsletter(newsletter)
-                .reporter(getCurrentMember())
+                .reporter(reporter)
                 .reportedMember(newsletter.getMember())
                 .build();
     }
 
-    public static Report communityOf(final ReportCreateRequest request, final Community community) {
+    public static Report communityOf(final ReportCreate request, final Community community, final Member reporter) {
         return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
+                .content(request.content())
+                .reportType(request.reportType())
                 .community(community)
-                .reporter(getCurrentMember())
+                .reporter(reporter)
                 .reportedMember(community.getMember())
                 .build();
     }
 
-    public static Report cartOf(final ReportCreateRequest request, final Cart cart) {
+    public static Report cartOf(final ReportCreate request, final Cart cart, final Member reporter) {
         return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
+                .content(request.content())
+                .reportType(request.reportType())
                 .cart(cart)
-                .reporter(getCurrentMember())
+                .reporter(reporter)
                 .reportedMember(cart.getMember())
                 .build();
     }
 
-    public static Report honeyTipOf(final ReportCreateRequest request, final HoneyTip honeyTip,
-                                    final Member currentMember) {
+    public static Report honeyTipOf(final ReportCreate request, final HoneyTip honeyTip, final Member reporter) {
         return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
+                .content(request.content())
+                .reportType(request.reportType())
                 .honeyTip(honeyTip)
-                .reporter(currentMember)
+                .reporter(reporter)
                 .reportedMember(honeyTip.getMember())
                 .build();
     }
 
-    public static Report commentOf(final ReportCreateRequest request, final Comment comment) {
+    public static Report commentOf(final ReportCreate request, final Comment comment, final Member reporter) {
         return Report.builder()
-                .content(request.getContent())
-                .reportType(request.getReportType())
+                .content(request.content())
+                .reportType(request.reportType())
                 .comment(comment)
-                .reporter(getCurrentMember())
+                .reporter(reporter)
                 .reportedMember(comment.getMember())
                 .build();
     }

@@ -1,9 +1,17 @@
 package com.api.honeytip.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
+import com.domain.common.comment.application.CommentService;
+import com.domain.common.comment.domain.Comment;
+import com.domain.common.comment.domain.CommentCreate;
+import com.domain.common.report.application.ReportService;
+import com.domain.common.report.domain.ReportCreate;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipComment;
+import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,13 +28,13 @@ public class HoneyTipCommentFacade {
     private final MemberService memberService;
 
     @Transactional
-    public Message register(final Long postId, final CommentCreateRequest request, final Long currentMemberId) {
+    public Message register(final Long postId, final CommentCreate request, final Long currentMemberId) {
         HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
 
         // comment 부모 찾기
         Long parentCommentId = request.getParentCommentId();
         Optional<Comment> parentCommentOptional = commentService.findParentComment(parentCommentId);
-        Member currentMember = memberService.findById(currentMemberId);
+        Member currentMember = memberService.getById(currentMemberId);
 
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
@@ -42,7 +50,7 @@ public class HoneyTipCommentFacade {
 
 
     // 대댓글 생성
-    private Long registerCommentWithParent(final CommentCreateRequest request, final HoneyTip findHoneyTip,
+    private Long registerCommentWithParent(final CommentCreate request, final HoneyTip findHoneyTip,
                                            final Comment parentComment, final Member member) {
         HoneyTipComment honeyTipComment = HoneyTipComment.withParentOf(request, parentComment, findHoneyTip, member);
         commentService.register(honeyTipComment);
@@ -50,7 +58,7 @@ public class HoneyTipCommentFacade {
     }
 
     // 최상위 댓글 생성
-    private Long registerCommentOrphanage(final CommentCreateRequest request, final HoneyTip findHoneyTip,
+    private Long registerCommentOrphanage(final CommentCreate request, final HoneyTip findHoneyTip,
                                           final Member member) {
         HoneyTipComment honeyTipComment = HoneyTipComment.orphanageOf(request, findHoneyTip, member);
         commentService.register(honeyTipComment);
@@ -60,10 +68,11 @@ public class HoneyTipCommentFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long commentId, final ReportCreateRequest request) {
+    public Message report(final Long commentId, final ReportWebCreate request, final Long reporterId) {
         Comment comment = commentService.findComment(commentId);
-        reportService.reportComment(request, comment);
-
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportComment(create, comment, reporter);
         return Message.reportCommentSuccess(HoneyTipComment.class, commentId);
     }
 

@@ -1,9 +1,12 @@
 package com.api.newsletter.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.domain.common.comment.application.CommentService;
 import com.domain.common.comment.domain.Comment;
 import com.domain.common.comment.domain.CommentCreate;
+import com.domain.common.report.application.ReportService;
+import com.domain.common.report.domain.ReportCreate;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import com.domain.newsletter.application.NewsletterPostService;
@@ -69,9 +72,11 @@ public class NewsletterCommentFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long commentId, final ReportCreateRequest request) {
+    public Message report(final Long commentId, final ReportWebCreate request, final Long reporterId) {
         Comment comment = commentService.findComment(commentId);
-        reportService.reportComment(request, comment);
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportComment(create, comment, reporter);
         return Message.reportCommentSuccess(Newsletter.class, commentId);
     }
 

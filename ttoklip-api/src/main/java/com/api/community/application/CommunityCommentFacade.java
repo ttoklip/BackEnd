@@ -1,14 +1,16 @@
 package com.api.community.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.domain.common.comment.application.CommentService;
 import com.domain.common.comment.domain.Comment;
 import com.domain.common.comment.domain.CommentCreate;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.common.report.application.ReportService;
 import com.domain.community.application.CommunityCommentService;
 import com.domain.community.application.CommunityPostService;
 import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityComment;
-import com.domain.community.domain.CommunityCreate;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -75,10 +77,11 @@ public class CommunityCommentFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long commentId, final ReportCreateRequest request) {
+    public Message report(final Long commentId, final ReportWebCreate request, final Long reporterId){
         Comment comment = commentService.findComment(commentId);
-        reportService.reportComment(request, comment);
-
+        Member reporter = memberService.getById(reporterId);
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        reportService.reportComment(create, comment, reporter);
         return Message.reportCommentSuccess(CommunityComment.class, commentId);
     }
 

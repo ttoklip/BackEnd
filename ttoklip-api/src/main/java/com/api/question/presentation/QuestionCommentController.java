@@ -1,5 +1,6 @@
 package com.api.question.presentation;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -65,30 +66,11 @@ public class QuestionCommentController {
                             )))})
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = questionCommentFacade.report(commentId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = questionCommentFacade.report(commentId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
-
-
-    /* UPDATE - 댓글 수정 미사용 */
-//    @Operation(summary = "댓글 수정", description = "지정된 게시글에 댓글을 수정합니다.")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "질문 수정 성공",
-//                    content = @Content(
-//                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-//                            schema = @Schema(implementation = SuccessResponse.class),
-//                            examples = @ExampleObject(
-//                                    name = "SuccessResponse",
-//                                    value = QuestionResponseConstant.EDIT_QUESTION_COMMENT,
-//                                    description = "댓글이 수정되었습니다."
-//                            )))})
-//    @PatchMapping("/{commentId}")
-//    public SuccessResponse<Message> edit(final @PathVariable Long commentId,
-//                                         final @RequestBody CommentEditRequest request) {
-//        Message message = questionCommnetFacade.edit(commentId, request);
-//        return new SuccessResponse<>(message);
-//    }
 
 
     /* DELETE */

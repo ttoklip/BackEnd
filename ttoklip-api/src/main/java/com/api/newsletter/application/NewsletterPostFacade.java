@@ -1,10 +1,13 @@
 package com.api.newsletter.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.newsletter.presentation.NewsletterWebCreate;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.common.report.application.ReportService;
 import com.domain.common.vo.Category;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
@@ -135,10 +138,11 @@ public class NewsletterPostFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long postId, final ReportCreateRequest request) {
+    public Message report(final Long postId, final ReportWebCreate request, final Long reporterId) {
         Newsletter newsletter = postService.getNewsletter(postId);
-        reportService.reportNewsletter(request, newsletter);
-
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportNewsletter(create, newsletter, reporter);
         return Message.reportPostSuccess(Newsletter.class, postId);
     }
 

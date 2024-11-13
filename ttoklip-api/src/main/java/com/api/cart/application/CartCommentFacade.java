@@ -1,6 +1,6 @@
 package com.api.cart.application;
 
-import com.api.common.ReportCreate;
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.domain.cart.application.CartPostService;
 import com.domain.cart.domain.Cart;
@@ -9,6 +9,8 @@ import com.domain.common.comment.application.CommentService;
 import com.domain.common.comment.domain.Comment;
 import com.domain.common.comment.domain.CommentCreate;
 import com.domain.common.comment.domain.CommentEdit;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.common.report.application.ReportService;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import java.util.Optional;
@@ -70,10 +72,11 @@ public class CartCommentFacade {
     /* -------------------------------------------- REPORT -------------------------------------------- */
 
     @Transactional
-    public Message report(final Long commentId, final ReportCreate request) {
+    public Message report(final Long commentId, final ReportWebCreate request, final Long reporterId) {
         Comment comment = commentService.findComment(commentId);
-        reportService.reportComment(request, comment);
-
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportComment(create, comment, reporter);
         return Message.reportCommentSuccess(CartComment.class, commentId);
     }
 

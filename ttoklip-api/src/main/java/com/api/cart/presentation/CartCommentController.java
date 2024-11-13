@@ -1,7 +1,7 @@
 package com.api.cart.presentation;
 
 import com.api.cart.application.CartCommentFacade;
-import com.api.common.ReportCreate;
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -52,7 +52,7 @@ public class CartCommentController {
                     ))})
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
-                                           final @RequestBody ReportCreate request) {
+                                           final @RequestBody ReportWebCreate request) {
         Message message = cartCommentFacade.report(commentId, request);
         return new SuccessResponse<>(message);
     }

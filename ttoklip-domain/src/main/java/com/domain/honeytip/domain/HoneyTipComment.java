@@ -1,5 +1,8 @@
 package com.domain.honeytip.domain;
 
+import com.domain.common.comment.domain.Comment;
+import com.domain.common.comment.domain.CommentCreate;
+import com.domain.member.domain.Member;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,7 +29,7 @@ public class HoneyTipComment extends Comment {
         this.honeyTip = honeyTip;
     }
 
-    public static HoneyTipComment withParentOf(final CommentCreateRequest request, final Comment parent,
+    public static HoneyTipComment withParentOf(final CommentCreate request, final Comment parent,
                                                final HoneyTip honeyTip, final Member member) {
         return HoneyTipComment.builder()
                 .content(request.getComment())
@@ -36,7 +39,7 @@ public class HoneyTipComment extends Comment {
                 .build();
     }
 
-    public static HoneyTipComment orphanageOf(final CommentCreateRequest request, final HoneyTip honeyTip,
+    public static HoneyTipComment orphanageOf(final CommentCreate request, final HoneyTip honeyTip,
                                               final Member member) {
         return HoneyTipComment.builder()
                 .content(request.getComment())

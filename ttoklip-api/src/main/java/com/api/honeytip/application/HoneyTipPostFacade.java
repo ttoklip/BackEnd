@@ -1,10 +1,14 @@
 package com.api.honeytip.application;
 
+import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.honeytip.presentation.request.HoneyTipWebCreate;
 import com.api.honeytip.presentation.request.HoneyTipWebEdit;
 import com.api.honeytip.presentation.response.HoneyTipSingleResponse;
+import com.domain.common.report.domain.ReportCreate;
+import com.domain.common.report.application.ReportService;
+import com.domain.common.vo.Category;
 import com.domain.honeytip.application.HoneyTipCommentService;
 import com.domain.honeytip.application.HoneyTipImageService;
 import com.domain.honeytip.application.HoneyTipLikeService;
@@ -16,6 +20,8 @@ import com.domain.honeytip.domain.HoneyTipComment;
 import com.domain.honeytip.domain.HoneyTipEditor;
 import com.domain.honeytip.domain.request.HoneyTipCreate;
 import com.domain.honeytip.domain.request.HoneyTipEdit;
+import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,12 +54,11 @@ public class HoneyTipPostFacade {
     @Transactional
     @CheckBadWordCreate
     public Message register(final HoneyTipWebCreate request, final Long currentMemberId) {
-        Member currentMember = memberService.findById(currentMemberId);
-
-        HoneyTipCreate honeyTipCreate = HoneyTipCreate.of(request.title(), request.content(), request.getCategory());
+        Member currentMember = memberService.getById(currentMemberId);
+        HoneyTipCreate honeyTipCreate = HoneyTipCreate.of(request.getTitle(), request.getContent(), request.getCategory());
 
         HoneyTip honeytip = HoneyTip.of(honeyTipCreate, currentMember);
-        honeyTipPostService.saveHoneyTipPost(honeytip);
+        honeyTipPostService.save(honeytip);
 
         List<MultipartFile> uploadImages = request.getImages();
         if (uploadImages != null && !uploadImages.isEmpty()) {
@@ -69,7 +74,6 @@ public class HoneyTipPostFacade {
     }
 
     private void registerImages(final HoneyTip honeytip, final List<MultipartFile> uploadImages) {
-        // S3에 이미지 업로드 후 URL 목록을 가져온다.
         List<String> uploadUrls = uploader.uploadMultipartFiles(uploadImages);
         uploadUrls.forEach(uploadUrl -> honeyTipImageService.register(honeytip, uploadUrl));
     }
@@ -90,7 +94,7 @@ public class HoneyTipPostFacade {
         HoneyTip honeyTip = honeyTipPostService.getHoneytip(postId);
         honeyTipPostService.checkEditPermission(honeyTip, currentMemberId);
 
-        HoneyTipEdit honeyTipEdit = HoneyTipEdit.of(request.title(), request.content());
+        HoneyTipEdit honeyTipEdit = HoneyTipEdit.of(request.getTitle(), request.getContent());
         // title, content 수정
         HoneyTipEditor postEditor = getPostEditor(honeyTipEdit, honeyTip);
         honeyTip.edit(postEditor);
@@ -120,8 +124,8 @@ public class HoneyTipPostFacade {
     private HoneyTipEditor getPostEditor(final HoneyTipEdit request, final HoneyTip honeyTip) {
         HoneyTipEditor.HoneyTipEditorBuilder editorBuilder = honeyTip.toEditor();
         return editorBuilder
-                .title(request.title())
-                .content(request.content())
+                .title(request.getTitle())
+                .content(request.getContent())
                 .build();
     }
 
@@ -148,11 +152,11 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
     @Transactional
-    public Message report(final Long postId, final ReportCreateRequest request, final Long currentMemberId) {
+    public Message report(final Long postId, final ReportWebCreate request, final Long reporterId) {
         HoneyTip honeytip = honeyTipPostService.getHoneytip(postId);
-        Member currentMember = memberService.findById(currentMemberId);
-        reportService.reportHoneyTip(request, honeytip, currentMember);
-
+        ReportCreate create = ReportCreate.of(request.content(), request.getReportType());
+        Member reporter = memberService.getById(reporterId);
+        reportService.reportHoneyTip(create, honeytip, reporter);
         return Message.reportPostSuccess(HoneyTip.class, postId);
     }
 
@@ -170,9 +174,8 @@ public class HoneyTipPostFacade {
         boolean likedByCurrentUser = honeyTipLikeService.isHoneyTipLikeExists(postId, currentMemberId);
         boolean scrapedByCurrentUser = honeyTipScrapService.isHoneyTipScrapExists(postId, currentMemberId);
 
-        HoneyTipSingleResponse honeyTipSingleResponse = HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
+        return HoneyTipSingleResponse.of(honeyTipWithImgAndUrl,
                 activeComments, likeCount, scrapCount, likedByCurrentUser, scrapedByCurrentUser);
-        return honeyTipSingleResponse;
     }
 
     /* -------------------------------------------- 단건 READ 끝 -------------------------------------------- */
