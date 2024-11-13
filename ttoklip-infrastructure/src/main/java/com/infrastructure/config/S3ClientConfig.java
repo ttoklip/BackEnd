@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.config;
+package com.infrastructure.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

@@ -1,7 +1,7 @@
-package com.api.ttoklip.global.security.oauth2.userInfo;
+package com.api.auth.oauth2.application.userInfo;
 
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

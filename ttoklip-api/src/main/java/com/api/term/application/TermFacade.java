@@ -1,6 +1,7 @@
 package com.api.term.application;
 
 import com.api.global.success.Message;
+import com.api.term.presentation.TermAdminResponse;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.member.application.MemberService;
@@ -10,10 +11,8 @@ import com.domain.term.application.TermAgreementService;
 import com.domain.term.application.TermService;
 import com.domain.term.domain.Term;
 import com.domain.term.domain.TermCreate;
-import com.api.term.presentation.TermAdminResponse;
 import com.domain.term.response.TermResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,21 +61,4 @@ public class TermFacade {
         termService.edit(term, request);
         return Message.editPostSuccess(Term.class, term.getId());
     }
-
-    public TermSignUpResponse getTermWhenSignUp() {
-        Term termsOfService = termService.getAgreeTermsOfService();
-        Term locationService = termService.getAgreeLocationService();
-        Term privacyPolicy = termService.getAgreePrivacyPolicy();
-
-        TermClientResponse termsOfServiceResponse = transformTerm(termsOfService);
-        TermClientResponse termLocationService = transformTerm(locationService);
-        TermClientResponse termPrivacyPolicy = transformTerm(privacyPolicy);
-
-        return TermSignUpResponse.of(termsOfServiceResponse, termLocationService, termPrivacyPolicy);
-    }
-
-    private TermClientResponse transformTerm(final Term term) {
-        return TermClientResponse.from(term);
-    }
-
 }

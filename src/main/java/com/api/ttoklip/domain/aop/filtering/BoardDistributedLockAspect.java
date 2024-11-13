@@ -3,7 +3,6 @@ package com.api.ttoklip.domain.aop.filtering;
 import com.api.ttoklip.domain.member.domain.Member;
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.util.SecurityUtil;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;

@@ -15,7 +15,7 @@ public class TermAgreementService {
     private final TermAgreementRepository termAgreementRepository;
 
     @Transactional
-    public void saveTermAgreementRepository(List<TermAgreement> termAgreements) {
+    public void regsiterAgreements(final List<TermAgreement> termAgreements) {
         termAgreementRepository.saveAll(termAgreements);
     }
 }

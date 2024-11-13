@@ -4,7 +4,7 @@ import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordCreate;
 import com.api.ttoklip.domain.aop.filtering.annotation.CheckBadWordUpdate;
 import com.api.ttoklip.domain.common.comment.Comment;
 import com.api.ttoklip.domain.privacy.dto.PrivacyCreateRequest;
-import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
+import com.api.ttoklip.global.security.local.dto.request.AuthRequest;
 import com.api.ttoklip.global.util.BadWordFilter;
 import java.util.Arrays;
 import org.aspectj.lang.JoinPoint;

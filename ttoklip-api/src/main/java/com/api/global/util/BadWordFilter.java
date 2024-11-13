@@ -1,8 +1,8 @@
-package com.api.ttoklip.global.util;
+package com.api.global.util;
 
-import static com.api.ttoklip.global.exception.ErrorType.BAD_WORDS_ERROR;
+import static com.common.exception.ErrorType.BAD_WORDS_ERROR;
 
-import com.api.ttoklip.global.exception.BadWordException;
+import com.common.exception.BadWordException;
 import com.vane.badwordfiltering.BadWordFiltering;
 import java.util.Arrays;
 import java.util.List;

@@ -5,6 +5,7 @@ import com.common.exception.ErrorType;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipScrap;
 import com.domain.honeytip.domain.HoneyTipScrapRepository;
+import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +25,8 @@ public class HoneyTipScrapService {
 
     // 스크랩 생성
     @SendNotification
-    public void register(final HoneyTip honeyTip, final Member currentMember) {
-        HoneyTipScrap honeyTipScrap = HoneyTipScrap.of(honeyTip, currentMember);
+    public void register(final HoneyTip honeyTip, final Member member) {
+        HoneyTipScrap honeyTipScrap = HoneyTipScrap.of(honeyTip, member);
         honeyTipScrapRepository.save(honeyTipScrap);
     }
 
@@ -46,7 +47,7 @@ public class HoneyTipScrapService {
         return honeyTipScrapRepository.countHoneyTipScrapsByHoneyTipId(postId);
     }
 
-    public Page<HoneyTip> getScrapPaging(final Long userId, final Pageable pageable) {
-        return honeyTipScrapRepository.getSc
+    public Page<HoneyTip> getScrapPaging(final Long memberId, final Pageable pageable) {
+        return honeyTipScrapRepository.getScrapPaging(memberId, pageable);
     }
 }

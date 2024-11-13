@@ -2,7 +2,7 @@ package com.api.ttoklip.domain.aop.filtering;
 
 import com.api.ttoklip.global.exception.ApiException;
 import com.api.ttoklip.global.exception.ErrorType;
-import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
+import com.api.ttoklip.global.security.local.dto.request.AuthRequest;
 import com.api.ttoklip.global.security.oauth2.userInfo.OAuth2UserInfo;
 import java.util.Arrays;
 import java.util.Objects;

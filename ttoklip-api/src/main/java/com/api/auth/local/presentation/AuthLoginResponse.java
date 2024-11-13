@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.security.auth.dto.response;
+package com.api.auth.local.presentation;
 
 import lombok.Builder;
 

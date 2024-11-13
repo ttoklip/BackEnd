@@ -42,7 +42,7 @@ public class HoneyTipScrapRepositoryImpl implements HoneyTipScrapRepository {
     }
 
     @Override
-    public Page<HoneyTip> getScrapPaging(final Long userId, final Pageable pageable) {
-        return queryDSLRepository.getScrapPaging(userId, pageable);
+    public Page<HoneyTip> getScrapPaging(final Long memberId, final Pageable pageable) {
+        return queryDSLRepository.getScrapPaging(memberId, pageable);
     }
 }

@@ -1,4 +1,4 @@
-package com.api.ttoklip.global.config;
+package com.batch.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

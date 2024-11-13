@@ -24,4 +24,6 @@ public class InterestService {
 
         interestRepository.saveAll(interests);
     }
+
+
 }

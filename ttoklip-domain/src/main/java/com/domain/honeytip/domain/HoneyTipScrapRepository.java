@@ -15,5 +15,5 @@ public interface HoneyTipScrapRepository {
 
     void save(HoneyTipScrap honeyTipScrap);
 
-    Page<HoneyTip> getScrapPaging(Long userId, Pageable pageable);
+    Page<HoneyTip> getScrapPaging(Long memberId, Pageable pageable);
 }

@@ -8,6 +8,7 @@ import com.domain.term.domain.TermEditor;
 import com.domain.term.domain.TermRepository;
 import com.domain.term.response.TermResponse;
 import com.domain.term.response.TermResponses;
+import com.domain.term.response.TermSignUpResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,21 @@ public class TermService {
                 .map(TermResponse::from)
                 .toList();
         return TermResponses.from(termResponses);
+    }
+
+    public TermSignUpResponse getTermWhenSignUp() {
+        Term termsOfService = getAgreeTermsOfService();
+        Term privacyPolicy = getAgreePrivacyPolicy();
+        Term locationService = getAgreeLocationService();
+
+        TermResponse termsOfServiceResponse = transformTerm(termsOfService);
+        TermResponse termLocationService = transformTerm(locationService);
+        TermResponse termPrivacyPolicy = transformTerm(privacyPolicy);
+
+        return TermSignUpResponse.of(termsOfServiceResponse, termLocationService, termPrivacyPolicy);
+    }
+
+    private TermResponse transformTerm(final Term term) {
+        return TermResponse.from(term);
     }
 }

@@ -1,18 +1,14 @@
-package com.api.ttoklip.global.security.auth.controller;
+package com.api.auth.local.presentation;
 
-import com.api.ttoklip.global.security.auth.dto.request.AuthLoginRequest;
-import com.api.ttoklip.global.security.auth.dto.request.AuthRequest;
-import com.api.ttoklip.global.security.auth.dto.response.AuthLoginResponse;
-import com.api.ttoklip.global.security.auth.dto.response.TermSignUpResponse;
-import com.api.ttoklip.global.security.auth.service.AuthService;
-import com.api.ttoklip.global.success.Message;
-import com.api.ttoklip.global.success.SuccessResponse;
+import com.api.auth.local.application.AuthFacade;
+import com.api.global.success.Message;
+import com.api.global.success.SuccessResponse;
+import com.domain.term.response.TermSignUpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-@Slf4j
-public class AuthController {
+public class LocalAuthController {
 
-    private final AuthService authService;
+    private final AuthFacade authFacade;
 
     /* --------------------------------- signup --------------------------------- */
     @Operation(summary = "회원가입", description = "직접 회원가입을 진행합니다.")
@@ -38,18 +33,20 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공")
     })
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public SuccessResponse<Message> signup(final @Validated @ModelAttribute AuthRequest request) {
-        return new SuccessResponse<>(authService.signup(request));
+    public SuccessResponse<Message> signup(
+            final @Validated @ModelAttribute LocalMemberWebCreate request
+    ) {
+        return new SuccessResponse<>(authFacade.signup(request));
     }
 
     /* --------------------------------- duplicate --------------------------------- */
-    @Operation(summary = "중복확인", description = "아이디 중복확인을 진행합니다..")
+    @Operation(summary = "중복확인", description = "아이디 중복확인을 진행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공")
     })
     @PostMapping("/duplicate")
-    public SuccessResponse<Message> duplicate(@RequestParam String newId) {
-        return new SuccessResponse<>(authService.duplicate(newId));
+    public SuccessResponse<Message> duplicate(final @RequestParam String newId) {
+        return new SuccessResponse<>(authFacade.duplicate(newId));
     }
 
     /* --------------------------------- login --------------------------------- */
@@ -58,9 +55,9 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "로그인 성공")
     })
     @PostMapping("/login")
-    public SuccessResponse<AuthLoginResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
-        AuthLoginResponse authLoginResponse = authService.login(authLoginRequest);
-        return new SuccessResponse<>(authLoginResponse);
+    public SuccessResponse<AuthLoginResponse> login(final @RequestBody AuthLogin authLogin) {
+        AuthLoginResponse response = authFacade.login(authLogin);
+        return new SuccessResponse<>(response);
     }
 
     @Operation(summary = "회원가입 전용 이용약관 조회", description = "회원가입 전 이용약관을 조회하는 API입니다.")
@@ -69,6 +66,7 @@ public class AuthController {
     })
     @GetMapping("/agree")
     public SuccessResponse<TermSignUpResponse> getTermSignUp() {
-        return new SuccessResponse<>(authService.getTermWhenSignUp());
+        TermSignUpResponse response = authFacade.getTermWhenSignUp();
+        return new SuccessResponse<>(response);
     }
 }

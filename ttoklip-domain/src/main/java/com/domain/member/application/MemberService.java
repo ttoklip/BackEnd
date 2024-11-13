@@ -6,9 +6,12 @@ import static com.common.exception.ErrorType._USER_NOT_FOUND_DB;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.member.application.response.MemberStreetResponse;
+import com.domain.member.domain.LocalMemberCreate;
 import com.domain.member.domain.Member;
 import com.domain.member.domain.MemberRepository;
 import com.domain.interest.application.response.InterestResponse;
+import com.domain.member.domain.vo.Provider;
+import com.domain.member.domain.vo.Role;
 import com.domain.profile.application.response.TargetMemberProfile;
 import com.domain.profile.domain.Profile;
 import java.util.List;
@@ -95,5 +98,40 @@ public class MemberService {
 
     public List<Member> findAll() {
         return memberRepository.findAll();
+    }
+
+    @Transactional
+    public Member registerMember(final LocalMemberCreate create) {
+        String email = create.email();
+        validateEmail(email);
+        String password = create.password();
+        String originName = create.originName();
+        String nickname = create.nickname();
+        int independentYear = create.independentYear();
+        int independentMonth = create.independentMonth();
+        String street = create.street();
+
+        Member newMember = Member.builder()
+                .email(email)
+                .password(password)
+                .originName(originName)
+                .nickname(nickname)
+                .role(Role.CLIENT)
+                .provider(Provider.LOCAL)
+                .independentYear(independentYear)
+                .independentMonth(independentMonth)
+                .street(street)
+                .build();
+
+        memberRepository.save(newMember);
+        return newMember;
+    }
+
+    public void validateEmail(final String email) {
+        boolean isExist = memberRepository.existsByEmail(email);
+
+        if (isExist) {
+            throw new ApiException(ErrorType.ALREADY_EXISTS_JOIN_ID);
+        }
     }
 }
