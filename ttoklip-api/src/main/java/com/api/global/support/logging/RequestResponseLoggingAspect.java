@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Aspect
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class RequestResponseLoggingAspect {
 
     private static final Logger requestLogger = LoggerFactory.getLogger("HttpRequestLog");
