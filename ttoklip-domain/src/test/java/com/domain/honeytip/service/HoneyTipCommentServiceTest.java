@@ -1,8 +1,8 @@
 package com.domain.honeytip.service;
 
-import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipCommentService;
+import com.domain.comment.domain.CommentRepository;
 import com.domain.comment.repository.FakeCommentRepository;
+import com.domain.honeytip.application.HoneyTipCommentService;
 import com.domain.honeytip.repository.FakeHoneyTipPostRepository;
 import org.junit.jupiter.api.BeforeEach;
 

@@ -1,12 +1,12 @@
 package com.domain.question.service;
 
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.domain.question.domain.QuestionImage;
-import com.api.ttoklip.domain.question.domain.QuestionImageRepository;
-import com.api.ttoklip.domain.question.application.QuestionImageService;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.member.domain.Member;
+import com.domain.question.application.QuestionImageService;
+import com.domain.question.domain.Question;
+import com.domain.question.domain.QuestionImage;
+import com.domain.question.domain.QuestionImageRepository;
 import com.domain.question.repository.FakeQuestionImageRepository;
 import member.fixture.MemberFixture;
 import org.junit.jupiter.api.BeforeEach;

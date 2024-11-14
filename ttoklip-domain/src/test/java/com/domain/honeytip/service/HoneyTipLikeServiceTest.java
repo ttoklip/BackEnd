@@ -3,12 +3,12 @@ package com.domain.honeytip.service;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.repository.like.HoneyTipLikeRepository;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipLikeService;
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.global.exception.ApiException;
+import com.common.exception.ApiException;
+import com.domain.honeytip.application.HoneyTipLikeService;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.honeytip.domain.HoneyTipLikeRepository;
 import com.domain.honeytip.repository.FakeHoneyTipLikeRepository;
+import com.domain.member.domain.Member;
 import honeytip.fixture.HoneyTipFixture;
 import member.fixture.MemberFixture;
 import org.junit.jupiter.api.BeforeEach;

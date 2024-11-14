@@ -1,11 +1,11 @@
 package com.domain.honeytip.service;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.repository.scrap.HoneyTipScrapRepository;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipScrapService;
-import com.api.ttoklip.domain.member.domain.Member;
-import com.api.ttoklip.global.exception.ApiException;
+import com.common.exception.ApiException;
+import com.domain.honeytip.application.HoneyTipScrapService;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.honeytip.domain.HoneyTipScrapRepository;
 import com.domain.honeytip.repository.FakeHoneyTipScrapRepository;
+import com.domain.member.domain.Member;
 import honeytip.fixture.HoneyTipFixture;
 import member.fixture.MemberFixture;
 import org.junit.jupiter.api.BeforeEach;

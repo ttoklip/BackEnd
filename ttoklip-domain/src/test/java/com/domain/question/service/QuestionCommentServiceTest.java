@@ -1,8 +1,8 @@
 package com.domain.question.service;
 
-import com.api.ttoklip.domain.common.comment.repository.CommentRepository;
-import com.api.ttoklip.domain.question.application.QuestionCommentService;
+import com.domain.comment.domain.CommentRepository;
 import com.domain.comment.repository.FakeCommentRepository;
+import com.domain.question.application.QuestionCommentService;
 import com.domain.question.repository.FakeQuestionPostRepository;
 import org.junit.jupiter.api.BeforeEach;
 

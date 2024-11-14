@@ -2,14 +2,14 @@ package com.domain.honeytip.service;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipUrl;
-import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
-import com.api.ttoklip.domain.honeytip.repository.url.HoneyTipUrlRepository;
-import com.api.ttoklip.domain.honeytip.service.HoneyTipUrlService;
-import com.api.ttoklip.domain.member.domain.Member;
+import com.domain.honeytip.application.HoneyTipUrlService;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.honeytip.domain.HoneyTipRepository;
+import com.domain.honeytip.domain.HoneyTipUrl;
+import com.domain.honeytip.domain.HoneyTipUrlRepository;
 import com.domain.honeytip.repository.FakeHoneyTipPostRepository;
 import com.domain.honeytip.repository.FakeHoneyTipUrlRepository;
+import com.domain.member.domain.Member;
 import honeytip.fixture.HoneyTipFixture;
 import java.util.List;
 import member.fixture.MemberFixture;

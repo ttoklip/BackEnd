@@ -1,9 +1,16 @@
+plugins {
+    id 'java-test-fixtures'
+}
+
 bootJar.enabled = false
 jar.enabled = true
 
 dependencies {
     implementation project(':ttoklip-common')
     implementation project(':ttoklip-infrastructure')
+
+    testImplementation project(':ttoklip-common')
+    testFixturesImplementation project(':ttoklip-common')
 
     api 'org.springframework.boot:spring-boot-starter-validation'
     runtimeOnly 'com.mysql:mysql-connector-j'
