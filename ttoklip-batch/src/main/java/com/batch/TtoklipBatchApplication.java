@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
         "com.common",
         "com.infrastructure",
         "com.domain",
-        "com.persistence"
+        "com.batch"
 })
 @SpringBootApplication
 public class TtoklipBatchApplication {

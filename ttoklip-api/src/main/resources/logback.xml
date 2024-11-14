@@ -1,11 +1,19 @@
 <configuration>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [%X{requestId}] - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [%X{requestId}] [%X{method}] [%X{requestUri}] [%X{sourceIp}] [%X{userAgent}] [%X{xForwardedFor}] [%X{xForwardedProto}] [%X{responseTime}] - %msg%n</pattern>
         </encoder>
     </appender>
 
     <root level="info">
         <appender-ref ref="CONSOLE" />
     </root>
+
+    <logger name="HttpRequestLog" level="info" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <logger name="HttpResponseLog" level="info" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
 </configuration>
