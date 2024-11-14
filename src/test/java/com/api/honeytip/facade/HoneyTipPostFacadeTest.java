@@ -1,4 +1,4 @@
-package com.domain.honeytip.facade;
+package com.api.honeytip.facade;
 
 import static honeytip.fixture.HoneyTipFixture.URL_X_사진_X_단순_꿀팁_게시글_요청_픽스처;
 import static honeytip.fixture.HoneyTipFixture.URL_있음_게시글_요청_픽스처;

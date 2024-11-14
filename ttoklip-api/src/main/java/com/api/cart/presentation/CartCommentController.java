@@ -53,7 +53,8 @@ public class CartCommentController {
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
                                            final @RequestBody ReportWebCreate request) {
-        Message message = cartCommentFacade.report(commentId, request);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = cartCommentFacade.report(commentId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

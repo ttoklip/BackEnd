@@ -26,3 +26,10 @@ spring:
       hibernate:
         dialect: ENC(wvHQPgB402IXW85HHlu4kOAwZWKIrG37GCmHPa2CIoo0vMefVWzmRa1rEHNwzMWH)
         default_batch_fetch_size: ENC(vlfxBKZ6fXmAzqpH/OcG6A==)
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: INFO

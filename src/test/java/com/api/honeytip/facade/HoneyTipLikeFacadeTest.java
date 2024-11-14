@@ -1,4 +1,4 @@
-package com.domain.honeytip.facade;
+package com.api.honeytip.facade;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.Mockito.times;

@@ -1,5 +1,6 @@
 package com.api.newsletter.presentation;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -64,8 +65,9 @@ public class NewsletterCommentController {
                             )))})
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = newsletterCommentFacade.report(commentId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = newsletterCommentFacade.report(commentId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

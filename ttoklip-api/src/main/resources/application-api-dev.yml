@@ -1,3 +1,25 @@
 spring:
   config:
-    import: "classpath:application-persistence-dev.yml"
+    import: "classpath:application-domain-dev.yml"
+  servlet:
+    multipart:
+      max-file-size: 20MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    sender-email: ENC(XY41e1DCUH9AsqGoXILdUTLQRIFNRRmG4YjJRNwOzBQOiP+2tkUFSg==)
+    password: ENC(2gk/TTxPHgwJb1UuomrSKXxtToyzjO+Yo4qa9YGsjPQ=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
+            required: true
+
+server:
+  tomcat:
+    uri-encoding: UTF-8

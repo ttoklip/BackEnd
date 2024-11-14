@@ -1,5 +1,6 @@
 package com.api.question.presentation;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -86,8 +87,9 @@ public class QuestionPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = questionPostFacade.report(postId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = questionPostFacade.report(postId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 }

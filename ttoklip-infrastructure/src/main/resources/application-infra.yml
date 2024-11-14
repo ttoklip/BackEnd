@@ -3,7 +3,8 @@ spring:
     on-profile: dev
   config:
     import: "classpath:application-common.yml" # common 모듈의 설정 파일 참조
-
+  jackson:
+    time-zone: Asia/Seoul
 google:
   firebase:
     fcm:

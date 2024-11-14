@@ -5,6 +5,8 @@ import com.api.global.success.Message;
 import com.domain.honeytip.application.HoneyTipLikeService;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.domain.HoneyTip;
+import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +22,12 @@ public class HoneyTipLikeFacade implements ActionFacade {
 
     @Override
     @Transactional
-    public Message register(final Long postId, final Long currentMemberId) {
-        boolean exists = honeyTipLikeService.isHoneyTipLikeExists(postId, currentMemberId);
+    public Message register(final Long postId, final Long memberId) {
+        boolean exists = honeyTipLikeService.isHoneyTipLikeExists(postId, memberId);
         // 좋아요가 존재하지 않을 때만 생성
         if (!exists) {
             HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
-            Member currentMember = memberService.findById(currentMemberId);
+            Member currentMember = memberService.getById(memberId);
             honeyTipLikeService.register(findHoneyTip, currentMember);
         }
         return Message.likePostSuccess(HoneyTip.class, postId);

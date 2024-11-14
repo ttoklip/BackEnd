@@ -57,6 +57,9 @@ public class EmailFacade {
             message.setSubject("안녕하세요. 똑립 인증 번호입니다.");
             message.setFrom(new InternetAddress(senderEmail, "똑립"));
             message.setText(setContext(authCode), "utf-8", "html");
+            setRedisData(email, authCode);
+
+            return message;
         } catch (MessagingException e) {
             log.error("MessagingException while creating email form: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.EMAIL_FORM_CREATION_ERROR);
@@ -64,10 +67,6 @@ public class EmailFacade {
             log.error("IOException while creating email form: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);
         }
-
-        setRedisData(email, authCode);
-
-        return message;
     }
 
 

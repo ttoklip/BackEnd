@@ -1,4 +1,4 @@
-package com.domain.honeytip.facade;
+package com.api.honeytip.facade;
 
 import com.api.ttoklip.domain.common.report.service.ReportService;
 import com.api.ttoklip.domain.honeytip.service.HoneyTipCommentService;

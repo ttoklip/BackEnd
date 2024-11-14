@@ -1,7 +1,9 @@
 package com.api.newsletter.application;
 
 import com.api.common.ReportWebCreate;
-import com.api.common.upload.Uploader;
+import com.api.common.upload.MultipartFileAdapter;
+import com.infrastructure.aws.upload.FileInput;
+import com.infrastructure.aws.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.newsletter.presentation.NewsletterWebCreate;
 import com.common.exception.ApiException;
@@ -24,7 +26,9 @@ import com.api.newsletter.presentation.response.NewsletterSingleResponse;
 import com.domain.newsletter.application.response.NewsletterThumbnailResponse;
 import com.domain.newsletter.domain.Newsletter;
 import com.domain.newsletter.domain.NewsletterComment;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,11 +85,15 @@ public class NewsletterPostFacade {
     }
 
     private String uploadImage(final MultipartFile image) {
-        return uploader.uploadMultipartFile(image);
+        return uploader.uploadFile(new MultipartFileAdapter(image));
     }
 
     private void uploadImages(final Newsletter newsletter, final List<MultipartFile> uploadImages) {
-        List<String> uploadUrls = uploader.uploadMultipartFiles(uploadImages);
+        List<FileInput> files = uploadImages.stream()
+                .map(MultipartFileAdapter::new)
+                .collect(Collectors.toList());
+        List<String> uploadUrls = uploader.uploadFiles(files);
+
         uploadUrls.forEach(uploadUrl -> imageService.register(newsletter, uploadUrl));
     }
 

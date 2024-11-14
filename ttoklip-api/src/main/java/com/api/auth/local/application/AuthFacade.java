@@ -1,6 +1,7 @@
 package com.api.auth.local.application;
 
 import com.api.auth.local.presentation.AuthLogin;
+import com.api.common.upload.MultipartFileAdapter;
 import com.common.annotation.DistributedLock;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
@@ -8,7 +9,7 @@ import com.domain.interest.application.InterestService;
 import com.domain.member.domain.LocalMemberCreate;
 import com.api.auth.local.presentation.LocalMemberWebCreate;
 import com.api.auth.local.presentation.AuthLoginResponse;
-import com.api.common.upload.Uploader;
+import com.infrastructure.aws.upload.Uploader;
 import com.api.global.success.Message;
 import com.common.jwt.TokenProvider;
 import com.domain.common.vo.Category;
@@ -67,7 +68,7 @@ public class AuthFacade {
     }
 
     private void registerProfile(final MultipartFile profileImage, final Member newMember) {
-        String profileImgUrl = uploader.uploadMultipartFile(profileImage);
+        String profileImgUrl = uploader.uploadFile(new MultipartFileAdapter(profileImage));
         Profile profile = Profile.of(newMember, profileImgUrl);
         profileService.save(profile);
     }

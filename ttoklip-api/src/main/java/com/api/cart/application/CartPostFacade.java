@@ -5,7 +5,9 @@ import com.api.cart.presentation.dto.response.CartGroupMemberResponse;
 import com.api.cart.presentation.dto.response.CartMemberResponse;
 import com.api.cart.presentation.dto.response.CartResponse;
 import com.api.common.ReportWebCreate;
-import com.api.common.upload.Uploader;
+import com.api.common.upload.MultipartFileAdapter;
+import com.infrastructure.aws.upload.FileInput;
+import com.infrastructure.aws.upload.Uploader;
 import com.api.global.success.Message;
 import com.common.NotiCategory;
 import com.common.annotation.DistributedLock;
@@ -29,6 +31,7 @@ import com.domain.member.domain.Member;
 import com.domain.report.application.ReportService;
 import com.domain.report.domain.ReportCreate;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +80,11 @@ public class CartPostFacade {
     }
 
     private void registerImages(final Cart cart, final List<MultipartFile> multipartFiles) {
-        List<String> uploadUrls = uploader.uploadMultipartFiles(multipartFiles);
+        List<FileInput> files = multipartFiles.stream()
+                .map(MultipartFileAdapter::new)
+                .collect(Collectors.toList());
+        List<String> uploadUrls = uploader.uploadFiles(files);
+
         uploadUrls.forEach(uploadUrl -> cartImageService.register(cart, uploadUrl));
     }
 
@@ -133,7 +140,12 @@ public class CartPostFacade {
     private void editImages(final List<MultipartFile> multipartFiles, final Cart cart) {
         Long cartId = cart.getId();
         cartImageService.deleteAllByPostId(cartId);
-        List<String> uploadUrls = uploader.uploadMultipartFiles(multipartFiles);
+
+        List<FileInput> files = multipartFiles.stream()
+                .map(MultipartFileAdapter::new)
+                .collect(Collectors.toList());
+        List<String> uploadUrls = uploader.uploadFiles(files);
+
         uploadUrls.forEach(uploadUrl -> cartImageService.register(cart, uploadUrl));
     }
 

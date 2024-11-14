@@ -1,5 +1,6 @@
 package com.api.community.presentation;
 
+import com.api.common.ReportWebCreate;
 import com.api.community.application.CommunityCommentFacade;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
@@ -56,8 +57,9 @@ public class CommunityCommentController {
                     ))})
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = communityCommentFacade.report(commentId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = communityCommentFacade.report(commentId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

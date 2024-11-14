@@ -1,6 +1,7 @@
 package com.api.newsletter.presentation;
 
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -107,8 +108,9 @@ public class NewsletterPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = newsletterPostFacade.report(postId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = newsletterPostFacade.report(postId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

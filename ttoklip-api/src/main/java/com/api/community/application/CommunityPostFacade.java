@@ -1,7 +1,9 @@
 package com.api.community.application;
 
 import com.api.common.ReportWebCreate;
-import com.api.common.upload.Uploader;
+import com.api.common.upload.MultipartFileAdapter;
+import com.infrastructure.aws.upload.FileInput;
+import com.infrastructure.aws.upload.Uploader;
 import com.api.community.presentation.dto.request.CommunityWebCreate;
 import com.api.community.presentation.dto.request.CommunityWebEdit;
 import com.api.community.presentation.dto.response.CommunityResponse;
@@ -25,6 +27,7 @@ import com.domain.community.domain.CommunityEdit;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +69,11 @@ public class CommunityPostFacade {
     }
 
     private void registerImages(final Community community, final List<MultipartFile> uploadImages) {
-        List<String> uploadUrls = uploader.uploadMultipartFiles(uploadImages);
+        List<FileInput> files = uploadImages.stream()
+                .map(MultipartFileAdapter::new)
+                .collect(Collectors.toList());
+        List<String> uploadUrls = uploader.uploadFiles(files);
+
         uploadUrls.forEach(uploadUrl -> communityImageService.register(community, uploadUrl));
     }
 

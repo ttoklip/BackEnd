@@ -1,33 +1,34 @@
-package com.domain.honeytip.facade;
-
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+package com.api.question.facade;
 
 import com.api.ttoklip.domain.common.comment.service.CommentService;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipComment;
-import com.api.ttoklip.domain.honeytip.facade.HoneyTipCommentFacade;
 import com.api.ttoklip.domain.member.domain.Member;
+import com.api.ttoklip.domain.question.domain.Question;
+import com.api.ttoklip.domain.question.domain.QuestionComment;
+import com.api.ttoklip.domain.question.facade.QuestionCommentFacade;
 import com.api.ttoklip.global.success.Message;
 import comment.fixture.CommentFixture;
-import honeytip.fixture.HoneyTipFixture;
-import java.util.Optional;
 import member.fixture.MemberFixture;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import question.fixture.QuestionFixture;
 import report.fixture.ReportFixture;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
+public class QuestionCommentFacadeTest extends QuestionFacadeTestHelper {
 
     @InjectMocks
-    private HoneyTipCommentFacade honeyTipCommentFacade;
+    private QuestionCommentFacade questionCommentFacade;
 
     @Mock
     private CommentService commentService;
@@ -37,18 +38,18 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
     @Test
     void 최상위_댓글_등록_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성1();
-        var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
-        Long postId = honeyTip.getId();
+        Member member = MemberFixture.일반_회원_생성1();
+        Question question = QuestionFixture.본인_질문_생성(member);
+        Long postId = question.getId();
         Long memberId = member.getId();
         var request = CommentFixture.최상위_댓글_생성_요청();
 
         when(commentService.findParentComment(any())).thenReturn(Optional.empty());
-        when(honeyTipPostService.getHoneytip(postId)).thenReturn(honeyTip);
+        when(questionPostService.getQuestion(postId)).thenReturn(question);
         when(memberService.findById(memberId)).thenReturn(member);
 
         // When
-        Message result = honeyTipCommentFacade.register(postId, request, memberId);
+        Message result = questionCommentFacade.register(postId, request, memberId);
 
         // Then
         assertSoftly(softly -> {
@@ -57,26 +58,26 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
             softly.assertThat(result.getMessage()).contains("생성");
         });
 
-        verify(commentService).register(any(HoneyTipComment.class));
+        verify(commentService).register(any(QuestionComment.class));
     }
 
     @Test
     void 대댓글_등록_메서드_호출_성공() {
         // Given
-        var member = MemberFixture.일반_회원_생성1();
-        var honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
-        Long postId = honeyTip.getId();
+        Member member = MemberFixture.일반_회원_생성1();
+        Question question = QuestionFixture.본인_질문_생성(member);
+        Long postId = question.getId();
         Long memberId = member.getId();
-        var parentComment = CommentFixture.꿀팁_최상위_댓글_생성(honeyTip);
+        var parentComment = CommentFixture.질문_최상위_댓글_생성(question);
 
         var request = CommentFixture.대댓글_생성_요청(parentComment);
 
         when(commentService.findParentComment(parentComment.getId())).thenReturn(Optional.of(parentComment));
-        when(honeyTipPostService.getHoneytip(postId)).thenReturn(honeyTip);
+        when(questionPostService.getQuestion(postId)).thenReturn(question);
         when(memberService.findById(memberId)).thenReturn(member);
 
         // When
-        Message result = honeyTipCommentFacade.register(postId, request, memberId);
+        Message result = questionCommentFacade.register(postId, request, memberId);
 
         // Then
         assertSoftly(softly -> {
@@ -85,7 +86,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
             softly.assertThat(result.getMessage()).contains("생성");
         });
 
-        verify(commentService).register(any(HoneyTipComment.class));
+        verify(commentService).register(any(QuestionComment.class));
     }
 
     /* -------------------------------------------- COMMENT CREATE TEST END -------------------------------------------- */
@@ -98,7 +99,7 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
         Long commentId = 100L;
 
         // When
-        Message result = honeyTipCommentFacade.delete(commentId);
+        Message result = questionCommentFacade.delete(commentId);
 
         // Then
         assertSoftly(softly -> {
@@ -119,14 +120,14 @@ class HoneyTipCommentFacadeTest extends HoneyTipFacadeTestHelper {
         Long commentId = 100L;
 
         Member member = MemberFixture.일반_회원_생성1();
-        HoneyTip honeyTip = HoneyTipFixture.본인_허니팁_생성(member);
-        var comment = CommentFixture.꿀팁_최상위_댓글_생성(honeyTip);
+        Question question = QuestionFixture.본인_질문_생성(member);
+        var comment = CommentFixture.질문_최상위_댓글_생성(question);
         var reportRequest = ReportFixture.신고_요청_픽스처();
 
         when(commentService.findComment(commentId)).thenReturn(comment);
 
         // When
-        Message result = honeyTipCommentFacade.report(commentId, reportRequest);
+        Message result = questionCommentFacade.report(commentId, reportRequest);
 
         // Then
         assertSoftly(softly -> {

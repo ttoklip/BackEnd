@@ -1,4 +1,4 @@
-package com.domain.question.facade;
+package com.api.question.facade;
 
 import com.api.ttoklip.domain.question.facade.QuestionCommentLikeFacade;
 import com.api.ttoklip.global.success.Message;

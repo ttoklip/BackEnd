@@ -1,7 +1,10 @@
 package com.api.question.application;
 
 import com.api.common.ReportWebCreate;
-import com.api.common.upload.Uploader;
+import com.api.common.upload.MultipartFileAdapter;
+import com.common.annotation.FilterBadWord;
+import com.infrastructure.aws.upload.FileInput;
+import com.infrastructure.aws.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.question.presentation.dto.request.QuestionWebCreate;
 import com.api.question.presentation.dto.response.vo.QuestionCommentResponse;
@@ -19,6 +22,7 @@ import com.domain.question.domain.Question;
 import com.domain.question.domain.QuestionComment;
 import com.domain.question.domain.QuestionCreate;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +43,7 @@ public class QuestionPostFacade {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    @CheckBadWordCreate
+    @FilterBadWord
     @DistributedLock(keyPrefix = "question-")
     public Message register(final QuestionWebCreate request, final Long memberId) {
         Member member = memberService.getById(memberId);
@@ -55,7 +59,10 @@ public class QuestionPostFacade {
     private void registerImages(final QuestionWebCreate request, final Question question) {
         List<MultipartFile> uploadImages = request.getImages();
         if (uploadImages != null && !uploadImages.isEmpty()) {
-            List<String> uploadUrls = uploader.uploadMultipartFiles(uploadImages);
+            List<FileInput> files = uploadImages.stream()
+                    .map(MultipartFileAdapter::new)
+                    .collect(Collectors.toList());
+            List<String> uploadUrls = uploader.uploadFiles(files);
             uploadUrls.forEach(uploadUrl -> questionImageService.register(question, uploadUrl));
         }
     }

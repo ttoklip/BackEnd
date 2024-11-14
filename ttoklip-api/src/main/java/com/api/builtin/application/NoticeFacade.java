@@ -9,6 +9,9 @@ import com.domain.bulletin.domain.NoticeCreate;
 import com.domain.bulletin.domain.NoticeEdit;
 import com.domain.bulletin.domain.NoticeResponse;
 import com.domain.bulletin.domain.NoticeResponses;
+import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
+import com.domain.member.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +49,7 @@ public class NoticeFacade {
     }
 
     public Message edit(final Long noticeId, final NoticeEdit request, final Long memberId) {
-        Member member = memberService.findById(memberId);
+        Member member = memberService.getById(memberId);
         validManager(member);
         noticeService.edit(noticeId, request);
         return Message.editPostSuccess(Notice.class, noticeId);

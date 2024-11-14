@@ -1,4 +1,4 @@
-package com.domain.question.facade;
+package com.api.question.facade;
 
 import com.api.ttoklip.domain.common.report.dto.ReportCreateRequest;
 import com.api.ttoklip.domain.main.dto.response.CategoryPagingResponse;

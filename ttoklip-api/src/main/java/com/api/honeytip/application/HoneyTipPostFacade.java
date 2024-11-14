@@ -1,7 +1,9 @@
 package com.api.honeytip.application;
 
 import com.api.common.ReportWebCreate;
-import com.api.common.upload.Uploader;
+import com.api.common.upload.MultipartFileAdapter;
+import com.infrastructure.aws.upload.FileInput;
+import com.infrastructure.aws.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.honeytip.presentation.request.HoneyTipWebCreate;
 import com.api.honeytip.presentation.request.HoneyTipWebEdit;
@@ -24,6 +26,7 @@ import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import com.common.annotation.FilterBadWord;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +76,11 @@ public class HoneyTipPostFacade {
     }
 
     private void registerImages(final HoneyTip honeytip, final List<MultipartFile> uploadImages) {
-        List<String> uploadUrls = uploader.uploadMultipartFiles(uploadImages);
+        List<FileInput> files = uploadImages.stream()
+                .map(MultipartFileAdapter::new)
+                .collect(Collectors.toList());
+        List<String> uploadUrls = uploader.uploadFiles(files);
+
         uploadUrls.forEach(uploadUrl -> honeyTipImageService.register(honeytip, uploadUrl));
     }
 

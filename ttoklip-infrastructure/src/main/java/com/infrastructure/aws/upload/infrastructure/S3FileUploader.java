@@ -1,10 +1,14 @@
-package com.api.common.upload.infrastructure;
+package com.infrastructure.aws.upload.infrastructure;
 
 import static com.common.exception.ErrorType.EXCEEDING_FILE_COUNT;
 import static com.common.exception.ErrorType.S3_CONNECT;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
+import com.infrastructure.aws.upload.FileInput;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Component
@@ -29,26 +32,26 @@ public class S3FileUploader {
     @Value("${cloud.aws.s3.dirname}")
     private String dirName;
 
-    public List<String> uploadMultipartFiles(final List<MultipartFile> multipartFiles) {
-        validInput(multipartFiles);
-        return multipartFiles.stream()
+    public List<String> uploadFiles(final List<FileInput> files) {
+        validInput(files);
+        return files.stream()
                 .map(this::uploadSingleFile)
                 .toList();
     }
 
-    public String uploadMultipartFile(final MultipartFile multipartFile) {
-        return uploadSingleFile(multipartFile);
+    public String uploadFile(final FileInput file) {
+        return uploadSingleFile(file);
     }
 
-    private void validInput(final List<MultipartFile> multipartFiles) {
-        validFileSize(multipartFiles);
-        validFileNumber(multipartFiles.size());
+    private void validInput(final List<FileInput> files) {
+        validFileSize(files);
+        validFileNumber(files.size());
     }
 
-    private void validFileSize(final List<MultipartFile> multipartFiles) {
+    private void validFileSize(final List<FileInput> files) {
         long maxFileSize = 10485760; // 10MB로 설정
-        multipartFiles.forEach(multipartFile -> {
-            if (multipartFile.getSize() > maxFileSize) {
+        files.forEach(file -> {
+            if (file.getSize() > maxFileSize) {
                 throw new ApiException(ErrorType.EXCEEDING_FILE_SIZE);
             }
         });
@@ -60,16 +63,16 @@ public class S3FileUploader {
         }
     }
 
-    private String uploadSingleFile(final MultipartFile multipartFile) {
+    private String uploadSingleFile(final FileInput file) {
         try {
-            File uploadFile = convert(multipartFile);
+            File uploadFile = convert(file);
             return upload(uploadFile, dirName);
         } catch (IOException e) {
             throw new ApiException(S3_CONNECT);
         }
     }
 
-    private File convert(final MultipartFile file) throws IOException {
+    private File convert(final FileInput file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         originalFilename = validFileName(originalFilename);
 
@@ -82,14 +85,11 @@ public class S3FileUploader {
         return convertFile;
     }
 
-    // ------------ 시작 ------------
-    // 파일 이름을 고유하게 생성하도록 수정
     private String validFileName(final String originalFilename) {
         String extension = getFileExtension(originalFilename);
         String uuid = UUID.randomUUID().toString();
         return uuid + extension;
     }
-    // ------------ 변경종료 -----------
 
     private String getFileExtension(String filename) {
         int dotIndex = filename.lastIndexOf('.');
@@ -101,12 +101,11 @@ public class S3FileUploader {
 
     private void validGenerateLocalFile(final File convertFile) throws IOException {
         if (!convertFile.createNewFile()) {
-            throw new ApiException(S3_CONVERT);
+            throw new ApiException(ErrorType.S3_CONVERT);
         }
     }
 
     private String upload(final File uploadFile, final String dirName) {
-        // S3에 업로드할 때도 고유한 파일 이름을 사용하도록 수정
         String fileName = dirName + "/" + UUID.randomUUID() + "_" + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
 

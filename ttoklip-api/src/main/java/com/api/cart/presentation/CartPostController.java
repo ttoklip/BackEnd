@@ -5,6 +5,7 @@ import com.api.cart.presentation.dto.request.CartWebCreate;
 import com.api.cart.presentation.dto.request.UpdateStatusRequest;
 import com.api.cart.presentation.dto.response.CartGroupMemberResponse;
 import com.api.cart.presentation.dto.response.CartResponse;
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
@@ -104,8 +105,9 @@ public class CartPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = cartPostFacade.report(postId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = cartPostFacade.report(postId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

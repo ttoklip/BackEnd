@@ -1,6 +1,8 @@
 package com.api.global.jwt;
 
 import com.common.jwt.TokenProvider;
+import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +23,12 @@ public class JwtAuthenticationService {
     public void authenticate(String token) {
         if (tokenProvider.validate(token)) {
             String email = tokenProvider.extract(token);
-            var member = memberService.findByEmail(email);
+            Member member = memberService.findByEmail(email);
             setSecurityContext(member, token);
         }
     }
 
-    private void setSecurityContext(final Object member, final String token) {
+    private void setSecurityContext(final Member member, final String token) {
         List<GrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority(ROLE_PREFIX + member.getRole().name())
         );

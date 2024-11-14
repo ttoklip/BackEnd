@@ -1,6 +1,7 @@
 package com.api.profile.application;
 
-import com.api.common.upload.Uploader;
+import com.api.common.upload.MultipartFileAdapter;
+import com.infrastructure.aws.upload.Uploader;
 import com.api.global.success.Message;
 import com.api.profile.presentation.Nickname;
 import com.api.profile.presentation.ProfileWebCreate;
@@ -59,7 +60,7 @@ public class ProfileFacade {
     private void updateProfileImage(final Member member, final ProfileWebCreate request) {
         MultipartFile profileImage = request.profileImage();
         if (profileImage != null && !profileImage.isEmpty()) {
-            String uploadUrl = uploader.uploadMultipartFile(profileImage);
+            String uploadUrl = uploader.uploadFile(new MultipartFileAdapter(profileImage));
             profileService.update(member, uploadUrl);
         }
     }

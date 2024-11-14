@@ -2,10 +2,13 @@ package com.api.honeytip.presentation;
 
 import static com.api.global.util.SecurityUtil.getCurrentMember;
 
+import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.honeytip.application.HoneyTipCommentFacade;
+import com.domain.comment.domain.CommentCreate;
+import com.domain.report.domain.ReportCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -44,7 +47,7 @@ public class HoneyTipCommentController {
                             )))})
     @PostMapping("/{postId}")
     public SuccessResponse<Message> register(final @PathVariable Long postId,
-                                             final @RequestBody CommentCreateRequest request) {
+                                             final @RequestBody CommentCreate request) {
         Long currentMemberId = getCurrentMember().getId();
         Message message = honeyTipCommentFacade.register(postId, request, currentMemberId);
         return new SuccessResponse<>(message);
@@ -64,8 +67,9 @@ public class HoneyTipCommentController {
                             )))})
     @PostMapping("/report/{commentId}")
     public SuccessResponse<Message> report(final @PathVariable Long commentId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = honeyTipCommentFacade.report(commentId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = getCurrentMember().getId();
+        Message message = honeyTipCommentFacade.report(commentId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

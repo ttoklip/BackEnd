@@ -5,6 +5,8 @@ import com.api.global.success.Message;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.application.HoneyTipScrapService;
 import com.domain.honeytip.domain.HoneyTip;
+import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class HoneyTipScrapFacade implements ActionFacade {
         // 스크랩이 존재하지 않을 때만 생성
         if (!exists) {
             HoneyTip findHoneyTip = honeyTipPostService.getHoneytip(postId);
-            Member currentMember = memberService.findById(currentMemberId);
+            Member currentMember = memberService.getById(currentMemberId);
             honeyTipScrapService.register(findHoneyTip, currentMember);
         }
         return Message.scrapPostSuccess(HoneyTip.class, postId);
