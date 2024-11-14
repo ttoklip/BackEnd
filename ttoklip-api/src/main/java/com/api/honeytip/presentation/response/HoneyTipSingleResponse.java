@@ -1,7 +1,7 @@
 package com.api.honeytip.presentation.response;
 
 import com.api.global.util.TimeUtil;
-import com.domain.common.comment.application.CommentResponse;
+import com.domain.comment.application.CommentResponse;
 import com.domain.common.vo.Category;
 import com.domain.common.vo.ImageResponse;
 import com.domain.honeytip.domain.HoneyTip;

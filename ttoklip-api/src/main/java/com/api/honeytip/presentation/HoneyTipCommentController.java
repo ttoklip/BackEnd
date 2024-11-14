@@ -4,6 +4,7 @@ import static com.api.global.util.SecurityUtil.getCurrentMember;
 
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
+import com.api.global.util.SecurityUtil;
 import com.api.honeytip.application.HoneyTipCommentFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -82,7 +83,8 @@ public class HoneyTipCommentController {
                             )))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = honeyTipCommentFacade.delete(commentId);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = honeyTipCommentFacade.delete(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 }

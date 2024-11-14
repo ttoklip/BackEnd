@@ -1,7 +1,7 @@
 package com.domain.community.domain;
 
 import com.domain.common.base.BaseEntity;
-import com.domain.common.report.domain.Report;
+import com.domain.report.domain.Report;
 import com.domain.community.domain.CommunityEditor.CommunityEditorBuilder;
 import com.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;

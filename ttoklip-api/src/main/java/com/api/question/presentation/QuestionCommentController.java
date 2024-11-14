@@ -6,7 +6,7 @@ import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.question.application.QuestionCommentFacade;
 import com.api.question.application.QuestionCommentLikeFacade;
-import com.domain.common.comment.domain.CommentCreate;
+import com.domain.comment.domain.CommentCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -87,7 +87,8 @@ public class QuestionCommentController {
                             )))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = questionCommentFacade.delete(commentId);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = questionCommentFacade.delete(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

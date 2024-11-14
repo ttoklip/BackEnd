@@ -61,9 +61,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMemberFCMToken(final Member member, final String fcmToken) {
-        Member currentMember = getById(member.getId());
-        currentMember.updateFcmToken(fcmToken);
+    public void updateMemberFCMToken(final Long memberId, final String fcmToken) {
+        Member member = getById(memberId);
+        member.updateFcmToken(fcmToken);
     }
 
     public TargetMemberProfile getTargetMemberProfile(final Long targetMemberId) {

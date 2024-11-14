@@ -1,6 +1,6 @@
 package com.domain.question.infrastructure;
 
-import com.domain.common.comment.domain.CommentLike;
+import com.domain.comment.domain.CommentLike;
 import com.domain.question.domain.QuestionCommentLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

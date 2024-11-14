@@ -2,7 +2,7 @@ package com.domain.question.application;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
-import com.domain.common.comment.domain.CommentLike;
+import com.domain.comment.domain.CommentLike;
 import com.domain.member.domain.Member;
 import com.domain.question.domain.QuestionComment;
 import com.domain.question.domain.QuestionCommentLikeRepository;

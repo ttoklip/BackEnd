@@ -6,8 +6,10 @@ import com.api.community.presentation.dto.request.CommunityWebCreate;
 import com.api.community.presentation.dto.request.CommunityWebEdit;
 import com.api.community.presentation.dto.response.CommunityResponse;
 import com.api.global.success.Message;
-import com.domain.common.report.domain.ReportCreate;
-import com.domain.common.report.application.ReportService;
+import com.domain.notification.domain.annotation.SendNotification;
+import com.domain.notification.domain.vo.NotiCategory;
+import com.domain.report.domain.ReportCreate;
+import com.domain.report.application.ReportService;
 import com.domain.common.vo.TownCriteria;
 import com.domain.community.application.CommunityCommentService;
 import com.domain.community.application.CommunityImageService;
@@ -161,7 +163,7 @@ public class CommunityPostFacade {
     /* -------------------------------------------- SCRAP -------------------------------------------- */
 
     @Transactional
-    @SendNotification
+    @SendNotification(notiCategory = NotiCategory.OUR_TOWN_SCRAP)
     public Message registerScrap(final Long postId, final Long memberId) {
         Community community = communityPostService.getCommunity(postId);
         Member member = memberService.getById(memberId);

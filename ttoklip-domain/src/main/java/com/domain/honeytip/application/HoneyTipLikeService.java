@@ -5,6 +5,9 @@ import com.common.exception.ErrorType;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipLike;
 import com.domain.honeytip.domain.HoneyTipLikeRepository;
+import com.domain.member.domain.Member;
+import com.domain.notification.domain.annotation.SendNotification;
+import com.domain.notification.domain.vo.NotiCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,7 @@ public class HoneyTipLikeService {
     }
 
     // 좋아요 생성
-    @SendNotification
+    @SendNotification(notiCategory = NotiCategory.HONEY_TIP_LIKE)
     public void register(final HoneyTip honeyTip, final Member member) {
         HoneyTipLike honeyTipLike = HoneyTipLike.of(honeyTip, member);
         honeyTipLikeRepository.save(honeyTipLike);

@@ -5,7 +5,7 @@ import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
 import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
-import com.domain.common.comment.domain.CommentCreate;
+import com.domain.comment.domain.CommentCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -67,7 +67,8 @@ public class CartCommentController {
                     ))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = cartCommentFacade.delete(commentId);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = cartCommentFacade.delete(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 }

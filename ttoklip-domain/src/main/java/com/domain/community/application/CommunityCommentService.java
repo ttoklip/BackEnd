@@ -1,6 +1,6 @@
 package com.domain.community.application;
 
-import com.domain.common.comment.domain.CommentRepository;
+import com.domain.comment.domain.CommentRepository;
 import com.domain.community.domain.CommunityComment;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

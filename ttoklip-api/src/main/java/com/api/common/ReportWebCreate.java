@@ -1,6 +1,6 @@
 package com.api.common;
 
-import com.domain.common.report.domain.ReportType;
+import com.domain.report.domain.ReportType;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record ReportWebCreate(

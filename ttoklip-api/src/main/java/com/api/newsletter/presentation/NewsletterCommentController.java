@@ -5,7 +5,7 @@ import com.api.global.success.SuccessResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.newsletter.application.NewsletterCommentFacade;
 import com.api.newsletter.presentation.response.NewsletterResponseConstant;
-import com.domain.common.comment.domain.CommentCreate;
+import com.domain.comment.domain.CommentCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -84,7 +84,8 @@ public class NewsletterCommentController {
                             )))})
     @DeleteMapping("/{commentId}")
     public SuccessResponse<Message> delete(final @PathVariable Long commentId) {
-        Message message = newsletterCommentFacade.delete(commentId);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = newsletterCommentFacade.delete(commentId, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

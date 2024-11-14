@@ -1,6 +1,6 @@
 package com.domain.question.domain;
 
-import com.domain.common.comment.domain.CommentLike;
+import com.domain.comment.domain.CommentLike;
 import java.util.Optional;
 
 public interface QuestionCommentLikeRepository {

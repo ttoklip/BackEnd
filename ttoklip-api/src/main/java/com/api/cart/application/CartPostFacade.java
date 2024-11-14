@@ -21,8 +21,10 @@ import com.domain.cart.domain.CartCreate;
 import com.domain.cart.domain.CartMember;
 import com.domain.cart.domain.CartPostEditor;
 import com.domain.cart.domain.vo.TradeStatus;
-import com.domain.common.report.domain.ReportCreate;
-import com.domain.common.report.application.ReportService;
+import com.domain.notification.domain.annotation.SendNotification;
+import com.domain.notification.domain.vo.NotiCategory;
+import com.domain.report.domain.ReportCreate;
+import com.domain.report.application.ReportService;
 import com.domain.common.vo.TownCriteria;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
@@ -205,7 +207,7 @@ public class CartPostFacade {
     /* -------------------------------------------- PARTICIPANT -------------------------------------------- */
     // 공구 참여
     @Transactional
-    @SendNotification
+    @SendNotification(notiCategory = NotiCategory.OUR_TOWN_TOGETHER)
     public Message addParticipant(final Long cartId, final Long memberId) {
         Cart cart = cartPostService.findByIdActivated(cartId);
         Long MaxValue = cart.getPartyMax();

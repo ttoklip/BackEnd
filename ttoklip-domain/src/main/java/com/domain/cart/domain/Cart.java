@@ -3,7 +3,7 @@ package com.domain.cart.domain;
 import com.domain.cart.domain.CartPostEditor.CartPostEditorBuilder;
 import com.domain.cart.domain.vo.TradeStatus;
 import com.domain.common.base.BaseEntity;
-import com.domain.common.report.domain.Report;
+import com.domain.report.domain.Report;
 import com.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

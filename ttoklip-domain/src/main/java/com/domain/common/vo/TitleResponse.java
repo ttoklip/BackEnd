@@ -4,23 +4,12 @@ import com.domain.honeytip.domain.HoneyTip;
 import com.domain.question.domain.Question;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 
-@Getter
 @Builder
-@AllArgsConstructor
-public class TitleResponse {
-    private Long id;
-    private String title;
-    private String content;
-    private String writer;
-    private String writerProfileImageUrl;
-    private int likeCount;
-    private int commentCount;
-    private int scrapCount;
-    private String writtenTime;
+public record TitleResponse(Long id, String title, String content, String writer, String writerProfileImageUrl,
+                            int likeCount, int commentCount, int scrapCount, String writtenTime) {
+    private static final String DATE_NONE = "날짜 없음";
 
     public static TitleResponse questionOf(final Question question) {
         LocalDateTime createdDate = question.getCreatedDate();
@@ -62,7 +51,6 @@ public class TitleResponse {
 
     private static String getFormattedCreatedDate(final LocalDateTime localDateTime) {
         if (localDateTime == null) {
-
             return DATE_NONE;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");

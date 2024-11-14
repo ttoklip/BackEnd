@@ -1,6 +1,7 @@
 package com.domain.honeytip.domain;
 
 import com.domain.common.base.BaseTimeEntity;
+import com.domain.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,7 +1,7 @@
 package com.api.community.presentation.dto.response;
 
 import com.api.global.util.TimeUtil;
-import com.domain.common.comment.application.CommentResponse;
+import com.domain.comment.application.CommentResponse;
 import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityComment;
 import com.domain.community.domain.CommunityImage;

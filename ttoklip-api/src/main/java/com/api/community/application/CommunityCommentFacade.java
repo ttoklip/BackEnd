@@ -2,22 +2,22 @@ package com.api.community.application;
 
 import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
-import com.domain.common.comment.application.CommentService;
-import com.domain.common.comment.domain.Comment;
-import com.domain.common.comment.domain.CommentCreate;
-import com.domain.common.report.domain.ReportCreate;
-import com.domain.common.report.application.ReportService;
+import com.domain.comment.application.CommentService;
+import com.domain.comment.domain.Comment;
+import com.domain.comment.domain.CommentCreate;
+import com.domain.comment.domain.CommentEdit;
 import com.domain.community.application.CommunityCommentService;
 import com.domain.community.application.CommunityPostService;
 import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityComment;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
+import com.domain.report.application.ReportService;
+import com.domain.report.domain.ReportCreate;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -47,29 +47,27 @@ public class CommunityCommentFacade {
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            Long newCommentId = registerCommentWithParent(request, findCommunity, parentComment, member);
+            Long newCommentId = registerCommentWithParent(request, findCommunity, parentComment, member).getId();
             return Message.registerCommentSuccess(CommunityComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        Long newCommentId = registerCommentOrphanage(request, findCommunity, member);
+        Long newCommentId = registerCommentOrphanage(request, findCommunity, member).getId();
         return Message.registerCommentSuccess(CommunityComment.class, newCommentId);
     }
 
     // 대댓글 생성
-    private Long registerCommentWithParent(final CommentCreate request, final Community findCommunity,
+    private Comment registerCommentWithParent(final CommentCreate request, final Community findCommunity,
                                            final Comment parentComment, final Member member) {
         CommunityComment communityComment = CommunityComment.withParentOf(request, parentComment, findCommunity, member);
-        commentService.register(communityComment);
-        return communityComment.getId();
+        return commentService.register(communityComment);
     }
 
     // 최상위 댓글 생성
-    private Long registerCommentOrphanage(final CommentCreate request, final Community findCommunity,
+    private Comment registerCommentOrphanage(final CommentCreate request, final Community findCommunity,
                                           final Member member) {
         CommunityComment communityComment = CommunityComment.orphanageOf(request, findCommunity, member);
-        commentService.register(communityComment);
-        return communityComment.getId();
+        return commentService.register(communityComment);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
@@ -90,7 +88,7 @@ public class CommunityCommentFacade {
     /* -------------------------------------------- EDIT -------------------------------------------- */
 
     @Transactional
-    public void edit(final Long commentId, final CommentEditRequest request) {
+    public void edit(final Long commentId, final CommentEdit request) {
         commentService.edit(commentId, request);
     }
 
@@ -99,8 +97,8 @@ public class CommunityCommentFacade {
     /* -------------------------------------------- DELETE -------------------------------------------- */
 
     @Transactional
-    public Message delete(final Long commentId) {
-        commentService.deleteById(commentId);
+    public Message delete(final Long commentId, final Long memberId) {
+        commentService.deleteById(commentId, memberId);
         return Message.deleteCommentSuccess(CommunityComment.class, commentId);
     }
 

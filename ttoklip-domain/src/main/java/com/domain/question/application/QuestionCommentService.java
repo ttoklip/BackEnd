@@ -1,6 +1,6 @@
 package com.domain.question.application;
 
-import com.domain.common.comment.domain.CommentRepository;
+import com.domain.comment.domain.CommentRepository;
 import com.domain.question.domain.QuestionComment;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

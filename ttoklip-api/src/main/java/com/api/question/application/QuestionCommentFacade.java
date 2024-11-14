@@ -2,11 +2,13 @@ package com.api.question.application;
 
 import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
-import com.domain.common.comment.application.CommentService;
-import com.domain.common.comment.domain.Comment;
-import com.domain.common.comment.domain.CommentCreate;
-import com.domain.common.report.application.ReportService;
-import com.domain.common.report.domain.ReportCreate;
+import com.domain.comment.application.CommentService;
+import com.domain.comment.domain.Comment;
+import com.domain.comment.domain.CommentCreate;
+import com.domain.notification.domain.annotation.SendCommentNotification;
+import com.domain.notification.domain.vo.NotiCategory;
+import com.domain.report.application.ReportService;
+import com.domain.report.domain.ReportCreate;
 import com.domain.honeytip.domain.HoneyTipComment;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
@@ -43,29 +45,29 @@ public class QuestionCommentFacade {
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            Long newCommentId = registerCommentWithParent(request, findQuestion, parentComment, currentMember);
+            Long newCommentId = registerCommentWithParent(request, findQuestion, parentComment, currentMember).getId();
             return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        Long newCommentId = registerCommentOrphanage(request, findQuestion, currentMember);
+        Long newCommentId = registerCommentOrphanage(request, findQuestion, currentMember).getId();
         return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
     }
 
     // 대댓글 생성
-    private Long registerCommentWithParent(final CommentCreate create, final Question question,
+    @SendCommentNotification(notiCategory = NotiCategory.QUESTION_CHILD_COMMENT)
+    public Comment registerCommentWithParent(final CommentCreate create, final Question question,
                                            final Comment parentComment, final Member member) {
         QuestionComment newQuestionComment = QuestionComment.withParentOf(create, parentComment, question, member);
-        commentService.register(newQuestionComment);
-        return newQuestionComment.getId();
+        return commentService.register(newQuestionComment);
     }
 
     // 최상위 댓글 생성
-    private Long registerCommentOrphanage(final CommentCreate create, final Question findQuestion,
+    @SendCommentNotification(notiCategory = NotiCategory.QUESTION_COMMENT)
+    public Comment registerCommentOrphanage(final CommentCreate create, final Question findQuestion,
                                           final Member member) {
         QuestionComment newQuestionComment = QuestionComment.orphanageOf(create, findQuestion, member);
-        commentService.register(newQuestionComment);
-        return newQuestionComment.getId();
+        return commentService.register(newQuestionComment);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */
@@ -85,8 +87,8 @@ public class QuestionCommentFacade {
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
-    public Message delete(final Long commentId) {
-        commentService.deleteById(commentId);
+    public Message delete(final Long commentId, final Long memberId) {
+        commentService.deleteById(commentId, memberId);
         return Message.deleteCommentSuccess(QuestionComment.class, commentId);
     }
 

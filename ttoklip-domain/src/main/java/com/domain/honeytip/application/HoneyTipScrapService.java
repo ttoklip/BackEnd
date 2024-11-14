@@ -6,6 +6,8 @@ import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipScrap;
 import com.domain.honeytip.domain.HoneyTipScrapRepository;
 import com.domain.member.domain.Member;
+import com.domain.notification.domain.annotation.SendNotification;
+import com.domain.notification.domain.vo.NotiCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +26,7 @@ public class HoneyTipScrapService {
     }
 
     // 스크랩 생성
-    @SendNotification
+    @SendNotification(notiCategory = NotiCategory.HONEY_TIP_SCRAP)
     public void register(final HoneyTip honeyTip, final Member member) {
         HoneyTipScrap honeyTipScrap = HoneyTipScrap.of(honeyTip, member);
         honeyTipScrapRepository.save(honeyTipScrap);

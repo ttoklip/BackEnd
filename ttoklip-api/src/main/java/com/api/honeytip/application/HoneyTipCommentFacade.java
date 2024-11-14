@@ -2,11 +2,13 @@ package com.api.honeytip.application;
 
 import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
-import com.domain.common.comment.application.CommentService;
-import com.domain.common.comment.domain.Comment;
-import com.domain.common.comment.domain.CommentCreate;
-import com.domain.common.report.application.ReportService;
-import com.domain.common.report.domain.ReportCreate;
+import com.domain.comment.application.CommentService;
+import com.domain.comment.domain.Comment;
+import com.domain.comment.domain.CommentCreate;
+import com.domain.notification.domain.annotation.SendCommentNotification;
+import com.domain.notification.domain.vo.NotiCategory;
+import com.domain.report.application.ReportService;
+import com.domain.report.domain.ReportCreate;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.HoneyTipComment;
@@ -39,30 +41,30 @@ public class HoneyTipCommentFacade {
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            Long newCommentId = registerCommentWithParent(request, findHoneyTip, parentComment, currentMember);
+            Long newCommentId = registerCommentWithParent(request, findHoneyTip, parentComment, currentMember).getId();
             return Message.registerCommentSuccess(HoneyTipComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        Long newCommentId = registerCommentOrphanage(request, findHoneyTip, currentMember);
+        Long newCommentId = registerCommentOrphanage(request, findHoneyTip, currentMember).getId();
         return Message.registerCommentSuccess(HoneyTipComment.class, newCommentId);
     }
 
 
     // 대댓글 생성
-    private Long registerCommentWithParent(final CommentCreate request, final HoneyTip findHoneyTip,
+    @SendCommentNotification(notiCategory = NotiCategory.NEWS_LETTER_CHILD_COMMENT)
+    public Comment registerCommentWithParent(final CommentCreate request, final HoneyTip findHoneyTip,
                                            final Comment parentComment, final Member member) {
         HoneyTipComment honeyTipComment = HoneyTipComment.withParentOf(request, parentComment, findHoneyTip, member);
-        commentService.register(honeyTipComment);
-        return honeyTipComment.getId();
+        return commentService.register(honeyTipComment);
     }
 
     // 최상위 댓글 생성
-    private Long registerCommentOrphanage(final CommentCreate request, final HoneyTip findHoneyTip,
+    @SendCommentNotification(notiCategory = NotiCategory.HONEY_TIP_COMMENT)
+    public Comment registerCommentOrphanage(final CommentCreate request, final HoneyTip findHoneyTip,
                                           final Member member) {
         HoneyTipComment honeyTipComment = HoneyTipComment.orphanageOf(request, findHoneyTip, member);
-        commentService.register(honeyTipComment);
-        return honeyTipComment.getId();
+        return commentService.register(honeyTipComment);
     }
 
     /* -------------------------------------------- REPORT -------------------------------------------- */
@@ -80,8 +82,8 @@ public class HoneyTipCommentFacade {
 
     /* -------------------------------------------- DELETE -------------------------------------------- */
     @Transactional
-    public Message delete(final Long commentId) {
-        commentService.deleteById(commentId);
+    public Message delete(final Long commentId, final Long memberId) {
+        commentService.deleteById(commentId, memberId);
         return Message.deleteCommentSuccess(HoneyTipComment.class, commentId);
     }
     /* -------------------------------------------- DELETE 끝 -------------------------------------------- */

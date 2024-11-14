@@ -1,8 +1,8 @@
 package com.domain.question.domain;
 
-import com.domain.common.comment.domain.Comment;
-import com.domain.common.comment.domain.CommentCreate;
-import com.domain.common.comment.domain.CommentLike;
+import com.domain.comment.domain.Comment;
+import com.domain.comment.domain.CommentCreate;
+import com.domain.comment.domain.CommentLike;
 import com.domain.member.domain.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;

@@ -4,6 +4,8 @@ package com.api.question.application;
 import com.api.global.success.Message;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
+import com.domain.notification.domain.annotation.SendNotification;
+import com.domain.notification.domain.vo.NotiCategory;
 import com.domain.question.application.QuestionCommentLikeService;
 import com.domain.question.application.QuestionPostService;
 import com.domain.question.domain.QuestionComment;
@@ -23,12 +25,12 @@ public class QuestionCommentLikeFacade {
     /* -------------------------------------------- LIKE -------------------------------------------- */
 
     @Transactional
-    @SendNotification
-    public Message registerLike(final Long commentId, final Long currentMemberId) {
-        boolean exists = questionCommentLikeService.isCommentLikeExists(commentId, currentMemberId);
+    @SendNotification(notiCategory = NotiCategory.QUESTION_COMMENT_LIKE)
+    public Message registerLike(final Long commentId, final Long memberId) {
+        boolean exists = questionCommentLikeService.isCommentLikeExists(commentId, memberId);
         if (!exists) {
             QuestionComment findQuestionComment = questionPostService.getQuestionComment(commentId);
-            Member currentMember = memberService.getById(currentMemberId);
+            Member currentMember = memberService.getById(memberId);
             questionCommentLikeService.registerLike(findQuestionComment, currentMember);
         }
         return Message.likePostSuccess(QuestionComment.class, commentId);

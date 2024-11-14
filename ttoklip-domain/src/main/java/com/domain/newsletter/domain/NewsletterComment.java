@@ -1,7 +1,7 @@
 package com.domain.newsletter.domain;
 
-import com.domain.common.comment.domain.Comment;
-import com.domain.common.comment.domain.CommentCreate;
+import com.domain.comment.domain.Comment;
+import com.domain.comment.domain.CommentCreate;
 import com.domain.member.domain.Member;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

@@ -6,7 +6,7 @@ import com.domain.cart.domain.CartComment;
 import com.domain.cart.domain.CartImage;
 import com.domain.cart.domain.CartMember;
 import com.domain.cart.domain.ItemUrl;
-import com.domain.common.comment.application.CommentResponse;
+import com.domain.comment.application.CommentResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
