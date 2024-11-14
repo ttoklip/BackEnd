@@ -6,6 +6,7 @@ import com.api.global.success.Message;
 import com.api.question.presentation.dto.request.QuestionWebCreate;
 import com.api.question.presentation.dto.response.vo.QuestionCommentResponse;
 import com.api.question.presentation.dto.response.QuestionResponse;
+import com.common.annotation.DistributedLock;
 import com.domain.report.application.ReportService;
 import com.domain.report.domain.ReportCreate;
 import com.domain.member.application.MemberService;
@@ -39,6 +40,7 @@ public class QuestionPostFacade {
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
     @CheckBadWordCreate
+    @DistributedLock(keyPrefix = "question-")
     public Message register(final QuestionWebCreate request, final Long memberId) {
         Member member = memberService.getById(memberId);
 

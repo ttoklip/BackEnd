@@ -1,6 +1,6 @@
 package com.domain.notification.dto.request;
 
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 
 public record NotificationRequest(Long targetIndex, NotiCategory notiCategory, Long fromMemberId) {
 

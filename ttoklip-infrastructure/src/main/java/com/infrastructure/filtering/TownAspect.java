@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.aop.filtering;
+package com.infrastructure.filtering;
 
 import static com.api.ttoklip.global.util.SecurityUtil.getCurrentMember;
 

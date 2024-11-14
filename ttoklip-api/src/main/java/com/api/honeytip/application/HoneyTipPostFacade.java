@@ -6,6 +6,7 @@ import com.api.global.success.Message;
 import com.api.honeytip.presentation.request.HoneyTipWebCreate;
 import com.api.honeytip.presentation.request.HoneyTipWebEdit;
 import com.api.honeytip.presentation.response.HoneyTipSingleResponse;
+import com.common.annotation.DistributedLock;
 import com.domain.report.application.ReportService;
 import com.domain.report.domain.ReportCreate;
 import com.domain.honeytip.application.HoneyTipCommentService;
@@ -21,6 +22,7 @@ import com.domain.honeytip.domain.request.HoneyTipCreate;
 import com.domain.honeytip.domain.request.HoneyTipEdit;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
+import com.common.annotation.FilterBadWord;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -48,7 +50,8 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
     @Transactional
-    @CheckBadWordCreate
+    @FilterBadWord
+    @DistributedLock(keyPrefix = "honeytip-")
     public Message register(final HoneyTipWebCreate request, final Long currentMemberId) {
         Member currentMember = memberService.getById(currentMemberId);
         HoneyTipCreate honeyTipCreate = HoneyTipCreate.of(request.getTitle(), request.getContent(), request.getCategory());
@@ -83,7 +86,7 @@ public class HoneyTipPostFacade {
 
     /* -------------------------------------------- EDIT -------------------------------------------- */
     @Transactional
-    @CheckBadWordUpdate
+    @FilterBadWord
     public Message edit(final Long postId, final HoneyTipWebEdit request, final Long currentMemberId) {
 
         // 기존 게시글 찾기

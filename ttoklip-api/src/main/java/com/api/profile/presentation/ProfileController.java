@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,7 +60,7 @@ public class ProfileController {
                                     description = "닉네임 중복 통과 여부"
                             )))})
     @GetMapping("/oauth/check-nickname")
-    public SuccessResponse<Message> checkOauthNickname(@RequestParam final String nickname) {
+    public SuccessResponse<Message> checkOauthNickname(@RequestBody final Nickname nickname) {
         Message message = profileFacade.validNickname(nickname);
         return new SuccessResponse<>(message);
     }
@@ -76,7 +77,7 @@ public class ProfileController {
                                     description = "닉네임 중복 통과 여부"
                             )))})
     @GetMapping("/local/check-nickname")
-    public SuccessResponse<Message> checkLocalNickname(@RequestParam final String nickname) {
+    public SuccessResponse<Message> checkLocalNickname(@RequestBody final Nickname nickname) {
         Message message = profileFacade.validNickname(nickname);
         return new SuccessResponse<>(message);
     }

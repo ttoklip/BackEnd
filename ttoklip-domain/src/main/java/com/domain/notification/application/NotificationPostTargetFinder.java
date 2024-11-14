@@ -6,7 +6,7 @@ import com.domain.community.application.CommunityPostService;
 import com.domain.community.domain.Community;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.domain.HoneyTip;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 import com.domain.notification.dto.response.NotificationInternalResponse;
 import com.domain.question.application.QuestionCommentService;
 import com.domain.question.domain.QuestionComment;

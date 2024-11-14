@@ -1,6 +1,7 @@
 package com.api.auth.local.application;
 
 import com.api.auth.local.presentation.AuthLogin;
+import com.common.annotation.DistributedLock;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.interest.application.InterestService;
@@ -46,7 +47,9 @@ public class AuthFacade {
     private final TermAgreementService termAgreementService;
 
     @Transactional
+    @DistributedLock(keyPrefix = "local-signup")
     public Message signup(final LocalMemberWebCreate request) {
+
         Member newMember = registerMember(request);
         registerProfile(request.profileImage(), newMember);
         registerInterest(newMember, request.getCategories());

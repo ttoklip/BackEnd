@@ -32,7 +32,7 @@ public class NewsletterComment extends Comment {
     public static NewsletterComment withParentOf(final CommentCreate create, final Comment parent,
                                                  final Newsletter newsletter, final Member member) {
         return NewsletterComment.builder()
-                .content(create.getComment())
+                .content(create.comment())
                 .parent(parent)
                 .newsletter(newsletter)
                 .member(member)
@@ -41,7 +41,7 @@ public class NewsletterComment extends Comment {
 
     public static NewsletterComment orphanageOf(final CommentCreate create, final Newsletter newsletter, final Member member) {
         return NewsletterComment.builder()
-                .content(create.getComment())
+                .content(create.comment())
                 .parent(null)
                 .newsletter(newsletter)
                 .member(member)

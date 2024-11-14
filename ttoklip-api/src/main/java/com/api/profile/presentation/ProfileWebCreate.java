@@ -1,5 +1,6 @@
 package com.api.profile.presentation;
 
+import com.common.Filterable;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
@@ -19,7 +20,7 @@ public record ProfileWebCreate(
 
         @Min(0) @Max(11)
         int independentMonth
-) {
+) implements Filterable {
 
     private void validCategorySize() {
         if (categories != null && categories.size() > 3) {
@@ -32,5 +33,10 @@ public record ProfileWebCreate(
         return categories.stream()
                 .map(Category::findCategoryByValue)
                 .toList();
+    }
+
+    @Override
+    public String getFilterContent() {
+        return nickname;
     }
 }

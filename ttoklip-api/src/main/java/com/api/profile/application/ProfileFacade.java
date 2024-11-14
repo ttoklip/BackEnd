@@ -2,7 +2,9 @@ package com.api.profile.application;
 
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
+import com.api.profile.presentation.Nickname;
 import com.api.profile.presentation.ProfileWebCreate;
+import com.common.annotation.FilterBadWord;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.interest.application.InterestService;
@@ -35,6 +37,7 @@ public class ProfileFacade {
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 -------------
 
     @Transactional
+    @FilterBadWord
     public Message insert(final ProfileWebCreate create, final Long memberId) {
         validate(create);
         updateProfile(create, memberId);
@@ -75,6 +78,7 @@ public class ProfileFacade {
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 끝 -------------
 
     @Transactional
+    @FilterBadWord
     public Message edit(final ProfileWebCreate create, final Long memberId) {
         validate(create);
         Member member = memberService.getById(memberId);
@@ -83,8 +87,9 @@ public class ProfileFacade {
     }
 
     // -------------------------- 회원 가입 전 닉네임 중복 확인 --------------------------
-    public Message validNickname(final String nickname) {
-        boolean existsNickname = memberService.isExistsNickname(nickname);
+    @FilterBadWord
+    public Message validNickname(final Nickname nickname) {
+        boolean existsNickname = memberService.isExistsNickname(nickname.value());
         if (existsNickname) {
             throw new ApiException(ErrorType.ALREADY_EXISTS_NICKNAME);
         }

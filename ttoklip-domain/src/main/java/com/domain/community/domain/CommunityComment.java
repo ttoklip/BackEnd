@@ -32,7 +32,7 @@ public class CommunityComment extends Comment {
     public static CommunityComment withParentOf(final CommentCreate request, final Comment parent,
                                                 final Community community, final Member member) {
         return CommunityComment.builder()
-                .content(request.getComment())
+                .content(request.comment())
                 .parent(parent)
                 .community(community)
                 .member(member)
@@ -42,7 +42,7 @@ public class CommunityComment extends Comment {
     public static CommunityComment orphanageOf(final CommentCreate request, final Community community,
                                                final Member member) {
         return CommunityComment.builder()
-                .content(request.getComment())
+                .content(request.comment())
                 .parent(null)
                 .community(community)
                 .member(member)

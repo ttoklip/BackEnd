@@ -1,16 +1,11 @@
 package com.domain.comment.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.common.Filterable;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CommentCreate {
+public record CommentCreate(String comment, Long parentCommentId) implements Filterable {
 
-    private String comment;
-
-    private Long parentCommentId;
-
+    @Override
+    public String getFilterContent() {
+        return comment();
+    }
 }

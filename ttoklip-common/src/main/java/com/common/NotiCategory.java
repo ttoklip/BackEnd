@@ -1,4 +1,4 @@
-package com.domain.notification.domain.vo;
+package com.common;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;

@@ -1,4 +1,4 @@
-package com.api.global.util;
+package com.infrastructure.util;
 
 import static com.common.exception.ErrorType.BAD_WORDS_ERROR;
 
@@ -6,7 +6,9 @@ import com.common.exception.BadWordException;
 import com.vane.badwordfiltering.BadWordFiltering;
 import java.util.Arrays;
 import java.util.List;
-public class BadWordFilter {
+
+
+public class BadWordUtil {
 
     public static void isBadWord(String... words) {
         BadWordFiltering filtering = new BadWordFiltering();

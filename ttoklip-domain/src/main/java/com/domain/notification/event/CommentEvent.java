@@ -1,7 +1,7 @@
 package com.domain.notification.event;
 
 import com.domain.comment.domain.Comment;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 
 public record CommentEvent(Comment comment, NotiCategory notiCategory, Long fromMemberId) {
 

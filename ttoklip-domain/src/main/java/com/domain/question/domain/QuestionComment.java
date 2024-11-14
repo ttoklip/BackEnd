@@ -41,7 +41,7 @@ public class QuestionComment extends Comment {
     public static QuestionComment withParentOf(final CommentCreate create, final Comment parent,
                                                final Question question, final Member member) {
         return QuestionComment.builder()
-                .content(create.getComment())
+                .content(create.comment())
                 .parent(parent)
                 .question(question)
                 .member(member)
@@ -51,7 +51,7 @@ public class QuestionComment extends Comment {
     public static QuestionComment orphanageOf(final CommentCreate create, final Question question,
                                               final Member member) {
         return QuestionComment.builder()
-                .content(create.getComment())
+                .content(create.comment())
                 .parent(null)
                 .question(question)
                 .member(member)

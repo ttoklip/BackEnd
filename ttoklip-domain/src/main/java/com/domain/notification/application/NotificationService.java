@@ -9,7 +9,7 @@ import com.domain.honeytip.domain.HoneyTip;
 import com.domain.member.domain.Member;
 import com.domain.notification.domain.Notification;
 import com.domain.notification.domain.NotificationRepository;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

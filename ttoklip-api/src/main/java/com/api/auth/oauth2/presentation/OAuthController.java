@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/oauth")
 public class OAuthController {
-    private final OAuthFacade OAuthFacade;
+    private final OAuthFacade oAuthFacade;
 
     @Operation(summary = "Server 자체 로그인", description = "oauth accessToken으로 로그인",
             tags = {"Authentication"})
@@ -36,7 +36,7 @@ public class OAuthController {
                             )))})
     @PostMapping
     public SuccessResponse<OAuthLoginResponse> login(final @RequestBody OAuthLogin request) {
-        OAuthLoginResponse response = OAuthFacade.authenticate(request);
+        OAuthLoginResponse response = oAuthFacade.authenticate(request);
         return new SuccessResponse<>(response);
     }
 }

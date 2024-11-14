@@ -136,6 +136,7 @@ public class MemberService {
         }
     }
 
+
     public Member registerOAuthMember(final OAuth2UserInfo userInfo, final Provider provider, final String encodedPassword) {
         Member newMember = Member.builder()
                 .email(userInfo.getEmail())

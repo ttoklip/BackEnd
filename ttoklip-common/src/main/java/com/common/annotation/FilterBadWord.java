@@ -1,4 +1,4 @@
-package com.api.ttoklip.domain.aop.filtering.annotation;
+package com.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CheckBadWordCreate {
+public @interface FilterBadWord {
 }

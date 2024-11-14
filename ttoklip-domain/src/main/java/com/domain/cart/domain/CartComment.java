@@ -32,7 +32,7 @@ public class CartComment extends Comment {
     public static CartComment withParentOf(final CommentCreate create, final Comment parent,
                                            final Cart cart, final Member member) {
         return CartComment.builder()
-                .content(create.getComment())
+                .content(create.comment())
                 .parent(parent)
                 .cart(cart)
                 .member(member)
@@ -41,7 +41,7 @@ public class CartComment extends Comment {
 
     public static CartComment orphanageOf(final CommentCreate create, final Cart cart, final Member member) {
         return CartComment.builder()
-                .content(create.getComment())
+                .content(create.comment())
                 .parent(null)
                 .cart(cart)
                 .member(member)

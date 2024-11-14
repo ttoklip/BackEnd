@@ -16,4 +16,7 @@ dependencies {
 
 	// FCM
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
+
+	// 욕설 필터링
+	implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
 }

@@ -1,8 +1,10 @@
 package com.api.auth.local.presentation;
 
+import com.common.Filterable;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
+import com.common.Lockable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +43,7 @@ public record LocalMemberWebCreate(
         List<String> categories,
 
         MultipartFile profileImage
-) {
+) implements Lockable, Filterable {
 
 
     public List<Category> getCategories() {
@@ -57,4 +59,13 @@ public record LocalMemberWebCreate(
         }
     }
 
+    @Override
+    public String getLockKey() {
+        return email;
+    }
+
+    @Override
+    public String getFilterContent() {
+        return nickname;
+    }
 }

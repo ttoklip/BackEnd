@@ -2,7 +2,7 @@ package com.domain.notification.domain;
 
 import com.domain.common.base.BaseEntity;
 import com.domain.member.domain.Member;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

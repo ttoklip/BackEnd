@@ -1,6 +1,6 @@
 package com.domain.notification.event;
 
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 
 public record PostEvent(Long postId, NotiCategory notiCategory, Long fromMemberId) {
 

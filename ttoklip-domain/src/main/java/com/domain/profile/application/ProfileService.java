@@ -1,5 +1,6 @@
 package com.domain.profile.application;
 
+import com.common.annotation.FilterBadWord;
 import com.domain.member.domain.Member;
 import com.domain.member.domain.MemberEditor;
 import com.domain.profile.application.response.PersonalInformation;
@@ -25,6 +26,7 @@ public class ProfileService {
         currentMember.getProfile().changeProfile(uploadUrl);
     }
 
+    @FilterBadWord
     public void registerPersonalInformation(final PersonalInformation information) {
         Member member = information.member();
         MemberEditor editor = member.toEditor()

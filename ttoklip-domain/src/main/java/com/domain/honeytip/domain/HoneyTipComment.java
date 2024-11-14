@@ -32,7 +32,7 @@ public class HoneyTipComment extends Comment {
     public static HoneyTipComment withParentOf(final CommentCreate request, final Comment parent,
                                                final HoneyTip honeyTip, final Member member) {
         return HoneyTipComment.builder()
-                .content(request.getComment())
+                .content(request.comment())
                 .parent(parent)
                 .honeyTip(honeyTip)
                 .member(member)
@@ -42,7 +42,7 @@ public class HoneyTipComment extends Comment {
     public static HoneyTipComment orphanageOf(final CommentCreate request, final HoneyTip honeyTip,
                                               final Member member) {
         return HoneyTipComment.builder()
-                .content(request.getComment())
+                .content(request.comment())
                 .parent(null)
                 .honeyTip(honeyTip)
                 .member(member)

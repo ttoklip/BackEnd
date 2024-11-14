@@ -2,11 +2,12 @@ package com.api.question.application;
 
 import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
+import com.common.annotation.FilterBadWord;
 import com.domain.comment.application.CommentService;
 import com.domain.comment.domain.Comment;
 import com.domain.comment.domain.CommentCreate;
-import com.domain.notification.domain.annotation.SendCommentNotification;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.annotation.SendCommentNotification;
+import com.common.NotiCategory;
 import com.domain.report.application.ReportService;
 import com.domain.report.domain.ReportCreate;
 import com.domain.honeytip.domain.HoneyTipComment;
@@ -34,11 +35,12 @@ public class QuestionCommentFacade {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
+    @FilterBadWord
     public Message register(final Long postId, final CommentCreate request, final Long currentMemberId) {
         Question findQuestion = questionPostService.getQuestion(postId);
 
         // comment 부모 찾기
-        Long parentCommentId = request.getParentCommentId();
+        Long parentCommentId = request.parentCommentId();
         Optional<Comment> parentCommentOptional = commentService.findParentComment(parentCommentId);
         Member currentMember = memberService.getById(currentMemberId);
 

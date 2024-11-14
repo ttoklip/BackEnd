@@ -1,5 +1,6 @@
 package com.domain.community.application;
 
+import com.common.annotation.DistributedLock;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.TownCriteria;

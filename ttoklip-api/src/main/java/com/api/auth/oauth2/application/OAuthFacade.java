@@ -2,6 +2,7 @@ package com.api.auth.oauth2.application;
 
 import com.api.auth.oauth2.presentation.OAuthLogin;
 import com.api.auth.oauth2.presentation.OAuthLoginResponse;
+import com.common.annotation.DistributedLock;
 import com.domain.member.domain.userInfo.OAuth2UserInfo;
 import com.common.jwt.TokenProvider;
 import com.domain.member.application.MemberService;
@@ -14,10 +15,10 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 public class OAuthFacade {
 
@@ -46,6 +47,7 @@ public class OAuthFacade {
         return getLoginResponse(member, true);
     }
 
+    @DistributedLock(keyPrefix = "oauth-signup")
     public Member registerMember(final OAuth2UserInfo userInfo, final Provider provider) {
         String randomPassword = UUID.randomUUID().toString();
         String encodedPassword = encoder.encode(randomPassword);

@@ -7,6 +7,7 @@ import com.api.cart.presentation.dto.response.CartResponse;
 import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
+import com.common.annotation.DistributedLock;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.cart.application.CartCommentService;
@@ -21,13 +22,14 @@ import com.domain.cart.domain.CartCreate;
 import com.domain.cart.domain.CartMember;
 import com.domain.cart.domain.CartPostEditor;
 import com.domain.cart.domain.vo.TradeStatus;
-import com.domain.notification.domain.annotation.SendNotification;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.annotation.SendNotification;
+import com.common.NotiCategory;
 import com.domain.report.domain.ReportCreate;
 import com.domain.report.application.ReportService;
 import com.domain.common.vo.TownCriteria;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
+import com.common.annotation.FilterBadWord;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -53,7 +55,8 @@ public class CartPostFacade {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
-    @CheckBadWordCreate
+    @FilterBadWord
+    @DistributedLock(keyPrefix = "cart-")
     public Message register(final CartWebCreate request, final Long memberId) {
 
         Member member = memberService.getById(memberId);
@@ -107,7 +110,7 @@ public class CartPostFacade {
     /* -------------------------------------------- EDIT -------------------------------------------- */
 
     @Transactional
-    @CheckBadWordUpdate
+    @FilterBadWord
     public Message edit(final Long postId, final CartWebCreate request, final Long memberId) {
         Cart cart = cartPostService.findByIdActivated(postId);
 

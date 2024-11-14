@@ -6,8 +6,10 @@ import com.api.community.presentation.dto.request.CommunityWebCreate;
 import com.api.community.presentation.dto.request.CommunityWebEdit;
 import com.api.community.presentation.dto.response.CommunityResponse;
 import com.api.global.success.Message;
-import com.domain.notification.domain.annotation.SendNotification;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.annotation.FilterBadWord;
+import com.common.annotation.DistributedLock;
+import com.common.annotation.SendNotification;
+import com.common.NotiCategory;
 import com.domain.report.domain.ReportCreate;
 import com.domain.report.application.ReportService;
 import com.domain.common.vo.TownCriteria;
@@ -47,7 +49,8 @@ public class CommunityPostFacade {
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
-    @CheckBadWordCreate
+    @FilterBadWord
+    @DistributedLock(keyPrefix = "community-")
     public Message register(final CommunityWebCreate request, final Long currentMemberId) {
         Member member = memberService.getById(currentMemberId);
         CommunityCreate create = CommunityCreate.of(request.getTitle(), request.getContent(), member);
@@ -90,7 +93,7 @@ public class CommunityPostFacade {
     /* -------------------------------------------- EDIT -------------------------------------------- */
 
     @Transactional
-    @CheckBadWordUpdate
+    @FilterBadWord
     public Message edit(final Long postId, final CommunityWebEdit request, final Long memberId) {
         Community community = communityPostService.getCommunity(postId);
 

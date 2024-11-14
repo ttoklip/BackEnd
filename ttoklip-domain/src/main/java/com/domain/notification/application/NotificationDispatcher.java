@@ -5,7 +5,7 @@ import com.common.exception.ErrorType;
 import com.domain.comment.domain.Comment;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 import com.domain.notification.dto.request.NotificationRequest;
 import com.domain.notification.dto.response.NotificationInternalResponse;
 import com.infrastructure.notification.service.FCMService;

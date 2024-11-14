@@ -1,6 +1,6 @@
-package com.domain.notification.domain.annotation;
+package com.common.annotation;
 
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

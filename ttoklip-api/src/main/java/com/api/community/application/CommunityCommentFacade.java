@@ -2,11 +2,11 @@ package com.api.community.application;
 
 import com.api.common.ReportWebCreate;
 import com.api.global.success.Message;
+import com.common.annotation.FilterBadWord;
 import com.domain.comment.application.CommentService;
 import com.domain.comment.domain.Comment;
 import com.domain.comment.domain.CommentCreate;
 import com.domain.comment.domain.CommentEdit;
-import com.domain.community.application.CommunityCommentService;
 import com.domain.community.application.CommunityPostService;
 import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityComment;
@@ -27,18 +27,17 @@ public class CommunityCommentFacade {
     private final CommunityPostService communityPostService;
     private final CommentService commentService;
     private final ReportService reportService;
-    private final CommunityCommentService communityCommentService;
-
     private final MemberService memberService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
     @Transactional
+    @FilterBadWord
     public Message register(final Long postId, final CommentCreate request, final Long currentMemberId) {
         Community findCommunity = communityPostService.getCommunity(postId);
 
         // comment 부모 찾기
-        Long parentCommentId = request.getParentCommentId();
+        Long parentCommentId = request.parentCommentId();
         Optional<Comment> parentCommentOptional = commentService.findParentComment(parentCommentId);
         Member member = memberService.getById(currentMemberId);
 
