@@ -1,10 +1,9 @@
 package com.api.email.presentation;
 
 import com.api.email.application.EmailFacade;
-import com.api.global.success.Message;
-import com.api.global.success.SuccessResponse;
+import com.api.global.support.response.Message;
+import com.api.global.support.response.TtoklipResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,24 +25,24 @@ public class EmailController {
     /* --------------------------------- send authentication code --------------------------------- */
     @Operation(summary = "인증코드 메일 발송", description = "인증코드를 메일로 발송합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/send")
-    public SuccessResponse<Message> mailSend(final @RequestBody EmailSendRequest request) {
+    public TtoklipResponse<Message> mailSend(final @RequestBody EmailSendRequest request) {
         log.info("EmailController.mailSend()");
         emailFacade.sendEmail(request.email());
-        return new SuccessResponse<>(Message.sendEmail());
+        return new TtoklipResponse<>(Message.sendEmail());
     }
 
     /* --------------------------------- verify --------------------------------- */
     @Operation(summary = "인증코드 검증", description = "인증코드를 검증합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공"),
     })
     @PostMapping("/verify")
-    public SuccessResponse<Message> verify(final @RequestBody EmailVerifyRequest request) {
+    public TtoklipResponse<Message> verify(final @RequestBody EmailVerifyRequest request) {
         log.info("EmailController.verify()");
         emailFacade.verifyEmailCode(request);
-        return new SuccessResponse<>(Message.verifyCodeSuccess());
+        return new TtoklipResponse<>(Message.verifyCodeSuccess());
     }
 }

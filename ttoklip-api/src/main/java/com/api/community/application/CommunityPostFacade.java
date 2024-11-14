@@ -7,7 +7,7 @@ import com.infrastructure.aws.upload.Uploader;
 import com.api.community.presentation.dto.request.CommunityWebCreate;
 import com.api.community.presentation.dto.request.CommunityWebEdit;
 import com.api.community.presentation.dto.response.CommunityResponse;
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.common.annotation.FilterBadWord;
 import com.common.annotation.DistributedLock;
 import com.common.annotation.SendNotification;

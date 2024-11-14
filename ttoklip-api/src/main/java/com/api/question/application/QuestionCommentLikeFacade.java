@@ -1,7 +1,7 @@
 package com.api.question.application;
 
 
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import com.common.annotation.SendNotification;

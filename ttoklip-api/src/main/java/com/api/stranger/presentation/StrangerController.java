@@ -1,6 +1,6 @@
 package com.api.stranger.presentation;
 
-import com.api.global.success.SuccessResponse;
+import com.api.global.support.response.TtoklipResponse;
 import com.api.search.presentation.response.HoneyTipPaging;
 import com.api.stranger.application.StrangerFacade;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,38 +29,38 @@ public class StrangerController {
 
     @Operation(summary = "타인 정보 불러오기", description = "타인의 기본 정보인 닉네임,동네,레벨,충족도를 가져옵니다")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "타인 정보 조회 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "타인 정보 조회 성공",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
+                            schema = @Schema(implementation = TtoklipResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = StrangerConstant.strangerResponse,
                                     description = "타인의 정보 조회 성공했습니다"
                             )))})
     @GetMapping()
-    public SuccessResponse<StrangerResponse> getStrangerProfile(@RequestParam String nickname) {
-        return new SuccessResponse<>(strangerService.getStrangerProfile(nickname));
+    public TtoklipResponse<StrangerResponse> getStrangerProfile(@RequestParam String nickname) {
+        return new TtoklipResponse<>(strangerService.getStrangerProfile(nickname));
     }
 
     @Operation(summary = "타인이 작성한 꿀팁 목록", description = "타인이 작성한 꿀팁 글 목록 불러오기")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "작성한 글 목록 조회 성공",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
+                            schema = @Schema(implementation = TtoklipResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = StrangerConstant.strangerHoneyTipsResponse,
                                     description = "타유저가 작성한 꿀팁들을 불러왔습니다"
                             )))})
     @GetMapping("/honeytip/{userId}")
-    public SuccessResponse<HoneyTipPaging> strangerHoneyTip(
+    public TtoklipResponse<HoneyTipPaging> strangerHoneyTip(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page,
             @PathVariable final Long userId) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(strangerService.strangerHoneyTip(pageable, userId));
+        return new TtoklipResponse<>(strangerService.strangerHoneyTip(pageable, userId));
     }
 
 //    @Operation(summary = "타인이 참여한 거래 목록", description = "타인이 참여한 거래 목록 불러오기")

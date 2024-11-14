@@ -10,7 +10,7 @@ import com.domain.member.domain.LocalMemberCreate;
 import com.api.auth.local.presentation.LocalMemberWebCreate;
 import com.api.auth.local.presentation.AuthLoginResponse;
 import com.infrastructure.aws.upload.Uploader;
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.common.jwt.TokenProvider;
 import com.domain.common.vo.Category;
 import com.domain.member.application.MemberService;

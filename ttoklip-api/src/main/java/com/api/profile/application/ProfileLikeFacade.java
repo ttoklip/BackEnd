@@ -1,6 +1,6 @@
 package com.api.profile.application;
 
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.api.profile.presentation.TargetMemberProfileResponse;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;

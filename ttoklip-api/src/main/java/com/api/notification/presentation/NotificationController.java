@@ -1,7 +1,7 @@
 package com.api.notification.presentation;
 
-import com.api.global.success.Message;
-import com.api.global.success.SuccessResponse;
+import com.api.global.support.response.Message;
+import com.api.global.support.response.TtoklipResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.notification.application.NotificationFacade;
 import com.domain.notification.dto.response.NotificationFrontResponses;
@@ -27,16 +27,16 @@ public class NotificationController {
 
     @Operation(summary = "FCM Token 등록", description = "회원의 FCM Token을 등록합니다.")
     @PatchMapping(value = "/fcm_token")
-    public SuccessResponse<Message> updateMemberFCMToken(
+    public TtoklipResponse<Message> updateMemberFCMToken(
             @Valid @RequestBody final UpdateFCMTokenRequest request
     ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = notificationFacade.updateMemberFCMToken(currentMemberId, request);
-        return new SuccessResponse<>(message);
+        return new TtoklipResponse<>(message);
     }
 
     @GetMapping("/my-notification")
-    public SuccessResponse<NotificationFrontResponses> getNotification(
+    public TtoklipResponse<NotificationFrontResponses> getNotification(
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page,
             @Parameter(description = "페이지당 개수 (기본값 5)", example = "0")
@@ -45,7 +45,7 @@ public class NotificationController {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Pageable pageRequest = PageRequest.of(page, size);
         NotificationFrontResponses response = notificationFacade.findNotification(currentMemberId, pageRequest);
-        return new SuccessResponse<>(response);
+        return new TtoklipResponse<>(response);
     }
 
 }

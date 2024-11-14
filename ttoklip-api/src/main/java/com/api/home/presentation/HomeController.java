@@ -1,6 +1,6 @@
 package com.api.home.presentation;
 
-import com.api.global.success.SuccessResponse;
+import com.api.global.support.response.TtoklipResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.home.application.HomeFacade;
 import com.api.home.presentation.response.HomeCategoryAndTopQuestionsResponse;
@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,43 +36,43 @@ public class HomeController {
 
     @Operation(summary = "홈 화면", description = "뉴스레터, 꿀팁공유해요, 함께해요 최신 3개, 오늘의 ToDoList 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "홈 화면 조회 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "홈 화면 조회 성공",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
+                            schema = @Schema(implementation = TtoklipResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = HomeConstant.HOME_RESPONSE,
                                     description = "참여자 수를 확인하였습니다."
                             )))})
     @GetMapping("/home")
-    public SuccessResponse<HomeMainResponse> home() {
+    public TtoklipResponse<HomeMainResponse> home() {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         HomeMainResponse homeMainResponse = homeFacade.home(currentMemberId);
-        return new SuccessResponse<>(homeMainResponse);
+        return new TtoklipResponse<>(homeMainResponse);
     }
 
     @Operation(summary = "3, 6번 인기 순위 TOP5 & 카테고리별 조회 API",
             description = "질문해요, 꿀팁공유해요 메인 진입시 꿀팁공유해요 인기 순위 TOP5와 질문해요, 꿀팁공유해요 각각 카테고리별로 10개씩 한번에 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "질문해요 메인 페이지 인기 순위 TOP5와 카테고리별 조회 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "질문해요 메인 페이지 인기 순위 TOP5와 카테고리별 조회 성공",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = SuccessResponse.class),
+                            schema = @Schema(implementation = TtoklipResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = QuestionResponseConstant.categoryValue,
                                     description = "실제로는 인기순위 5개와 카테고리별로별로 10개씩 한번에 응답이 나갑니다."
                             )))})
     @GetMapping("/common/main")
-    public SuccessResponse<HomeCategoryAndTopQuestionsResponse> top5WithCategory() {
+    public TtoklipResponse<HomeCategoryAndTopQuestionsResponse> top5WithCategory() {
         HomeCategoryAndTopQuestionsResponse defaultCategoryRead = homeFacade.getDefaultCategoryRead();
-        return new SuccessResponse<>(defaultCategoryRead);
+        return new TtoklipResponse<>(defaultCategoryRead);
     }
 
     @Operation(summary = "질문해요 카테고리별 페이징 조회",
             description = "질문해요 카테고리별로 페이징 조회합니다. 카테고리가 무엇인지 필수로 보내주셔야합니다.")
     @GetMapping("/common/main/question/paging")
-    public SuccessResponse<CategoryPagingResponse> questionCategoryPaging(
+    public TtoklipResponse<CategoryPagingResponse> questionCategoryPaging(
             @Parameter(description = "카테고리. 유효한 값은 HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 중 하나입니다.", required = true, example = "HOUSEWORK")
             @RequestParam final String category,
 
@@ -81,13 +80,13 @@ public class HomeController {
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         CategoryPagingResponse categoryPaging = homeFacade.questionCategoryPaging(category, pageable);
-        return new SuccessResponse<>(categoryPaging);
+        return new TtoklipResponse<>(categoryPaging);
     }
 
     @Operation(summary = "꿀팁공유해요 카테고리별 페이징 조회",
             description = "꿀팁공유해요 카테고리별로 페이징 조회합니다. 카테고리가 무엇인지 필수로 보내주셔야합니다.")
     @GetMapping("/common/main/honey-tip/paging")
-    public SuccessResponse<CategoryPagingResponse> honeyTipCategoryPaging(
+    public TtoklipResponse<CategoryPagingResponse> honeyTipCategoryPaging(
             @Parameter(description = "카테고리. 유효한 값은 HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 중 하나입니다.", required = true, example = "HOUSEWORK")
             @RequestParam final String category,
 
@@ -95,6 +94,6 @@ public class HomeController {
             @RequestParam(required = false, defaultValue = "0") final int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         CategoryPagingResponse categoryPaging = homeFacade.honeyTipCategoryPaging(category, pageable);
-        return new SuccessResponse<>(categoryPaging);
+        return new TtoklipResponse<>(categoryPaging);
     }
 }

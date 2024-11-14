@@ -1,6 +1,6 @@
 package com.api.member.presentation;
 
-import com.api.global.success.SuccessResponse;
+import com.api.global.support.response.TtoklipResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.member.application.MemberFacade;
 import com.domain.member.application.response.MemberStreetResponse;
@@ -21,8 +21,8 @@ public class MemberController {
 
     @GetMapping("/street")
     @Operation(summary = "현재 사용자의 주소와 서울 거주 여부를 반환합니다.", description = "현재 사용자의 주소와 서울 거주 여부를 반환 API")
-    public SuccessResponse<MemberStreetResponse> getMemberStreet() {
+    public TtoklipResponse<MemberStreetResponse> getMemberStreet() {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new SuccessResponse<>(memberFacade.getMemberStreet(currentMemberId));
+        return new TtoklipResponse<>(memberFacade.getMemberStreet(currentMemberId));
     }
 }

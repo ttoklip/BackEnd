@@ -1,10 +1,10 @@
-package com.api.global.success;
+package com.api.global.support.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum SuccessResponseStatus implements SuccessStatus {
 
     SUCCESS("200", "요청에 성공하였습니다.");

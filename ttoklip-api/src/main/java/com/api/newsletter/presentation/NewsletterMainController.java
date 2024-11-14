@@ -1,6 +1,6 @@
 package com.api.newsletter.presentation;
 
-import com.api.global.success.SuccessResponse;
+import com.api.global.support.response.TtoklipResponse;
 import com.api.newsletter.application.NewsletterMainFacade;
 import com.api.newsletter.presentation.response.NewsletterMainResponse;
 import com.api.newsletter.presentation.response.NewsletterResponseConstant;
@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,18 +26,18 @@ public class NewsletterMainController {
 
     @Operation(summary = "뉴스레터 메인화면 조회", description = "뉴스레터 메인 화면을 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "뉴스레터 메인 화면 조회 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "뉴스레터 메인 화면 조회 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SuccessResponse.class),
+                            schema = @Schema(implementation = TtoklipResponse.class),
                             examples = @ExampleObject(
                                     name = "SuccessResponse",
                                     value = NewsletterResponseConstant.listNewsletters,
                                     description = "뉴스레터 메인 화면이 조회되었습니다."
                             )))})
     @GetMapping
-    public SuccessResponse<NewsletterMainResponse> category() {
-        return new SuccessResponse<>(newsletterMainFacade.getMainData());
+    public TtoklipResponse<NewsletterMainResponse> category() {
+        return new TtoklipResponse<>(newsletterMainFacade.getMainData());
     }
 
 }

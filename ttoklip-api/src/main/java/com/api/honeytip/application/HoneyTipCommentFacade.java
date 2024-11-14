@@ -1,7 +1,7 @@
 package com.api.honeytip.application;
 
 import com.api.common.ReportWebCreate;
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.common.annotation.FilterBadWord;
 import com.domain.comment.application.CommentService;
 import com.domain.comment.domain.Comment;

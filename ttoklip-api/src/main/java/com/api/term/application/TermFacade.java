@@ -1,6 +1,6 @@
 package com.api.term.application;
 
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.api.term.presentation.TermAdminResponse;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;

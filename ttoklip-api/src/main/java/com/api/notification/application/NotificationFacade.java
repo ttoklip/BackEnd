@@ -1,6 +1,6 @@
 package com.api.notification.application;
 
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import com.domain.notification.domain.Notification;

@@ -1,4 +1,4 @@
-package com.api.global.success;
+package com.api.global.support.response;
 
 import static java.time.LocalDateTime.now;
 
@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @ToString
 @JsonPropertyOrder({"time", "status", "code", "message", "result"})
-public class SuccessResponse<T> {
+public class TtoklipResponse<T> {
 
     @JsonProperty("status")
     private int status;
@@ -29,7 +29,7 @@ public class SuccessResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    public SuccessResponse(final T result) {
+    public TtoklipResponse(final T result) {
         this.result = result;
         this.status = HttpStatus.OK.value();
         this.time = now();

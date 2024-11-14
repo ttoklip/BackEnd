@@ -1,4 +1,4 @@
-package com.api.global.success;
+package com.api.global.support.response;
 
 public interface SuccessStatus {
 

@@ -4,7 +4,7 @@ import com.api.common.ReportWebCreate;
 import com.api.common.upload.MultipartFileAdapter;
 import com.infrastructure.aws.upload.FileInput;
 import com.infrastructure.aws.upload.Uploader;
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.api.honeytip.presentation.request.HoneyTipWebCreate;
 import com.api.honeytip.presentation.request.HoneyTipWebEdit;
 import com.api.honeytip.presentation.response.HoneyTipSingleResponse;

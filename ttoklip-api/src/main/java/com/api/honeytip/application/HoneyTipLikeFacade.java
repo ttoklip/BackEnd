@@ -1,7 +1,7 @@
 package com.api.honeytip.application;
 
 import com.api.common.vo.ActionFacade;
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.domain.honeytip.application.HoneyTipLikeService;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.domain.HoneyTip;

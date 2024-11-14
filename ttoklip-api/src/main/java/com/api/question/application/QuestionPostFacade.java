@@ -5,7 +5,7 @@ import com.api.common.upload.MultipartFileAdapter;
 import com.common.annotation.FilterBadWord;
 import com.infrastructure.aws.upload.FileInput;
 import com.infrastructure.aws.upload.Uploader;
-import com.api.global.success.Message;
+import com.api.global.support.response.Message;
 import com.api.question.presentation.dto.request.QuestionWebCreate;
 import com.api.question.presentation.dto.response.vo.QuestionCommentResponse;
 import com.api.question.presentation.dto.response.QuestionResponse;
