@@ -15,36 +15,31 @@ import org.springframework.stereotype.Repository;
 public class CommunityRepositoryImpl implements CommunityRepository {
 
     private final CommunityJpaRepository jpaRepository;
-//    private final CommunityQueryRepository queryDSLRepository;
+    private final CommunityQueryRepository queryDSLRepository;
 
     @Override
     public Community findByIdActivated(final Long communityId) {
-//        return queryDSLRepository.findByIdActivated(communityId);
-        return null;
+        return queryDSLRepository.findByIdActivated(communityId);
     }
 
     @Override
     public Community findByIdFetchJoin(final Long postId) {
-//        return queryDSLRepository.findByIdFetchJoin(postId);
-        return null;
+        return queryDSLRepository.findByIdFetchJoin(postId);
     }
 
     @Override
     public List<CommunityComment> findActiveCommentsByCommunityId(final Long postId) {
-//        return queryDSLRepository.findActiveCommentsByCommunityId(postId);
-        return null;
+        return queryDSLRepository.findActiveCommentsByCommunityId(postId);
     }
 
     @Override
-    public List<Community> getRecent3(final TownCriteria townCriteria) {
-//        return queryDSLRepository.getRecent3(townCriteria);
-        return null;
+    public List<Community> getRecent3(final TownCriteria townCriteria, final String street) {
+        return queryDSLRepository.getRecent3(townCriteria, street);
     }
 
     @Override
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
-//        return queryDSLRepository.getPaging(townCriteria, pageable);
-        return null;
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street) {
+        return queryDSLRepository.getPaging(townCriteria, pageable, street);
     }
 
     @Override
@@ -54,13 +49,11 @@ public class CommunityRepositoryImpl implements CommunityRepository {
 
     @Override
     public Page<Community> getContain(final String keyword, final Pageable pageable, final String sort) {
-//        return queryDSLRepository.getContain(keyword, pageable, sort);
-        return null;
+        return queryDSLRepository.getContain(keyword, pageable, sort);
     }
 
     @Override
     public Page<Community> getMatchWriterPaging(final Long memberId, final Pageable pageable) {
-//        return queryDSLRepository.getMatchWriterPaging(memberId, pageable);
-        return null;
+        return queryDSLRepository.getMatchWriterPaging(memberId, pageable);
     }
 }

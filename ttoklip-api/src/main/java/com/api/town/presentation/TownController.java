@@ -74,7 +74,8 @@ public class TownController {
             @RequestParam(required = false, defaultValue = "0") final int page
     ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new SuccessResponse<>(townFacade.getCommunities(criteria, pageable));
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        return new SuccessResponse<>(townFacade.getCommunities(criteria, pageable, currentMemberId));
     }
 
     /* Cart Paging */
@@ -105,8 +106,9 @@ public class TownController {
             @RequestParam(required = false, defaultValue = "CITY") final String criteria
     ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new SuccessResponse<>(
-                townFacade.getCarts(pageable, startMoney, lastMoney, startParty, lastParty, criteria)
+                townFacade.getCarts(pageable, startMoney, lastMoney, startParty, lastParty, criteria, currentMemberId)
         );
     }
 

@@ -1,8 +1,12 @@
-/*
 package com.domain.community.infrastructure;
 
 
 import com.domain.community.domain.Community;
+import com.domain.community.domain.QCommunity;
+import com.domain.community.domain.QCommunityComment;
+import com.domain.community.domain.QCommunityScrap;
+import com.domain.member.domain.QMember;
+import com.domain.profile.domain.QProfile;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -17,6 +21,11 @@ import org.springframework.stereotype.Repository;
 public class CommunityScrapQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final QCommunity community = QCommunity.community;
+    private final QCommunityScrap communityScrap = QCommunityScrap.communityScrap;
+    private final QCommunityComment communityComment = QCommunityComment.communityComment;
+    private final QProfile profile = QProfile.profile;
+    private final QMember member = QMember.member;
 
     public Long countCommunityScrapsByCommunityId(final Long communityId) {
         return jpaQueryFactory
@@ -55,12 +64,9 @@ public class CommunityScrapQueryRepository {
                 .select(Wildcard.count)
                 .from(community)
                 .where(
-                        communityScrap.member.id.eq(userId),
+                        communityScrap.member.id.eq(memberId),
                         community.deleted.eq(false)
                 )
                 .fetchOne();
     }
 }
-
-
- */

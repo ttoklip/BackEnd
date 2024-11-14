@@ -185,8 +185,9 @@ public class CommunityPostFacade {
 
     /* -------------------------------------------- Community 페이징 -------------------------------------------- */
 
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
-        return communityPostService.getPaging(townCriteria, pageable);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final Long memberId) {
+        Member member = memberService.getById(memberId);
+        return communityPostService.getPaging(townCriteria, pageable, member.getStreet());
     }
 
     /* -------------------------------------------- Community 끝 -------------------------------------------- */

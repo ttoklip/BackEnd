@@ -7,14 +7,16 @@ import com.api.cart.presentation.dto.response.CartResponse;
 import com.api.common.ReportWebCreate;
 import com.api.common.upload.Uploader;
 import com.api.global.success.Message;
+import com.common.NotiCategory;
 import com.common.annotation.DistributedLock;
+import com.common.annotation.FilterBadWord;
+import com.common.annotation.SendNotification;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.cart.application.CartCommentService;
 import com.domain.cart.application.CartImageService;
 import com.domain.cart.application.CartMemberService;
 import com.domain.cart.application.CartPostService;
-import com.domain.cart.application.CartThumbnailResponse;
 import com.domain.cart.application.ItemUrlService;
 import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartComment;
@@ -22,18 +24,12 @@ import com.domain.cart.domain.CartCreate;
 import com.domain.cart.domain.CartMember;
 import com.domain.cart.domain.CartPostEditor;
 import com.domain.cart.domain.vo.TradeStatus;
-import com.common.annotation.SendNotification;
-import com.common.NotiCategory;
-import com.domain.report.domain.ReportCreate;
-import com.domain.report.application.ReportService;
-import com.domain.common.vo.TownCriteria;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
-import com.common.annotation.FilterBadWord;
+import com.domain.report.application.ReportService;
+import com.domain.report.domain.ReportCreate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,13 +91,6 @@ public class CartPostFacade {
         List<CartComment> activeComments = cartCommentService.findActiveCommentsByCartId(postId);
         boolean isAlreadyJoin = cartMemberService.existsByMemberIdAndCartId(memberId, cartWithImg.getId());
         return CartResponse.of(cartWithImg, activeComments, isAlreadyJoin);
-    }
-
-    public List<CartThumbnailResponse> getRecent3(final TownCriteria townCriteria) {
-        List<Cart> carts = cartPostService.findRecent3(townCriteria);
-        return carts.stream()
-                .map(CartThumbnailResponse::from)
-                .toList();
     }
 
     /* -------------------------------------------- READ 끝 -------------------------------------------- */
@@ -193,18 +182,6 @@ public class CartPostFacade {
     }
 
     /* -------------------------------------------- UPDATE STATUS 끝-------------------------------------------- */
-
-
-    public Page<Cart> getCartPaging(
-            final Pageable pageable,
-            final Long startMoney,
-            final Long lastMoney,
-            final Long startParty,
-            final Long lastParty,
-            final TownCriteria townCriteria
-    ) {
-        return cartPostService.getCartPaging(pageable, startMoney, lastMoney, startParty, lastParty, townCriteria);
-    }
 
 
     /* -------------------------------------------- PARTICIPANT -------------------------------------------- */

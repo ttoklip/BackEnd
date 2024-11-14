@@ -1,9 +1,9 @@
-/*
 package com.domain.profile.infrastructure;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.profile.domain.ProfileLike;
+import com.domain.profile.domain.QProfileLike;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
@@ -52,6 +52,3 @@ public class ProfileLikeQueryRepository {
     }
 
 }
-
-
- */

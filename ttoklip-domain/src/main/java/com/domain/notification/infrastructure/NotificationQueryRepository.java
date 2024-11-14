@@ -1,7 +1,8 @@
-/*
 package com.domain.notification.infrastructure;
 
+import com.domain.member.domain.QMember;
 import com.domain.notification.domain.Notification;
+import com.domain.notification.domain.QNotification;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Repository;
 public class NotificationQueryRepository {
 
     private final JPAQueryFactory queryFactory;
+    private final QMember member = QMember.member;
+    private final QNotification notification = QNotification.notification;
 
+    // ToDo 여기 로직 이상함 추후에 쿼리 수정
     private List<Notification> findRecentNotifications(final Long currentMemberId, final Pageable pageable) {
         return queryFactory
                 .selectFrom(notification)
@@ -31,6 +35,3 @@ public class NotificationQueryRepository {
         return findRecentNotifications(currentMemberId, pageable);
     }
 }
-
-
- */

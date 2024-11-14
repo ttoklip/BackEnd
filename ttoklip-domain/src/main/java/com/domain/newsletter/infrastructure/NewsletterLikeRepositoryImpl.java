@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class NewsletterLikeRepositoryImpl implements NewsletterLikeRepository {
 
     private final NewsletterLikeJpaRepository jpaRepository;
-//    private final NewsletterLikeQueryRepository queryDslRepository;
+    private final NewsletterLikeQueryRepository queryDslRepository;
 
     @Override
     public Optional<NewsletterLike> findByNewsletterIdAndMemberId(final Long newsletterId, final Long memberId) {
@@ -25,8 +25,7 @@ public class NewsletterLikeRepositoryImpl implements NewsletterLikeRepository {
 
     @Override
     public Long countNewsletterLikesByNewsletterId(final Long newsletterId) {
-//        return queryDslRepository.countNewsletterLikesByNewsletterId(newsletterId);
-        return null;
+        return queryDslRepository.countNewsletterLikesByNewsletterId(newsletterId);
     }
 
     @Override

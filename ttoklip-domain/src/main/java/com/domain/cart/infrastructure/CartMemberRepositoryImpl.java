@@ -18,7 +18,7 @@ public class CartMemberRepositoryImpl implements CartMemberRepository {
 
     private final EntityManager em;
     private final CartMemberJpaRepository jpaRepository;
-//    private final CartMemberQueryRepository queryRepository;
+    private final CartMemberQueryRepository queryRepository;
 
     @Override
     public boolean existsByMemberIdAndCartId(final Long memberId, final Long cartId) {
@@ -49,7 +49,6 @@ public class CartMemberRepositoryImpl implements CartMemberRepository {
 
     @Override
     public Page<Cart> findParticipatingCartsByUserId(final Long userId, final Pageable pageable) {
-//        return queryRepository.findParticipatingCartsByUserId(userId, pageable);
-        return null;
+        return queryRepository.findParticipatingCartsByUserId(userId, pageable);
     }
 }

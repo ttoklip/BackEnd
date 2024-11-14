@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class NoticeRepositoryImpl implements NoticeRepository {
 
     private final NoticeJpaRepository jpaRepository;
-//    private final NoticeQueryRepository queryDSLRepository;
+    private final NoticeQueryRepository queryDSLRepository;
 
     @Override
     public Notice save(final Notice notice) {
@@ -20,14 +20,12 @@ public class NoticeRepositoryImpl implements NoticeRepository {
 
     @Override
     public Notice findByIdActivated(final Long noticeId) {
-//        return queryDSLRepository.findByIdActivated(noticeId);
-        return null;
+        return queryDSLRepository.findByIdActivated(noticeId);
     }
 
     @Override
     public NoticeResponses getContain(final int pageNumber, final int pageSize) {
-//        return queryDSLRepository.getContain(pageNumber, pageSize);
-        return null;
+        return queryDSLRepository.getContain(pageNumber, pageSize);
     }
 
 }

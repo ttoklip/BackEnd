@@ -1,8 +1,7 @@
 package com.api.stranger.application;
 
-import com.api.global.success.Message;
-import com.api.search.presentation.response.HoneyTipPaging;
 import com.api.search.presentation.response.CommonThumbnailResponse;
+import com.api.search.presentation.response.HoneyTipPaging;
 import com.api.stranger.presentation.StrangerResponse;
 import com.domain.honeytip.application.HoneyTipPostService;
 import com.domain.honeytip.domain.HoneyTip;
@@ -41,7 +40,4 @@ public class StrangerFacade {
                 .build();
     }
 
-    public Message participateDeals(final Pageable pageable, final Long targetId) {
-        return null;
-    }
 }

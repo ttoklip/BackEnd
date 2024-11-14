@@ -1,8 +1,10 @@
-/*
 package com.domain.question.infrastructure;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
+import com.domain.member.domain.QMember;
+import com.domain.question.domain.QQuestion;
+import com.domain.question.domain.QQuestionImage;
 import com.domain.question.domain.QuestionImage;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,9 +18,9 @@ public class QuestionImageQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    private final QQuestionImage questionImage = QQuestionImage.questionImage;
-    private final QQuestion question = QQuestion.question;
     private final QMember member = QMember.member;
+    private final QQuestion question = QQuestion.question;
+    private final QQuestionImage questionImage = QQuestionImage.questionImage;
 
     public void verifyMemberIsImageOwner(List<Long> imageIds, Long memberId) {
         List<QuestionImage> questionImages = queryFactory
@@ -55,6 +57,3 @@ public class QuestionImageQueryRepository {
                 .execute();
     }
 }
-
-
- */

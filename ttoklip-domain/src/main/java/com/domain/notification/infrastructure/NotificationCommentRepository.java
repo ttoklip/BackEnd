@@ -1,12 +1,21 @@
-/*
 package com.domain.notification.infrastructure;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.cart.domain.CartComment;
+import com.domain.cart.domain.QCart;
+import com.domain.cart.domain.QCartComment;
 import com.domain.comment.domain.Comment;
+import com.domain.comment.domain.QComment;
 import com.domain.community.domain.CommunityComment;
+import com.domain.community.domain.QCommunity;
+import com.domain.community.domain.QCommunityComment;
 import com.domain.honeytip.domain.HoneyTipComment;
+import com.domain.honeytip.domain.QHoneyTip;
+import com.domain.honeytip.domain.QHoneyTipComment;
+import com.domain.member.domain.QMember;
+import com.domain.question.domain.QQuestion;
+import com.domain.question.domain.QQuestionComment;
 import com.domain.question.domain.QuestionComment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +34,6 @@ public class NotificationCommentRepository {
     private final QCommunityComment communityComment = QCommunityComment.communityComment;
     private final QCartComment cartComment = QCartComment.cartComment;
     private final QComment comment = QComment.comment;
-
     private final QCommunity community = QCommunity.community;
     private final QQuestion question = QQuestion.question;
     private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
@@ -98,6 +106,3 @@ public class NotificationCommentRepository {
                 .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_COMMENT_NOT_FOUND));
     }
 }
-
-
- */

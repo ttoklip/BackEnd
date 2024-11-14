@@ -14,71 +14,61 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class QuestionRepositoryImpl implements QuestionRepository {
 
-    private final QuestionJpaRepository questionJpaRepository;
-//    private final QuestionQueryRepository questionQueryRepository;
+    private final QuestionJpaRepository jpaRepository;
+    private final QuestionQueryRepository queryDSLRepository;
 
     @Override
     public Question findByIdActivated(final Long questionId) {
-//        return questionQueryRepository.findByIdActivated(questionId);
-        return null;
+        return queryDSLRepository.findByIdActivated(questionId);
     }
 
     @Override
     public QuestionComment findByCommentIdActivated(final Long commentId) {
-//        return questionQueryRepository.findByCommentIdActivated(commentId);
-        return null;
+        return queryDSLRepository.findByCommentIdActivated(commentId);
     }
 
     @Override
     public Question findByIdFetchJoin(final Long questionPostId) {
-//        return questionQueryRepository.findByIdFetchJoin(questionPostId);
-        return null;
+        return queryDSLRepository.findByIdFetchJoin(questionPostId);
     }
 
     @Override
     public List<QuestionComment> findActiveCommentsByQuestionId(final Long questionId) {
-//        return questionQueryRepository.findActiveCommentsByQuestionId(questionId);
-        return null;
+        return queryDSLRepository.findActiveCommentsByQuestionId(questionId);
     }
 
     @Override
     public Page<Question> matchCategoryPaging(final Category category, final Pageable pageable) {
-//        return questionQueryRepository.matchCategoryPaging(category, pageable);
-        return null;
+        return queryDSLRepository.matchCategoryPaging(category, pageable);
     }
 
     @Override
     public List<Question> getHouseWork() {
-//        return questionQueryRepository.getHouseWork();
-        return null;
+        return queryDSLRepository.getHouseWork();
     }
 
     @Override
     public List<Question> getRecipe() {
-//        return questionQueryRepository.getRecipe();
-        return null;
+        return queryDSLRepository.getRecipe();
     }
 
     @Override
     public List<Question> getSafeLiving() {
-//        return questionQueryRepository.getSafeLiving();
-        return null;
+        return queryDSLRepository.getSafeLiving();
     }
 
     @Override
     public List<Question> getWelfarePolicy() {
-//        return questionQueryRepository.getWelfarePolicy();
-        return null;
+        return queryDSLRepository.getWelfarePolicy();
     }
 
     @Override
     public Question save(final Question question) {
-        return questionJpaRepository.save(question);
+        return jpaRepository.save(question);
     }
 
     @Override
     public Page<Question> matchWriterPaging(final Long memberId, final Pageable pageable) {
-//        return questionQueryRepository.matchWriterPaging(memberId, pageable);
-        return null;
+        return queryDSLRepository.matchWriterPaging(memberId, pageable);
     }
 }

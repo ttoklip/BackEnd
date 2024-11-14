@@ -1,6 +1,7 @@
 package com.domain.cart.domain;
 
 import com.domain.common.vo.TownCriteria;
+import com.domain.member.domain.Member;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,16 +15,10 @@ public interface CartRepository {
 
     List<CartComment> findActiveCommentsByCartId(Long postId);
 
-    // 참여자 추가
-    Cart addParticipant(Long cartId);
-
-    // 참여 취소
-    Cart removeParticipant(Long cartId);
-
     // 참여자 수 확인
     Long countParticipants(Long cartId);
 
-    List<Cart> findRecent3(TownCriteria townCriteria);
+    List<Cart> findRecent3(TownCriteria townCriteria, String member);
 
     Page<Cart> getCartPaging(
             Pageable pageable,
@@ -31,8 +26,8 @@ public interface CartRepository {
             Long lastMoney,
             Long startParty,
             Long lastParty,
-            TownCriteria townCriteria
-    );
+            TownCriteria townCriteria,
+            Member member);
 
     Page<Cart> searchPaging(String keyword, Pageable pageable, String sort);
 }

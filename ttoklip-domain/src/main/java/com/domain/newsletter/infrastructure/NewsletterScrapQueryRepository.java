@@ -1,7 +1,9 @@
-/*
 package com.domain.newsletter.infrastructure;
 
 import com.domain.newsletter.domain.Newsletter;
+import com.domain.newsletter.domain.QNewsletter;
+import com.domain.newsletter.domain.QNewsletterComment;
+import com.domain.newsletter.domain.QNewsletterScrap;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -17,6 +19,8 @@ public class NewsletterScrapQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
     private final QNewsletterScrap newsletterScrap = QNewsletterScrap.newsletterScrap;
+    private final QNewsletter newsletter = QNewsletter.newsletter;
+    private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
 
     public Long countNewsletterScrapsByNewsletterId(final Long newsletterId) {
         return jpaQueryFactory
@@ -26,9 +30,9 @@ public class NewsletterScrapQueryRepository {
                 .fetchOne();
     }
 
-    public Page<Newsletter> getScrapPaging(final Long userId, final Pageable pageable) {
-        List<Newsletter> content = getScrap(userId, pageable);
-        Long count = scrapCount();
+    public Page<Newsletter> getScrapPaging(final Long memberId, final Pageable pageable) {
+        List<Newsletter> content = getScrap(memberId, pageable);
+        Long count = scrapCount(memberId);
         return new PageImpl<>(content, pageable, count);
     }
 
@@ -45,14 +49,11 @@ public class NewsletterScrapQueryRepository {
                 .fetch();
     }
 
-    private Long scrapCount() {
+    private Long scrapCount(final Long memberId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(newsletter)
-                .where(newsletterScrap.member.id.eq(userId))
+                .where(newsletterScrap.member.id.eq(memberId))
                 .fetchOne();
     }
 }
-
-
- */

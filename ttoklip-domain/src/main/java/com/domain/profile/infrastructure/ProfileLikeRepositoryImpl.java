@@ -10,13 +10,12 @@ import org.springframework.stereotype.Repository;
 public class ProfileLikeRepositoryImpl implements ProfileLikeRepository {
 
     private final ProfileLikeJpaRepository jpaRepository;
-//    private final ProfileLikeQueryRepository queryDSLRepository;
+    private final ProfileLikeQueryRepository queryDSLRepository;
 
 
     @Override
     public boolean isExists(final Long fromMemberId, final Long targetMemberId) {
-//        return queryDSLRepository.isExists(fromMemberId, targetMemberId);
-        return false;
+        return queryDSLRepository.isExists(fromMemberId, targetMemberId);
     }
 
     @Override
@@ -31,13 +30,11 @@ public class ProfileLikeRepositoryImpl implements ProfileLikeRepository {
 
     @Override
     public ProfileLike findByFromMemberIdAndTargetMemberId(final Long fromMemberId, final Long targetMemberId) {
-//        return queryDSLRepository.findByFromMemberIdAndTargetMemberId(fromMemberId, targetMemberId);
-        return null;
+        return queryDSLRepository.findByFromMemberIdAndTargetMemberId(fromMemberId, targetMemberId);
     }
 
     @Override
     public Long countProfileLikesByMemberId(final Long targetMemberId) {
-//        return queryDSLRepository.countProfileLikesByMemberId(targetMemberId);
-        return null;
+        return queryDSLRepository.countProfileLikesByMemberId(targetMemberId);
     }
 }

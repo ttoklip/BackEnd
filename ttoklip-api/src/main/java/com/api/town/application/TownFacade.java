@@ -10,6 +10,7 @@ import com.domain.common.vo.TownCriteria;
 import com.domain.community.application.CommunityPostService;
 import com.domain.community.domain.Community;
 import com.domain.member.application.MemberService;
+import com.domain.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,10 +25,10 @@ public class TownFacade {
     private final CartPostService cartPostService;
     private final MemberService memberService;
 
-    public CommunityPaging getCommunities(final String criteria, final Pageable pageable) {
+    public CommunityPaging getCommunities(final String criteria, final Pageable pageable, final Long memberId) {
         TownCriteria townCriteria = validCriteria(criteria);
-
-        Page<Community> contentPaging = communityPostService.getPaging(townCriteria, pageable);
+        Member member = memberService.getById(memberId);
+        Page<Community> contentPaging = communityPostService.getPaging(townCriteria, pageable, member.getStreet());
 
         List<Community> contents = contentPaging.getContent();
 
@@ -55,12 +56,12 @@ public class TownFacade {
             final Long lastMoney,
             final Long startParty,
             final Long lastParty,
-            final String criteria
-    ) {
+            final String criteria,
+            final Long memberId) {
         TownCriteria townCriteria = TownCriteria.findTownCriteriaByValue(criteria);
-
+        Member member = memberService.getById(memberId);
         Page<Cart> contentPaging = cartPostService.getCartPaging(
-                pageable, startMoney, lastMoney, startParty, lastParty, townCriteria
+                pageable, startMoney, lastMoney, startParty, lastParty, townCriteria, member
         );
 
         List<Cart> contents = contentPaging.getContent();
@@ -79,9 +80,9 @@ public class TownFacade {
 
     public TownMainResponse getRecent3(final String criteria, final Long currentMemberId) {
         TownCriteria townCriteria = validCriteria(criteria);
-        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(townCriteria);
-        List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3(townCriteria);
         String street = memberService.getById(currentMemberId).getStreet();
+        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(townCriteria, street);
+        List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3(townCriteria, street);
 
         return TownMainResponse.builder()
                 .cartRecent3(cartRecent3)

@@ -1,8 +1,8 @@
-/*
 package com.domain.term.infrastructure;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
+import com.domain.term.domain.QTerm;
 import com.domain.term.domain.Term;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
@@ -50,6 +50,3 @@ public class TermQueryRepository {
                 .orElseThrow(() -> new ApiException(ErrorType.TERM_LOCATIONS_SERVICE_NOT_FOUND));
     }
 }
-
-
- */

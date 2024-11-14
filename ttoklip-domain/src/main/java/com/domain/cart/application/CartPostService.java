@@ -3,6 +3,7 @@ package com.domain.cart.application;
 import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartRepository;
 import com.domain.common.vo.TownCriteria;
+import com.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,27 +36,26 @@ public class CartPostService {
         return cartRepository.findByIdFetchJoin(postId);
     }
 
-    public List<Cart> findRecent3(TownCriteria townCriteria) {
-        return cartRepository.findRecent3(townCriteria);
-    }
-
     public Page<Cart> getCartPaging(Pageable pageable,
                                     Long startMoney,
                                     Long lastMoney,
                                     Long startParty,
                                     Long lastParty,
-                                    TownCriteria townCriteria) {
+                                    TownCriteria townCriteria,
+                                    Member member) {
         return cartRepository.getCartPaging(
                 pageable,
                 startMoney,
                 lastMoney,
                 startParty,
                 lastParty,
-                townCriteria);
+                townCriteria,
+                member
+        );
     }
 
-    public List<CartThumbnailResponse> getRecent3(TownCriteria townCriteria) {
-        List<Cart> carts = cartRepository.findRecent3(townCriteria);
+    public List<CartThumbnailResponse> getRecent3(TownCriteria townCriteria, final String street) {
+        List<Cart> carts = cartRepository.findRecent3(townCriteria, street);
         return carts.stream()
                 .map(CartThumbnailResponse::from)
                 .toList();

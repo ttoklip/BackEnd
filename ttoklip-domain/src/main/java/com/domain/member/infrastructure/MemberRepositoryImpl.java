@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final MemberJpaRepository jpaRepository;
-//    private final MemberQueryRepository queryDSLRepository;
+    private final MemberQueryRepository queryDSLRepository;
 
     @Override
     public Optional<Member> findById(final Long memberId) {
@@ -36,20 +36,17 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public Member getTargetMemberProfile(final Long targetMemberId) {
-//        return queryDSLRepository.getTargetMemberProfile(targetMemberId);
-        return null;
+        return queryDSLRepository.getTargetMemberProfile(targetMemberId);
     }
 
     @Override
     public Member findByIdWithProfile(final Long memberId) {
-//        return queryDSLRepository.findByIdWithProfile(memberId);
-        return null;
+        return queryDSLRepository.findByIdWithProfile(memberId);
     }
 
     @Override
     public Member findByNickNameWithProfile(final String nickName) {
-//        return queryDSLRepository.findByNickNameWithProfile(nickName);
-        return null;
+        return queryDSLRepository.findByNickNameWithProfile(nickName);
     }
 
     @Override

@@ -11,33 +11,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionImageRepositoryImpl implements QuestionImageRepository {
 
-    private final QuestionImageJpaRepository questionImageJpaRepository;
-//    private final QuestionImageQueryRepository questionImageQueryRepository;
+    private final QuestionImageJpaRepository jpaRepository;
+    private final QuestionImageQueryRepository queryDSLRepository;
 
     @Override
     public QuestionImage save(final QuestionImage questionImage) {
-        return questionImageJpaRepository.save(questionImage);
+        return jpaRepository.save(questionImage);
     }
 
     @Override
     public boolean existsByQuestionIdAndUrl(final Long questionId, final String url) {
-        return questionImageJpaRepository.existsByQuestionIdAndUrl(questionId, url);
+        return jpaRepository.existsByQuestionIdAndUrl(questionId, url);
     }
 
     @Override
     public void verifyMemberIsImageOwner(final List<Long> imageIds, final Long memberId) {
-//        questionImageQueryRepository.verifyMemberIsImageOwner(imageIds, memberId);
+        queryDSLRepository.verifyMemberIsImageOwner(imageIds, memberId);
     }
 
     @Override
     public boolean doAllImageIdsExist(final List<Long> imageIds) {
-//        return questionImageQueryRepository.doAllImageIdsExist(imageIds);
-        return false;
+        return queryDSLRepository.doAllImageIdsExist(imageIds);
     }
 
     @Override
     public void deleteByImageIds(final List<Long> imageIds) {
-//        questionImageQueryRepository.deleteByImageIds(imageIds);
+        queryDSLRepository.deleteByImageIds(imageIds);
     }
 
 

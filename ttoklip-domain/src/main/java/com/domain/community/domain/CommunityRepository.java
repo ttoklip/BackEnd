@@ -7,19 +7,19 @@ import org.springframework.data.domain.Pageable;
 
 public interface CommunityRepository {
 
-    Community findByIdActivated(final Long communityId);
+    Community findByIdActivated(Long communityId);
 
-    Community findByIdFetchJoin(final Long postId);
+    Community findByIdFetchJoin(Long postId);
 
-    List<CommunityComment> findActiveCommentsByCommunityId(final Long postId);
+    List<CommunityComment> findActiveCommentsByCommunityId(Long postId);
 
-    List<Community> getRecent3(final TownCriteria townCriteria);
+    List<Community> getRecent3(TownCriteria townCriteria, String street);
 
-    Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable);
+    Page<Community> getPaging(TownCriteria townCriteria, Pageable pageable, String street);
 
     Community save(Community community);
 
-    Page<Community> getContain(final String keyword, final Pageable pageable, final String sort);
+    Page<Community> getContain(String keyword, Pageable pageable, String sort);
 
     Page<Community> getMatchWriterPaging(Long memberId, Pageable pageable);
 }

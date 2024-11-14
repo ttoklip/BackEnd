@@ -1,5 +1,3 @@
-/*
-
 package com.domain.community.infrastructure;
 
 import com.common.exception.ApiException;
@@ -7,6 +5,13 @@ import com.common.exception.ErrorType;
 import com.domain.common.vo.TownCriteria;
 import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityComment;
+import com.domain.community.domain.QCommunity;
+import com.domain.community.domain.QCommunityComment;
+import com.domain.community.domain.QCommunityImage;
+import com.domain.community.domain.QCommunityLike;
+import com.domain.community.domain.QCommunityScrap;
+import com.domain.member.domain.QMember;
+import com.domain.profile.domain.QProfile;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -29,6 +34,11 @@ public class CommunityQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
     private final QCommunity community = QCommunity.community;
     private final QProfile profile = QProfile.profile;
+    private final QMember member = QMember.member;
+    private final QCommunityImage communityImage = QCommunityImage.communityImage;
+    private final QCommunityComment communityComment = QCommunityComment.communityComment;
+    private final QCommunityLike communityLike = QCommunityLike.communityLike;
+    private final QCommunityScrap communityScrap = QCommunityScrap.communityScrap;
 
     public Community findByIdActivated(final Long communityId) {
         Community findCommunity = jpaQueryFactory
@@ -45,10 +55,6 @@ public class CommunityQueryRepository {
 
     private BooleanExpression matchId(final Long communityId) {
         return community.id.eq(communityId);
-    }
-
-    private BooleanExpression getCommunityActivate() {
-        return community.deleted.isFalse();
     }
 
     public Community findByIdFetchJoin(final Long communityPostId) {
@@ -83,15 +89,13 @@ public class CommunityQueryRepository {
                 .fetch();
     }
 
-    public List<Community> getRecent3(final TownCriteria townCriteria) {
-        String writerStreet = getCurrentMember().getStreet();
-
+    public List<Community> getRecent3(final TownCriteria townCriteria, final String street) {
         return jpaQueryFactory
                 .selectFrom(community)
                 .distinct()
                 .where(
                         getCommunityActivate(),
-                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
+                        getLocationFilterByTownCriteria(townCriteria, street)
                 )
                 .leftJoin(community.member, member).fetchJoin()
                 .orderBy(community.id.desc())
@@ -103,20 +107,19 @@ public class CommunityQueryRepository {
         return communityComment.community.id.eq(communityId);
     }
 
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
-        List<Community> pageContent = getPageContent(townCriteria, pageable);
-        Long count = countQuery(townCriteria);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street) {
+        List<Community> pageContent = getPageContent(townCriteria, pageable, street);
+        Long count = countQuery(townCriteria, street);
         return new PageImpl<>(pageContent, pageable, count);
     }
 
-    private List<Community> getPageContent(final TownCriteria townCriteria, final Pageable pageable) {
-        String writerStreet = getCurrentMember().getStreet();
-
+    private List<Community> getPageContent(final TownCriteria townCriteria, final Pageable pageable,
+                                           final String street) {
         return jpaQueryFactory
                 .selectFrom(community)
                 .where(
                         getCommunityActivate(),
-                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
+                        getLocationFilterByTownCriteria(townCriteria, street)
                 )
                 .leftJoin(community.member, member).fetchJoin()
                 .leftJoin(community.member.profile, profile).fetchJoin()
@@ -126,15 +129,13 @@ public class CommunityQueryRepository {
                 .fetch();
     }
 
-    private Long countQuery(final TownCriteria townCriteria) {
-        String writerStreet = getCurrentMember().getStreet();
-
+    private Long countQuery(final TownCriteria townCriteria, final String street) {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(community)
                 .where(
                         getCommunityActivate(),
-                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
+                        getLocationFilterByTownCriteria(townCriteria, street)
                 )
                 .fetchOne();
     }
@@ -317,6 +318,3 @@ public class CommunityQueryRepository {
                 .fetchOne();
     }
 }
-
-
- */

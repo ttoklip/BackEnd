@@ -1,5 +1,6 @@
 package com.api.community.presentation;
 
+import com.api.common.ReportWebCreate;
 import com.api.community.application.CommunityPostFacade;
 import com.api.community.presentation.dto.request.CommunityWebCreate;
 import com.api.community.presentation.dto.request.CommunityWebEdit;
@@ -125,8 +126,9 @@ public class CommunityPostController {
                             )))})
     @PostMapping("/report/{postId}")
     public SuccessResponse<Message> report(final @PathVariable Long postId,
-                                           final @RequestBody ReportCreateRequest request) {
-        Message message = communityPostFacade.report(postId, request);
+                                           final @RequestBody ReportWebCreate request) {
+        Long currentMemberId = SecurityUtil.getCurrentMember().getId();
+        Message message = communityPostFacade.report(postId, request, currentMemberId);
         return new SuccessResponse<>(message);
     }
 

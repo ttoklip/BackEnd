@@ -37,9 +37,9 @@ public class HomeFacade {
     public HomeMainResponse home(final Long currentMemberId) {
         List<TitleResponse> honeyTipRecent3 = getHoneyTipRecent3();
         List<NewsletterThumbnailResponse> newsletterRecent3 = getNewsletterThumbnailRecent3();
-        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY);
-
         Member member = memberService.getById(currentMemberId);
+        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY, member.getStreet());
+
         return HomeMainResponse.builder()
                 .currentMemberNickname(member.getNickname())
                 .street(member.getStreet())

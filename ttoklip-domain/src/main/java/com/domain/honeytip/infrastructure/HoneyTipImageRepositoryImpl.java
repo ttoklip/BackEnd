@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class HoneyTipImageRepositoryImpl implements HoneyTipImageRepository {
 
     private final HoneyTipImageJpaRepository honeyTipImageJpaRepository;
-//    private final HoneyTipImageQueryRepository honeyTipImageQueryRepository;
+    private final HoneyTipImageQueryRepository honeyTipImageQueryRepository;
 
     @Override
     public HoneyTipImage save(final HoneyTipImage honeyTipImage) {
@@ -25,17 +25,16 @@ public class HoneyTipImageRepositoryImpl implements HoneyTipImageRepository {
 
     @Override
     public void verifyMemberIsImageOwner(final List<Long> imageIds, final Long memberId) {
-//        honeyTipImageQueryRepository.verifyMemberIsImageOwner(imageIds, memberId);
+        honeyTipImageQueryRepository.verifyMemberIsImageOwner(imageIds, memberId);
     }
 
     @Override
     public boolean doAllImageIdsExist(final List<Long> imageIds) {
-//        return honeyTipImageQueryRepository.doAllImageIdsExist(imageIds);
-        return false;
+        return honeyTipImageQueryRepository.doAllImageIdsExist(imageIds);
     }
 
     @Override
     public void deleteByImageIds(final List<Long> imageIds) {
-//        honeyTipImageQueryRepository.deleteByImageIds(imageIds);
+        honeyTipImageQueryRepository.deleteByImageIds(imageIds);
     }
 }

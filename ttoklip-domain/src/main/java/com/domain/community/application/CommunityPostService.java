@@ -1,6 +1,5 @@
 package com.domain.community.application;
 
-import com.common.annotation.DistributedLock;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.TownCriteria;
@@ -8,7 +7,6 @@ import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityEdit;
 import com.domain.community.domain.CommunityEditor;
 import com.domain.community.domain.CommunityRepository;
-import com.domain.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,16 +30,16 @@ public class CommunityPostService {
         return communityRepository.findByIdFetchJoin(postId);
     }
 
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
-        return communityRepository.getPaging(townCriteria, pageable);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street) {
+        return communityRepository.getPaging(townCriteria, pageable, street);
     }
 
     public Community getCommunity(final Long postId) {
         return communityRepository.findByIdActivated(postId);
     }
 
-    public List<CommunityRecent3Response> getRecent3(final TownCriteria townCriteria) {
-        List<Community> communities = communityRepository.getRecent3(townCriteria);
+    public List<CommunityRecent3Response> getRecent3(final TownCriteria townCriteria, final String street) {
+        List<Community> communities = communityRepository.getRecent3(townCriteria, street);
         return communities.stream()
                 .map(CommunityRecent3Response::from)
                 .toList();

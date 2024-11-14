@@ -1,7 +1,7 @@
-/*
 package com.domain.question.infrastructure;
 
 import com.domain.comment.domain.CommentLike;
+import com.domain.comment.domain.QCommentLike;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,6 +13,8 @@ import java.util.Optional;
 public class QuestionCommentLikeQueryRepository {
 
     private final JPAQueryFactory queryFactory;
+
+    private final QCommentLike commentLike = QCommentLike.commentLike;
 
     public Optional<CommentLike> findByQuestionCommentIdAndMemberId(Long commentId, Long memberId) {
         return Optional.ofNullable(
@@ -39,6 +41,3 @@ public class QuestionCommentLikeQueryRepository {
         return count != null && count > 0;
     }
 }
-
-
- */

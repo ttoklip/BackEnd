@@ -1,5 +1,6 @@
 package com.domain.todolist.infrastructure;
 
+import com.domain.member.domain.Member;
 import com.domain.todolist.domain.TodayToDoList;
 import com.domain.todolist.domain.TodayToDoListRepository;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class TodayToDoListRepositoryImpl implements TodayToDoListRepository {
 
     private final TodayToDoListJpaRepository jpaRepository;
-//    private final TodayToDoListQueryRepository queryDSLRepository;
+    private final TodayToDoListQueryRepository queryDSLRepository;
 
     @Override
     public void saveAll(final List<TodayToDoList> todayToDoLists) {
@@ -19,8 +20,7 @@ public class TodayToDoListRepositoryImpl implements TodayToDoListRepository {
     }
 
     @Override
-    public TodayToDoList findTodayToDoListsByMemberId(final Long memberId) {
-//        return queryDSLRepository.findTodayToDoListsByMemberId(memberId);
-        return null;
+    public TodayToDoList findTodayToDoListsByMember(final Member member) {
+        return queryDSLRepository.findTodayToDoListsByMemberId(member);
     }
 }

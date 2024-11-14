@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class HoneyTipUrlRepositoryImpl implements HoneyTipUrlRepository {
 
     private final HoneyTipUrlJpaRepository honeyTipUrlJpaRepository;
-//    private final HoneyTipUrlQueryRepository honeyTipUrlQueryRepository;
+    private final HoneyTipUrlQueryRepository honeyTipUrlQueryRepository;
 
 
     @Override
@@ -21,7 +21,7 @@ public class HoneyTipUrlRepositoryImpl implements HoneyTipUrlRepository {
 
     @Override
     public void deleteAllByIds(final List<Long> ids) {
-//        honeyTipUrlQueryRepository.deleteAllByIds(ids);
+        honeyTipUrlQueryRepository.deleteAllByIds(ids);
     }
 
     @Override

@@ -1,24 +1,31 @@
-/*
 package com.domain.cart.infrastructure;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartComment;
+import com.domain.cart.domain.QCart;
+import com.domain.cart.domain.QCartComment;
+import com.domain.cart.domain.QCartImage;
+import com.domain.cart.domain.QCartMember;
+import com.domain.cart.domain.QItemUrl;
 import com.domain.common.vo.TownCriteria;
+import com.domain.interest.domain.QInterest;
+import com.domain.member.domain.Member;
+import com.domain.member.domain.QMember;
+import com.domain.profile.domain.QProfile;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 import org.springframework.util.StringUtils;
 
 @Repository
@@ -29,7 +36,11 @@ public class CartQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     private final QProfile profile = QProfile.profile;
-    private final QCartImage cartImage = QCartImage.cartImage;
+    private final QCart cart = QCart.cart;
+    private final QMember member = QMember.member;
+    private final QItemUrl itemUrl = QItemUrl.itemUrl;
+    private final QCartComment cartComment = QCartComment.cartComment;
+    private final QCartMember cartMember = QCartMember.cartMember;
 
     public Cart findByIdActivated(final Long cartId) {
         Cart findCart = jpaQueryFactory
@@ -90,39 +101,6 @@ public class CartQueryRepository {
         return cartComment.cart.id.eq(cartId);
     }
 
-    // 참여자 추가
-    public Cart addParticipant(final Long cartId) {
-        Cart findCart = jpaQueryFactory
-                .selectFrom(cart)
-                .where(cart.id.eq(cartId))
-                .fetchOne();
-        Long memberId = SecurityUtil.getCurrentMember().getId();
-
-        // ToDo 직접적으로 쿼리로 추가하는 것이 아닌 엔티티 생성 후 연관관계 매핑으로 해결할 것
-        jpaQueryFactory
-                .insert(cartMember)
-                .columns(cartMember.cart.id, cartMember.member.id)
-                .values(cartId, memberId)
-                .execute();
-
-        return Optional.ofNullable(findCart)
-                .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
-    }
-
-    // 참여 취소
-    public Cart removeParticipant(final Long cartId) {
-        jpaQueryFactory
-                .delete(cartMember)
-                .where(cartMember.cart.id.eq(cartId))
-                .execute();
-
-        Cart findCart = findByIdActivated(cartId);
-
-        return Optional.ofNullable(findCart)
-                .orElseThrow(() -> new ApiException(ErrorType.CART_NOT_FOUND));
-    }
-
-    // 참여자 수 확인
     public Long countParticipants(Long cartId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
@@ -131,15 +109,14 @@ public class CartQueryRepository {
                 .fetchOne();
     }
 
-    public List<Cart> findRecent3(final TownCriteria townCriteria) {
-        String writerStreet = SecurityUtil.getCurrentMember().getStreet();
+    public List<Cart> findRecent3(final TownCriteria townCriteria, final String street) {
         return jpaQueryFactory
                 .selectFrom(cart)
                 .where(
                         getCartActivate(),
-                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
+                        getLocationFilterByTownCriteria(townCriteria, street)
                 )
-                .leftJoin(cart.member, member).fetchJoin()
+                .leftJoin(cart.member, this.member).fetchJoin()
                 .leftJoin(cart.member.profile, profile).fetchJoin()
                 .orderBy(cart.id.desc())
                 .limit(3)
@@ -151,10 +128,11 @@ public class CartQueryRepository {
                                     final Long lastMoney,
                                     final Long startParty,
                                     final Long lastParty,
-                                    final TownCriteria townCriteria
-    ) {
-        List<Cart> content = getCartContent(pageable, startMoney, lastMoney, startParty, lastParty, townCriteria);
-        Long count = countQuery(startMoney, lastMoney, startParty, lastParty, townCriteria);
+                                    final TownCriteria townCriteria,
+                                    final Member member) {
+        List<Cart> content = getCartContent(pageable, startMoney, lastMoney, startParty, lastParty, townCriteria,
+                member);
+        Long count = countQuery(startMoney, lastMoney, startParty, lastParty, townCriteria, member);
         return new PageImpl<>(content, pageable, count);
     }
 
@@ -163,20 +141,19 @@ public class CartQueryRepository {
                                       final Long lastMoney,
                                       final Long startParty,
                                       final Long lastParty,
-                                      final TownCriteria townCriteria) {
-        String writerStreet = SecurityUtil.getCurrentMember().getStreet();
+                                      final TownCriteria townCriteria, final Member member) {
 
         return jpaQueryFactory
                 .selectFrom(cart)
                 .distinct()
                 .leftJoin(cart.cartMembers, cartMember)
                 .leftJoin(cart.cartComments, cartComment)
-                .leftJoin(cart.member, member).fetchJoin()
+                .leftJoin(cart.member, this.member).fetchJoin()
                 .leftJoin(cart.member.profile, profile).fetchJoin()
                 .where(
                         cart.totalPrice.between(startMoney, lastMoney),
                         cart.partyMax.between(startParty, lastParty),
-                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
+                        getLocationFilterByTownCriteria(townCriteria, member.getStreet())
                 )
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
@@ -189,16 +166,16 @@ public class CartQueryRepository {
             final Long lastMoney,
             final Long startParty,
             final Long lastParty,
-            final TownCriteria townCriteria
-    ) {
-        String writerStreet = SecurityUtil.getCurrentMember().getStreet();
+            final TownCriteria townCriteria,
+            final Member member) {
+
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(cart)
                 .where(
                         cart.totalPrice.between(startMoney, lastMoney),
                         cart.partyMax.between(startParty, lastParty),
-                        getLocationFilterByTownCriteria(townCriteria, writerStreet)
+                        getLocationFilterByTownCriteria(townCriteria, member.getStreet())
                 )
                 .fetchOne();
     }
@@ -293,11 +270,6 @@ public class CartQueryRepository {
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
-
-    private BooleanExpression getCartActivate() {
-        return cart.deleted.isFalse();
-    }
-
     private BooleanExpression containTitle(final String keyword) {
         if (StringUtils.hasText(keyword)) {
             return cart.title.contains(keyword);
@@ -349,6 +321,3 @@ public class CartQueryRepository {
     }
 
 }
-
-
- */

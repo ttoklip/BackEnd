@@ -1,4 +1,3 @@
-/*
 package com.domain.honeytip.infrastructure;
 
 import com.common.exception.ApiException;
@@ -6,11 +5,12 @@ import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
 import com.domain.honeytip.domain.HoneyTip;
 import com.domain.honeytip.domain.QHoneyTip;
+import com.domain.honeytip.domain.QHoneyTipComment;
 import com.domain.honeytip.domain.QHoneyTipImage;
 import com.domain.honeytip.domain.QHoneyTipLike;
 import com.domain.honeytip.domain.QHoneyTipScrap;
 import com.domain.honeytip.domain.QHoneyTipUrl;
-import com.domain.honeytip.domain.QMember;
+import com.domain.member.domain.QMember;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -58,10 +58,6 @@ public class HoneyTipQueryRepository {
 
     private BooleanExpression matchId(final Long honeyTipId) {
         return honeyTip.id.eq(honeyTipId);
-    }
-
-    private BooleanExpression getHoneyTipActivate() {
-        return honeyTip.deleted.isFalse();
     }
 
     public HoneyTip findHoneyTipWithDetails(final Long honeyTipId) {
@@ -206,18 +202,6 @@ public class HoneyTipQueryRepository {
                 .fetch();
     }
 
-    private NumberExpression<Integer> getScrapSize() {
-        return honeyTip.honeyTipScraps.size();
-    }
-
-    private NumberExpression<Integer> getCommentSize() {
-        return honeyTip.honeyTipComments.size();
-    }
-
-    private NumberExpression<Integer> getLikeSize() {
-        return honeyTip.honeyTipLikes.size();
-    }
-
     public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
         List<HoneyTip> content = getSearchPageTitleOrContent(keyword, pageable, sort);
         Long count = containCountQuery(keyword);
@@ -315,7 +299,7 @@ public class HoneyTipQueryRepository {
 
     public Page<HoneyTip> matchWriterPaging(final Long targetId, final Pageable pageable) {
         List<HoneyTip> content = getUserWrite(targetId, pageable);
-        Long count = writerCountQuery();
+        Long count = writerCountQuery(targetId);
         return new PageImpl<>(content, pageable, count);
     }
 
@@ -331,7 +315,7 @@ public class HoneyTipQueryRepository {
                 .fetch();
     }
 
-    private Long writerCountQuery() {
+    private Long writerCountQuery(final Long targetId) {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(honeyTip)
@@ -339,6 +323,3 @@ public class HoneyTipQueryRepository {
                 .fetchOne();
     }
 }
-
-
- */

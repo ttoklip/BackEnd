@@ -1,10 +1,15 @@
-/*
 package com.domain.newsletter.infrastructure;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
+import com.domain.member.domain.QMember;
 import com.domain.newsletter.domain.Newsletter;
+import com.domain.newsletter.domain.QNewsletter;
+import com.domain.newsletter.domain.QNewsletterComment;
+import com.domain.newsletter.domain.QNewsletterImage;
+import com.domain.newsletter.domain.QNewsletterLike;
+import com.domain.newsletter.domain.QNewsletterScrap;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -31,8 +36,8 @@ public class NewsletterQueryRepository {
     private final QNewsletterImage newsletterImage = QNewsletterImage.newsletterImage;
     private final QNewsletterLike newsletterLike = QNewsletterLike.newsletterLike;
     private final QNewsletterScrap newsletterScrap = QNewsletterScrap.newsletterScrap;
-
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
+    private final QMember member = QMember.member;
 
 
     public Newsletter findByIdActivated(final Long newsletterId) {
@@ -283,6 +288,3 @@ public class NewsletterQueryRepository {
                 .fetch();
     }
 }
-
-
- */

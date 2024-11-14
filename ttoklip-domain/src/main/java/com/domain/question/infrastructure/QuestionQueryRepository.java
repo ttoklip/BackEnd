@@ -1,9 +1,13 @@
-/*
 package com.domain.question.infrastructure;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
+import com.domain.member.domain.QMember;
+import com.domain.profile.domain.QProfile;
+import com.domain.question.domain.QQuestion;
+import com.domain.question.domain.QQuestionComment;
+import com.domain.question.domain.QQuestionImage;
 import com.domain.question.domain.Question;
 import com.domain.question.domain.QuestionComment;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -24,10 +28,11 @@ public class QuestionQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    private final QQuestionComment questionComment = QQuestionComment.questionComment;
-    private final QQuestion question = QQuestion.question;
-    private final QQuestionImage questionImage = QQuestionImage.questionImage;
     private final QProfile profile = QProfile.profile;
+    private final QQuestion question = QQuestion.question;
+    private final QMember member = QMember.member;
+    private final QQuestionComment questionComment = QQuestionComment.questionComment;
+    private final QQuestionImage questionImage = QQuestionImage.questionImage;
 
     public QuestionComment findByCommentIdActivated(final Long commentId) {
         QuestionComment findQuestionComment = jpaQueryFactory
@@ -219,5 +224,3 @@ public class QuestionQueryRepository {
                 .fetchOne();
     }
 }
-
- */
