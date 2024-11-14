@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Configuration
 public class AuditorProvider {
 
-    @Bean
+    @Bean("auditorProvider2")
     public AuditorAware<String> auditorProvider() {
         return () -> {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

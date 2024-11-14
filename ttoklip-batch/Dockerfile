@@ -1,0 +1,11 @@
+FROM openjdk:17
+
+ARG JAR_FILE=build/libs/ttoklip-batch-0.0.1-SNAPSHOT.jar
+ARG JASYPT_ENCRYPTOR_PASSWORD
+
+ENV SPRING_PROFILES_ACTIVE=dev
+ENV JASYPT_ENCRYPTOR_PASSWORD=${JASYPT_ENCRYPTOR_PASSWORD}
+
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java", "-Dspring.config.name=application-batch", "-Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}", "-jar", "/app.jar"]
