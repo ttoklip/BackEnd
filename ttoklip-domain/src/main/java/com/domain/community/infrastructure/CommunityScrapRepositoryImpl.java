@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public class CommunityScrapRepositoryImpl implements CommunityScrapRepository {
 
     private final CommunityScrapJpaRepository jpaRepository;
-    private final CommunityScrapQueryRepository queryRepository;
+//    private final CommunityScrapQueryRepository queryRepository;
 
     @Override
     public Optional<CommunityScrap> findByCommunityIdAndMemberId(final Long communityId, final Long memberId) {
@@ -41,12 +41,14 @@ public class CommunityScrapRepositoryImpl implements CommunityScrapRepository {
 
     @Override
     public Long countCommunityScrapsByCommunityId(final Long communityId) {
-        return queryRepository.countCommunityScrapsByCommunityId(communityId);
+//        return queryRepository.countCommunityScrapsByCommunityId(communityId);
+        return null;
     }
 
     @Override
     public Page<Community> getScrapPaging(final Long memberId, final Pageable pageable) {
-        return queryRepository.getScrapPaging(memberId, pageable);
+//        return queryRepository.getScrapPaging(memberId, pageable);
+        return null;
     }
 
 

@@ -16,36 +16,42 @@ import org.springframework.stereotype.Repository;
 public class CommentRepositoryImpl implements CommentRepository {
 
     private final CommentJpaRepository commentJpaRepository;
-    private final CommentQueryRepository commentQueryRepository;
+//    private final CommentQueryRepository commentQueryRepository;
 
     @Override
     public Comment findByIdActivated(final Long commentId) {
-        return commentQueryRepository.findByIdActivated(commentId);
+//        return commentQueryRepository.findByIdActivated(commentId);
+        return null;
     }
 
     @Override
     public Optional<Comment> findByIdActivatedOptional(final Long commentId) {
-        return commentQueryRepository.findByIdActivatedOptional(commentId);
+//        return commentQueryRepository.findByIdActivatedOptional(commentId);
+        return Optional.empty();
     }
 
     @Override
     public List<HoneyTipComment> findCommentsByHoneyTipId(final Long honeyTipId) {
-        return commentQueryRepository.findCommentsByHoneyTipId(honeyTipId);
+//        return commentQueryRepository.findCommentsByHoneyTipId(honeyTipId);
+        return null;
     }
 
     @Override
     public List<NewsletterComment> findCommentsByNewsletterId(final Long newsletterId) {
-        return commentQueryRepository.findCommentsByNewsletterId(newsletterId);
+//        return commentQueryRepository.findCommentsByNewsletterId(newsletterId);
+        return null;
     }
 
     @Override
     public List<CommunityComment> findCommentsByCommunityId(final Long communityId) {
-        return commentQueryRepository.findCommentsByCommunityId(communityId);
+//        return commentQueryRepository.findCommentsByCommunityId(communityId);
+        return null;
     }
 
     @Override
     public List<QuestionComment> findQuestionCommentsByQuestionId(final Long questionId) {
-        return commentQueryRepository.findCommentsByQuestionId(questionId);
+//        return commentQueryRepository.findCommentsByQuestionId(questionId);
+        return null;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public QuestionComment findQuestionCommentWithWriterByCommentId(final Long commentId) {
-        return commentQueryRepository.findQuestionCommentWithWriterByCommentId(commentId);
+//        return commentQueryRepository.findQuestionCommentWithWriterByCommentId(commentId);
+        return null;
     }
 }

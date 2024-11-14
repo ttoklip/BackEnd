@@ -1,3 +1,4 @@
+/*
 package com.domain.newsletter.infrastructure;
 
 import com.common.exception.ApiException;
@@ -282,3 +283,6 @@ public class NewsletterQueryRepository {
                 .fetch();
     }
 }
+
+
+ */

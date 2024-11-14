@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class CommunityLikeRepositoryImpl implements CommunityLikeRepository {
 
     private final CommunityLikeJpaRepository jpaRepository;
-    private final CommunityLikeQueryRepository queryRepository;
+//    private final CommunityLikeQueryRepository queryRepository;
 
     @Override
     public Optional<CommunityLike> findByCommunityIdAndMemberId(final Long communityId, final Long memberId) {
@@ -30,7 +30,8 @@ public class CommunityLikeRepositoryImpl implements CommunityLikeRepository {
 
     @Override
     public Long countCommunityLikesByCommunityId(final Long communityId) {
-        return queryRepository.countCommunityLikesByCommunityId(communityId);
+//        return queryRepository.countCommunityLikesByCommunityId(communityId);
+        return null;
     }
 
     @Override

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class TodayToDoListRepositoryImpl implements TodayToDoListRepository {
 
     private final TodayToDoListJpaRepository jpaRepository;
-    private final TodayToDoListQueryRepository queryDSLRepository;
+//    private final TodayToDoListQueryRepository queryDSLRepository;
 
     @Override
     public void saveAll(final List<TodayToDoList> todayToDoLists) {
@@ -20,6 +20,7 @@ public class TodayToDoListRepositoryImpl implements TodayToDoListRepository {
 
     @Override
     public TodayToDoList findTodayToDoListsByMemberId(final Long memberId) {
-        return queryDSLRepository.findTodayToDoListsByMemberId(memberId);
+//        return queryDSLRepository.findTodayToDoListsByMemberId(memberId);
+        return null;
     }
 }

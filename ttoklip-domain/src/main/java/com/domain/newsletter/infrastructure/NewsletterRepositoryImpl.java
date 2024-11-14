@@ -14,61 +14,71 @@ import org.springframework.stereotype.Repository;
 public class NewsletterRepositoryImpl implements NewsletterRepository {
 
     private final NewsletterJpaRepository jpaRepository;
-    private final NewsletterQueryRepository queryDslRepository;
+//    private final NewsletterQueryRepository queryDslRepository;
 
     @Override
     public Newsletter findByIdActivated(final Long newsletterId) {
-        return queryDslRepository.findByIdActivated(newsletterId);
+//        return queryDslRepository.findByIdActivated(newsletterId);
+        return null;
     }
 
     @Override
     public Newsletter findByIdFetchJoin(final Long postId) {
-        return queryDslRepository.findByIdFetchJoin(postId);
+//        return queryDslRepository.findByIdFetchJoin(postId);
+        return null;
     }
 
     @Override
     public Long findNewsletterCount() {
-        return queryDslRepository.findNewsletterCount();
+        return null;
     }
 
     @Override
     public Page<Newsletter> getPaging(final Category category, final Pageable pageable) {
-        return queryDslRepository.getPaging(category, pageable);
+//        return queryDslRepository.getPaging(category, pageable);
+        return null;
     }
 
     @Override
     public List<Newsletter> getRecent3() {
-        return queryDslRepository.getRecent3();
+//        return queryDslRepository.getRecent3();
+        return null;
     }
 
     @Override
     public List<Newsletter> getHouseWorkNewsletter10Desc() {
-        return queryDslRepository.getHouseWorkNewsletter10Desc();
+//        return queryDslRepository.getHouseWorkNewsletter10Desc();
+        return null;
     }
 
     @Override
     public List<Newsletter> getRecipeNewsletter10Desc() {
-        return queryDslRepository.getRecipeNewsletter10Desc();
+//        return queryDslRepository.getRecipeNewsletter10Desc();
+        return null;
     }
 
     @Override
     public List<Newsletter> getSafeLivingNewsletter10Desc() {
-        return queryDslRepository.getSafeLivingNewsletter10Desc();
+//        return queryDslRepository.getSafeLivingNewsletter10Desc();
+        return null;
     }
 
     @Override
     public List<Newsletter> getWelfarePolicyNewsletter10Desc() {
-        return queryDslRepository.getWelfarePolicyNewsletter10Desc();
+//        return queryDslRepository.getWelfarePolicyNewsletter10Desc();
+        return null;
     }
 
     @Override
     public List<Newsletter> findRandomActiveNewsletters(final int pageSize) {
-        return queryDslRepository.findRandomActiveNewsletters(pageSize);
+//        return queryDslRepository.findRandomActiveNewsletters(pageSize);
+        return null;
     }
 
     @Override
     public Page<Newsletter> getContain(final String keyword, final Pageable pageable, final String sort) {
-        return queryDslRepository.getContain(keyword, pageable, sort);
+//        return queryDslRepository.getContain(keyword, pageable, sort);
+        return null;
     }
 
     @Override

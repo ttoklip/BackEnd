@@ -1,3 +1,4 @@
+/*
 package com.domain.newsletter.infrastructure;
 
 import com.domain.newsletter.domain.Newsletter;
@@ -52,3 +53,6 @@ public class NewsletterScrapQueryRepository {
                 .fetchOne();
     }
 }
+
+
+ */

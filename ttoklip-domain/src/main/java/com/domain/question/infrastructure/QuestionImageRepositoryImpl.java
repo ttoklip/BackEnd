@@ -12,7 +12,7 @@ import java.util.List;
 public class QuestionImageRepositoryImpl implements QuestionImageRepository {
 
     private final QuestionImageJpaRepository questionImageJpaRepository;
-    private final QuestionImageQueryRepository questionImageQueryRepository;
+//    private final QuestionImageQueryRepository questionImageQueryRepository;
 
     @Override
     public QuestionImage save(final QuestionImage questionImage) {
@@ -26,17 +26,18 @@ public class QuestionImageRepositoryImpl implements QuestionImageRepository {
 
     @Override
     public void verifyMemberIsImageOwner(final List<Long> imageIds, final Long memberId) {
-        questionImageQueryRepository.verifyMemberIsImageOwner(imageIds, memberId);
+//        questionImageQueryRepository.verifyMemberIsImageOwner(imageIds, memberId);
     }
 
     @Override
     public boolean doAllImageIdsExist(final List<Long> imageIds) {
-        return questionImageQueryRepository.doAllImageIdsExist(imageIds);
+//        return questionImageQueryRepository.doAllImageIdsExist(imageIds);
+        return false;
     }
 
     @Override
     public void deleteByImageIds(final List<Long> imageIds) {
-        questionImageQueryRepository.deleteByImageIds(imageIds);
+//        questionImageQueryRepository.deleteByImageIds(imageIds);
     }
 
 

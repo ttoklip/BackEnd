@@ -1,3 +1,4 @@
+/*
 package com.domain.question.infrastructure;
 
 import com.common.exception.ApiException;
@@ -54,3 +55,6 @@ public class QuestionImageQueryRepository {
                 .execute();
     }
 }
+
+
+ */

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class HoneyTipScrapRepositoryImpl implements HoneyTipScrapRepository {
 
     private final HoneyTipScrapJpaRepository jpaRepository;
-    private final HoneyTipScrapQueryRepository queryDSLRepository;
+//    private final HoneyTipScrapQueryRepository queryDSLRepository;
 
     @Override
     public Optional<HoneyTipScrap> findByHoneyTipIdAndMemberId(final Long honeyTipId, final Long memberId) {
@@ -28,7 +28,8 @@ public class HoneyTipScrapRepositoryImpl implements HoneyTipScrapRepository {
 
     @Override
     public Long countHoneyTipScrapsByHoneyTipId(final Long postId) {
-        return queryDSLRepository.countHoneyTipScrapByHoneyTipId(postId);
+//        return queryDSLRepository.countHoneyTipScrapByHoneyTipId(postId);
+        return null;
     }
 
     @Override
@@ -43,6 +44,7 @@ public class HoneyTipScrapRepositoryImpl implements HoneyTipScrapRepository {
 
     @Override
     public Page<HoneyTip> getScrapPaging(final Long memberId, final Pageable pageable) {
-        return queryDSLRepository.getScrapPaging(memberId, pageable);
+//        return queryDSLRepository.getScrapPaging(memberId, pageable);
+        return null;
     }
 }

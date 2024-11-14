@@ -1,3 +1,4 @@
+/*
 package com.domain.honeytip.infrastructure;
 
 import com.common.exception.ApiException;
@@ -338,3 +339,6 @@ public class HoneyTipQueryRepository {
                 .fetchOne();
     }
 }
+
+
+ */

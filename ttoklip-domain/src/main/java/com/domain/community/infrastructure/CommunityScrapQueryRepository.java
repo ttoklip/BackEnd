@@ -1,3 +1,4 @@
+/*
 package com.domain.community.infrastructure;
 
 
@@ -60,3 +61,6 @@ public class CommunityScrapQueryRepository {
                 .fetchOne();
     }
 }
+
+
+ */

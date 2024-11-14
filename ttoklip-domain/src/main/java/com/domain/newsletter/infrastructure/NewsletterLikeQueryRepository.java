@@ -1,3 +1,4 @@
+/*
 package com.domain.newsletter.infrastructure;
 
 import com.querydsl.core.types.dsl.Wildcard;
@@ -20,3 +21,6 @@ public class NewsletterLikeQueryRepository {
     }
 
 }
+
+
+ */

@@ -1,3 +1,5 @@
+/*
+
 package com.domain.community.infrastructure;
 
 import com.common.exception.ApiException;
@@ -315,3 +317,6 @@ public class CommunityQueryRepository {
                 .fetchOne();
     }
 }
+
+
+ */

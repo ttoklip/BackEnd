@@ -1,3 +1,4 @@
+/*
 package com.domain.notification.infrastructure;
 
 import com.common.exception.ApiException;
@@ -97,3 +98,6 @@ public class NotificationCommentRepository {
                 .orElseThrow(() -> new ApiException(ErrorType.COMMUNITY_COMMENT_NOT_FOUND));
     }
 }
+
+
+ */

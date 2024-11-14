@@ -1,3 +1,4 @@
+/*
 package com.domain.notification.infrastructure;
 
 import com.domain.notification.domain.Notification;
@@ -30,3 +31,6 @@ public class NotificationQueryRepository {
         return findRecentNotifications(currentMemberId, pageable);
     }
 }
+
+
+ */

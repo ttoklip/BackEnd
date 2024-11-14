@@ -11,22 +11,23 @@ import org.springframework.stereotype.Repository;
 public class CommunityImageRepositoryImpl implements CommunityImageRepository {
 
     private final CommunityImageJpaRepository jpaRepository;
-    private final CommunityImageQueryRepository queryRepository;
+//    private final CommunityImageQueryRepository queryRepository;
 
 
     @Override
     public void allImageOwner(final List<Long> imageIds, final Long memberId) {
-        queryRepository.allImageOwner(imageIds, memberId);
+//        queryRepository.allImageOwner(imageIds, memberId);
     }
 
     @Override
     public boolean doAllImageIdsExist(final List<Long> imageIds) {
-        return queryRepository.doAllImageIdsExist(imageIds);
+//        return queryRepository.doAllImageIdsExist(imageIds);
+        return false;
     }
 
     @Override
     public void deleteByImageIds(final List<Long> imageIds) {
-        queryRepository.deleteByImageIds(imageIds);
+//        queryRepository.deleteByImageIds(imageIds);
     }
 
     @Override

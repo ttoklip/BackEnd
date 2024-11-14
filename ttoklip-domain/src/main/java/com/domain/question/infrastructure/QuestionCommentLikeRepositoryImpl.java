@@ -11,17 +11,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionCommentLikeRepositoryImpl implements QuestionCommentLikeRepository {
 
-    private final QuestionCommentLikeQueryRepository questionCommentLikeQueryRepository;
+//    private final QuestionCommentLikeQueryRepository questionCommentLikeQueryRepository;
     private final QuestionCommentLikeJpaRepository questionCommentLikeJpaRepository;
 
     @Override
     public Optional<CommentLike> findByQuestionCommentIdAndMemberId(Long commentId, Long memberId) {
-        return questionCommentLikeQueryRepository.findByQuestionCommentIdAndMemberId(commentId, memberId);
+//        return questionCommentLikeQueryRepository.findByQuestionCommentIdAndMemberId(commentId, memberId);
+        return null;
     }
 
     @Override
     public boolean existsByQuestionCommentIdAndMemberId(Long commentId, Long memberId) {
-        return questionCommentLikeQueryRepository.existsByQuestionCommentIdAndMemberId(commentId, memberId);
+//        return questionCommentLikeQueryRepository.existsByQuestionCommentIdAndMemberId(commentId, memberId);
+        return false;
     }
 
     @Override

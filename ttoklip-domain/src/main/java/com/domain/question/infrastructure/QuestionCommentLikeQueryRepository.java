@@ -1,3 +1,4 @@
+/*
 package com.domain.question.infrastructure;
 
 import com.domain.comment.domain.CommentLike;
@@ -38,3 +39,6 @@ public class QuestionCommentLikeQueryRepository {
         return count != null && count > 0;
     }
 }
+
+
+ */

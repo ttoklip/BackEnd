@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class HoneyTipLikeRepositoryImpl implements HoneyTipLikeRepository {
 
     private final HoneyTipLikeJpaRepository honeyTipLikeJpaRepository;
-    private final HoneyTipLikeQueryRepository honeyTipLikeQueryRepository;
+//    private final HoneyTipLikeQueryRepository honeyTipLikeQueryRepository;
 
     @Override
     public Optional<HoneyTipLike> findByHoneyTipIdAndMemberId(final Long honeyTipId, final Long memberId) {
@@ -25,7 +25,8 @@ public class HoneyTipLikeRepositoryImpl implements HoneyTipLikeRepository {
 
     @Override
     public Long countHoneyTipLikesByHoneyTipId(final Long postId) {
-        return honeyTipLikeQueryRepository.countHoneyTipLikesByHoneyTipId(postId);
+//        return honeyTipLikeQueryRepository.countHoneyTipLikesByHoneyTipId(postId);
+        return null;
     }
 
     @Override

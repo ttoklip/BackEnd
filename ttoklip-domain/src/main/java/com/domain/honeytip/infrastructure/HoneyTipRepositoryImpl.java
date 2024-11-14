@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class HoneyTipRepositoryImpl implements HoneyTipRepository {
 
     private final HoneyTipJpaRepository jpaRepository;
-    private final HoneyTipQueryRepository queryDSLRepository;
+//    private final HoneyTipQueryRepository queryDSLRepository;
 
     @Override
     public HoneyTip save(final HoneyTip honeyTip) {
@@ -23,56 +23,67 @@ public class HoneyTipRepositoryImpl implements HoneyTipRepository {
 
     @Override
     public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
-        return queryDSLRepository.getContain(keyword, pageable, sort);
+//        return queryDSLRepository.getContain(keyword, pageable, sort);
+        return null;
     }
 
     @Override
     public Page<HoneyTip> matchWriterPaging(final Long targetId, final Pageable pageable) {
-        return queryDSLRepository.matchWriterPaging(targetId, pageable);
+//        return queryDSLRepository.matchWriterPaging(targetId, pageable);
+        return null;
     }
 
     @Override
     public HoneyTip findByIdActivated(final Long honeyTipId) {
-        return queryDSLRepository.findByIdActivated(honeyTipId);
+//        return queryDSLRepository.findByIdActivated(honeyTipId);
+        return null;
     }
 
     @Override
     public HoneyTip findHoneyTipWithDetails(final Long postId) {
-        return queryDSLRepository.findHoneyTipWithDetails(postId);
+//        return queryDSLRepository.findHoneyTipWithDetails(postId);
+        return null;
     }
 
     @Override
     public Page<HoneyTip> matchCategoryPaging(final Category category, final Pageable pageable) {
-        return queryDSLRepository.matchCategoryPaging(category, pageable);
+//        return queryDSLRepository.matchCategoryPaging(category, pageable);
+        return null;
     }
 
     @Override
     public List<HoneyTip> findRecent3() {
-        return queryDSLRepository.findRecent3();
+//        return queryDSLRepository.findRecent3();
+        return null;
     }
 
     @Override
     public List<HoneyTip> findHouseworkTips() {
-        return queryDSLRepository.findHouseworkTips();
+//        return queryDSLRepository.findHouseworkTips();
+        return null;
     }
 
     @Override
     public List<HoneyTip> findRecipeTips() {
-        return queryDSLRepository.findRecipeTips();
+//        return queryDSLRepository.findRecipeTips();
+        return null;
     }
 
     @Override
     public List<HoneyTip> findSafeLivingTips() {
-        return queryDSLRepository.findSafeLivingTips();
+//        return queryDSLRepository.findSafeLivingTips();
+        return null;
     }
 
     @Override
     public List<HoneyTip> findWelfarePolicyTips() {
-        return queryDSLRepository.findWelfarePolicyTips();
+//        return queryDSLRepository.findWelfarePolicyTips();
+        return null;
     }
 
     @Override
     public List<HoneyTip> getPopularityTop5() {
-        return queryDSLRepository.getPopularityTop5();
+//        return queryDSLRepository.getPopularityTop5();
+        return null;
     }
 }

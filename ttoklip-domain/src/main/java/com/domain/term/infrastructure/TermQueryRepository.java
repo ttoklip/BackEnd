@@ -1,3 +1,4 @@
+/*
 package com.domain.term.infrastructure;
 
 import com.common.exception.ApiException;
@@ -49,3 +50,6 @@ public class TermQueryRepository {
                 .orElseThrow(() -> new ApiException(ErrorType.TERM_LOCATIONS_SERVICE_NOT_FOUND));
     }
 }
+
+
+ */

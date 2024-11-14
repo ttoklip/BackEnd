@@ -12,21 +12,24 @@ import org.springframework.stereotype.Repository;
 public class TermRepositoryImpl implements TermRepository {
 
     private final TermJpaRepository jpaRepository;
-    private final TermQueryRepository queryDSLRepository;
+//    private final TermQueryRepository queryDSLRepository;
 
     @Override
     public Term getAgreeTermsOfService() {
-        return queryDSLRepository.getAgreeTermsOfService();
+//        return queryDSLRepository.getAgreeTermsOfService();
+        return null;
     }
 
     @Override
     public Term getAgreePrivacyPolicy() {
-        return queryDSLRepository.getAgreePrivacyPolicy();
+//        return queryDSLRepository.getAgreePrivacyPolicy();
+        return null;
     }
 
     @Override
     public Term getAgreeLocationService() {
-        return queryDSLRepository.getAgreeLocationService();
+//        return queryDSLRepository.getAgreeLocationService();
+        return null;
     }
 
     @Override

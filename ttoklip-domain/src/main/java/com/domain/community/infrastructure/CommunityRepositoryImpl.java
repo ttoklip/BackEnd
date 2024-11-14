@@ -15,31 +15,36 @@ import org.springframework.stereotype.Repository;
 public class CommunityRepositoryImpl implements CommunityRepository {
 
     private final CommunityJpaRepository jpaRepository;
-    private final CommunityQueryRepository queryDSLRepository;
+//    private final CommunityQueryRepository queryDSLRepository;
 
     @Override
     public Community findByIdActivated(final Long communityId) {
-        return queryDSLRepository.findByIdActivated(communityId);
+//        return queryDSLRepository.findByIdActivated(communityId);
+        return null;
     }
 
     @Override
     public Community findByIdFetchJoin(final Long postId) {
-        return queryDSLRepository.findByIdFetchJoin(postId);
+//        return queryDSLRepository.findByIdFetchJoin(postId);
+        return null;
     }
 
     @Override
     public List<CommunityComment> findActiveCommentsByCommunityId(final Long postId) {
-        return queryDSLRepository.findActiveCommentsByCommunityId(postId);
+//        return queryDSLRepository.findActiveCommentsByCommunityId(postId);
+        return null;
     }
 
     @Override
     public List<Community> getRecent3(final TownCriteria townCriteria) {
-        return queryDSLRepository.getRecent3(townCriteria);
+//        return queryDSLRepository.getRecent3(townCriteria);
+        return null;
     }
 
     @Override
     public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable) {
-        return queryDSLRepository.getPaging(townCriteria, pageable);
+//        return queryDSLRepository.getPaging(townCriteria, pageable);
+        return null;
     }
 
     @Override
@@ -49,11 +54,13 @@ public class CommunityRepositoryImpl implements CommunityRepository {
 
     @Override
     public Page<Community> getContain(final String keyword, final Pageable pageable, final String sort) {
-        return queryDSLRepository.getContain(keyword, pageable, sort);
+//        return queryDSLRepository.getContain(keyword, pageable, sort);
+        return null;
     }
 
     @Override
     public Page<Community> getMatchWriterPaging(final Long memberId, final Pageable pageable) {
-        return queryDSLRepository.getMatchWriterPaging(memberId, pageable);
+//        return queryDSLRepository.getMatchWriterPaging(memberId, pageable);
+        return null;
     }
 }

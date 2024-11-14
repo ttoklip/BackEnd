@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class NotificationRepositoryImpl implements NotificationRepository {
 
     private final NotificationJpaRepository jpaRepository;
-    private final NotificationQueryRepository queryDSLRepository;
+//    private final NotificationQueryRepository queryDSLRepository;
 
 
     @Override
@@ -22,11 +22,13 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     @Override
     public List<Notification> findRecentNotifications(final Long currentMemberId, final Pageable pageable) {
-        return queryDSLRepository.findTop5RecentNotifications(currentMemberId, pageable);
+//        return queryDSLRepository.findTop5RecentNotifications(currentMemberId, pageable);
+        return null;
     }
 
     @Override
     public List<Notification> findTop5RecentNotifications(final Long currentMemberId, final Pageable pageable) {
-        return queryDSLRepository.findTop5RecentNotifications(currentMemberId, pageable);
+//        return queryDSLRepository.findTop5RecentNotifications(currentMemberId, pageable);
+        return null;
     }
 }

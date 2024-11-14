@@ -5,6 +5,7 @@ import com.domain.cart.domain.CartMember;
 import com.domain.common.base.BaseEntity;
 import com.domain.comment.domain.Comment;
 import com.domain.comment.domain.CommentLike;
+import com.domain.notification.domain.Notification;
 import com.domain.report.domain.Report;
 import com.domain.community.domain.Community;
 import com.domain.community.domain.CommunityLike;

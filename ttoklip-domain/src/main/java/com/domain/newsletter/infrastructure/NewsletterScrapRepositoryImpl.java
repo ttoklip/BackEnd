@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class NewsletterScrapRepositoryImpl implements NewsletterScrapRepository {
 
     private final NewsletterScrapJpaRepository jpaScrapRepository;
-    private final NewsletterScrapQueryRepository queryRepository;
+//    private final NewsletterScrapQueryRepository queryRepository;
 
     @Override
     public Optional<NewsletterScrap> findByNewsletterIdAndMemberId(final Long postId, final Long memberId) {
@@ -28,7 +28,8 @@ public class NewsletterScrapRepositoryImpl implements NewsletterScrapRepository 
 
     @Override
     public Long countNewsletterScrapsByNewsletterId(final Long postId) {
-        return queryRepository.countNewsletterScrapsByNewsletterId(postId);
+//        return queryRepository.countNewsletterScrapsByNewsletterId(postId);
+        return null;
     }
 
     @Override
@@ -43,6 +44,7 @@ public class NewsletterScrapRepositoryImpl implements NewsletterScrapRepository 
 
     @Override
     public Page<Newsletter> getScrapPaging(final Long memberId, final Pageable pageable) {
-        return queryRepository.getScrapPaging(memberId, pageable);
+//        return queryRepository.getScrapPaging(memberId, pageable);
+        return null;
     }
 }

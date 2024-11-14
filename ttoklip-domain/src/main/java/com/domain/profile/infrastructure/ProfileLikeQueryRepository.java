@@ -1,3 +1,4 @@
+/*
 package com.domain.profile.infrastructure;
 
 import com.common.exception.ApiException;
@@ -51,3 +52,6 @@ public class ProfileLikeQueryRepository {
     }
 
 }
+
+
+ */
