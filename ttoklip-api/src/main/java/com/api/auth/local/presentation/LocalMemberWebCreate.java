@@ -1,10 +1,10 @@
 package com.api.auth.local.presentation;
 
-import com.common.Filterable;
+import com.common.base.Filterable;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
-import com.common.Lockable;
+import com.common.base.Lockable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;

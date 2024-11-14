@@ -2,10 +2,6 @@ package com.common;
 
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
-import com.domain.cart.domain.Cart;
-import com.domain.comment.domain.Comment;
-import com.domain.community.domain.Community;
-import com.domain.honeytip.domain.HoneyTip;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,32 +9,30 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum NotiCategory {
 
-    HONEY_TIP_SCRAP("꿀팁 공유해요", "누군가가 글을 스크랩 했어요", true, false, HoneyTip.class),
-    HONEY_TIP_LIKE("꿀팁 공유해요", "누군가에게 글이 도움이 되었대요", true, false, HoneyTip.class),
-    HONEY_TIP_COMMENT("꿀팁 공유해요", "누군가가 댓글을 남겼어요", true, false, Comment.class),
-    HONEY_TIP_CHILD_COMMENT("꿀팁 공유해요", "누군가 답글을 남겼어요", true, true, Comment.class),
+    HONEY_TIP_SCRAP("꿀팁 공유해요", "누군가가 글을 스크랩 했어요", true, false, "HoneyTip"),
+    HONEY_TIP_LIKE("꿀팁 공유해요", "누군가에게 글이 도움이 되었대요", true, false, "HoneyTip"),
+    HONEY_TIP_COMMENT("꿀팁 공유해요", "누군가가 댓글을 남겼어요", true, false, "Comment"),
+    HONEY_TIP_CHILD_COMMENT("꿀팁 공유해요", "누군가 답글을 남겼어요", true, true, "Comment"),
 
-    QUESTION_COMMENT_LIKE("질문해요", "누군가에게 남겨준 댓글이 도움이 되었대요", false, true, Comment.class),
-    QUESTION_COMMENT("질문해요", "누군가가 댓글을 남겼어요", true, false, Comment.class),
-    QUESTION_CHILD_COMMENT("질문해요", "누군가가 답글을 남겼어요", true, true, Comment.class),
+    QUESTION_COMMENT_LIKE("질문해요", "누군가에게 남겨준 댓글이 도움이 되었대요", false, true, "Comment"),
+    QUESTION_COMMENT("질문해요", "누군가가 댓글을 남겼어요", true, false, "Comment"),
+    QUESTION_CHILD_COMMENT("질문해요", "누군가가 답글을 남겼어요", true, true, "Comment"),
 
-    NEWS_LETTER_CHILD_COMMENT("뉴스레터", "누군가가 답글을 남겼어요", false, true, Comment.class),
+    NEWS_LETTER_CHILD_COMMENT("뉴스레터", "누군가가 답글을 남겼어요", false, true, "Comment"),
 
-    OUR_TOWN_SCRAP("우리동네 스크랩", "누군가가 글을 스크랩 했어요", true, false, Community.class),
-    OUR_TOWN_COMMENT("우리동네 댓글", "누군가가 댓글을 남겼어요", true, false, Comment.class),
-    OUR_TOWN_CHILD_COMMENT("우리동네 답글", "누군가가 답글을 남겼어요", true, true, Comment.class),
-    OUR_TOWN_TOGETHER("우리동네 함께해요", "누군가가 함께하기에 참여했어요", true, false, Cart.class),
-
-//    PROFILE_LIKE("프로필 좋아요", "누군가가 내 프로필에 좋아요를 눌렀어요", false, false),
+    OUR_TOWN_SCRAP("우리동네 스크랩", "누군가가 글을 스크랩 했어요", true, false, "Community"),
+    OUR_TOWN_COMMENT("우리동네 댓글", "누군가가 댓글을 남겼어요", true, false, "Comment"),
+    OUR_TOWN_CHILD_COMMENT("우리동네 답글", "누군가가 답글을 남겼어요", true, true, "Comment"),
+    OUR_TOWN_TOGETHER("우리동네 함께해요", "누군가가 함께하기에 참여했어요", true, false, "Cart"),
 
     BAD_TYPE_NOTIFICATION("알림 타입 없음", "해당 알림이 반환되면 안됩니다.", false, false, null),
     ;
 
     private final String title;
     private final String text;
-    private final boolean notifyPostWriter;     // 해당 게시글 작성자에게 알릴 여부
-    private final boolean notifyCommentWriter;  // 해당 댓글 작성자에게 알릴 여부
-    private final Object target;
+    private final boolean notifyPostWriter;
+    private final boolean notifyCommentWriter;
+    private final String target;  // 도메인 클래스 대신 문자열로 변경
 
     public static NotiCategory getNotificationByCategory(final String value) {
         try {
@@ -47,4 +41,5 @@ public enum NotiCategory {
             throw new ApiException(ErrorType.BAD_CATEGORY_NOTIFICATION);
         }
     }
+
 }

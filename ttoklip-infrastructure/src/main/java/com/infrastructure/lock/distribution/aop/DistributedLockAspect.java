@@ -1,6 +1,6 @@
 package com.infrastructure.lock.distribution.aop;
 
-import com.common.Lockable;
+import com.common.base.Lockable;
 import com.common.annotation.DistributedLock;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;

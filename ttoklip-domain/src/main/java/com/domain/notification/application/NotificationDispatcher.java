@@ -118,7 +118,7 @@ public class NotificationDispatcher {
     // ToDo 추후에 kafka로 변경
     private void sendFcmNotification(final Long targetClassId, final NotiCategory notiCategory, final Member findMember) {
         try {
-            fcmService.sendNotification(notiCategory, findMember);
+            fcmService.sendNotification(notiCategory, findMember.getFcmToken());
             notificationService.register(notiCategory, findMember, targetClassId, true);
         } catch (IllegalArgumentException e) {
             log.info("FCMService.sendNotification + IllegalArgumentException");

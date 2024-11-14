@@ -6,3 +6,14 @@ jwt:
   expiration-period-hours: 720
   secret:
     key: ENC(KR2DiPWemDkz0qiwysKkyKTzfAZ3xn+xfQGcfw0g/zsHsE+b+rjTIOCOt2W490X8ZqvybLfmzvHn1wx6EhmBbFbJ9TDYGbWsElOu3nNvJ49Gtnl2l/uwU4oScdbH1A/OsLIfISr+d2G3CpRpTyJmyAvzG1mVLkDEhTH6YBEJ1x2hfI+iBUQm9A==)
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ENC(tEAGvS5YBRWL0RlwLnmSnH0Q/7kuBvAFWjJifE7X0g4=)
+      secretKey: ENC(UhjN+zWEABTQYD120rEdllG9iDrBlw+FxEAVw/rZYHXZOG/kVuoe/6R0SXOy/MTMLUVJH5nbmng=)
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ENC(VuwFn4IywtMsWWJygrda0xphDuHt8ukt)
+      dirname: ENC(Cac+UHpb7aVWVSbCAcZ3WQ==)

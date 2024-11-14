@@ -1,7 +1,6 @@
 package com.infrastructure.notification.service;
 
-import com.domain.member.domain.Member;
-import com.domain.notification.domain.vo.NotiCategory;
+import com.common.NotiCategory;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -20,14 +19,14 @@ public class FCMService {
 
     public void sendNotification(
             final NotiCategory categoryName,
-            final Member member
+            final String fcmToken
     ) {
         try {
             Message message = Message.builder()
                     .putData(TOPIC_DATA_NAME, categoryName.name())
                     .putData(TITLE_DATA_NAME, categoryName.getTitle())
                     .putData(TEXT_DATA_NAME, categoryName.getText())
-                    .setToken(member.getFcmToken())
+                    .setToken(fcmToken)
                     .build();
 
             FirebaseMessaging.getInstance().send(message);

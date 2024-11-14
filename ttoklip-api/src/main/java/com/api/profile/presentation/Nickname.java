@@ -1,6 +1,6 @@
 package com.api.profile.presentation;
 
-import com.common.Filterable;
+import com.common.base.Filterable;
 
 public record Nickname(String value) implements Filterable {
     @Override

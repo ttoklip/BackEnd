@@ -1,6 +1,6 @@
 package com.api.profile.presentation;
 
-import com.common.Filterable;
+import com.common.base.Filterable;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;

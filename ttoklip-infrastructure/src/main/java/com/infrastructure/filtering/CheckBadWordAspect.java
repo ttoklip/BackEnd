@@ -1,6 +1,6 @@
 package com.infrastructure.filtering;
 
-import com.common.Filterable;
+import com.common.base.Filterable;
 import com.common.annotation.FilterBadWord;
 import com.infrastructure.util.BadWordUtil;
 import java.util.Arrays;

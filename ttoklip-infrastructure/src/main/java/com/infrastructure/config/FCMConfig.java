@@ -1,4 +1,4 @@
-package com.batch.config;
+package com.infrastructure.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,6 +1,6 @@
 package com.domain.comment.domain;
 
-import com.common.Filterable;
+import com.common.base.Filterable;
 
 public record CommentCreate(String comment, Long parentCommentId) implements Filterable {
 

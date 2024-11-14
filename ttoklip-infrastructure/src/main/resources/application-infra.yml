@@ -3,3 +3,9 @@ spring:
     on-profile: dev
   config:
     import: "classpath:application-common.yml" # common 모듈의 설정 파일 참조
+
+google:
+  firebase:
+    fcm:
+      resource:
+        path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)

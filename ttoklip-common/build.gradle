@@ -9,6 +9,6 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
     // jasypt
-    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+    api("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 }
 
