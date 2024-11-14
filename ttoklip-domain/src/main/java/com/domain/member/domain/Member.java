@@ -62,7 +62,10 @@ public class Member extends BaseEntity {
     @Email
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private Provider provider;
+
     private String nickname;
     private String street;
     private int independentYear;
