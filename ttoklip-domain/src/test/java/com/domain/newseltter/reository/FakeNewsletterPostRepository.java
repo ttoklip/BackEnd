@@ -1,17 +1,22 @@
 package com.domain.newseltter.reository;
 
-import com.api.ttoklip.domain.newsletter.domain.Newsletter;
-import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.common.vo.Category;
+import com.domain.newsletter.domain.Newsletter;
+import com.domain.newsletter.domain.NewsletterRepository;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-public class NewsletterPostFakeRepository implements NewsletterRepository {
+public class FakeNewsletterPostRepository implements NewsletterRepository {
 
     private final Map<Long, Newsletter> memoryRepository = new HashMap<>();
     private Long idCounter = 1L;
@@ -77,21 +82,22 @@ public class NewsletterPostFakeRepository implements NewsletterRepository {
     }
 
     @Override
-    public List<Newsletter> findRandom4ActiveNewsletters() {
+    public List<Newsletter> findRandomActiveNewsletters(final int pageSize) {
         List<Newsletter> activeNewsletters = memoryRepository.values().stream()
                 .filter(newsletter -> !newsletter.isDeleted())
-                .collect(Collectors.toList());
+                .toList();
 
-        if (activeNewsletters.size() < 4) {
+        if (activeNewsletters.isEmpty()) {
             throw new ApiException(ErrorType.NEWSLETTER_NOT_FOUND);
         }
 
         Collections.shuffle(activeNewsletters);
 
         return activeNewsletters.stream()
-                .limit(4)
+                .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public Page<Newsletter> getContain(String keyword, Pageable pageable, String sort) {

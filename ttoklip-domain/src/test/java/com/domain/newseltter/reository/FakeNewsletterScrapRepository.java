@@ -1,11 +1,16 @@
 package com.domain.newseltter.reository;
 
-import com.api.ttoklip.domain.newsletter.domain.NewsletterScrap;
-import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterScrapRepository;
+import com.domain.newsletter.domain.Newsletter;
+import com.domain.newsletter.domain.NewsletterScrap;
+import com.domain.newsletter.domain.NewsletterScrapRepository;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
-public class NewsletterScrapFakeRepository implements NewsletterScrapRepository {
+public class FakeNewsletterScrapRepository implements NewsletterScrapRepository {
 
     private final HashMap<Long, NewsletterScrap> memoryRepository = new HashMap<>();
     private Long idCounter = 1L; // ID를 1부터 시작
@@ -47,4 +52,20 @@ public class NewsletterScrapFakeRepository implements NewsletterScrapRepository 
     public void deleteById(final Long id) {
         memoryRepository.remove(id);
     }
+
+    @Override
+    public Page<Newsletter> getScrapPaging(final Long memberId, final Pageable pageable) {
+        List<Newsletter> filteredNewsletters = memoryRepository.values().stream()
+                .filter(newsletterScrap -> newsletterScrap.getMember().getId().equals(memberId))
+                .map(NewsletterScrap::getNewsletter)
+                .filter(newsletter -> !newsletter.isDeleted())
+                .sorted((n1, n2) -> n2.getId().compareTo(n1.getId())) // 최신순 정렬
+                .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), filteredNewsletters.size());
+
+        return new PageImpl<>(filteredNewsletters.subList(start, end), pageable, filteredNewsletters.size());
+    }
+
 }

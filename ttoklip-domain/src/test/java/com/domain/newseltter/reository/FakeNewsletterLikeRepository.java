@@ -1,11 +1,11 @@
 package com.domain.newseltter.reository;
 
-import com.api.ttoklip.domain.newsletter.domain.NewsletterLike;
-import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterLikeRepository;
+import com.domain.newsletter.domain.NewsletterLike;
+import com.domain.newsletter.domain.NewsletterLikeRepository;
 import java.util.HashMap;
 import java.util.Optional;
 
-public class NewsletterLikeFakeRepository implements NewsletterLikeRepository {
+public class FakeNewsletterLikeRepository implements NewsletterLikeRepository {
 
     private final HashMap<Long, NewsletterLike> memoryRepository = new HashMap<>();
     private Long idCounter = 0L;

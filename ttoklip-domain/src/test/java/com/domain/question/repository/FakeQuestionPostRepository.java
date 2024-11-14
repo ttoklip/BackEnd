@@ -1,10 +1,11 @@
 package com.domain.question.repository;
 
-import com.api.ttoklip.domain.question.domain.QuestionComment;
-import com.api.ttoklip.domain.question.domain.Question;
-import com.api.ttoklip.domain.question.domain.QuestionRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.common.vo.Category;
+import com.domain.question.domain.Question;
+import com.domain.question.domain.QuestionComment;
+import com.domain.question.domain.QuestionRepository;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -111,4 +112,18 @@ public class FakeQuestionPostRepository implements QuestionRepository {
         memoryRepository.put(idCounter, savedQuestion);
         return savedQuestion;
     }
+
+    @Override
+    public Page<Question> matchWriterPaging(final Long memberId, final Pageable pageable) {
+        List<Question> filteredQuestions = memoryRepository.values().stream()
+                .filter(question -> question.getMember().getId().equals(memberId) && !question.isDeleted())
+                .sorted(Comparator.comparing(Question::getId).reversed()) // 최신순 정렬
+                .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), filteredQuestions.size());
+        List<Question> pagedQuestions = filteredQuestions.subList(start, end);
+        return new PageImpl<>(pagedQuestions, pageable, filteredQuestions.size());
+    }
+
 }

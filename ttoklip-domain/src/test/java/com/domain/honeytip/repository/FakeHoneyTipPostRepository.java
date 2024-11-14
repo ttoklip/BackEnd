@@ -1,9 +1,10 @@
 package com.domain.honeytip.repository;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTip;
-import com.api.ttoklip.domain.honeytip.repository.post.HoneyTipRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.common.vo.Category;
+import com.domain.honeytip.domain.HoneyTip;
+import com.domain.honeytip.domain.HoneyTipRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -130,6 +131,45 @@ public class FakeHoneyTipPostRepository implements HoneyTipRepository {
 
         return savedHoneyTip;
     }
+
+    @Override
+    public Page<HoneyTip> getContain(final String keyword, final Pageable pageable, final String sort) {
+        List<HoneyTip> filtered = honeyTipRepository.values().stream()
+                .filter(honeyTip -> (honeyTip.getTitle().contains(keyword) || honeyTip.getContent().contains(keyword))
+                        && !honeyTip.isDeleted())
+                .sorted((h1, h2) -> {
+                    if ("latest".equalsIgnoreCase(sort)) {
+                        return h2.getId().compareTo(h1.getId());
+                    } else if ("popularity".equalsIgnoreCase(sort)) {
+                        int h1Score = h1.getHoneyTipComments().size() + h1.getHoneyTipLikes().size() + h1.getHoneyTipScraps().size();
+                        int h2Score = h2.getHoneyTipComments().size() + h2.getHoneyTipLikes().size() + h2.getHoneyTipScraps().size();
+                        return Integer.compare(h2Score, h1Score);
+                    }
+                    return 0; // 기본적으로 정렬하지 않음
+                })
+                .collect(Collectors.toList());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filtered.size());
+        List<HoneyTip> pageContent = filtered.subList(start, end);
+
+        return new PageImpl<>(pageContent, pageable, filtered.size());
+    }
+
+    @Override
+    public Page<HoneyTip> matchWriterPaging(final Long targetId, final Pageable pageable) {
+        List<HoneyTip> filtered = honeyTipRepository.values().stream()
+                .filter(honeyTip -> honeyTip.getMember().getId().equals(targetId) && !honeyTip.isDeleted())
+                .sorted((h1, h2) -> h2.getId().compareTo(h1.getId())) // 최신순 정렬
+                .collect(Collectors.toList());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filtered.size());
+        List<HoneyTip> pageContent = filtered.subList(start, end);
+
+        return new PageImpl<>(pageContent, pageable, filtered.size());
+    }
+
 
 
 }

@@ -1,10 +1,9 @@
 package com.domain.honeytip.repository;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipImage;
-
-import com.api.ttoklip.domain.honeytip.repository.image.HoneyTipImageRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.honeytip.domain.HoneyTipImage;
+import com.domain.honeytip.domain.HoneyTipImageRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

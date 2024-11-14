@@ -1,14 +1,13 @@
 package com.domain.question.repository;
 
-import com.api.ttoklip.domain.question.domain.QuestionImage;
-import com.api.ttoklip.domain.question.domain.QuestionImageRepository;
-import com.api.ttoklip.global.exception.ApiException;
-import com.api.ttoklip.global.exception.ErrorType;
 
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
+import com.domain.question.domain.QuestionImage;
+import com.domain.question.domain.QuestionImageRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class FakeQuestionImageRepository implements QuestionImageRepository {
 
@@ -39,7 +38,7 @@ public class FakeQuestionImageRepository implements QuestionImageRepository {
     public void verifyMemberIsImageOwner(final List<Long> imageIds, final Long memberId) {
         List<QuestionImage> questionImages = questionImageMap.values().stream()
                 .filter(questionImage -> imageIds.contains(questionImage.getId()))
-                .collect(Collectors.toList());
+                .toList();
 
         boolean isOwner = questionImages.stream()
                 .allMatch(image -> image.getQuestion().getMember().getId().equals(memberId));

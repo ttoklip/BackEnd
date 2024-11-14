@@ -1,13 +1,13 @@
 package com.domain.newseltter.reository;
 
-import com.api.ttoklip.domain.newsletter.domain.TodayNewsletter;
-import com.api.ttoklip.domain.newsletter.repository.domain.TodayNewsletterRepository;
+import com.domain.newsletter.domain.TodayNewsletter;
+import com.domain.newsletter.domain.TodayNewsletterRepository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ToDayNewsletterFakeRepository implements TodayNewsletterRepository {
+public class FakeToDayNewsletterRepository implements TodayNewsletterRepository {
 
     private final Map<Long, TodayNewsletter> memoryRepository = new HashMap<>();
     private Long idCounter = 1L;  // ID를 1부터 시작

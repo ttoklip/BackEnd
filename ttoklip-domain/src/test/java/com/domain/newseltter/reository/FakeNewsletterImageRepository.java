@@ -1,10 +1,10 @@
 package com.domain.newseltter.reository;
 
-import com.api.ttoklip.domain.newsletter.domain.NewsletterImage;
-import com.api.ttoklip.domain.newsletter.repository.domain.NewsletterImageRepository;
+import com.domain.newsletter.domain.NewsletterImage;
+import com.domain.newsletter.domain.NewsletterImageRepository;
 import java.util.HashMap;
 
-public class NewsletterImageFakeRepository implements NewsletterImageRepository {
+public class FakeNewsletterImageRepository implements NewsletterImageRepository {
 
     private final HashMap<Long, NewsletterImage> memoryRepository = new HashMap<>();
     private Long idCounter = 1L;

@@ -1,7 +1,7 @@
 package com.domain.honeytip.repository;
 
-import com.api.ttoklip.domain.honeytip.domain.HoneyTipLike;
-import com.api.ttoklip.domain.honeytip.repository.like.HoneyTipLikeRepository;
+import com.domain.honeytip.domain.HoneyTipLike;
+import com.domain.honeytip.domain.HoneyTipLikeRepository;
 import java.util.HashMap;
 import java.util.Optional;
 
