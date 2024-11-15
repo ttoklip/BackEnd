@@ -3,3 +3,9 @@ spring:
     activate:
       on-profile: dev
     import: "classpath:application-domain-dev.yml"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

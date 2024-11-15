@@ -52,6 +52,8 @@ public class SecurityConfig {
                                         , "/api/v1/oauth"
                                         , "/error"
                                         , "/api/v1/email/**"
+                                        ,"/actuator/prometheus"
+                                        ,"/actuator"
                                         , "/api/v1/privacy/local/check-nickname"
                                 ).permitAll()
                                 .requestMatchers(

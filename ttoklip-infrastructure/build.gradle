@@ -19,4 +19,6 @@ dependencies {
 
 	// 욕설 필터링
 	implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
+
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 }
