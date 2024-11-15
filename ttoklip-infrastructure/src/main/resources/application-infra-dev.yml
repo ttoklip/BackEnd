@@ -1,0 +1,27 @@
+spring:
+  activate:
+    on-profile: dev
+  config:
+    import: "classpath:application-common.yml" # common 모듈의 설정 파일 참조
+  jackson:
+    time-zone: Asia/Seoul
+  data:
+    redis:
+      host: redis
+      port: 6379
+google:
+  firebase:
+    fcm:
+      resource:
+        path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ENC(tEAGvS5YBRWL0RlwLnmSnH0Q/7kuBvAFWjJifE7X0g4=)
+      secretKey: ENC(UhjN+zWEABTQYD120rEdllG9iDrBlw+FxEAVw/rZYHXZOG/kVuoe/6R0SXOy/MTMLUVJH5nbmng=)
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ENC(VuwFn4IywtMsWWJygrda0xphDuHt8ukt)
+      dirname: ENC(Cac+UHpb7aVWVSbCAcZ3WQ==)

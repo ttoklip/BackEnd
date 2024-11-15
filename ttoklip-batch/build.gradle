@@ -1,0 +1,16 @@
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
+}
+
+dependencies {
+
+    implementation project(':ttoklip-common')
+    implementation project(':ttoklip-infrastructure')
+    implementation project(':ttoklip-domain')
+
+}
+

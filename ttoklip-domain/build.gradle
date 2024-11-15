@@ -1,0 +1,40 @@
+plugins {
+    id 'java-test-fixtures'
+}
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    implementation project(':ttoklip-common')
+    implementation project(':ttoklip-infrastructure')
+
+    testImplementation project(':ttoklip-common')
+    testFixturesImplementation project(':ttoklip-common')
+
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // JPA & Querydsl
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}
+
+// QClass 생성 위치
+def generated = 'src/main/generated'
+sourceSets {
+    main.java.srcDirs += [generated]
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file(generated)
+}
+
+clean.doLast {
+    file(generated).deleteDir()
+}
+
+

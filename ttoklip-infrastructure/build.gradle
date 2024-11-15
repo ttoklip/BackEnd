@@ -1,0 +1,22 @@
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+
+	implementation project(':ttoklip-common')
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// redisson
+	implementation 'org.redisson:redisson-spring-boot-starter:3.23.2'
+
+	// aws
+	api 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	// FCM
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
+
+	// 욕설 필터링
+	implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
+}
