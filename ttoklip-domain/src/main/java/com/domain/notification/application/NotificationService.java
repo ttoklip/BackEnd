@@ -1,5 +1,6 @@
 package com.domain.notification.application;
 
+import com.common.NotiCategory;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.cart.domain.Cart;
@@ -9,11 +10,12 @@ import com.domain.honeytip.domain.HoneyTip;
 import com.domain.member.domain.Member;
 import com.domain.notification.domain.Notification;
 import com.domain.notification.domain.NotificationRepository;
-import com.common.NotiCategory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -34,24 +36,25 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
-    private String getTargetType(Object target) {
-        if (target instanceof Class<?> clazz) {
+    private String getTargetType(final Object target) {
+        if (!(target instanceof String targetString)) {
+            throw new ApiException(ErrorType._BAD_CATEGORY_NOTIFICATION_TYPE);
+        }
 
-            if (clazz.equals(HoneyTip.class)) {
-                return HoneyTip.class.getSimpleName();
-            }
+        if (HoneyTip.class.getSimpleName().equals(targetString)) {
+            return HoneyTip.class.getSimpleName();
+        }
 
-            if (clazz.equals(Community.class)) {
-                return Community.class.getSimpleName();
-            }
+        if (Community.class.getSimpleName().equals(targetString)) {
+            return Community.class.getSimpleName();
+        }
 
-            if (clazz.equals(Cart.class)) {
-                return Cart.class.getSimpleName();
-            }
+        if (Cart.class.getSimpleName().equals(targetString)) {
+            return Cart.class.getSimpleName();
+        }
 
-            if (clazz.equals(Comment.class)) {
-                return Comment.class.getSimpleName();
-            }
+        if (Comment.class.getSimpleName().equals(targetString)) {
+            return Comment.class.getSimpleName();
         }
 
         throw new ApiException(ErrorType._BAD_CATEGORY_NOTIFICATION_TYPE);

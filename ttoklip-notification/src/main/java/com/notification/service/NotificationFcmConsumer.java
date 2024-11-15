@@ -1,6 +1,5 @@
 package com.notification.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notification.config.NotificationMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 public class NotificationFcmConsumer {
 
     private final FCMService fcmService;
-    private final ObjectMapper objectMapper;
 
     @KafkaListener(
             topics = "${kafka.topic.notification}",
