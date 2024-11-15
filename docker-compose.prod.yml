@@ -3,11 +3,11 @@ version: '3.8'
 services:
   api:
     build:
-      context: .
+      context: ./ttoklip-api
       dockerfile: Dockerfile
-    container_name: ttoklip_api_prod
-    ports:
-      - "8080:8080"
+      args:
+        JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    container_name: ttoklip_api_dev
     environment:
       SPRING_PROFILES_ACTIVE: prod
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
@@ -17,12 +17,18 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    volumes:
+      - ./ttoklip-api/src:/app/src
+    networks:
+      - my_network
 
   batch:
     build:
-      context: .
+      context: ./ttoklip-batch
       dockerfile: Dockerfile
-    container_name: ttoklip_batch_prod
+      args:
+        JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    container_name: ttoklip_batch_dev
     environment:
       SPRING_PROFILES_ACTIVE: prod
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
@@ -32,3 +38,34 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    volumes:
+      - ./ttoklip-batch/src:/app/src
+    networks:
+      - my_network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    environment:
+      - REDIS_PASSWORD=qwertyuiop1234
+    networks:
+      - my_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
