@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
-    container_name: api  # 컨테이너 이름을 'api'로 변경
+    container_name: api
     environment:
       SPRING_PROFILES_ACTIVE: dev
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
