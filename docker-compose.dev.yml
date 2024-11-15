@@ -4,7 +4,7 @@ services:
   api:
     build:
       context: ./ttoklip-api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: api
@@ -29,7 +29,7 @@ services:
   batch:
     build:
       context: ./ttoklip-batch
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: batch
@@ -54,7 +54,7 @@ services:
   notification:
     build:
       context: ./ttoklip-notification
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: notification

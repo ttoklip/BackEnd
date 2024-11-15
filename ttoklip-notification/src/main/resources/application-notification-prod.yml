@@ -14,6 +14,8 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       enable-auto-commit: false
+    listener:
+      ack-mode: manual_immediate
 
 server:
   port: 8082
@@ -23,3 +25,9 @@ google:
     fcm:
       resource:
         path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

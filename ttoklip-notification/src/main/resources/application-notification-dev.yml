@@ -23,3 +23,10 @@ google:
     fcm:
       resource:
         path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
