@@ -1,0 +1,12 @@
+bootJar.enabled = true
+jar.enabled = false
+
+dependencies {
+    implementation project(':ttoklip-common')
+
+    implementation project(':ttoklip-infrastructure')
+
+    implementation 'org.springframework.kafka:spring-kafka:3.0.0'
+
+    implementation 'com.google.firebase:firebase-admin:9.2.0'
+}

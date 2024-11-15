@@ -1,14 +1,13 @@
 package com.domain.notification.application;
 
+import com.common.NotiCategory;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.comment.domain.Comment;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
-import com.common.NotiCategory;
 import com.domain.notification.dto.request.NotificationRequest;
 import com.domain.notification.dto.response.NotificationInternalResponse;
-import com.infrastructure.notification.service.FCMService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +18,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificationDispatcher {
 
-    private final FCMService fcmService;
-    private final MemberService memberService;
     private final NotificationCommentTargetFinder commentTargetFinder;
     private final NotificationPostTargetFinder postTargetFinder;
     private final NotificationService notificationService;
+    private final MemberService memberService;
+    private final NotificationFcmProducer producer;
 
     public void dispatchNotification(final NotificationRequest request) {
 
@@ -55,7 +54,6 @@ public class NotificationDispatcher {
                 dispatch(res.targetMemberId(), res.targetClassId(), notiCategory, request.fromMemberId());
             }
         }
-
     }
 
     // 댓글 알림 타겟 결정 및 알림 전송
@@ -115,10 +113,10 @@ public class NotificationDispatcher {
         }
     }
 
-    // ToDo 추후에 kafka로 변경
     private void sendFcmNotification(final Long targetClassId, final NotiCategory notiCategory, final Member findMember) {
         try {
-            fcmService.sendNotification(notiCategory, findMember.getFcmToken());
+            producer.sendNotificationMessage(notiCategory, findMember.getId(), targetClassId, findMember.getFcmToken());
+
             notificationService.register(notiCategory, findMember, targetClassId, true);
         } catch (IllegalArgumentException e) {
             log.info("FCMService.sendNotification + IllegalArgumentException");

@@ -6,4 +6,5 @@ include 'ttoklip-domain'
 include 'ttoklip-batch'
 include 'ttoklip-infrastructure'
 include 'ttoklip-monitoring'
+include 'ttoklip-notification'
 

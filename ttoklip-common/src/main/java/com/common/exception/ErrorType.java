@@ -188,6 +188,8 @@ public enum ErrorType {
     DUPLICATED_CREATE_BOARD_REQUEST(BAD_REQUEST, "DUPLICATED_4002", "중복된 게시글 작성입니다."),
 
     INVALID_HASH_LENGTH_TYPE(INTERNAL_SERVER_ERROR, "HASH_5001", "잘못된 Hash 길이 요청"),
+    FCM_EXCEPTION(INTERNAL_SERVER_ERROR, "FCM_5001", "FCM 서비스에서 오류가 발생했습니다."),
+
     ;
 
     private final int status;

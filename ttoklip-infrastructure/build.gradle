@@ -14,9 +14,6 @@ dependencies {
 	// aws
 	api 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-	// FCM
-	implementation 'com.google.firebase:firebase-admin:9.2.0'
-
 	// 욕설 필터링
 	implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
 

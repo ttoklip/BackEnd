@@ -2,7 +2,7 @@ spring:
   config:
     activate:
       on-profile: dev
-    import: "classpath:application-infra-prod.yml"
+    import: "classpath:application-infra-dev.yml"
 
   jackson:
     time-zone: Asia/Seoul
@@ -26,6 +26,16 @@ spring:
       hibernate:
         dialect: ENC(wvHQPgB402IXW85HHlu4kOAwZWKIrG37GCmHPa2CIoo0vMefVWzmRa1rEHNwzMWH)
         default_batch_fetch_size: ENC(vlfxBKZ6fXmAzqpH/OcG6A==)
+
+  kafka:
+    bootstrap-servers: kafka:9093
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+kafka:
+  topic:
+    notification: notification-topic
 
 logging:
   level:
