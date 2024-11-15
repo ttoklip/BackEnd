@@ -6,15 +6,14 @@ import com.common.annotation.FilterBadWord;
 import com.domain.comment.application.CommentService;
 import com.domain.comment.domain.Comment;
 import com.domain.comment.domain.CommentCreate;
-import com.common.annotation.SendCommentNotification;
-import com.common.NotiCategory;
-import com.domain.report.application.ReportService;
-import com.domain.report.domain.ReportCreate;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
+import com.domain.newsletter.application.NewsletterCommentService;
 import com.domain.newsletter.application.NewsletterPostService;
 import com.domain.newsletter.domain.Newsletter;
 import com.domain.newsletter.domain.NewsletterComment;
+import com.domain.report.application.ReportService;
+import com.domain.report.domain.ReportCreate;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,6 +28,7 @@ public class NewsletterCommentFacade {
     private final CommentService commentService;
     private final NewsletterPostService newsletterPostService;
     private final MemberService memberService;
+    private final NewsletterCommentService newsletterCommentService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
@@ -45,28 +45,15 @@ public class NewsletterCommentFacade {
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            Long newCommentId = registerCommentWithParent(request, findNewsletter, parentComment, currentMember).getId();
+            Long newCommentId = newsletterCommentService.registerCommentWithParent(request, findNewsletter,
+                    parentComment, currentMember).getId();
             return Message.registerCommentSuccess(NewsletterComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        Long newCommentId = registerCommentOrphanage(request, findNewsletter, currentMember).getId();
+        Long newCommentId = newsletterCommentService.registerCommentOrphanage(request, findNewsletter, currentMember)
+                .getId();
         return Message.registerCommentSuccess(NewsletterComment.class, newCommentId);
-    }
-
-    // 대댓글 생성
-    @SendCommentNotification(notiCategory = NotiCategory.NEWS_LETTER_CHILD_COMMENT)
-    public Comment registerCommentWithParent(final CommentCreate request, final Newsletter newsletter,
-                                           final Comment parentComment, final Member currentMember) {
-        NewsletterComment newsletterComment = NewsletterComment.withParentOf(request, parentComment, newsletter, currentMember);
-        return commentService.register(newsletterComment);
-    }
-
-    // 최상위 댓글 생성
-    private Comment registerCommentOrphanage(final CommentCreate request, final Newsletter newsletter,
-                                          final Member currentMember) {
-        NewsletterComment newsletterComment = NewsletterComment.orphanageOf(request, newsletter, currentMember);
-        return commentService.register(newsletterComment);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */

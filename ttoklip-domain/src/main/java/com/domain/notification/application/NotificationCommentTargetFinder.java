@@ -5,6 +5,7 @@ import com.domain.comment.domain.Comment;
 import com.domain.community.domain.CommunityComment;
 import com.domain.honeytip.domain.HoneyTipComment;
 import com.domain.notification.dto.response.NotificationInternalResponse;
+import com.domain.notification.infrastructure.NotificationCommentRepository;
 import com.domain.question.domain.QuestionComment;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class NotificationCommentTargetFinder {
 
-//    private final NotificationCommentRepository notiCommentRepository;
+    private final NotificationCommentRepository notiCommentRepository;
 
     // --------------------------   생성된 답글에 대해 댓글(답글의 부모)의 작성자의 ID를 반환   --------------------------
     public NotificationInternalResponse getParentCommentWriterId(final Comment findComment) {
         // 댓글 작성자가 맞는지 필터링
         log.info("[Method Name] = NotificationTargetFilter.determineCommentNoticeTarget");
-//        Comment comment = notiCommentRepository.findParentCommentFetchJoin(findComment.getId());
-        Comment comment = null;
+        Comment comment = notiCommentRepository.findParentCommentFetchJoin(findComment.getId());
         log.info("[parent comment id] start ------------");
         Long parentCommentWriterId = comment.getParent().getMember().getId();
         log.info("[parent comment id] -end- ------------");
@@ -38,8 +38,7 @@ public class NotificationCommentTargetFinder {
         // 꿀팁공유해요 작성자가 맞는지 필터링
         if (comment instanceof HoneyTipComment findHoneyTipComment) {
 
-//            HoneyTipComment honeyTipComment = notiCommentRepository.findHoneyTipCommentFetchJoin(findHoneyTipComment.getId());
-            HoneyTipComment honeyTipComment = null;
+            HoneyTipComment honeyTipComment = notiCommentRepository.findHoneyTipCommentFetchJoin(findHoneyTipComment.getId());
             Long honeyTipWriterId = honeyTipComment.getHoneyTip().getMember().getId();
 
             NotificationInternalResponse response = NotificationInternalResponse.of(honeyTipWriterId,
@@ -49,8 +48,7 @@ public class NotificationCommentTargetFinder {
 
         // 질문해요 작성자가 맞는지 필터링
         if (comment instanceof QuestionComment findQuestionComment) {
-//            QuestionComment questionComment = notiCommentRepository.findQuestionCommentFetchJoin(findQuestionComment.getId());
-            QuestionComment questionComment = null;
+            QuestionComment questionComment = notiCommentRepository.findQuestionCommentFetchJoin(findQuestionComment.getId());
             Long questionWriterId = questionComment.getQuestion().getMember().getId();
 
             NotificationInternalResponse response = NotificationInternalResponse.of(questionWriterId,
@@ -60,8 +58,7 @@ public class NotificationCommentTargetFinder {
 
         // 함께해요 작성자가 맞는지 필터링
         if (comment instanceof CartComment findCartComment) {
-//            CartComment cartComment = notiCommentRepository.findCartCommentFetchJoin(findCartComment.getId());
-            CartComment cartComment = null;
+            CartComment cartComment = notiCommentRepository.findCartCommentFetchJoin(findCartComment.getId());
             Long cartWriterId = cartComment.getCart().getMember().getId();
 
             NotificationInternalResponse response = NotificationInternalResponse.of(
@@ -72,8 +69,7 @@ public class NotificationCommentTargetFinder {
 
         // 소통해요 작성자가 맞는지 필터링
         if (comment instanceof CommunityComment findCommunityComment) {
-//            CommunityComment communityComment = notiCommentRepository.findCommunityCommentFetchJoin(findCommunityComment.getId());
-            CommunityComment communityComment = null;
+            CommunityComment communityComment = notiCommentRepository.findCommunityCommentFetchJoin(findCommunityComment.getId());
             Long communityWriterId = communityComment.getCommunity().getMember().getId();
             NotificationInternalResponse response = NotificationInternalResponse.of(communityWriterId,
                     communityComment.getCommunity().getId());
