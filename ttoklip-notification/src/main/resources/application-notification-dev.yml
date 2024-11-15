@@ -1,0 +1,32 @@
+kafka:
+  topic:
+    notification: notification-topic
+
+spring:
+  activate:
+    on-profile: dev
+  config:
+    import: "classpath:application-infra-dev.yml"
+  kafka:
+    consumer:
+      bootstrap-servers: kafka:9093
+      group-id: notification-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+
+server:
+  port: 8082
+
+google:
+  firebase:
+    fcm:
+      resource:
+        path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

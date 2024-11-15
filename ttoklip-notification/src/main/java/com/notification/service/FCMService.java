@@ -1,6 +1,8 @@
-package com.infrastructure.notification.service;
+package com.notification.service;
 
 import com.common.NotiCategory;
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -30,14 +32,12 @@ public class FCMService {
                     .build();
 
             FirebaseMessaging.getInstance().send(message);
-
-
         } catch (FirebaseMessagingException e) {
             log.info("FCMService.sendNotification + FirebaseMessagingException");
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new ApiException(ErrorType.FCM_EXCEPTION);
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new ApiException(ErrorType.FCM_EXCEPTION);
         }
     }
 }

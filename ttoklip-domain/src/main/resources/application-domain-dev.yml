@@ -2,10 +2,11 @@ spring:
   config:
     activate:
       on-profile: dev
-    import: "classpath:application-infra-prod.yml"
+    import: "classpath:application-infra-dev.yml"
 
   jackson:
     time-zone: Asia/Seoul
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ENC(AHsyxM9A8g8wHiYs1Ao7S5Lrtcuqe6E5VX5dMUTeKyZnDULppD99ZrtY10al3wgruDWWWaKEcify/hBgQ4xxzEpH6fG4Vf2MnuN6IVzMU8X6VLDbW1EI8KjC9cY6gOfl)
@@ -26,6 +27,16 @@ spring:
       hibernate:
         dialect: ENC(wvHQPgB402IXW85HHlu4kOAwZWKIrG37GCmHPa2CIoo0vMefVWzmRa1rEHNwzMWH)
         default_batch_fetch_size: ENC(vlfxBKZ6fXmAzqpH/OcG6A==)
+
+  kafka:
+    bootstrap-servers: localhost:9093
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+kafka:
+  topic:
+    notification: notification-topic
 
 logging:
   level:

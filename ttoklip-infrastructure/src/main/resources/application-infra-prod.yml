@@ -9,11 +9,7 @@ spring:
     redis:
       host: redis
       port: 6379
-google:
-  firebase:
-    fcm:
-      resource:
-        path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
+
 cloud:
   aws:
     credentials:

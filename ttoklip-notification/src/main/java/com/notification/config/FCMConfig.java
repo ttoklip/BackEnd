@@ -1,4 +1,4 @@
-package com.infrastructure.config;
+package com.notification.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,11 +48,9 @@ public class FCMConfig {
             log.info("--------- flag1 ---------");
             log.info("JSON String: " + jsonString); // 디버깅 로그 추가
 
-            // Jackson ObjectMapper 사용
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(jsonString);
 
-            // JSON 필드 각각을 복호화
             decryptJsonFields(jsonNode);
 
             String decryptedJsonContent = objectMapper.writeValueAsString(jsonNode);

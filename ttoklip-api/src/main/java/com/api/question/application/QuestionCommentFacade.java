@@ -6,8 +6,7 @@ import com.common.annotation.FilterBadWord;
 import com.domain.comment.application.CommentService;
 import com.domain.comment.domain.Comment;
 import com.domain.comment.domain.CommentCreate;
-import com.common.annotation.SendCommentNotification;
-import com.common.NotiCategory;
+import com.domain.question.application.QuestionCommentService;
 import com.domain.report.application.ReportService;
 import com.domain.report.domain.ReportCreate;
 import com.domain.honeytip.domain.HoneyTipComment;
@@ -31,6 +30,7 @@ public class QuestionCommentFacade {
     private final MemberService memberService;
     private final CommentService commentService;
     private final QuestionPostService questionPostService;
+    private final QuestionCommentService questionCommentService;
 
     /* -------------------------------------------- CREATE -------------------------------------------- */
 
@@ -47,29 +47,13 @@ public class QuestionCommentFacade {
         // 부모 댓글이 존재한다면
         if (parentCommentOptional.isPresent()) {
             Comment parentComment = parentCommentOptional.get();
-            Long newCommentId = registerCommentWithParent(request, findQuestion, parentComment, currentMember).getId();
+            Long newCommentId = questionCommentService.registerCommentWithParent(request, findQuestion, parentComment, currentMember).getId();
             return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
         }
 
         // 최상위 댓글 생성
-        Long newCommentId = registerCommentOrphanage(request, findQuestion, currentMember).getId();
+        Long newCommentId = questionCommentService.registerCommentOrphanage(request, findQuestion, currentMember).getId();
         return Message.registerCommentSuccess(QuestionComment.class, newCommentId);
-    }
-
-    // 대댓글 생성
-    @SendCommentNotification(notiCategory = NotiCategory.QUESTION_CHILD_COMMENT)
-    public Comment registerCommentWithParent(final CommentCreate create, final Question question,
-                                           final Comment parentComment, final Member member) {
-        QuestionComment newQuestionComment = QuestionComment.withParentOf(create, parentComment, question, member);
-        return commentService.register(newQuestionComment);
-    }
-
-    // 최상위 댓글 생성
-    @SendCommentNotification(notiCategory = NotiCategory.QUESTION_COMMENT)
-    public Comment registerCommentOrphanage(final CommentCreate create, final Question findQuestion,
-                                          final Member member) {
-        QuestionComment newQuestionComment = QuestionComment.orphanageOf(create, findQuestion, member);
-        return commentService.register(newQuestionComment);
     }
 
     /* -------------------------------------------- CREATE 끝 -------------------------------------------- */

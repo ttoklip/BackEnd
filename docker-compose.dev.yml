@@ -4,13 +4,14 @@ services:
   api:
     build:
       context: ./ttoklip-api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
-    container_name: api  # 컨테이너 이름을 'api'로 변경
+    container_name: api
     environment:
       SPRING_PROFILES_ACTIVE: dev
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
     restart: always
     logging:
       driver: "json-file"
@@ -28,13 +29,14 @@ services:
   batch:
     build:
       context: ./ttoklip-batch
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: batch
     environment:
       SPRING_PROFILES_ACTIVE: dev
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
     restart: always
     logging:
       driver: "json-file"
@@ -45,6 +47,29 @@ services:
       - "8081:8081"  # 외부에서 접근할 수 있도록 포트 매핑 추가
     volumes:
       - ./ttoklip-batch/src:/app/src
+    networks:
+      - ttoklip_network
+      - monitoring_network
+
+  notification:
+    build:
+      context: ./ttoklip-notification
+      dockerfile: Dockerfile-dev
+      args:
+        JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    container_name: notification
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      - "8002:8002"
     networks:
       - ttoklip_network
       - monitoring_network
@@ -71,6 +96,34 @@ services:
       - api
     networks:
       - ttoklip_network
+
+  zookeeper:
+    image: bitnami/zookeeper:latest  # Bitnami의 최신 Zookeeper 이미지 사용
+    container_name: zookeeper
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    ports:
+      - "2181:2181"
+    networks:
+      - ttoklip_network
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    ports:
+      - "9093:9093"
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    networks:
+      - ttoklip_network
+
 
 networks:
   monitoring_network:

@@ -1,14 +1,12 @@
 package com.api.notification.aspect;
 
 import com.api.global.util.SecurityUtil;
+import com.common.NotiCategory;
+import com.common.annotation.SendCommentNotification;
 import com.common.config.event.Events;
 import com.domain.comment.domain.Comment;
-import com.common.annotation.SendCommentNotification;
-import com.common.NotiCategory;
 import com.domain.notification.event.CommentEvent;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -24,24 +22,22 @@ import org.springframework.stereotype.Component;
 @Order(Ordered.HIGHEST_PRECEDENCE + 4)
 public class CommentNotificationAspect {
 
-    @AfterReturning("@annotation(com.common.annotation.SendCommentNotification)")
-    public void afterScrapNotification(JoinPoint joinPoint) {
+    @AfterReturning(value = "@annotation(com.common.annotation.SendCommentNotification)", returning = "result")
+    public void afterScrapNotification(JoinPoint joinPoint, Object result) {
         SendCommentNotification sendNotification = getSendCommentNotification(joinPoint);
 
-        Optional<Comment> commentOptional = Arrays.stream(joinPoint.getArgs())
-                .filter(Comment.class::isInstance)
-                .map(Comment.class::cast)
-                .findFirst();
+        if (result instanceof Comment comment) {
+            Long fromMemberId = SecurityUtil.getCurrentMember().getId();
 
-        Long fromMemberId = SecurityUtil.getCurrentMember().getId();
+            log.info("Returned Comment: {}", comment);
 
-        commentOptional.ifPresent(comment -> {
             NotiCategory notiCategory = sendNotification.notiCategory();
             log.info("[Notification] {} - Notification Type: {}", joinPoint.getSignature(), notiCategory);
 
             Events.raise(new CommentEvent(comment, notiCategory, fromMemberId));
-        });
+        }
     }
+
 
     private SendCommentNotification getSendCommentNotification(final JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

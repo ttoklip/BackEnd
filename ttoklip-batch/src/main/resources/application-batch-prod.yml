@@ -1,8 +1,11 @@
+server:
+  port: 8081
+
 spring:
   config:
     activate:
-      on-profile: dev
-    import: "classpath:application-domain-dev.yml"
+      on-profile: prod
+    import: "classpath:application-domain-prod.yml"
 
 management:
   endpoints:

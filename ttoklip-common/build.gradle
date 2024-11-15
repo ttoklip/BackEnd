@@ -3,6 +3,8 @@ jar { enabled = true }
 
 dependencies {
 
+    api 'org.springframework.boot:spring-boot-starter-json'
+
     // jwt
     api 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -10,5 +12,10 @@ dependencies {
 
     // jasypt
     api("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+
+    // Jackson
+    api 'com.fasterxml.jackson.core:jackson-databind'
+    api 'com.fasterxml.jackson.core:jackson-core'
+
 }
 

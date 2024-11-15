@@ -2,18 +2,13 @@ spring:
   activate:
     on-profile: dev
   config:
-    import: "classpath:application-common.yml" # common 모듈의 설정 파일 참조
+    import: "classpath:application-common.yml"
   jackson:
     time-zone: Asia/Seoul
   data:
     redis:
-      host: redis
+      host: localhost
       port: 6379
-google:
-  firebase:
-    fcm:
-      resource:
-        path: ENC(1w5VOfwAxMMzT+R2d1hu2wGP/S59sFHUkr2EtKUPGYhAV3V2uCQkD0tURCrcwwhl)
 
 cloud:
   aws:
