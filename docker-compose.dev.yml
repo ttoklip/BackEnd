@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./ttoklip-api
+      dockerfile: Dockerfile
+      args:
+        JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    container_name: ttoklip_api_dev
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - ./ttoklip-api/src:/app/src
+    networks:
+      - my_network
+
+  batch:
+    build:
+      context: ./ttoklip-batch
+      dockerfile: Dockerfile
+      args:
+        JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    container_name: ttoklip_batch_dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - ./ttoklip-batch/src:/app/src
+    networks:
+      - my_network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    environment:
+      - REDIS_PASSWORD=qwertyuiop1234
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
