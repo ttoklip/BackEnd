@@ -2,9 +2,9 @@
 
 ## Version2
 
-![ttokliparc4.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/ttokliparc4.png)
+![ttokliparc4.png](https://github.com/ttoklip/BackEnd/blob/develop/introduce/ttokliparc4.png?raw=true)
 
-## Version1 -> 현재 미사용
+## Version1 - 현재 미사용
 
 ![ttokliparc3.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/ttokliparc3.png)
 
