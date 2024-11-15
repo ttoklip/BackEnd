@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
-    container_name: ttoklip_api_dev
+    container_name: api  # 컨테이너 이름을 'api'로 변경
     environment:
       SPRING_PROFILES_ACTIVE: dev
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
@@ -17,10 +17,13 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    ports:
+      - "8080:8080"
     volumes:
       - ./ttoklip-api/src:/app/src
     networks:
-      - my_network
+      - ttoklip_network
+      - monitoring_network
 
   batch:
     build:
@@ -28,7 +31,7 @@ services:
       dockerfile: Dockerfile
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
-    container_name: ttoklip_batch_dev
+    container_name: batch
     environment:
       SPRING_PROFILES_ACTIVE: dev
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
@@ -38,10 +41,13 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    ports:
+      - "8081:8081"  # 외부에서 접근할 수 있도록 포트 매핑 추가
     volumes:
       - ./ttoklip-batch/src:/app/src
     networks:
-      - my_network
+      - ttoklip_network
+      - monitoring_network
 
   redis:
     image: redis:latest
@@ -52,7 +58,7 @@ services:
     environment:
       - REDIS_PASSWORD=qwertyuiop1234
     networks:
-      - my_network
+      - ttoklip_network
 
   nginx:
     image: nginx:latest
@@ -64,8 +70,10 @@ services:
     depends_on:
       - api
     networks:
-      - my_network
+      - ttoklip_network
 
 networks:
-  my_network:
-    driver: bridge
+  monitoring_network:
+    external: true
+  ttoklip_network:
+    external: true

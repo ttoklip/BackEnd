@@ -1,0 +1,12 @@
+scrape_configs:
+  - job_name: 'api'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets:
+          - 'api:8080'
+
+  - job_name: 'batch'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets:
+          - 'batch:8081'

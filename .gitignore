@@ -50,3 +50,5 @@ gradle/wrapper/gradle-wrapper.properties
 **/gradlew.bat
 **/gradle/wrapper/gradle-wrapper.jar
 **/gradle/wrapper/gradle-wrapper.properties
+
+/ttoklip-monitoring/loki/wal/*

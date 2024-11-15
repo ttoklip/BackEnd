@@ -23,3 +23,9 @@ spring:
 server:
   tomcat:
     uri-encoding: UTF-8
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
