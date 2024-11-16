@@ -45,7 +45,7 @@ jobs:
           cp ttoklip-api/Dockerfile-prod deploy/Dockerfile-api-prod
           cp ttoklip-batch/Dockerfile-prod deploy/Dockerfile-batch-prod
           cp ttoklip-notification/Dockerfile-prod deploy/Dockerfile-notification-prod
-          cp nginx/nginx.conf deploy/
+          cp -r nginx deploy/
           cp docker-compose.prod.yml deploy/
           zip -r deploy-package.zip deploy
 
