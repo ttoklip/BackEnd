@@ -25,21 +25,14 @@ jobs:
           ./gradlew :ttoklip-batch:clean :ttoklip-batch:build :ttoklip-batch:test
           ./gradlew :ttoklip-notification:clean :ttoklip-notification:build :ttoklip-notification:test
 
-      - name: Verify Artifacts
-        run: |
-          ls -la ttoklip-api/build/libs/
-          ls -la ttoklip-batch/build/libs/
-          ls -la ttoklip-notification/build/libs/
-          ls -la docker-compose.prod.yml || echo "docker-compose.prod.yml not found"
-
       - name: Save Build Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           path: |
-            ttoklip-api/build/libs/*.jar
-            ttoklip-batch/build/libs/*.jar
-            ttoklip-notification/build/libs/*.jar
+            ttoklip-api/build/libs/ttoklip-api-*.jar
+            ttoklip-batch/build/libs/ttoklip-batch-*.jar
+            ttoklip-notification/build/libs/ttoklip-notification-*.jar
             docker-compose.prod.yml
 
   cd:
@@ -56,28 +49,17 @@ jobs:
           name: build-artifacts
           path: ./deploy
 
-      - name: Verify Downloaded Files
-        run: |
-          echo "Checking downloaded files..."
-          ls -la ./deploy/
-          ls ./deploy/*.jar || echo "No JAR files found"
-          ls ./deploy/docker-compose.prod.yml || echo "docker-compose.prod.yml not found"
-
-      - name: Set up AWS CLI
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
-          aws configure set aws-secret-access-key ${{ secrets.SSM_PRIVATE }}
-          aws configure set region $AWS_REGION
-
-      - name: Prepare Deployment Files
+      - name: Verify and Prepare Deployment Files
         run: |
           mkdir -p deploy
-          if ls ./deploy/*.jar 1> /dev/null 2>&1; then
-            mv ./deploy/*.jar deploy/
-          else
-            echo "No JAR files found in deploy folder."
-            exit 1
-          fi
+          for module in ttoklip-api ttoklip-batch ttoklip-notification; do
+            if [ -f ./deploy/${module}-*.jar ]; then
+              mv ./deploy/${module}-*.jar deploy/ || echo "No JAR found for $module"
+            else
+              echo "No JAR file found for $module."
+              exit 1
+            fi
+          done
 
           if [ -f ./deploy/docker-compose.prod.yml ]; then
             mv ./deploy/docker-compose.prod.yml deploy/
@@ -119,10 +101,10 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --parameters 'commands=[
-              "cd /home/ec2-user/ttoklip/application",
-              "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
-              "cp /home/ec2-user/ttoklip/application/.env /home/ec2-user/ttoklip/application/deploy$version/"
-            ]' \
+                "cd /home/ec2-user/ttoklip/application",
+                "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
+                "cp /home/ec2-user/ttoklip/application/.env /home/ec2-user/ttoklip/application/deploy$version/"
+              ]' \
             --region $AWS_REGION
 
       - name: Start Docker Compose on EC2
