@@ -113,36 +113,28 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
           aws configure set region $AWS_REGION
 
-      - name: Verify AWS Credentials
-        run: aws sts get-caller-identity
+      - name: Upload Deployment Package to EC2
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters 'commands=[
+              "mkdir -p /home/ec2-user/ttoklip/application",
+              "echo Uploading deployment package...",
+              "cat > /home/ec2-user/ttoklip/application/deploy-package.zip <<EOF",
+              "$(base64 deploy-package.zip)",
+              "EOF"
+            ]' \
+            --region $AWS_REGION
 
-      - name: Generate New Deployment Folder on EC2
+      - name: Verify Deployment on EC2
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --parameters 'commands=[
               "cd /home/ec2-user/ttoklip/application",
-              "version=$(($(ls | grep deploy | sed s/deploy//g | sort -n | tail -1)+1))",
-              "mkdir deploy$version",
-              "echo $version > /home/ec2-user/ttoklip/application/latest_version.txt"
+              "ls -la",
+              "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy$(cat latest_version.txt)"
             ]' \
             --region $AWS_REGION
-
-      - name: Upload Deployment Files to EC2
-        run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-              "cd /home/ec2-user/ttoklip/application",
-              "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
-              "unzip -o /home/ec2-user/deploy-package.zip -d deploy$version"
-            ]' \
-            --region $AWS_REGION
-
-
-
-
-
-
