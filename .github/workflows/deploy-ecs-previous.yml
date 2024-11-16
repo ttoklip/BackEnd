@@ -1,6 +1,6 @@
 name: Deploy to Amazon ECS
 
-#on:
+on: {}
 #    push:
 #        branches: [ "main" ]
 

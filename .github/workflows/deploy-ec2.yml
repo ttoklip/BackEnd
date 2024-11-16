@@ -74,6 +74,7 @@ jobs:
           echo "Checking downloaded files..."
           ls -la ./deploy/
 
+          # Process JAR files
           for module in ttoklip-api ttoklip-batch ttoklip-notification; do
             echo "Processing $module..."
             if [ -f ./deploy/${module}-SNAPSHOT.jar ]; then
@@ -88,14 +89,23 @@ jobs:
             fi
           done
 
+          # Process docker-compose.prod.yml
           if [ -f ./deploy/docker-compose.prod.yml ]; then
-            cp ./deploy/docker-compose.prod.yml deploy/
+            if [ -f deploy/docker-compose.prod.yml ] && cmp -s ./deploy/docker-compose.prod.yml deploy/docker-compose.prod.yml; then
+              echo "docker-compose.prod.yml is identical. Skipping copy."
+            else
+              echo "Copying docker-compose.prod.yml to deploy folder."
+              cp ./deploy/docker-compose.prod.yml deploy/
+            fi
           else
-            echo "docker-compose.prod.yml not found."
+            echo "docker-compose.prod.yml not found in ./deploy. Exiting."
             exit 1
           fi
 
+          # Create deployment package
+          echo "Creating deployment package..."
           zip -r deploy-package.zip deploy
+
 
       - name: Configure AWS Credentials
         run: |
@@ -130,4 +140,9 @@ jobs:
               "unzip -o /home/ec2-user/deploy-package.zip -d deploy$version"
             ]' \
             --region $AWS_REGION
+
+
+
+
+
 
