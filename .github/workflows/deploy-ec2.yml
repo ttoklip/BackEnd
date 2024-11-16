@@ -52,25 +52,34 @@ jobs:
       - name: Verify and Prepare Deployment Files
         run: |
           mkdir -p deploy
+          echo "Checking downloaded files..."
+          ls -la ./deploy/
           for module in ttoklip-api ttoklip-batch ttoklip-notification; do
-            if [ -f ./deploy/${module}-*.jar ]; then
-              mv ./deploy/${module}-SNAPSHOT.jar deploy/ || echo "No JAR found for $module"
+            echo "Processing $module..."
+            if [ -f ./deploy/${module}-SNAPSHOT.jar ]; then
+              echo "Found ${module}-SNAPSHOT.jar at root level."
+              cp ./deploy/${module}-SNAPSHOT.jar deploy/
             elif [ -f ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar ]; then
+              echo "Found ${module}-SNAPSHOT.jar in build/libs."
               cp ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar deploy/
             else
               echo "No JAR file found for $module."
+              ls -la ./deploy/
+              ls -la ./deploy/$module/
+              ls -la ./deploy/$module/build/libs/
               exit 1
             fi
           done
 
           if [ -f ./deploy/docker-compose.prod.yml ]; then
-            mv ./deploy/docker-compose.prod.yml deploy/
+            cp ./deploy/docker-compose.prod.yml deploy/
           else
             echo "docker-compose.prod.yml not found."
             exit 1
           fi
 
           zip -r deploy-package.zip deploy
+
 
       - name: Generate New Deployment Folder on EC2
         run: |
