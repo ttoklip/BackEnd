@@ -41,6 +41,11 @@ jobs:
           cp ttoklip-api/build/libs/ttoklip-api-SNAPSHOT.jar deploy/
           cp ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar deploy/
           cp ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar deploy/
+
+          cp ttoklip-api/Dockerfile-prod deploy/Dockerfile-api-prod
+          cp ttoklip-batch/Dockerfile-prod deploy/Dockerfile-batch-prod
+          cp ttoklip-notification/Dockerfile-prod deploy/Dockerfile-notification-prod
+
           cp docker-compose.prod.yml deploy/
           zip -r deploy-package.zip deploy
 
@@ -83,15 +88,18 @@ jobs:
           
           aws s3 cp deploy_script.zip s3://ttoklip-deploy/zips/deploy-script.zip --region ap-northeast-2
 
-      - name: Execute Deploy Script on EC2 via SSM
+      - name: Deploy to EC2 via SSM
         run: |
           aws ssm send-command \
+            --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-              "aws s3 cp s3://ttoklip-deploy/zips/deploy-script.zip /home/ec2-user/ttoklip/deploy-script.zip --region ap-northeast-2",
-              "unzip -o /home/ec2-user/ttoklip/deploy-script.zip -d /home/ec2-user/ttoklip",
-              "chmod +x /home/ec2-user/ttoklip/deploy_script.sh",
-              "/home/ec2-user/ttoklip/deploy_script.sh"
-            ]' \
+            --comment "Running deployment script" \
+            --parameters commands='
+              aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/ --region ap-northeast-2
+              aws s3 cp s3://ttoklip-deploy/zips/deploy-script.zip /home/ec2-user/ttoklip/application/ --region ap-northeast-2
+              cd /home/ec2-user/ttoklip/application/
+              unzip -o deploy-script.zip
+              chmod +x deploy_script.sh
+              ./deploy_script.sh
+            ' \
             --region $AWS_REGION
