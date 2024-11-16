@@ -1,6 +1,6 @@
 FROM openjdk:17
 
-ARG JAR_FILE=build/libs/ttoklip-api-SNAPSHOT.jar
+ARG JAR_FILE=ttoklip-api-SNAPSHOT.jar
 ARG JASYPT_ENCRYPTOR_PASSWORD
 
 ENV SPRING_PROFILES_ACTIVE=prod
