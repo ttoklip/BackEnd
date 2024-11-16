@@ -1,162 +1,162 @@
-name: CI/CD Workflow for Multi-Module Project
-
-on:
-  push:
-    branches:
-      - setting/change-cicd-action
-
-jobs:
-  ci:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Build and Test Each Module
-        run: |
-          ./gradlew :ttoklip-api:clean :ttoklip-api:build :ttoklip-api:test
-          ./gradlew :ttoklip-batch:clean :ttoklip-batch:build :ttoklip-batch:test
-          ./gradlew :ttoklip-notification:clean :ttoklip-notification:build :ttoklip-notification:test
-
-      - name: Verify Build Artifacts
-        run: |
-          echo "Verifying ttoklip-api artifacts..."
-          ls -la ttoklip-api/build/libs/
-          echo "Verifying ttoklip-batch artifacts..."
-          ls -la ttoklip-batch/build/libs/
-          echo "Verifying ttoklip-notification artifacts..."
-          ls -la ttoklip-notification/build/libs/
-          echo "Verifying docker-compose.prod.yml..."
-          ls -la docker-compose.prod.yml
-
-      - name: Save Build Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifacts
-          path: |
-            ttoklip-api/build/libs/ttoklip-api-SNAPSHOT.jar
-            ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar
-            ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar
-            docker-compose.prod.yml
-
-      - name: Verify Saved Artifacts
-        run: |
-          echo "Artifacts saved successfully. Verifying locally before proceeding..."
-          ls -la ttoklip-api/build/libs/ttoklip-api-SNAPSHOT.jar
-          ls -la ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar
-          ls -la ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar
-          ls -la docker-compose.prod.yml
-
-  cd:
-    needs: ci
-    runs-on: ubuntu-latest
-
-    env:
-      AWS_REGION: "ap-northeast-2"
-
-    steps:
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifacts
-          path: ./deploy
-
-      - name: Verify and Prepare Deployment Files
-        run: |
-          mkdir -p deploy
-          echo "Checking downloaded files..."
-          ls -la ./deploy/
-
-          # Process JAR files
-          for module in ttoklip-api ttoklip-batch ttoklip-notification; do
-            echo "Processing $module..."
-            if [ -f ./deploy/${module}-SNAPSHOT.jar ]; then
-              echo "Found ${module}-SNAPSHOT.jar at root level."
-              cp ./deploy/${module}-SNAPSHOT.jar deploy/
-            elif [ -f ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar ]; then
-              echo "Found ${module}-SNAPSHOT.jar in build/libs."
-              cp ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar deploy/
-            else
-              echo "No JAR file found for $module."
-              exit 1
-            fi
-          done
-
-          # Process docker-compose.prod.yml
-          if [ -f ./deploy/docker-compose.prod.yml ]; then
-            if [ -f deploy/docker-compose.prod.yml ] && cmp -s ./deploy/docker-compose.prod.yml deploy/docker-compose.prod.yml; then
-              echo "docker-compose.prod.yml is identical. Skipping copy."
-            else
-              echo "Copying docker-compose.prod.yml to deploy folder."
-              cp ./deploy/docker-compose.prod.yml deploy/
-            fi
-          else
-            echo "docker-compose.prod.yml not found in ./deploy. Exiting."
-            exit 1
-          fi
-
-          # Create deployment package
-          echo "Creating deployment package..."
-          zip -r deploy-package.zip deploy
-
-
-      - name: Configure AWS Credentials
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
-          aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
-          aws configure set region $AWS_REGION
-
-      - name: Upload Deployment Package to EC2
-        run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-              "mkdir -p /home/ec2-user/ttoklip/application",
-              "echo Uploading deployment package...",
-              "cat > /home/ec2-user/ttoklip/application/deploy-package.zip <<EOF",
-              "$(base64 deploy-package.zip)",
-              "EOF"
-            ]' \
-            --region $AWS_REGION
-
-      - name: Verify Deployment on EC2
-        run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-              "cd /home/ec2-user/ttoklip/application",
-              "ls -la",
-              "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy$(cat latest_version.txt)"
-            ]' \
-            --region $AWS_REGION
-
-      - name: Verify Uploaded Deployment File
-        run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-              "ls -lh /home/ec2-user/ttoklip/application/deploy-package.zip",
-              "unzip -t /home/ec2-user/ttoklip/application/deploy-package.zip"
-            ]' \
-            --region $AWS_REGION
-
-      - name: Ensure File Permissions
-        run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-              "sudo chown ec2-user:ec2-user /home/ec2-user/ttoklip/application/deploy-package.zip",
-              "sudo chmod 644 /home/ec2-user/ttoklip/application/deploy-package.zip"
-            ]' \
-            --region $AWS_REGION
+#name: CI/CD Workflow for Multi-Module Project
+#
+#on:
+#  push:
+#    branches:
+#      - setting/change-cicd-action
+#
+#jobs:
+#  ci:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout Code
+#        uses: actions/checkout@v2
+#
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: Build and Test Each Module
+#        run: |
+#          ./gradlew :ttoklip-api:clean :ttoklip-api:build :ttoklip-api:test
+#          ./gradlew :ttoklip-batch:clean :ttoklip-batch:build :ttoklip-batch:test
+#          ./gradlew :ttoklip-notification:clean :ttoklip-notification:build :ttoklip-notification:test
+#
+#      - name: Verify Build Artifacts
+#        run: |
+#          echo "Verifying ttoklip-api artifacts..."
+#          ls -la ttoklip-api/build/libs/
+#          echo "Verifying ttoklip-batch artifacts..."
+#          ls -la ttoklip-batch/build/libs/
+#          echo "Verifying ttoklip-notification artifacts..."
+#          ls -la ttoklip-notification/build/libs/
+#          echo "Verifying docker-compose.prod.yml..."
+#          ls -la docker-compose.prod.yml
+#
+#      - name: Save Build Artifacts
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: build-artifacts
+#          path: |
+#            ttoklip-api/build/libs/ttoklip-api-SNAPSHOT.jar
+#            ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar
+#            ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar
+#            docker-compose.prod.yml
+#
+#      - name: Verify Saved Artifacts
+#        run: |
+#          echo "Artifacts saved successfully. Verifying locally before proceeding..."
+#          ls -la ttoklip-api/build/libs/ttoklip-api-SNAPSHOT.jar
+#          ls -la ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar
+#          ls -la ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar
+#          ls -la docker-compose.prod.yml
+#
+#  cd:
+#    needs: ci
+#    runs-on: ubuntu-latest
+#
+#    env:
+#      AWS_REGION: "ap-northeast-2"
+#
+#    steps:
+#      - name: Download Build Artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: build-artifacts
+#          path: ./deploy
+#
+#      - name: Verify and Prepare Deployment Files
+#        run: |
+#          mkdir -p deploy
+#          echo "Checking downloaded files..."
+#          ls -la ./deploy/
+#
+#          # Process JAR files
+#          for module in ttoklip-api ttoklip-batch ttoklip-notification; do
+#            echo "Processing $module..."
+#            if [ -f ./deploy/${module}-SNAPSHOT.jar ]; then
+#              echo "Found ${module}-SNAPSHOT.jar at root level."
+#              cp ./deploy/${module}-SNAPSHOT.jar deploy/
+#            elif [ -f ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar ]; then
+#              echo "Found ${module}-SNAPSHOT.jar in build/libs."
+#              cp ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar deploy/
+#            else
+#              echo "No JAR file found for $module."
+#              exit 1
+#            fi
+#          done
+#
+#          # Process docker-compose.prod.yml
+#          if [ -f ./deploy/docker-compose.prod.yml ]; then
+#            if [ -f deploy/docker-compose.prod.yml ] && cmp -s ./deploy/docker-compose.prod.yml deploy/docker-compose.prod.yml; then
+#              echo "docker-compose.prod.yml is identical. Skipping copy."
+#            else
+#              echo "Copying docker-compose.prod.yml to deploy folder."
+#              cp ./deploy/docker-compose.prod.yml deploy/
+#            fi
+#          else
+#            echo "docker-compose.prod.yml not found in ./deploy. Exiting."
+#            exit 1
+#          fi
+#
+#          # Create deployment package
+#          echo "Creating deployment package..."
+#          zip -r deploy-package.zip deploy
+#
+#
+#      - name: Configure AWS Credentials
+#        run: |
+#          aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
+#          aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
+#          aws configure set region $AWS_REGION
+#
+#      - name: Upload Deployment Package to EC2
+#        run: |
+#          aws ssm send-command \
+#            --document-name "AWS-RunShellScript" \
+#            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+#            --parameters 'commands=[
+#              "mkdir -p /home/ec2-user/ttoklip/application",
+#              "echo Uploading deployment package...",
+#              "cat > /home/ec2-user/ttoklip/application/deploy-package.zip <<EOF",
+#              "$(base64 deploy-package.zip)",
+#              "EOF"
+#            ]' \
+#            --region $AWS_REGION
+#
+#      - name: Verify Deployment on EC2
+#        run: |
+#          aws ssm send-command \
+#            --document-name "AWS-RunShellScript" \
+#            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+#            --parameters 'commands=[
+#              "cd /home/ec2-user/ttoklip/application",
+#              "ls -la",
+#              "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy$(cat latest_version.txt)"
+#            ]' \
+#            --region $AWS_REGION
+#
+#      - name: Verify Uploaded Deployment File
+#        run: |
+#          aws ssm send-command \
+#            --document-name "AWS-RunShellScript" \
+#            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+#            --parameters 'commands=[
+#              "ls -lh /home/ec2-user/ttoklip/application/deploy-package.zip",
+#              "unzip -t /home/ec2-user/ttoklip/application/deploy-package.zip"
+#            ]' \
+#            --region $AWS_REGION
+#
+#      - name: Ensure File Permissions
+#        run: |
+#          aws ssm send-command \
+#            --document-name "AWS-RunShellScript" \
+#            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+#            --parameters 'commands=[
+#              "sudo chown ec2-user:ec2-user /home/ec2-user/ttoklip/application/deploy-package.zip",
+#              "sudo chmod 644 /home/ec2-user/ttoklip/application/deploy-package.zip"
+#            ]' \
+#            --region $AWS_REGION
