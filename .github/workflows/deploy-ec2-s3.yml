@@ -83,8 +83,7 @@ jobs:
           sudo chmod -R 755 /home/ec2-user/ttoklip
 
           if [ -d "/home/ec2-user/ttoklip/application/deploy" ]; then
-              mv /home/ec2-user/ttoklip/application/deploy /home/ec2-user/ttoklip/application/deploy_$(date +"%Y%m%d%H%M%S")
-
+              rm -rf /home/ec2-user/ttoklip/application/deploy
           fi
 
           aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region ap-northeast-2
