@@ -74,7 +74,6 @@ jobs:
           echo "Checking downloaded files..."
           ls -la ./deploy/
 
-          # JAR 파일 확인 및 복사
           for module in ttoklip-api ttoklip-batch ttoklip-notification; do
             echo "Processing $module..."
             if [ -f ./deploy/${module}-SNAPSHOT.jar ]; then
@@ -85,32 +84,27 @@ jobs:
               cp ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar deploy/
             else
               echo "No JAR file found for $module."
-              ls -la ./deploy/
-              ls -la ./deploy/$module/
-              ls -la ./deploy/$module/build/libs/
               exit 1
             fi
           done
 
-          # docker-compose.prod.yml 확인 및 복사
           if [ -f ./deploy/docker-compose.prod.yml ]; then
-            echo "docker-compose.prod.yml exists. Comparing content..."
-            if cmp -s ./deploy/docker-compose.prod.yml deploy/docker-compose.prod.yml; then
-              echo "docker-compose.prod.yml is identical. Skipping copy."
-            else
-              echo "docker-compose.prod.yml differs. Overwriting."
-              cp ./deploy/docker-compose.prod.yml deploy/
-            fi
-          else
-            echo "docker-compose.prod.yml not found in deploy folder. Copying..."
             cp ./deploy/docker-compose.prod.yml deploy/
+          else
+            echo "docker-compose.prod.yml not found."
+            exit 1
           fi
 
-          # 배포 패키지 생성
-          echo "Creating deployment package..."
           zip -r deploy-package.zip deploy
 
+      - name: Configure AWS Credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
+          aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
+          aws configure set region $AWS_REGION
 
+      - name: Verify AWS Credentials
+        run: aws sts get-caller-identity
 
       - name: Generate New Deployment Folder on EC2
         run: |
@@ -137,27 +131,3 @@ jobs:
             ]' \
             --region $AWS_REGION
 
-      - name: Copy .env to New Deployment Folder
-        run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-                "cd /home/ec2-user/ttoklip/application",
-                "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
-                "cp /home/ec2-user/ttoklip/application/.env /home/ec2-user/ttoklip/application/deploy$version/"
-              ]' \
-            --region $AWS_REGION
-
-      - name: Start Docker Compose on EC2
-        run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters 'commands=[
-              "cd /home/ec2-user/ttoklip/application",
-              "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
-              "cd deploy$version",
-              "docker-compose -f docker-compose.prod.yml --env-file .env up -d --build"
-            ]' \
-            --region $AWS_REGION
