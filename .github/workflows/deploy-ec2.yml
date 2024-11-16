@@ -25,6 +25,17 @@ jobs:
           ./gradlew :ttoklip-batch:clean :ttoklip-batch:build :ttoklip-batch:test
           ./gradlew :ttoklip-notification:clean :ttoklip-notification:build :ttoklip-notification:test
 
+      - name: Verify Build Artifacts
+        run: |
+          echo "Verifying ttoklip-api artifacts..."
+          ls -la ttoklip-api/build/libs/
+          echo "Verifying ttoklip-batch artifacts..."
+          ls -la ttoklip-batch/build/libs/
+          echo "Verifying ttoklip-notification artifacts..."
+          ls -la ttoklip-notification/build/libs/
+          echo "Verifying docker-compose.prod.yml..."
+          ls -la docker-compose.prod.yml
+
       - name: Save Build Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -34,6 +45,14 @@ jobs:
             ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar
             ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar
             docker-compose.prod.yml
+
+      - name: Verify Saved Artifacts
+        run: |
+          echo "Artifacts saved successfully. Verifying locally before proceeding..."
+          ls -la ttoklip-api/build/libs/ttoklip-api-SNAPSHOT.jar
+          ls -la ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar
+          ls -la ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar
+          ls -la docker-compose.prod.yml
 
   cd:
     needs: ci
