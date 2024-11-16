@@ -56,13 +56,6 @@ jobs:
       AWS_REGION: "ap-northeast-2"
 
     steps:
-      - name: Download from S3
-        run: |
-          aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region $AWS_REGION
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SSM_PUBLIC }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SSM_PRIVATE }}
-
       - name: Prepare and Deploy on EC2
         run: |
           aws ssm send-command \
@@ -70,7 +63,10 @@ jobs:
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --parameters 'commands=[
               "mkdir -p /home/ec2-user/ttoklip/application/deploy",
-              "rm -rf /home/ec2-user/ttoklip/application/deploy/*",
+              "sudo mkdir -p /home/ec2-user/ttoklip/application",
+              "sudo chown -R ec2-user:ec2-user /home/ec2-user/ttoklip",
+              "sudo chmod -R 755 /home/ec2-user/ttoklip",
+              "aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region ap-northeast-2",
               "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy",
               "docker-compose -f /home/ec2-user/ttoklip/application/deploy/docker-compose.prod.yml --env-file /home/ec2-user/ttoklip/application/.env up -d --build"
             ]' \
