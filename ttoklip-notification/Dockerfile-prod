@@ -1,6 +1,6 @@
 FROM openjdk:17
 
-ARG JAR_FILE=build/libs/ttoklip-notification-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/ttoklip-notification-SNAPSHOT.jar
 ARG JASYPT_ENCRYPTOR_PASSWORD
 
 ENV SPRING_PROFILES_ACTIVE=prod
