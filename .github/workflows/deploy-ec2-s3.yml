@@ -101,5 +101,8 @@ jobs:
           unzip -o deploy-script.zip\n\
           chmod +x deploy_script.sh\n\
           ./deploy_script.sh' \
+            --output-s3-bucket-name "ddoklip-bk2" \
+            --output-s3-key-prefix "ssm-output" \
             --region $AWS_REGION
+
 
