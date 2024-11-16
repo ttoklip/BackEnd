@@ -12,13 +12,13 @@ public class BadWordFilter {
         BadWordFiltering filtering = new BadWordFiltering();
 
         List<String> badWords = Arrays.stream(words)
-                .map(word -> word.replaceAll("[^\\p{IsAlphabetic}\\p{IsWhite_Space}]", ""))
-                .filter(filtering::blankCheck)
+                .filter(word -> word.chars().anyMatch(Character::isAlphabetic))
+                .filter(filtering::check)
                 .toList();
 
         if (!badWords.isEmpty()) {
             String badWordsString = String.join(", ", badWords);
-            String customMessage = BAD_WORDS_ERROR.getMessage() + " (욕설 단어들: " + badWordsString + ")";
+            String customMessage = BAD_WORDS_ERROR.getMessage() + " (비속어 단어들: " + badWordsString + ")";
             throw new BadWordException(BAD_WORDS_ERROR.getStatus(), BAD_WORDS_ERROR.getErrorCode(), customMessage);
         }
     }
