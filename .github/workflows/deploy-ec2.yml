@@ -73,6 +73,8 @@ jobs:
           mkdir -p deploy
           echo "Checking downloaded files..."
           ls -la ./deploy/
+
+          # JAR 파일 확인 및 복사
           for module in ttoklip-api ttoklip-batch ttoklip-notification; do
             echo "Processing $module..."
             if [ -f ./deploy/${module}-SNAPSHOT.jar ]; then
@@ -90,14 +92,24 @@ jobs:
             fi
           done
 
+          # docker-compose.prod.yml 확인 및 복사
           if [ -f ./deploy/docker-compose.prod.yml ]; then
-            cp ./deploy/docker-compose.prod.yml deploy/
+            echo "docker-compose.prod.yml exists. Comparing content..."
+            if cmp -s ./deploy/docker-compose.prod.yml deploy/docker-compose.prod.yml; then
+              echo "docker-compose.prod.yml is identical. Skipping copy."
+            else
+              echo "docker-compose.prod.yml differs. Overwriting."
+              cp ./deploy/docker-compose.prod.yml deploy/
+            fi
           else
-            echo "docker-compose.prod.yml not found."
-            exit 1
+            echo "docker-compose.prod.yml not found in deploy folder. Copying..."
+            cp ./deploy/docker-compose.prod.yml deploy/
           fi
 
+          # 배포 패키지 생성
+          echo "Creating deployment package..."
           zip -r deploy-package.zip deploy
+
 
 
       - name: Generate New Deployment Folder on EC2
