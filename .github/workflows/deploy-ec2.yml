@@ -30,9 +30,9 @@ jobs:
         with:
           name: build-artifacts
           path: |
-            ttoklip-api/build/libs/ttoklip-api-*.jar
-            ttoklip-batch/build/libs/ttoklip-batch-*.jar
-            ttoklip-notification/build/libs/ttoklip-notification-*.jar
+            ttoklip-api/build/libs/ttoklip-api-SNAPSHOT.jar
+            ttoklip-batch/build/libs/ttoklip-batch-SNAPSHOT.jar
+            ttoklip-notification/build/libs/ttoklip-notification-SNAPSHOT.jar
             docker-compose.prod.yml
 
   cd:
@@ -54,7 +54,9 @@ jobs:
           mkdir -p deploy
           for module in ttoklip-api ttoklip-batch ttoklip-notification; do
             if [ -f ./deploy/${module}-*.jar ]; then
-              mv ./deploy/${module}-*.jar deploy/ || echo "No JAR found for $module"
+              mv ./deploy/${module}-SNAPSHOT.jar deploy/ || echo "No JAR found for $module"
+            elif [ -f ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar ]; then
+              cp ./deploy/${module}/build/libs/${module}-SNAPSHOT.jar deploy/
             else
               echo "No JAR file found for $module."
               exit 1
