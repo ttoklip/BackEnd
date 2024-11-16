@@ -68,18 +68,30 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
           aws configure set region $AWS_REGION
 
-      - name: Prepare and Deploy on EC2
+      - name: Upload Deploy Script to S3
+        run: |
+          echo "#!/bin/bash" > deploy_script.sh
+          echo "mkdir -p /home/ec2-user/ttoklip/application/deploy" >> deploy_script.sh
+          echo "sudo mkdir -p /home/ec2-user/ttoklip/application" >> deploy_script.sh
+          echo "sudo chown -R ec2-user:ec2-user /home/ec2-user/ttoklip" >> deploy_script.sh
+          echo "sudo chmod -R 755 /home/ec2-user/ttoklip" >> deploy_script.sh
+          echo "aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region ap-northeast-2" >> deploy_script.sh
+          echo "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy" >> deploy_script.sh
+          echo "docker-compose -f /home/ec2-user/ttoklip/application/deploy/docker-compose.prod.yml --env-file /home/ec2-user/ttoklip/application/.env up -d --build" >> deploy_script.sh
+
+          zip deploy_script.zip deploy_script.sh
+          
+          aws s3 cp deploy_script.zip s3://ttoklip-deploy/zips/deploy-script.zip --region ap-northeast-2
+
+      - name: Execute Deploy Script on EC2 via SSM
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --parameters 'commands=[
-              "mkdir -p /home/ec2-user/ttoklip/application/deploy",
-              "sudo mkdir -p /home/ec2-user/ttoklip/application",
-              "sudo chown -R ec2-user:ec2-user /home/ec2-user/ttoklip",
-              "sudo chmod -R 755 /home/ec2-user/ttoklip",
-              "aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region ap-northeast-2",
-              "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy",
-              "docker-compose -f /home/ec2-user/ttoklip/application/deploy/docker-compose.prod.yml --env-file /home/ec2-user/ttoklip/application/.env up -d --build"
+              "aws s3 cp s3://ttoklip-deploy/zips/deploy-script.zip /home/ec2-user/ttoklip/deploy-script.zip --region ap-northeast-2",
+              "unzip -o /home/ec2-user/ttoklip/deploy-script.zip -d /home/ec2-user/ttoklip",
+              "chmod +x /home/ec2-user/ttoklip/deploy_script.sh",
+              "/home/ec2-user/ttoklip/deploy_script.sh"
             ]' \
             --region $AWS_REGION
