@@ -2,8 +2,7 @@ name: Deploy to Amazon ECS - Develop
 
 on:
     push:
-    # Auto CD 임시 비활성화
-        branches: [ "main00" ]
+        branches: [ "main" ]
 
 env:
     AWS_REGION: ap-northeast-2
