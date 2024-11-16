@@ -43,7 +43,7 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp deploy-package.zip s3://your-bucket-name/path/to/deploy-package.zip --region ap-northeast-2
+          aws s3 cp deploy-package.zip s3://ttoklip-deploy/zips/deploy-package.zip --region ap-northeast-2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SSM_PUBLIC }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SSM_PRIVATE }}
