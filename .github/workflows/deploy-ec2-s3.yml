@@ -97,8 +97,6 @@ jobs:
 
           aws s3 cp deploy_script.zip s3://ttoklip-deploy/zips/deploy-script.zip --region ap-northeast-2
 
-
-
       - name: Deploy to EC2 via SSM
         run: |
           aws ssm send-command \

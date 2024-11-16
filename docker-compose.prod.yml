@@ -4,7 +4,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile-prod
+      dockerfile: Dockerfile-api-prod
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: api
@@ -29,7 +29,7 @@ services:
   batch:
     build:
       context: .
-      dockerfile: Dockerfile-prod
+      dockerfile: Dockerfile-batch-prod
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: batch
@@ -54,7 +54,7 @@ services:
   notification:
     build:
       context: .
-      dockerfile: Dockerfile-prod
+      dockerfile: Dockerfile-notification-prod
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: notification
