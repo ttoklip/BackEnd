@@ -91,15 +91,15 @@ jobs:
       - name: Deploy to EC2 via SSM
         run: |
           aws ssm send-command \
-            --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+            --instance-ids "YOUR_INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
             --comment "Running deployment script" \
-            --parameters commands='
-              aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/ --region ap-northeast-2
-              aws s3 cp s3://ttoklip-deploy/zips/deploy-script.zip /home/ec2-user/ttoklip/application/ --region ap-northeast-2
-              cd /home/ec2-user/ttoklip/application/
-              unzip -o deploy-script.zip
-              chmod +x deploy_script.sh
-              ./deploy_script.sh
-            ' \
+            --parameters commands=$'\
+          aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/ --region ap-northeast-2\n\
+          aws s3 cp s3://ttoklip-deploy/zips/deploy-script.zip /home/ec2-user/ttoklip/application/ --region ap-northeast-2\n\
+          cd /home/ec2-user/ttoklip/application/\n\
+          unzip -o deploy-script.zip\n\
+          chmod +x deploy_script.sh\n\
+          ./deploy_script.sh' \
             --region $AWS_REGION
+
