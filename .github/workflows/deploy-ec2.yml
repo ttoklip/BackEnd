@@ -138,3 +138,25 @@ jobs:
               "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy$(cat latest_version.txt)"
             ]' \
             --region $AWS_REGION
+
+      - name: Verify Uploaded Deployment File
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters 'commands=[
+              "ls -lh /home/ec2-user/ttoklip/application/deploy-package.zip",
+              "unzip -t /home/ec2-user/ttoklip/application/deploy-package.zip"
+            ]' \
+            --region $AWS_REGION
+
+      - name: Ensure File Permissions
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters 'commands=[
+              "sudo chown ec2-user:ec2-user /home/ec2-user/ttoklip/application/deploy-package.zip",
+              "sudo chmod 644 /home/ec2-user/ttoklip/application/deploy-package.zip"
+            ]' \
+            --region $AWS_REGION
