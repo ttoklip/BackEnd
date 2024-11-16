@@ -1,0 +1,102 @@
+name: CI/CD Workflow for Multi-Module Project
+
+on:
+  push:
+    branches:
+      - setting/change-cicd-action
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build and Test Each Module
+        run: |
+          ./gradlew :ttoklip-api:clean :ttoklip-api:build :ttoklip-api:test
+          ./gradlew :ttoklip-batch:clean :ttoklip-batch:build :ttoklip-batch:test
+          ./gradlew :ttoklip-notification:clean :ttoklip-notification:build :ttoklip-notification:test
+
+  cd:
+    needs: ci
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: "ap-northeast-2"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
+          aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
+          aws configure set region $AWS_REGION
+
+      - name: Prepare Deployment Files
+        run: |
+          mkdir -p deploy
+          cp ttoklip-api/build/libs/*.jar deploy/ttoklip-api.jar
+          cp ttoklip-batch/build/libs/*.jar deploy/ttoklip-batch.jar
+          cp ttoklip-notification/build/libs/*.jar deploy/ttoklip-notification.jar
+          cp docker-compose.prod.yml deploy/
+          zip -r deploy-package.zip deploy
+
+      - name: Generate New Deployment Folder on EC2
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters 'commands=[
+              "cd /home/ec2-user/ttoklip/application",
+              "version=$(($(ls | grep deploy | sed s/deploy//g | sort -n | tail -1)+1))",
+              "mkdir deploy$version",
+              "echo $version > /home/ec2-user/ttoklip/application/latest_version.txt"
+            ]' \
+            --region $AWS_REGION
+
+      - name: Upload Deployment Files to EC2
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters 'commands=[
+              "cd /home/ec2-user/ttoklip/application",
+              "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
+              "unzip -o /home/ec2-user/deploy-package.zip -d deploy$version"
+            ]' \
+            --region $AWS_REGION
+
+      - name: Copy .env to New Deployment Folder
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters 'commands=[
+              "cd /home/ec2-user/ttoklip/application",
+              "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
+              "cp /home/ec2-user/ttoklip/application/.env /home/ec2-user/ttoklip/application/deploy$version/"
+            ]' \
+            --region $AWS_REGION
+
+      - name: Start Docker Compose on EC2
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters 'commands=[
+              "cd /home/ec2-user/ttoklip/application",
+              "version=$(cat /home/ec2-user/ttoklip/application/latest_version.txt)",
+              "cd deploy$version",
+              "docker-compose -f docker-compose.prod.yml --env-file .env up -d --build"
+            ]' \
+            --region $AWS_REGION
