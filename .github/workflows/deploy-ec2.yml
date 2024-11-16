@@ -25,6 +25,16 @@ jobs:
           ./gradlew :ttoklip-batch:clean :ttoklip-batch:build :ttoklip-batch:test
           ./gradlew :ttoklip-notification:clean :ttoklip-notification:build :ttoklip-notification:test
 
+      - name: Save Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            ttoklip-api/build/libs/*.jar
+            ttoklip-batch/build/libs/*.jar
+            ttoklip-notification/build/libs/*.jar
+            docker-compose.prod.yml
+
   cd:
     needs: ci
     runs-on: ubuntu-latest
@@ -33,22 +43,23 @@ jobs:
       AWS_REGION: "ap-northeast-2"
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: ./deploy
 
       - name: Set up AWS CLI
         run: |
           aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
-          aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
+          aws configure set aws-secret-access-key ${{ secrets.SSM_PRIVATE }}
           aws configure set region $AWS_REGION
 
       - name: Prepare Deployment Files
         run: |
           mkdir -p deploy
-          cp ttoklip-api/build/libs/*.jar deploy/ttoklip-api.jar
-          cp ttoklip-batch/build/libs/*.jar deploy/ttoklip-batch.jar
-          cp ttoklip-notification/build/libs/*.jar deploy/ttoklip-notification.jar
-          cp docker-compose.prod.yml deploy/
+          mv deploy/*.jar deploy/
+          mv deploy/docker-compose.prod.yml deploy/
           zip -r deploy-package.zip deploy
 
       - name: Generate New Deployment Folder on EC2
