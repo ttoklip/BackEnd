@@ -69,8 +69,9 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }}" \
             --parameters 'commands=[
-              "cd /home/ec2-user/ttoklip/application",
+              "mkdir -p /home/ec2-user/ttoklip/application/deploy",
+              "rm -rf /home/ec2-user/ttoklip/application/deploy/*",
               "unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/deploy",
-              "docker-compose -f /home/ec2-user/ttoklip/application/deploy/docker-compose.prod.yml --env-file .env up -d --build"
+              "docker-compose -f /home/ec2-user/ttoklip/application/deploy/docker-compose.prod.yml --env-file /home/ec2-user/ttoklip/application/.env up -d --build"
             ]' \
             --region $AWS_REGION
