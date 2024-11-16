@@ -78,30 +78,22 @@ jobs:
           cat << 'EOF' > deploy_script.sh
           #!/bin/bash
 
-          # 디렉토리 생성 및 권한 설정
           mkdir -p /home/ec2-user/ttoklip/application
           sudo chown -R ec2-user:ec2-user /home/ec2-user/ttoklip
           sudo chmod -R 755 /home/ec2-user/ttoklip
 
-          # 기존 deploy 디렉토리 백업 또는 삭제
           if [ -d "/home/ec2-user/ttoklip/application/deploy" ]; then
-              # 백업
               mv /home/ec2-user/ttoklip/application/deploy /home/ec2-user/ttoklip/application/deploy_$(date +"%Y%m%d%H%M%S")
 
-              # 삭제
-#              rm -rf /home/ec2-user/ttoklip/application/deploy
           fi
 
-          # S3에서 패키지 다운로드
           aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region ap-northeast-2
 
-          # 압축 해제 (상위 디렉토리에 해제)
           unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/
 
-          # Docker Compose 실행
           docker-compose -f /home/ec2-user/ttoklip/application/deploy/docker-compose.prod.yml --env-file /home/ec2-user/ttoklip/application/.env up -d --build
           EOF
-
+  
           zip deploy_script.zip deploy_script.sh
 
           aws s3 cp deploy_script.zip s3://ttoklip-deploy/zips/deploy-script.zip --region ap-northeast-2
