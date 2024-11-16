@@ -58,7 +58,7 @@ jobs:
     steps:
       - name: Download from S3
         run: |
-          aws s3 cp s3://your-bucket-name/path/to/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region $AWS_REGION
+          aws s3 cp s3://ttoklip-deploy/zips/deploy-package.zip /home/ec2-user/ttoklip/application/deploy-package.zip --region $AWS_REGION
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SSM_PUBLIC }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SSM_PRIVATE }}
