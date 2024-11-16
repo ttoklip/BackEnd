@@ -41,12 +41,15 @@ jobs:
           cp docker-compose.prod.yml deploy/
           zip -r deploy-package.zip deploy
 
+      - name: Configure AWS Credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
+          aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
+          aws configure set region $AWS_REGION
+
       - name: Upload to S3
         run: |
           aws s3 cp deploy-package.zip s3://ttoklip-deploy/zips/deploy-package.zip --region ap-northeast-2
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SSM_PUBLIC }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SSM_PRIVATE }}
 
   cd:
     needs: ci
@@ -56,6 +59,12 @@ jobs:
       AWS_REGION: "ap-northeast-2"
 
     steps:
+      - name: Configure AWS Credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
+          aws configure set aws_secret_access_key ${{ secrets.SSM_PRIVATE }}
+          aws configure set region $AWS_REGION
+
       - name: Prepare and Deploy on EC2
         run: |
           aws ssm send-command \
