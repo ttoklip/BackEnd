@@ -25,6 +25,13 @@ jobs:
           ./gradlew :ttoklip-batch:clean :ttoklip-batch:build :ttoklip-batch:test
           ./gradlew :ttoklip-notification:clean :ttoklip-notification:build :ttoklip-notification:test
 
+      - name: Verify Artifacts
+        run: |
+          ls -la ttoklip-api/build/libs/
+          ls -la ttoklip-batch/build/libs/
+          ls -la ttoklip-notification/build/libs/
+          ls -la docker-compose.prod.yml || echo "docker-compose.prod.yml not found"
+
       - name: Save Build Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -49,6 +56,13 @@ jobs:
           name: build-artifacts
           path: ./deploy
 
+      - name: Verify Downloaded Files
+        run: |
+          echo "Checking downloaded files..."
+          ls -la ./deploy/
+          ls ./deploy/*.jar || echo "No JAR files found"
+          ls ./deploy/docker-compose.prod.yml || echo "docker-compose.prod.yml not found"
+
       - name: Set up AWS CLI
         run: |
           aws configure set aws_access_key_id ${{ secrets.SSM_PUBLIC }}
@@ -58,8 +72,20 @@ jobs:
       - name: Prepare Deployment Files
         run: |
           mkdir -p deploy
-          mv deploy/*.jar deploy/
-          mv deploy/docker-compose.prod.yml deploy/
+          if ls ./deploy/*.jar 1> /dev/null 2>&1; then
+            mv ./deploy/*.jar deploy/
+          else
+            echo "No JAR files found in deploy folder."
+            exit 1
+          fi
+
+          if [ -f ./deploy/docker-compose.prod.yml ]; then
+            mv ./deploy/docker-compose.prod.yml deploy/
+          else
+            echo "docker-compose.prod.yml not found."
+            exit 1
+          fi
+
           zip -r deploy-package.zip deploy
 
       - name: Generate New Deployment Folder on EC2
