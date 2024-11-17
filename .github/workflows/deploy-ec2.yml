@@ -3,7 +3,7 @@ name: CI/CD Workflow for Multi-Module Project
 on:
   push:
     branches:
-      - setting/change-cicd-action
+      - develop
 
 jobs:
   ci:
