@@ -13,7 +13,7 @@ repositories {
 
 subprojects {
     group = 'com'
-    version = '0.0.1-SNAPSHOT'
+    version = 'SNAPSHOT'
     sourceCompatibility = '17'
 
     apply plugin: 'java'

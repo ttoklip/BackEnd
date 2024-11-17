@@ -3,8 +3,8 @@ version: '3.8'
 services:
   api:
     build:
-      context: ./ttoklip-api
-      dockerfile: Dockerfile-prod
+      context: .
+      dockerfile: Dockerfile-api-prod
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: api
@@ -28,8 +28,8 @@ services:
 
   batch:
     build:
-      context: ./ttoklip-batch
-      dockerfile: Dockerfile-prod
+      context: .
+      dockerfile: Dockerfile-batch-prod
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: batch
@@ -53,8 +53,8 @@ services:
 
   notification:
     build:
-      context: ./ttoklip-notification
-      dockerfile: Dockerfile-prod
+      context: .
+      dockerfile: Dockerfile-notification-prod
       args:
         JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     container_name: notification
