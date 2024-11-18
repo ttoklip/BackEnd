@@ -1,10 +1,24 @@
-# Docker Daemon 상태 확인 함수
 check_docker_daemon() {
   while ! docker info > /dev/null 2>&1; do
     sleep 2
     echo "Docker Daemon을 기다리는 중..."
   done
   echo "Docker Daemon이 준비되었습니다."
+}
+
+manage_network() {
+  NETWORK_NAME="dev_network"
+
+  echo "Docker 네트워크 상태를 확인합니다..."
+  if docker network inspect "$NETWORK_NAME" > /dev/null 2>&1; then
+    echo "네트워크 $NETWORK_NAME을(를) 삭제합니다..."
+    docker network rm "$NETWORK_NAME"
+  else
+    echo "네트워크 $NETWORK_NAME이 존재하지 않습니다. 새로 생성합니다..."
+  fi
+
+  echo "네트워크 $NETWORK_NAME을(를) 생성합니다..."
+  docker network create --driver bridge "$NETWORK_NAME"
 }
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -65,4 +79,7 @@ else
   exit 1
 fi
 
+manage_network
+
+echo "Docker Compose를 실행합니다..."
 docker-compose -f docker-compose-local.yml up -d
