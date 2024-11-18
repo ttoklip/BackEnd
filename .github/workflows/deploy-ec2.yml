@@ -90,6 +90,10 @@ jobs:
 
           unzip -o /home/ec2-user/ttoklip/application/deploy-package.zip -d /home/ec2-user/ttoklip/application/
 
+          docker container prune -f
+          docker image prune -a -f --filter "until=24h"
+          docker volume prune -f
+
           docker-compose -f /home/ec2-user/ttoklip/application/deploy/docker-compose.prod.yml --env-file /home/ec2-user/ttoklip/application/.env up -d --build
           EOF
   
