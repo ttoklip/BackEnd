@@ -1,5 +1,7 @@
 package com.batch.todolist;
 
+import com.batch.annotation.BatchService;
+import com.batch.todolist.event.PickPersonalToDoListEvent;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
 import com.domain.todolist.application.TodayToDoListService;
@@ -7,20 +9,18 @@ import com.domain.todolist.domain.TodayToDoList;
 import com.domain.todolist.domain.vo.ToDoList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@BatchService
 @RequiredArgsConstructor
-public class ToDoListScheduler {
+public class ToDoListBatchService {
+
     private final TodayToDoListService todayToDoListService;
     private final MemberService memberService;
 
-    private static final String SEOUL = "Asia/Seoul";
-
     @Transactional
-    @Scheduled(cron = "21 0 0 * * *", zone = SEOUL)
+    @EventListener(PickPersonalToDoListEvent.class)
     public void generateTodayToDoList() {
         List<Member> allMembers = memberService.findAll();
 
@@ -30,5 +30,4 @@ public class ToDoListScheduler {
 
         todayToDoListService.saveAll(todayToDoLists);
     }
-
 }

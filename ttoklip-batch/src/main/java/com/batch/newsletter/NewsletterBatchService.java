@@ -1,26 +1,27 @@
 package com.batch.newsletter;
 
+import com.batch.annotation.BatchService;
+import com.batch.newsletter.event.PickRandomNewsletterEvent;
 import com.domain.newsletter.application.NewsletterPostService;
 import com.domain.newsletter.application.TodayNewsletterService;
 import com.domain.newsletter.domain.Newsletter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Component
+@BatchService
 @RequiredArgsConstructor
-public class NewsletterScheduler {
+public class NewsletterBatchService {
 
-    private final static int PAGE_SIZE = 4;
+    private final static int SIZE = 4;
     private final NewsletterPostService newsletterPostService;
     private final TodayNewsletterService todayNewsletterService;
 
-    @Scheduled(cron = "11 0 0 * * *", zone = "Asia/Seoul")
     @Transactional
+    @EventListener(PickRandomNewsletterEvent.class)
     public void selectRandomNewsletter() {
         long newsletterCount = newsletterPostService.getEntityCount();
         if (newsletterCount == 0) {
@@ -28,8 +29,7 @@ public class NewsletterScheduler {
             return;
         }
 
-        List<Newsletter> randomNewsletters = newsletterPostService.findRandomActiveNewsletters(PAGE_SIZE);
+        List<Newsletter> randomNewsletters = newsletterPostService.findRandomActiveNewsletters(SIZE);
         randomNewsletters.forEach(todayNewsletterService::save);
     }
-
 }
