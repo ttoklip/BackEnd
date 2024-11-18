@@ -1,14 +1,14 @@
-package com.batch.config;
+package com.api.global.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration("batchComponentScanConfig")
+@Configuration("apiComponentScanConfig")
 @ComponentScan(basePackages = {
         "com.common",
         "com.infrastructure",
         "com.domain",
-        "com.batch"
+        "com.api"
 })
 public class ComponentScanConfig {
 }
