@@ -11,12 +11,11 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "Home Api", description = "홈 관련 API")
+@Tag(name = "Home", description = "홈 관련 API")
 @RequestMapping("/api/v1")
 public interface HomeControllerDocs {
 
@@ -51,7 +50,6 @@ public interface HomeControllerDocs {
     TtoklipResponse<CategoryPagingResponse> questionCategoryPaging(
             @Parameter(description = "카테고리 이름", required = true, example = "HOUSEWORK")
             @RequestParam String category,
-
             @Parameter(description = "페이지 번호 (0부터 시작)", example = "0")
             @RequestParam(required = false, defaultValue = "0") int page);
 
@@ -60,7 +58,6 @@ public interface HomeControllerDocs {
     TtoklipResponse<CategoryPagingResponse> honeyTipCategoryPaging(
             @Parameter(description = "카테고리 이름", required = true, example = "HOUSEWORK")
             @RequestParam String category,
-
             @Parameter(description = "페이지 번호 (0부터 시작)", example = "0")
             @RequestParam(required = false, defaultValue = "0") int page);
 }

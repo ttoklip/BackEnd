@@ -14,13 +14,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "QuestionComment", description = "질문 댓글 관리 API")
+@Tag(name = "Question Comment", description = "질문 댓글 관리 API")
 @RequestMapping("/api/v1/question/comment")
 public interface QuestionCommentControllerDocs {
 
-    @Operation(summary = "새로운 댓글 생성", description = "지정된 게시글에 댓글을 등록합니다.")
+    @Operation(summary = "질문 댓글 생성", description = "질문 게시글에 댓글을 등록합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "댓글 생성 성공",
+            @ApiResponse(responseCode = "200", description = "질문 댓글 생성 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class),
@@ -35,7 +35,7 @@ public interface QuestionCommentControllerDocs {
 
     @Operation(summary = "질문 댓글 신고", description = "댓글 ID로 댓글을 신고합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "댓글 신고 성공",
+            @ApiResponse(responseCode = "200", description = "질문 댓글 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class),
@@ -48,9 +48,9 @@ public interface QuestionCommentControllerDocs {
     @PostMapping("/report/{commentId}")
     TtoklipResponse<Message> report(@PathVariable Long commentId, @RequestBody ReportWebCreate request);
 
-    @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
+    @Operation(summary = "질문 댓글 삭제", description = "질문 게시글에 댓글을 삭제합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "댓글 삭제 성공",
+            @ApiResponse(responseCode = "200", description = "질문 댓글 삭제 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class),

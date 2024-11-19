@@ -13,13 +13,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "HoneyTip Comment", description = "꿀팁공유해요 댓글 API")
+@Tag(name = "HoneyTip Comment", description = "꿀팁공유해요 댓글 관리 API")
 @RequestMapping("/api/v1/honeytip/comment")
 public interface HoneyTipCommentControllerDocs {
 
-    @Operation(summary = "새로운 댓글 생성", description = "지정된 게시글에 댓글을 등록합니다.")
+    @Operation(summary = "꿀팁공유해요 댓글 생성", description = "꿀팁공유해요 게시글에 댓글을 등록합니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "질문 생성 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "꿀팁공유해요 댓글 생성 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class),
@@ -31,9 +31,9 @@ public interface HoneyTipCommentControllerDocs {
     @PostMapping("/{postId}")
     TtoklipResponse<Message> register(@PathVariable Long postId, @RequestBody CommentCreate request);
 
-    @Operation(summary = "질문 댓글 신고", description = "댓글 ID로 댓글을 신고합니다.")
+    @Operation(summary = "꿀팁공유해요 댓글 신고", description = "댓글 ID로 댓글을 신고합니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "질문 신고 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "꿀팁공유해요 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class),
@@ -45,9 +45,9 @@ public interface HoneyTipCommentControllerDocs {
     @PostMapping("/report/{commentId}")
     TtoklipResponse<Message> report(@PathVariable Long commentId, @RequestBody ReportWebCreate request);
 
-    @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
+    @Operation(summary = "꿀팁공유해요 댓글 삭제", description = "댓글 ID로 댓글을 삭제합니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "질문 삭제 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "꿀팁공유해요 댓글 삭제 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class),

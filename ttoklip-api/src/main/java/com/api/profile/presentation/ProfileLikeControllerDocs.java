@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "ProfileLike", description = "프로필 좋아요 관리 API")
+@Tag(name = "Profile Like", description = "프로필 좋아요 관리 API")
 @RequestMapping("/api/v1/profile")
 public interface ProfileLikeControllerDocs {
 

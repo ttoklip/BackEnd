@@ -12,13 +12,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Town", description = "우리동네 - 소통해요 댓글 API")
+@Tag(name = "Community Comment", description = "함께해요 댓글 관리 API")
 @RequestMapping("api/v1/town/comms/comment")
 public interface CommunityCommentControllerDocs {
 
     @Operation(summary = "소통해요 댓글 생성", description = "소통해요 게시글에 댓글을 생성합니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "소통해요 생성 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "소통해요 댓글 생성 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class)
@@ -28,7 +28,7 @@ public interface CommunityCommentControllerDocs {
 
     @Operation(summary = "소통해요 댓글 신고", description = "댓글 ID로 댓글을 신고합니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "소통해요 신고 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "소통해요 댓글 신고 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class)
@@ -36,9 +36,9 @@ public interface CommunityCommentControllerDocs {
     @PostMapping("/report/{commentId}")
     TtoklipResponse<Message> report(@PathVariable Long commentId, @RequestBody ReportWebCreate request);
 
-    @Operation(summary = "댓글 삭제", description = "지정된 게시글에 댓글을 삭제합니다.")
+    @Operation(summary = "소통해요 댓글 삭제", description = "댓글 ID로 댓글을 삭제합니다.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "질문 삭제 성공",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "소통해요 댓글 삭제 성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = TtoklipResponse.class)

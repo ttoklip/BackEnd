@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "QuestionPost", description = "질문 게시글 관리 API")
+@Tag(name = "Question Post", description = "질문 게시글 관리 API")
 @RequestMapping("/api/v1/question/post")
 public interface QuestionPostControllerDocs {
 
