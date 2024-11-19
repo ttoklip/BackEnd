@@ -15,6 +15,7 @@ import com.domain.member.domain.Member;
 import com.domain.member.domain.QMember;
 import com.domain.profile.domain.QProfile;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -267,6 +268,7 @@ public class CartQueryRepository {
                 .leftJoin(cart.cartMembers, cartMember)
                 .leftJoin(cart.member, member).fetchJoin()
                 .leftJoin(cart.member.profile, profile).fetchJoin()
+                .groupBy(cart.id)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
@@ -274,14 +276,14 @@ public class CartQueryRepository {
         if (StringUtils.hasText(keyword)) {
             return cart.title.contains(keyword);
         }
-        return null;
+        return Expressions.asBoolean(true).isTrue();
     }
 
     private BooleanExpression containContent(final String keyword) {
         if (StringUtils.hasText(keyword)) {
             return cart.content.contains(keyword);
         }
-        return null;
+        return Expressions.asBoolean(true).isTrue();
     }
 
     private List<Cart> sortPopularity(final JPAQuery<Cart> query) {

@@ -13,6 +13,7 @@ import com.domain.community.domain.QCommunityScrap;
 import com.domain.member.domain.QMember;
 import com.domain.profile.domain.QProfile;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -220,7 +221,7 @@ public class CommunityQueryRepository {
                 .selectFrom(community)
                 .distinct()
                 .where(
-                        containTitle(keyword),
+                        containTitle(keyword).or(containContent(keyword)),
                         getCommunityActivate()
                 )
                 .leftJoin(community.communityComments, communityComment)
@@ -228,6 +229,7 @@ public class CommunityQueryRepository {
                 .leftJoin(community.communityScraps, communityScrap)
                 .leftJoin(community.member, member).fetchJoin()
                 .leftJoin(community.member.profile, profile).fetchJoin()
+                .groupBy(community.id)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
@@ -240,7 +242,14 @@ public class CommunityQueryRepository {
         if (StringUtils.hasText(keyword)) {
             return community.title.contains(keyword);
         }
-        return null;
+        return Expressions.asBoolean(true).isTrue();
+    }
+
+    private BooleanExpression containContent(final String keyword) {
+        if (StringUtils.hasText(keyword)) {
+            return community.content.contains(keyword);
+        }
+        return Expressions.asBoolean(true).isTrue();
     }
 
     private List<Community> sortPopularity(final JPAQuery<Community> query) {
@@ -279,7 +288,7 @@ public class CommunityQueryRepository {
                 .select(Wildcard.count)
                 .from(community)
                 .where(
-                        containTitle(keyword),
+                        containTitle(keyword).or(containContent(keyword)),
                         getCommunityActivate()
                 )
                 .fetchOne();
