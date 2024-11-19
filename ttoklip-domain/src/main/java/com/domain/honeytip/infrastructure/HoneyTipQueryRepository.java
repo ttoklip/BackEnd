@@ -12,6 +12,7 @@ import com.domain.honeytip.domain.QHoneyTipScrap;
 import com.domain.honeytip.domain.QHoneyTipUrl;
 import com.domain.member.domain.QMember;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -235,6 +236,7 @@ public class HoneyTipQueryRepository {
                 .leftJoin(honeyTip.honeyTipLikes, honeyTipLike)
                 .leftJoin(honeyTip.honeyTipScraps, honeyTipScrap)
                 .limit(pageable.getPageSize())
+                .groupBy(honeyTip.id)
                 .offset(pageable.getOffset());
     }
 
@@ -242,14 +244,14 @@ public class HoneyTipQueryRepository {
         if (StringUtils.hasText(keyword)) {
             return honeyTip.title.contains(keyword);
         }
-        return null;
+        return Expressions.asBoolean(true).isTrue();
     }
 
     private BooleanExpression containContent(final String keyword) {
         if (StringUtils.hasText(keyword)) {
             return honeyTip.content.contains(keyword);
         }
-        return null;
+        return Expressions.asBoolean(true).isTrue();
     }
 
     private BooleanExpression getHoneyTipActivate() {

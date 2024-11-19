@@ -45,11 +45,11 @@ public class SearchController {
                             )))})
     @GetMapping("/honeytip")
     public TtoklipResponse<HoneyTipPaging> searchHoneyTip(
-            @Parameter(description = "포함될 꿀팁공유해요 키워드", required = true, example = "최신 팁")
-            @RequestParam final String title,
+            @Parameter(description = "포함될 꿀팁공유해요 키워드", example = "최신 팁")
+            @RequestParam(required = false, defaultValue = "") final String title,
 
             @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
-            @RequestParam final String sort,
+            @RequestParam(required = false, defaultValue = "latest") final String sort,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
@@ -72,10 +72,10 @@ public class SearchController {
     @GetMapping("/newsletter")
     public TtoklipResponse<NewsletterPaging> searchNewsletter(
             @Parameter(description = "포함될 뉴스레터의 키워드", required = true, example = "최신 팁")
-            @RequestParam final String title,
+            @RequestParam(required = false, defaultValue = "") final String title,
 
             @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
-            @RequestParam final String sort,
+            @RequestParam(required = false, defaultValue = "latest") final String sort,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
@@ -96,11 +96,11 @@ public class SearchController {
                             )))})
     @GetMapping("/community")
     public TtoklipResponse<CommunityPaging> searchCommunity(
-            @Parameter(description = "포함될 우리동네(소통해요)의 키워드", required = true, example = "오늘")
-            @RequestParam final String title,
+            @Parameter(description = "포함될 우리동네(소통해요)의 키워드", example = "오늘")
+            @RequestParam(required = false, defaultValue = "") final String title,
 
             @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
-            @RequestParam final String sort,
+            @RequestParam(required = false, defaultValue = "latest") final String sort,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
@@ -122,10 +122,10 @@ public class SearchController {
     @GetMapping("/cart")
     public TtoklipResponse<CartPaging> searchCart(
             @Parameter(description = "포함될 우리동네(함께해요)의 키워드", required = true, example = "구매")
-            @RequestParam final String title,
+            @RequestParam(required = false, defaultValue = "") final String title,
 
             @Parameter(description = "인기순 or 최신순", example = "popularity or latest")
-            @RequestParam final String sort,
+            @RequestParam(required = false, defaultValue = "latest") final String sort,
 
             @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
             @RequestParam(required = false, defaultValue = "0") final int page) {
