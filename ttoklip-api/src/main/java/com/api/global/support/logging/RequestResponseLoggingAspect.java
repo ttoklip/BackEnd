@@ -25,32 +25,23 @@ public class RequestResponseLoggingAspect {
 
     private static final Logger requestLogger = LoggerFactory.getLogger("HttpRequestLog");
     private static final Logger responseLogger = LoggerFactory.getLogger("HttpResponseLog");
-    private static final String HEALTH_CHECK_URI = "/health";
 
-    // API 모듈의 모든 컨트롤러 메서드에 적용
     @Pointcut("execution(* com.api..presentation..*Controller.*(..))")
     public void apiControllerMethods() {}
 
-    // 요청 전 로깅
-    @Before("apiControllerMethods()")
+    @Pointcut("!execution(* com.api..presentation..*Controller.health(..))")
+    public void excludeHealthCheck() {}
+
+    @Pointcut("apiControllerMethods() && excludeHealthCheck()")
+    public void apiControllerMethodsExcludingHealthCheck() {}
+
+    @Before("apiControllerMethodsExcludingHealthCheck()")
     public void logRequest(JoinPoint joinPoint) {
-        if (isHealthCheck()) {
-            return;
-        }
         setMDC();
         requestLogger.info("Request received for method: {}", joinPoint.getSignature().getName());
     }
 
-    private boolean isHealthCheck() {
-        HttpServletRequest request = getCurrentHttpRequest();
-        if (request != null && HEALTH_CHECK_URI.equals(request.getRequestURI())) {
-            return true;
-        }
-        return false;
-    }
-
-    // 정상적인 응답 반환 후 로깅
-    @AfterReturning(pointcut = "apiControllerMethods()")
+    @AfterReturning(pointcut = "apiControllerMethodsExcludingHealthCheck()")
     public void logResponse() {
         String startTimeStr = MDC.get("startTime");
         long startTime = startTimeStr != null ? Long.parseLong(startTimeStr) : 0L;
@@ -59,13 +50,11 @@ public class RequestResponseLoggingAspect {
         responseLogger.info("Response sent successfully");
     }
 
-    // MDC 정리
-    @After("apiControllerMethods()")
+    @After("apiControllerMethodsExcludingHealthCheck()")
     public void clearMDC() {
         MDC.clear();
     }
 
-    // MDC 설정
     private void setMDC() {
         HttpServletRequest request = getCurrentHttpRequest();
         if (request != null) {
@@ -80,7 +69,6 @@ public class RequestResponseLoggingAspect {
         }
     }
 
-    // 현재 HTTP 요청 가져오기
     private HttpServletRequest getCurrentHttpRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return attributes != null ? attributes.getRequest() : null;
