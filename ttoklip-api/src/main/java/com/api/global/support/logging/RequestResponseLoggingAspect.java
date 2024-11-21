@@ -25,6 +25,7 @@ public class RequestResponseLoggingAspect {
 
     private static final Logger requestLogger = LoggerFactory.getLogger("HttpRequestLog");
     private static final Logger responseLogger = LoggerFactory.getLogger("HttpResponseLog");
+    private static final String HEALTH_CHECK_URI = "/health";
 
     // API 모듈의 모든 컨트롤러 메서드에 적용
     @Pointcut("execution(* com.api..presentation..*Controller.*(..))")
@@ -33,8 +34,19 @@ public class RequestResponseLoggingAspect {
     // 요청 전 로깅
     @Before("apiControllerMethods()")
     public void logRequest(JoinPoint joinPoint) {
+        if (isHealthCheck()) {
+            return;
+        }
         setMDC();
         requestLogger.info("Request received for method: {}", joinPoint.getSignature().getName());
+    }
+
+    private boolean isHealthCheck() {
+        HttpServletRequest request = getCurrentHttpRequest();
+        if (request != null && HEALTH_CHECK_URI.equals(request.getRequestURI())) {
+            return true;
+        }
+        return false;
     }
 
     // 정상적인 응답 반환 후 로깅
