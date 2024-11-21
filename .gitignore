@@ -52,3 +52,13 @@ gradle/wrapper/gradle-wrapper.properties
 **/gradle/wrapper/gradle-wrapper.properties
 
 /ttoklip-monitoring/loki/wal/*
+
+/.tmp
+/caches
+/daemon
+/jdks
+/native
+/workers
+/wrapper
+
+ttoklip-domain/src/main/generated
