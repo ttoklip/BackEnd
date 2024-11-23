@@ -14,7 +14,7 @@ public class BadWordUtil {
         BadWordFiltering filtering = new BadWordFiltering();
 
         List<String> badWords = Arrays.stream(words)
-                .map(word -> word.replaceAll("[^\\p{IsAlphabetic}\\p{IsWhite_Space}]", ""))
+                .map(word -> word.replaceAll("[^\\p{IsAlphabetic}]", ""))
                 .filter(filtering::blankCheck)
                 .toList();
 
