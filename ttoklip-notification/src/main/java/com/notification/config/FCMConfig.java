@@ -37,24 +37,18 @@ public class FCMConfig {
     @PostConstruct
     public void firebaseMessaging() throws IOException {
         try {
-            log.info("Encrypted JSON Content Path: " + encryptedJsonContent); // 디버깅 로그 추가
+            log.info("Encrypted JSON Content Path: " + encryptedJsonContent);
 
-            // JSON 파일 읽기
             Resource resource = new ClassPathResource(encryptedJsonContent);
             InputStream inputStream = resource.getInputStream();
             byte[] jsonData = inputStream.readAllBytes();
             String jsonString = new String(jsonData);
-
-            log.info("--------- flag1 ---------");
-            log.info("JSON String: " + jsonString); // 디버깅 로그 추가
-
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(jsonString);
 
             decryptJsonFields(jsonNode);
 
             String decryptedJsonContent = objectMapper.writeValueAsString(jsonNode);
-            log.info("Decrypted JSON Content: " + decryptedJsonContent); // 디버깅 로그 추가
 
             log.info("--------- flag4 ---------");
             InputStream serviceAccount = new ByteArrayInputStream(decryptedJsonContent.getBytes());
@@ -69,8 +63,8 @@ public class FCMConfig {
             log.info("--------- flag7 ---------");
             FirebaseApp.initializeApp(options);
         } catch (Exception e) {
-            e.printStackTrace(); // 디버깅을 위해 스택 트레이스 출력
-            throw e; // 예외 다시 던지기
+            e.printStackTrace();
+            throw e;
         }
     }
 
