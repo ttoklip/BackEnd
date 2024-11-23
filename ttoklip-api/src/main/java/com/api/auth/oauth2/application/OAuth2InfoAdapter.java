@@ -67,7 +67,6 @@ public class OAuth2InfoAdapter {
                 .uri(NAVER_INFORMATION_SUFFIX)
                 .retrieve()
                 .onStatus(UNAUTHORIZED::equals, response -> {
-                    // 401 오류 처리
                     return Mono.error(new ApiException(ErrorType.NAVER_TOKEN_INVALID));
                 })
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {

@@ -74,13 +74,10 @@ public class CartResponse {
     public static CartResponse of(final Cart cart, final List<CartComment> activeComments,
                                   final boolean isAlreadyJoin) {
 
-        // 시간 포멧팅
         String formattedCreatedDate = getFormattedCreatedDate(cart);
 
-        // CartImage entity to Response
         List<CartImageResponse> imageResponses = getImageResponses(cart);
 
-        // Comment entity to Response
         List<CommentResponse> commentResponses = getCommentResponses(activeComments);
 
         List<ItemUrl> itemUrls = cart.getItemUrls();
