@@ -9,5 +9,6 @@ import lombok.RequiredArgsConstructor;
 public abstract class ErrorEvent {
 
     private final LocalDateTime errorTime;
-
+    private final Throwable throwable;
+    private final Modules modules;
 }

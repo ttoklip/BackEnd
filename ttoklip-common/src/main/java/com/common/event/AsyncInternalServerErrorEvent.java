@@ -6,10 +6,8 @@ import lombok.Getter;
 @Getter
 public class AsyncInternalServerErrorEvent extends ErrorEvent {
 
-    private final Throwable throwable;
-
-    public AsyncInternalServerErrorEvent(final LocalDateTime errorTime, final Throwable throwable) {
-        super(errorTime);
-        this.throwable = throwable;
+    public AsyncInternalServerErrorEvent(final LocalDateTime errorTime, final Throwable throwable,
+                                         final Modules modules) {
+        super(errorTime, throwable, modules);
     }
 }

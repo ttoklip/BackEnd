@@ -6,10 +6,7 @@ import lombok.Getter;
 @Getter
 public class InternalServerErrorEvent extends ErrorEvent {
 
-    private final Exception exception;
-
-    public InternalServerErrorEvent(final LocalDateTime errorTime, final Exception exception) {
-        super(errorTime);
-        this.exception = exception;
+    public InternalServerErrorEvent(final LocalDateTime errorTime, final Throwable throwable, final Modules modules) {
+        super(errorTime, throwable, modules);
     }
 }
