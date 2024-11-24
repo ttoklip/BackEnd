@@ -9,11 +9,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "Auth", description = "111회원가입/로그인 관련 API")
-@RequestMapping("/api/v1/auth")
+@Tag(name = "Auth", description = "회원가입/로그인 관련 API")
 public interface LocalAuthControllerDocs {
 
     @Operation(summary = "회원가입", description = "직접 회원가입을 진행합니다.")

@@ -7,32 +7,31 @@ import com.domain.term.response.TermSignUpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/auth")
 public class LocalAuthController implements LocalAuthControllerDocs {
 
     private final AuthFacade authFacade;
 
     @Override
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public TtoklipResponse<Message> signup(LocalMemberWebCreate request) {
+    public TtoklipResponse<Message> signup(@Validated @ModelAttribute LocalMemberWebCreate request
+    ) {
         return new TtoklipResponse<>(authFacade.signup(request));
     }
 
     @Override
     @PostMapping("/duplicate")
-    public TtoklipResponse<Message> duplicate(String newId) {
+    public TtoklipResponse<Message> duplicate(@RequestParam String newId) {
         return new TtoklipResponse<>(authFacade.duplicate(newId));
     }
 
     @Override
     @PostMapping("/login")
-    public TtoklipResponse<AuthLoginResponse> login(AuthLogin authLogin) {
+    public TtoklipResponse<AuthLoginResponse> login(@RequestBody AuthLogin authLogin) {
         AuthLoginResponse response = authFacade.login(authLogin);
         return new TtoklipResponse<>(response);
     }
