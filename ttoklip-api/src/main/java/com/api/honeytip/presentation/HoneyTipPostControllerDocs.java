@@ -17,7 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "HoneyTip Post", description = "꿀팁공유해요 게시판 API")
-@RequestMapping("/api/v1/honeytips/posts")
 public interface HoneyTipPostControllerDocs {
 
     @Operation(summary = "새로운 꿀팁 생성", description = "form/data로 새로운 꿀팁 게시글을 생성합니다.")
@@ -31,7 +30,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.CREATE_HONEY_TIP",
                                     description = "꿀팁이 생성되었습니다."
                             )))} )
-    @PostMapping
     TtoklipResponse<Message> register(@Validated @ModelAttribute HoneyTipWebCreate request);
 
     @Operation(summary = "꿀팁 게시글 수정", description = "꿀팁 공유해요 게시글을 수정합니다.")
@@ -45,7 +43,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.EDIT_HONEY_TIP",
                                     description = "꿀팁이 수정되었습니다."
                             )))} )
-    @PatchMapping("/{postId}")
     TtoklipResponse<Message> edit(@PathVariable Long postId, @ModelAttribute HoneyTipWebEdit request);
 
     @Operation(summary = "꿀팁 게시글 삭제", description = "꿀팁 ID에 해당하는 게시글을 삭제합니다.")
@@ -59,7 +56,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.DELETE_HONEY_TIP",
                                     description = "꿀팁이 삭제되었습니다."
                             )))} )
-    @DeleteMapping("/{postId}")
     TtoklipResponse<Message> delete(@PathVariable Long postId);
 
     @Operation(summary = "꿀팁 게시글 신고", description = "꿀팁 ID에 해당하는 게시글을 신고합니다.")
@@ -73,7 +69,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.REPORT_HONEY_TIP",
                                     description = "꿀팁을 신고했습니다."
                             )))} )
-    @PostMapping("/report/{postId}")
     TtoklipResponse<Message> report(@PathVariable Long postId, @RequestBody ReportWebCreate request);
 
     @Operation(summary = "도움이되었어요 추가", description = "꿀팁 ID에 해당하는 게시글에 도움이되었어요를 추가합니다.")
@@ -87,7 +82,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.REGISTER_LIKE",
                                     description = "꿀팁을 도움이 되었어요를 추가했습니다."
                             )))} )
-    @PostMapping("/like/{postId}")
     TtoklipResponse<Message> registerLike(@PathVariable Long postId);
 
     @Operation(summary = "도움이되었어요 취소", description = "꿀팁 ID에 해당하는 게시글에 도움이되었어요를 취소합니다.")
@@ -101,7 +95,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.CANCEL",
                                     description = "꿀팁을 도움이 되었어요를 취소했습니다."
                             )))} )
-    @DeleteMapping("/like/{postId}")
     TtoklipResponse<Message> cancelLike(@PathVariable Long postId);
 
     @Operation(summary = "스크랩 추가", description = "꿀팁 ID에 해당하는 게시글에 스크랩을 추가합니다.")
@@ -115,7 +108,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.REGISTER_SCRAP",
                                     description = "꿀팁의 스크랩을 추가했습니다."
                             )))} )
-    @PostMapping("/scrap/{postId}")
     TtoklipResponse<Message> registerScrap(@PathVariable Long postId);
 
     @Operation(summary = "스크랩 취소", description = "꿀팁 ID에 해당하는 게시글에 스크랩을 취소합니다.")
@@ -129,7 +121,6 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.CANCEL_SCRAP",
                                     description = "꿀팁의 스크랩을 취소했습니다."
                             )))} )
-    @DeleteMapping("/scrap/{postId}")
     TtoklipResponse<Message> cancelScrap(@PathVariable Long postId);
 
     @Operation(summary = "꿀팁 게시글 조회", description = "꿀팁 ID에 해당하는 게시글을 조회합니다.")
@@ -143,6 +134,5 @@ public interface HoneyTipPostControllerDocs {
                                     value = "HoneyTipResponseConstant.CREATE_HONEY_TIP",
                                     description = "꿀팁이 조회되었습니다."
                             )))} )
-    @GetMapping("/{postId}")
     TtoklipResponse<HoneyTipSingleResponse> getSinglePost(@PathVariable Long postId);
 }

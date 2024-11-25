@@ -15,10 +15,12 @@ import com.domain.profile.application.response.TargetMemberProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/my-page")
 public class MyPageController implements MyPageControllerDocs {
 
     private static final int PAGE_SIZE = 10;
@@ -27,62 +29,71 @@ public class MyPageController implements MyPageControllerDocs {
     private final ProfileFacade profileFacade;
 
     @Override
+    @GetMapping
     public TtoklipResponse<TargetMemberProfile> getMyProfile() {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.getMyProfile(currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<Message> edit(ProfileWebCreate request) {
+    @PatchMapping("/edit")
+    public TtoklipResponse<Message> edit(@ModelAttribute @Validated ProfileWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = profileFacade.edit(request, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<HoneyTipPaging> scrapHoneyTips(int page) {
+    @GetMapping("/scrap-post/honeytip")
+    public TtoklipResponse<HoneyTipPaging> scrapHoneyTips(@RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.scrapHoneyTips(currentMemberId, pageable));
     }
 
     @Override
-    public TtoklipResponse<NewsletterPaging> scrapNewsletters(int page) {
+    @GetMapping("/scrap-post/newsletter")
+    public TtoklipResponse<NewsletterPaging> scrapNewsletters(@RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.scrapNewsletters(currentMemberId, pageable));
     }
 
     @Override
-    public TtoklipResponse<CommunityPaging> scrapCommunity(int page) {
+    @GetMapping("/scrap-post/community")
+    public TtoklipResponse<CommunityPaging> scrapCommunity(@RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.scrapCommunity(currentMemberId, pageable));
     }
 
     @Override
-    public TtoklipResponse<HoneyTipPaging> myHoneyTip(int page) {
+    @GetMapping("/honeytip")
+    public TtoklipResponse<HoneyTipPaging> myHoneyTip(@RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.myHoneyTips(currentMemberId, pageable));
     }
 
     @Override
-    public TtoklipResponse<QuestionPaging> myQuestion(int page) {
+    @GetMapping("/question")
+    public TtoklipResponse<QuestionPaging> myQuestion(@RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.myQuestions(currentMemberId, pageable));
     }
 
     @Override
-    public TtoklipResponse<CommunityPaging> myCommunity(int page) {
+    @GetMapping("/community")
+    public TtoklipResponse<CommunityPaging> myCommunity(@RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.myCommunities(currentMemberId, pageable));
     }
 
     @Override
-    public TtoklipResponse<CartPaging> participateDeals(int page) {
+    @GetMapping("/participate-deals")
+    public TtoklipResponse<CartPaging> participateDeals(@RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(myPageFacade.participateDeals(currentMemberId, pageable));

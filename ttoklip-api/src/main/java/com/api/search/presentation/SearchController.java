@@ -9,38 +9,54 @@ import com.api.search.presentation.response.NewsletterPaging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/search")
 public class SearchController implements SearchControllerDocs {
 
     private static final int PAGE_SIZE = 10; // 페이지 당 데이터 수
     private final SearchFacade searchFacade;
 
     @Override
-    public TtoklipResponse<HoneyTipPaging> searchHoneyTip(String title, String sort, int page) {
+    @GetMapping("/honeytip")
+    public TtoklipResponse<HoneyTipPaging> searchHoneyTip(@RequestParam String title,
+                                                          @RequestParam String sort,
+                                                          @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         HoneyTipPaging honeyTipPaging = searchFacade.honeyTipSearch(title, pageable, sort);
         return new TtoklipResponse<>(honeyTipPaging);
     }
 
     @Override
-    public TtoklipResponse<NewsletterPaging> searchNewsletter(String title, String sort, int page) {
+    @GetMapping("/newsletter")
+    public TtoklipResponse<NewsletterPaging> searchNewsletter(@RequestParam String title,
+                                                              @RequestParam String sort,
+                                                              @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         NewsletterPaging newsletterPaging = searchFacade.newsletterPaging(title, pageable, sort);
         return new TtoklipResponse<>(newsletterPaging);
     }
 
     @Override
-    public TtoklipResponse<CommunityPaging> searchCommunity(String title, String sort, int page) {
+    @GetMapping("/community")
+    public TtoklipResponse<CommunityPaging> searchCommunity(@RequestParam String title,
+                                                            @RequestParam String sort,
+                                                            @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         CommunityPaging communityPaging = searchFacade.communityPaging(title, pageable, sort);
         return new TtoklipResponse<>(communityPaging);
     }
 
     @Override
-    public TtoklipResponse<CartPaging> searchCart(String title, String sort, int page) {
+    @GetMapping("/cart")
+    public TtoklipResponse<CartPaging> searchCart(@RequestParam String title,
+                                                  @RequestParam String sort,
+                                                  @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         CartPaging cartPaging = searchFacade.cartPaging(title, pageable, sort);
         return new TtoklipResponse<>(cartPaging);

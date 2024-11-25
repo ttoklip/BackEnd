@@ -8,30 +8,37 @@ import com.api.question.application.QuestionPostFacade;
 import com.api.question.presentation.dto.request.QuestionWebCreate;
 import com.api.question.presentation.dto.response.QuestionResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/question/post")
 public class QuestionPostController implements QuestionPostControllerDocs {
 
     private final QuestionPostFacade questionPostFacade;
 
     @Override
-    public TtoklipResponse<Message> register(QuestionWebCreate request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public TtoklipResponse<Message> register(@Validated @ModelAttribute QuestionWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = questionPostFacade.register(request, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<QuestionResponse> getSinglePost(Long postId) {
+    @GetMapping("/{postId}")
+    public TtoklipResponse<QuestionResponse> getSinglePost(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         QuestionResponse response = questionPostFacade.getSinglePost(postId, currentMemberId);
         return new TtoklipResponse<>(response);
     }
 
     @Override
-    public TtoklipResponse<Message> report(Long postId, ReportWebCreate request) {
+    @PostMapping("/report/{postId}")
+    public TtoklipResponse<Message> report(@PathVariable Long postId,
+                                           @RequestBody ReportWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = questionPostFacade.report(postId, request, currentMemberId);
         return new TtoklipResponse<>(message);

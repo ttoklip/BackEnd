@@ -9,12 +9,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Tag(name = "OAuth", description = "Server 자체 로그인 API")
-@RequestMapping("/api/v1/oauth")
 public interface OAuthControllerDocs {
 
     @Operation(summary = "Server 자체 로그인 API", description = "oauth accessToken으로 로그인을 처리하는 API입니다.", tags = {"Authentication"})
@@ -28,7 +25,5 @@ public interface OAuthControllerDocs {
                                     value = PrivacyConstant.LOGIN_SUCCESS,
                                     description = "로그인 성공 예시"
                             )))})
-
-    @PostMapping
     TtoklipResponse<OAuthLoginResponse> login(@RequestBody OAuthLogin request);
 }

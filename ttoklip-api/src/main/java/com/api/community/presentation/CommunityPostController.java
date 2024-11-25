@@ -9,71 +9,85 @@ import com.api.global.support.response.Message;
 import com.api.global.support.response.TtoklipResponse;
 import com.api.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/town/comms")
 public class CommunityPostController implements CommunityPostControllerDocs {
 
     private final CommunityPostFacade communityPostFacade;
 
     @Override
-    public TtoklipResponse<Message> register(CommunityWebCreate request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public TtoklipResponse<Message> register(@Validated @ModelAttribute CommunityWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityPostFacade.register(request, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<CommunityResponse> getSinglePost(Long postId) {
+    @GetMapping("/{postId}")
+    public TtoklipResponse<CommunityResponse> getSinglePost(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         CommunityResponse response = communityPostFacade.getSinglePost(postId, currentMemberId);
         return new TtoklipResponse<>(response);
     }
 
     @Override
-    public TtoklipResponse<Message> edit(Long postId, CommunityWebEdit request) {
+    @PatchMapping("/{postId}")
+    public TtoklipResponse<Message> edit(@PathVariable Long postId,
+                                         @Validated @ModelAttribute CommunityWebEdit request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityPostFacade.edit(postId, request, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<Message> delete(Long postId) {
+    @DeleteMapping("/{postId}")
+    public TtoklipResponse<Message> delete(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(communityPostFacade.delete(postId, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<Message> report(Long postId, ReportWebCreate request) {
+    @PostMapping("/report/{postId}")
+    public TtoklipResponse<Message> report(@PathVariable Long postId,
+                                           @RequestBody ReportWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityPostFacade.report(postId, request, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<Message> registerLike(Long postId) {
+    @PostMapping("/like/{postId}")
+    public TtoklipResponse<Message> registerLike(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityPostFacade.registerLike(postId, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<Message> cancelLike(Long postId) {
+    @DeleteMapping("/like/{postId}")
+    public TtoklipResponse<Message> cancelLike(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityPostFacade.cancelLike(postId, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<Message> registerScrap(Long postId) {
+    @PostMapping("/scrap/{postId}")
+    public TtoklipResponse<Message> registerScrap(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityPostFacade.registerScrap(postId, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<Message> cancelScrap(Long postId) {
+    @DeleteMapping("/scrap/{postId}")
+    public TtoklipResponse<Message> cancelScrap(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityPostFacade.cancelScrap(postId, currentMemberId);
         return new TtoklipResponse<>(message);

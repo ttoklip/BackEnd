@@ -12,12 +12,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Town Main", description = "우리동네 관리 API")
-@RequestMapping("/api/v1/town/main")
 public interface TownControllerDocs {
 
     @Operation(summary = "우리동네 메인 조회", description = "함께해요, 소통해요 최신글 3개씩 불러옵니다.")
@@ -31,7 +28,6 @@ public interface TownControllerDocs {
                                     value = "TownResponseConstant.getRecent3",
                                     description = "우리동네 메인 페이지입니다."
                             )))})
-    @GetMapping
     TtoklipResponse<TownMainResponse> getCarts(
             @Parameter(description = "필터 기준 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
             @RequestParam(defaultValue = "CITY") String criteria);
@@ -47,11 +43,9 @@ public interface TownControllerDocs {
                                     value = "TownResponseConstant.getCommunities",
                                     description = "소통해요 글 목록을 불러왔습니다."
                             )))})
-    @GetMapping("/community")
     TtoklipResponse<CommunityPaging> getCommunities(
             @Parameter(description = "필터 기준 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
             @RequestParam(defaultValue = "CITY") String criteria,
-
             @Parameter(description = "페이지 번호 (0부터 시작)", example = "0")
             @RequestParam(defaultValue = "0") int page);
 
@@ -66,7 +60,6 @@ public interface TownControllerDocs {
                                     value = "TownResponseConstant.getCarts",
                                     description = "함께해요 글 목록을 불러왔습니다."
                             )))})
-    @GetMapping("/cart")
     TtoklipResponse<CartPaging> getCarts(
             @Parameter(description = "페이지 번호 (0부터 시작)", example = "0")
             @RequestParam(defaultValue = "0") int page,

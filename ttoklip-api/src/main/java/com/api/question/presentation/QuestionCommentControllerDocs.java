@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Question Comment", description = "질문 댓글 관리 API")
-@RequestMapping("/api/v1/question/comment")
 public interface QuestionCommentControllerDocs {
 
     @Operation(summary = "질문 댓글 생성", description = "질문 게시글에 댓글을 등록합니다.")
@@ -29,8 +28,6 @@ public interface QuestionCommentControllerDocs {
                                     value = "QuestionResponseConstant.CREATE_QUESTION_COMMENT",
                                     description = "댓글이 생성되었습니다."
                             )))})
-
-    @PostMapping("/{postId}")
     TtoklipResponse<Message> register(@PathVariable Long postId, @RequestBody CommentCreate request);
 
     @Operation(summary = "질문 댓글 신고", description = "댓글 ID로 댓글을 신고합니다.")
@@ -44,8 +41,6 @@ public interface QuestionCommentControllerDocs {
                                     value = "QuestionResponseConstant.REPORT_QUESTION_COMMENT",
                                     description = "댓글이 신고되었습니다."
                             )))})
-
-    @PostMapping("/report/{commentId}")
     TtoklipResponse<Message> report(@PathVariable Long commentId, @RequestBody ReportWebCreate request);
 
     @Operation(summary = "질문 댓글 삭제", description = "질문 게시글에 댓글을 삭제합니다.")
@@ -59,8 +54,6 @@ public interface QuestionCommentControllerDocs {
                                     value = "QuestionResponseConstant.DELETE_QUESTION_COMMENT",
                                     description = "댓글이 삭제되었습니다."
                             )))})
-
-    @DeleteMapping("/{commentId}")
     TtoklipResponse<Message> delete(@PathVariable Long commentId);
 
     @Operation(summary = "질문 댓글 좋아요 추가", description = "질문 ID에 해당하는 댓글에 좋아요를 추가합니다.")
@@ -74,8 +67,6 @@ public interface QuestionCommentControllerDocs {
                                     value = "QuestionResponseConstant.REGISTER_LIKE",
                                     description = "질문 댓글의 좋아요를 추가했습니다."
                             )))})
-
-    @PostMapping("/like/{commentId}")
     TtoklipResponse<Message> registerLike(@PathVariable Long commentId);
 
     @Operation(summary = "질문 댓글 좋아요 취소", description = "질문 ID에 해당하는 댓글에 좋아요를 취소합니다.")
@@ -89,7 +80,5 @@ public interface QuestionCommentControllerDocs {
                                     value = "QuestionResponseConstant.CANCEL_LIKE",
                                     description = "질문 댓글의 좋아요를 취소했습니다."
                             )))})
-
-    @DeleteMapping("/like/{commentId}")
     TtoklipResponse<Message> cancelLike(@PathVariable Long commentId);
 }

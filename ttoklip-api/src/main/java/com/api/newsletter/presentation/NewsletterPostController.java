@@ -12,10 +12,13 @@ import com.api.newsletter.presentation.response.NewsletterSingleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/newsletter/posts")
     public class NewsletterPostController implements NewsletterPostControllerDocs {
 
     private static final int PAGE_SIZE = 10;
@@ -25,56 +28,69 @@ import org.springframework.web.bind.annotation.RestController;
     private final NewsletterLikeFacade newsletterLikeFacade;
 
     @Override
-    public TtoklipResponse<Message> register(NewsletterWebCreate request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public TtoklipResponse<Message> register(@Validated @ModelAttribute NewsletterWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterPostFacade.register(request, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<NewsletterSingleResponse> getSinglePost(Long postId) {
+    @GetMapping("/{postId}")
+    public TtoklipResponse<NewsletterSingleResponse> getSinglePost(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterPostFacade.getSinglePost(postId, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<NewsCategoryPagingResponse> getPagingCategory(String category, int page) {
+    @GetMapping
+    public TtoklipResponse<NewsCategoryPagingResponse> getPagingCategory(@RequestParam String category,
+                                                                         @RequestParam(required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return new TtoklipResponse<>(newsletterPostFacade.getPagingCategory(category, pageable));
     }
 
     @Override
-    public TtoklipResponse<Message> report(Long postId, ReportWebCreate request) {
+    @PostMapping("/report/{postId}")
+    public TtoklipResponse<Message> report(@PathVariable Long postId,
+                                           @RequestBody ReportWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterPostFacade.report(postId, request, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<Message> registerLike(Long postId) {
+    @PostMapping("/like/{postId}")
+    public TtoklipResponse<Message> registerLike(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterLikeFacade.register(postId, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<Message> cancelLike(Long postId) {
+    @DeleteMapping("/like/{postId}")
+    public TtoklipResponse<Message> cancelLike(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterLikeFacade.cancel(postId, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<Message> registerScrap(Long postId) {
+    @PostMapping("/scrap/{postId}")
+    public TtoklipResponse<Message> registerScrap(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterScrapFacade.register(postId, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<Message> cancelScrap(Long postId) {
+    @DeleteMapping("/scrap/{postId}")
+    public TtoklipResponse<Message> cancelScrap(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterScrapFacade.cancel(postId, currentMemberId));
     }
 
     @Override
-    public TtoklipResponse<Message> delete(Long postId) {
+    @DeleteMapping("/{postId}")
+    public TtoklipResponse<Message> delete(@PathVariable Long postId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return new TtoklipResponse<>(newsletterPostFacade.delete(postId, currentMemberId));
     }
+
+
 }

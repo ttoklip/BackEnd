@@ -7,30 +7,36 @@ import com.api.global.support.response.TtoklipResponse;
 import com.api.global.util.SecurityUtil;
 import com.domain.comment.domain.CommentCreate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("api/v1/town/comms/comment")
 public class CommunityCommentController implements CommunityCommentControllerDocs {
 
     private final CommunityCommentFacade communityCommentFacade;
 
     @Override
-    public TtoklipResponse<Message> register(Long postId, CommentCreate request) {
+    @PostMapping("/{postId}")
+    public TtoklipResponse<Message> register(@PathVariable Long postId,
+                                             @RequestBody CommentCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityCommentFacade.register(postId, request, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<Message> report(Long commentId, ReportWebCreate request) {
+    @PostMapping("/report/{commentId}")
+    public TtoklipResponse<Message> report(@PathVariable Long commentId,
+                                           @RequestBody ReportWebCreate request) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityCommentFacade.report(commentId, request, currentMemberId);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    public TtoklipResponse<Message> delete(Long commentId) {
+    @DeleteMapping("/{commentId}")
+    public TtoklipResponse<Message> delete(@PathVariable Long commentId) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Message message = communityCommentFacade.delete(commentId, currentMemberId);
         return new TtoklipResponse<>(message);

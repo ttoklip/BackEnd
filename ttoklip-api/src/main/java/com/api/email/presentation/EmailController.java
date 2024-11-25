@@ -5,6 +5,8 @@ import com.api.global.support.response.Message;
 import com.api.global.support.response.TtoklipResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,14 +17,16 @@ public class EmailController implements EmailControllerDocs {
     private final EmailFacade emailFacade;
 
     @Override
-    public TtoklipResponse<Message> mailSend(EmailSendRequest request) {
+    @PostMapping("/send")
+    public TtoklipResponse<Message> mailSend(@RequestBody EmailSendRequest request) {
         log.info("EmailController.mailSend()");
         emailFacade.sendEmail(request.email());
         return new TtoklipResponse<>(Message.sendEmail());
     }
 
     @Override
-    public TtoklipResponse<Message> verify(EmailVerifyRequest request) {
+    @PostMapping("/verify")
+    public TtoklipResponse<Message> verify(@RequestBody EmailVerifyRequest request) {
         log.info("EmailController.verify()");
         emailFacade.verifyEmailCode(request);
         return new TtoklipResponse<>(Message.verifyCodeSuccess());
