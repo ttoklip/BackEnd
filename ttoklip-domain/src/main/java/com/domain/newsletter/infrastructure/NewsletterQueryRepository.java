@@ -11,6 +11,7 @@ import com.domain.newsletter.domain.QNewsletterImage;
 import com.domain.newsletter.domain.QNewsletterLike;
 import com.domain.newsletter.domain.QNewsletterScrap;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -230,6 +231,7 @@ public class NewsletterQueryRepository {
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .leftJoin(newsletter.newsletterLikes, newsletterLike)
                 .leftJoin(newsletter.newsletterScraps, newsletterScrap)
+                .groupBy(newsletter.id)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
     }
@@ -238,14 +240,14 @@ public class NewsletterQueryRepository {
         if (StringUtils.hasText(keyword)) {
             return newsletter.title.contains(keyword);
         }
-        return null;
+        return Expressions.asBoolean(true).isTrue();
     }
 
     private BooleanExpression containContent(final String keyword) {
         if (StringUtils.hasText(keyword)) {
             return newsletter.content.contains(keyword);
         }
-        return null;
+        return Expressions.asBoolean(true).isTrue();
     }
 
     private List<Newsletter> sortPopularity(final JPAQuery<Newsletter> query) {

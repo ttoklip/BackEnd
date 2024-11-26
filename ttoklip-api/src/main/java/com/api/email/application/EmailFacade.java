@@ -105,7 +105,7 @@ public class EmailFacade {
             sendEmail(emailForm);
         } catch (ApiException e) {
             log.error("ApiException during email creation: {}", e.getMessage(), e);
-            throw e; // 이미 ApiException을 던지므로 다시 던짐
+            throw e;
         } catch (Exception e) {
             log.error("Unexpected error during email creation: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.EMAIL_SENDING_ERROR);

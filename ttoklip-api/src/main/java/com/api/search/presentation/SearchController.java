@@ -41,7 +41,7 @@ public class SearchController implements SearchControllerDocs {
         NewsletterPaging newsletterPaging = searchFacade.newsletterPaging(title, pageable, sort);
         return new TtoklipResponse<>(newsletterPaging);
     }
-
+    
     @Override
     @GetMapping("/community")
     public TtoklipResponse<CommunityPaging> searchCommunity(@RequestParam String title,

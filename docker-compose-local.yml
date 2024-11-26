@@ -1,24 +1,29 @@
 version: '3.8'
 services:
-  kafka:
-    image: wurstmeister/kafka:latest
-    container_name: kafka_dev
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-    ports:
-      - "9092:9092"
-    networks:
-      - dev_network
-
   zookeeper:
-    image: bitnami/zookeeper:latest
-    container_name: zookeeper_dev
+    image: bitnami/zookeeper:latest  # Bitnami의 최신 Zookeeper 이미지 사용
+    container_name: zookeeper
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
     ports:
       - "2181:2181"
+    networks:
+      - dev_network
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    ports:
+      - "9093:9093"
+      - "9092:9092"
+    depends_on:
+      - zookeeper
     networks:
       - dev_network
 
@@ -32,4 +37,4 @@ services:
 
 networks:
   dev_network:
-    driver: bridge
+    external: true

@@ -9,7 +9,7 @@ spring:
     import: "classpath:application-infra-dev.yml"
   kafka:
     consumer:
-      bootstrap-servers: kafka:9093
+      bootstrap-servers: localhost:9092
       group-id: notification-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
