@@ -24,14 +24,14 @@ public class ProfileController implements ProfileControllerDocs {
     }
 
     @Override
-    @GetMapping("/oauth/check-nickname")
+    @PostMapping("/oauth/check-nickname")
     public TtoklipResponse<Message> checkOauthNickname(@RequestBody Nickname nickname) {
         Message message = profileFacade.validNickname(nickname);
         return new TtoklipResponse<>(message);
     }
 
     @Override
-    @GetMapping("/local/check-nickname")
+    @PostMapping("/local/check-nickname")
     public TtoklipResponse<Message> checkLocalNickname(@RequestBody Nickname nickname) {
         Message message = profileFacade.validNickname(nickname);
         return new TtoklipResponse<>(message);
