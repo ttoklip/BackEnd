@@ -47,7 +47,9 @@ public interface TownControllerDocs {
             @Parameter(description = "필터 기준 (기본값 CITY)", example = "CITY, DISTRICT, TOWN")
             @RequestParam(defaultValue = "CITY") String criteria,
             @Parameter(description = "페이지 번호 (0부터 시작)", example = "0")
-            @RequestParam(defaultValue = "0") int page);
+            @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "필터 기준 (기본값 latest)", example = "latest, popularity, comment, scrap")
+            @RequestParam(defaultValue = "latest") String sort);
 
     @Operation(summary = "함께해요 글 목록 조회", description = "함께해요 글 목록을 불러옵니다.")
     @ApiResponses(value = {

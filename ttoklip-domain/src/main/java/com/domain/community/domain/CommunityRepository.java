@@ -15,7 +15,7 @@ public interface CommunityRepository {
 
     List<Community> getRecent3(TownCriteria townCriteria, String street);
 
-    Page<Community> getPaging(TownCriteria townCriteria, Pageable pageable, String street);
+    Page<Community> getPaging(TownCriteria townCriteria, Pageable pageable, String street, String sort);
 
     Community save(Community community);
 

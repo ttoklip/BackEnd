@@ -108,15 +108,15 @@ public class CommunityQueryRepository {
         return communityComment.community.id.eq(communityId);
     }
 
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street) {
-        List<Community> pageContent = getPageContent(townCriteria, pageable, street);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street, final String sort) {
+        List<Community> pageContent = getPageContent(townCriteria, pageable, street, sort);
         Long count = countQuery(townCriteria, street);
         return new PageImpl<>(pageContent, pageable, count);
     }
 
     private List<Community> getPageContent(final TownCriteria townCriteria, final Pageable pageable,
-                                           final String street) {
-        return jpaQueryFactory
+                                           final String street, final String sort) { // 수정된 부분
+        JPAQuery<Community> query = jpaQueryFactory
                 .selectFrom(community)
                 .where(
                         getCommunityActivate(),
@@ -125,7 +125,56 @@ public class CommunityQueryRepository {
                 .leftJoin(community.member, member).fetchJoin()
                 .leftJoin(community.member.profile, profile).fetchJoin()
                 .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
+                .offset(pageable.getOffset());
+
+        // 정렬 기준에 따라 orderBy 절 추가
+        if ("popularity".equals(sort)) {
+            return sortByPopularity(query);
+        } else if ("comment".equals(sort)) {
+            return sortByCommentCount(query);
+        } else if ("scrap".equals(sort)) {
+            return sortByScrapCount(query);
+        } else {
+            return sortByLatest(query);
+        }
+    }
+
+    private List<Community> sortByPopularity(final JPAQuery<Community> query) {
+        // 인기 점수 계산: 좋아요 수 + 댓글 수 + 스크랩 수
+        return query
+                .leftJoin(community.communityLikes, communityLike)
+                .leftJoin(community.communityComments, communityComment)
+                .leftJoin(community.communityScraps, communityScrap)
+                .groupBy(community.id)
+                .orderBy(
+                        communityLike.count().add(
+                                communityComment.count()
+                        ).add(
+                                communityScrap.count()
+                        ).desc()
+                )
+                .fetch();
+    }
+
+    //Todo 좋아요, 스크랩 동률일때 최신순으로 정렬
+    private List<Community> sortByCommentCount(final JPAQuery<Community> query) {
+        return query
+                .leftJoin(community.communityComments, communityComment)
+                .groupBy(community.id)
+                .orderBy(communityComment.count().desc())
+                .fetch();
+    }
+
+    private List<Community> sortByScrapCount(final JPAQuery<Community> query) {
+        return query
+                .leftJoin(community.communityScraps, communityScrap)
+                .groupBy(community.id)
+                .orderBy(communityScrap.count().desc())
+                .fetch();
+    }
+
+    private List<Community> sortByLatest(final JPAQuery<Community> query) {
+        return query
                 .orderBy(community.id.desc())
                 .fetch();
     }

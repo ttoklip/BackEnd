@@ -38,8 +38,8 @@ public class CommunityRepositoryImpl implements CommunityRepository {
     }
 
     @Override
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street) {
-        return queryDSLRepository.getPaging(townCriteria, pageable, street);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street, final String sort) {
+        return queryDSLRepository.getPaging(townCriteria, pageable, street, sort);
     }
 
     @Override

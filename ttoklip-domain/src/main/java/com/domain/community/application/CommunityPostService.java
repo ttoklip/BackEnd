@@ -30,8 +30,8 @@ public class CommunityPostService {
         return communityRepository.findByIdFetchJoin(postId);
     }
 
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street) {
-        return communityRepository.getPaging(townCriteria, pageable, street);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street, final String sort) {
+        return communityRepository.getPaging(townCriteria, pageable, street, sort);
     }
 
     public Community getCommunity(final Long postId) {
