@@ -115,7 +115,7 @@ public class CommunityQueryRepository {
     }
 
     private List<Community> getPageContent(final TownCriteria townCriteria, final Pageable pageable,
-                                           final String street, final String sort) { // 수정된 부분
+                                           final String street, final String sort) {
         JPAQuery<Community> query = jpaQueryFactory
                 .selectFrom(community)
                 .where(
@@ -127,16 +127,23 @@ public class CommunityQueryRepository {
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
 
-        // 정렬 기준에 따라 orderBy 절 추가
         if ("popularity".equals(sort)) {
             return sortByPopularity(query);
-        } else if ("comment".equals(sort)) {
+        }
+
+        if ("comment".equals(sort)) {
             return sortByCommentCount(query);
-        } else if ("scrap".equals(sort)) {
+        }
+
+        if ("scrap".equals(sort)) {
             return sortByScrapCount(query);
-        } else {
+        }
+
+        if ("latest".equals(sort)) {
             return sortByLatest(query);
         }
+
+        throw new ApiException(ErrorType.INVALID_SORT_TYPE);
     }
 
     private NumberExpression<Long> calculatePopularityScore() {
