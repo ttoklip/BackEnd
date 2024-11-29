@@ -139,19 +139,22 @@ public class CommunityQueryRepository {
         }
     }
 
+    private NumberExpression<Long> calculatePopularityScore() {
+        return communityLike.count()
+                .add(communityComment.count())
+                .add(communityScrap.count());
+    }
+
     private List<Community> sortByPopularity(final JPAQuery<Community> query) {
-        // 인기 점수 계산: 좋아요 수 + 댓글 수 + 스크랩 수
+        NumberExpression<Long> popularityScore = calculatePopularityScore();
+
         return query
                 .leftJoin(community.communityLikes, communityLike)
                 .leftJoin(community.communityComments, communityComment)
                 .leftJoin(community.communityScraps, communityScrap)
                 .groupBy(community.id)
                 .orderBy(
-                        communityLike.count().add(
-                                communityComment.count()
-                        ).add(
-                                communityScrap.count()
-                        ).desc(),
+                        popularityScore.desc(),
                         community.id.desc()
                 )
                 .fetch();
