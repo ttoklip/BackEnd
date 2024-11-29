@@ -151,17 +151,17 @@ public class CommunityQueryRepository {
                                 communityComment.count()
                         ).add(
                                 communityScrap.count()
-                        ).desc()
+                        ).desc(),
+                        community.id.desc()
                 )
                 .fetch();
     }
 
-    //Todo 좋아요, 스크랩 동률일때 최신순으로 정렬
     private List<Community> sortByCommentCount(final JPAQuery<Community> query) {
         return query
                 .leftJoin(community.communityComments, communityComment)
                 .groupBy(community.id)
-                .orderBy(communityComment.count().desc())
+                .orderBy(communityComment.count().desc(), community.id.desc())
                 .fetch();
     }
 
@@ -169,7 +169,7 @@ public class CommunityQueryRepository {
         return query
                 .leftJoin(community.communityScraps, communityScrap)
                 .groupBy(community.id)
-                .orderBy(communityScrap.count().desc())
+                .orderBy(communityScrap.count().desc(), community.id.desc())
                 .fetch();
     }
 
