@@ -34,6 +34,9 @@ import org.springframework.util.StringUtils;
 public class CartQueryRepository {
 
     private static final String SPLIT_CRITERIA = " ";
+    private static final String POPULARITY = "popularity";
+    private static final String LATEST = "latest";
+
     private final JPAQueryFactory jpaQueryFactory;
 
     private final QProfile profile = QProfile.profile;
@@ -245,11 +248,11 @@ public class CartQueryRepository {
     private List<Cart> getSearchPageTitleOrContent(final String keyword, final Pageable pageable, final String sort) {
         JPAQuery<Cart> query = defaultQuery(keyword, pageable);
 
-        if (sort.equals("popularity")) {
+        if (sort.equals(POPULARITY)) {
             return sortPopularity(query);
         }
 
-        if (sort.equals("latest")) {
+        if (sort.equals(LATEST)) {
             return sortLatest(query);
         }
 

@@ -32,6 +32,11 @@ import org.springframework.util.StringUtils;
 public class CommunityQueryRepository {
 
     private static final String SPLIT_CRITERIA = " ";
+    private static final String POPULARITY = "popularity";
+    private static final String COMMENT = "comment";
+    private static final String SCRAP = "scrap";
+    private static final String LATEST = "latest";
+
     private final JPAQueryFactory jpaQueryFactory;
     private final QCommunity community = QCommunity.community;
     private final QProfile profile = QProfile.profile;
@@ -40,11 +45,6 @@ public class CommunityQueryRepository {
     private final QCommunityComment communityComment = QCommunityComment.communityComment;
     private final QCommunityLike communityLike = QCommunityLike.communityLike;
     private final QCommunityScrap communityScrap = QCommunityScrap.communityScrap;
-
-    private static final String POPULARITY = "popularity";
-    private static final String COMMENT = "comment";
-    private static final String SCRAP = "scrap";
-    private static final String LATEST = "latest";
 
     public Community findByIdActivated(final Long communityId) {
         Community findCommunity = jpaQueryFactory
@@ -269,11 +269,11 @@ public class CommunityQueryRepository {
     private List<Community> getSearchPageTitle(final String keyword, final Pageable pageable, final String sort) {
         JPAQuery<Community> query = defaultQuery(keyword, pageable);
 
-        if (sort.equals("popularity")) {
+        if (sort.equals(POPULARITY)) {
             return sortPopularity(query);
         }
 
-        if (sort.equals("latest")) {
+        if (sort.equals(LATEST)) {
             return sortLatest(query);
         }
 

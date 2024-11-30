@@ -30,17 +30,17 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class HoneyTipQueryRepository {
 
+    private static final String POPULARITY = "popularity";
+    private static final String LATEST = "latest";
+
     private final JPAQueryFactory jpaQueryFactory;
 
     private final QHoneyTipComment honeyTipComment = QHoneyTipComment.honeyTipComment;
-
     private final QHoneyTip honeyTip = QHoneyTip.honeyTip;
     private final QHoneyTipLike honeyTipLike = QHoneyTipLike.honeyTipLike;
     private final QHoneyTipScrap honeyTipScrap = QHoneyTipScrap.honeyTipScrap;
-
     private final QHoneyTipImage honeyTipImage = QHoneyTipImage.honeyTipImage;
     private final QHoneyTipUrl honeyTipUrl = QHoneyTipUrl.honeyTipUrl;
-
     private final QMember member = QMember.member;
 
     public HoneyTip findByIdActivated(final Long honeyTipId) {
@@ -213,11 +213,11 @@ public class HoneyTipQueryRepository {
                                                        final String sort) {
         JPAQuery<HoneyTip> query = defaultQuery(keyword, pageable);
 
-        if (sort.equals("popularity")) {
+        if (sort.equals(POPULARITY)) {
             return sortPopularity(query);
         }
 
-        if (sort.equals("latest")) {
+        if (sort.equals(LATEST)) {
             return sortLatest(query);
         }
 
