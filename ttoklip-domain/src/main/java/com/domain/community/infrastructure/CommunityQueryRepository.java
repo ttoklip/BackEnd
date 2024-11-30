@@ -32,6 +32,11 @@ import org.springframework.util.StringUtils;
 public class CommunityQueryRepository {
 
     private static final String SPLIT_CRITERIA = " ";
+    private static final String POPULARITY = "popularity";
+    private static final String COMMENT = "comment";
+    private static final String SCRAP = "scrap";
+    private static final String LATEST = "latest";
+
     private final JPAQueryFactory jpaQueryFactory;
     private final QCommunity community = QCommunity.community;
     private final QProfile profile = QProfile.profile;
@@ -108,15 +113,15 @@ public class CommunityQueryRepository {
         return communityComment.community.id.eq(communityId);
     }
 
-    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street) {
-        List<Community> pageContent = getPageContent(townCriteria, pageable, street);
+    public Page<Community> getPaging(final TownCriteria townCriteria, final Pageable pageable, final String street, final String sort) {
+        List<Community> pageContent = getPageContent(townCriteria, pageable, street, sort);
         Long count = countQuery(townCriteria, street);
         return new PageImpl<>(pageContent, pageable, count);
     }
 
     private List<Community> getPageContent(final TownCriteria townCriteria, final Pageable pageable,
-                                           final String street) {
-        return jpaQueryFactory
+                                           final String street, final String sort) {
+        JPAQuery<Community> query = jpaQueryFactory
                 .selectFrom(community)
                 .where(
                         getCommunityActivate(),
@@ -125,7 +130,66 @@ public class CommunityQueryRepository {
                 .leftJoin(community.member, member).fetchJoin()
                 .leftJoin(community.member.profile, profile).fetchJoin()
                 .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
+                .offset(pageable.getOffset());
+
+        if (POPULARITY.equals(sort)) {
+            return sortByPopularity(query);
+        }
+
+        if (COMMENT.equals(sort)) {
+            return sortByCommentCount(query);
+        }
+
+        if (SCRAP.equals(sort)) {
+            return sortByScrapCount(query);
+        }
+
+        if (LATEST.equals(sort)) {
+            return sortByLatest(query);
+        }
+
+        throw new ApiException(ErrorType.INVALID_SORT_TYPE);
+    }
+
+    private NumberExpression<Long> calculatePopularityScore() {
+        return communityLike.count()
+                .add(communityComment.count())
+                .add(communityScrap.count());
+    }
+
+    private List<Community> sortByPopularity(final JPAQuery<Community> query) {
+        NumberExpression<Long> popularityScore = calculatePopularityScore();
+
+        return query
+                .leftJoin(community.communityLikes, communityLike)
+                .leftJoin(community.communityComments, communityComment)
+                .leftJoin(community.communityScraps, communityScrap)
+                .groupBy(community.id)
+                .orderBy(
+                        popularityScore.desc(),
+                        community.id.desc()
+                )
+                .fetch();
+    }
+
+    private List<Community> sortByCommentCount(final JPAQuery<Community> query) {
+        return query
+                .leftJoin(community.communityComments, communityComment)
+                .groupBy(community.id)
+                .orderBy(communityComment.count().desc(), community.id.desc())
+                .fetch();
+    }
+
+    private List<Community> sortByScrapCount(final JPAQuery<Community> query) {
+        return query
+                .leftJoin(community.communityScraps, communityScrap)
+                .groupBy(community.id)
+                .orderBy(communityScrap.count().desc(), community.id.desc())
+                .fetch();
+    }
+
+    private List<Community> sortByLatest(final JPAQuery<Community> query) {
+        return query
                 .orderBy(community.id.desc())
                 .fetch();
     }
@@ -205,11 +269,11 @@ public class CommunityQueryRepository {
     private List<Community> getSearchPageTitle(final String keyword, final Pageable pageable, final String sort) {
         JPAQuery<Community> query = defaultQuery(keyword, pageable);
 
-        if (sort.equals("popularity")) {
+        if (sort.equals(POPULARITY)) {
             return sortPopularity(query);
         }
 
-        if (sort.equals("latest")) {
+        if (sort.equals(LATEST)) {
             return sortLatest(query);
         }
 

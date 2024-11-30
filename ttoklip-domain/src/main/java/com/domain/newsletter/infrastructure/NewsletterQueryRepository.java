@@ -32,6 +32,7 @@ public class NewsletterQueryRepository {
 
     private static final String POPULARITY = "popularity";
     private static final String LATEST = "latest";
+
     private final JPAQueryFactory jpaQueryFactory;
     private final QNewsletter newsletter = QNewsletter.newsletter;
     private final QNewsletterImage newsletterImage = QNewsletterImage.newsletterImage;

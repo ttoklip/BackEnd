@@ -25,10 +25,10 @@ public class TownFacade {
     private final CartPostService cartPostService;
     private final MemberService memberService;
 
-    public CommunityPaging getCommunities(final String criteria, final Pageable pageable, final Long memberId) {
+    public CommunityPaging getCommunities(final String criteria, final Pageable pageable, final Long memberId, final String sort) {
         TownCriteria townCriteria = validCriteria(criteria);
         Member member = memberService.getById(memberId);
-        Page<Community> contentPaging = communityPostService.getPaging(townCriteria, pageable, member.getStreet());
+        Page<Community> contentPaging = communityPostService.getPaging(townCriteria, pageable, member.getStreet(), sort);
 
         List<Community> contents = contentPaging.getContent();
 

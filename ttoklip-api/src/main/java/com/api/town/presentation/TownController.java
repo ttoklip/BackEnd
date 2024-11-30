@@ -33,10 +33,11 @@ public class TownController implements TownControllerDocs {
     @Override
     @GetMapping("/community")
     public TtoklipResponse<CommunityPaging> getCommunities(@RequestParam(defaultValue = "CITY") String criteria,
-                                                           @RequestParam(defaultValue = "0") int page) {
+                                                           @RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "latest") String sort) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(townFacade.getCommunities(criteria, pageable, currentMemberId));
+        return new TtoklipResponse<>(townFacade.getCommunities(criteria, pageable, currentMemberId, sort));
     }
 
     @Override

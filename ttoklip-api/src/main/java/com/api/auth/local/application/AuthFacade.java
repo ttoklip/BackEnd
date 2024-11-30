@@ -1,19 +1,18 @@
 package com.api.auth.local.application;
 
 import com.api.auth.local.presentation.AuthLogin;
+import com.api.auth.local.presentation.AuthLoginResponse;
+import com.api.auth.local.presentation.LocalMemberWebCreate;
 import com.api.common.upload.MultipartFileAdapter;
+import com.api.global.support.response.Message;
 import com.common.annotation.DistributedLock;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
-import com.domain.interest.application.InterestService;
-import com.domain.member.domain.LocalMemberCreate;
-import com.api.auth.local.presentation.LocalMemberWebCreate;
-import com.api.auth.local.presentation.AuthLoginResponse;
-import com.infrastructure.aws.upload.Uploader;
-import com.api.global.support.response.Message;
 import com.common.jwt.TokenProvider;
 import com.domain.common.vo.Category;
+import com.domain.interest.application.InterestService;
 import com.domain.member.application.MemberService;
+import com.domain.member.domain.LocalMemberCreate;
 import com.domain.member.domain.Member;
 import com.domain.profile.application.ProfileService;
 import com.domain.profile.domain.Profile;
@@ -22,20 +21,23 @@ import com.domain.term.application.TermService;
 import com.domain.term.domain.Term;
 import com.domain.term.domain.TermAgreement;
 import com.domain.term.response.TermSignUpResponse;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import com.infrastructure.aws.upload.Uploader;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthFacade {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
