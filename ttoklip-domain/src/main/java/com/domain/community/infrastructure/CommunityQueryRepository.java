@@ -41,6 +41,11 @@ public class CommunityQueryRepository {
     private final QCommunityLike communityLike = QCommunityLike.communityLike;
     private final QCommunityScrap communityScrap = QCommunityScrap.communityScrap;
 
+    private static final String POPULARITY = "popularity";
+    private static final String COMMENT = "comment";
+    private static final String SCRAP = "scrap";
+    private static final String LATEST = "latest";
+
     public Community findByIdActivated(final Long communityId) {
         Community findCommunity = jpaQueryFactory
                 .selectFrom(community)
@@ -127,19 +132,19 @@ public class CommunityQueryRepository {
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
 
-        if ("popularity".equals(sort)) {
+        if (POPULARITY.equals(sort)) {
             return sortByPopularity(query);
         }
 
-        if ("comment".equals(sort)) {
+        if (COMMENT.equals(sort)) {
             return sortByCommentCount(query);
         }
 
-        if ("scrap".equals(sort)) {
+        if (SCRAP.equals(sort)) {
             return sortByScrapCount(query);
         }
 
-        if ("latest".equals(sort)) {
+        if (LATEST.equals(sort)) {
             return sortByLatest(query);
         }
 
