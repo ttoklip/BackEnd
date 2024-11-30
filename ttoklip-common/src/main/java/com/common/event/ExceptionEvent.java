@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public abstract class ErrorEvent {
+public abstract class ExceptionEvent {
 
     private final LocalDateTime errorTime;
     private final Throwable throwable;

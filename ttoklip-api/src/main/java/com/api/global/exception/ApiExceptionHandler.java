@@ -1,9 +1,9 @@
 package com.api.global.exception;
 
 import com.common.config.event.Events;
-import com.common.event.ErrorRootFinder;
-import com.common.event.InternalServerErrorEvent;
 import com.common.event.Modules;
+import com.common.exception.ErrorRootFinder;
+import com.common.event.InternalServerExceptionEvent;
 import com.common.exception.ApiException;
 import com.common.exception.BadWordException;
 import com.common.exception.ErrorType;
@@ -36,7 +36,7 @@ public class ApiExceptionHandler {
 
     private void alertErrorEvent(final Throwable e, Modules module) {
         log.error("Unhandled exception occurred", e);
-        Events.raise(new InternalServerErrorEvent(LocalDateTime.now(), e, module));
+        Events.raise(new InternalServerExceptionEvent(LocalDateTime.now(), e, module));
     }
 
     @ExceptionHandler({Exception.class})

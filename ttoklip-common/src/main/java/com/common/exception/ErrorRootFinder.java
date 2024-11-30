@@ -1,5 +1,6 @@
-package com.common.event;
+package com.common.exception;
 
+import com.common.event.Modules;
 import java.util.Arrays;
 
 public class ErrorRootFinder {
