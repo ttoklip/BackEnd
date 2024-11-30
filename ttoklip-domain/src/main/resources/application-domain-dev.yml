@@ -37,6 +37,10 @@ spring:
 kafka:
   topic:
     notification: notification-topic
+    internal:
+      error:
+        sync: sync-error-topic
+        async: async-error-topic
 
 logging:
   level:
