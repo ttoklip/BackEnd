@@ -37,7 +37,7 @@ public class FCMConfig {
     @PostConstruct
     public void firebaseMessaging() throws IOException {
         try {
-            log.info("Encrypted JSON Content Path: " + encryptedJsonContent);
+            log.info("Encrypted JSON Content Path: {}", encryptedJsonContent);
 
             Resource resource = new ClassPathResource(encryptedJsonContent);
             InputStream inputStream = resource.getInputStream();

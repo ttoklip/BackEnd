@@ -1,4 +1,4 @@
-package com.exception;
+package com.notification.exception;
 
 import com.common.config.event.Events;
 import com.common.event.InternalServerExceptionEvent;

@@ -1,6 +1,6 @@
-package com.notification.service;
+package com.notification.consumer;
 
-import com.notification.config.NotificationMessage;
+import com.notification.service.FCMService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -29,6 +29,5 @@ public class NotificationFcmConsumer {
             log.error("Kafka 메시지 처리 오류: {}", e.getMessage());
         }
     }
-
 
 }
