@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class KafkaPropertiesConfig {
+public class KafkaPropertiesConfigFcm {
 
     @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${spring.kafka.consumer.group-id}")
+    @Value("${spring.kafka.consumer.group-id-fcm}")
     private String groupId;
 
     @Value("${spring.kafka.consumer.enable-auto-commit}")

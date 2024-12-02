@@ -16,8 +16,8 @@ public class NotificationFcmConsumer {
 
     @KafkaListener(
             topics = "${kafka.topic.notification}",
-            groupId = "${spring.kafka.consumer.group-id}",
-            containerFactory = "kafkaListenerContainerFactory"
+            groupId = "${spring.kafka.consumer.group-id-fcm}",
+            containerFactory = "kafkaListenerContainerFactoryFcm"
     )
     public void listen(NotificationMessage notificationMessage, Acknowledgment acknowledgment) {
         try {
