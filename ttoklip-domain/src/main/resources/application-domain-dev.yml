@@ -38,9 +38,7 @@ kafka:
   topic:
     notification: notification-topic
     internal:
-      error:
-        sync: sync-error-topic
-        async: async-error-topic
+      error: exception-topic
 
 logging:
   level:
