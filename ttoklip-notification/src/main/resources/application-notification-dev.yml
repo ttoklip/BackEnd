@@ -1,6 +1,8 @@
 kafka:
   topic:
     notification: notification-topic
+    internal:
+      error: exception-topic
 
 spring:
   activate:
@@ -10,10 +12,13 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: notification-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       enable-auto-commit: false
+      group-id-fcm: notification-group
+      group-id-exception: exception-group
+    listener:
+      ack-mode: manual_immediate
 
 server:
   port: 8082

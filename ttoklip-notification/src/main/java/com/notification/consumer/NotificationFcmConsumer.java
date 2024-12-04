@@ -1,6 +1,6 @@
-package com.notification.service;
+package com.notification.consumer;
 
-import com.notification.config.NotificationMessage;
+import com.notification.service.FCMService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,8 +16,8 @@ public class NotificationFcmConsumer {
 
     @KafkaListener(
             topics = "${kafka.topic.notification}",
-            groupId = "${spring.kafka.consumer.group-id}",
-            containerFactory = "kafkaListenerContainerFactory"
+            groupId = "${spring.kafka.consumer.group-id-fcm}",
+            containerFactory = "kafkaListenerContainerFactoryFcm"
     )
     public void listen(NotificationMessage notificationMessage, Acknowledgment acknowledgment) {
         try {
@@ -29,6 +29,5 @@ public class NotificationFcmConsumer {
             log.error("Kafka 메시지 처리 오류: {}", e.getMessage());
         }
     }
-
 
 }

@@ -37,6 +37,8 @@ spring:
 kafka:
   topic:
     notification: notification-topic
+    internal:
+      error: exception-topic
 
 logging:
   level:

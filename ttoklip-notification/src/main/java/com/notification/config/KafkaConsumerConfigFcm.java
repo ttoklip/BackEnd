@@ -9,21 +9,21 @@ import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 
 @Configuration
-public class KafkaConsumerConfig {
+public class KafkaConsumerConfigFcm {
 
-    private final KafkaPropertiesConfig kafkaPropertiesConfig;
+    private final KafkaPropertiesConfigFcm kafkaPropertiesConfigFcm;
 
-    public KafkaConsumerConfig(KafkaPropertiesConfig kafkaPropertiesConfig) {
-        this.kafkaPropertiesConfig = kafkaPropertiesConfig;
+    public KafkaConsumerConfigFcm(KafkaPropertiesConfigFcm kafkaPropertiesConfigFcm) {
+        this.kafkaPropertiesConfigFcm = kafkaPropertiesConfigFcm;
     }
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(kafkaPropertiesConfig.consumerConfig());
+        return new DefaultKafkaConsumerFactory<>(kafkaPropertiesConfigFcm.consumerConfig());
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactoryFcm() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setMessageConverter(new StringJsonMessageConverter());

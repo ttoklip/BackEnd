@@ -1,4 +1,4 @@
-package com.notification.config;
+package com.notification.consumer;
 
 import com.common.NotiCategory;
 

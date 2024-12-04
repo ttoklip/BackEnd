@@ -1,7 +1,9 @@
 package com.common.config;
 
+import com.common.exception.AsyncExceptionHandler;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Slf4j
 @EnableAsync
 @Configuration
+@RequiredArgsConstructor
 public class AsyncConfig implements AsyncConfigurer {
+
+    private final AsyncExceptionHandler asyncExceptionHandler;
 
     @Override
     public Executor getAsyncExecutor() {
@@ -28,17 +33,7 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new CustomAsyncExceptionHandler();
+        return asyncExceptionHandler;
     }
 
-    public static class CustomAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
-
-        @Override
-        public void handleUncaughtException(final Throwable ex, final Method method, final Object... params) {
-            log.error("Unexpected exception occurred in async method: " + method.getName(), ex);
-            for (Object param : params) {
-                log.error("Parameter value - " + param);
-            }
-        }
-    }
 }
