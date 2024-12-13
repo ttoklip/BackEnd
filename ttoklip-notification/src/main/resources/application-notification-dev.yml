@@ -35,3 +35,7 @@ management:
     web:
       exposure:
         include: prometheus
+
+slack:
+  webhook:
+    token: ENC(QtKRb1obkDanmfQSAuv6dBZX34AywhWtXfXRSH/Ph33Y1f/+CX067X3fYYnUzayJN67yVEKfaHCC3uocciLAjQZE21GjLoq4)
