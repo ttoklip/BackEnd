@@ -15,7 +15,7 @@ public class OAuthAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
+                         AuthenticationException authException) throws IOException {
         if (authException.getCause() instanceof ApiException apiException) {
             ErrorType errorType = apiException.getErrorType();
             setResponse(response, errorType);

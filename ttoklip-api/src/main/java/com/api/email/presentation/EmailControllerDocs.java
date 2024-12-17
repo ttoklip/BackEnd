@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Tag(name = "Email", description = "메일 인증 관련 API")
-@RequestMapping("/api/v1/email")
 public interface EmailControllerDocs {
 
     @Operation(summary = "인증코드 메일 발송", description = "인증코드를 메일로 발송합니다.")

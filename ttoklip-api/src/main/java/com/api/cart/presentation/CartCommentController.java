@@ -9,8 +9,8 @@ import com.domain.comment.domain.CommentCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/town/carts/comment")
 public class CartCommentController implements CartCommentControllerDocs {
 

@@ -18,9 +18,9 @@ import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class EmailFacade {
 
     private final Sender sender;
