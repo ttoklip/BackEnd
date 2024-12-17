@@ -38,4 +38,4 @@ management:
 
 slack:
   webhook:
-    token: ENC(QtKRb1obkDanmfQSAuv6dBZX34AywhWtXfXRSH/Ph33Y1f/+CX067X3fYYnUzayJN67yVEKfaHCC3uocciLAjQZE21GjLoq4)
+    url: https://hooks.slack.com/services/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
