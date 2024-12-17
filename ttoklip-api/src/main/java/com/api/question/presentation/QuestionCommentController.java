@@ -10,8 +10,8 @@ import com.domain.comment.domain.CommentCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/question/comment")
 public class QuestionCommentController implements QuestionCommentControllerDocs {
 

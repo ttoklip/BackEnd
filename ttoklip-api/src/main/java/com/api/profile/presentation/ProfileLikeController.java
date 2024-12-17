@@ -7,8 +7,8 @@ import com.api.profile.application.ProfileLikeFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/profile")
 public class ProfileLikeController implements ProfileLikeControllerDocs {
 

@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/search")
 public class SearchController implements SearchControllerDocs {
 
-    private static final int PAGE_SIZE = 10; // 페이지 당 데이터 수
+    private static final int PAGE_SIZE = 10;
     private final SearchFacade searchFacade;
 
     @Override
