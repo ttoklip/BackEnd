@@ -41,7 +41,6 @@ public class NewsletterQueryRepository {
     private final QNewsletterComment newsletterComment = QNewsletterComment.newsletterComment;
     private final QMember member = QMember.member;
 
-
     public Newsletter findByIdActivated(final Long newsletterId) {
         Newsletter findNewsletter = jpaQueryFactory
                 .selectFrom(newsletter)
@@ -136,7 +135,6 @@ public class NewsletterQueryRepository {
                 .fetch();
     }
 
-
     public List<Newsletter> findRandomActiveNewsletters(final int pageSize) {
         long count = getNewsletterCount();
 
@@ -227,7 +225,8 @@ public class NewsletterQueryRepository {
                 .selectFrom(newsletter)
                 .distinct()
                 .where(
-                        containTitle(keyword).or(containContent(keyword))
+                        containTitle(keyword).or(containContent(keyword)),
+                        getActivatedNewsletter()
                 )
                 .leftJoin(newsletter.newsletterComments, newsletterComment)
                 .leftJoin(newsletter.newsletterLikes, newsletterLike)
