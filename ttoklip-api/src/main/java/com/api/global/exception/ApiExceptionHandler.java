@@ -1,5 +1,6 @@
 package com.api.global.exception;
 
+import com.api.presentation.SlackService;
 import com.common.config.event.Events;
 import com.common.event.Modules;
 import com.common.exception.ErrorRootFinder;
@@ -9,6 +10,8 @@ import com.common.exception.BadWordException;
 import com.common.exception.ErrorType;
 import com.common.exception.HttpStatusCode;
 import java.time.LocalDateTime;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +19,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ApiExceptionHandler {
+
+    private final SlackService slackService;
 
     @ExceptionHandler({ApiException.class})
     public ResponseEntity<ApiExceptionResponse> handleApiException(final ApiException e) {
@@ -36,6 +42,10 @@ public class ApiExceptionHandler {
 
     private void alertErrorEvent(final Throwable e, Modules module) {
         log.error("Unhandled exception occurred", e);
+
+        // 이벤트 발생 시 Slack 알림 전송
+        slackService.sendErrorMessage("Unhandled Exception Occurred", e, module);
+
         Events.raise(new InternalServerExceptionEvent(LocalDateTime.now(), e, module));
     }
 
@@ -64,5 +74,5 @@ public class ApiExceptionHandler {
         );
         return ResponseEntity.status(e.getStatus()).body(response);
     }
-
 }
+

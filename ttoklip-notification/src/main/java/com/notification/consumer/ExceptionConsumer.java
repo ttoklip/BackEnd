@@ -1,10 +1,9 @@
 package com.notification.consumer;
 
-import com.notification.service.SlackNotificationService;
+import com.notification.service.SlackService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ExceptionConsumer {
 
-    private final SlackNotificationService slackNotificationService;
+    private final SlackService slackService;
 
     @KafkaListener(
             topics = "${kafka.topic.internal.error}",
@@ -30,7 +29,7 @@ public class ExceptionConsumer {
 //    }
     public void listen(String message) {
         try {
-            slackNotificationService.sendErrorMessageToSlack(message);
+            slackService.sendErrorMessageToSlack(message);
             log.info("예외 알림 전송 성공: {}", message);
 //            acknowledgment.acknowledge();
         } catch (Exception e) {
