@@ -21,15 +21,17 @@ public class SlackService {
 
     private final Slack slackClient = Slack.getInstance();
 
-    public void sendErrorMessage(String title, Throwable e, Modules module) {
+    public void sendErrorMessage(String title, Throwable e, Modules module, int statusCode) {
         try {
             String message = String.format(
                     "*🚨 예외 발생 알림*\n" +
                             "*에러 모듈*: %s\n" +
+                            "*HTTP 상태 코드*: %d\n" +
                             "*에러 메시지*: %s\n" +
                             "*에러 클래스*: %s\n" +
                             "*발생 시각*: %s",
                     module.name(),
+                    statusCode,
                     e.getMessage(),
                     e.getClass().getName(),
                     LocalDateTime.now()
@@ -41,6 +43,3 @@ public class SlackService {
         }
     }
 }
-
-
-
