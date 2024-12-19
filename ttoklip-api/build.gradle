@@ -46,4 +46,6 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+    implementation 'com.slack.api:slack-api-client:1.44.2'
+
 }
