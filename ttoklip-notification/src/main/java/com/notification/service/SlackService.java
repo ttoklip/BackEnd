@@ -11,52 +11,54 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
 @Slf4j
+@Service
 public class SlackService {
 
     @Value("${slack.webhook.url}")
     private String slackWebhookUrl;
 
     private final RestTemplate restTemplate = new RestTemplate();
+    private static final String SYNC_TITLE = "\uD83D\uDEA8:warning: 동기화 에러가 발생했습니다! 즉시 확인 필요 :warning:\uD83D\uDEA8";
 
     public void sendErrorMessage(final ErrorMessage errorMessage) {
         try {
             if (errorMessage.isSyncError()) {
-                log.warn("동기화 에러 발생: {}", errorMessage);
-                sendSyncErrorMessageToSlack(errorMessage);
+                log.info("동기화 에러 발생: {}", errorMessage);
+                sendSync(errorMessage);
             } else {
                 log.info("일반 에러 발생: {}", errorMessage);
-                sendRegularErrorMessageToSlack(errorMessage);
+                sendAsync(errorMessage);
             }
         } catch (Exception e) {
             log.error("Slack 알림 전송 실패: {}", e.getMessage(), e);
         }
     }
 
-    private void sendSyncErrorMessageToSlack(ErrorMessage errorMessage) {
-        Map<String, Object> payload = buildSlackMessageWithBlocks(errorMessage);
+    private void sendSync(final ErrorMessage errorMessage) {
+        Map<String, Object> payload = buildBaseMessage(errorMessage);
 
         List<Map<String, Object>> blocks = (List<Map<String, Object>>) payload.get("blocks");
-        blocks.add(0, Map.of(
+
+        blocks.add(Map.of(
                 "type", "section",
                 "text", Map.of(
                         "type", "mrkdwn",
-                        "text", "\uD83D\uDEA8:warning: 동기화 에러가 발생했습니다! 즉시 확인 필요 :warning:\uD83D\uDEA8"
+                        "text", SYNC_TITLE
                 )
         ));
 
         restTemplate.postForObject(slackWebhookUrl, payload, String.class);
-        log.warn("Slack 동기화 에러 알림 전송 성공: {}", errorMessage);
+        log.info("Slack 동기화 에러 알림 전송 성공: {}", errorMessage);
     }
 
-    private void sendRegularErrorMessageToSlack(ErrorMessage errorMessage) {
-        Map<String, Object> payload = buildSlackMessageWithBlocks(errorMessage);
+    private void sendAsync(final ErrorMessage errorMessage) {
+        Map<String, Object> payload = buildBaseMessage(errorMessage);
         restTemplate.postForObject(slackWebhookUrl, payload, String.class);
         log.info("Slack 일반 에러 알림 전송 성공: {}", errorMessage);
     }
 
-    private Map<String, Object> buildSlackMessageWithBlocks(ErrorMessage errorMessage) {
+    private Map<String, Object> buildBaseMessage(final ErrorMessage errorMessage) {
         Map<String, Object> payload = new HashMap<>();
         List<Map<String, Object>> blocks = new ArrayList<>();
 
@@ -72,8 +74,8 @@ public class SlackService {
                                         "- 동기화 에러 여부: `%s`",
                                 errorMessage.errorTime(),
                                 errorMessage.modules(),
-                                errorMessage.throwableMessage(),
-                                errorMessage.isSyncError() ? "예" : "아니요"
+                                errorMessage.isSyncError() ? "예" : "아니요",
+                                errorMessage.throwableMessage()
                         )
                 )
         ));
@@ -90,7 +92,7 @@ public class SlackService {
         return payload;
     }
 
-    private String truncateStackTrace(String stackTrace) {
+    private String truncateStackTrace(final String stackTrace) {
         int maxLength = 1000;
         return stackTrace.length() > maxLength ? stackTrace.substring(0, maxLength) + "..." : stackTrace;
     }
