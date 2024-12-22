@@ -17,6 +17,8 @@ spring:
       enable-auto-commit: false
       group-id-fcm: notification-group
       group-id-exception: exception-group
+      properties:
+        spring.json.trusted.packages: "*"
     listener:
       ack-mode: manual_immediate
 

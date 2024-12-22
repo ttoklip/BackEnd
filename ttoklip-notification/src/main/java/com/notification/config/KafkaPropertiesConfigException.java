@@ -28,9 +28,6 @@ public class KafkaPropertiesConfigException {
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.springframework.kafka.support.serializer.JsonDeserializer.class);
 
-        // JsonDeserializer 설정
-        config.put(org.springframework.kafka.support.serializer.JsonDeserializer.TRUSTED_PACKAGES, "com.notification.consumer.dto");
-
         return config;
     }
 }

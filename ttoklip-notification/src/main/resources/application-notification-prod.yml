@@ -17,6 +17,8 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       enable-auto-commit: false
       group-id-exception: exception-group
+      properties:
+        spring.json.trusted.packages: "*"
     listener:
       ack-mode: manual_immediate
 
