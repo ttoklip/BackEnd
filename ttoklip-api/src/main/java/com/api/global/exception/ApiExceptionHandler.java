@@ -35,7 +35,7 @@ public class ApiExceptionHandler {
     }
 
     private void alertErrorEvent(final Throwable e, Modules module) {
-        log.error("Unhandled exception occurred", e);
+        log.info("Unhandled exception occurred", e);
         Events.raise(new InternalServerExceptionEvent(LocalDateTime.now(), e, module));
     }
 
