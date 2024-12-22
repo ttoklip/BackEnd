@@ -50,7 +50,6 @@ public class SecurityConfig {
                                         , "/v3/api-docs/**"
                                         , "/api/v1/auth/**"
                                         , "/api/v1/oauth"
-                                        , "/error"
                                         , "/api/v1/email/**"
                                         ,"/actuator/prometheus"
                                         ,"/actuator"
@@ -58,6 +57,7 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .requestMatchers(
                                         "/api/v1/admin/**"
+                                        ,"/error"
                                 )
                                 .hasAnyRole(Role.MANAGER.name())
                                 .requestMatchers(
