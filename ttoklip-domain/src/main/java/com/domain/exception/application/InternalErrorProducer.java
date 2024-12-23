@@ -1,12 +1,11 @@
 package com.domain.exception.application;
 
 import com.common.event.AsyncInternalServerExceptionEvent;
+import com.common.event.ExceptionEvent;
 import com.common.event.InternalServerExceptionEvent;
-import com.common.event.ExceptionEvent;  // 상위 클래스
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,14 +27,14 @@ public class InternalErrorProducer {
     @EventListener({InternalServerExceptionEvent.class, AsyncInternalServerExceptionEvent.class})
     public void handleInternalServerErrorEvent(ExceptionEvent event) {
         try {
-            boolean isAsync = event instanceof AsyncInternalServerExceptionEvent;
+            boolean isSync = event instanceof InternalServerExceptionEvent;
 
             ErrorMessage errorMessage = new ErrorMessage(
                     event.getErrorTime(),
                     event.getModules(),
                     event.getThrowable().getMessage(),
                     Arrays.toString(event.getThrowable().getStackTrace()),
-                    isAsync
+                    isSync
             );
 
             String jsonMessage = objectMapper.writeValueAsString(errorMessage);
