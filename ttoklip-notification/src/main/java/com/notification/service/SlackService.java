@@ -67,8 +67,6 @@ public class SlackService {
         Map<String, Object> payload = new HashMap<>();
         List<Map<String, Object>> blocks = new ArrayList<>();
 
-        ZonedDateTime kstTime = errorMessage.errorTime().atZone(ZoneId.of("Asia/Seoul"));
-
         blocks.add(Map.of(
                 "type", "section",
                 "text", Map.of(
@@ -79,7 +77,7 @@ public class SlackService {
                                         "- 모듈: `%s`\n" +
                                         "- 동기 에러 여부: `%s`\n" +
                                         "- 에러 메시지: `%s`\n",
-                                FORMATTER.format(kstTime),
+                                FORMATTER.format(errorMessage.errorTime()),
                                 errorMessage.modules(),
                                 errorMessage.isSyncError() ? "예" : "아니요",
                                 errorMessage.throwableMessage()

@@ -30,7 +30,7 @@ public class InternalErrorProducer {
             boolean isSync = event instanceof InternalServerExceptionEvent;
 
             ErrorMessage errorMessage = new ErrorMessage(
-                    event.getErrorTime(),
+                    event.getErrorTimeInKST(),
                     event.getModules(),
                     event.getThrowable().getMessage(),
                     Arrays.toString(event.getThrowable().getStackTrace()),
