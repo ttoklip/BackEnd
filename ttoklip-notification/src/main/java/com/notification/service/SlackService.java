@@ -1,6 +1,8 @@
 package com.notification.service;
 
 import com.notification.consumer.ErrorMessage;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class SlackService {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String SYNC_TITLE = "\uD83D\uDEA8:warning: 동기화 에러가 발생했습니다! 즉시 확인 필요 :warning:\uD83D\uDEA8";
+    private static final DateTimeFormatter KST_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("Asia/Seoul"));
 
     public void sendErrorMessage(final ErrorMessage errorMessage) {
         try {
@@ -70,9 +73,9 @@ public class SlackService {
                                 "*[예외 알림]*\n" +
                                         "- 발생 시간: `%s`\n" +
                                         "- 모듈: `%s`\n" +
-                                        "- 에러 메시지: `%s`\n" +
-                                        "- 동기화 에러 여부: `%s`",
-                                errorMessage.errorTime(),
+                                        "- 동기 에러 여부: `%s`" +
+                                        "- 에러 메시지: `%s`\n",
+                                KST_FORMATTER.format(errorMessage.errorTime()),
                                 errorMessage.modules(),
                                 errorMessage.isSyncError() ? "예" : "아니요",
                                 errorMessage.throwableMessage()
