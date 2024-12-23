@@ -3,6 +3,7 @@ package com.notification.service;
 import com.notification.consumer.ErrorMessage;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,18 +54,20 @@ public class SlackService {
         ));
 
         restTemplate.postForObject(slackWebhookUrl, payload, String.class);
-        log.info("Slack 동기화 에러 알림 전송 성공: {}", errorMessage);
+        log.info("Slack 동기 에러 알림 전송 성공: {}", errorMessage);
     }
 
     private void sendAsync(final ErrorMessage errorMessage) {
         Map<String, Object> payload = buildBaseMessage(errorMessage);
         restTemplate.postForObject(slackWebhookUrl, payload, String.class);
-        log.info("Slack 일반 에러 알림 전송 성공: {}", errorMessage);
+        log.info("Slack 비동기 에러 알림 전송 성공: {}", errorMessage);
     }
 
     private Map<String, Object> buildBaseMessage(final ErrorMessage errorMessage) {
         Map<String, Object> payload = new HashMap<>();
         List<Map<String, Object>> blocks = new ArrayList<>();
+
+        ZonedDateTime kstTime = errorMessage.errorTime().atZone(ZoneId.of("Asia/Seoul"));
 
         blocks.add(Map.of(
                 "type", "section",
@@ -76,7 +79,7 @@ public class SlackService {
                                         "- 모듈: `%s`\n" +
                                         "- 동기 에러 여부: `%s`\n" +
                                         "- 에러 메시지: `%s`\n",
-                                FORMATTER.format(errorMessage.errorTime()),
+                                FORMATTER.format(kstTime),
                                 errorMessage.modules(),
                                 errorMessage.isSyncError() ? "예" : "아니요",
                                 errorMessage.throwableMessage()
