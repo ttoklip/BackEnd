@@ -14,4 +14,9 @@ public enum SuccessResponseStatus implements SuccessStatus {
 
     private final HttpStatus code;
     private final String message;
+
+    @Override
+    public String getCode() {
+        return code.toString();
+    }
 }
