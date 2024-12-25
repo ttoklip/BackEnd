@@ -2,7 +2,7 @@
 
 ## Version2
 
-![ttokliparc4.png](https://ddoklip-bk2.s3.ap-northeast-2.amazonaws.com/introduce/ttokliparc4.png)
+![ttokliparc4.png](https://ddoklip-bk2.s3.ap-northeast-2.amazonaws.com/introduce/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2024-12-26+01.47.58.png)
 
 
 
