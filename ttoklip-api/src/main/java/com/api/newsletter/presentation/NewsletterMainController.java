@@ -18,6 +18,8 @@ public class NewsletterMainController implements NewsletterMainControllerDocs {
     @Override
     @GetMapping
     public TtoklipResponse<NewsletterMainResponse> category() {
-        return new TtoklipResponse<>(newsletterMainFacade.getMainData());
+        return TtoklipResponse.ok(
+                newsletterMainFacade.getMainData()
+        );
     }
 }

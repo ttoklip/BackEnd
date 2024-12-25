@@ -8,7 +8,8 @@ public record OAuthLogin(
         String accessToken,
 
         @Schema(type = "string", description = "provider", example = "kakao or naver or local")
-        String provider) {
+        String provider
+) {
 
     public Provider getProvider() {
         return Provider.from(provider);

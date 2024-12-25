@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/oauth")
 public class OAuthController implements OAuthControllerDocs {
 
@@ -17,8 +17,11 @@ public class OAuthController implements OAuthControllerDocs {
 
     @Override
     @PostMapping
-    public TtoklipResponse<OAuthLoginResponse> login(@RequestBody OAuthLogin request) {
-        OAuthLoginResponse response = oAuthFacade.authenticate(request);
-        return new TtoklipResponse<>(response);
+    public TtoklipResponse<OAuthLoginResponse> login(
+            final @RequestBody OAuthLogin request
+    ) {
+        return TtoklipResponse.ok(
+                oAuthFacade.authenticate(request)
+        );
     }
 }

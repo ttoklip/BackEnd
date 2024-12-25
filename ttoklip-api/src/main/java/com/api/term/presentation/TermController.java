@@ -9,7 +9,13 @@ import com.domain.term.response.TermResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,29 +27,40 @@ public class TermController implements TermControllerDocs {
     @Override
     @GetMapping
     public TtoklipResponse<TermResponses> getTermList() {
-        TermResponses termResponses = termFacade.getTermList();
-        return new TtoklipResponse<>(termResponses);
+        return TtoklipResponse.ok(
+                termFacade.getTermList()
+        );
     }
 
     @Override
     @GetMapping("/{termId}")
-    public TtoklipResponse<TermAdminResponse> getSingleTerm(@PathVariable Long termId) {
-        return new TtoklipResponse<>(termFacade.getSingleTerm(termId));
+    public TtoklipResponse<TermAdminResponse> getSingleTerm(
+            final @PathVariable Long termId
+    ) {
+        return TtoklipResponse.ok(
+                termFacade.getSingleTerm(termId)
+        );
     }
 
     @Override
     @PatchMapping("/{termId}")
-    public TtoklipResponse<Message> edit(@PathVariable Long termId,
-                                         @RequestBody TermCreate request) {
+    public TtoklipResponse<Message> edit(
+            final @PathVariable Long termId,
+            final @RequestBody TermCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = termFacade.edit(termId, request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                termFacade.edit(termId, request, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public TtoklipResponse<Message> register(@Validated @RequestBody TermCreate request) {
-        Message message = termFacade.register(request);
-        return new TtoklipResponse<>(message);
+    public TtoklipResponse<Message> register(
+            final @Validated @RequestBody TermCreate request
+    ) {
+        return TtoklipResponse.created(
+                termFacade.register(request)
+        );
     }
 }

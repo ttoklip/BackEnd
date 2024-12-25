@@ -13,7 +13,15 @@ import com.domain.cart.domain.vo.TradeStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,73 +33,101 @@ public class CartPostController implements CartPostControllerDocs {
 
     @Override
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public TtoklipResponse<Message> register(@Validated @ModelAttribute CartWebCreate request) {
+    public TtoklipResponse<Message> register(
+            final @Validated @ModelAttribute CartWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = cartPostFacade.register(request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                cartPostFacade.register(request, currentMemberId)
+        );
     }
 
     @Override
     @GetMapping("/{postId}")
-    public TtoklipResponse<CartResponse> getSinglePost(@PathVariable Long postId) {
+    public TtoklipResponse<CartResponse> getSinglePost(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        CartResponse response = cartPostFacade.getSinglePost(postId, currentMemberId);
-        return new TtoklipResponse<>(response);
+        return TtoklipResponse.ok(
+                cartPostFacade.getSinglePost(postId, currentMemberId)
+        );
     }
 
     @Override
     @PatchMapping("/{postId}")
-    public TtoklipResponse<Message> edit(@PathVariable Long postId,
-                                         @Validated @ModelAttribute CartWebCreate request) {
+    public TtoklipResponse<Message> edit(
+            final @PathVariable Long postId,
+            final @Validated @ModelAttribute CartWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = cartPostFacade.edit(postId, request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                cartPostFacade.edit(postId, request, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/report/{postId}")
-    public TtoklipResponse<Message> report(@PathVariable Long postId,
-                                           @RequestBody ReportWebCreate request) {
+    public TtoklipResponse<Message> report(
+            final @PathVariable Long postId,
+            final @RequestBody ReportWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = cartPostFacade.report(postId, request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                cartPostFacade.report(postId, request, currentMemberId)
+        );
     }
 
     @Override
     @PatchMapping("/{postId}/status")
-    public TtoklipResponse<Message> updateStatus(@PathVariable Long postId, @RequestBody UpdateStatusRequest request) {
-        Message message = cartPostFacade.updateStatus(postId, TradeStatus.valueOf(request.getStatus()));
-        return new TtoklipResponse<>(message);
+    public TtoklipResponse<Message> updateStatus(
+            final @PathVariable Long postId,
+            final @RequestBody UpdateStatusRequest request
+    ) {
+        return TtoklipResponse.ok(
+                cartPostFacade.updateStatus(postId, TradeStatus.valueOf(request.getStatus()))
+        );
     }
 
     @Override
     @PostMapping("/participants/{cartId}")
-    public TtoklipResponse<Message> addParticipant(@PathVariable Long cartId) {
+    public TtoklipResponse<Message> addParticipant(
+            final @PathVariable Long cartId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = cartPostFacade.addParticipant(cartId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                cartPostFacade.addParticipant(cartId, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/participants/{cartId}")
-    public TtoklipResponse<Message> removeParticipant(@PathVariable Long cartId) {
+    public TtoklipResponse<Message> removeParticipant(
+            final @PathVariable Long cartId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = cartPostFacade.removeParticipant(cartId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                cartPostFacade.removeParticipant(cartId, currentMemberId)
+        );
     }
 
     @Override
     @GetMapping("/participants/count/{cartId}")
-    public TtoklipResponse<Long> countParticipants(@PathVariable Long cartId) {
-        Long count = cartPostFacade.countParticipants(cartId);
-        return new TtoklipResponse<>(count);
+    public TtoklipResponse<Long> countParticipants(
+            final @PathVariable Long cartId
+    ) {
+        return TtoklipResponse.ok(
+                cartPostFacade.countParticipants(cartId)
+        );
     }
 
     @Override
     @GetMapping("/participants/members/{cartId}")
-    public TtoklipResponse<CartGroupMemberResponse> checkParticipants(@PathVariable Long cartId) {
+    public TtoklipResponse<CartGroupMemberResponse> checkParticipants(
+            final @PathVariable Long cartId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        CartGroupMemberResponse response = cartPostFacade.checkParticipants(cartId, currentMemberId);
-        return new TtoklipResponse<>(response);
+        return TtoklipResponse.ok(
+                cartPostFacade.checkParticipants(cartId, currentMemberId)
+        );
     }
 }

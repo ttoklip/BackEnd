@@ -5,7 +5,11 @@ import com.api.global.support.response.TtoklipResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.profile.application.ProfileLikeFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,23 +20,33 @@ public class ProfileLikeController implements ProfileLikeControllerDocs {
 
     @Override
     @PostMapping("/like")
-    public TtoklipResponse<Message> registerLike(@RequestParam Long targetMemberId) {
+    public TtoklipResponse<Message> registerLike(
+            final @RequestParam Long targetMemberId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = profileLikeFacade.registerProfileLike(targetMemberId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                profileLikeFacade.registerProfileLike(targetMemberId, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/cancel")
-    public TtoklipResponse<Message> cancelLike(@RequestParam Long targetMemberId) {
+    public TtoklipResponse<Message> cancelLike(
+            final @RequestParam Long targetMemberId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = profileLikeFacade.cancelProfileLike(targetMemberId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                profileLikeFacade.cancelProfileLike(targetMemberId, currentMemberId)
+        );
     }
 
     @Override
     @GetMapping
-    public TtoklipResponse<TargetMemberProfileResponse> getTargetProfile(@RequestParam Long targetMemberId) {
-        return new TtoklipResponse<>(profileLikeFacade.getTargetMemberProfile(targetMemberId));
+    public TtoklipResponse<TargetMemberProfileResponse> getTargetProfile(
+            final @RequestParam Long targetMemberId
+    ) {
+        return TtoklipResponse.ok(
+                profileLikeFacade.getTargetMemberProfile(targetMemberId)
+        );
     }
 }

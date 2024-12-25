@@ -2,8 +2,7 @@ package com.api.newsletter.presentation;
 
 import com.domain.common.vo.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -17,23 +16,23 @@ import org.springframework.web.multipart.MultipartFile;
 public class NewsletterWebCreate {
 
     @Schema(type = "string", description = "게시글 제목", example = "게시글 제목 예시")
-    @NotEmpty
+    @NotBlank(message = "제목은 필수입니다.")
     @Size(max = 500)
     public String title;
 
     @Schema(type = "string", description = "게시글 내용", example = "게시글 내용 예시")
-    @NotEmpty
+    @NotBlank(message = "내용은 필수입니다.")
     @Size(max = 5000)
     public String content;
 
     @Schema(description = "카테고리입니다. HOUSEWORK, RECIPE, SAFE_LIVING, WELFARE_POLICY 이 중 하나로 요청해야합니다.", example = "HOUSEWORK", allowableValues = {
             "HOUSEWORK", "RECIPE", "SAFE_LIVING", "WELFARE_POLICY"})
-    @NotNull
+    @NotBlank(message = "카테고리는 필수입니다.")
     public String category;
 
     @Schema(description = "게시글에 첨부할 대표 이미지 파일. 파일 형식은 binary이며, 지원되는 이미지 형식은 JPEG, PNG 등입니다.",
             format = "binary")
-    @NotNull
+    @NotBlank(message = "메인 이미지는 필수입니다.")
     public MultipartFile mainImage;
 
     @Schema(description = "게시글에 첨부할 서브 이미지 파일들. 파일 형식은 binary이며, 지원되는 이미지 형식은 JPEG, PNG 등입니다.",
@@ -44,7 +43,6 @@ public class NewsletterWebCreate {
     public List<String> url;
 
     public Category getCategory() {
-        // 문자열을 enum으로 변환
         return Category.findCategoryByValue(category);
     }
 }

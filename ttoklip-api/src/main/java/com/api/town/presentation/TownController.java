@@ -24,32 +24,44 @@ public class TownController implements TownControllerDocs {
 
     @Override
     @GetMapping
-    public TtoklipResponse<TownMainResponse> getCarts(@RequestParam(defaultValue = "CITY") String criteria) {
+    public TtoklipResponse<TownMainResponse> getCarts(
+            final @RequestParam(defaultValue = "CITY") String criteria
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        TownMainResponse cartMainResponse = townFacade.getRecent3(criteria, currentMemberId);
-        return new TtoklipResponse<>(cartMainResponse);
+        return TtoklipResponse.ok(
+                townFacade.getRecent3(criteria, currentMemberId)
+        );
     }
 
     @Override
     @GetMapping("/community")
-    public TtoklipResponse<CommunityPaging> getCommunities(@RequestParam(defaultValue = "CITY") String criteria,
-                                                           @RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "latest") String sort) {
+    public TtoklipResponse<CommunityPaging> getCommunities(
+            final @RequestParam(defaultValue = "CITY") String criteria,
+            final @RequestParam(defaultValue = "0") int page,
+            final @RequestParam(defaultValue = "latest") String sort
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(townFacade.getCommunities(criteria, pageable, currentMemberId, sort));
+        return TtoklipResponse.ok(
+                townFacade.getCommunities(criteria, pageable, currentMemberId, sort)
+        );
     }
 
     @Override
     @GetMapping("/cart")
-    public TtoklipResponse<CartPaging> getCarts(@RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "100") Long startMoney,
-                                                @RequestParam(defaultValue = "100000000") Long lastMoney,
-                                                @RequestParam(defaultValue = "1") Long startParty,
-                                                @RequestParam(defaultValue = "500000") Long lastParty,
-                                                @RequestParam(defaultValue = "CITY") String criteria) {
+    public TtoklipResponse<CartPaging> getCarts(
+            final @RequestParam(defaultValue = "0") int page,
+            final @RequestParam(defaultValue = "100") Long startMoney,
+            final @RequestParam(defaultValue = "100000000") Long lastMoney,
+            final @RequestParam(defaultValue = "1") Long startParty,
+            final @RequestParam(defaultValue = "500000") Long lastParty,
+            final @RequestParam(defaultValue = "CITY") String criteria
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(townFacade.getCarts(pageable, startMoney, lastMoney, startParty, lastParty, criteria, currentMemberId));
+        return TtoklipResponse.ok(
+                townFacade.getCarts(pageable, startMoney, lastMoney, startParty, lastParty, criteria, currentMemberId)
+        );
     }
+
 }

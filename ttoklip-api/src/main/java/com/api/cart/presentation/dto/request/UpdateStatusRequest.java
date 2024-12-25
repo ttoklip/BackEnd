@@ -12,8 +12,4 @@ public class UpdateStatusRequest {
 
     @Schema(description = "변경하려는 게시글 상태")
     private String status;
-
-    public String getStatus() {
-        return status;
-    }
 }

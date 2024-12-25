@@ -18,15 +18,23 @@ public class EmailController implements EmailControllerDocs {
 
     @Override
     @PostMapping("/send")
-    public TtoklipResponse<Message> mailSend(@RequestBody EmailSendRequest request) {
+    public TtoklipResponse<Message> mailSend(
+            final @RequestBody EmailSendRequest request
+    ) {
         emailFacade.sendEmail(request.email());
-        return new TtoklipResponse<>(Message.sendEmail());
+        return TtoklipResponse.accepted(
+                Message.sendEmail()
+        );
     }
 
     @Override
     @PostMapping("/verify")
-    public TtoklipResponse<Message> verify(@RequestBody EmailVerifyRequest request) {
+    public TtoklipResponse<Message> verify(
+            final @RequestBody EmailVerifyRequest request
+    ) {
         emailFacade.verifyEmailCode(request);
-        return new TtoklipResponse<>(Message.verifyCodeSuccess());
+        return TtoklipResponse.ok(
+                Message.verifyCodeSuccess()
+        );
     }
 }

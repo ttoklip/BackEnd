@@ -12,7 +12,15 @@ import com.api.honeytip.presentation.request.HoneyTipWebEdit;
 import com.api.honeytip.presentation.response.HoneyTipSingleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,75 +33,102 @@ public class HoneyTipPostController implements HoneyTipPostControllerDocs {
 
     @Override
     @PostMapping
-    public TtoklipResponse<Message> register(@Validated @ModelAttribute HoneyTipWebCreate request) {
+    public TtoklipResponse<Message> register(
+            final @Validated @ModelAttribute HoneyTipWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeytipPostFacade.register(request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                honeytipPostFacade.register(request, currentMemberId)
+        );
     }
 
     @Override
     @PatchMapping("/{postId}")
-    public TtoklipResponse<Message> edit(@PathVariable Long postId,
-                                         @ModelAttribute HoneyTipWebEdit request) {
+    public TtoklipResponse<Message> edit(
+            final @PathVariable Long postId,
+            final @ModelAttribute HoneyTipWebEdit request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeytipPostFacade.edit(postId, request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                honeytipPostFacade.edit(postId, request, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/{postId}")
-    public TtoklipResponse<Message> delete(@PathVariable Long postId) {
+    public TtoklipResponse<Message> delete(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeytipPostFacade.delete(postId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                honeytipPostFacade.delete(postId, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/report/{postId}")
-    public TtoklipResponse<Message> report(@PathVariable Long postId,
-                                           @RequestBody ReportWebCreate request) {
+    public TtoklipResponse<Message> report(
+            final @PathVariable Long postId,
+            final @RequestBody ReportWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeytipPostFacade.report(postId, request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                honeytipPostFacade.report(postId, request, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/like/{postId}")
-    public TtoklipResponse<Message> registerLike(@PathVariable Long postId) {
+    public TtoklipResponse<Message> registerLike(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeyTipLikeFacade.register(postId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                honeyTipLikeFacade.register(postId, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/like/{postId}")
-    public TtoklipResponse<Message> cancelLike(@PathVariable Long postId) {
+    public TtoklipResponse<Message> cancelLike(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeyTipLikeFacade.cancel(postId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                honeyTipLikeFacade.cancel(postId, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/scrap/{postId}")
-    public TtoklipResponse<Message> registerScrap(@PathVariable Long postId) {
+    public TtoklipResponse<Message> registerScrap(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeyTipScrapFacade.register(postId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                honeyTipScrapFacade.register(postId, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/scrap/{postId}")
-    public TtoklipResponse<Message> cancelScrap(@PathVariable Long postId) {
+    public TtoklipResponse<Message> cancelScrap(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = honeyTipScrapFacade.cancel(postId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                honeyTipScrapFacade.cancel(postId, currentMemberId)
+        );
     }
 
     @Override
     @GetMapping("/{postId}")
-    public TtoklipResponse<HoneyTipSingleResponse> getSinglePost(@PathVariable Long postId) {
+    public TtoklipResponse<HoneyTipSingleResponse> getSinglePost(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        HoneyTipSingleResponse response = honeytipPostFacade.getSinglePost(postId, currentMemberId);
-        return new TtoklipResponse<>(response);
+        return TtoklipResponse.ok(
+                honeytipPostFacade.getSinglePost(postId, currentMemberId)
+        );
     }
 }
