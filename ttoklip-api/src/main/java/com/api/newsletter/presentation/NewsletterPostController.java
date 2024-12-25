@@ -14,7 +14,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,67 +37,103 @@ import org.springframework.web.bind.annotation.*;
 
     @Override
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public TtoklipResponse<Message> register(@Validated @ModelAttribute NewsletterWebCreate request) {
+    public TtoklipResponse<Message> register(
+            final @Validated @ModelAttribute NewsletterWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterPostFacade.register(request, currentMemberId));
+        return TtoklipResponse.created(
+                newsletterPostFacade.register(request, currentMemberId)
+        );
     }
 
     @Override
     @GetMapping("/{postId}")
-    public TtoklipResponse<NewsletterSingleResponse> getSinglePost(@PathVariable Long postId) {
+    public TtoklipResponse<NewsletterSingleResponse> getSinglePost(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterPostFacade.getSinglePost(postId, currentMemberId));
+        return TtoklipResponse.ok(
+                newsletterPostFacade.getSinglePost(postId, currentMemberId)
+        );
     }
 
     @Override
     @GetMapping
-    public TtoklipResponse<NewsCategoryPagingResponse> getPagingCategory(@RequestParam String category,
-                                                                         @RequestParam(required = false, defaultValue = "0") int page) {
+    public TtoklipResponse<NewsCategoryPagingResponse> getPagingCategory(
+            final @RequestParam String category,
+            final @RequestParam(required = false, defaultValue = "0") int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new TtoklipResponse<>(newsletterPostFacade.getPagingCategory(category, pageable));
+        return TtoklipResponse.ok(
+                newsletterPostFacade.getPagingCategory(category, pageable)
+        );
     }
 
     @Override
     @PostMapping("/report/{postId}")
-    public TtoklipResponse<Message> report(@PathVariable Long postId,
-                                           @RequestBody ReportWebCreate request) {
+    public TtoklipResponse<Message> report(
+            final @PathVariable Long postId,
+            final @RequestBody ReportWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterPostFacade.report(postId, request, currentMemberId));
+        return TtoklipResponse.ok(
+                newsletterPostFacade.report(postId, request, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/like/{postId}")
-    public TtoklipResponse<Message> registerLike(@PathVariable Long postId) {
+    public TtoklipResponse<Message> registerLike(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterLikeFacade.register(postId, currentMemberId));
+        return TtoklipResponse.created(
+                newsletterLikeFacade.register(postId, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/like/{postId}")
-    public TtoklipResponse<Message> cancelLike(@PathVariable Long postId) {
+    public TtoklipResponse<Message> cancelLike(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterLikeFacade.cancel(postId, currentMemberId));
+        return TtoklipResponse.ok(
+                newsletterLikeFacade.cancel(postId, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/scrap/{postId}")
-    public TtoklipResponse<Message> registerScrap(@PathVariable Long postId) {
+    public TtoklipResponse<Message> registerScrap(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterScrapFacade.register(postId, currentMemberId));
+        return TtoklipResponse.created(
+                newsletterScrapFacade.register(postId, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/scrap/{postId}")
-    public TtoklipResponse<Message> cancelScrap(@PathVariable Long postId) {
+    public TtoklipResponse<Message> cancelScrap(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterScrapFacade.cancel(postId, currentMemberId));
+        return TtoklipResponse.ok(
+                newsletterScrapFacade.cancel(postId, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/{postId}")
-    public TtoklipResponse<Message> delete(@PathVariable Long postId) {
+    public TtoklipResponse<Message> delete(
+            final @PathVariable Long postId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(newsletterPostFacade.delete(postId, currentMemberId));
+        return TtoklipResponse.ok(
+                newsletterPostFacade.delete(postId, currentMemberId)
+        );
     }
 
 

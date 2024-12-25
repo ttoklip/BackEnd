@@ -24,41 +24,53 @@ public class SearchController implements SearchControllerDocs {
 
     @Override
     @GetMapping("/honeytip")
-    public TtoklipResponse<HoneyTipPaging> searchHoneyTip(@RequestParam String title,
-                                                          @RequestParam String sort,
-                                                          @RequestParam(defaultValue = "0") int page) {
+    public TtoklipResponse<HoneyTipPaging> searchHoneyTip(
+            final @RequestParam String title,
+            final @RequestParam String sort,
+            final @RequestParam(defaultValue = "0") int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        HoneyTipPaging honeyTipPaging = searchFacade.honeyTipSearch(title, pageable, sort);
-        return new TtoklipResponse<>(honeyTipPaging);
+        return TtoklipResponse.created(
+                searchFacade.honeyTipSearch(title, pageable, sort)
+        );
     }
 
     @Override
     @GetMapping("/newsletter")
-    public TtoklipResponse<NewsletterPaging> searchNewsletter(@RequestParam String title,
-                                                              @RequestParam String sort,
-                                                              @RequestParam(defaultValue = "0") int page) {
+    public TtoklipResponse<NewsletterPaging> searchNewsletter(
+            final @RequestParam String title,
+            final @RequestParam String sort,
+            final @RequestParam(defaultValue = "0") int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        NewsletterPaging newsletterPaging = searchFacade.newsletterPaging(title, pageable, sort);
-        return new TtoklipResponse<>(newsletterPaging);
+        return TtoklipResponse.created(
+                searchFacade.newsletterPaging(title, pageable, sort)
+        );
     }
     
     @Override
     @GetMapping("/community")
-    public TtoklipResponse<CommunityPaging> searchCommunity(@RequestParam String title,
-                                                            @RequestParam String sort,
-                                                            @RequestParam(defaultValue = "0") int page) {
+    public TtoklipResponse<CommunityPaging> searchCommunity(
+            final @RequestParam String title,
+            final @RequestParam String sort,
+            final @RequestParam(defaultValue = "0") int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        CommunityPaging communityPaging = searchFacade.communityPaging(title, pageable, sort);
-        return new TtoklipResponse<>(communityPaging);
+        return TtoklipResponse.created(
+                searchFacade.communityPaging(title, pageable, sort)
+        );
     }
 
     @Override
     @GetMapping("/cart")
-    public TtoklipResponse<CartPaging> searchCart(@RequestParam String title,
-                                                  @RequestParam String sort,
-                                                  @RequestParam(defaultValue = "0") int page) {
+    public TtoklipResponse<CartPaging> searchCart(
+            final @RequestParam String title,
+            final @RequestParam String sort,
+            final @RequestParam(defaultValue = "0") int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        CartPaging cartPaging = searchFacade.cartPaging(title, pageable, sort);
-        return new TtoklipResponse<>(cartPaging);
+        return TtoklipResponse.created(
+                searchFacade.cartPaging(title, pageable, sort)
+        );
     }
 }

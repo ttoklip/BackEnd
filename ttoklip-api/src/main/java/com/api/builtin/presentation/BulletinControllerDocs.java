@@ -15,7 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "Bulletin", description = "공지사항 관리 API")
 public interface BulletinControllerDocs {
@@ -32,8 +33,7 @@ public interface BulletinControllerDocs {
                                     description = "공지사항이 조회되었습니다"
                             )))})
     TtoklipResponse<NoticeResponses> getNoticeList(
-            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0")
-            int page);
+            @Parameter(description = "페이지 번호 (0부터 시작, 기본값 0)", example = "0") int page);
 
     @Operation(summary = "공지사항 생성", description = "공지사항을 생성합니다.")
     @ApiResponses(value = {

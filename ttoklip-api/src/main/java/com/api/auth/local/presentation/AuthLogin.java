@@ -9,5 +9,4 @@ public record AuthLogin(
         @Schema(description = "비밀번호", example = "asdf1234!")
         String password
 ) {
-
 }

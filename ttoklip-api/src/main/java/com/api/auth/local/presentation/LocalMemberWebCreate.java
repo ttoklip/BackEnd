@@ -1,25 +1,29 @@
 package com.api.auth.local.presentation;
 
 import com.common.base.Filterable;
+import com.common.base.Lockable;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.domain.common.vo.Category;
-import com.common.base.Lockable;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public record LocalMemberWebCreate(
         @Schema(description = "직접 로그인 ID", example = "ttok123@naver.com")
+        @NotNull(message = "email은 필수입니다.")
         String email,
 
         @Schema(description = "비밀번호", example = "asdf1234!")
+        @NotNull(message = "비밀번호는 필수입니다.")
         String password,
 
         @Schema(description = "이름", example = "민희진")
         String originName,
 
         @Schema(description = "닉네임", example = "별명별명")
+        @NotNull(message = "닉네임은 필수입니다.")
         String nickname,
 
         @Schema(description = "독립 경력(년)", example = "2")
@@ -32,9 +36,11 @@ public record LocalMemberWebCreate(
         String street,
 
         @Schema(description = "이용약관 동의 여부", example = "true")
+        @NotNull(message = "이용약관 동의는 필수입니다.")
         boolean agreeTermsOfService,
 
         @Schema(description = "개인정보처리방침 동의 여부", example = "true")
+        @NotNull(message = "개인정보처리방침 동의는 필수입니다.")
         boolean agreePrivacyPolicy,
 
         @Schema(description = "위치기반서비스 동의 여부", example = "true")
@@ -44,7 +50,6 @@ public record LocalMemberWebCreate(
 
         MultipartFile profileImage
 ) implements Lockable, Filterable {
-
 
     public List<Category> getCategories() {
         validCategorySize();

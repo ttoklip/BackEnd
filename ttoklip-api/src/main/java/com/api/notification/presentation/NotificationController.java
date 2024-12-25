@@ -9,7 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,19 +25,25 @@ public class NotificationController implements NotificationControllerDocs {
 
     @Override
     @PatchMapping(value = "/fcm_token")
-    public TtoklipResponse<Message> updateMemberFCMToken(@Validated @RequestBody UpdateFCMTokenRequest request) {
+    public TtoklipResponse<Message> updateMemberFCMToken(
+            final @Validated @RequestBody UpdateFCMTokenRequest request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = notificationFacade.updateMemberFCMToken(currentMemberId, request);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                notificationFacade.updateMemberFCMToken(currentMemberId, request)
+        );
     }
 
     @Override
     @GetMapping("/my-notification")
-    public TtoklipResponse<NotificationFrontResponses> getNotification(@RequestParam(required = false, defaultValue = "0") int page,
-                                                                       @RequestParam(required = false, defaultValue = "5") int size) {
+    public TtoklipResponse<NotificationFrontResponses> getNotification(
+            final @RequestParam(required = false, defaultValue = "0") int page,
+            final @RequestParam(required = false, defaultValue = "5") int size
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         Pageable pageRequest = PageRequest.of(page, size);
-        NotificationFrontResponses response = notificationFacade.findNotification(currentMemberId, pageRequest);
-        return new TtoklipResponse<>(response);
+        return TtoklipResponse.ok(
+                notificationFacade.findNotification(currentMemberId, pageRequest)
+        );
     }
 }

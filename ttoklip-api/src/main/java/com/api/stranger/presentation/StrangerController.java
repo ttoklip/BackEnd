@@ -6,7 +6,11 @@ import com.api.stranger.application.StrangerFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,15 +22,23 @@ public class StrangerController implements StrangerControllerDocs {
 
     @Override
     @GetMapping
-    public TtoklipResponse<StrangerResponse> getStrangerProfile(@RequestParam String nickname) {
-        return new TtoklipResponse<>(strangerService.getStrangerProfile(nickname));
+    public TtoklipResponse<StrangerResponse> getStrangerProfile(
+            final @RequestParam String nickname
+    ) {
+        return TtoklipResponse.ok(
+                strangerService.getStrangerProfile(nickname)
+        );
     }
 
     @Override
     @GetMapping("/honeytip/{userId}")
-    public TtoklipResponse<HoneyTipPaging> strangerHoneyTip(@RequestParam(defaultValue = "0") int page,
-                                                            @PathVariable Long userId) {
+    public TtoklipResponse<HoneyTipPaging> strangerHoneyTip(
+            final @RequestParam(defaultValue = "0") int page,
+            final @PathVariable Long userId
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return new TtoklipResponse<>(strangerService.strangerHoneyTip(pageable, userId));
+        return TtoklipResponse.ok(
+                strangerService.strangerHoneyTip(pageable, userId)
+        );
     }
 }

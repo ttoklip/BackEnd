@@ -7,7 +7,12 @@ import com.api.global.util.SecurityUtil;
 import com.api.newsletter.application.NewsletterCommentFacade;
 import com.domain.comment.domain.CommentCreate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,26 +23,36 @@ public class NewsletterCommentController implements NewsletterCommentControllerD
 
     @Override
     @PostMapping("/{postId}")
-    public TtoklipResponse<Message> register(@PathVariable Long postId,
-                                             @RequestBody CommentCreate request) {
+    public TtoklipResponse<Message> register(
+            final @PathVariable Long postId,
+            final @RequestBody CommentCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = newsletterCommentFacade.register(postId, request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                newsletterCommentFacade.register(postId, request, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/report/{commentId}")
-    public TtoklipResponse<Message> report(@PathVariable Long commentId, @RequestBody ReportWebCreate request) {
+    public TtoklipResponse<Message> report(
+            final @PathVariable Long commentId,
+            final @RequestBody ReportWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = newsletterCommentFacade.report(commentId, request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                newsletterCommentFacade.report(commentId, request, currentMemberId)
+        );
     }
 
     @Override
     @DeleteMapping("/{commentId}")
-    public TtoklipResponse<Message> delete(@PathVariable Long commentId) {
+    public TtoklipResponse<Message> delete(
+            final @PathVariable Long commentId
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = newsletterCommentFacade.delete(commentId, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                newsletterCommentFacade.delete(commentId, currentMemberId)
+        );
     }
 }

@@ -2,9 +2,11 @@ package com.api.common;
 
 import com.domain.report.domain.ReportType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 public record ReportWebCreate(
         @Schema(description = "신고할 내용", example = "이 게시글은 부적절한 내용을 포함하고 있습니다.")
+        @NotBlank(message = "내용은 필수입니다.")
         String content,
 
         @Schema(description = "신고 타입", example = "INAPPROPRIATE_CONTENT",
@@ -13,6 +15,7 @@ public record ReportWebCreate(
                         "INAPPROPRIATE_CONTENT", "ABUSE", "RELIGIOUS_PROSELYTIZING",
                         "INAPPROPRIATE_FOR_FORUM", "LEAK_IMPERSONATION_FRAUD"
                 })
+        @NotBlank(message = "신고 타입은 필수입니다.")
         String reportType
 ) {
     public ReportType getReportType() {

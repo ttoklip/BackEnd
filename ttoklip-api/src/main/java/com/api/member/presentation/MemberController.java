@@ -20,6 +20,8 @@ public class MemberController implements MemberControllerDocs {
     @GetMapping("/street")
     public TtoklipResponse<MemberStreetResponse> getMemberStreet() {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        return new TtoklipResponse<>(memberFacade.getMemberStreet(currentMemberId));
+        return TtoklipResponse.ok(
+                memberFacade.getMemberStreet(currentMemberId)
+        );
     }
 }

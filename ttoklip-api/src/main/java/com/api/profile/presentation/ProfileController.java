@@ -6,7 +6,11 @@ import com.api.global.util.SecurityUtil;
 import com.api.profile.application.ProfileFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,23 +21,30 @@ public class ProfileController implements ProfileControllerDocs {
 
     @Override
     @PostMapping("/insert")
-    public TtoklipResponse<Message> register(@ModelAttribute @Validated ProfileWebCreate request) {
+    public TtoklipResponse<Message> register(
+            final @ModelAttribute @Validated ProfileWebCreate request
+    ) {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        Message message = profileFacade.insert(request, currentMemberId);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.created(
+                profileFacade.insert(request, currentMemberId)
+        );
     }
 
     @Override
     @PostMapping("/oauth/check-nickname")
-    public TtoklipResponse<Message> checkOauthNickname(@RequestBody Nickname nickname) {
-        Message message = profileFacade.validNickname(nickname);
-        return new TtoklipResponse<>(message);
+    public TtoklipResponse<Message> checkOauthNickname(
+            final @RequestBody Nickname nickname
+    ) {
+        return TtoklipResponse.ok(
+                profileFacade.validNickname(nickname)
+        );
     }
 
     @Override
     @PostMapping("/local/check-nickname")
     public TtoklipResponse<Message> checkLocalNickname(@RequestBody Nickname nickname) {
-        Message message = profileFacade.validNickname(nickname);
-        return new TtoklipResponse<>(message);
+        return TtoklipResponse.ok(
+                profileFacade.validNickname(nickname)
+        );
     }
 }

@@ -23,7 +23,8 @@ public class HealthCheckController {
     @GetMapping("/error/async")
     public ResponseEntity<String> testAsyncError() {
         testService.testAsync();
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .accepted()
                 .body("비동기 오류 발생 테스트 완료");
     }
 

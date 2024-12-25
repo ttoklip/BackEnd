@@ -26,32 +26,40 @@ public class HomeController implements HomeControllerDocs {
     @GetMapping("/home")
     public TtoklipResponse<HomeMainResponse> home() {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
-        HomeMainResponse homeMainResponse = homeFacade.home(currentMemberId);
-        return new TtoklipResponse<>(homeMainResponse);
+        return TtoklipResponse.ok(
+                homeFacade.home(currentMemberId)
+        );
     }
 
     @Override
     @GetMapping("/common/main")
     public TtoklipResponse<HomeCategoryAndTopQuestionsResponse> top5WithCategory() {
-        HomeCategoryAndTopQuestionsResponse defaultCategoryRead = homeFacade.getDefaultCategoryRead();
-        return new TtoklipResponse<>(defaultCategoryRead);
+        return TtoklipResponse.ok(
+                homeFacade.getDefaultCategoryRead()
+        );
     }
 
     @Override
     @GetMapping("/common/main/question/paging")
-    public TtoklipResponse<CategoryPagingResponse> questionCategoryPaging(@RequestParam String category,
-                                                                          @RequestParam(required = false, defaultValue = "0") int page) {
+    public TtoklipResponse<CategoryPagingResponse> questionCategoryPaging(
+            final @RequestParam String category,
+            final @RequestParam(required = false, defaultValue = "0") int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        CategoryPagingResponse categoryPaging = homeFacade.questionCategoryPaging(category, pageable);
-        return new TtoklipResponse<>(categoryPaging);
+        return TtoklipResponse.ok(
+                homeFacade.questionCategoryPaging(category, pageable)
+        );
     }
 
     @Override
     @GetMapping("/common/main/honey-tip/paging")
-    public TtoklipResponse<CategoryPagingResponse> honeyTipCategoryPaging(@RequestParam String category,
-                                                                          @RequestParam(required = false, defaultValue = "0") int page) {
+    public TtoklipResponse<CategoryPagingResponse> honeyTipCategoryPaging(
+            final @RequestParam String category,
+            final @RequestParam(required = false, defaultValue = "0") int page
+    ) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        CategoryPagingResponse categoryPaging = homeFacade.honeyTipCategoryPaging(category, pageable);
-        return new TtoklipResponse<>(categoryPaging);
+        return TtoklipResponse.ok(
+                homeFacade.honeyTipCategoryPaging(category, pageable)
+        );
     }
 }
