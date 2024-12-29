@@ -1,7 +1,14 @@
 package com.api.auth.oauth2.presentation;
 
-import lombok.Builder;
+public record OAuthLoginResponse(String jwtToken, boolean isFirstLogin) {
 
-@Builder
-public record OAuthLoginResponse(String jwtToken, boolean ifFirstLogin) {
+    public static OAuthLoginResponse of(
+            String jwtToken,
+            boolean isFirstLogin
+    ) {
+        return new OAuthLoginResponse(
+                jwtToken,
+                isFirstLogin
+        );
+    }
 }

@@ -2,32 +2,25 @@ package com.api.auth.oauth2.application;
 
 import com.api.auth.oauth2.presentation.OAuthLogin;
 import com.api.auth.oauth2.presentation.OAuthLoginResponse;
-import com.common.annotation.DistributedLock;
-import com.domain.member.domain.userInfo.OAuth2UserInfo;
 import com.common.jwt.TokenProvider;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
+import com.domain.member.domain.userInfo.OAuth2UserInfo;
 import com.domain.member.domain.vo.Provider;
-import com.domain.profile.application.ProfileService;
-import com.domain.profile.domain.Profile;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuthFacade {
 
-    private final MemberService memberService;
-    private final ProfileService profileService;
-    private final TokenProvider provider;
-    private final BCryptPasswordEncoder encoder;
     private final OAuth2InfoAdapter oAuth2InfoAdapter;
+    private final OAuthMemberRegister register;
+    private final MemberService memberService;
+    private final TokenProvider provider;
 
     public OAuthLoginResponse authenticate(final OAuthLogin request) {
         Provider provider = request.getProvider();
@@ -44,21 +37,8 @@ public class OAuthFacade {
         }
 
         // 회원가입
-        Member member = registerMember(userInfo, provider);
+        Member member = register.registerMember(userInfo, provider);
         return getLoginResponse(member, true);
-    }
-
-    @Transactional
-    @DistributedLock(keyPrefix = "oauth-signup")
-    public Member registerMember(final OAuth2UserInfo userInfo, final Provider provider) {
-        String randomPassword = UUID.randomUUID().toString();
-        String encodedPassword = encoder.encode(randomPassword);
-        Member newMember = memberService.registerOAuthMember(userInfo, provider, encodedPassword);
-
-        Profile profile = Profile.of(newMember, userInfo.getProfile());
-        profileService.save(profile);
-
-        return newMember;
     }
 
     private OAuthLoginResponse alreadyOurUser(final Member member) {
@@ -71,11 +51,13 @@ public class OAuthFacade {
         return getLoginResponse(member, false);
     }
 
-    private OAuthLoginResponse getLoginResponse(final Member member, final boolean ifFirstLogin) {
+    private OAuthLoginResponse getLoginResponse(
+            final Member member,
+            final boolean isFirstLogin
+    ) {
         String jwtToken = provider.create(member.getEmail());
-        return OAuthLoginResponse.builder()
-                .jwtToken(jwtToken)
-                .ifFirstLogin(ifFirstLogin)
-                .build();
+        return OAuthLoginResponse.of(
+                jwtToken, isFirstLogin
+        );
     }
 }
