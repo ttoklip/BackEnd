@@ -38,15 +38,19 @@ public class HomeFacade {
         List<TitleResponse> honeyTipRecent3 = getHoneyTipRecent3();
         List<NewsletterThumbnailResponse> newsletterRecent3 = getNewsletterThumbnailRecent3();
         Member member = memberService.getById(currentMemberId);
+
+        String street = member.getStreet();
+
         List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(TownCriteria.CITY, member.getStreet());
 
-        return HomeMainResponse.builder()
-                .currentMemberNickname(member.getNickname())
-                .street(member.getStreet())
-                .honeyTips(honeyTipRecent3)
-                .newsLetters(newsletterRecent3)
-                .carts(cartRecent3)
-                .build();
+        return HomeMainResponse.of(
+                member.getNickname(),
+                street,
+                honeyTipRecent3,
+                newsletterRecent3,
+                cartRecent3
+        );
+
     }
 
     public List<TitleResponse> getHoneyTipRecent3() {

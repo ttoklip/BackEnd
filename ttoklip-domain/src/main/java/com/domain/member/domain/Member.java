@@ -1,5 +1,7 @@
 package com.domain.member.domain;
 
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
 import com.domain.cart.domain.Cart;
 import com.domain.cart.domain.CartMember;
 import com.domain.common.base.BaseEntity;
@@ -200,5 +202,12 @@ public class Member extends BaseEntity {
             this.independentMonth = 1;
             this.independentYear = (this.independentYear + 1) % 100; // 연도가 99를 넘어가면 0으로 초기화
         }
+    }
+
+    public String getStreet() {
+        if (street == null || street.isBlank()) {
+            throw new ApiException(ErrorType.STREET_EMPTY);
+        }
+        return street;
     }
 }

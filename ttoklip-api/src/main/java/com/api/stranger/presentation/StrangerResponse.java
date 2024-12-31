@@ -2,10 +2,9 @@ package com.api.stranger.presentation;
 
 import com.domain.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 
-@Builder
 public record StrangerResponse(
+
         @Schema(description = "유저의 동네")
         String street,
 
@@ -19,18 +18,17 @@ public record StrangerResponse(
         String profileImage,
 
         int independentYear,
-
         int independentMonth
+
 ) {
     public static StrangerResponse of(final Member member) {
-
-        return builder()
-                .nickname(member.getNickname())
-                .street(member.getStreet())
-                .userId(member.getId())
-                .profileImage(member.getProfile().getProfileImgUrl())
-                .independentMonth(member.getIndependentMonth())
-                .independentYear(member.getIndependentYear())
-                .build();
+        return new StrangerResponse(
+                member.getStreet(),
+                member.getNickname(),
+                member.getId(),
+                member.getProfile().getProfileImgUrl(),
+                member.getIndependentYear(),
+                member.getIndependentMonth()
+        );
     }
 }

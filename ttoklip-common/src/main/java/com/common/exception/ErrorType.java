@@ -151,6 +151,10 @@ public enum ErrorType {
     AUTH_INVALID_PASSWORD(BAD_REQUEST, "Auth_4001", "올바르지 않은 Password입니다."),
 
 
+    // ------------------------------------------ Auth ------------------------------------------
+    STREET_EMPTY(BAD_REQUEST, "Street_4001", "주소는 비어있을 수 없습니다. 주소가 비어있다는 건 회원가입 후 정보를 입력하지 않았음을 의미합니다."),
+
+
     // ------------------------------------------ Infra ------------------------------------------
     _NOT_SEND_ABLE(INTERNAL_SERVER_ERROR, "Firebase_5001", "Firebase를 통해 알림을 전송할 수 없습니다."),
     _NOT_SEND_CONDITION(INTERNAL_SERVER_ERROR, "Firebase_5002", "FCM TOKEN 혹은 TOPIC이 잘못됐습니다."),

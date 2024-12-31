@@ -2,12 +2,12 @@ package com.api.town.application;
 
 import com.api.cart.presentation.dto.response.CartPaging;
 import com.api.community.presentation.dto.response.CommunityPaging;
-import com.domain.cart.application.CartThumbnailResponse;
-import com.domain.community.application.CommunityRecent3Response;
 import com.domain.cart.application.CartPostService;
+import com.domain.cart.application.CartThumbnailResponse;
 import com.domain.cart.domain.Cart;
 import com.domain.common.vo.TownCriteria;
 import com.domain.community.application.CommunityPostService;
+import com.domain.community.application.CommunityRecent3Response;
 import com.domain.community.domain.Community;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
@@ -25,7 +25,12 @@ public class TownFacade {
     private final CartPostService cartPostService;
     private final MemberService memberService;
 
-    public CommunityPaging getCommunities(final String criteria, final Pageable pageable, final Long memberId, final String sort) {
+    public CommunityPaging getCommunities(
+            final String criteria,
+            final Pageable pageable,
+            final Long memberId,
+            final String sort
+    ) {
         TownCriteria townCriteria = validCriteria(criteria);
         Member member = memberService.getById(memberId);
         Page<Community> contentPaging = communityPostService.getPaging(townCriteria, pageable, member.getStreet(), sort);
@@ -57,7 +62,8 @@ public class TownFacade {
             final Long startParty,
             final Long lastParty,
             final String criteria,
-            final Long memberId) {
+            final Long memberId
+    ) {
         TownCriteria townCriteria = TownCriteria.findTownCriteriaByValue(criteria);
         Member member = memberService.getById(memberId);
         Page<Cart> contentPaging = cartPostService.getCartPaging(
@@ -78,16 +84,16 @@ public class TownFacade {
                 .build();
     }
 
-    public TownMainResponse getRecent3(final String criteria, final Long currentMemberId) {
+    public TownMainResponse getRecent3(
+            final String criteria,
+            final Long currentMemberId
+    ) {
         TownCriteria townCriteria = validCriteria(criteria);
         String street = memberService.getById(currentMemberId).getStreet();
-        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(townCriteria, street);
-        List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3(townCriteria, street);
 
-        return TownMainResponse.builder()
-                .cartRecent3(cartRecent3)
-                .communityRecent3(communityRecent3)
-                .street(street)
-                .build();
+        List<CommunityRecent3Response> communityRecent3 = communityPostService.getRecent3(townCriteria, street);
+        List<CartThumbnailResponse> cartRecent3 = cartPostService.getRecent3(townCriteria, street);
+
+        return TownMainResponse.of(communityRecent3, cartRecent3, street);
     }
 }
