@@ -1,14 +1,14 @@
 package com.api.auth.oauth2.presentation;
 
-public record OAuthLoginResponse(String jwtToken, boolean isFirstLogin) {
+public record OAuthLoginResponse(String jwtToken, boolean ifFirstLogin) {
 
     public static OAuthLoginResponse of(
             String jwtToken,
-            boolean isFirstLogin
+            boolean ifFirstLogin
     ) {
         return new OAuthLoginResponse(
                 jwtToken,
-                isFirstLogin
+                ifFirstLogin
         );
     }
 }

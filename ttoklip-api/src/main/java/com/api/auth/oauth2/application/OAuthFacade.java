@@ -53,11 +53,11 @@ public class OAuthFacade {
 
     private OAuthLoginResponse getLoginResponse(
             final Member member,
-            final boolean isFirstLogin
+            final boolean ifFirstLogin
     ) {
         String jwtToken = provider.create(member.getEmail());
         return OAuthLoginResponse.of(
-                jwtToken, isFirstLogin
+                jwtToken, ifFirstLogin
         );
     }
 }
