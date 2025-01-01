@@ -65,11 +65,13 @@ public record LocalMemberWebCreate(
     }
 
     @Override
+    @Schema(hidden = true)
     public String getLockKey() {
         return email;
     }
 
     @Override
+    @Schema(hidden = true)
     public String getFilterContent() {
         return nickname;
     }
