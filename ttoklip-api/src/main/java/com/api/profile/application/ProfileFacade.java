@@ -38,7 +38,11 @@ public class ProfileFacade {
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 -------------
 
     @FilterBadWord
-    public Message insert(final ProfileWebCreate create, final Long memberId) {
+    @Transactional
+    public Message insert(
+            final ProfileWebCreate create,
+            final Long memberId
+    ) {
         validate(create);
         updateProfile(create, memberId);
         return Message.insertPrivacy();
