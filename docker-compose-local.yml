@@ -1,7 +1,12 @@
 version: '3.8'
+
+networks:
+  dev_network:
+    driver: bridge  # external 제거
+
 services:
   zookeeper:
-    image: bitnami/zookeeper:latest  # Bitnami의 최신 Zookeeper 이미지 사용
+    image: bitnami/zookeeper:latest
     container_name: zookeeper
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
@@ -34,7 +39,3 @@ services:
       - "6379:6379"
     networks:
       - dev_network
-
-networks:
-  dev_network:
-    external: true
