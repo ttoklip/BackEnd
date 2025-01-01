@@ -38,7 +38,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_DB));
         if (member.isDeleted()) {
-            throw new ApiException(ErrorType._INVALID_USER_DB);
+            throw new ApiException(ErrorType._INVALID_USER);
         }
         return member;
     }

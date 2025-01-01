@@ -1,5 +1,7 @@
 package com.api.global.jwt;
 
+import com.common.exception.ApiException;
+import com.common.exception.ErrorType;
 import com.common.jwt.TokenProvider;
 import com.domain.member.application.MemberService;
 import com.domain.member.domain.Member;
@@ -20,10 +22,13 @@ public class JwtAuthenticationService {
     private final MemberService memberService;
     private static final String ROLE_PREFIX = "ROLE_";
 
-    public void authenticate(String token) {
+    public void authenticate(final String token) {
         if (tokenProvider.validate(token)) {
             String email = tokenProvider.extract(token);
             Member member = memberService.findByEmail(email);
+            if (member.isDeleted()) {
+                throw new ApiException(ErrorType._INVALID_USER);
+            }
             setSecurityContext(member, token);
         }
     }
