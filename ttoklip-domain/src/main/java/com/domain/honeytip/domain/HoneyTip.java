@@ -98,6 +98,8 @@ public class HoneyTip extends BaseEntity {
         super.deactivate(); // HoneyTip 엔티티 비활성화
         deactivateHoneyTipUrls(); // HoneyTipUrl 엔티티들을 비활성화
         deactivateHoneyTipImages(); // HoneyTipImage 엔티티들을 비활성화
+        deleteHoneyTipLikes();
+        deleteHoneyTipScraps();
     }
 
     private void deactivateHoneyTipUrls() {
@@ -108,4 +110,13 @@ public class HoneyTip extends BaseEntity {
         honeyTipImages.forEach(BaseEntity::deactivate);
     }
 
+    // orphanRemoval 사용, Hard Delete
+    private void deleteHoneyTipLikes() {
+        honeyTipLikes.clear();
+    }
+
+    // orphanRemoval 사용, Hard Delete
+    private void deleteHoneyTipScraps() {
+        honeyTipScraps.clear();
+    }
 }

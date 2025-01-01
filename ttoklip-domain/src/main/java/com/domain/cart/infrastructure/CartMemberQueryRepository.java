@@ -6,6 +6,7 @@ import com.domain.cart.domain.QCartComment;
 import com.domain.cart.domain.QCartMember;
 import com.domain.member.domain.QMember;
 import com.domain.profile.domain.QProfile;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -41,7 +42,9 @@ public class CartMemberQueryRepository {
                 .leftJoin(cart.cartComments, cartComment)
                 .leftJoin(cart.member, member).fetchJoin()
                 .leftJoin(cart.member.profile, profile).fetchJoin()
-                .where(cartMember.member.id.eq(memberId))
+                .where(
+                        isCartMemberActive(memberId)
+                )
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(cart.id.desc())
@@ -52,7 +55,15 @@ public class CartMemberQueryRepository {
         return jpaQueryFactory
                 .select(Wildcard.count)
                 .from(cart)
-                .where(cartMember.member.id.eq(memberId))
+                .leftJoin(cart.cartMembers, cartMember)
+                .where(
+                        isCartMemberActive(memberId)
+                )
                 .fetchOne();
+    }
+
+    private BooleanExpression isCartMemberActive(final Long memberId) {
+        return cartMember.member.id.eq(memberId)
+                .and(cartMember.deleted.isFalse());
     }
 }

@@ -224,12 +224,13 @@ public class CartPostFacade {
     // 공구 취소
     @Transactional
     public Message removeParticipant(final Long cartId, final Long memberId) {
+        Cart cart = cartPostService.findByIdActivated(cartId);
+
         CartMember cartMember = cartMemberService.findByMemberIdAndCartId(memberId, cartId)
                 .orElseThrow(() -> new ApiException(ErrorType.NOT_PARTICIPATED));
 
-        cartMemberService.delete(cartMember.getId());
-
-        Cart cart = cartPostService.findByIdActivated(cartId);
+        cartMember.deactivate();
+        cart.getCartMembers().remove(cartMember);
 
         if (cart.getCartMembers().size() < cart.getPartyMax()) {
             cart.changeStatusToProgress();

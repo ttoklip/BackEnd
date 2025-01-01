@@ -90,11 +90,34 @@ public class Community extends BaseEntity {
         this.content = editor.getContent();
     }
 
-    public long getLikesCount() {
-        return communityLikes.size();
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        deactivateCommunityImages();
+        deactivateCommunityComments();
+        deactivateReports();
+        // 좋아요와 스크랩은 Hard Delete
+        hardDeleteLikes();
+        hardDeleteScraps();
     }
 
-    public long getScrapsCount() {
-        return communityScraps.size();
+    private void deactivateCommunityImages() {
+        communityImages.forEach(BaseEntity::deactivate);
+    }
+
+    private void deactivateCommunityComments() {
+        communityComments.forEach(BaseEntity::deactivate);
+    }
+
+    private void deactivateReports() {
+        reports.forEach(BaseEntity::deactivate);
+    }
+
+    private void hardDeleteLikes() {
+        communityLikes.clear();
+    }
+
+    private void hardDeleteScraps() {
+        communityScraps.clear();
     }
 }

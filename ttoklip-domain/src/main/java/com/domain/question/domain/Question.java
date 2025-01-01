@@ -71,4 +71,19 @@ public class Question extends BaseEntity {
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<QuestionComment> questionComments = new ArrayList<>();
 
+    @Override
+    public void deactivate() {
+        super.deactivate(); // Question 자체 비활성화
+        deactivateQuestionImages(); // QuestionImage 비활성화
+        deactivateQuestionComments(); // QuestionComment 비활성화
+    }
+
+    private void deactivateQuestionImages() {
+        questionImages.forEach(BaseEntity::deactivate);
+    }
+
+    private void deactivateQuestionComments() {
+        questionComments.forEach(BaseEntity::deactivate);
+    }
+
 }

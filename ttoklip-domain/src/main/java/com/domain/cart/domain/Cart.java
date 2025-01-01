@@ -83,8 +83,8 @@ public class Cart extends BaseEntity {
         this.reports.forEach(Report::deactivate);
         this.cartComments.forEach(CartComment::deactivate);
         this.itemUrls.forEach(ItemUrl::deactivate);
+        this.cartMembers.forEach(CartMember::deactivate);
     }
-
 
     @Builder.Default
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -121,7 +121,7 @@ public class Cart extends BaseEntity {
         this.content = editor.getContent();
     }
 
-    public void changeStatus(TradeStatus newStatus) {
+    public void changeStatus(final TradeStatus newStatus) {
         this.status = newStatus;
     }
 }

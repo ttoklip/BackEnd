@@ -57,4 +57,14 @@ public class QuestionComment extends Comment {
                 .member(member)
                 .build();
     }
+
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        deleteQuestionCommentLikes();
+    }
+
+    private void deleteQuestionCommentLikes() {
+        commentLikes.clear();
+    }
 }
