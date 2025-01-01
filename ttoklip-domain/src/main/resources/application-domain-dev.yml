@@ -29,10 +29,18 @@ spring:
         default_batch_fetch_size: ENC(vlfxBKZ6fXmAzqpH/OcG6A==)
 
   kafka:
-    bootstrap-servers: localhost:9093
+    bootstrap-servers: kafka:9093
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 3
+    properties:
+      delivery.timeout.ms: 5000  # 메시지 최대 전달 시간
+      request.timeout.ms: 5000    # 브로커 응답 대기 시간
+      linger.ms: 0                # 메시지 즉시 전송
+      max.block.ms: 5000         # 최대 차단 시간
+      reconnect.backoff.ms: 1000  # 재연결 최소 대기 시간
+      reconnect.backoff.max.ms: 5000  # 재연결 최대 대기 시간
 
 kafka:
   topic:
