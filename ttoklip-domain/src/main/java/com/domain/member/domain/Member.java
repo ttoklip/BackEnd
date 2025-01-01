@@ -210,4 +210,15 @@ public class Member extends BaseEntity {
         }
         return street;
     }
+
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        this.comments.forEach(Comment::deactivate);
+        this.honeyTips.forEach(HoneyTip::deactivate);
+        this.communities.forEach(Community::deactivate);
+        this.questions.forEach(Question::deactivate);
+        this.carts.forEach(Cart::deactivate);
+        this.cartMembers.forEach(CartMember::deactivate);
+    }
 }

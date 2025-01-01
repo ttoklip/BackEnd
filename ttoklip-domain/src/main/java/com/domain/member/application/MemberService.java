@@ -28,9 +28,19 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
+    public void delete(final Long memberId) {
+        Member member = getById(memberId);
+        member.deactivate();
+    }
+
     public Member getById(final Long memberId) {
-        return memberRepository.findById(memberId)
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_DB));
+        if (member.isDeleted()) {
+            throw new ApiException(ErrorType._INVALID_USER_DB);
+        }
+        return member;
     }
 
     public Member findByIdWithProfile(final Long memberId) {
