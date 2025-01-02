@@ -4,7 +4,7 @@ import com.common.annotation.DistributedLock;
 import com.common.base.Lockable;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
-import com.infrastructure.distribution.repository.DistributedLockManager;
+import com.infrastructure.distribution.manager.DistributedLockManager;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;

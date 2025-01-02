@@ -1,4 +1,4 @@
-package com.infrastructure.distribution.repository;
+package com.infrastructure.distribution.manager;
 
 import java.util.Map;
 import java.util.Set;

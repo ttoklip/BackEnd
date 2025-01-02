@@ -1,8 +1,8 @@
 package com.infrastructure.distribution.service;
 
-import com.infrastructure.distribution.repository.DistributedLockManager;
-import com.infrastructure.distribution.repository.LocalLockManager;
-import com.infrastructure.distribution.repository.RedissonLockManager;
+import com.infrastructure.distribution.manager.DistributedLockManager;
+import com.infrastructure.distribution.manager.LocalLockManager;
+import com.infrastructure.distribution.manager.RedissonLockManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
