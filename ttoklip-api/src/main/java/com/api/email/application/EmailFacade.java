@@ -3,7 +3,7 @@ package com.api.email.application;
 import com.api.email.presentation.EmailVerifyRequest;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
-import com.infrastructure.util.RedisUtil;
+import com.infrastructure.cache.repository.CacheRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -24,8 +24,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 public class EmailFacade {
 
     private final Sender sender;
-    private final RedisUtil redisUtil;
     private final SpringTemplateEngine templateEngine;
+    private final CacheRepository cacheRepository;
 
     @Value("${spring.mail.sender-email}")
     private String senderEmail;
@@ -72,7 +72,7 @@ public class EmailFacade {
 
     private void setRedisData(final String email, final String authCode) {
         try {
-            redisUtil.setDataExpire(email, authCode, 60 * 30L);
+            cacheRepository.set(email, authCode, 60 * 30L);
         } catch (Exception e) {
             log.error("Failed to set Redis data: {}", e.getMessage(), e);
             throw new ApiException(ErrorType.REDIS_SAVE_ERROR);
@@ -81,12 +81,12 @@ public class EmailFacade {
 
     @Async
     // 인증코드 이메일 발송
-    public void sendEmail(String toEmail) {
+    public void send(String toEmail) {
         try {
             validEmailHasText(toEmail);
             validRedisHasEmail(toEmail);
-
-            createEmail(toEmail);
+            MimeMessage email = createEmail(toEmail);
+            sendEmail(email);
         } catch (Exception e) {
             log.error("Exception in sendEmail: {}", e.getMessage(), e);
             throw e;
@@ -94,15 +94,14 @@ public class EmailFacade {
     }
 
     private void validRedisHasEmail(final String toEmail) {
-        if (redisUtil.existData(toEmail)) {
-            redisUtil.deleteData(toEmail);
+        if (cacheRepository.exists(toEmail)) {
+            cacheRepository.delete(toEmail);
         }
     }
 
-    private void createEmail(final String toEmail) {
+    private MimeMessage createEmail(final String toEmail) {
         try {
-            MimeMessage emailForm = createEmailForm(toEmail);
-            sendEmail(emailForm);
+            return createEmailForm(toEmail);
         } catch (ApiException e) {
             log.error("ApiException during email creation: {}", e.getMessage(), e);
             throw e;
@@ -139,8 +138,8 @@ public class EmailFacade {
         }
 
         try {
-            String codeFoundByEmail = redisUtil.getData(email);
-            log.info("code found by email: " + codeFoundByEmail);
+            String codeFoundByEmail = cacheRepository.get(email);
+            log.info("code found by email: {}", codeFoundByEmail);
             validAuthenticationCode(code, codeFoundByEmail);
         } catch (Exception e) {
             log.error("Failed to retrieve data from Redis: {}", e.getMessage(), e);
