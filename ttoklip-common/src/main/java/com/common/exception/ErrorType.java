@@ -78,12 +78,12 @@ public enum ErrorType {
 
 
     // ---------------------------------------- JWT TOKEN ----------------------------------------
-    _JWT_PARSING_ERROR(BAD_REQUEST, "JWT_4001", "JWT Token이 올바르지 않습니다."),
-    _JWT_EXPIRED(UNAUTHORIZED, "JWT_4010", "Jwt Token의 유효 기간이 만료되었습니다."),
-    _JWT_NOT_FOUND(UNAUTHORIZED, "JWT_4011", "Jwt Token을 포함하셔야합니다."),
-    _JWT_SIGNATURE_INVALID(UNAUTHORIZED, "JWT_4012", "Jwt Token의 서명이 잘못되었습니다."),
-    _JWT_UNSUPPORTED(BAD_REQUEST, "JWT_4002", "지원하지 않는 Jwt Token 형식입니다."),
+    _JWT_PARSING_ERROR(BAD_REQUEST, "JWT_4001", "JWT Token이 올바르지 않습니다."), // 400 BAD_REQUEST
+    _JWT_UNSUPPORTED(BAD_REQUEST, "JWT_4002", "지원하지 않는 Jwt Token 형식입니다."), // 400 BAD_REQUEST
 
+    _JWT_EXPIRED(UNAUTHORIZED, "JWT_4010", "Jwt Token의 유효 기간이 만료되었습니다."), // 401 UNAUTHORIZED
+    _JWT_NOT_FOUND(UNAUTHORIZED, "JWT_4011", "Jwt Token을 포함하셔야합니다."), // 401 UNAUTHORIZED
+    _JWT_SIGNATURE_INVALID(UNAUTHORIZED, "JWT_4012", "Jwt Token의 서명이 잘못되었습니다."), // 401 UNAUTHORIZED
 
     // ------------------------------------------ OAuth ------------------------------------------
     OAUTH_INVALID_PROVIDER(INTERNAL_SERVER_ERROR, "OAUTH_5000", "올바르지 않은 Provider입니다."),
@@ -106,6 +106,7 @@ public enum ErrorType {
     _USER_NOT_FOUND_DB(NOT_FOUND, "USER_4041", "존재하지 않는 회원입니다."),
 
     _INVALID_USER(FORBIDDEN, "USER_4031", "정지된 회원입니다. 관리자에게 문의하세요"),
+    _NOT_ADMIN_USER(FORBIDDEN, "USER_4032", "관리자만 접근할 수 있습니다."),
 
     _USER_FCM_TOKEN_NOT_FOUND(NOT_FOUND, "USER_4042", "FCM 토큰이 없습니다."),
     _USER_ALREADY_KAKAO_PLATFORM(BAD_REQUEST, "USER_4043", "이미 카카오로 가입된 회원입니다."),

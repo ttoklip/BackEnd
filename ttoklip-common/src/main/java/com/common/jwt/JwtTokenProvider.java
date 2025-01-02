@@ -3,6 +3,7 @@ package com.common.jwt;
 import static com.common.exception.ErrorType._JWT_EXPIRED;
 import static com.common.exception.ErrorType._JWT_NOT_FOUND;
 import static com.common.exception.ErrorType._JWT_PARSING_ERROR;
+import static com.common.exception.ErrorType._JWT_SIGNATURE_INVALID;
 import static com.common.exception.ErrorType._JWT_UNSUPPORTED;
 
 import com.common.exception.ApiException;
@@ -13,6 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -63,6 +65,8 @@ public class JwtTokenProvider implements TokenProvider {
             throw new ApiException(_JWT_PARSING_ERROR);
         } catch (UnsupportedJwtException e) {
             throw new ApiException(_JWT_UNSUPPORTED);
+        } catch (SignatureException e) {
+            throw new ApiException(_JWT_SIGNATURE_INVALID);
         } catch (IllegalArgumentException e) {
             throw new ApiException(_JWT_NOT_FOUND);
         }

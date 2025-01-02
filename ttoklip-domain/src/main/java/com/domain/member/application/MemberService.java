@@ -28,12 +28,26 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    /**
+     * 관리자 전용 - 회원 정지 처리
+     */
     @Transactional
-    public void delete(final Long memberId) {
-        Member member = getById(memberId);
+    public void ban(final Long memberId) {
+        Member member = getMemberByIdForAdmin(memberId);
         member.deactivate();
     }
 
+    /**
+     * 관리자용 - 정지된 회원 포함 모든 회원 조회
+     */
+    private Member getMemberByIdForAdmin(final Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_DB));
+    }
+
+    /**
+     * 일반 사용자용 - 정지된 회원 조회 시 오류 발생
+     */
     public Member getById(final Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(_USER_NOT_FOUND_DB));

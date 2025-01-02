@@ -1,12 +1,15 @@
 package com.api.member.presentation;
 
+import com.api.global.support.response.Message;
 import com.api.global.support.response.TtoklipResponse;
 import com.api.global.util.SecurityUtil;
 import com.api.member.application.MemberFacade;
 import com.domain.member.application.response.MemberStreetResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,6 +25,13 @@ public class MemberController implements MemberControllerDocs {
         Long currentMemberId = SecurityUtil.getCurrentMember().getId();
         return TtoklipResponse.ok(
                 memberFacade.getMemberStreet(currentMemberId)
+        );
+    }
+
+    @PostMapping("/ban")
+    public TtoklipResponse<Message> banMember(final @RequestParam Long memberId) {
+        return TtoklipResponse.ok(
+                memberFacade.banMember(memberId)
         );
     }
 }

@@ -185,4 +185,10 @@ public class Message {
                 .message("모든 약관에 동의하였습니다.")
                 .build();
     }
+
+    public static Message banMember(final Long targetMemberId) {
+        return Message.builder()
+                .message("target" + targetMemberId + "번 회원을 정지하였습니다.")
+                .build();
+    }
 }
