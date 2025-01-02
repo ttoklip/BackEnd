@@ -1,5 +1,6 @@
-package com.api.global.jwt;
+package com.api.global.security.service;
 
+import com.api.global.security.SecurityConstants;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
 import com.common.jwt.TokenProvider;
@@ -20,7 +21,6 @@ public class JwtAuthenticationService {
 
     private final TokenProvider tokenProvider;
     private final MemberService memberService;
-    private static final String ROLE_PREFIX = "ROLE_";
 
     public void authenticate(final String token) {
         if (tokenProvider.validate(token)) {
@@ -33,9 +33,12 @@ public class JwtAuthenticationService {
         }
     }
 
-    private void setSecurityContext(final Member member, final String token) {
+    private void setSecurityContext(
+            final Member member,
+            final String token
+    ) {
         List<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(ROLE_PREFIX + member.getRole().name())
+                new SimpleGrantedAuthority(SecurityConstants.ROLE_PREFIX + member.getRole().name())
         );
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(member, token, authorities);
