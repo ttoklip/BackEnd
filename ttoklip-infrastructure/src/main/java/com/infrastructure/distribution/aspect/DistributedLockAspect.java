@@ -1,32 +1,30 @@
-package com.infrastructure.lock.distribution.aop;
+package com.infrastructure.distribution.aspect;
 
-import com.common.base.Lockable;
 import com.common.annotation.DistributedLock;
+import com.common.base.Lockable;
 import com.common.exception.ApiException;
 import com.common.exception.ErrorType;
+import com.infrastructure.distribution.repository.DistributedLockManager;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Aspect
 @Slf4j
+@Aspect
 @Component
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class DistributedLockAspect {
 
-    private final RedissonClient redissonClient;
+    private final DistributedLockManager distributedLockManager;
 
     @Around("@annotation(com.common.annotation.DistributedLock)")
     public Object lockMethod(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -35,12 +33,11 @@ public class DistributedLockAspect {
         String keyPrefix = distributedLock.keyPrefix();
         String lockKey = generateLockKey(joinPoint.getArgs(), keyPrefix);
 
-        RLock lock = redissonClient.getLock(lockKey);
         boolean lockAcquired = false;
 
         try {
             log.info("Trying to acquire lock for key: {}", lockKey);
-            lockAcquired = lock.tryLock(0, 3, TimeUnit.SECONDS);
+            lockAcquired = distributedLockManager.tryLock(lockKey, 0, 3);
 
             if (!lockAcquired) {
                 log.warn("Lock is already held for key: {}", lockKey);
@@ -49,11 +46,8 @@ public class DistributedLockAspect {
 
             log.info("Lock acquired successfully for key: {}", lockKey);
             return joinPoint.proceed();
-        } catch (InterruptedException | IllegalMonitorStateException e) {
-            log.error("Failed to acquire lock due to interruption: {}", e.getMessage(), e);
-            throw new ApiException(ErrorType.DUPLICATED_CREATE_BOARD_REQUEST);
         } finally {
-            releaseLockIfHeld(lock, lockAcquired);
+            releaseLockIfHeld(lockKey, lockAcquired);
         }
     }
 
@@ -71,10 +65,14 @@ public class DistributedLockAspect {
                 .orElseThrow(() -> new ApiException(ErrorType.INVALID_METHOD));
     }
 
-    private void releaseLockIfHeld(RLock lock, boolean lockAcquired) {
-        if (lockAcquired && lock.isHeldByCurrentThread()) {
-            log.info("Releasing lock for key: {}", lock.getName());
-            lock.unlock();
+    private void releaseLockIfHeld(String lockKey, boolean lockAcquired) {
+        if (lockAcquired) {
+            try {
+                distributedLockManager.unlock(lockKey);
+                log.info("Lock released for key: {}", lockKey);
+            } catch (Exception e) {
+                log.warn("Failed to release lock for key: {}", lockKey, e);
+            }
         }
     }
 }
