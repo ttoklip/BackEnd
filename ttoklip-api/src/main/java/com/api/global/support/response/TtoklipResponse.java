@@ -31,7 +31,7 @@ public class TtoklipResponse<T> {
         this.result = result;
         this.status = statusCode.value();
         this.time = now();
-        this.code = statusCode.toString();
+        this.code = String.valueOf(statusCode.value());
         this.message = message;
     }
 
