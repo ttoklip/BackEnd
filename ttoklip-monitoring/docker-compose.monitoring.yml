@@ -18,6 +18,7 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${MONITORING_PASSWORD}
+      - GF_SERVER_ROOT_URL=http://toychip.click/monitoring-admin/
     depends_on:
       - prometheus
     networks:
