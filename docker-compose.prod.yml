@@ -96,6 +96,7 @@ services:
       - api
     networks:
       - ttoklip_network
+      - monitoring_network
 
   zookeeper:
     image: bitnami/zookeeper:latest  # Bitnami의 최신 Zookeeper 이미지 사용
