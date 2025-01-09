@@ -7,6 +7,7 @@ import com.domain.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class InterestService {
 
     private final InterestRepository interestRepository;
 
+    @Transactional
     public void registerInterest(final Member member, final List<Category> categories) {
         interestRepository.deleteAllByMemberId(member.getId());
 
