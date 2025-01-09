@@ -51,7 +51,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public void save(final Member member) {
-        jpaRepository.saveAndFlush(member);
+        jpaRepository.save(member);
     }
 
     @Override
