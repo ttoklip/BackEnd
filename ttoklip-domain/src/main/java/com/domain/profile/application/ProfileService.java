@@ -23,11 +23,13 @@ public class ProfileService {
         return profile.getId();
     }
 
+    @Transactional
     public void update(final Member currentMember, final String uploadUrl) {
         currentMember.getProfile().changeProfile(uploadUrl);
     }
 
     @FilterBadWord
+    @Transactional
     public void registerPersonalInformation(final PersonalInformation information) {
         Member member = information.member();
         MemberEditor editor = member.toEditor()

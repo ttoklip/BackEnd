@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class ProfileFacade {
 
     private final MemberService memberService;
@@ -38,7 +38,6 @@ public class ProfileFacade {
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 -------------
 
     @FilterBadWord
-    @Transactional
     public Message insert(
             final ProfileWebCreate create,
             final Long memberId
@@ -77,12 +76,12 @@ public class ProfileFacade {
                 create.street()
         );
         profileService.registerPersonalInformation(information);
-        interestService.registerInterest(member, create.getCategories());
+        interestService.deleteInterestsByMember(member);
+        interestService.saveInterests(member, create.getCategories());
     }
 
     // ------------- 회원 가입 후 입력 받을 닉네임, 우리동네 설정, 나의 동릭 경험, 관심 카테고리 선택 끝 -------------
 
-    @Transactional
     @FilterBadWord
     public Message edit(final ProfileWebCreate create, final Long memberId) {
         validate(create);
