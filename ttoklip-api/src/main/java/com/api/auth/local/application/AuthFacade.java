@@ -108,7 +108,9 @@ public class AuthFacade {
     }
 
     private void registerInterest(final Member member, final List<Category> categories) {
-        interestService.registerInterest(member, categories);
+//        interestService.registerInterest(member, categories);
+        interestService.deleteInterestsByMember(member);
+        interestService.saveInterests(member, categories);
     }
 
     private void registerTermAgreements(final LocalMemberWebCreate request, final Member newMember) {
