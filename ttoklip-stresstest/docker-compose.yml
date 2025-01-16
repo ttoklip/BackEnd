@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  controller:
+    image: ngrinder/controller
+    restart: always
+    ports: 
+      - "9000:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+    volumes:
+      - ./ngrinder-controller:/opt/ngrinder-controller
+    environment:
+      - JAVA_OPTS=-Xms1024m -Xmx1024m -Djava.class.path=/home/ngrinder-agent/lib/httpclient-4.5.13.jar:/home/ngrinder-agent/lib/httpmime-4.5.13.jar
+  agent:
+    image: ngrinder/agent
+    restart: always
+    links:    
+      - controller
+    volumes:
+      - ./ngrinder-libs:/home/ngrinder-agent/lib
+    environment:
+      JAVA_OPTS: "-Djava.ext.dirs=/home/ngrinder-agent/lib"
