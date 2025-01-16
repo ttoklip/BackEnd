@@ -62,3 +62,8 @@ gradle/wrapper/gradle-wrapper.properties
 /wrapper
 
 ttoklip-domain/src/main/generated
+
+
+/ttoklip-stresstest/ngrinder-controller/*
+
+/ttoklip-stresstest/previous-docker-ngrinder/*
