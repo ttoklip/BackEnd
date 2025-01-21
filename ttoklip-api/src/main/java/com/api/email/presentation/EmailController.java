@@ -21,7 +21,7 @@ public class EmailController implements EmailControllerDocs {
     public TtoklipResponse<Message> mailSend(
             final @RequestBody EmailSendRequest request
     ) {
-        emailFacade.sendEmail(request.email());
+        emailFacade.send(request.email());
         return TtoklipResponse.accepted(
                 Message.sendEmail()
         );

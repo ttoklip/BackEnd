@@ -9,7 +9,9 @@ spring:
     redis:
       host: redis
       port: 6379
-
+  cache:
+    redis:
+      timeout: 5
 cloud:
   aws:
     credentials:
