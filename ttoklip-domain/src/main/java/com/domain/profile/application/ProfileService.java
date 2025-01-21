@@ -17,16 +17,19 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
 
+    @Transactional
     public Long save(final Profile profile) {
         profileRepository.save(profile);
         return profile.getId();
     }
 
+    @Transactional
     public void update(final Member currentMember, final String uploadUrl) {
         currentMember.getProfile().changeProfile(uploadUrl);
     }
 
     @FilterBadWord
+    @Transactional
     public void registerPersonalInformation(final PersonalInformation information) {
         Member member = information.member();
         MemberEditor editor = member.toEditor()

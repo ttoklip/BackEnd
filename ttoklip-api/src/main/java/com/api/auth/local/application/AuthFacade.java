@@ -22,7 +22,6 @@ import com.domain.term.domain.Term;
 import com.domain.term.domain.TermAgreement;
 import com.domain.term.response.TermSignUpResponse;
 import com.infrastructure.aws.upload.Uploader;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,10 +48,8 @@ public class AuthFacade {
     private final TermService termService;
     private final TermAgreementService termAgreementService;
 
-    @Transactional
     @DistributedLock(keyPrefix = "local-signup")
     public Message signup(final LocalMemberWebCreate request) {
-
         Member newMember = registerMember(request);
         registerProfile(request.profileImage(), newMember);
         registerInterest(newMember, request.getCategories());
@@ -111,7 +108,9 @@ public class AuthFacade {
     }
 
     private void registerInterest(final Member member, final List<Category> categories) {
-        interestService.registerInterest(member, categories);
+//        interestService.registerInterest(member, categories);
+        interestService.deleteInterestsByMember(member);
+        interestService.saveInterests(member, categories);
     }
 
     private void registerTermAgreements(final LocalMemberWebCreate request, final Member newMember) {
@@ -121,7 +120,7 @@ public class AuthFacade {
                 createTermAgreement(request.agreeLocationService(), newMember, termService::getAgreeLocationService)
         ).flatMap(Optional::stream).toList();
 
-        termAgreementService.regsiterAgreements(termAgreements);
+        termAgreementService.registerAgreements(termAgreements);
     }
 
     private Optional<TermAgreement> createTermAgreement(boolean isAgreed, Member member, Supplier<Term> termSupplier) {

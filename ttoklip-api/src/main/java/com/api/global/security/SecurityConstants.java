@@ -10,8 +10,7 @@ public class SecurityConstants {
             "/api/v1/auth/**",
             "/api/v1/oauth",
             "/api/v1/email/**",
-            "/actuator/prometheus",
-            "/actuator",
+            "/actuator/**",
             "/api/v1/privacy/local/check-nickname"
     };
 
